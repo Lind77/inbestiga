@@ -15,11 +15,19 @@ class Project extends Model
         return $this->belongsTo("App\Models\Customer");
     }
 
-    public function owner(){
-        return $this->belongsTo("App\Models\Owner");
+    public function team(){
+        return $this->belongsTo("App\Models\Team");
     }
 
-    public function progress(){
+    public function activities(){
+        return $this->belongsToMany("App\Models\Activity");
+    }
+
+    public function tasks(){
+        return $this->belongsToMany("App\Models\Task");
+    }
+
+    public function progresses(){
         return $this->hasMany("App\Models\Progress");
     }
 }

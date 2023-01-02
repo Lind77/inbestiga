@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\ProcessProject;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -16,12 +18,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::with('customer')
-                            ->with('owner')
-                            ->with('progress')
-                            ->get();
-
-        return response()->json($projects);
+        $projects = Project::with(['progresses','progresses.activity','progresses.task','customer'])->get();
+    
+        return $projects;
     }
 
     /**

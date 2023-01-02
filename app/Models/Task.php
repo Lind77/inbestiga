@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     use HasFactory;
+
+    public function activity(){
+        return $this->belongsTo('App\Models\Activity');
+    }
+
+    public function progresses(){
+        return $this->hasMany('App\Models\Progress');
+    }
+
+    public function projects(){
+        return $this->belongsToMany("App\Models\Project");
+    }
 }

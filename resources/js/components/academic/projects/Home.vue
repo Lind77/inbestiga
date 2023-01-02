@@ -67,16 +67,7 @@
                           Clientes
                         <div class="container-cards" v-for="project in projects">
                           <div v-if="project.status == 0">
-                          <div class="card text-white mb-3 bg-danger cursor-pointer" draggable="true" @dragstart="drag" :id="`${project.id}`" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas"
-                            @click="showProject(project)"
-                            >
-                          <!-- <div class="card-header">
-                            <p class="mb-0">{{ project.textStatus }}</p>
-                          </div> -->
-                          <div class="card-body">
-                            <h4 class="card-title text-white m-0">{{ project.title }}</h4>
-                          </div>
-                          </div>
+                            <CardProject :project="project" @click="showProject(project)"/>
                           </div>
                         </div>
                         
@@ -85,16 +76,7 @@
                           Dirección académica
                           <div class="container-cards" v-for="project in projects">
                             <div v-if="project.status == 1">
-                              <div class="card text-white mb-3 bg-success cursor-pointer" draggable="true" @dragstart="drag" :id="`${project.id}`" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas"
-                            @click="showProject(project)"
-                            >
-                          <!-- <div class="card-header">
-                            <p class="mb-0">{{ project.textStatus }}</p>
-                          </div> -->
-                          <div class="card-body">
-                            <h4 class="card-title text-white m-0">{{ project.title }}</h4>
-                          </div>
-                          </div>
+                              <CardProject :project="project"  @click="showProject(project)"/>
                           </div>
                           </div>
                         </div>
@@ -102,57 +84,33 @@
                           Calidad académica
                           <div class="container-cards" v-for="project in projects">
                             <div v-if="project.status == 2">
-                            <div class="card text-white mb-3 bg-warning" draggable="true" @dragstart="drag" :id="`${project.id}`">
-                          <div class="card-header">
-                            <p class="mb-0">{{ project.textStatus }}</p>
-                            <p class="mb-0">Fecha de Culminación: {{ project.deadline }}</p>
-                          </div>
-                          <div class="card-body">
-                            <a class="text-white" @click="showProgress(project.progress)" href="javascript:void(0)"  data-bs-toggle="modal" data-bs-target="#progressModal">
-                                    {{ project.progress.reduce((acc, item)=> acc+item.percentage, 0) }} %
-                                    </a>    
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" :style="{width: project.progress.reduce((acc, item)=> acc+item.percentage, 0) + '%' }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                        </div>
-                                    </div>
-                            <h4 class="card-title text-white">{{ project.title }}</h4>
-                            <div class="card-text w-100">
-                              <span class="badge badge-center bg-success">
-                                <i class='bx bx-user bx-xs'></i>
-                              </span>
-                              <span data-bs-toggle="modal" data-bs-target="#teamModal" class="badge badge-center bg-success mx-2">
-                                <i class='bx bx-group bx-xs'></i>
-                              </span>
-                            </div>
-                          </div>
-                            </div>
+                              <CardProject :project="project"  @click="showProject(project)"/>
                           </div>
                           </div>
                         </div>
                       </div>
-                      <OffCanvas v-if="project_selected" :project_selected="project_selected"/>
+                      
                     </div>
                   </div>
                 </div>
               </div>
               </div>
-              
-              
               <!-- / Content -->
   
               <div class="content-backdrop fade"></div>
-              <ProgressModal :progress="progress" />
               <CreateProject :customers="customers" @getAllProjects="getAllProjects" :owners="owners" :products="products"/>
               <TeamModal/>
+              <OffCanvas ref="offCanvas" :project_selected="project_selected" :progresses = "project_selected.progresses" />
   </template>
   <script>
-    import ProgressModal from './ProgressModal.vue'
+    
     import CreateProject from './CreateProject.vue'
     import TeamModal from './TeamModal.vue'
+    import CardProject from './CardProject.vue'
     import OffCanvas from './OffCanvas.vue'
     
     export default{
-      components: { ProgressModal, CreateProject, TeamModal, OffCanvas },
+      components: { CreateProject, TeamModal, CardProject, OffCanvas },
       data(){
         return{
           projects:[],
@@ -160,12 +118,13 @@
           owners:[],
           customers:[],
           products:[],
-          project_selected: null
+          project_selected: {}
         }
       },
       methods:{
         showProject(project){
             this.project_selected = project
+            this.$refs.offCanvas.open
         },
         showProgress(progress){
             this.progress = progress
@@ -189,6 +148,7 @@
                 })
         },  
         getAllProjects(){
+                this.project_selected = {}
                 axios.get('/api/getAllProjects')
                 .then(res =>{
                   this.projects = res.data
@@ -268,13 +228,3 @@
       }
     }
   </script>
-  <style scoped>
-  #div1, #div2 {
-    float: left;
-    width: 100%;
-    height: 35px;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid black;
-  }
-  </style>

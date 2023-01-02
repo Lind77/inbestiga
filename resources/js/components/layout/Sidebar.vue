@@ -28,18 +28,18 @@
             <div data-i18n="Form Layouts">Productos</div>
           </div>
         </router-link>
-        <li class="menu-item" id="productsListMenu">
-          <a href="javascript:void(0);" @click="openList" class="menu-link menu-toggle">
+        <li class="menu-item">
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bx-package"></i>
             <div data-i18n="Layouts">Productos</div>
           </a>
 
           <ul class="menu-sub">
-            <li class="menu-item">
+            <router-link :to="{name:'main-acad'}" class="menu-item">
               <div href="layouts-without-menu.html" class="menu-link">
                 <div data-i18n="Without menu">Crear</div>
               </div>
-            </li>
+            </router-link>
             <li class="menu-item">
               <div href="layouts-without-menu.html" class="menu-link">
                 <div data-i18n="Without menu">Lista</div>
@@ -66,6 +66,7 @@
             <div data-i18n="Form Layouts">Proyectos</div>
           </div>
         </router-link>
+        
         <!-- <router-link :to="{name:'home-owner'}" class="menu-item">
           <div class="menu-link">
             <i class="menu-icon tf-icons bx bx-user"></i>
@@ -83,11 +84,6 @@
 </template>
 <script>
 export default {
-    name: 'Sidebar',
-    methods: {
-      openList(){
-        document.getElementById('productsListMenu').classList.toggle('open')
-      }
-    }
+    name: 'Sidebar'
 }
 </script>

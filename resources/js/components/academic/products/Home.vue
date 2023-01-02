@@ -20,7 +20,7 @@
                           <div class="card-body">
                             <h5 class="card-title text-white">{{ product.title }}</h5>
                             <div class="card-text w-100">
-                              <span v-for="activity in product.activities" class="badge bg-success mx-1 my-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#taskModal" @click="showModalActivity(activity)">{{ activity.title }}</span>
+                              <span v-for="activity in product.fixed_activities" class="badge bg-success mx-1 my-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#taskModal" @click="showModalActivity(activity)">{{ activity.title }}</span>
                               <span @click="addActivity(product.id)" class="badge badge-center bg-success my-1">+</span>
                               <input :id="`smallInput${product.id}`" v-on:keyup.enter="insertActivity(product.id)" v-model="activityTitle" class="form-control form-control-sm d-none" type="text" placeholder="Inserte Actividad"/>
                             </div>

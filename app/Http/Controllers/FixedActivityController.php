@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Progress;
-use App\Http\Requests\StoreProgressRequest;
-use App\Http\Requests\UpdateProgressRequest;
-use Illuminate\Http\Request;
+use App\Models\FixedActivity;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreFixedActivityRequest;
+use App\Http\Requests\UpdateFixedActivityRequest;
 
-class ProgressController extends Controller
+class FixedActivityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,10 +32,10 @@ class ProgressController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreProgressRequest  $request
+     * @param  \App\Http\Requests\StoreFixedActivityRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProgressRequest $request)
+    public function store(StoreFixedActivityRequest $request)
     {
         //
     }
@@ -43,10 +43,10 @@ class ProgressController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Progress  $progress
+     * @param  \App\Models\FixedActivity  $fixedActivity
      * @return \Illuminate\Http\Response
      */
-    public function show(Progress $progress)
+    public function show(FixedActivity $fixedActivity)
     {
         //
     }
@@ -54,10 +54,10 @@ class ProgressController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Progress  $progress
+     * @param  \App\Models\FixedActivity  $fixedActivity
      * @return \Illuminate\Http\Response
      */
-    public function edit(Progress $progress)
+    public function edit(FixedActivity $fixedActivity)
     {
         //
     }
@@ -65,31 +65,22 @@ class ProgressController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateProgressRequest  $request
-     * @param  \App\Models\Progress  $progress
+     * @param  \App\Http\Requests\UpdateFixedActivityRequest  $request
+     * @param  \App\Models\FixedActivity  $fixedActivity
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(UpdateFixedActivityRequest $request, FixedActivity $fixedActivity)
     {
-        $progress = Progress::find($request->get('progress_id'));
-
-        $progress->update([
-            'comment' => $request->get('comment'),
-            'percentage' => 100
-        ]);
-
-        return response()->json([
-            'msg' => 'success'
-        ]);
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Progress  $progress
+     * @param  \App\Models\FixedActivity  $fixedActivity
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Progress $progress)
+    public function destroy(FixedActivity $fixedActivity)
     {
         //
     }

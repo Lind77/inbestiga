@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Progress;
-use App\Http\Requests\StoreProgressRequest;
-use App\Http\Requests\UpdateProgressRequest;
-use Illuminate\Http\Request;
+use App\Models\Process;
+use App\Http\Requests\StoreProcessRequest;
+use App\Http\Requests\UpdateProcessRequest;
 
-class ProgressController extends Controller
+class ProcessController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,10 +31,10 @@ class ProgressController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreProgressRequest  $request
+     * @param  \App\Http\Requests\StoreProcessRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProgressRequest $request)
+    public function store(StoreProcessRequest $request)
     {
         //
     }
@@ -43,10 +42,10 @@ class ProgressController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Progress  $progress
+     * @param  \App\Models\Process  $process
      * @return \Illuminate\Http\Response
      */
-    public function show(Progress $progress)
+    public function show(Process $process)
     {
         //
     }
@@ -54,10 +53,10 @@ class ProgressController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Progress  $progress
+     * @param  \App\Models\Process  $process
      * @return \Illuminate\Http\Response
      */
-    public function edit(Progress $progress)
+    public function edit(Process $process)
     {
         //
     }
@@ -65,31 +64,22 @@ class ProgressController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateProgressRequest  $request
-     * @param  \App\Models\Progress  $progress
+     * @param  \App\Http\Requests\UpdateProcessRequest  $request
+     * @param  \App\Models\Process  $process
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(UpdateProcessRequest $request, Process $process)
     {
-        $progress = Progress::find($request->get('progress_id'));
-
-        $progress->update([
-            'comment' => $request->get('comment'),
-            'percentage' => 100
-        ]);
-
-        return response()->json([
-            'msg' => 'success'
-        ]);
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Progress  $progress
+     * @param  \App\Models\Process  $process
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Progress $progress)
+    public function destroy(Process $process)
     {
         //
     }
