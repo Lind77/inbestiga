@@ -27,6 +27,7 @@
                     <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" :id="`taskCheck${progress.activity.id}`" data-bs-toggle="modal" data-bs-target="#progressModal" :checked="progress.percentage == 100" @click="addProgress(progress, $event)">
                     </div> 
+
                 </div>
               </div>
             </div>

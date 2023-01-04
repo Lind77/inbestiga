@@ -8,8 +8,6 @@
             <!-- Content --> 
             <router-view></router-view>
             <!-- / Content -->
-
-            <div class="content-backdrop fade"></div>
     </div>
     </div>
   </div>

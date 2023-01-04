@@ -9,7 +9,7 @@ class Activity extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id', 'title'];
+    protected $fillable = ['project_id', 'title', 'type'];
 
     public function tasks(){
         return $this->belongsToMany("App\Models\Task")->withPivot('percent','comment');

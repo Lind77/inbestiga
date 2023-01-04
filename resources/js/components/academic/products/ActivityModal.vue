@@ -3,7 +3,7 @@
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel1">Actividad: {{ activity.title }}</h5>
+            <h5 class="modal-title" id="exampleModalLabel1">Agregar tarea a {{ activity.title }}</h5>
             <a @click="deleteTask(activity.id)" class="text-danger mx-2 cursor-pointer">Eliminar</a>
             <button
                 type="button"
@@ -14,8 +14,7 @@
             ></button>
             </div>
             <div class="modal-body">
-                <span v-for="task in activity.tasks" class="badge bg-warning mx-1">{{ task.title }}</span>
-                <span class="badge badge-center bg-warning">+</span>
+                
             </div>
             <div class="modal-footer">
             </div>

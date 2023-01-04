@@ -96,9 +96,8 @@
               </div>
               </div>
               <!-- / Content -->
-  
-              <div class="content-backdrop fade"></div>
-              <CreateProject :customers="customers" @getAllProjects="getAllProjects" :owners="owners" :products="products"/>
+
+              <CreateProject :customers="customers" @getAllProjects="getAllProjects" :teams="teams"/>
               <TeamModal/>
               <OffCanvas ref="offCanvas" :project_selected="project_selected" :progresses = "project_selected.progresses" />
   </template>
@@ -115,7 +114,7 @@
         return{
           projects:[],
           progress:[],
-          owners:[],
+          teams:[],
           customers:[],
           products:[],
           project_selected: {}
@@ -129,10 +128,10 @@
         showProgress(progress){
             this.progress = progress
         },
-        getAllOwners(){
-                axios.get('/api/getAllOwners')
+        getAllTeams(){
+                axios.get('/api/getAllTeams')
                 .then(res =>{
-                    this.owners = res.data
+                    this.teams = res.data
                 })
                 .catch(err =>{
                     console.log(err.response.data)
@@ -224,7 +223,7 @@
       mounted(){
         this.getAllProjects()
         this.getAllCustomers()
-        this.getAllOwners()
+        this.getAllTeams()
       }
     }
   </script>

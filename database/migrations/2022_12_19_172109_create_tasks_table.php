@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('activity_id');
             $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
+            $table->tinyInteger('type')->nullable();
             $table->string('title', 255);
             $table->timestamps();
         });

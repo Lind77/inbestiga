@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
+use App\Models\FixedTask;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreFixedTaskRequest;
+use App\Http\Requests\UpdateFixedTaskRequest;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class FixedTaskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +17,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['fixedActivities','fixedActivities.fixedTasks'])->get();
-        return response()->json($products);
+        //
     }
 
     /**
@@ -33,18 +33,15 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreProductRequest  $request
+     * @param  \App\Http\Requests\StoreFixedTaskRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $product = Product::create([
-            'title' => $request->get('title'),
-            'description' => $request->get('description'),
-            'amount' => $request->get('amount'),
-            'term' => $request->get('term')
+        $fixed_task = FixedTask::create([
+            'fixed_activity_id' => $request->get('fixed_activity_id'),
+            'title' => $request->get('title')
         ]);
-
         return response()->json([
             'msg' => 'success'
         ]);
@@ -53,10 +50,10 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\FixedTask  $fixedTask
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(FixedTask $fixedTask)
     {
         //
     }
@@ -64,10 +61,10 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\FixedTask  $fixedTask
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(FixedTask $fixedTask)
     {
         //
     }
@@ -75,11 +72,11 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateProductRequest  $request
-     * @param  \App\Models\Product  $product
+     * @param  \App\Http\Requests\UpdateFixedTaskRequest  $request
+     * @param  \App\Models\FixedTask  $fixedTask
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateFixedTaskRequest $request, FixedTask $fixedTask)
     {
         //
     }
@@ -87,10 +84,10 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\FixedTask  $fixedTask
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(FixedTask $fixedTask)
     {
         //
     }
