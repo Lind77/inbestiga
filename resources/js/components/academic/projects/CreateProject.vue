@@ -18,14 +18,14 @@
                     <input type="text" v-model="title" class="form-control" />
                     </div>
                 </div>
-                <div class="row g-2">
+                <!-- <div class="row g-2">
                     <div class="col mb-0">
                     <label for="emailBasic" class="form-label">Equipo</label>
                     <select v-model="team_id" class="form-select">
                         <option>Selecciona un equipo</option>
                         <option :value="team.id" v-for="team in teams">{{ team.name }}</option>
                     </select>
-                </div>
+                </div> -->
                 <div class="row g-2">
                     <div class="col mb-0">
                     <label for="emailBasic" class="form-label">Cliente</label>
@@ -52,17 +52,17 @@
                     </div>
                 </div>
             </div>
-            </div>      
-            </div>    
+            </div>
             <div class="modal-footer">
                 <button type="button" id="close-insert-project" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                     Cerrar
                 </button>
                 <button type="button" @click="insertProject" class="btn btn-primary">Registrar</button>
-            </div>
+            </div>      
+            </div>    
+           
         </div>
         </div>
-    </div>
 </template>
 <script>
     export default {
@@ -100,8 +100,6 @@
                 }else{
                     this.products_filtered = []
                 }
-                
-                console.log(this.products)
             },  
             insertProject(){
                 const fd = new FormData()
@@ -113,7 +111,6 @@
 
                 axios.post('/api/insertProject', fd)
                 .then(res =>{
-                    console.log(res)
                     this.$emit('getAllProjects')
                     document.getElementById('close-insert-project').click()
                     /* this.title = ''

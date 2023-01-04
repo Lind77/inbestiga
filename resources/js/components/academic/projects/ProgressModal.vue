@@ -3,13 +3,13 @@
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel1">Registro de Progreso</h5>
-            {{ progress }}
+            <h5 class="modal-title" id="exampleModalLabel1">Registro de Progreso de {{ activity.title }}</h5>
             <button
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                id="close-progress-modal"
             ></button>
             </div>
             <div class="modal-body">
@@ -33,7 +33,7 @@
 <script>
     export default {
         props:{
-            progress: Object,
+            activity: Object,
             project_selected: Object
         },
         data(){
@@ -45,15 +45,15 @@
             updateProgress(e){
                 e.preventDefault()
                 const fd = new FormData()
-                fd.append('progress_id', this.progress.id)
+                fd.append('id', this.activity.id)
                 fd.append('comment',this.comment)
 
                 axios.post('/api/updateProgress', fd)
                 .then(res =>{
                     console.log(res)
-                    //this.$emit('getAllProducts')
-                    this.$refs.progressModal.display.style = 'none'
-                    //document.getElementById('close-insert-product').click()
+                    this.$emit('getActivities')
+                    document.getElementById('close-progress-modal').click()
+                    this.comment = ''
                 })
                 .catch(err =>{
                     if(err.response){

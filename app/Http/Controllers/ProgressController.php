@@ -71,16 +71,16 @@ class ProgressController extends Controller
      */
     public function update(Request $request)
     {
-        $progress = Progress::find($request->get('progress_id'));
+        $progress = Progress::where('progressable_type', 'App\Models\Activity')->where('progressable_id', $request->get('id'))->get();
 
-        $progress->update([
+        $progress[0]->update([
             'comment' => $request->get('comment'),
             'percentage' => 100
         ]);
 
-        return response()->json([
+        /* return response()->json([
             'msg' => 'success'
-        ]);
+        ]); */
     }
 
     /**

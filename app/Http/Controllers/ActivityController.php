@@ -107,4 +107,12 @@ class ActivityController extends Controller
             'msg' => 'nanis'
         ]);
     }   
+
+    public function getActivitiesPerId($id){
+        $activities = Activity::where('project_id', $id)
+                                ->where('type', '==', 0)
+                                ->with('progress')
+                                ->get();
+        return response()->json($activities);
+    }
 }

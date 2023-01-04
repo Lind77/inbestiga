@@ -16,7 +16,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['fixedActivities','fixedActivities.fixedTasks'])->get();
+        $products = Product::orderBy('id','desc')
+                            ->where('id', '!=', 1)
+                            ->with(['fixedActivities','fixedActivities.fixedTasks'])->get();
         return response()->json($products);
     }
 
@@ -42,7 +44,8 @@ class ProductController extends Controller
             'title' => $request->get('title'),
             'description' => $request->get('description'),
             'amount' => $request->get('amount'),
-            'term' => $request->get('term')
+            'term' => $request->get('term'),
+            'type' => $request->get('type')
         ]);
 
         return response()->json([

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->string('title', 255);
             $table->tinyInteger('type')->nullable();
+            $table->double('progress')->default(0.0);
             $table->timestamps();
         });
     }

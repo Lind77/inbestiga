@@ -21,7 +21,7 @@
                                 <div class="row g-2">
                                   <div class="col mb-0">
                                     <label for="emailBasic" class="form-label">Descripción</label>
-                                    <textarea v-model="description" id="" cols="30" rows="10" class="form-control"></textarea>
+                                    <textarea v-model="description" id="" cols="30" rows="3" class="form-control"></textarea>
                                   </div>
                                 </div>
                                 <div class="row g-2">
@@ -34,6 +34,15 @@
                                   <div class="col mb-0">
                                     <label for="emailBasic" class="form-label">Plazo</label>
                                     <input type="text" v-model="term" class="form-control" />
+                                  </div>
+                                </div>
+                                <div class="row g-2">
+                                  <div class="col mb-0">
+                                    <label for="emailBasic" class="form-label">Tipo</label>
+                                    <select v-model="type" class="form-control">
+                                      <option value="1">Registrado</option>
+                                      <option value="2">Observación</option>
+                                    </select>
                                   </div>
                                 </div>
                               </div>
@@ -55,7 +64,8 @@
                 description: '',
                 amount: 0,
                 term:'',
-                products:[]
+                products:[],
+                type:0
             }
         },
         methods:{  
@@ -65,6 +75,7 @@
                 fd.append('description',this.description)
                 fd.append('amount',this.amount)
                 fd.append('term',this.term)
+                fd.append('type',this.type)
 
                 axios.post('/api/insertProduct', fd)
                 .then(res =>{

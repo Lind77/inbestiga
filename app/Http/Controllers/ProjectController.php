@@ -9,6 +9,7 @@ use App\Models\Activity;
 use App\Models\FixedActivity;
 use App\Models\ProcessProject;
 use App\Models\Product;
+use App\Models\Progress;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::with(['progresses','progresses.activity','progresses.task','customer'])->get();
+        $projects = Project::with(['customer','activities','activities.progress'])->get();
     
         return $projects;
     }
@@ -46,8 +47,8 @@ class ProjectController extends Controller
     {
        $project =  Project::create([
         'title' => $request->get('title'),
-        'team_id' => $request->get('team_id'),
         'customer_id' => $request->get('customer_id'),
+        'team_id' => null,
         'deadline' => $request->get('deadline'),
         'status' => 0,
         'product_id' => $request->get('product_id')
@@ -61,19 +62,26 @@ class ProjectController extends Controller
             $defaultActivity = Activity::create([
                 'project_id' => $project->id,
                 'title' => $enterpriseActivity->title,
-                'type' => $enterpriseActivity->type
+                'type' => 0
+            ]);
+
+            $progressDefaultActivity = Progress::create([
+                'progressable_id' => $defaultActivity->id,
+                'progressable_type' => 'App\Models\Activity',
+                'percentage' => 0.0,
+                'comment' => 'Sin comentarios'
             ]);
        }
 
        //Traer actividades del producto
 
-       $product = Product::with(['fixedActivities', 'fixedActivities.fixedTasks'])->first();
+       $fixedActivities = FixedActivity::where('product_id',$request->get('product_id'))->where('type', 1)->with('fixedTasks')->get();
        
-       foreach($product->fixedActivities as $fixedActivity){
+       foreach($fixedActivities as $fixedActivity){
                 $activity = Activity::create([
                     'project_id' => $project->id,
                     'title' => $fixedActivity->title,
-                    'type' => $fixedActivity->type
+                    'type' => 1
                 ]);
 
                 foreach($fixedActivity->fixedTasks as $fixedTask){

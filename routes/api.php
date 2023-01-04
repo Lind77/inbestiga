@@ -36,6 +36,7 @@ Route::post('/insertProduct',[ProductController::class, 'store']);
 Route::post('/insertFixedActivity', [FixedActivityController::class, 'store']);
 Route::post('/insertFixedTask',[FixedTaskController::class, 'store']);
 
+Route::get('/getActivitiesPerId/{id}', [ActivityController::class, 'getActivitiesPerId']);
 Route::get('/deleteActivity/{id}', [ActivityController::class, 'destroy']);
 Route::get('/changeStatusActivity/{id}', [ActivityController::class, 'changeStatus']);
 

@@ -16,7 +16,8 @@
                       <div class="row">
                         <div class="col-md-12 col-xl-12" v-for="product in products">
                         <div class="card bg-primary text-white mb-3">
-                          <div class="card-header">Registrado</div>
+                          <div class="card-header" v-if="product.type == 1">Registrado</div>
+                          <div class="card-header" v-else>Observación</div>
                           <div class="card-body">
                             <h5 class="card-title text-white h4">{{ product.title }} 
                               <span @click="addActivity(product.id)" class="badge badge-center bg-success my-1 cursor-pointer">+</span>  

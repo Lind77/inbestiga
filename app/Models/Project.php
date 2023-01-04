@@ -20,7 +20,7 @@ class Project extends Model
     }
 
     public function activities(){
-        return $this->belongsToMany("App\Models\Activity");
+        return $this->hasMany("App\Models\Activity");
     }
 
     public function tasks(){

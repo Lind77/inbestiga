@@ -89,7 +89,6 @@
                           </div>
                         </div>
                       </div>
-                      
                     </div>
                   </div>
                 </div>
@@ -123,7 +122,6 @@
       methods:{
         showProject(project){
             this.project_selected = project
-            this.$refs.offCanvas.open
         },
         showProgress(progress){
             this.progress = progress

@@ -17,28 +17,31 @@
           </div>
         </div>
         <h5 class="text-danger">Fecha de Culminación: {{ project_selected.deadline }}</h5>
+        <div v-if="project_selected.activities.length == 0">No hay actividades asignadas</div>
+        <div v-else>
+          <div v-for="activity in project_selected.activities">
+          <div v-if="activity.type == 0">
+          <div :class="`card ${activity.progress[0].percentage == 100 ? 'bg-success' : 'bg-danger'} text-white p-3 mb-1`" >
+          <div class="card-title d-flex align-items-center justify-content-between mb-0">
+            <h5 class="text-white mb-0">{{ activity.title }}</h5>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" data-bs-toggle="modal" data-bs-target="#progressModal" v-bind:checked="activity.progress[0].percentage == 100" @click="selectActivity(activity)">
+            </div>           
+          </div>
+          </div>
+        </div>
+        </div>
+        </div>        
         <div class="row">
-          <div class="col-lg-12 col-md-12 col-6 mb-2">
-          <div v-for="progress in progresses">
-            <div :class="`card ${progress.percentage == 100 ? 'bg-success' : 'bg-danger'} mb-1`">
-              <div class="card-body p-3">
-                <div class="card-title d-flex align-items-center justify-content-between mb-0">
-                  <h5 class="text-white mb-0">{{ progress.activity.title }}</h5>
-                    <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" :id="`taskCheck${progress.activity.id}`" data-bs-toggle="modal" data-bs-target="#progressModal" :checked="progress.percentage == 100" @click="addProgress(progress, $event)">
-                    </div> 
-
-                </div>
-              </div>
-            </div>
-            </div>
+          <div class="col-lg-12 col-md-12 mt-2">
+            <button class="btn btn-success w-100 p-3" v-bind:disabled="sumTasksPercent != 100">Iniciar Kanban</button>
           </div>
         </div>
         <h5 class="mt-4">Cliente</h5>
         <CardCustomer v-if="project_selected.customer" :customer="project_selected.customer"/>
       </div>
     </div>
-    <ProgressModal :progress="progress_selected" :project_selected="project_selected"/>
+    <ProgressModal :activity="activity_selected" :project_selected="project_selected" @getActivities="getActivities"/>
 </template>
 <script>
 //import moment from 'moment'
@@ -56,10 +59,32 @@ export default{
     data(){
       return {
         fecha: new Date(),
-        progress_selected: {}
+        progress_selected: {},
+        activity_selected: {},
+        percentageActivities: 0,
+        activities: []
       }
     },
     methods:{
+        getActivities(){
+          axios.get(`/api/getActivitiesPerId/${this.project_selected.id}`)
+          .then(res =>{
+            this.project_selected.activities = res.data
+            console.log(res.data)
+          })
+          .catch(err =>{
+            console.log(err.response.data)
+          })
+        },
+        sumTasks(project_selected){
+          if(project_selected){
+            var sumTasks = 0
+          }
+          this.percentageActivities = sumTasks
+        },
+        selectActivity(activity){
+          this.activity_selected = activity
+        },
         addProgress(progress, e){
             document.getElementById(e.target.id).indeterminate = true
             this.progress_selected = progress
@@ -67,14 +92,22 @@ export default{
     },
     computed:{
       sumTasksPercent(){
-        if(this.progresses){
+        if(this.project_selected.activities){
           var sumTasks = 0
           var numTasks = 0
-          this.progresses.forEach(progress => {
-              sumTasks = sumTasks + progress.percentage
-              numTasks = numTasks + 1
-          });
-          return sumTasks / numTasks
+          this.project_selected.activities.forEach(activity => {
+              if(activity.type == 0){
+               sumTasks = sumTasks + activity.progress[0].percentage
+               numTasks = numTasks + 1
+              }
+          })
+          if(isNaN(sumTasks/numTasks)){
+            return 0
+          }else{
+            return sumTasks/numTasks
+          }
+        }else{
+          return 0
         }
       }
       /* sumPercent(){

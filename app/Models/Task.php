@@ -17,7 +17,7 @@ class Task extends Model
     }
 
     public function progresses(){
-        return $this->hasMany('App\Models\Progress');
+        return $this->morphToMany('App\Models\Progress', 'progressable');
     }
 
     public function projects(){
