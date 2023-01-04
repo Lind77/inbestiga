@@ -58,7 +58,7 @@ class ProjectController extends Controller
        $fixedActivitiesEnterprise = FixedActivity::where('type',0)->get();
 
        foreach($fixedActivitiesEnterprise as $enterpriseActivity) {
-            $activity = Activity::create([
+            $defaultActivity = Activity::create([
                 'project_id' => $project->id,
                 'title' => $enterpriseActivity->title,
                 'type' => $enterpriseActivity->type
@@ -67,10 +67,24 @@ class ProjectController extends Controller
 
        //Traer actividades del producto
 
-       $product = Product::where('id', $request->get('product_id'))->with(['fixedActivities','fixedActivities.fixedTasks'])->get();
-       return response()->json([
-        'msg' => $product[0]
-       ]); 
+       $product = Product::with(['fixedActivities', 'fixedActivities.fixedTasks'])->first();
+       
+       foreach($product->fixedActivities as $fixedActivity){
+                $activity = Activity::create([
+                    'project_id' => $project->id,
+                    'title' => $fixedActivity->title,
+                    'type' => $fixedActivity->type
+                ]);
+
+                foreach($fixedActivity->fixedTasks as $fixedTask){
+                    $task = Task::create([
+                        'activity_id' => $activity->id,
+                        'type' => 0,
+                        'title' => $fixedTask->title,
+                        
+                    ]);
+                }
+       }
        
        
     }

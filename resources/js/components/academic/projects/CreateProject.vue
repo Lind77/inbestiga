@@ -116,13 +116,13 @@
                     console.log(res)
                     this.$emit('getAllProjects')
                     document.getElementById('close-insert-project').click()
-                    this.title = ''
+                    /* this.title = ''
                     this.team_id = ''
                     this.product_id = ''
                     this.customer_id = ''
                     this.deadline = ''
                     this.products_filtered = [],
-                    this.product = ''
+                    this.product = '' */
                 })
                 .catch(err =>{
                     console.log(err.response.data)
