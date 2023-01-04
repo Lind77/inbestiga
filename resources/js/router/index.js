@@ -2,6 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import Home from '../components/Home.vue'
 
+//Área de Ventas
+import HomeSales from '../components/sales/Home.vue'
+import MainSales from '../components/sales/Main.vue'
+
 
 // Área Académica
 import HomeAcad from '../components/academic/Home.vue'
@@ -49,6 +53,18 @@ const routes = [
                 path: 'products',
                 component: HomeProduct,
                 name: 'home-product'
+            }
+        ]
+    },
+    {
+        path: '/sales',
+        component: HomeSales,
+        redirect:'/sales/home',
+        children:[
+            {
+                path: 'home',
+                component: MainSales,
+                name: 'main-sales'
             }
         ]
     },

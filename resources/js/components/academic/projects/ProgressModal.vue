@@ -1,9 +1,10 @@
 <template>
-    <div class="modal fade" id="progressModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="progressModal" tabindex="-1" aria-hidden="true" ref="progressModal">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel1">Avance del Proyecto</h5>
+            <h5 class="modal-title" id="exampleModalLabel1">Registro de Progreso</h5>
+            {{ progress }}
             <button
                 type="button"
                 class="btn-close"
@@ -12,14 +13,13 @@
             ></button>
             </div>
             <div class="modal-body">
-                <form @submit="insertProgress">
+                <form @submit="updateProgress">
                     <div class="row">
-                        <p>¿Tienes la seguridad de cambiar de estado el proyecto?</p>
+                        <p>¿Tienes la seguridad de registrar progreso de este proyecto?</p>
                         <div class="col mb-3">
                         <label for="nameBasic" class="form-label">Comentario <span class="text-danger text-capitalize">Obligatorio</span></label>
-                        <input type="text" v-model="title" class="form-control" required/>
+                        <input type="text" v-model="comment" class="form-control" required/>
                         </div>
-                        <p>Porcentaje proyectado: 1%</p>
                     </div>
                     <input type="submit" class="btn btn-primary" value="Confirmar"/>
                 </form>
@@ -33,36 +33,32 @@
 <script>
     export default {
         props:{
-            progress: Array
+            progress: Object,
+            project_selected: Object
         },
         data(){
             return{
-                title: '',
-                description: '',
-                amount: 0,
-                term:'',
-                products:[]
+                comment: ''
             }
         },
         methods:{  
-            insertProgress(){
-                alert('insertando progreso wey')
-            },
-            insertProduct(){
+            updateProgress(e){
+                e.preventDefault()
                 const fd = new FormData()
-                fd.append('title',this.title)
-                fd.append('description',this.description)
-                fd.append('amount',this.amount)
-                fd.append('term',this.term)
+                fd.append('progress_id', this.progress.id)
+                fd.append('comment',this.comment)
 
-                axios.post('/api/insertProduct', fd)
+                axios.post('/api/updateProgress', fd)
                 .then(res =>{
                     console.log(res)
-                    this.$emit('getAllProducts')
-                    document.getElementById('close-insert-product').click()
+                    //this.$emit('getAllProducts')
+                    this.$refs.progressModal.display.style = 'none'
+                    //document.getElementById('close-insert-product').click()
                 })
                 .catch(err =>{
-                    console.log(err.response.data)
+                    if(err.response){
+                        console.log(err.response.data)
+                    }
                 })
             }
         }

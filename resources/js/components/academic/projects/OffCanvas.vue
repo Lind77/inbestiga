@@ -1,74 +1,86 @@
 <template>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasEndLabel">
-                          <div class="offcanvas-header">
-                            <h3 id="offcanvasEndLabel" class="offcanvas-title">{{ project_selected.title }}</h3>
-                            <button
-                              type="button"
-                              class="btn-close text-reset"
-                              data-bs-dismiss="offcanvas"
-                              aria-label="Close"
-                            ></button>
-                          </div>
-                          <div class="offcanvas-body my-auto mx-0 flex-grow-0">
-
-                            <h5>Fecha de Culminación: {{ project_selected.deadline }}</h5>
-                            
-                            <h5>Estado</h5>
-                            <div class="form-check mt-3">
-                            <input class="form-check-input" type="checkbox" @click="addProgress()" data-bs-toggle="modal" data-bs-target="#progressModal" id="defaultCheck1"/>   
-                            <label class="form-check-label" for="defaultCheck1"> {{ project_selected.textStatus }} </label>
-                            </div>
-                            <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="disabledCheck2" disabled="" />
-                            <label class="form-check-label" for="disabledCheck2">
-                              Asignar grupo  
-                            </label>
-                            </div>
-                            <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="disabledCheck2" disabled="" />
-                            <label class="form-check-label" for="disabledCheck2">
-                              Programar primera reunión con Dirección Académica  
-                            </label>
-                            </div>
-                            <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="disabledCheck2" disabled="" />
-                            <label class="form-check-label" for="disabledCheck2">
-                              Reunión con Dirección Académica  
-                            </label>
-                            </div>
-                            <h5>Porcentaje</h5>
-                            <a href="javascript:void(0)">
-                                    {{ project_selected.progress.reduce((acc, item)=> acc+item.percentage, 0) }} %
-                                    </a>    
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" :style="{width: project_selected.progress.reduce((acc, item)=> acc+item.percentage, 0) + '%' }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                        </div>
-                            </div>
-                            <h5 class="mt-4">Cliente</h5>
-                            <p>Nombre: {{ project_selected.customer.name }}</p>
-                            <p>Celular: {{ project_selected.customer.cell }}</p>
-                            <p>Universidad: {{ project_selected.customer.university }}</p>
-                            <p>Carrera: {{ project_selected.customer.career }}</p>
-                           <!--  <button type="button" class="btn btn-primary mb-2 d-grid w-100">Continue</button>
-                            <button
-                              type="button"
-                              class="btn btn-outline-secondary d-grid w-100"
-                              data-bs-dismiss="offcanvas"
-                            >
-                              Cancel
-                            </button> -->
-                          </div>
-                        </div>
+      <div class="offcanvas-header">
+        <h3 id="offcanvasEndLabel" class="offcanvas-title">{{ project_selected.title }}<small class="text-primary h5" v-if="project_selected.team"> (Equipo {{ project_selected.team.name }})</small></h3>
+        <button
+          type="button"
+          class="btn-close text-reset"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      
+      <div class="offcanvas-body my-auto mx-0 flex-grow-0">
+        <a href="javascript:void(0)">{{ sumTasksPercent }} %</a>
+        <div class="progress mb-3">
+          <div class="progress-bar" role="progressbar" :style="{width: sumTasksPercent + '%' }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+          </div>
+        </div>
+        <h5 class="text-danger">Fecha de Culminación: {{ project_selected.deadline }}</h5>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-6 mb-2">
+          <div v-for="progress in progresses">
+            <div :class="`card ${progress.percentage == 100 ? 'bg-success' : 'bg-danger'} mb-1`">
+              <div class="card-body p-3">
+                <div class="card-title d-flex align-items-center justify-content-between mb-0">
+                  <h5 class="text-white mb-0">{{ progress.activity.title }}</h5>
+                    <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" :id="`taskCheck${progress.activity.id}`" data-bs-toggle="modal" data-bs-target="#progressModal" :checked="progress.percentage == 100" @click="addProgress(progress, $event)">
+                    </div> 
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <h5 class="mt-4">Cliente</h5>
+        <CardCustomer v-if="project_selected.customer" :customer="project_selected.customer"/>
+      </div>
+    </div>
+    <ProgressModal :progress="progress_selected" :project_selected="project_selected"/>
 </template>
 <script>
+//import moment from 'moment'
+import ProgressModal from './ProgressModal.vue'
+import CardTeam from './CardTeam.vue'
+import CardCustomer from './CardCustomer.vue'
+
 export default{
+    name:'OffCanvas',
+    components:{ CardTeam, CardCustomer, ProgressModal },
     props:{
-        project_selected: Object
+        project_selected: Object,
+        progresses: Array
+    },
+    data(){
+      return {
+        fecha: new Date(),
+        progress_selected: {}
+      }
     },
     methods:{
-        addProgress(e){
-            e.preventDefault()
+        addProgress(progress, e){
+            document.getElementById(e.target.id).indeterminate = true
+            this.progress_selected = progress
         }
+    },
+    computed:{
+      sumTasksPercent(){
+        if(this.progresses){
+          var sumTasks = 0
+          var numTasks = 0
+          this.progresses.forEach(progress => {
+              sumTasks = sumTasks + progress.percentage
+              numTasks = numTasks + 1
+          });
+          return sumTasks / numTasks
+        }
+      }
+      /* sumPercent(){
+        if(this.project_selected.tasks){
+          return this.project_selected.acttasks.reduce((acc, item) => acc + item.pivot.percent, 0)/this.project_selected.tasks.length;
+        }
+      } */
     }
 } 
 </script>

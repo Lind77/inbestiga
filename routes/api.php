@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\QuotationController;
 use Illuminate\Http\Request;
@@ -39,6 +40,8 @@ Route::get('/generatePDF/{id}', [QuotationController::class, 'generatePDF']);
 Route::get('/getAllProjects',[ProjectController::class, 'index']);
 Route::post('/insertProject',[ProjectController::class, 'store']);
 Route::post('/changeStatusProject',[ProjectController::class, 'changeStatus']);
+
+Route::post('/updateProgress',[ProgressController::class, 'update']);
 
 Route::get('/getAllOwners', [OwnerController::class, 'index']);
 

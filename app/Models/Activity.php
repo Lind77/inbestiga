@@ -12,6 +12,18 @@ class Activity extends Model
     protected $fillable = ['product_id', 'title'];
 
     public function tasks(){
-        return $this->hasMany("App\Models\Task");
+        return $this->belongsToMany("App\Models\Task")->withPivot('percent','comment');
+    }
+
+    public function progress(){
+        return $this->morphMany('App\Models\Progress', 'progressable');
+    }
+
+    public function projects(){
+        return $this->belongsToMany("App\Models\Project");
+    }
+
+    public function products(){
+        return $this->belongsToMany("App\Models\Product");
     }
 }

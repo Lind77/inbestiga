@@ -12,6 +12,6 @@ class Product extends Model
     protected $fillable = ['title', 'description', 'amount', 'term'];
 
     public function activities(){
-        return $this->hasMany("App\Models\Activity");
+        return $this->belongsToMany("App\Models\Activity");
     }
 }

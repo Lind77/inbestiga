@@ -13,6 +13,7 @@
 	href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
 	rel="stylesheet"
 	/>
+	
 	 <!-- Icons. Uncomment required icon fonts -->
 	 <link rel="stylesheet" href="{{asset('vendor/fonts/boxicons.css')}}" />
 	  <!-- Core CSS -->
@@ -22,7 +23,7 @@
   
 	  <!-- Vendors CSS -->
 	  <link rel="stylesheet" href="{{asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
-  
+		
 	  <!-- Page CSS -->
   
 	  <!-- Helpers -->
@@ -31,18 +32,17 @@
 	  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
 	  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 	  <script src="{{asset('js/config.js')}}"></script>
-
+		
 	  @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body id="app">
+	<body>	
+	<div id="app"></div>	
 	  <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="{{asset('vendor/libs/jquery/jquery.js')}}"></script>
     <script src="{{asset('vendor/libs/popper/popper.js')}}"></script>
     <script src="{{asset('vendor/js/bootstrap.js')}}"></script>
     <script src="{{asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
-
     <script src="{{asset('vendor/js/menu.js')}}"></script>
     <!-- endbuild -->
 

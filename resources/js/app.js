@@ -1,5 +1,3 @@
-import './bootstrap'
-
 import { createApp } from 'vue'
 
 import router from './router'
@@ -7,6 +5,8 @@ import router from './router'
 import App from './App.vue'
 
 import * as Vue from 'vue'
+
+import './bootstrap'
 
 import axios from 'axios'
 
