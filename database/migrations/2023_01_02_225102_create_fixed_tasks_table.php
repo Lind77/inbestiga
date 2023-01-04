@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('fixed_tasks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('activity_id');
-            $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
+            $table->unsignedBigInteger('fixed_activity_id');
+            $table->foreign('fixed_activity_id')->references('id')->on('fixed_activities')->onDelete('cascade');
             $table->string('title', 255);
             $table->timestamps();
         });

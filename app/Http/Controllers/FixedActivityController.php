@@ -6,6 +6,7 @@ use App\Models\FixedActivity;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFixedActivityRequest;
 use App\Http\Requests\UpdateFixedActivityRequest;
+use Illuminate\Http\Request;
 
 class FixedActivityController extends Controller
 {
@@ -35,9 +36,15 @@ class FixedActivityController extends Controller
      * @param  \App\Http\Requests\StoreFixedActivityRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreFixedActivityRequest $request)
+    public function store(Request $request)
     {
-        //
+        $fixed_activity = FixedActivity::create([
+            'product_id' => $request->get('product_id'),
+            'title' => $request->get('title')
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     /**

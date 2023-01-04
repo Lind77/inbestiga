@@ -6,6 +6,7 @@ use App\Models\FixedTask;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFixedTaskRequest;
 use App\Http\Requests\UpdateFixedTaskRequest;
+use Illuminate\Http\Request;
 
 class FixedTaskController extends Controller
 {
@@ -35,9 +36,15 @@ class FixedTaskController extends Controller
      * @param  \App\Http\Requests\StoreFixedTaskRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreFixedTaskRequest $request)
+    public function store(Request $request)
     {
-        //
+        $fixed_task = FixedTask::create([
+            'fixed_activity_id' => $request->get('fixed_activity_id'),
+            'title' => $request->get('title')
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     /**

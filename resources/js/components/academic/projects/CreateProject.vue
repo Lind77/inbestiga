@@ -20,15 +20,16 @@
                 </div>
                 <div class="row g-2">
                     <div class="col mb-0">
-                    <label for="emailBasic" class="form-label">Grupo</label>
-                    <select v-model="owner_id" id="" class="form-control">
-                        <option :value="owner.id" v-for="owner in owners">{{ owner.name }}</option>
+                    <label for="emailBasic" class="form-label">Equipo</label>
+                    <select v-model="team_id" class="form-select">
+                        <option>Selecciona un equipo</option>
+                        <option :value="team.id" v-for="team in teams">{{ team.name }}</option>
                     </select>
                 </div>
                 <div class="row g-2">
                     <div class="col mb-0">
                     <label for="emailBasic" class="form-label">Cliente</label>
-                    <select v-model="customer_id" id="" class="form-control">
+                    <select v-model="customer_id" id="" class="form-select">
                         <option :value="customer.id" v-for="customer in customers">{{ customer.name }}</option>
                     </select>
                 </div>
@@ -36,10 +37,11 @@
                     <div class="col mb-3">
                     <label for="nameBasic" class="form-label">Producto</label>
                     <input type="text" v-model="product" class="form-control" @keyup="search"/>
-                    <table class="table table-bordered mb-3">
-                        <tr v-for="product in products_filtered">
+                    <table class="table table-striped mb-3">
+                        <tr v-for="product in products_filtered" @click="selectProduct(product)" class="cursor-pointer border border-light p-2">
                             {{ product.title }}
                         </tr>
+                        
                     </table>
                     </div>
                 </div>
@@ -66,34 +68,46 @@
     export default {
         props:{
             progress: Array,
-            owners: Array,
-            customers: Array,
-            products: Array
+            teams: Array,
+            customers: Array
         },
         data(){
             return{
                 title: '',
-                owner_id: 0,
+                team_id: 0,
                 customer_id:0,
                 deadline: null,
                 amount: 0,
                 term:'',
                 product: '',
-                products_filtered:[]
+                product_id:'',
+                products: [],
+                products_filtered:[],
+                hover: false
             }
         },
         methods:{
+            selectProduct(product){
+                this.product = product.title
+                this.products_filtered = []
+                this.product_id = product.id
+            },
             search(e){
-                console.log(e.target.value)
-                this.products_filtered = this.products.some((product) => {
+                if(e.target.value != ''){
+                    this.products_filtered = this.products.filter((product) => {
                     return  product.title.toLowerCase().includes(e.target.value)
-                })
+                    })
+                }else{
+                    this.products_filtered = []
+                }
+                
                 console.log(this.products)
             },  
             insertProject(){
                 const fd = new FormData()
                 fd.append('title',this.title)
-                fd.append('owner_id',this.owner_id)
+                fd.append('team_id',this.team_id)
+                fd.append('product_id',this.product_id)
                 fd.append('customer_id',this.customer_id)
                 fd.append('deadline',this.deadline)
 
@@ -102,11 +116,31 @@
                     console.log(res)
                     this.$emit('getAllProjects')
                     document.getElementById('close-insert-project').click()
+                    this.title = ''
+                    this.team_id = ''
+                    this.product_id = ''
+                    this.customer_id = ''
+                    this.deadline = ''
+                    this.products_filtered = [],
+                    this.product = ''
                 })
                 .catch(err =>{
                     console.log(err.response.data)
                 })
+            },
+            getAllProducts(){
+                axios.get('/api/getAllProducts')
+                .then(res => {
+                    this.products = res.data
+                })
+                .catch(err =>{
+                    console.log(err.response.data)
+                }) 
             }
+        },
+        mounted(){
+            this.getAllProducts()
         }
+
     }
 </script>

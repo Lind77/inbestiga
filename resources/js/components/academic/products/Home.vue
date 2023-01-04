@@ -14,16 +14,32 @@
                       <h5 class="mb-4">Productos</h5>
                       <input type="text" class="form-control mb-3" />
                       <div class="row">
-                        <div class="col-md-6 col-xl-4" v-for="product in products">
+                        <div class="col-md-12 col-xl-12" v-for="product in products">
                         <div class="card bg-primary text-white mb-3">
                           <div class="card-header">Registrado</div>
                           <div class="card-body">
-                            <h5 class="card-title text-white">{{ product.title }}</h5>
-                            <div class="card-text w-100">
-                              <span v-for="activity in product.fixed_activities" class="badge bg-success mx-1 my-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#taskModal" @click="showModalActivity(activity)">{{ activity.title }}</span>
-                              <span @click="addActivity(product.id)" class="badge badge-center bg-success my-1">+</span>
-                              <input :id="`smallInput${product.id}`" v-on:keyup.enter="insertActivity(product.id)" v-model="activityTitle" class="form-control form-control-sm d-none" type="text" placeholder="Inserte Actividad"/>
-                            </div>
+                            <h5 class="card-title text-white h4">{{ product.title }} 
+                              <span @click="addActivity(product.id)" class="badge badge-center bg-success my-1 cursor-pointer">+</span>  
+                              <input :id="`smallInput${product.id}`" v-on:keyup.enter="insertActivity(product.id)" v-model="activityTitle" class="form-control form-control-sm d-none mt-3 w-50" type="text" placeholder="Inserte Actividad"/>
+                            </h5>
+                            <div class="row">
+                              <div class="col-md-4 col-xl-4" v-for="activity in product.fixed_activities">
+                                <div class="card mt-3 bg-success">
+                                  <div class="card-body text-capitalize h5 text-white">
+                                    <p class="h5 text-white">{{ activity.title }} 
+                                      <span @click="addTask(activity.id)" class="badge badge-center bg-warning my-1 cursor-pointer">+</span>
+                                    </p>
+                                    <input :id="`taskInput${activity.id}`" v-on:keyup.enter="insertTask(activity.id)" v-model="taskTitle" class="form-control form-control-sm d-none mt-3 w-75" type="text" placeholder="Inserte Tarea"/>
+                                    <p v-for="task in activity.fixed_tasks" class="bg-warning rounded p-1 py-1 cursor-pointer h6 text-white">
+                                      {{ task.title }}
+                                      
+                                    </p>
+                                    
+                                  </div>
+                                </div>
+                                </div>
+                              </div>  
+                             
                           </div>
                         </div>
                       </div>
@@ -68,7 +84,7 @@
 
             <div class="content-backdrop fade"></div>
             <InsertModal @getAllProducts="getAllProducts"/>
-            <ActivityModal v-if="selectedActivity" @getAllProducts="getAllProducts" :activity="selectedActivity"/>
+            <!-- <ActivityModal @getAllProducts="getAllProducts" :activity="selectedActivity"/> -->
 </template>
   <script>
     import InsertModal from './InsertModal.vue'
@@ -79,21 +95,23 @@
       data(){
         return{
           products:[],
-          selectedActivity: null,
+          selectedActivity: {},
           showInput: false,
-          activityTitle:''        
+          showInputTask: false,
+          activityTitle:'',
+          taskTitle:''        
         }
       },
       methods:{
         addActivity(id){
-          document.getElementById('smallInput'+id).classList.remove('d-none')
+          document.getElementById('smallInput'+id).classList.toggle('d-none')
           this.showInput = true
         },
         insertActivity(id){
           const fd = new FormData
           fd.append('product_id', id)
           fd.append('title', this.activityTitle)
-          axios.post('/api/insertActivity', fd)
+          axios.post('/api/insertFixedActivity', fd)
           .then(res => {
             this.getAllProducts()
             this.activityTitle = ''
@@ -103,19 +121,34 @@
             alert(err.response.data)
           })
         },
-        showModalActivity(activity){
-          this.selectedActivity = activity
+        addTask(id){
+          document.getElementById('taskInput'+id).classList.toggle('d-none')
+          this.showInputTask = true
+        },
+        insertTask(id){
+          const fd = new FormData
+          fd.append('fixed_activity_id', id)
+          fd.append('title', this.taskTitle)
+          axios.post('/api/insertFixedTask', fd)
+          .then(res => {
+            this.getAllProducts()
+            this.taskTitle = ''
+            document.getElementById('taskInput'+id).classList.add('d-none')
+          })
+          .catch(err => {
+            alert(err.response.data)
+          })
         },
         getAllProducts(){
-                axios.get('/api/getAllProducts')
-                .then(res =>{
-                  console.log(res)
-                  this.products = res.data
-                })
-                .catch(err =>{
-                  console.log(err.response.data)
-                })
-            },
+            axios.get('/api/getAllProducts')
+            .then(res =>{
+              console.log(res)
+              this.products = res.data
+            })
+            .catch(err =>{
+              console.log(err.response.data)
+            })
+        },
       },
       mounted(){
         this.getAllProducts()

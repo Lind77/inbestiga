@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class FixedActivity extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'product_id',
+        'title'
+    ];
+
+    public function fixedTasks(){
+        return $this->hasMany('App\Models\FixedTask');
+    }
 }

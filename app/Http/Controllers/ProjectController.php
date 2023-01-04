@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\Activity;
+use App\Models\FixedActivity;
 use App\Models\ProcessProject;
 use App\Models\Product;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -43,10 +46,33 @@ class ProjectController extends Controller
     {
        $project =  Project::create([
         'title' => $request->get('title'),
-        'owner_id' => $request->get('owner_id'),
+        'team_id' => $request->get('team_id'),
         'customer_id' => $request->get('customer_id'),
-        'deadline' => $request->get('deadline')
+        'deadline' => $request->get('deadline'),
+        'status' => 0,
+        'product_id' => $request->get('product_id')
        ]);
+
+       //Traer actividades de la empresa por default
+
+       $fixedActivitiesEnterprise = FixedActivity::where('type',0)->get();
+
+       foreach($fixedActivitiesEnterprise as $enterpriseActivity) {
+            $activity = Activity::create([
+                'project_id' => $project->id,
+                'title' => $enterpriseActivity->title,
+                'type' => $enterpriseActivity->type
+            ]);
+       }
+
+       //Traer actividades del producto
+
+       $product = Product::where('id', $request->get('product_id'))->with(['fixedActivities','fixedActivities.fixedTasks'])->get();
+       return response()->json([
+        'msg' => $product[0]
+       ]); 
+       
+       
     }
 
     /**

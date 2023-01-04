@@ -16,7 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('fixedActivities')->get();
+        $products = Product::with(['fixedActivities','fixedActivities.fixedTasks'])->get();
         return response()->json($products);
     }
 
