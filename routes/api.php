@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
@@ -28,6 +29,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('login', [AuthController::class,'login']);
+Route::post('logout', [AuthController::class,'logout'])->middleware('auth:sanctum');
+
+
 Route::get('/getAllQuotations',[QuotationController::class, 'index']);
 
 Route::get('/getAllProducts',[ProductController::class, 'index']);
@@ -54,3 +59,4 @@ Route::get('/getAllOwners', [OwnerController::class, 'index']);
 Route::get('/getAllTeams', [TeamController::class,'index']);
 
 Route::get('/getAllCustomers', [CustomerController::class, 'index']);
+

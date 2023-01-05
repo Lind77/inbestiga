@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Home from '../components/Home.vue'
+import Login from '../components/auth/Login.vue'
 
 //Área de Ventas
 import HomeSales from '../components/sales/Home.vue'
@@ -23,16 +24,22 @@ import HomeList from '../components/list/Home.vue'
 
 import HomeOwner from '../components/owners/Home.vue'
 
-const routes = [
+export const routes = [
     {
         path: '/',
         component: Home,
         name: 'home'
     },
     {
+        path: '/login',
+        component: Login,
+        name: 'login'
+    },
+    {
         path: '/acad',
         component: HomeAcad,
         redirect:'/acad/home',
+        meta: {requiresAuth:true},
         children:[
             {
                 path: 'home',
@@ -80,11 +87,3 @@ const routes = [
     }
 ]
 
-//Set the router
-const router = createRouter({
-    history: createWebHistory(),
-    routes,
-    linkActiveClass: 'active'
-})
-
-export default router

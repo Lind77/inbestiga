@@ -78,7 +78,7 @@
               <div class="dropdown-divider"></div>
             </li>
             <li>
-              <a class="dropdown-item" href="auth-login-basic.html">
+              <a class="dropdown-item" @click="logout">
                 <i class="bx bx-power-off me-2"></i>
                 <span class="align-middle">Salir</span>
               </a>
@@ -90,3 +90,25 @@
     </div>
   </nav>
 </template>
+<script>
+  export default{
+    data(){
+      return{
+        token: localStorage.getItem("token"),
+        name: ''
+      }
+    },
+    methods:{
+      logout(){
+        window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+        this.axios.post('/api/logout')
+        .then((res) => {
+            localStorage.removeItem('token')
+            this.$router.push('/login')
+        }).catch((err) => {
+            console.log(err)
+        });
+      }
+    }
+  }
+</script>
