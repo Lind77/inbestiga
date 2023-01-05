@@ -1,5 +1,5 @@
 <template>        
-    <div :class="`card text-white mb-3 ${bgColor} cursor-pointer`" draggable="true" @dragstart="drag" :id="`${project.id}`" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas">
+    <div :class="`card text-white mb-3 ${bgColor} cursor-pointer`" draggable="true" @dragstart="drag" :id="`${project.id}`">
     <!-- <div class="card-header">
         <p class="mb-0">{{ project.textStatus }}</p>
     </div> -->

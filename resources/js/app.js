@@ -16,6 +16,8 @@ import { createPinia } from 'pinia'
 
 import VueAxios from 'vue-axios'
 
+import LaravelPermissionToVueJS from 'laravel-permission-to-vuejs'
+
 function loggedIn(){
     return localStorage.getItem('token')
 }
@@ -59,6 +61,14 @@ router.beforeEach((to, from, next) => {
     }
   })
 
+
   const pinia = createPinia()
 
-  createApp(App).use(router).use(VueAxios, axios).use(pinia).mount("#app")
+  const app = createApp(App)
+  app.use(LaravelPermissionToVueJS)
+  app.use(pinia)
+  app.use(router)
+  app.use(VueAxios, axios)
+  
+
+  app.mount('#app')

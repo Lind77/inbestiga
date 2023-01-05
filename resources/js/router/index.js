@@ -28,6 +28,7 @@ export const routes = [
     {
         path: '/',
         component: Home,
+        redirect: '/login',
         name: 'home'
     },
     {

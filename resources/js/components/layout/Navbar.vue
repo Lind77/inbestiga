@@ -52,7 +52,7 @@
                     </div>
                   </div>
                   <div class="flex-grow-1">
-                    <span class="fw-semibold d-block">Jhon Doe</span>
+                    <span class="fw-semibold d-block">{{ store.authUser == null? '' : store.authUser.name }}</span>
                     <small class="text-muted">Admin</small>
                   </div>
                 </div>
@@ -91,7 +91,14 @@
   </nav>
 </template>
 <script>
+ import {useCounterStore} from '../../stores/UserStore'
   export default{
+    setup(){
+      const store = useCounterStore()
+      return{
+        store
+      }
+    },
     data(){
       return{
         token: localStorage.getItem("token"),
@@ -104,11 +111,15 @@
         this.axios.post('/api/logout')
         .then((res) => {
             localStorage.removeItem('token')
+            this.store.authUser = null
             this.$router.push('/login')
         }).catch((err) => {
             console.log(err)
         });
       }
+    },
+    mounted(){
+      this.store.getUser()
     }
   }
 </script>

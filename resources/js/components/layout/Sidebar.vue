@@ -28,7 +28,8 @@
             <div data-i18n="Form Layouts">Productos</div>
           </div>
         </router-link>
-        <li class="menu-item">
+        <div v-if="is('admin')">
+          <li class="menu-item">
           <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bx-package"></i>
             <div data-i18n="Layouts">Productos</div>
@@ -47,6 +48,8 @@
             </li>
           </ul>
         </li>
+        </div>
+        
         <!-- <router-link :to="{name:'home-quotation'}" class="menu-item">
           <div class="menu-link">
             <i class="menu-icon tf-icons bx bx-detail"></i>

@@ -17,7 +17,7 @@
           </div>
         </div>
         <h5 class="text-danger">Fecha de Culminación: {{ project_selected.deadline }}</h5>
-        <div v-if="project_selected.activities.length == 0">No hay actividades asignadas</div>
+        <div v-if="project_selected.activities == []">No hay actividades asignadas</div>
         <div v-else>
           <div v-for="activity in project_selected.activities">
           <div v-if="activity.type == 0">
@@ -34,7 +34,7 @@
         </div>        
         <div class="row">
           <div class="col-lg-12 col-md-12 mt-2">
-            <button class="btn btn-success w-100 p-3" v-bind:disabled="sumTasksPercent != 100">Iniciar Kanban</button>
+            <button class="btn btn-success w-100 p-3" v-bind:disabled="sumTasksPercent != 100">Enviar a Dirección Académica</button>
           </div>
         </div>
         <h5 class="mt-4">Cliente</h5>
@@ -54,7 +54,10 @@ export default{
     components:{ CardTeam, CardCustomer, ProgressModal },
     props:{
         project_selected: Object,
-        progresses: Array
+        projectActivities: { 
+          type: Array,
+          default: []
+        }
     },
     data(){
       return {
@@ -115,6 +118,9 @@ export default{
           return this.project_selected.acttasks.reduce((acc, item) => acc + item.pivot.percent, 0)/this.project_selected.tasks.length;
         }
       } */
+    },
+    mounted(){
+      this.getActivities(this.project_selected.id)
     }
 } 
 </script>

@@ -17,7 +17,13 @@
 <script>
   import Sidebar from '../layout/Sidebar.vue'
   import Navbar from '../layout/Navbar.vue'
+ 
   export default{
-    components: { Sidebar, Navbar }
+    components: { Sidebar, Navbar },
+    data(){
+      return{
+        token: localStorage.getItem('token')
+      }
+    }
   }
 </script>  
