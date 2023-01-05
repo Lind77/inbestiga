@@ -52,8 +52,8 @@
                     </div>
                   </div>
                   <div class="flex-grow-1">
-                    <span class="fw-semibold d-block">{{ store.authUser == null? '' : store.authUser.name }}</span>
-                    <small class="text-muted">Admin</small>
+                    <span class="fw-semibold d-block">{{ store.authUser == null? '' : store.authUser[0].name }}</span>
+                    <small class="text-muted">{{ store.authUser == null? '' : store.authUser[0].roles[0].name }}</small>
                   </div>
                 </div>
               </a>

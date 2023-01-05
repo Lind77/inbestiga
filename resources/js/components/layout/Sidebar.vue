@@ -2,7 +2,7 @@
     <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
       <div class="app-brand demo">
         <a href="index.html" class="app-brand-link">
-          <span class="app-brand-text demo menu-text fw-bolder ms-2">Inbestiga</span>
+          <span class="app-brand-text demo menu-text fw-bolder ms-2">Inbestiga </span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -22,14 +22,13 @@
             <div data-i18n="Form Layouts">Inicio</div>
           </div>
         </router-link>
-        <router-link :to="{name:'home-product'}" class="menu-item">
+        <router-link v-if="store.authUser" :to="{name:'home-product'}" class="menu-item">
           <div class="menu-link">
             <i class="menu-icon tf-icons bx bx-package"></i>
             <div data-i18n="Form Layouts">Productos</div>
           </div>
         </router-link>
-        <div v-if="is('admin')">
-          <li class="menu-item">
+         <!--  <li class="menu-item">
           <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bx-package"></i>
             <div data-i18n="Layouts">Productos</div>
@@ -47,8 +46,7 @@
               </div>
             </li>
           </ul>
-        </li>
-        </div>
+        </li> -->
         
         <!-- <router-link :to="{name:'home-quotation'}" class="menu-item">
           <div class="menu-link">
@@ -63,7 +61,8 @@
             <div data-i18n="Form Layouts">Lista</div>
           </div>
         </router-link>
-          --><router-link :to="{name:'home-project'}" class="menu-item">
+          -->
+        <router-link :to="{name:'home-project'}" class="menu-item">
           <div class="menu-link">
             <i class="menu-icon tf-icons bx bx-pie-chart"></i>
             <div data-i18n="Form Layouts">Proyectos</div>
@@ -86,7 +85,15 @@
     </aside>
 </template>
 <script>
+ import {useCounterStore} from '../../stores/UserStore'
+
 export default {
-    name: 'Sidebar'
+    name: 'Sidebar',
+    setup(){
+      const store = useCounterStore()
+      return{
+        store
+      }
+    }
 }
 </script>

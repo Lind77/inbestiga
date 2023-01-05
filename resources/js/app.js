@@ -65,7 +65,7 @@ router.beforeEach((to, from, next) => {
   const pinia = createPinia()
 
   const app = createApp(App)
-  app.use(LaravelPermissionToVueJS)
+
   app.use(pinia)
   app.use(router)
   app.use(VueAxios, axios)

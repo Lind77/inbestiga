@@ -37,12 +37,6 @@
 		
 	  @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-	  <script type="text/javascript">
-		window.Laravel = {
-			csrfToken: "{{ csrf_token() }}",
-			jsPermissions: "{!! auth()->check()?auth()->user()->jsPermissions():null !!}"
-		}
-	</script>
 </head>
 	<body>	
 	<div id="app"></div>	
