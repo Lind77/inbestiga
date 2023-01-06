@@ -150,6 +150,7 @@
         },  
         getAllProjects(){
                 this.project_selected = {}
+                this.$swal({title: 'Cargando ...'});
                 axios.get('/api/getAllProjects')
                 .then(res =>{
                   this.projects = res.data
@@ -164,6 +165,7 @@
                       element.textStatus = 'En revisión'
                     }
                   })
+                  this.$swal.close()
                 })
                 .catch(err =>{
                   console.log(err.response.data)

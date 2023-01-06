@@ -5,6 +5,7 @@ export let useCounterStore = defineStore('counter', {
     state(){
         return {
             authUser: null,
+            rol: '',
             token: localStorage.getItem("token")
         }
     },
@@ -18,7 +19,7 @@ export let useCounterStore = defineStore('counter', {
     await axios.get('/api/user')
       .then((res) => {
         this.authUser = res.data
-        console.log(this.authUser)
+        this.rol = this.authUser[0].roles[0].name
       })
       .catch((err) => {
         console.log(err)
