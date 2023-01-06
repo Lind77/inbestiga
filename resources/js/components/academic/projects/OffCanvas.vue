@@ -34,7 +34,7 @@
         </div>        
         <div class="row">
           <div class="col-lg-12 col-md-12 mt-2">
-            <button class="btn btn-success w-100 p-3" v-bind:disabled="sumTasksPercent != 100">Enviar a Dirección Académica</button>
+            <button class="btn btn-success w-100 p-3" @click="changeStatus" v-bind:disabled="sumTasksPercent != 100">Enviar a Dirección Académica</button>
           </div>
         </div>
         <h5 class="mt-4">Cliente</h5>
@@ -52,6 +52,7 @@ import CardCustomer from './CardCustomer.vue'
 export default{
     name:'OffCanvas',
     components:{ CardTeam, CardCustomer, ProgressModal },
+    emits:['getAllProjects'],
     props:{
         project_selected: Object,
         projectActivities: { 
@@ -69,11 +70,25 @@ export default{
       }
     },
     methods:{
+        changeStatus(){
+          const fd = new FormData()
+
+            fd.append('status', 1)
+            fd.append('project_id', this.project_selected.id)
+
+            axios.post('/api/changeStatusProject', fd)
+            .then(res =>{
+              $('#offcanvas').offcanvas('hide')
+              this.$emit('getAllProjects')
+            })
+            .catch(err =>{
+              console.log(err.response.data)
+            })
+        },
         getActivities(){
           axios.get(`/api/getActivitiesPerId/${this.project_selected.id}`)
           .then(res =>{
             this.project_selected.activities = res.data
-            console.log(res.data)
           })
           .catch(err =>{
             console.log(err.response.data)

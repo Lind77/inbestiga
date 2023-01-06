@@ -98,7 +98,7 @@
 
               <CreateProject :customers="customers" @getAllProjects="getAllProjects" :teams="teams"/>
               <TeamModal/>
-              <OffCanvas :project_selected="project_selected"/>
+              <OffCanvas :project_selected="project_selected" @getAllProjects="getAllProjects"/>
   </template>
   <script>
     
@@ -124,7 +124,7 @@
         showProject(project){
             this.project_selected = project
             if(this.project_selected.title){
-              $('#offcanvas').offcanvas('toggle')
+              $('#offcanvas').offcanvas('show')
             }
         },
         showProgress(progress){

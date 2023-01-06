@@ -22,7 +22,7 @@
             <div data-i18n="Form Layouts">Inicio</div>
           </div>
         </router-link>
-        <router-link v-if="store.rol == 'admin'" :to="{name:'home-product'}" class="menu-item">
+        <router-link v-if="store.rol == 'sales'" :to="{name:'home-product'}" class="menu-item">
           <div class="menu-link">
             <i class="menu-icon tf-icons bx bx-package"></i>
             <div data-i18n="Form Layouts">Productos</div>
@@ -62,7 +62,7 @@
           </div>
         </router-link>
           -->
-        <router-link :to="{name:'home-project'}" class="menu-item">
+        <router-link v-if="store.rol == 'admin'" :to="{name:'home-project'}" class="menu-item">
           <div class="menu-link">
             <i class="menu-icon tf-icons bx bx-pie-chart"></i>
             <div data-i18n="Form Layouts">Proyectos</div>
