@@ -2,7 +2,7 @@
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4">Productos <span class="badge bg-label-primary me-1" data-bs-toggle="modal" data-bs-target="#basicModal">+</span></h4>
+              <h4 class="fw-bold py-3 mb-4">Productos <span class="badge bg-label-primary me-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#basicModal">+</span></h4>
               <div class="row">
               <div class="col-xl">
                 <div class="card mb-4">
@@ -112,6 +112,7 @@
           const fd = new FormData
           fd.append('product_id', id)
           fd.append('title', this.activityTitle)
+          fd.append('type', 1)
           axios.post('/api/insertFixedActivity', fd)
           .then(res => {
             this.getAllProducts()

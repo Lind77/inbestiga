@@ -14,6 +14,7 @@ import MainAcad from '../components/academic/Main.vue'
 
 // Área Académica - Proyectos
 import HomeProject  from '../components/academic/projects/Home.vue'
+import Kanban from '../components/academic/projects/kanban/Kanban.vue'
 
 // Área Acádemica - Productos
 import HomeProduct from '../components/academic/products/Home.vue'
@@ -23,6 +24,11 @@ import HomeQuotation from '../components/quotations/Home.vue'
 import HomeList from '../components/list/Home.vue'
 
 import HomeOwner from '../components/owners/Home.vue'
+
+// Área Académica - Colaborators
+import HomeCollabs from '../components/academic/collabs/Home.vue'
+
+
 
 export const routes = [
     {
@@ -50,7 +56,14 @@ export const routes = [
             {
                 path: 'projects',
                 component: HomeProject,
-                name: 'home-project'
+                name: 'home-project',
+
+            },
+            {
+                path: 'kanban/:idProject',
+                component: Kanban,
+                props: true,
+                name: 'kanban'
             },
             {
                 path: 'quotations',
@@ -61,7 +74,13 @@ export const routes = [
                 path: 'products',
                 component: HomeProduct,
                 name: 'home-product'
+            },
+            {
+                path: 'collabs',
+                component: HomeCollabs,
+                name: 'home-collabs'
             }
+
         ]
     },
     {

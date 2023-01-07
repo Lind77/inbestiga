@@ -51,6 +51,7 @@ Route::post('/insertQuotation', [QuotationController::class, 'store']);
 Route::get('/generatePDF/{id}', [QuotationController::class, 'generatePDF']);
 
 Route::get('/getAllProjects',[ProjectController::class, 'index']);
+Route::get('/getProjectById/{id}', [ProjectController::class, 'show']);
 Route::post('/insertProject',[ProjectController::class, 'store']);
 Route::post('/changeStatusProject',[ProjectController::class, 'changeStatus']);
 

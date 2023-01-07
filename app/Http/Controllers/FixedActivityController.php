@@ -40,7 +40,8 @@ class FixedActivityController extends Controller
     {
         $fixed_activity = FixedActivity::create([
             'product_id' => $request->get('product_id'),
-            'title' => $request->get('title')
+            'title' => $request->get('title'),
+            'type' => $request->get('type')
         ]);
         return response()->json([
             'msg' => 'success'

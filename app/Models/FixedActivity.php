@@ -11,7 +11,8 @@ class FixedActivity extends Model
 
     protected $fillable = [
         'product_id',
-        'title'
+        'title',
+        'type'
     ];
 
     public function fixedTasks(){

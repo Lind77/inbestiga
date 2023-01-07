@@ -68,6 +68,14 @@
             <div data-i18n="Form Layouts">Proyectos</div>
           </div>
         </router-link>
+
+        <router-link v-if="store.rol == 'admin'" :to="{name:'home-collabs'}" class="menu-item">
+          <div class="menu-link">
+            <i class="menu-icon tf-icons bx bx-user"></i>
+            <div data-i18n="Form Layouts">Colaboradores</div>
+          </div>
+        </router-link>
+
         
         <!-- <router-link :to="{name:'home-owner'}" class="menu-item">
           <div class="menu-link">

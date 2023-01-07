@@ -12,7 +12,7 @@ class Activity extends Model
     protected $fillable = ['project_id', 'title', 'type'];
 
     public function tasks(){
-        return $this->belongsToMany("App\Models\Task")->withPivot('percent','comment');
+        return $this->hasMany("App\Models\Task");
     }
 
     public function progress(){

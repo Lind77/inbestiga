@@ -5,6 +5,7 @@
     </div> -->
     <div class="card-body">
         <h4 class="card-title text-white m-0">{{ project.title }}</h4>
+        <router-link v-if="this.project.status == 1" class="btn btn-primary btn-sm mt-2" :to="{name:'kanban', params:{ idProject: project.id }}">Ver Kanban</router-link>
     </div>
     </div>
     

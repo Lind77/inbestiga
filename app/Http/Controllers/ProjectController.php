@@ -75,7 +75,7 @@ class ProjectController extends Controller
 
        //Traer actividades del producto
 
-       $fixedActivities = FixedActivity::where('product_id',$request->get('product_id'))->where('type', 1)->with('fixedTasks')->get();
+       $fixedActivities = FixedActivity::where('product_id',$request->get('product_id'))->where('type', '!=', 0)->with('fixedTasks')->get();
        
        foreach($fixedActivities as $fixedActivity){
                 $activity = Activity::create([
@@ -103,9 +103,10 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show($id)
     {
-        //
+        $project = Project::where('id',$id)->with(['activities','activities.tasks'])->get();
+        return response()->json($project);
     }
 
     /**

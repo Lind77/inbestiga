@@ -76,7 +76,7 @@
                           Dirección académica
                           <div class="container-cards" v-for="project in projects">
                             <div v-if="project.status == 1">
-                              <CardProject :project="project"  @click="showProject(project)"/>
+                              <CardProject :project="project"/>
                           </div>
                           </div>
                         </div>
@@ -150,7 +150,10 @@
         },  
         getAllProjects(){
                 this.project_selected = {}
-                this.$swal({title: 'Cargando ...'});
+                this.$swal({
+                  title: 'Cargando ...',
+                  showConfirmButton: false,
+                });
                 axios.get('/api/getAllProjects')
                 .then(res =>{
                   this.projects = res.data

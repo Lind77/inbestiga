@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'amount', 'term'];
+    protected $fillable = ['title', 'description', 'amount', 'term', 'type'];
 
     public function fixedActivities(){
         return $this->hasMany('App\Models\FixedActivity');
