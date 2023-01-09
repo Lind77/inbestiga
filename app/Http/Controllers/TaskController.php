@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -82,5 +83,23 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         //
+    }
+
+    public function insertTimeTask(Request $request){
+        //update status task
+        $task = Task::find($request->get('id_task'));
+        $task->update([
+            'status' => 1
+        ]);
+
+        $task->progress[0]->update([
+            'owner' => $request->get('owner'),
+            'start_time' => date("Y-m-d H:i:s") 
+        ]);
+
+        return response()->json([
+            'msg' => 'success',
+            'task' => $task
+        ]);
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="card bg-danger text-white p-3 mb-2 cursor-pointer" draggable="true" @dragstart="drag" :id="`${activity.id}`">
+    <div class="card shadow-none bg-transparent border border-danger p-3 mb-2 cursor-pointer" draggable="true" @dragstart="drag" :id="`${activity.id}`">
         {{ activity.title }}
         <div class="row px-2"  v-for="task in activity.tasks">
             <CardTask :task="task"/>

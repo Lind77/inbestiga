@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -46,6 +47,8 @@ Route::post('/insertFixedTask',[FixedTaskController::class, 'store']);
 Route::get('/getActivitiesPerId/{id}', [ActivityController::class, 'getActivitiesPerId']);
 Route::get('/deleteActivity/{id}', [ActivityController::class, 'destroy']);
 Route::get('/changeStatusActivity/{id}', [ActivityController::class, 'changeStatus']);
+
+Route::post('/insertTimeTask', [TaskController::class, 'insertTimeTask']);
 
 Route::post('/insertQuotation', [QuotationController::class, 'store']);
 Route::get('/generatePDF/{id}', [QuotationController::class, 'generatePDF']);

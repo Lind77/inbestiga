@@ -45,7 +45,9 @@ export default {
     data(){
         return{
             project: [],
-            activities: []
+            activities: [],
+            localTime: " ",
+            seconds: " "
         }
     },
     methods:{
@@ -62,6 +64,7 @@ export default {
         drop(e){
           e.preventDefault()
           var data = e.dataTransfer.getData('text')
+          console.log(data)
           e.target.appendChild(document.getElementById(data))
 
           console.log(data)
