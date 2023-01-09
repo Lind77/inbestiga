@@ -17,7 +17,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('progressable_id');
             $table->string('progressable_type');
+            $table->string('owner',255)->nullable();
             $table->double('percentage')->default(0.0);
+            $table->timestamp('start_time')->useCurrent();
+            $table->timestamp('end_time')->useCurrent();
             $table->text('comment');
             $table->timestamps();
         });

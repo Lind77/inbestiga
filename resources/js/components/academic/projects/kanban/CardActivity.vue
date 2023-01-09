@@ -1,21 +1,22 @@
-<template lang="">
+<template>
     <div class="card bg-danger text-white p-3 mb-2 cursor-pointer" draggable="true" @dragstart="drag" :id="`${activity.id}`">
         {{ activity.title }}
-        <div class="card bg-info p-2 w-50 text-white" v-for="task in activity.tasks" draggable="true" @dragstart="drag" :id="`${task.id}`">
-            {{ task.title}}
-        </div>
-        <div v-if="visible">
-            {{ store.authUser[0].name }}
+        <div class="row px-2"  v-for="task in activity.tasks">
+            <CardTask :task="task"/>
         </div>
     </div>
 </template>
 <script>
  import {useCounterStore} from '../../../../stores/UserStore'
+ import CardTask from './CardTask.vue'
+
 
 export default {
+    components:{CardTask},
     data(){
         return{
-            visible: false
+            visible: false,
+            time: new Date().toLocaleTimeString()
         }
     },
     setup(){

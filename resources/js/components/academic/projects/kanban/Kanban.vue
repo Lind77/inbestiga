@@ -7,7 +7,7 @@
                     </div>
                     <div class="card-body">
                       <div class="row">
-                        <div class="col-md-4" id="clientArea" @drop="drop" @dragover="allowDrop">
+                        <div class="col-md-4" id="todoArea" @drop="drop" @dragover="allowDrop">
                           TO DO
                         <div class="container-cards" v-for="activity in activities">
                           <div v-if="activity.type != 0">
@@ -16,7 +16,7 @@
                         </div>
                         
                         </div>
-                        <div class="col-md-4" id="directionArea" @drop="drop" @dragover="allowDrop">
+                        <div class="col-md-4" id="doingArea" @drop="drop" @dragover="allowDrop">
                           DOING
                           <!-- <div class="container-cards" v-for="project in projects">
                             <div v-if="project.status == 1">
@@ -24,7 +24,7 @@
                           </div>
                           </div> -->
                         </div>
-                        <div class="col-md-4" id="qualityArea" @drop="drop" @dragover="allowDrop">
+                        <div class="col-md-4" id="doneArea" @drop="drop" @dragover="allowDrop">
                           DONE
                           <!-- <div class="container-cards" v-for="project in projects">
                             <div v-if="project.status == 2">
@@ -63,6 +63,11 @@ export default {
           e.preventDefault()
           var data = e.dataTransfer.getData('text')
           e.target.appendChild(document.getElementById(data))
+
+          console.log(data)
+          if(e.target.id == 'doingArea'){
+            
+          }
         }
     },
     mounted(){

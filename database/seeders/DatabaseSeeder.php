@@ -15,11 +15,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+        $this->call(RoleSeeder::class);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        \App\Models\User::factory()->create([
+             'name' => 'Jair Pariona',
+             'email' => 'riuyagami@gmail.com',
+             'password' => '$2a$12$S.WKj5Mm0ein0CQzc6dyPOOjMyzxJjJWX/KA.bS8cQ75Gja77sP3y'
+        ])->assignRole('Admin');
+
         $this->call(ProductSeeder::class);
         $this->call(FixedActivitySeeder::class);
         $this->call(FixedTaskSeeder::class);

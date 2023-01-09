@@ -62,14 +62,14 @@
           </div>
         </router-link>
           -->
-        <router-link v-if="store.rol == 'admin'" :to="{name:'home-project'}" class="menu-item">
+        <router-link v-if="store.rol == 'Admin'" :to="{name:'home-project'}" class="menu-item">
           <div class="menu-link">
             <i class="menu-icon tf-icons bx bx-pie-chart"></i>
             <div data-i18n="Form Layouts">Proyectos</div>
           </div>
         </router-link>
 
-        <router-link v-if="store.rol == 'admin'" :to="{name:'home-collabs'}" class="menu-item">
+        <router-link v-if="store.rol == 'Admin'" :to="{name:'home-collabs'}" class="menu-item">
           <div class="menu-link">
             <i class="menu-icon tf-icons bx bx-user"></i>
             <div data-i18n="Form Layouts">Colaboradores</div>

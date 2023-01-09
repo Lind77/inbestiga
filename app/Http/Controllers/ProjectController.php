@@ -84,17 +84,29 @@ class ProjectController extends Controller
                     'type' => 1
                 ]);
 
+                $progressActivity = Progress::create([
+                    'progressable_id' => $activity->id,
+                    'progressable_type' => 'App\Models\Activity',
+                    'percentage' => 0.0,
+                    'comment' => 'Sin comentarios'
+                ]);
+
                 foreach($fixedActivity->fixedTasks as $fixedTask){
                     $task = Task::create([
                         'activity_id' => $activity->id,
                         'type' => 0,
                         'title' => $fixedTask->title,
-                        
+                        'status' => 0
+                    ]);
+
+                    $progressTask = Progress::create([
+                        'progressable_id' => $task->id,
+                        'progressable_type' => 'App\Models\Task',
+                        'percentage' => 0.0,
+                        'comment' => 'Sin comentarios'
                     ]);
                 }
        }
-       
-       
     }
 
     /**
