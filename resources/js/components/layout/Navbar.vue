@@ -78,7 +78,7 @@
               <div class="dropdown-divider"></div>
             </li>
             <li>
-              <a class="dropdown-item" @click="logout">
+              <a class="dropdown-item cursor-pointer" @click="logout">
                 <i class="bx bx-power-off me-2"></i>
                 <span class="align-middle">Salir</span>
               </a>

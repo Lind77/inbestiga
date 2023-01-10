@@ -1,8 +1,11 @@
 <template>
-    <div class="card bg-danger p-2 mt-2 w-100 text-white " draggable="true" @dragstart="drag" @dragend="dragend" :id="`task${taskSelected.id}`">
+    <div :class="`card ${bgCard} p-2 mt-2 w-100 text-white`" draggable="true" @dragstart="drag" @dragend="dragend" :id="`task${taskSelected.id}`">
             {{ taskSelected.title }}
-        <div v-if="taskSelected.progress">
-            <p>{{ taskSelected.progress[0].owner}} - {{ formattedDate }} - {{ cronometer }}</p>
+        <div v-if="taskSelected.progress && showCronometer== true && taskSelected.status == 1">
+            <p>{{ taskSelected.progress[0].owner }} - {{ formattedDate }} - {{ cronometer }}</p>
+        </div>
+        <div v-else-if="taskSelected.status == 2">
+            <p>{{ taskSelected.progress[0].owner }} - {{ formattedDate }} - {{ calcStopwatch }}</p>
         </div>
     </div>
 </template>
@@ -25,7 +28,10 @@ export default {
             time: new Date().toLocaleTimeString(),
             visible: false,
             taskSelected: this.task,
-            cronometer: ""
+            cronometer: "",
+            showCronometer: true,
+            subtract: 0,
+            stopWatch: ""
         }
     },
     methods:{
@@ -68,13 +74,71 @@ export default {
             else if(e.path[1].id == "doneArea"){
                 document.getElementById(e.target.id).classList.remove('bg-warning')
                 document.getElementById(e.target.id).classList.add('bg-success')
+
+                const fd = new FormData();
+
+                    fd.append("id_task", this.taskSelected.id)
+                    fd.append("end_time", new Date())
+
+                axios.post('/api/insertEndTimeTask', fd)
+                .then(res =>{
+                    console.log(res)
+                    this.taskSelected = res.data.task
+                    this.showCronometer = false
+                    var cantStartTime = Date.parse(this.taskSelected.progress[0].start_time)
+                    var cantEndTime = Date.parse(this.taskSelected.progress[0].end_time)
+
+                    var totalTime = cantEndTime - cantStartTime
+
+                    this.stopWatch = totalTime/1000+'s'
+                })
+                .catch(err =>{
+                    console.log(err)
+                })
             }
         }
     },
     computed:{
         formattedDate(){
-            return moment(this.taskSelected.progress[0].start_time).format('h:mm:ss a')
+            return moment(this.taskSelected.progress[0].start_time).format('h:mm a')
+        },
+        bgCard(){
+            if(this.task.status == 0){
+                return 'bg-danger'
+            }else if(this.task.status == 1){
+                return 'bg-warning'
+            }else if(this.task.status == 2){
+                return 'bg-success'
+            }
+        },
+        calcStopwatch(){
+            if(this.task.status == 2){
+                var cantStartTime = Date.parse(this.taskSelected.progress[0].start_time)
+                var cantEndTime = Date.parse(this.taskSelected.progress[0].end_time)
+
+                var totalTime = cantEndTime - cantStartTime
+
+                var totalSeconds = totalTime/1000
+                if(totalSeconds >= 3600){
+                    var totalMinutes = Math.floor(totalSeconds/60)
+                    var restSeconds = totalSeconds%60
+                    var totalHours = Math.floor(totalMinutes/60)
+                    var restMinutes = totalMinutes%60
+
+                    return totalHours+'h '+restMinutes+'m '+ restSeconds +'s'
+                }
+                else if(totalSeconds >= 60){
+                    var totalMinutes = Math.floor(totalSeconds/60)
+                    var restSeconds = totalSeconds%60
+
+                    return totalMinutes+'m '+restSeconds+'s'
+                }else{
+                    return totalSeconds+'s'
+                }
+
+               
+            }
         }
-    }
+    }   
 }
 </script>

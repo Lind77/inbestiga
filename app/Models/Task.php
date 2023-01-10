@@ -10,7 +10,7 @@ class Task extends Model
     use HasFactory;
 
 
-    protected $fillable = ['activity_id', 'type','title', 'status', 'owner', 'start_time'];
+    protected $fillable = ['activity_id', 'type','title', 'status', 'owner', 'start_time', 'end_time'];
 
     public function activity(){
         return $this->belongsTo('App\Models\Activity');

@@ -117,7 +117,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::where('id',$id)->with(['activities','activities.tasks'])->get();
+        $project = Project::where('id',$id)->with(['activities','activities.tasks','activities.tasks.progress'])->get();
         return response()->json($project);
     }
 

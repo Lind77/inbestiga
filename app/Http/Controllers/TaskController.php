@@ -102,4 +102,22 @@ class TaskController extends Controller
             'task' => $task
         ]);
     }
+
+    public function insertEndTimeTask(Request $request){
+        $task = Task::find($request->get('id_task'));
+
+        $task->update([
+            'status' => 2
+        ]);
+
+        $task->progress[0]->update([
+            'end_time' => date("Y-m-d H:i:s"),
+            'percentage' => 100
+        ]);
+
+        return response()->json([
+            'msg' => 'success',
+            'task' => $task
+        ]);
+    }
 }

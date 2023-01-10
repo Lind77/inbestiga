@@ -147,7 +147,8 @@ export default {
             this.axios.post('/api/login', fd)
             .then(res =>{
                 localStorage.setItem('token',res.data.token)
-                this.$router.push({path:`acad/home`})
+                console.log(res.data)
+                //this.$router.push({path:`acad/home`})
             }).catch((err) => {
                 this.errors = err.response.data.errors
             });

@@ -9,7 +9,7 @@ class Progress extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['progressable_id','progressable_type','comment','percentage','owner','start_time'];
+    protected $fillable = ['progressable_id','progressable_type','comment','percentage','owner','start_time', 'end_time'];
 
     public function activity(){
         return $this->morphedByMany('App\Models\Activity', 'progressable');

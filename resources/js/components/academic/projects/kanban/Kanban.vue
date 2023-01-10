@@ -18,19 +18,23 @@
                         </div>
                         <div class="col-md-4" id="doingArea" @drop="drop" @dragover="allowDrop">
                           DOING
-                          <!-- <div class="container-cards" v-for="project in projects">
-                            <div v-if="project.status == 1">
-                              
+                          <div class="container-cards" v-for="activity in activities">
+                            <div v-for="task in activity.tasks">
+                              <div v-if="task.status == 1">
+                                <CardTask :task="task"/>
+                              </div>
+                            </div>
                           </div>
-                          </div> -->
                         </div>
                         <div class="col-md-4" id="doneArea" @drop="drop" @dragover="allowDrop">
                           DONE
-                          <!-- <div class="container-cards" v-for="project in projects">
-                            <div v-if="project.status == 2">
-                              
+                          <div class="container-cards" v-for="activity in activities">
+                            <div v-for="task in activity.tasks">
+                              <div v-if="task.status == 2">
+                                <CardTask :task="task"/>
+                              </div>
+                            </div>
                           </div>
-                          </div> -->
                         </div>
                       </div>
                     </div>
@@ -39,9 +43,10 @@
 </template>
 <script>
 import CardActivity from './CardActivity.vue'
+import CardTask from './CardTask.vue'
 
 export default {
-    components: { CardActivity },
+    components: { CardActivity, CardTask },
     data(){
         return{
             project: [],

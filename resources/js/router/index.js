@@ -19,7 +19,8 @@ import Kanban from '../components/academic/projects/kanban/Kanban.vue'
 // Área Acádemica - Productos
 import HomeProduct from '../components/academic/products/Home.vue'
 
-import HomeQuotation from '../components/quotations/Home.vue'
+//Área Acádemica - Teams
+import HomeTeams from '../components/academic/teams/Home.vue'
 
 import HomeList from '../components/list/Home.vue'
 
@@ -65,11 +66,11 @@ export const routes = [
                 props: true,
                 name: 'kanban'
             },
-            {
+            /* {
                 path: 'quotations',
                 component: HomeQuotation,
                 name: 'home-quotation'
-            },
+            }, */
             {
                 path: 'products',
                 component: HomeProduct,
@@ -79,6 +80,11 @@ export const routes = [
                 path: 'collabs',
                 component: HomeCollabs,
                 name: 'home-collabs'
+            },
+            {
+                path: 'teams',
+                component: HomeTeams,
+                name: 'home-teams'
             }
 
         ]
