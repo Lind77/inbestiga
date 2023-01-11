@@ -1,11 +1,19 @@
 <template>
 <div class="container-xxl flex-grow-1 container-p-y">
-      <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Formulario/</span> Cotizaciones</h4>
-
-      <!-- Basic Layout -->
-      <div class="row">
-        <div class="col-xl">
-          <div class="card mb-4">
+  <h4 class="fw-bold py-1">Cotizaciones</h4>
+  <div class="col-xl-12">
+    <div class="nav-align-top mb-4">
+      <ul class="nav nav-pills mb-3" role="tablist">
+        <li class="nav-item">
+          <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true">Home</button>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile" aria-selected="false">Lista</button>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
+          
             <div class="card-header d-flex justify-content-between align-items-center">
               <h5 class="mb-0">Ingrese los datos para generar el PDF</h5>
             </div>
@@ -91,16 +99,27 @@
                 <button @click="print" target="_blank" id="buttonPDF" class="btn btn-primary mt-2 mx-2 text-white" disabled>Generar PDF</button>
               
             </div>
-          </div>
+        </div>
+        <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
+          <List/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+      <!-- Basic Layout -->
+      <div class="row">
+        <div class="col-xl">
+          
         </div>
       </div>
     </div>
 </template>
 <script>
-  import Sidebar from '../layout/Sidebar.vue'
-  import Navbar from '../layout/Navbar.vue'
+  import List from './List.vue'
   export default{
-    components: { Sidebar, Navbar },
+    components:{List},
     data(){
       return{
         products:[],

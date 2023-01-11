@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
@@ -83,5 +84,12 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         //
+    }
+
+    public function insertCustomer(Request $request){
+        $customer = Customer::create($request->all());
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }

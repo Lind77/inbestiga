@@ -12,89 +12,50 @@
 
       <div class="menu-inner-shadow"></div>
 
-      <ul class="menu-inner py-1">
-
-        <!-- Forms & Tables -->
+      <ul class="menu-inner py-1" v-if="store.rol == 'Seller'">
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
-        <router-link :to="{name:'main-acad'}" class="menu-item">
-          <div class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home"></i>
-            <div data-i18n="Form Layouts">Inicio</div>
-          </div>
-        </router-link>
-        <router-link v-if="store.rol == 'Seller'" :to="{name:'home-product'}" class="menu-item">
-          <div class="menu-link">
-            <i class="menu-icon tf-icons bx bx-package"></i>
-            <div data-i18n="Form Layouts">Productos</div>
-          </div>
-        </router-link>
-         <!--  <li class="menu-item">
-          <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bx-package"></i>
-            <div data-i18n="Layouts">Productos</div>
-          </a>
-
-          <ul class="menu-sub">
-            <router-link :to="{name:'main-acad'}" class="menu-item">
-              <div href="layouts-without-menu.html" class="menu-link">
-                <div data-i18n="Without menu">Crear</div>
-              </div>
-            </router-link>
-            <li class="menu-item">
-              <div href="layouts-without-menu.html" class="menu-link">
-                <div data-i18n="Without menu">Lista</div>
-              </div>
-            </li>
-          </ul>
-        </li> -->
-        
-        <!-- <router-link :to="{name:'home-quotation'}" class="menu-item">
-          <div class="menu-link">
-            <i class="menu-icon tf-icons bx bx-detail"></i>
-            <div data-i18n="Form Layouts">Cotizaciones</div>
-          </div>
-        </router-link> -->
-        <!-- 
-        <router-link :to="{name:'home-list'}" class="menu-item">
-          <div class="menu-link">
-            <i class="menu-icon tf-icons bx bx-package"></i>
-            <div data-i18n="Form Layouts">Lista</div>
-          </div>
-        </router-link>
-          -->
-        <router-link v-if="store.rol == 'Admin'" :to="{name:'home-project'}" class="menu-item">
-          <div class="menu-link">
-            <i class="menu-icon tf-icons bx bx-pie-chart"></i>
-            <div data-i18n="Form Layouts">Proyectos</div>
-          </div>
-        </router-link>
-
-        <router-link v-if="store.rol == 'Admin'" :to="{name:'home-collabs'}" class="menu-item">
-          <div class="menu-link">
-            <i class="menu-icon tf-icons bx bx-user"></i>
-            <div data-i18n="Form Layouts">Colaboradores</div>
-          </div>
-        </router-link>
-
-        <router-link v-if="store.rol == 'Admin'" :to="{name:'home-teams'}" class="menu-item">
-          <div class="menu-link">
-            <i class="menu-icon tf-icons bx bx-group"></i>
-            <div data-i18n="Form Layouts">Teams</div>
-          </div>
-        </router-link>
-        
-        <!-- <router-link :to="{name:'home-owner'}" class="menu-item">
-          <div class="menu-link">
-            <i class="menu-icon tf-icons bx bx-user"></i>
-            <div data-i18n="Form Layouts">Inbestigadores</div>
-          </div>
-        </router-link>
-        <router-link :to="{name:'home-owner'}" class="menu-item">
-          <div class="menu-link">
-            <i class="menu-icon tf-icons bx bx-user"></i>
-            <div data-i18n="Form Layouts">Clientes</div>
-          </div>
-        </router-link> -->
+          <router-link :to="{name:'main-sales'}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-home"></i>
+              <div data-i18n="Form Layouts">Inicio</div>
+            </div>
+          </router-link>
+          <router-link :to="{name:'home-product'}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-package"></i>
+              <div data-i18n="Form Layouts">Productos</div>
+            </div>
+          </router-link>
+          <router-link :to="{name:'home-quotation'}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-detail"></i>
+              <div data-i18n="Form Layouts">Cotizaciones</div>
+            </div>
+          </router-link>
+          <router-link :to="{name:'home-client'}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-user"></i>
+              <div data-i18n="Form Layouts">Clientes</div>
+            </div>
+          </router-link>
+          <router-link :to="{name:'home-funnel'}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-table"></i>
+              <div data-i18n="Form Layouts">Funnel</div>
+            </div>
+          </router-link>
+          <router-link :to="{name:'home-call'}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-phone-call"></i>
+              <div data-i18n="Form Layouts">Llamadas</div>
+            </div>
+          </router-link>
+          <router-link :to="{name:'home-calendar'}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-calendar-event"></i>
+              <div data-i18n="Form Layouts">Calendario</div>
+            </div>
+          </router-link>
       </ul>
     </aside>
 </template>

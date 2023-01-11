@@ -67,4 +67,5 @@ Route::get('/getAllOwners', [OwnerController::class, 'index']);
 Route::get('/getAllTeams', [TeamController::class,'index']);
 
 Route::get('/getAllCustomers', [CustomerController::class, 'index']);
+Route::post('/insertCustomer', [CustomerController::class, 'insertCustomer']);
 

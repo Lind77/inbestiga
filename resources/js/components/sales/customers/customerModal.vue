@@ -1,0 +1,95 @@
+<template>
+    <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel1">Insertar Cliente</h5>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+            ></button>
+            </div>
+            <div class="modal-body">
+            <div class="row">
+                <div class="col mb-3">
+                <label for="nameBasic" class="form-label">Nombre</label>
+                <input type="text" v-model="name" class="form-control" />
+                </div>
+            </div>
+            <div class="row g-2">
+                <div class="col mb-0">
+                    <label for="nameBasic" class="form-label">Celular</label>
+                <input type="text" v-model="cell" class="form-control" />
+                </div>
+            </div>
+            <div class="row g-2">
+                <div class="col mb-0">
+                <label for="dobBasic" class="form-label">Universidad</label>
+                <input type="text" v-model="university" class="form-control" />
+                </div>
+            </div>
+            <div class="row g-2">
+                <div class="col mb-0">
+                <label for="emailBasic" class="form-label">Carrera</label>
+                <input type="text" v-model="career" class="form-control" />
+                </div>
+            </div>
+            <div class="row g-2">
+                <div class="col mb-0">
+                <label for="emailBasic" class="form-label">Grado</label>
+                <select v-model="grade" class="form-control">
+                    <option value="1">Pregrado</option>
+                    <option value="2">Maestría</option>
+                    <option value="3">Doctorado</option>
+                </select>
+                </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" id="close-insert-customer" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                Cerrar
+            </button>
+            <button type="button" @click="insertCustomer" class="btn btn-primary">Registrar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</template>
+<script>
+export default {
+    data(){
+        return{
+            name: '',
+            cell: '',
+            university: '',
+            career: '',
+            grade: 0
+        }
+    },
+    methods:{  
+        insertProduct(){
+            const fd = new FormData()
+            fd.append('name',this.name)
+            fd.append('cell',this.cell)
+            fd.append('university',this.university)
+            fd.append('career',this.career)
+            fd.append('grade',this.grade)
+
+            axios.post('/api/insertCustomer', fd)
+            .then(res =>{
+                console.log(res)
+                //this.$emit('getAllProducts')
+                document.getElementById('close-insert-customer').click()
+            })
+            .catch(err =>{
+                console.log(err.response.data)
+            })
+        }
+    }
+}
+</script>
+<style lang="">
+    
+</style>

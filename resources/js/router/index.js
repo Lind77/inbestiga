@@ -7,6 +7,20 @@ import Login from '../components/auth/Login.vue'
 import HomeSales from '../components/sales/Home.vue'
 import MainSales from '../components/sales/Main.vue'
 
+//Área de Ventas - Cotizaciones
+import HomeQuotation from '../components/sales/quotations/Home.vue'
+
+//Área de Ventas - Clientes
+import HomeClient from '../components/sales/customers/Home.vue'
+
+//Área de Ventas - Funnel
+import HomeFunnel from '../components/sales/funnel/Home.vue'
+
+//Área de Ventas - Llamadas
+import HomeCalls from '../components/sales/calls/Home.vue'
+
+//Área de Ventas - Calendario
+import HomeCalendar from '../components/sales/calendar/Home.vue'
 
 // Área Académica
 import HomeAcad from '../components/academic/Home.vue'
@@ -17,14 +31,10 @@ import HomeProject  from '../components/academic/projects/Home.vue'
 import Kanban from '../components/academic/projects/kanban/Kanban.vue'
 
 // Área Acádemica - Productos
-import HomeProduct from '../components/academic/products/Home.vue'
+import HomeProduct from '../components/sales/products/Home.vue'
 
 //Área Acádemica - Teams
 import HomeTeams from '../components/academic/teams/Home.vue'
-
-import HomeList from '../components/list/Home.vue'
-
-import HomeOwner from '../components/owners/Home.vue'
 
 // Área Académica - Colaborators
 import HomeCollabs from '../components/academic/collabs/Home.vue'
@@ -66,16 +76,6 @@ export const routes = [
                 props: true,
                 name: 'kanban'
             },
-            /* {
-                path: 'quotations',
-                component: HomeQuotation,
-                name: 'home-quotation'
-            }, */
-            {
-                path: 'products',
-                component: HomeProduct,
-                name: 'home-product'
-            },
             {
                 path: 'collabs',
                 component: HomeCollabs,
@@ -93,23 +93,44 @@ export const routes = [
         path: '/sales',
         component: HomeSales,
         redirect:'/sales/home',
+        meta: {requiresAuth:true},
         children:[
             {
                 path: 'home',
                 component: MainSales,
                 name: 'main-sales'
+            },
+            {
+                path: 'products',
+                component: HomeProduct,
+                name: 'home-product'
+            },
+            {
+                path: 'quotations',
+                component: HomeQuotation,
+                name: 'home-quotation'
+            },
+            {
+                path: 'customers',
+                component: HomeClient,
+                name: 'home-client'
+            },
+            {
+                path: 'funnels',
+                component: HomeFunnel,
+                name: 'home-funnel'
+            },
+            {
+                path: 'calls',
+                component: HomeCalls,
+                name: 'home-call'
+            },
+            {
+                path: 'calendars',
+                component: HomeCalendar,
+                name: 'home-calendar'
             }
         ]
-    },
-    {
-        path: '/list',
-        component: HomeList,
-        name: 'home-list'
-    },
-    {
-        path: '/owners',
-        component: HomeOwner,
-        name: 'home-owner'
     }
 ]
 
