@@ -39,9 +39,21 @@
             <div class="row g-2">
               <div class="col mb-0">
                 <label for="emailBasic" class="form-label">Tipo</label>
-                <select v-model="type" class="form-control">
+                <select v-model="type" class="form-select">
                   <option value="1">Registrado</option>
                   <option value="2">Observación</option>
+                </select>
+              </div>
+            </div>
+            <div class="row g-2">
+              <div class="col mb-0">
+                <label for="emailBasic" class="form-label">Nivel</label>
+                <select v-model="level" class="form-select">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
                 </select>
               </div>
             </div>
@@ -65,7 +77,8 @@
                 amount: 0,
                 term:'',
                 products:[],
-                type:0
+                type:0,
+                level:0 
             }
         },
         methods:{  
@@ -76,6 +89,7 @@
                 fd.append('amount',this.amount)
                 fd.append('term',this.term)
                 fd.append('type',this.type)
+                fd.append('level',this.level)
 
                 axios.post('/api/insertProduct', fd)
                 .then(res =>{

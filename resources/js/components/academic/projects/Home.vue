@@ -7,58 +7,6 @@
                 <div class="col-xl">
                   <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                      <h5 class="mb-0">Buscador de Proyectos en Marcha</h5>
-                    </div>
-                    <div class="card-body">
-                      <form>
-                        <input type="text" class="form-control mb-3" />
-                        
-                        <div class="table-responsive text-nowrap">
-                          <!-- <table class="table">
-                            <thead class="table-primary">
-                              <tr class="text-nowrap">
-                                <th>Clientes</th>
-                                <th>Dirección Académica</th>
-                                <th>Calidad Académica</th>
-                              </tr>
-                            </thead>
-                            <tbody class="table-border-bottom-0">
-                              <tr v-for="project in projects">
-                                <td><strong>{{project.customer.name}}</strong></td>
-                                <td>{{project.customer.career}}</td>
-                                <td>{{project.customer.university}}</td>
-                                <td><button type="button" class="btn btn-primary">
-                                Grupo
-                                </button>
-                                </td>
-                                <td>
-                                    <a @click="showProgress(project.progress)" href="javascript:void(0)"  data-bs-toggle="modal" data-bs-target="#progressModal">
-                                    {{ project.progress.reduce((acc, item)=> acc+item.percentage, 0) }} %
-                                    </a>    
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" :style="{width: project.progress.reduce((acc, item)=> acc+item.percentage, 0) + '%' }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                        </div>
-                                    </div>
-                                    <p v-for="percent in project.progress">{{ percent.percentage }}</p>
-                                </td>
-                                <td>{{ project.deadline }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="top" data-bs-html="true" title="Agregar tareas" data-bs-original-title="<i class='bx bx-bell bx-xs' ></i> <span>Agregar tareas</span>">
-                                    <i class='bx bx-plus bx-xs' ></i>
-                                    </button>
-                                </td>
-                                <td style="white-space: pre-line">{{product.description}}</td>
-                                <td>{{product.term}}</td>
-                                <td></td>
-                              </tr>
-                            </tbody>
-                          </table> -->
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                  <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
                       <h5 class="mb-0">Seguimiento de Proyectos</h5>
                     </div>
                     <div class="card-body">

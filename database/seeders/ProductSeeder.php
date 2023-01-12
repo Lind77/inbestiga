@@ -19,14 +19,16 @@ class ProductSeeder extends Seeder
             'title' => 'Inbestiga',
             'description' => 'Inbestiga is the best product ever created.',
             'term' => '0',
-            'amount' => 0
+            'amount' => 0,
+            'type' => 1
         ]);
 
         DB::table('products')->insert([
             'title' => 'Proyecto de Tesis',
             'description' => '-',
             'term' => '1 mes',
-            'amount' => 1000
+            'amount' => 1000,
+            'type' => 2
         ]);
     }
 }

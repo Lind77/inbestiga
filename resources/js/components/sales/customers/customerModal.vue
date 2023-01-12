@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="customerModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -39,7 +39,7 @@
             <div class="row g-2">
                 <div class="col mb-0">
                 <label for="emailBasic" class="form-label">Grado</label>
-                <select v-model="grade" class="form-control">
+                <select v-model="grade" class="form-select">
                     <option value="1">Pregrado</option>
                     <option value="2">Maestría</option>
                     <option value="3">Doctorado</option>
@@ -69,7 +69,7 @@ export default {
         }
     },
     methods:{  
-        insertProduct(){
+        insertCustomer(){
             const fd = new FormData()
             fd.append('name',this.name)
             fd.append('cell',this.cell)
@@ -80,7 +80,7 @@ export default {
             axios.post('/api/insertCustomer', fd)
             .then(res =>{
                 console.log(res)
-                //this.$emit('getAllProducts')
+                this.$emit('getAllCustomers')
                 document.getElementById('close-insert-customer').click()
             })
             .catch(err =>{

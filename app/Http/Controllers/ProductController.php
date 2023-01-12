@@ -45,7 +45,8 @@ class ProductController extends Controller
             'description' => $request->get('description'),
             'amount' => $request->get('amount'),
             'term' => $request->get('term'),
-            'type' => $request->get('type')
+            'type' => $request->get('type'),
+            'level' => $request->get('level')
         ]);
 
         return response()->json([

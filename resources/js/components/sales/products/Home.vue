@@ -1,8 +1,7 @@
 <template>
             <!-- Content -->
-
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4">Productos <span class="badge bg-label-primary me-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#basicModal">+</span></h4>
+              <h4 class="fw-bold">Productos <span class="badge bg-label-primary me-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#basicModal">+</span></h4>
               <div class="row">
               <div class="col-xl">
                 <div class="card mb-4">
@@ -16,8 +15,8 @@
                       <div class="row">
                         <div class="col-md-12 col-xl-12" v-for="product in products">
                         <div class="card bg-primary text-white mb-3">
-                          <div class="card-header" v-if="product.type == 1">Registrado</div>
-                          <div class="card-header" v-else>Observación</div>
+                          <div class="card-header" v-if="product.type == 2">Registrado</div>
+                          <div class="card-header" v-else-if="product.type == 3">Observación</div>
                           <div class="card-body">
                             <h5 class="card-title text-white h4">{{ product.title }} 
                               <span @click="addActivity(product.id)" class="badge badge-center bg-success my-1 cursor-pointer">+</span>  
@@ -27,20 +26,17 @@
                               <div class="col-md-4 col-xl-4" v-for="activity in product.fixed_activities">
                                 <div class="card mt-3 bg-success">
                                   <div class="card-body text-capitalize h5 text-white">
-                                    <p class="h5 text-white">{{ activity.title }} 
+                                    <p class="h5 text-white mb-0">{{ activity.title }} 
                                       <span @click="addTask(activity.id)" class="badge badge-center bg-warning my-1 cursor-pointer">+</span>
                                     </p>
-                                    <input :id="`taskInput${activity.id}`" v-on:keyup.enter="insertTask(activity.id)" v-model="taskTitle" class="form-control form-control-sm d-none mt-3 w-75" type="text" placeholder="Inserte Tarea"/>
+                                    <input :id="`taskInput${activity.id}`" v-on:keyup.enter="insertTask(activity.id)" v-model="taskTitle" class="form-control form-control-sm d-none mt-1 mb-1 w-75" type="text" placeholder="Inserte Tarea"/>
                                     <p v-for="task in activity.fixed_tasks" class="bg-warning rounded p-1 py-1 cursor-pointer h6 text-white">
                                       {{ task.title }}
-                                      
                                     </p>
-                                    
                                   </div>
                                 </div>
                                 </div>
                               </div>  
-                             
                           </div>
                         </div>
                       </div>
@@ -142,10 +138,15 @@
           })
         },
         getAllProducts(){
+            this.$swal({
+                  title: 'Cargando ...',
+                  showConfirmButton: false,
+            });
             axios.get('/api/getAllProducts')
             .then(res =>{
               console.log(res)
               this.products = res.data
+              this.$swal.close()
             })
             .catch(err =>{
               console.log(err.response.data)

@@ -25,7 +25,8 @@
           <div class="card-title d-flex align-items-center justify-content-between mb-0">
             <h5 class="text-white mb-0">{{ activity.title }}</h5>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" data-bs-toggle="modal" data-bs-target="#progressModal" v-bind:checked="activity.progress[0].percentage == 100" @click="selectActivity(activity)">
+              <input class="form-check-input" type="checkbox" value="" v-bind:checked="activity.progress[0].percentage == 100" @click="selectActivity(activity)">
+              
             </div>           
           </div>
           </div>
@@ -101,6 +102,25 @@ export default{
           this.percentageActivities = sumTasks
         },
         selectActivity(activity){
+          if(activity.title == 'Reunión con dirección académica'){
+            $('#progressModal').modal('show')
+          }else{
+            const fd = new FormData()
+                fd.append('id', activity.id)
+                fd.append('comment', 'Completado')
+
+                axios.post('/api/updateProgress', fd)
+                .then(res =>{
+                    console.log(res)
+                    this.getActivities()
+                    this.comment = ''
+                })
+                .catch(err =>{
+                    if(err.response){
+                        console.log(err.response.data)
+                    }
+                })
+          }
           this.activity_selected = activity
         },
         addProgress(progress, e){

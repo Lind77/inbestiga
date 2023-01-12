@@ -82,15 +82,8 @@ export default {
 
                 axios.post('/api/insertEndTimeTask', fd)
                 .then(res =>{
-                    console.log(res)
+                    console.log('seteando task en completed')
                     this.taskSelected = res.data.task
-                    this.showCronometer = false
-                    var cantStartTime = Date.parse(this.taskSelected.progress[0].start_time)
-                    var cantEndTime = Date.parse(this.taskSelected.progress[0].end_time)
-
-                    var totalTime = cantEndTime - cantStartTime
-
-                    this.stopWatch = totalTime/1000+'s'
                 })
                 .catch(err =>{
                     console.log(err)
@@ -112,7 +105,7 @@ export default {
             }
         },
         calcStopwatch(){
-            if(this.task.status == 2){
+            if(this.task.status == 2 ){
                 var cantStartTime = Date.parse(this.taskSelected.progress[0].start_time)
                 var cantEndTime = Date.parse(this.taskSelected.progress[0].end_time)
 

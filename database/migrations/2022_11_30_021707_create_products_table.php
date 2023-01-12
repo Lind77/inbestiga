@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('term',500);
             $table->double('amount',500);
             $table->tinyInteger('type')->nullable();
+            $table->tinyInteger('level')->nullable();
             $table->timestamps();
         });
     }

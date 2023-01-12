@@ -11,7 +11,7 @@
           <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile" aria-selected="false">Lista</button>
         </li>
       </ul>
-      <div class="tab-content">
+      <div class="tab-content p-0">
         <div class="tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
           
             <div class="card-header d-flex justify-content-between align-items-center">
