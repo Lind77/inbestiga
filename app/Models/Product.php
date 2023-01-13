@@ -15,4 +15,7 @@ class Product extends Model
         return $this->hasMany('App\Models\FixedActivity');
     }
 
+    public function prices(){
+        return $this->hasMany('App\Models\Price');
+    }
 }

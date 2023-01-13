@@ -23,12 +23,12 @@ class ProductSeeder extends Seeder
             'type' => 1
         ]);
 
-        DB::table('products')->insert([
+        /* DB::table('products')->insert([
             'title' => 'Proyecto de Tesis',
             'description' => '-',
             'term' => '1 mes',
             'amount' => 1000,
             'type' => 2
-        ]);
+        ]); */
     }
 }

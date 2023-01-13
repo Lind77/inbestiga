@@ -15,7 +15,7 @@ class FixedTaskSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('fixed_tasks')->insert([
+        /* DB::table('fixed_tasks')->insert([
             'fixed_activity_id' => 5,
             'title' => 'Buscar información'
         ]);
@@ -28,7 +28,7 @@ class FixedTaskSeeder extends Seeder
         DB::table('fixed_tasks')->insert([
             'fixed_activity_id' => 6,
             'title' => 'Marco de Referencia'
-        ]);
+        ]); */
         
     }
 }

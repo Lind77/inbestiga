@@ -66,11 +66,32 @@
                   </div>
                 </div>
                 </div>
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                  <div class="mb-3">
+                  <label class="form-label" for="basic-default-company">Nivel</label>
+                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" v-model="level">
+                    <option selected="">Seleccione un nivel</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-lg-6">
+                  <div class="mb-3">
+                  <label class="form-label" for="basic-default-company">Precio</label>
+                  {{ price[0]? 'S./ '+price[0].price : '' }}
+                  </div>
+                </div>
+                </div>
                 <h5 class="mb-4">Productos</h5>
                 <input type="text" id="inputSearch" autocomplete="off" class="form-control" @keyup="search"/>
                 <table class="table table-bordered mb-3">
                   <tr v-for="product in filtered_products">
-                    <td class="cursor-pointer" @click="addCart(product)">{{product.title}} - S./ {{product.amount}}</td>
+                    <td class="cursor-pointer" @click="addCart(product)">{{product.title}}</td>
                   </tr>
                 </table>
                 <div class="table-responsive text-nowrap">
@@ -89,7 +110,7 @@
                         <td>{{ product.title }}</td>
                         <td style="white-space: pre-line">{{ product.description }}</td>
                         <td>{{ product.term }}</td>
-                        <td>{{ product.amount }}</td>
+                        <td>S./ {{ product.amount[0].price }}</td>
                         <td><a @click="removeCart(product)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
                     </tbody>
@@ -131,7 +152,9 @@
         university:'',
         career:'',
         grade:0,
-        idQuotation:0
+        idQuotation:0,
+        level: 0,
+        price: []
       }
     },
     methods:{
@@ -161,12 +184,17 @@
         })
       },
       addCart(product){
+        product.amount = product.prices.filter(price => price.level == this.level)
         this.car_products.push(product)
         this.filtered_products = []
         const objWithIdIndex = this.products.findIndex((obj) => obj.id === product.id)
         this.products.splice(objWithIdIndex,1)
         document.getElementById('inputSearch').value = ''
         document.getElementById('inputSearch').focus()
+
+        this.price = product.prices.filter(price => price.level == this.level)
+      
+        
       },
       removeCart(product){
         const objWithIdIndex = this.products.findIndex((obj) => obj.id === product.id)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Price;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -18,7 +19,7 @@ class ProductController extends Controller
     {
         $products = Product::orderBy('id','desc')
                             ->where('id', '!=', 1)
-                            ->with(['fixedActivities','fixedActivities.fixedTasks'])->get();
+                            ->with(['fixedActivities','fixedActivities.fixedTasks','prices'])->get();
         return response()->json($products);
     }
 
@@ -40,6 +41,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
         $product = Product::create([
             'title' => $request->get('title'),
             'description' => $request->get('description'),
@@ -48,6 +50,17 @@ class ProductController extends Controller
             'type' => $request->get('type'),
             'level' => $request->get('level')
         ]);
+
+        $prices = json_decode($request->get('prices'));
+
+        foreach ($prices as $key=>$price) {
+            $price = Price::create([
+                'product_id' => $product->id,
+                'level' => $key+1,
+                'price' => $price
+            ]);
+        }
+        
 
         return response()->json([
             'msg' => 'success'

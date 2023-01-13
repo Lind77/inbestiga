@@ -39,7 +39,7 @@ class FixedActivitySeeder extends Seeder
             'type' => '0'
         ]);
 
-        DB::table('fixed_activities')->insert([
+        /* DB::table('fixed_activities')->insert([
             'product_id' => 2,
             'title' => 'Introducción',
             'type' => '1'
@@ -49,6 +49,6 @@ class FixedActivitySeeder extends Seeder
             'product_id' => 2,
             'title' => 'Marco Teórico',
             'type' => '1'
-        ]);
+        ]); */
     }
 }

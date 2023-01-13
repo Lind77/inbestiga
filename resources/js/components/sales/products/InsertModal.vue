@@ -26,9 +26,16 @@
             </div>
             <div class="row g-2">
                 <div class="col mb-0">
-                <label for="dobBasic" class="form-label">Monto</label>
-                <input type="number" v-model="amount" class="form-control" />
+                <label for="dobBasic" class="form-label">Precios</label>
               </div>
+                <div class="row" v-for="(price, index) in prices" :key="index">
+                  <div class="col-2">
+                    Nivel {{index+1}}
+                  </div>
+                  <div class="col-4">
+                    <input type="number" :placeholder="`Nivel ${index+1}`" v-model="prices[index]" class="form-control mt-1"/>
+                  </div>
+                </div>
             </div>
             <div class="row g-2">
               <div class="col mb-0">
@@ -47,13 +54,13 @@
             </div>
             <div class="row g-2">
               <div class="col mb-0">
-                <label for="emailBasic" class="form-label">Nivel</label>
+                <label for="emailBasic" class="form-label">Clasificación</label>
                 <select v-model="level" class="form-select">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
+                  <option value="1">Capítulo 1</option>
+                  <option value="2">Marco Teórico</option>
+                  <option value="3">Metodología</option>
+                  <option value="4">Resultados</option>
+                  <option value="5">Otros</option>
                 </select>
               </div>
             </div>
@@ -78,7 +85,14 @@
                 term:'',
                 products:[],
                 type:0,
-                level:0 
+                level:0,
+                prices: [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ] 
             }
         },
         methods:{  
@@ -89,7 +103,7 @@
                 fd.append('amount',this.amount)
                 fd.append('term',this.term)
                 fd.append('type',this.type)
-                fd.append('level',this.level)
+                fd.append('prices',JSON.stringify(this.prices))
 
                 axios.post('/api/insertProduct', fd)
                 .then(res =>{

@@ -3,26 +3,16 @@
         <h4 class="fw-bold py-3">Colaboradores</h4>
         <div class="card">
             <div class="card-header border-bottom">
-                <h5 class="card-title">Tabla de Colaboradores</h5>
+                <h5 class="card-title mb-0">Tabla de Colaboradores</h5>
             </div>
             <div class="card-datatable table-responsive">
-                <div
-                    id="DataTables_Table_0_wrapper"
-                    class="dataTables_wrapper dt-bootstrap5 no-footer"
-                >
+                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                     <div class="row mx-2 py-2">
                         <div class="col-md-2">
                             <div class="me-3">
-                                <div
-                                    class="dataTables_length"
-                                    id="DataTables_Table_0_length"
-                                >
-                                    <label
-                                        ><select
-                                            name="DataTables_Table_0_length"
-                                            aria-controls="DataTables_Table_0"
-                                            class="form-select"
-                                        >
+                                <div class="dataTables_length" id="DataTables_Table_0_length">
+                                    <label>
+                                        <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
                                             <option value="10">10</option>
                                             <option value="25">25</option>
                                             <option value="50">50</option>
@@ -91,41 +81,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="even">
-                                <td
-                                    class="control"
-                                    tabindex="0"
-                                    style="display: none"
-                                ></td>
+                            <tr class="even" v-for="owner in owners">
+                                <td class="control" tabindex="0" style="display: none"></td>
                                 <td class="sorting_1">
-                                    <div
-                                        class="d-flex justify-content-start align-items-center user-name"
-                                    >
+                                    <div class="d-flex justify-content-start align-items-center user-name">
                                         <div class="avatar-wrapper">
                                             <div class="avatar avatar-sm me-3">
-                                                <span
-                                                    class="avatar-initial rounded-circle bg-label-success"
-                                                    >VK</span
-                                                >
+                                                <span class="avatar-initial rounded-circle bg-label-success">VK</span>
                                             </div>
                                         </div>
                                         <div class="d-flex flex-column">
-                                            <a
-                                                href="app-user-view-account.html"
-                                                class="text-body text-truncate"
-                                                ><span class="fw-semibold"
-                                                    >Vladamir Koschek</span
-                                                ></a
-                                            ><small class="text-muted"
-                                                >vkoschek17@abc.net.au</small
-                                            >
+                                            <a href="app-user-view-account.html" class="text-body text-truncate"><span class="fw-semibold">{{ owner.name }}</span>
+                                                </a><small class="text-muted">vkoschek17@abc.net.au</small>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="badge bg-label-success"
-                                        >Equipo A</span
-                                    >
+                                    <span class="badge bg-label-success">{{ owner.team_id }}</span>
                                 </td>
                                 <td>
                                     <div class="d-inline-block text-nowrap">
@@ -169,6 +141,25 @@
     </div>
 </template>
 <script>
-export default {};
+export default {
+    data(){
+        return{
+            owners:[]
+        }
+    },
+    methods:{
+        getAllOwners(){
+            axios.get('/api/getAllOwners')
+            .then(res =>{
+                this.owners = res.data
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+        }
+    },
+    mounted(){
+        this.getAllOwners()
+    }
+}
 </script>
-<style lang=""></style>
