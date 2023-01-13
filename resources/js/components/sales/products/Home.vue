@@ -18,8 +18,11 @@
                           <div class="card-header" v-if="product.type == 2">Registrado</div>
                           <div class="card-header" v-else-if="product.type == 3">Observación</div>
                           <div class="card-body">
-                            <h5 class="card-title text-white h4">{{ product.title }} 
-                              <span @click="addActivity(product.id)" class="badge badge-center bg-success my-1 cursor-pointer">+</span>  
+                            <h5 class="card-title text-white h4">{{ product.title }}
+                              <div class="d-flex">
+                                <span @click="addActivity(product.id)" class="badge badge-center bg-success cursor-pointer">+</span>  
+                                <span class="badge badge-center bg-warning cursor-pointer" @click="insertTime(product.id)"><i class='bx bx-time'></i></span> 
+                              </div> 
                               <input :id="`smallInput${product.id}`" v-on:keyup.enter="insertActivity(product.id)" v-model="activityTitle" class="form-control form-control-sm d-none mt-3 w-50" type="text" placeholder="Inserte Actividad"/>
                             </h5>
                             <div class="row">
@@ -81,14 +84,16 @@
 
             <div class="content-backdrop fade"></div>
             <InsertModal @getAllProducts="getAllProducts"/>
+            <TimeModal :idActivity="idActivity"/>
             <!-- <ActivityModal @getAllProducts="getAllProducts" :activity="selectedActivity"/> -->
 </template>
   <script>
     import InsertModal from './InsertModal.vue'
     import ActivityModal from './ActivityModal.vue'
+    import TimeModal from './TimeModal.vue'
     
     export default{
-      components: { InsertModal, ActivityModal },
+      components: { InsertModal, ActivityModal, TimeModal },
       data(){
         return{
           products:[],
@@ -96,10 +101,15 @@
           showInput: false,
           showInputTask: false,
           activityTitle:'',
-          taskTitle:''        
+          taskTitle:'',
+          idActivity: 0        
         }
       },
       methods:{
+        insertTime(id){
+          this.idActivity = id
+          $('#timeModal').modal('show')
+        },
         addActivity(id){
           document.getElementById('smallInput'+id).classList.toggle('d-none')
           this.showInput = true

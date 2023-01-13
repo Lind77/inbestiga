@@ -44,9 +44,16 @@
 <script>
 import CardActivity from './CardActivity.vue'
 import CardTask from './CardTask.vue'
+import {useCounterStore} from '../../../../stores/UserStore'
 
 export default {
     components: { CardActivity, CardTask },
+    setup(){
+      const store = useCounterStore()
+      return{
+        store
+      }
+    },
     data(){
         return{
             project: [],
@@ -68,13 +75,12 @@ export default {
         },
         drop(e){
           e.preventDefault()
+          if(this.store.rol == 'Acad'){ 
           var data = e.dataTransfer.getData('text')
-          console.log(data)
           e.target.appendChild(document.getElementById(data))
-
           console.log(data)
-          if(e.target.id == 'doingArea'){
-            
+          }else{
+            alert('Usted no puede modificar las tareas')
           }
         }
     },

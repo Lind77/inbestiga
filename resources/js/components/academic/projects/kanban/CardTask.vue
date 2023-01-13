@@ -50,45 +50,45 @@ export default {
           e.dataTransfer.setData('text', e.target.id)
         },
         dragend(e){
-            console.log(e.path[1].id)
-            if(e.path[1].id == "doingArea"){
-                document.getElementById(e.target.id).classList.remove('bg-danger')
-                document.getElementById(e.target.id).classList.add('bg-warning')
-                this.showLocalTime()
+                if(e.path[1].id == "doingArea"){
+                    document.getElementById(e.target.id).classList.remove('bg-danger')
+                    document.getElementById(e.target.id).classList.add('bg-warning')
+                    this.showLocalTime()
 
-                const fd = new FormData();
+                    const fd = new FormData();
 
-                    fd.append("id_task", this.task.id)
-                    fd.append("owner", this.store.authUser[0].name)
-                    fd.append("start_time", new Date())
+                        fd.append("id_task", this.task.id)
+                        fd.append("owner", this.store.authUser[0].name)
+                        fd.append("start_time", new Date())
 
-                axios.post('/api/insertTimeTask', fd)
-                .then(res =>{
-                    console.log(res)
-                    this.taskSelected = res.data.task
-                })
-                .catch(err =>{
-                    console.log(err)
-                })
-            }
-            else if(e.path[1].id == "doneArea"){
-                document.getElementById(e.target.id).classList.remove('bg-warning')
-                document.getElementById(e.target.id).classList.add('bg-success')
+                    axios.post('/api/insertTimeTask', fd)
+                    .then(res =>{
+                        console.log(res)
+                        this.taskSelected = res.data.task
+                    })
+                    .catch(err =>{
+                        console.log(err)
+                    })
+                }
+                else if(e.path[1].id == "doneArea"){
+                    document.getElementById(e.target.id).classList.remove('bg-warning')
+                    document.getElementById(e.target.id).classList.add('bg-success')
 
-                const fd = new FormData();
+                    const fd = new FormData();
 
-                    fd.append("id_task", this.taskSelected.id)
-                    fd.append("end_time", new Date())
+                        fd.append("id_task", this.taskSelected.id)
+                        fd.append("end_time", new Date())
 
-                axios.post('/api/insertEndTimeTask', fd)
-                .then(res =>{
-                    console.log('seteando task en completed')
-                    this.taskSelected = res.data.task
-                })
-                .catch(err =>{
-                    console.log(err)
-                })
-            }
+                    axios.post('/api/insertEndTimeTask', fd)
+                    .then(res =>{
+                        console.log('seteando task en completed')
+                        this.taskSelected = res.data.task
+                    })
+                    .catch(err =>{
+                        console.log(err)
+                    })
+                }
+            
         }
     },
     computed:{
@@ -105,7 +105,7 @@ export default {
             }
         },
         calcStopwatch(){
-            if(this.task.status == 2 ){
+            if(this.taskSelected.status == 2 ){
                 var cantStartTime = Date.parse(this.taskSelected.progress[0].start_time)
                 var cantEndTime = Date.parse(this.taskSelected.progress[0].end_time)
 

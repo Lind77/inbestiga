@@ -12,6 +12,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TimeController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +51,8 @@ Route::get('/changeStatusActivity/{id}', [ActivityController::class, 'changeStat
 
 Route::post('/insertTimeTask', [TaskController::class, 'insertTimeTask']);
 Route::post('/insertEndTimeTask', [TaskController::class, 'insertEndTimeTask']);
+
+Route::post('/insertTimes', [TimeController::class, 'insertTimes']);
 
 
 Route::post('/insertQuotation', [QuotationController::class, 'store']);

@@ -110,7 +110,7 @@
                         <td>{{ product.title }}</td>
                         <td style="white-space: pre-line">{{ product.description }}</td>
                         <td>{{ product.term }}</td>
-                        <td>S./ {{ product.amount[0].price }}</td>
+                        <td>S./ {{ product.amount[0]? product.amount[0].price : product.amount }}</td>
                         <td><a @click="removeCart(product)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
                     </tbody>
@@ -135,15 +135,18 @@
           
         </div>
       </div>
+      <calcModal @addCartParaphrase="addCartParaphrase"/>
     </div>
 </template>
 <script>
   import List from './List.vue'
+  import calcModal from './calcModal.vue'
   export default{
-    components:{List},
+    components:{List, calcModal},
     data(){
       return{
         products:[],
+        selected_product:{},
         filtered_products:[],
         car_products:[],
         name: '',
@@ -183,7 +186,20 @@
           console.log(err.response.data)
         })
       },
+      addCartParaphrase(cost){
+        this.selected_product.amount = cost
+        this.car_products.push(this.selected_product)
+        this.filtered_products = []
+        const objWithIdIndex = this.products.findIndex((obj) => obj.id === 41)
+        this.products.splice(objWithIdIndex,1)
+        document.getElementById('inputSearch').value = ''
+        document.getElementById('inputSearch').focus()
+      },
       addCart(product){
+        if(product.id == 41){
+          this.selected_product = product
+          $('#calcModal').modal('show')
+        }else{
         product.amount = product.prices.filter(price => price.level == this.level)
         this.car_products.push(product)
         this.filtered_products = []
@@ -193,8 +209,7 @@
         document.getElementById('inputSearch').focus()
 
         this.price = product.prices.filter(price => price.level == this.level)
-      
-        
+        }
       },
       removeCart(product){
         const objWithIdIndex = this.products.findIndex((obj) => obj.id === product.id)

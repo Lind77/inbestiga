@@ -17,7 +17,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('id','desc')
+        $products = Product::orderBy('id','asc')
                             ->where('id', '!=', 1)
                             ->with(['fixedActivities','fixedActivities.fixedTasks','prices'])->get();
         return response()->json($products);
