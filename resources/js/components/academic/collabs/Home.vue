@@ -59,7 +59,7 @@
                                         </div>
                                         <div class="d-flex flex-column">
                                             <a href="app-user-view-account.html" class="text-body text-truncate"><span class="fw-semibold">{{ owner.name }}</span>
-                                                </a><small class="text-muted">vkoschek17@abc.net.au</small>
+                                                </a><small class="text-muted">{{ owner.email }}</small>
                                         </div>
                                     </div>
                                 </td>

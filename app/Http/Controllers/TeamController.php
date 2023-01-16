@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Team;
 use App\Http\Requests\StoreTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
+use App\Models\Project;
+use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
@@ -84,5 +86,16 @@ class TeamController extends Controller
     public function destroy(Team $team)
     {
         //
+    }
+
+    public function assignTeam(Request $request){
+        $project =  Project::find($request->get('project_id'));
+        $project->update([
+            'team_id' => $request->get('team_selected')
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }

@@ -43,16 +43,18 @@
       </div>
     </div>
     <ProgressModal :activity="activity_selected" :project_selected="project_selected" @getActivities="getActivities"/>
+    <TeamModal :project="project_selected" :activity="activity_selected" @getActivities="getActivities"/>
 </template>
 <script>
 //import moment from 'moment'
 import ProgressModal from './ProgressModal.vue'
 import CardTeam from './CardTeam.vue'
 import CardCustomer from './CardCustomer.vue'
+import TeamModal from './TeamModal.vue'
 
 export default{
     name:'OffCanvas',
-    components:{ CardTeam, CardCustomer, ProgressModal },
+    components:{ CardTeam, CardCustomer, ProgressModal, TeamModal },
     emits:['getAllProjects'],
     props:{
         project_selected: Object,
@@ -104,6 +106,8 @@ export default{
         selectActivity(activity){
           if(activity.title == 'Reunión con dirección académica'){
             $('#progressModal').modal('show')
+          }else if(activity.title == 'Asignar Equipo'){
+            $('#teamModal').modal('show')
           }else{
             const fd = new FormData()
                 fd.append('id', activity.id)

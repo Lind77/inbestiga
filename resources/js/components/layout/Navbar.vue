@@ -38,8 +38,8 @@
         <!-- User -->
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
           <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-            <div class="avatar avatar-online">
-              <span class="avatar-initial rounded-circle bg-primary">ib</span>
+            <div class="avatar avatar-online" v-if="store.authUser">
+              <span class="avatar-initial rounded-circle bg-primary">{{ store.authUser[0].name[0] }}</span>
             </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">

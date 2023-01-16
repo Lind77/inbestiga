@@ -62,12 +62,14 @@ Route::get('/getAllProjects',[ProjectController::class, 'index']);
 Route::get('/getProjectById/{id}', [ProjectController::class, 'show']);
 Route::post('/insertProject',[ProjectController::class, 'store']);
 Route::post('/changeStatusProject',[ProjectController::class, 'changeStatus']);
+Route::get('/updateQuality/{id}', [ProjectController::class, 'updateQuality']);
 
 Route::post('/updateProgress',[ProgressController::class, 'update']);
 
 Route::get('/getAllOwners', [OwnerController::class, 'index']);
 
 Route::get('/getAllTeams', [TeamController::class,'index']);
+Route::post('/assignTeam', [TeamController::class, 'assignTeam']);
 
 Route::get('/getAllCustomers', [CustomerController::class, 'index']);
 Route::post('/insertCustomer', [CustomerController::class, 'insertCustomer']);

@@ -1,35 +1,37 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">Kanban</h4>
-        <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center" v-if="project">
-                      <h5 class="mb-0">{{ project.title }}</h5>
-                    </div>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-md-4" id="todoArea" @drop="drop" @dragover="allowDrop">
-                          TO DO
-                        <div class="container-cards" v-for="activity in activities">
-                          <div v-if="activity.type != 0">
-                            <CardActivity :activity="activity"/>
+        <h4 class="fw-bold py-3">Kanban - {{ project.title }}</h4>
+        <div class="row">
+                        <div class="col-md-4 border border-danger rounded vh-100" id="todoArea" @drop="drop" @dragover="allowDrop">
+                          <div class="kanban-header fw-bold text-center">
+                            <h4>TO DO</h4>
+                          </div>
+                          <div class="container-cards">
+                            <div v-for="task in tasks">
+                              <div v-if="task.status == 0">
+                                <CardTask :task="task"/>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        
-                        </div>
-                        <div class="col-md-4" id="doingArea" @drop="drop" @dragover="allowDrop">
-                          DOING
-                          <div class="container-cards" v-for="activity in activities">
-                            <div v-for="task in activity.tasks">
+                        <div class="col-md-4 border border-warning rounded vh-100" id="doingArea" @drop="drop" @dragover="allowDrop">
+                          <div class="kanban-header fw-bold text-center">
+                            <h4>DOING</h4>
+                          </div>
+                          <div class="container-cards">
+                            <div v-for="task in tasks">
                               <div v-if="task.status == 1">
                                 <CardTask :task="task"/>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-4" id="doneArea" @drop="drop" @dragover="allowDrop">
-                          DONE
-                          <div class="container-cards" v-for="activity in activities">
-                            <div v-for="task in activity.tasks">
+                        <div class="col-md-4 border border-success rounded vh-100" id="doneArea" @drop="drop" @dragover="allowDrop">
+                          <div class="kanban-header fw-bold text-center">
+                            <h4>DONE</h4>
+                          </div>
+                          <div class="container-cards">
+                            <div v-for="task in tasks">
                               <div v-if="task.status == 2">
                                 <CardTask :task="task"/>
                               </div>
@@ -37,8 +39,6 @@
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
     </div>
 </template>
 <script>
@@ -58,6 +58,7 @@ export default {
         return{
             project: [],
             activities: [],
+            tasks:[],
             localTime: " ",
             seconds: " "
         }
@@ -68,6 +69,11 @@ export default {
             .then(res =>{
                 this.project = res.data[0]
                 this.activities = this.project.activities
+                this.activities.forEach((activity) =>{
+                  activity.tasks.forEach((task) =>{
+                    this.tasks.push(task)
+                  })
+                })
             })
         },
         allowDrop(e){
@@ -78,7 +84,6 @@ export default {
           if(this.store.rol == 'Acad'){ 
           var data = e.dataTransfer.getData('text')
           e.target.appendChild(document.getElementById(data))
-          console.log(data)
           }else{
             alert('Usted no puede modificar las tareas')
           }

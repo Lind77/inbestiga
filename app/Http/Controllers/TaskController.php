@@ -88,6 +88,9 @@ class TaskController extends Controller
     public function insertTimeTask(Request $request){
         //update status task
         $task = Task::find($request->get('id_task'));
+        
+        $activity = $task->activity;
+
         $task->update([
             'status' => 1
         ]);
@@ -99,12 +102,15 @@ class TaskController extends Controller
 
         return response()->json([
             'msg' => 'success',
-            'task' => $task
+            'task' => $task,
+            'activity' => $activity
         ]);
     }
 
     public function insertEndTimeTask(Request $request){
         $task = Task::find($request->get('id_task'));
+
+        $activity = $task->activity;
 
         $task->update([
             'status' => 2
@@ -117,7 +123,8 @@ class TaskController extends Controller
 
         return response()->json([
             'msg' => 'success',
-            'task' => $task
+            'task' => $task,
+            'activity' => $activity
         ]);
     }
 }

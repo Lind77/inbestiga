@@ -1,62 +1,75 @@
 <template>
-              <!-- Content -->
-  
-              <div class="container-xxl flex-grow-1 container-p-y">
-                <h4 class="fw-bold py-3 mb-4">Proyectos <span class="badge bg-label-primary me-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#projectModal">+</span></h4>
-                <div class="row">
-                <div class="col-xl">
-                  <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                      <h5 class="mb-0">Seguimiento de Proyectos</h5>
-                    </div>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-md-4" id="clientArea" @drop="drop" @dragover="allowDrop">
-                          Clientes
-                        <div class="container-cards" v-for="project in projects">
-                          <div v-if="project.status == 0">
-                            <CardProject :project="project" @click="showProject(project)"/>
-                          </div>
-                        </div>
-                        
-                        </div>
-                        <div class="col-md-4" id="directionArea" @drop="drop" @dragover="allowDrop">
-                          Dirección académica
-                          <div class="container-cards" v-for="project in projects">
-                            <div v-if="project.status == 1">
-                              <CardProject :project="project"/>
-                          </div>
-                          </div>
-                        </div>
-                        <div class="col-md-4" id="qualityArea" @drop="drop" @dragover="allowDrop">
-                          Calidad académica
-                          <div class="container-cards" v-for="project in projects">
-                            <div v-if="project.status == 2">
-                              <CardProject :project="project"  @click="showProject(project)"/>
-                          </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+  <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">Proyectos 
+      <span v-if="store.rol == 'AdminAcad'" class="badge bg-label-primary me-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#projectModal">+</span>
+    </h4>
+    <div class="row" v-if="store.rol == 'AdminAcad'">
+      <div class="col-xl">
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Seguimiento de Proyectos</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4" id="clientArea" @drop="drop" @dragover="allowDrop">
+                Clientes
+              <div class="container-cards" v-for="project in projects">
+                <div v-if="project.status == 0">
+                  <CardProject :project="project" @click="showProject(project)"/>
                 </div>
               </div>
+              
               </div>
-              <!-- / Content -->
+              <div class="col-md-4" id="directionArea" @drop="drop" @dragover="allowDrop">
+                Dirección académica
+                <div class="container-cards" v-for="project in projects">
+                  <div v-if="project.status == 1">
+                    <CardProject :project="project"/>
+                </div>
+                </div>
+              </div>
+              <div class="col-md-4" id="qualityArea" @drop="drop" @dragover="allowDrop">
+                Calidad académica
+                <div class="container-cards" v-for="project in projects">
+                  <div v-if="project.status == 2">
+                    <CardProject :project="project"  @click="showProject(project)"/>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" v-else>
+      <div class="col-md-4" v-for="project in projects">
+        <div class="card bg-primary text-white mb-3">
+          <div class="card-body">
+            <h4 class="card-title text-white">{{ project.title }}</h4>
+            <router-link class="btn btn-success btn-sm mt-2" :to="{name:'kanban', params:{ idProject: project.id }}">Ver Kanban</router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-              <CreateProject :customers="customers" @getAllProjects="getAllProjects" :teams="teams"/>
-              <TeamModal/>
-              <OffCanvas :project_selected="project_selected" @getAllProjects="getAllProjects"/>
+  <CreateProject :customers="customers" @getAllProjects="getAllProjects" :teams="teams"/>
+  <OffCanvas :project_selected="project_selected" @getAllProjects="getAllProjects"/>
   </template>
   <script>
-    
+    import {useCounterStore} from '../../../stores/UserStore'
     import CreateProject from './CreateProject.vue'
-    import TeamModal from './TeamModal.vue'
     import CardProject from './CardProject.vue'
     import OffCanvas from './OffCanvas.vue'
     
     export default{
-      components: { CreateProject, TeamModal, CardProject, OffCanvas },
+      setup(){
+      const store = useCounterStore()
+      return{
+        store
+      }
+      },
+      components: { CreateProject, CardProject, OffCanvas },
       data(){
         return{
           projects:[],

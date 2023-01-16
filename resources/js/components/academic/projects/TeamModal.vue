@@ -1,78 +1,95 @@
 <template>
     <div class="modal fade" id="teamModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel1">Grupo a cargo</h5>
-            <button
+                <h5 class="modal-title" id="exampleModalLabel2">Asignar equipo</h5>
+                <button
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-            ></button>
+                ></button>
             </div>
             <div class="modal-body">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>
-                                Nombre
-                            </th>
-                            <th>
-                                Rol
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(activity, key) in progress">
-                            <td>
-                                {{ key+1 }}.  {{ activity.title }}
-                            </td>
-                            <td>
-                                {{ activity.percentage }}%
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>    
+                <div class="row">
+                <div class="col mb-3">
+                    <label for="nameSmall" class="form-label">Proyecto</label>
+                    <p>{{ this.project.title }}</p>
+                    <label for="nameSmall" class="form-label">Equipo</label>
+                    <select v-model="team_selected" class="form-select">
+                        <option :value="team.id" v-for="team in teams">
+                            {{ team.name }}
+                        </option>
+                    </select>
+                </div>
+                </div>
+            </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                Salir
+                </button>
+                <button type="button" class="btn btn-primary" @click="assignTeam">Asignar</button>
+            </div>
             </div>
         </div>
         </div>
-    </div>
 </template>
 <script>
-    export default {
-        props:{
-            progress: Array
-        },
-        data(){
-            return{
-                title: '',
-                description: '',
-                amount: 0,
-                term:'',
-                products:[]
-            }
-        },
-        methods:{  
-            insertProduct(){
-                const fd = new FormData()
-                fd.append('title',this.title)
-                fd.append('description',this.description)
-                fd.append('amount',this.amount)
-                fd.append('term',this.term)
+import axios from 'axios'
 
-                axios.post('/api/insertProduct', fd)
+export default {
+    props:{
+        project: Object,
+        activity: Object
+    },
+    data(){
+        return{
+            team_selected: '',
+            teams:[]
+        }
+    },
+    methods:{
+        assignTeam(){
+            const fd =  new FormData()
+
+            fd.append('project_id', this.project.id)
+            fd.append('team_selected', this.team_selected)
+            axios.post('/api/assignTeam', fd)
+            .then(res =>{
+                const fd = new FormData()
+                fd.append('id', this.activity.id)
+                fd.append('comment', 'Completado')
+
+                axios.post('/api/updateProgress', fd)
                 .then(res =>{
-                    console.log(res)
-                    this.$emit('getAllProducts')
-                    document.getElementById('close-insert-product').click()
+                    this.$emit('getActivities')
                 })
                 .catch(err =>{
-                    console.log(err.response.data)
+                    if(err.response){
+                        console.log(err.response.data)
+                    }
                 })
-            }
+                $('#teamModal').modal('hide')
+            })
+            .catch(err =>{
+                console.error(err)
+            })
+
+        },
+        getAllTeams(){
+            axios.get('/api/getAllTeams')
+            .then(res =>{
+                this.teams = res.data
+            })
+            .catch(err =>{
+                console.error(err)
+            })
         }
+    },
+    mounted(){
+        this.getAllTeams()
     }
+
+}
 </script>

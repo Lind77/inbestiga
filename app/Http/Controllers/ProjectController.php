@@ -117,7 +117,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::where('id',$id)->with(['activities','activities.tasks','activities.tasks.progress'])->get();
+        $project = Project::where('id',$id)->with(['activities','activities.tasks','activities.tasks.progress', 'activities.tasks.activity'])->get();
         return response()->json($project);
     }
 
@@ -164,5 +164,17 @@ class ProjectController extends Controller
         return response()->json([
             'msg' => 'success'
         ]);
-    }  
+    }
+    
+    public function updateQuality($id){
+        $project = Project::find($id);
+
+        $project->update([
+            'status' => 2
+        ]);
+        
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
 }

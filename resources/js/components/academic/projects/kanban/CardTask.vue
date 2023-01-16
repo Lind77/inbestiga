@@ -1,8 +1,13 @@
 <template>
-    <div :class="`card ${bgCard} p-2 mt-2 w-100 text-white`" draggable="true" @dragstart="drag" @dragend="dragend" :id="`task${taskSelected.id}`">
+    <div class="card bg-light p-2 mt-2 w-100 text-secondary cursor-pointer" draggable="true" @dragstart="drag" @dragend="dragend" :id="`task${taskSelected.id}`">
+        <div class="d-flex justify-content-between flex-wrap align-items-center mb-2 pb-1">
+            <div class="item-badges" v-if="taskSelected.activity">
+                <div class="badge rounded-pill bg-label-primary"> {{ taskSelected.activity.title }}</div>
+            </div>
+        </div>
             {{ taskSelected.title }}
         <div v-if="taskSelected.progress && showCronometer== true && taskSelected.status == 1">
-            <p>{{ taskSelected.progress[0].owner }} - {{ formattedDate }} - {{ cronometer }}</p>
+            <p class="mb-0">{{ taskSelected.progress[0].owner }} - {{ formattedDate }} - {{ cronometer }}</p>
         </div>
         <div v-else-if="taskSelected.status == 2">
             <p>{{ taskSelected.progress[0].owner }} - {{ formattedDate }} - {{ calcStopwatch }}</p>
@@ -51,8 +56,6 @@ export default {
         },
         dragend(e){
                 if(e.path[1].id == "doingArea"){
-                    document.getElementById(e.target.id).classList.remove('bg-danger')
-                    document.getElementById(e.target.id).classList.add('bg-warning')
                     this.showLocalTime()
 
                     const fd = new FormData();
@@ -63,16 +66,14 @@ export default {
 
                     axios.post('/api/insertTimeTask', fd)
                     .then(res =>{
-                        console.log(res)
                         this.taskSelected = res.data.task
+                        this.taskSelected.activity = res.data.activity
                     })
                     .catch(err =>{
                         console.log(err)
                     })
                 }
                 else if(e.path[1].id == "doneArea"){
-                    document.getElementById(e.target.id).classList.remove('bg-warning')
-                    document.getElementById(e.target.id).classList.add('bg-success')
 
                     const fd = new FormData();
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Owner;
 use App\Http\Requests\StoreOwnerRequest;
 use App\Http\Requests\UpdateOwnerRequest;
+use App\Models\User;
 
 class OwnerController extends Controller
 {
@@ -15,7 +16,7 @@ class OwnerController extends Controller
      */
     public function index()
     {
-        $owners = Owner::all();
+        $owners = User::role('Acad')->get();
         return response()->json($owners);
     }
 
