@@ -39,7 +39,11 @@ import HomeTeams from '../components/academic/teams/Home.vue'
 // Área Académica - Colaborators
 import HomeCollabs from '../components/academic/collabs/Home.vue'
 
+// Área Administrativa del Sistema
+import HomeAdmin from '../components/admin/Home.vue'
+import MainAdmin from '../components/admin/Main.vue'
 
+import UsersAdmin from '../components/admin/Users.vue'
 
 export const routes = [
     {
@@ -129,6 +133,24 @@ export const routes = [
                 path: 'calendars',
                 component: HomeCalendar,
                 name: 'home-calendar'
+            }
+        ]
+    },
+    {
+        path: '/admin',
+        component: HomeAdmin,
+        redirect:'/admin/home',
+        meta: {requiresAuth:true},
+        children:[
+            {
+                path: 'home',
+                component:  MainAdmin,
+                name: 'main-admin'
+            },
+            {
+                path: 'users-admin',
+                component:  UsersAdmin,
+                name: 'users-admin'
             }
         ]
     }

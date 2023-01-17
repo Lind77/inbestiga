@@ -32,7 +32,7 @@
                 Calidad académica
                 <div class="container-cards" v-for="project in projects">
                   <div v-if="project.status == 2">
-                    <CardProject :project="project"  @click="showProject(project)"/>
+                    <CardProject :project="project"  @getAllProjects="getAllProjects"/>
                 </div>
                 </div>
               </div>

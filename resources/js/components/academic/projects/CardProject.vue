@@ -30,6 +30,7 @@
             axios.get(`/api/updateQuality/${this.project.id}`)
             .then(res =>{
                 console.log(res)
+                this.$emit('getAllProjects')
             })
             .catch(err =>{
                 console.log(err)

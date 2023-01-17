@@ -60,31 +60,18 @@
       <!-- Menú departamento académico -->
       <ul class="menu-inner py-1" v-if="store.rol == 'Admin'">
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
-          <router-link :to="{name:'main-acad'}" class="menu-item">
+          <router-link :to="{name:'main-admin'}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-home"></i>
               <div data-i18n="Form Layouts">Inicio</div>
             </div>
           </router-link>
-          <router-link :to="{name:'home-project'}" class="menu-item">
+          <router-link :to="{name:'users-admin'}" class="menu-item">
             <div class="menu-link">
-              <i class="menu-icon tf-icons bx bx-pie-chart"></i>
-              <div data-i18n="Form Layouts">Proyectos</div>
+              <i class="menu-icon tf-icons bx bx-user"></i>
+              <div data-i18n="Form Layouts">Usuarios</div>
             </div>
           </router-link>
-          <router-link :to="{name:'home-collabs'}" class="menu-item">
-          <div class="menu-link">
-            <i class="menu-icon tf-icons bx bx-user"></i>
-            <div data-i18n="Form Layouts">Colaboradores</div>
-          </div>
-        </router-link>
-
-        <router-link :to="{name:'home-teams'}" class="menu-item">
-          <div class="menu-link">
-            <i class="menu-icon tf-icons bx bx-group"></i>
-            <div data-i18n="Form Layouts">Teams</div>
-          </div>
-        </router-link>
       </ul>
 
       <ul class="menu-inner py-1" v-if="store.rol == 'AdminAcad'">
