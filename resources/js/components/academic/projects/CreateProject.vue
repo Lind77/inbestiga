@@ -48,7 +48,7 @@
                 <div class="row g-2">
                     <div class="col mb-0">
                     <label for="emailBasic" class="form-label">Nivel</label>
-                    <select v-model="level">
+                    <select v-model="level" class="form-select">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>

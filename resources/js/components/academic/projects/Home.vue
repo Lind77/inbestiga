@@ -57,12 +57,15 @@
 
   <CreateProject :customers="customers" @getAllProjects="getAllProjects" :teams="teams"/>
   <OffCanvas :project_selected="project_selected" @getAllProjects="getAllProjects"/>
-  </template>
-  <script>
+  <QualityModal/>
+</template>
+
+<script>
     import {useCounterStore} from '../../../stores/UserStore'
     import CreateProject from './CreateProject.vue'
     import CardProject from './CardProject.vue'
     import OffCanvas from './OffCanvas.vue'
+    import QualityModal from './QualityModal.vue'
     
     export default{
       setup(){
@@ -71,7 +74,7 @@
         store
       }
       },
-      components: { CreateProject, CardProject, OffCanvas },
+      components: { CreateProject, CardProject, OffCanvas, QualityModal },
       data(){
         return{
           projects:[],

@@ -85,4 +85,8 @@ class OwnerController extends Controller
     {
         //
     }
+
+    public function verifyOwner($id){
+        return $id;
+    }
 }

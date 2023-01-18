@@ -2,7 +2,7 @@
     <div class="card bg-light p-2 mt-2 w-100 text-secondary cursor-pointer" draggable="true" @dragstart="drag" @dragend="dragend" :id="`task${taskSelected.id}`">
         <div class="d-flex justify-content-between flex-wrap align-items-center mb-2 pb-1">
             <div class="item-badges" v-if="taskSelected.activity">
-                <div class="badge rounded-pill bg-label-primary"> {{ taskSelected.activity.title }}</div>
+                <div class="badge rounded-pill bg-label-primary" :title="taskSelected.activity.title"> {{ taskSelected.activity.title.substring(0,15)+ '...' }}</div>
             </div>
         </div>
             {{ taskSelected.title }}
@@ -53,6 +53,13 @@ export default {
         drag(e){  
           this.visible =  true
           e.dataTransfer.setData('text', e.target.id)
+          axios.get(`/api/verifyOwner/${e.target.id}`)
+          .then(res =>{
+            console.log(res.data)
+          })
+          .catch(err =>{
+            console.log(err)
+          })
         },
         dragend(e){
                 if(e.path[1].id == "doingArea"){

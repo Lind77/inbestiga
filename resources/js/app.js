@@ -20,7 +20,7 @@ import { createPinia } from 'pinia'
 
 import VueAxios from 'vue-axios'
 
-import LaravelPermissionToVueJS from 'laravel-permission-to-vuejs'
+import VueApexCharts from 'vue3-apexcharts'
 
 function loggedIn(){
     return localStorage.getItem('token')
@@ -67,9 +67,9 @@ router.beforeEach((to, from, next) => {
 
 
   const pinia = createPinia()
-
   const app = createApp(App)
 
+  app.use(VueApexCharts)
   app.use(VueSweetalert2)
   app.use(pinia)
   app.use(router)

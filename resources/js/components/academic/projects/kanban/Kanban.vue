@@ -2,14 +2,14 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3">Kanban - {{ project.title }} - {{ secondsFormatted }}</h4>
         <h5>Porcentaje de avance</h5>
-        <a href="javascript:void(0)">15%</a>
+        <a href="javascript:void(0)">{{ percentAcad +15 }}%</a>
         <div class="progress mb-3">
           <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated shadow-none" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
           <div class="progress-bar bg-success progress-bar-striped progress-bar-animated shadow-none" role="progressbar" :style="{width: percentAcad + '%' }" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
          <!--  <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated shadow-none" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div> -->
         </div>
         <div class="row">
-          <div class="col-md-4 border border-danger rounded vh-100" id="todoArea" @drop="drop" @dragover="allowDrop">
+          <div class="col-md-4 border border-danger rounded pb-3" id="todoArea" @drop="drop" @dragover="allowDrop">
             <div class="kanban-header fw-bold text-center">
               <h4>TO DO</h4>
             </div>
@@ -21,7 +21,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4 border border-warning rounded vh-100" id="doingArea" @drop="drop" @dragover="allowDrop">
+          <div class="col-md-4 border border-warning rounded pb-3" id="doingArea" @drop="drop" @dragover="allowDrop">
             <div class="kanban-header fw-bold text-center">
               <h4>DOING</h4>
             </div>
@@ -33,7 +33,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4 border border-success rounded vh-100" id="doneArea" @drop="drop" @dragover="allowDrop">
+          <div class="col-md-4 border border-success rounded pb-3" id="doneArea" @drop="drop" @dragover="allowDrop">
             <div class="kanban-header fw-bold text-center">
               <h4>DONE</h4>
             </div>
@@ -136,3 +136,8 @@ export default {
     }
 }
 </script>
+<style>
+.vh-75{
+  height: 75vh;
+}
+</style>

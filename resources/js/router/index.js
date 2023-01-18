@@ -29,6 +29,7 @@ import MainAcad from '../components/academic/Main.vue'
 // Área Académica - Proyectos
 import HomeProject  from '../components/academic/projects/Home.vue'
 import Kanban from '../components/academic/projects/kanban/Kanban.vue'
+import UserAcad from '../components/academic/UserAcad.vue'
 
 // Área Acádemica - Productos
 import HomeProduct from '../components/sales/products/Home.vue'
@@ -90,6 +91,12 @@ export const routes = [
                 path: 'teams',
                 component: HomeTeams,
                 name: 'home-teams'
+            },
+            {
+                path: 'user/:idUser',
+                component: UserAcad,
+                props: true,
+                name: 'user-acad'
             }
 
         ]

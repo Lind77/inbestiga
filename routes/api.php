@@ -44,6 +44,7 @@ Route::post('/createUser', [UserController::class, 'createUser']);
 Route::get('/getAllUsers', [UserController::class, 'getAllUsers']);
 Route::get('/deleteUser/{id}', [UserController::class, 'deleteUser']);
 Route::post('/assignTeamUser', [UserController::class, 'assignTeamUser']);
+Route::get('/getUserData/{id}', [UserController::class, 'getUserData']);
 
 Route::get('/getAllQuotations',[QuotationController::class, 'index']);
 
@@ -75,6 +76,7 @@ Route::get('/updateQuality/{id}', [ProjectController::class, 'updateQuality']);
 Route::post('/updateProgress',[ProgressController::class, 'update']);
 
 Route::get('/getAllOwners', [OwnerController::class, 'index']);
+Route::get('/verifyOwner/{id}', [OwnerController::class, 'verifyOwner']);
 
 Route::get('/getAllTeams', [TeamController::class,'index']);
 Route::post('/assignTeam', [TeamController::class, 'assignTeam']);

@@ -11,11 +11,8 @@ class Progress extends Model
 
     protected $fillable = ['progressable_id','progressable_type','comment','percentage','owner','start_time', 'end_time'];
 
-    public function activity(){
-        return $this->morphedByMany('App\Models\Activity', 'progressable');
-    }
-
-    public function task(){
-        return $this->morphedByMany('App\Models\Task', 'progressable');
+    public function progressable()
+    {
+        return $this->morphTo();
     }
 }

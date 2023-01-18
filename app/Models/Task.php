@@ -17,7 +17,7 @@ class Task extends Model
     }
 
     public function progress(){
-        return $this->morphMany('App\Models\Progress', 'progressable');
+        return $this->morphOne('App\Models\Progress', 'progressable');
     }
 
     public function projects(){

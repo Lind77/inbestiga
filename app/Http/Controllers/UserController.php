@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Memoir;
+use App\Models\Progress;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -65,5 +66,14 @@ class UserController extends Controller
         return response()->json([
             'msg' => 'success'
         ]);
+    }
+
+    public function getUserData($id){
+        $user = User::where('id',$id)->with(['memoir','memoir.team'])->get();
+        $progress = Progress::where('owner', '=', $user[0]->name)->with(['progressable','progressable.activity'])->get();
+        return response()->json([
+            'user' => $user,
+            'progress' => $progress
+        ]);;
     }
 }

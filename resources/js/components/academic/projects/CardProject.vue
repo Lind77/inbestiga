@@ -6,8 +6,9 @@
     <div class="card-body">
         <div class="h6 text-white" v-if="project.team">Equipo {{ project.team.name }}</div>
         <h4 class="card-title text-white m-0">{{ project.title }}</h4>
-        <router-link v-if="this.project.status == 1" class="btn btn-primary btn-sm mt-2" :to="{name:'kanban', params:{ idProject: project.id }}">Ver Kanban</router-link>
+            <router-link v-if="this.project.status == 1" class="btn btn-primary btn-sm mt-2" :to="{name:'kanban', params:{ idProject: project.id }}">Ver Kanban</router-link>
         <div v-if="this.project.status == 1" class="btn btn-primary btn-sm mt-2 ms-1" @click="updateQuality">Listo</div>
+        <div v-if="this.project.status == 2" class="btn btn-info btn-sm mt-2 ms-1" @click="pointsQual">Indicadores de Calidad</div>
     </div>
     </div>
     
@@ -23,7 +24,10 @@
         props:{
             project: Object
         },
-        methods:{         
+        methods:{      
+        pointsQual(){
+            $('#qualityModal').modal('show')
+        },   
         drag(e){
           e.dataTransfer.setData('text', e.target.id)
         },
