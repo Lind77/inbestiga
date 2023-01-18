@@ -150,6 +150,7 @@ export default {
                 console.log(res.data.memoir)
                 this.$router.push({path:`${res.data.memoir.area}/home`})
             }).catch((err) => {
+                console.log(err)
                 this.errors = err.response.data.errors
             });
         }

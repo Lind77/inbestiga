@@ -16,7 +16,7 @@ class OwnerController extends Controller
      */
     public function index()
     {
-        $owners = User::role('Acad')->get();
+        $owners = User::role('Acad')->with(['memoir','memoir.team'])->get();
         return response()->json($owners);
     }
 

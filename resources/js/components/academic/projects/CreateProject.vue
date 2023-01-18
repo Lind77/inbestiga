@@ -47,6 +47,18 @@
                 </div>
                 <div class="row g-2">
                     <div class="col mb-0">
+                    <label for="emailBasic" class="form-label">Nivel</label>
+                    <select v-model="level">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="row g-2">
+                    <div class="col mb-0">
                     <label for="emailBasic" class="form-label">Deadline</label>
                     <input type="date" v-model="deadline" class="form-control" />
                     </div>
@@ -77,6 +89,7 @@
                 team_id: 0,
                 customer_id:0,
                 deadline: null,
+                level:0,
                 amount: 0,
                 term:'',
                 product: '',
@@ -108,6 +121,7 @@
                 fd.append('product_id',this.product_id)
                 fd.append('customer_id',this.customer_id)
                 fd.append('deadline',this.deadline)
+                fd.append('level',this.level)
 
                 axios.post('/api/insertProject', fd)
                 .then(res =>{

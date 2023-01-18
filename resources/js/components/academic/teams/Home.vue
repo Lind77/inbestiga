@@ -5,10 +5,17 @@
         <div class="row">
             <div class="col-md-4" v-for="team in teams">
                 <div class="card bg-primary text-white mb-3">
-                <div class="card-body">
-                    <h5 class="card-title text-white">Equipo {{team.name}}</h5>
+                    <div class="card-body">
+                        <h5 class="card-title text-white">Equipo {{team.name}}</h5>    
+                        <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
+                            <div v-for="memoir in team.memoirs">
+                                <li  class="avatar avatar-sm pull-up" :title="memoir.user.name">
+                                <span class="avatar-initial rounded-circle bg-primary">{{ memoir.user.name[0] }}</span>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>

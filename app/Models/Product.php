@@ -18,4 +18,8 @@ class Product extends Model
     public function prices(){
         return $this->hasMany('App\Models\Price');
     }
+
+    public function times(){
+        return $this->hasMany('App\Models\Time');
+    }
 }

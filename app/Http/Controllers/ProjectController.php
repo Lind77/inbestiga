@@ -11,6 +11,7 @@ use App\Models\ProcessProject;
 use App\Models\Product;
 use App\Models\Progress;
 use App\Models\Task;
+use App\Models\Time;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -22,7 +23,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::with(['customer','activities','activities.progress'])->get();
+        $projects = Project::with(['customer','activities','activities.progress','team'])->get();
     
         return $projects;
     }
@@ -51,7 +52,8 @@ class ProjectController extends Controller
         'team_id' => null,
         'deadline' => $request->get('deadline'),
         'status' => 0,
-        'product_id' => $request->get('product_id')
+        'product_id' => $request->get('product_id'),
+        'level' => $request->get('level')
        ]);
 
        //Traer actividades de la empresa por default
@@ -117,8 +119,25 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::where('id',$id)->with(['activities','activities.tasks','activities.tasks.progress', 'activities.tasks.activity'])->get();
-        return response()->json($project);
+        $level = 3;
+
+        $times = Time::where('product_id', '<', 34)->where('level', '=', $level)->get();
+
+        $total_mintime = 0;
+        $total_maxtime = 0;
+
+        foreach ($times as $time) {
+            $total_mintime = $total_mintime + $time->min_time;
+            $total_maxtime = $total_mintime + $time->max_time;
+        }
+
+        $total_time = $total_maxtime + $total_mintime/2;
+
+        $project = Project::where('id',$id)->with(['activities','activities.tasks','activities.tasks.progress', 'activities.tasks.activity','product','product.times'])->get();
+        return response()->json([
+            'project' => $project,
+            'total_time' => $total_time
+        ]);
     }
 
     /**

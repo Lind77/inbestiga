@@ -43,11 +43,13 @@
     </div>
     <div class="row" v-else>
       <div class="col-md-4" v-for="project in projects">
-        <div class="card bg-primary text-white mb-3">
+        <div v-if="store.memoir.team_id == project.team_id">
+          <div class="card bg-primary text-white mb-3">
           <div class="card-body">
             <h4 class="card-title text-white">{{ project.title }}</h4>
             <router-link class="btn btn-success btn-sm mt-2" :to="{name:'kanban', params:{ idProject: project.id }}">Ver Kanban</router-link>
           </div>
+        </div>
         </div>
       </div>
     </div>

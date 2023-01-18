@@ -36,15 +36,6 @@
                                 >
                                     Equipo
                                 </th>
-                                <th
-                                    class="sorting_disabled"
-                                    rowspan="1"
-                                    colspan="1"
-                                    style="width: 99px"
-                                    aria-label="Actions"
-                                >
-                                    Opciones
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,36 +55,13 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="badge bg-label-success">Equipo {{ owner.team_id }}</span>
-                                </td>
-                                <td>
-                                    <div class="d-inline-block text-nowrap">
-                                        <button class="btn btn-sm btn-icon">
-                                            <i class="bx bx-edit"></i></button
-                                        ><button
-                                            class="btn btn-sm btn-icon delete-record"
-                                        >
-                                            <i class="bx bx-trash"></i></button
-                                        ><button
-                                            class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown"
-                                        >
-                                            <i
-                                                class="bx bx-dots-vertical-rounded"
-                                            ></i>
+                                    <span class="badge bg-label-success" v-if="owner.memoir.team_id != null">Equipo {{ owner.memoir.team.name }}</span>
+                                    <div v-else class="d-inline-block text-nowrap">
+                                        <button class="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                        <span class="badge bg-label-danger" >Pendiente</span>
                                         </button>
-                                        <div
-                                            class="dropdown-menu dropdown-menu-end m-0"
-                                        >
-                                            <a
-                                                href="app-user-view-account.html"
-                                                class="dropdown-item"
-                                                >View</a
-                                            ><a
-                                                href="javascript:;"
-                                                class="dropdown-item"
-                                                >Suspend</a
-                                            >
+                                        <div class="dropdown-menu dropdown-menu-end m-0">
+                                            <a v-for="team in teams" @click="assignTeam(owner.id, team.id)" class="dropdown-item">{{ team.name }}</a>
                                         </div>
                                     </div>
                                 </td>
@@ -111,7 +79,8 @@
 export default {
     data(){
         return{
-            owners:[]
+            owners:[],
+            teams: []
         }
     },
     methods:{
@@ -123,10 +92,35 @@ export default {
             .catch(err =>{
                 console.log(err)
             })
+        },
+        getAllTeams(){
+            axios.get('/api/getAllTeams')
+            .then(res =>{
+                this.teams = res.data
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+        },
+        assignTeam(owner_id, team_id){
+
+            const fd = new FormData()
+
+            fd.append('team_id', team_id)
+            fd.append('owner_id', owner_id)
+
+            axios.post('/api/assignTeamUser', fd)
+            .then(res =>{
+                this.getAllOwners()
+            })
+            .catch(err =>{
+                console.log(err)
+            })
         }
     },
     mounted(){
         this.getAllOwners()
+        this.getAllTeams()
     }
 }
 </script>

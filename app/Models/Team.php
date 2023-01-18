@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Team extends Model
 {
     use HasFactory;
+
+    public function memoirs(){
+        return $this->hasMany('App\Models\Memoir');
+    }
 }

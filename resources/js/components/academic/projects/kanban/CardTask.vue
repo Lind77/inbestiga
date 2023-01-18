@@ -83,7 +83,7 @@ export default {
                     axios.post('/api/insertEndTimeTask', fd)
                     .then(res =>{
                         console.log('seteando task en completed')
-                        this.taskSelected = res.data.task
+                        this.taskSelected = res.data.task   
                     })
                     .catch(err =>{
                         console.log(err)

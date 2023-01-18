@@ -9,7 +9,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'team_id', 'customer_id', 'product_id', 'status', 'deadline'];
+    protected $fillable = ['title', 'team_id', 'customer_id', 'product_id', 'status', 'deadline', 'level'];
 
     public function customer(){
         return $this->belongsTo("App\Models\Customer");
@@ -29,5 +29,9 @@ class Project extends Model
 
     public function progresses(){
         return $this->hasMany("App\Models\Progress");
+    }
+
+    public function product(){
+        return $this->belongsTo("App\Models\Product");
     }
 }

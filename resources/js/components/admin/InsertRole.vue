@@ -1,9 +1,9 @@
 <template>
-    <div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="roleModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel2">Crear usuario</h5>
+                <h5 class="modal-title" id="exampleModalLabel2">Crear rol</h5>
                 <button
                 type="button"
                 class="btn-close"
@@ -16,36 +16,6 @@
                     <div class="col mb-3">
                         <label for="nameSmall" class="form-label">Nombre</label>
                         <input type="text" v-model="name" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="nameSmall" class="form-label">Correo</label>
-                        <input type="email" v-model="email" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="nameSmall" class="form-label">Password</label>
-                        <input type="password" v-model="password" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="nameSmall" class="form-label">Rol</label>
-                        <select v-model="rol" class="form-select">
-                            <option :value="rol" v-for="rol in roles">{{ rol }}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="nameSmall" class="form-label">Área</label>
-                        <select v-model="area" class="form-select">
-                            <option value="acad">Acádemica</option>
-                            <option value="sales">Ventas</option>
-                            <option value="admin">Administrativa</option>
-                        </select>
                     </div>
                 </div>
             </div>
@@ -77,15 +47,11 @@ import axios from 'axios'
             createUser(){
                 const fd = new FormData()
                 fd.append('name', this.name)
-                fd.append('email', this.email)
-                fd.append('password', this.password)
-                fd.append('rol', this.rol)
-                fd.append('area', this.area)
 
-                axios.post('/api/createUser', fd)
+                axios.post('/api/createRol', fd)
                 .then(res =>{
-                    this.$emit('getAllUsers')
-                    $('#userModal').modal('hide')
+                    this.$emit('getAllRoles')
+                    $('#roleModal').modal('hide')
                 })
                 .catch(err =>{
                     console.log(err)

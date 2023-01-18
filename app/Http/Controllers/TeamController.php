@@ -17,7 +17,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $teams = Team::all();
+        $teams = Team::with(['memoirs','memoirs.user'])->get();
 
         return response()->json($teams);
     }

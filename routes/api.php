@@ -30,15 +30,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    $user = User::where('id',$request->user()->id)->with('roles')->get();
+    $user = User::where('id',$request->user()->id)->with(['roles','memoir'])->get();
     return $user;
 });
 
 Route::post('login', [AuthController::class,'login']);
 Route::post('logout', [AuthController::class,'logout'])->middleware('auth:sanctum');
 
+Route::get('/getRoles', [UserController::class, 'getRoles']);
+Route::post('/createRol', [UserController::class, 'createRol']);
+
 Route::post('/createUser', [UserController::class, 'createUser']);
 Route::get('/getAllUsers', [UserController::class, 'getAllUsers']);
+Route::get('/deleteUser/{id}', [UserController::class, 'deleteUser']);
+Route::post('/assignTeamUser', [UserController::class, 'assignTeamUser']);
 
 Route::get('/getAllQuotations',[QuotationController::class, 'index']);
 

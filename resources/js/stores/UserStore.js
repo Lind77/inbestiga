@@ -6,7 +6,8 @@ export let useCounterStore = defineStore('counter', {
         return {
             authUser: null,
             rol: '',
-            token: localStorage.getItem("token")
+            token: localStorage.getItem("token"),
+            memoir:[]
         }
     },
     getters: {
@@ -20,6 +21,7 @@ export let useCounterStore = defineStore('counter', {
       .then((res) => {
         this.authUser = res.data
         this.rol = this.authUser[0].roles[0].name
+        this.memoir = this.authUser[0].memoir
       })
       .catch((err) => {
         console.log(err)

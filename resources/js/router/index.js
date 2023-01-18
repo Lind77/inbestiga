@@ -44,6 +44,7 @@ import HomeAdmin from '../components/admin/Home.vue'
 import MainAdmin from '../components/admin/Main.vue'
 
 import UsersAdmin from '../components/admin/Users.vue'
+import RolesAdmin from '../components/admin/Roles.vue'
 
 export const routes = [
     {
@@ -151,6 +152,11 @@ export const routes = [
                 path: 'users-admin',
                 component:  UsersAdmin,
                 name: 'users-admin'
+            },
+            {
+                path: 'roles-admin',
+                component:  RolesAdmin,
+                name: 'roles-admin'
             }
         ]
     }
