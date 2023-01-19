@@ -40,9 +40,7 @@
                 <div class="col mb-0">
                 <label for="emailBasic" class="form-label">Grado</label>
                 <select v-model="grade" class="form-select">
-                    <option value="1">Pregrado</option>
-                    <option value="2">Maestría</option>
-                    <option value="3">Doctorado</option>
+                    <option value="0">Option default</option>
                 </select>
                 </div>
             </div>
