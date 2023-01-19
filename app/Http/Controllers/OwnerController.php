@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Owner;
 use App\Http\Requests\StoreOwnerRequest;
 use App\Http\Requests\UpdateOwnerRequest;
+use App\Models\Task;
 use App\Models\User;
 
 class OwnerController extends Controller
@@ -87,6 +88,9 @@ class OwnerController extends Controller
     }
 
     public function verifyOwner($id){
-        return $id;
+        $task = Task::find($id);
+        $progress = $task->progress;
+
+        return response()->json($progress);
     }
 }

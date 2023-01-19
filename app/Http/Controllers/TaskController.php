@@ -95,7 +95,7 @@ class TaskController extends Controller
             'status' => 1
         ]);
 
-        $task->progress[0]->update([
+        $task->progress->update([
             'owner' => $request->get('owner'),
             'start_time' => date("Y-m-d H:i:s") 
         ]);

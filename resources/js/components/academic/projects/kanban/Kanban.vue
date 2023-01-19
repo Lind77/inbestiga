@@ -80,6 +80,7 @@ export default {
         getProjectById(){
             axios.get(`/api/getProjectById/${this.$route.params.idProject}`)
             .then(res =>{
+                this.tasks = []
                 this.project = res.data.project[0]
                 this.totalTime = res.data.total_time
                 this.activities = this.project.activities
@@ -102,7 +103,42 @@ export default {
           e.preventDefault()
           if(this.store.rol == 'Acad'){ 
           var data = e.dataTransfer.getData('text')
-          e.target.appendChild(document.getElementById(data))
+          //e.target.appendChild(document.getElementById(data))
+
+          if(e.target.id == 'doingArea'){
+            this.$swal({
+                  title: 'Asignando Tarea ...'  
+            });
+            axios.get(`/api/verifyOwner/${data.substr(4,6)}`)
+            .then(res =>{
+              console.log(res.data)
+              if(res.data.owner != null){
+                this.$swal({
+                  title: 'Esta tarea ya ha sido elegida por un InBESTigador'  
+                });
+                this.getProjectById()
+              }else{
+
+                const fd = new FormData();
+
+                fd.append("id_task", res.data.progressable_id)
+                fd.append("owner", this.store.authUser[0].name)
+                fd.append("start_time", new Date())
+
+                axios.post('/api/insertTimeTask', fd)
+                .then(res =>{
+                  this.getProjectById()
+                })
+                .catch(err =>{
+                console.log(err)
+                })
+              }
+            })
+            .catch(err =>{
+              console.log(err)
+            })
+          }
+          
           if(e.target.id == 'doneArea'){
             this.addPercent(1)
           }

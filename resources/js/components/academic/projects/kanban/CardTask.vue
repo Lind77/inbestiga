@@ -7,10 +7,10 @@
         </div>
             {{ taskSelected.title }}
         <div v-if="taskSelected.progress && showCronometer== true && taskSelected.status == 1">
-            <p class="mb-0">{{ taskSelected.progress[0].owner }} - {{ formattedDate }} - {{ cronometer }}</p>
+            <p class="mb-0">{{ taskSelected.progress.owner }} - {{ formattedDate }}  {{ taskSelected.progress.owner== this.store.authUser[0].name? cronometer : '' }}</p>
         </div>
         <div v-else-if="taskSelected.status == 2">
-            <p>{{ taskSelected.progress[0].owner }} - {{ formattedDate }} - {{ calcStopwatch }}</p>
+            <p>{{ taskSelected.progress.owner }} - {{ formattedDate }} - {{ calcStopwatch }}</p>
         </div>
     </div>
 </template>
@@ -53,34 +53,9 @@ export default {
         drag(e){  
           this.visible =  true
           e.dataTransfer.setData('text', e.target.id)
-          axios.get(`/api/verifyOwner/${e.target.id}`)
-          .then(res =>{
-            console.log(res.data)
-          })
-          .catch(err =>{
-            console.log(err)
-          })
         },
         dragend(e){
-                if(e.path[1].id == "doingArea"){
-                    this.showLocalTime()
-
-                    const fd = new FormData();
-
-                        fd.append("id_task", this.task.id)
-                        fd.append("owner", this.store.authUser[0].name)
-                        fd.append("start_time", new Date())
-
-                    axios.post('/api/insertTimeTask', fd)
-                    .then(res =>{
-                        this.taskSelected = res.data.task
-                        this.taskSelected.activity = res.data.activity
-                    })
-                    .catch(err =>{
-                        console.log(err)
-                    })
-                }
-                else if(e.path[1].id == "doneArea"){
+                if(e.path[1].id == "doneArea"){
 
                     const fd = new FormData();
 
@@ -101,7 +76,7 @@ export default {
     },
     computed:{
         formattedDate(){
-            return moment(this.taskSelected.progress[0].start_time).format('h:mm a')
+            return moment(this.taskSelected.progress.start_time).format('h:mm a')
         },
         bgCard(){
             if(this.task.status == 0){
@@ -114,8 +89,8 @@ export default {
         },
         calcStopwatch(){
             if(this.taskSelected.status == 2 ){
-                var cantStartTime = Date.parse(this.taskSelected.progress[0].start_time)
-                var cantEndTime = Date.parse(this.taskSelected.progress[0].end_time)
+                var cantStartTime = Date.parse(this.taskSelected.progress.start_time)
+                var cantEndTime = Date.parse(this.taskSelected.progress.end_time)
 
                 var totalTime = cantEndTime - cantStartTime
 
