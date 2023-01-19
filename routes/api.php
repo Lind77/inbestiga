@@ -83,4 +83,4 @@ Route::post('/assignTeam', [TeamController::class, 'assignTeam']);
 
 Route::get('/getAllCustomers', [CustomerController::class, 'index']);
 Route::post('/insertCustomer', [CustomerController::class, 'insertCustomer']);
-
+Route::get('/updateCustomerGrade/{id}', [CustomerController::class,'updateCustomerGrade']);

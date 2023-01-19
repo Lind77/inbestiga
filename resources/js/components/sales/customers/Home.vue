@@ -13,7 +13,7 @@
                       <th>Celular</th>
                       <th>Universidad</th>
                       <th>Carrera</th>
-                      <th>Grado</th>
+                      <th>Estado</th>
                   </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -22,14 +22,14 @@
                       <td>{{customer.cell}}</td>
                       <td>{{customer.university}}</td>
                       <td>{{customer.career}}</td>
-                      <td v-if="customer.grade == 1">
-                        Pregrado
+                      <td v-if="customer.grade == 0">
+                        No atendido
+                      </td>
+                      <td v-else-if="customer.grade == 1">
+                        Atendido
                       </td>
                       <td v-else-if="customer.grade == 2">
-                        Maestría
-                      </td>
-                      <td v-else-if="customer.grade == 3">
-                        Doctorado
+                        Comunicación establecida
                       </td>
                   </tr>
                 </tbody>

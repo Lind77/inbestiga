@@ -38,6 +38,12 @@
               <div data-i18n="Form Layouts">Clientes</div>
             </div>
           </router-link>
+          <router-link :to="{name:'home-pre-lead'}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-table"></i>
+              <div data-i18n="Form Layouts">Pre-leads</div>
+            </div>
+          </router-link>
           <router-link :to="{name:'home-funnel'}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-table"></i>

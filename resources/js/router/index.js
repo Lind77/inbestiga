@@ -13,6 +13,9 @@ import HomeQuotation from '../components/sales/quotations/Home.vue'
 //Área de Ventas - Clientes
 import HomeClient from '../components/sales/customers/Home.vue'
 
+//Área de Ventas - Pre Lead
+import HomePreLead from '../components/sales/prelead/Home.vue'
+
 //Área de Ventas - Funnel
 import HomeFunnel from '../components/sales/funnel/Home.vue'
 
@@ -21,6 +24,8 @@ import HomeCalls from '../components/sales/calls/Home.vue'
 
 //Área de Ventas - Calendario
 import HomeCalendar from '../components/sales/calendar/Home.vue'
+
+
 
 // Área Académica
 import HomeAcad from '../components/academic/Home.vue'
@@ -126,6 +131,11 @@ export const routes = [
                 path: 'customers',
                 component: HomeClient,
                 name: 'home-client'
+            },
+            {
+                path: 'prelead',
+                component: HomePreLead,
+                name: 'home-pre-lead'
             },
             {
                 path: 'funnels',

@@ -92,4 +92,14 @@ class CustomerController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function updateCustomerGrade($id){
+        $customer = Customer::find($id);
+        $customer->update([
+            'grade' => 1
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
 }
