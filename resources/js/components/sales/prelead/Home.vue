@@ -4,7 +4,7 @@
       <div class="card mb-4">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-4 border border-danger" id="noAtendedArea">
+            <div class="col-md-4 border border-danger vh-100" id="noAtendedArea" @drop="drop" @dragover="allowDrop">
               No atendido
             <div class="container-cards">
               <div v-for="customer in customers">
@@ -15,21 +15,24 @@
             </div>
             
             </div>
-            <div class="col-md-4 border border-danger" id="atendedArea" @drop="drop" @dragover="allowDrop">
+            <div class="col-md-4 border border-danger vh-100" id="atendedArea" @drop="drop" @dragover="allowDrop">
               Atendido
               <div class="container-cards">
                 <div v-for="customer in customers">
                 <div v-if="customer.grade == 1">
                   <CardCustomer :customer="customer"/>
                 </div>
-              </div>
+                </div>
               </div>
             </div>
-            <div class="col-md-4 border border-danger" id="comunicationArea">
+            <div class="col-md-4 border border-danger vh-100" id="comunicationArea" @drop="drop" @dragover="allowDrop">
               Comunicación establecida
               <div class="container-cards">
-                <div>
-              </div>
+                <div v-for="customer in customers">
+                <div v-if="customer.grade == 2">
+                  <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
+                </div>
+                </div>
               </div>
             </div>
           </div>
@@ -60,17 +63,38 @@ export default {
         },
         drop(e){
           e.preventDefault()
-          console.log(e)
-          if(e.target.id == 'atendedArea'){
-            axios.get(`/api/updateCustomerGrade/${1}`)
+          var data = e.dataTransfer.getData("text");
+          //e.target.appendChild(document.getElementById(data));
+          console.log(data)
+          if(e.target.id == 'noAtendedArea'){
+            axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/0`)
             .then(res =>{
                 console.log(res)
+                this.getAllCustomers()
             })
             .catch(err =>{
                 console.log(err)
             })
           }
-          console.log(e.target.id)
+          else if(e.target.id == 'atendedArea'){
+            axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/1`)
+            .then(res =>{
+                console.log(res)
+                this.getAllCustomers()
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+          }else if(e.target.id == 'comunicationArea'){
+            axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/2`)
+            .then(res =>{
+                console.log(res)
+                this.getAllCustomers()
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+          }
         },
         allowDrop(e){
           e.preventDefault()

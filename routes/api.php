@@ -50,6 +50,7 @@ Route::get('/getAllQuotations',[QuotationController::class, 'index']);
 
 Route::get('/getAllProducts',[ProductController::class, 'index']);
 Route::post('/insertProduct',[ProductController::class, 'store']);
+Route::post('/assignProduct', [ProductController::class, 'assignProduct']);
 
 Route::post('/insertFixedActivity', [FixedActivityController::class, 'store']);
 Route::post('/insertFixedTask',[FixedTaskController::class, 'store']);
@@ -72,6 +73,7 @@ Route::get('/getProjectById/{id}', [ProjectController::class, 'show']);
 Route::post('/insertProject',[ProjectController::class, 'store']);
 Route::post('/changeStatusProject',[ProjectController::class, 'changeStatus']);
 Route::get('/updateQuality/{id}', [ProjectController::class, 'updateQuality']);
+Route::get('/setProject/{id}', [ProjectController::class, 'setProject']);
 
 Route::post('/updateProgress',[ProgressController::class, 'update']);
 
@@ -83,4 +85,4 @@ Route::post('/assignTeam', [TeamController::class, 'assignTeam']);
 
 Route::get('/getAllCustomers', [CustomerController::class, 'index']);
 Route::post('/insertCustomer', [CustomerController::class, 'insertCustomer']);
-Route::get('/updateCustomerGrade/{id}', [CustomerController::class,'updateCustomerGrade']);
+Route::get('/updateCustomerGrade/{id}/{status}', [CustomerController::class,'updateCustomerGrade']);

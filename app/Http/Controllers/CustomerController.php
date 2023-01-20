@@ -16,7 +16,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::with(['project','project.product'])->get();
         return response()->json($customers);
     }
 
@@ -93,10 +93,10 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function updateCustomerGrade($id){
+    public function updateCustomerGrade($id, $status){
         $customer = Customer::find($id);
         $customer->update([
-            'grade' => 1
+            'grade' => $status
         ]);
         return response()->json([
             'msg' => 'success'

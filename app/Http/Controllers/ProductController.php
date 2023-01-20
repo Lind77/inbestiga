@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Customer;
 use App\Models\Price;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -110,5 +112,25 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function assignProduct(Request $request){
+
+        $customer = Customer::find($request->get('customer_id'));
+
+        $project = Project::create([
+            'title' => 'Prospecto '.$customer->name,
+            'customer_id' => $request->get('customer_id'),
+            'deadline' => date('Y-m-d'),
+            'product_id' => $request->get('product_id')
+        ]);
+
+        $customer->update([
+            'grade' => 4
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }

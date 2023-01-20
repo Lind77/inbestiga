@@ -14,4 +14,8 @@ class Customer extends Model
     public function quotation(){
         return $this->hasOne("App\Models\Customer");
     }
+
+    public function project(){
+        return $this->hasOne("App\Models\Project");
+    }
 }

@@ -236,4 +236,12 @@ class ProjectController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function setProject($id){
+        $project = Project::find($id);
+
+        $project->update([
+            'status' => 1
+        ]);
+    }
 }

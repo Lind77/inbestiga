@@ -4,59 +4,93 @@
       <div class="card mb-4">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-3" id="clientArea">
+            <div class="col-md-3 vh-100" id="clientArea" @drop="drop" @dragover="allowDrop">
               Lead
             <div class="container-cards">
-              
+              <div v-for="customer in customers">
+                <div v-if="customer.grade == 3">
+                  <CardCustomer :customer="customer" @selectCustomer="selectCustomer"/>
+                </div>
+              </div>
             </div>
             
             </div>
-            <div class="col-md-3" id="directionArea">
+            <div class="col-md-3 vh-100" id="directionArea" @drop="drop" @dragover="allowDrop">
               Interesado
                 <div class="container-cards">
-                <div>
-              </div>
+                <div v-for="customer in customers">
+                  <div v-if="customer.grade == 4">
+                    <CardCustomer :customer="customer"/>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-md-3" id="qualityArea">
+            <div class="col-md-3 vh-100" id="highInterested" @drop="drop" @dragover="allowDrop">
               Altamente interesado
-              <div class="container-cards">
+                <div class="container-cards">
+
                 <div>
               </div>
               </div>
             </div>
-            <div class="col-md-3" id="qualityArea">
+            <div class="col-md-3 vh-100" id="client" @drop="drop" @dragover="allowDrop">
               Cliente
-              <div class="container-cards">
-                <div>
-              </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
+      <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
     </div>
 </template>
 <script>
-  export default{
-    data(){
-      return{
-        customers:[]
-      }
-    },
-    methods:{
-      getAllCustomers(){
-        axios.get('/api/getAllCustomers')
-        .then(res =>{
-            this.customers = res.data
-        })
-        .catch(err =>{
-            console.log(err.response.data)
-        })
-      }
-    },
-    mounted(){
-      this.getAllCustomers()
+import CardCustomer from '../prelead/CardCustomer.vue'
+import ProductModal from './ProductModal.vue'
+
+export default{
+  components:{CardCustomer, ProductModal},
+  data(){
+    return{
+      customers:[],
+      customer_selected:{}
     }
+  },
+  methods:{
+    getAllCustomers(){
+      axios.get('/api/getAllCustomers')
+      .then(res =>{
+          this.customers = res.data
+      })
+      .catch(err =>{
+          console.log(err.response.data)
+      })
+    },
+    selectCustomer(customer){
+      console.log('customer selected')
+      this.customer_selected = customer
+    },
+    allowDrop(e){
+          e.preventDefault()
+    },
+    drop(e){
+          e.preventDefault()
+          var data = e.dataTransfer.getData("text");
+          e.target.appendChild(document.getElementById(data));
+
+          console.log(data)
+
+          if(e.target.id == 'client'){
+            axios.get(`/api/setProject/${data.substring(data.length-1)}`)
+            .then(res =>{
+              console.log(res)
+            })
+            .catch(err =>{
+              console.log(err)
+            })
+          }
+    }
+  },
+  mounted(){
+    this.getAllCustomers()
   }
+}
 </script>
