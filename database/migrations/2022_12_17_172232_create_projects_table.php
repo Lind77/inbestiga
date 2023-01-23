@@ -23,7 +23,8 @@ return new class extends Migration
             $table->date('deadline');
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->tinyInteger('status')->nullable();
+            $table->tinyInteger('status')->nullable(); 
+            $table->text('aditional');
             $table->timestamps();
         });
     }

@@ -22,15 +22,7 @@
                       <td>{{customer.cell}}</td>
                       <td>{{customer.university}}</td>
                       <td>{{customer.career}}</td>
-                      <td v-if="customer.grade == 0">
-                        No atendido
-                      </td>
-                      <td v-else-if="customer.grade == 1">
-                        Atendido
-                      </td>
-                      <td v-else-if="customer.grade == 2">
-                        Comunicación establecida
-                      </td>
+                      <td>{{ status[customer.status] }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -48,7 +40,16 @@ import customerModal from './customerModal.vue'
     components:{ customerModal },
     data(){
       return{
-        customers:[]
+        customers:[],
+        status:{
+          0: 'No atendido',
+          1: 'Atendido',
+          2: 'Comunicación establecida',
+          3: 'Lead',
+          4: 'Interesado',
+          5: 'Altamente Interesado',
+          6: 'Cliente'
+        }
       }
     },
     methods:{

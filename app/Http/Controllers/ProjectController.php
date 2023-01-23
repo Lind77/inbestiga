@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Activity;
+use App\Models\Customer;
 use App\Models\FixedActivity;
 use App\Models\ProcessProject;
 use App\Models\Product;
@@ -238,10 +239,21 @@ class ProjectController extends Controller
     }
 
     public function setProject($id){
-        $project = Project::find($id);
 
-        $project->update([
-            'status' => 1
+        $customer = Customer::find($id);
+
+        $customer->update([
+            'grade' => 6
+        ]);
+
+        $project = Project::where('customer_id', $id)->get();
+
+        $project[0]->update([
+            'status' => 0
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
         ]);
     }
 }

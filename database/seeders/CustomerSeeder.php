@@ -20,7 +20,7 @@ class CustomerSeeder extends Seeder
             'cell' => '960506806',
             'university' => 'UNCP',
             'career' => 'Economy',
-            'grade' => 0
+            'status' => 0
         ]);
     }
 }

@@ -28,13 +28,22 @@
             <div class="col-md-3 vh-100" id="highInterested" @drop="drop" @dragover="allowDrop">
               Altamente interesado
                 <div class="container-cards">
-
-                <div>
-              </div>
-              </div>
+                  <div v-for="customer in customers">
+                    <div v-if="customer.grade == 5">
+                      <CardCustomer :customer="customer"/>
+                    </div>
+                  </div>
+                </div>
             </div>
             <div class="col-md-3 vh-100" id="client" @drop="drop" @dragover="allowDrop">
               Cliente
+              <div class="container-cards">
+                  <div v-for="customer in customers">
+                    <div v-if="customer.grade == 6">
+                      <CardCustomer :customer="customer"/>
+                    </div>
+                  </div>
+              </div>
             </div>
           </div>
         </div>
@@ -77,8 +86,16 @@ export default{
           e.target.appendChild(document.getElementById(data));
 
           console.log(data)
-
-          if(e.target.id == 'client'){
+          if(e.target.id == 'highInterested'){
+            axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/5`)
+            .then(res =>{
+                console.log(res)
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+          }
+          else if(e.target.id == 'client'){
             axios.get(`/api/setProject/${data.substring(data.length-1)}`)
             .then(res =>{
               console.log(res)

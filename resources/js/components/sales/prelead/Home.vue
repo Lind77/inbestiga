@@ -4,32 +4,32 @@
       <div class="card mb-4">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-4 border border-danger vh-100" id="noAtendedArea" @drop="drop" @dragover="allowDrop">
+            <div class="col-md-4 vh-85" id="noAtendedArea" @drop="drop" @dragover="allowDrop">
               No atendido
             <div class="container-cards">
               <div v-for="customer in customers">
-                <div v-if="customer.grade == 0">
+                <div v-if="customer.status == 0">
                   <CardCustomer :customer="customer"/>
                 </div>
               </div>
             </div>
             
             </div>
-            <div class="col-md-4 border border-danger vh-100" id="atendedArea" @drop="drop" @dragover="allowDrop">
+            <div class="col-md-4 vh-85" id="atendedArea" @drop="drop" @dragover="allowDrop">
               Atendido
               <div class="container-cards">
                 <div v-for="customer in customers">
-                <div v-if="customer.grade == 1">
+                <div v-if="customer.status == 1">
                   <CardCustomer :customer="customer"/>
                 </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-4 border border-danger vh-100" id="comunicationArea" @drop="drop" @dragover="allowDrop">
+            <div class="col-md-4 vh-85" id="comunicationArea" @drop="drop" @dragover="allowDrop">
               Comunicación establecida
               <div class="container-cards">
                 <div v-for="customer in customers">
-                <div v-if="customer.grade == 2">
+                <div v-if="customer.status == 2">
                   <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
                 </div>
                 </div>
@@ -64,32 +64,37 @@ export default {
         drop(e){
           e.preventDefault()
           var data = e.dataTransfer.getData("text");
-          //e.target.appendChild(document.getElementById(data));
+         
           console.log(data)
           if(e.target.id == 'noAtendedArea'){
             axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/0`)
             .then(res =>{
                 console.log(res)
-                this.getAllCustomers()
             })
             .catch(err =>{
                 console.log(err)
             })
           }
           else if(e.target.id == 'atendedArea'){
+            document.getElementById(data).classList.remove('bg-danger')
+            document.getElementById(data).classList.add('bg-warning')
+            e.target.appendChild(document.getElementById(data))
+
             axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/1`)
             .then(res =>{
                 console.log(res)
-                this.getAllCustomers()
             })
             .catch(err =>{
                 console.log(err)
             })
           }else if(e.target.id == 'comunicationArea'){
+            document.getElementById(data).classList.remove('bg-warning')
+            document.getElementById(data).classList.add('bg-success')
+            e.target.appendChild(document.getElementById(data))
+            
             axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/2`)
             .then(res =>{
                 console.log(res)
-                this.getAllCustomers()
             })
             .catch(err =>{
                 console.log(err)
@@ -105,3 +110,8 @@ export default {
     }
     }
 </script>
+<style scoped>
+.vh-85{
+  height: 85vh;
+}
+</style>

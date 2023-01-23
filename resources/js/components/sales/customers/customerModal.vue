@@ -36,14 +36,6 @@
                 <input type="text" v-model="career" class="form-control" />
                 </div>
             </div>
-            <div class="row g-2">
-                <div class="col mb-0">
-                <label for="emailBasic" class="form-label">Grado</label>
-                <select v-model="grade" class="form-select">
-                    <option value="0">Option default</option>
-                </select>
-                </div>
-            </div>
             </div>
             <div class="modal-footer">
             <button type="button" id="close-insert-customer" class="btn btn-outline-secondary" data-bs-dismiss="modal">

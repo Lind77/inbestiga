@@ -96,7 +96,7 @@ class CustomerController extends Controller
     public function updateCustomerGrade($id, $status){
         $customer = Customer::find($id);
         $customer->update([
-            'grade' => $status
+            'status' => $status
         ]);
         return response()->json([
             'msg' => 'success'
