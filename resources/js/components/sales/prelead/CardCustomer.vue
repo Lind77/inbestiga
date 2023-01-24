@@ -1,7 +1,7 @@
 <template>
     <div :class="`card ${bgColor} mt-2 cursor-pointer`" draggable="true" @dragstart="drag" :id="`customer${customer.id}`">
         <div class="card-header text-white fw-300">
-            {{ customer.name }} {{ customer.status }}
+            {{ customer.name }}
             <div v-if="customer.status == 2">
                 <button @click="convertLead(customer.id)" class="btn btn-warning btn-sm">Convertir a Lead</button>
             </div>
@@ -12,19 +12,36 @@
                 <p>Producto: {{ customer.project.product.title }}</p>
             </div>
         </div>
+        <div class="card-body">
+            <button @click="customerStandBy(customer.id)" class="btn btn-secondary btn-sm">
+                Enviar a Stand By
+            </button>
+        </div>
     </div>
 </template>
 <script>
+import axios from 'axios'
+
     export default{
         data(){
             return{
-                customer_selected:{}       
+                customer_selected:{}
             } 
         },
         props:{
-            customer: Object
+            customer: Object,
+            status: Number
         },
         methods:{
+            customerStandBy(id){
+                axios.get('/api/standByCustomer/'+id)
+                .then(res =>{
+                    this.$emit('getAllCustomers')
+                })
+                .catch(err =>{
+
+                })
+            },
             drag(e){
                 e.dataTransfer.setData('text', e.target.id)
             },

@@ -9,7 +9,7 @@
             <div class="container-cards">
               <div v-for="customer in customers">
                 <div v-if="customer.status == 0">
-                  <CardCustomer :customer="customer"/>
+                  <CardCustomer :customer="customer"  @getAllCustomers="getAllCustomers" :status="status"/>
                 </div>
               </div>
             </div>
@@ -20,7 +20,7 @@
               <div class="container-cards">
                 <div v-for="customer in customers">
                 <div v-if="customer.status == 1">
-                  <CardCustomer :customer="customer"/>
+                  <CardCustomer :customer="customer"  @getAllCustomers="getAllCustomers" :status="status"/>
                 </div>
                 </div>
               </div>
@@ -30,7 +30,7 @@
               <div class="container-cards">
                 <div v-for="customer in customers">
                 <div v-if="customer.status == 2">
-                  <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
+                  <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers" :status="status"/>
                 </div>
                 </div>
               </div>
@@ -48,7 +48,8 @@ export default {
     components: {CardCustomer},
     data(){
         return{
-        customers:[]
+        customers:[],
+        status: 0
         }
     },
     methods:{
@@ -76,24 +77,19 @@ export default {
             })
           }
           else if(e.target.id == 'atendedArea'){
-            document.getElementById(data).classList.remove('bg-danger')
-            document.getElementById(data).classList.add('bg-warning')
-            e.target.appendChild(document.getElementById(data))
-
             axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/1`)
             .then(res =>{
+                this.getAllCustomers()
                 console.log(res)
             })
             .catch(err =>{
                 console.log(err)
             })
           }else if(e.target.id == 'comunicationArea'){
-            document.getElementById(data).classList.remove('bg-warning')
-            document.getElementById(data).classList.add('bg-success')
-            e.target.appendChild(document.getElementById(data))
             
             axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/2`)
             .then(res =>{
+                this.getAllCustomers()
                 console.log(res)
             })
             .catch(err =>{

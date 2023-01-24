@@ -11,18 +11,26 @@
                   <tr>
                     <th>Nombre</th>
                       <th>Celular</th>
+                      <th>Correo</th>
                       <th>Universidad</th>
                       <th>Carrera</th>
                       <th>Estado</th>
+                      <th>Reactivar</th>
                   </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                   <tr v-for="customer in customers">
                     <td><strong>{{customer.name}}</strong></td>
                       <td>{{customer.cell}}</td>
+                      <td>{{customer.email}}</td>
                       <td>{{customer.university}}</td>
                       <td>{{customer.career}}</td>
                       <td>{{ status[customer.status] }}</td>
+                      <td v-if="customer.status == null">
+                        <button @click="reactivateCustomer(customer.id)" class="btn btn-success btn-sm">
+                          Reactivar
+                        </button>
+                      </td>
                   </tr>
                 </tbody>
               </table>
@@ -48,11 +56,19 @@ import customerModal from './customerModal.vue'
           3: 'Lead',
           4: 'Interesado',
           5: 'Altamente Interesado',
-          6: 'Cliente'
+          6: 'Cliente',
+          null: 'Stand By'
         }
       }
     },
     methods:{
+      reactivateCustomer(id){
+        axios.get('/api/reactivateCustomer/'+id)
+        .then(res => {
+          this.customers = res.data
+          this.getAllCustomers()
+        })
+      },
       getAllCustomers(){
         axios.get('/api/getAllCustomers')
         .then(res => {

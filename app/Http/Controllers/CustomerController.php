@@ -102,4 +102,31 @@ class CustomerController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function standByCustomer($id){
+
+        $customer = Customer::find($id);
+        $customer->update([
+            'status' => null
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function getAllStandByCustomers(){
+        $customers = Customer::where('status', '=', null)->with(['project','project.product'])->get();
+        return response()->json($customers);
+    }
+
+    public function reactivateCustomer($id){
+        $customer = Customer::find($id);
+        $customer->update([
+            'status' => 0
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
 }

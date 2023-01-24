@@ -26,6 +26,12 @@
             </div>
             <div class="row g-2">
                 <div class="col mb-0">
+                    <label for="nameBasic" class="form-label">Email</label>
+                <input type="email" v-model="email" class="form-control" />
+                </div>
+            </div>
+            <div class="row g-2">
+                <div class="col mb-0">
                 <label for="dobBasic" class="form-label">Universidad</label>
                 <input type="text" v-model="university" class="form-control" />
                 </div>
@@ -55,7 +61,7 @@ export default {
             cell: '',
             university: '',
             career: '',
-            grade: 0
+            email: ''
         }
     },
     methods:{  
@@ -65,7 +71,8 @@ export default {
             fd.append('cell',this.cell)
             fd.append('university',this.university)
             fd.append('career',this.career)
-            fd.append('grade',this.grade)
+            fd.append('email',this.email)
+            fd.append('status',0)
 
             axios.post('/api/insertCustomer', fd)
             .then(res =>{

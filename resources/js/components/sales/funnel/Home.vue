@@ -8,19 +8,19 @@
               Lead
             <div class="container-cards">
               <div v-for="customer in customers">
-                <div v-if="customer.grade == 3">
-                  <CardCustomer :customer="customer" @selectCustomer="selectCustomer"/>
+                <div v-if="customer.status == 3">
+                  <CardCustomer :customer="customer" @selectCustomer="selectCustomer" @getAllCustomers="getAllCustomers"/>
                 </div>
               </div>
             </div>
             
             </div>
-            <div class="col-md-3 vh-100" id="directionArea" @drop="drop" @dragover="allowDrop">
+            <div class="col-md-3 vh-100" id="interested" @drop="drop" @dragover="allowDrop">
               Interesado
                 <div class="container-cards">
                 <div v-for="customer in customers">
-                  <div v-if="customer.grade == 4">
-                    <CardCustomer :customer="customer"/>
+                  <div v-if="customer.status == 4">
+                    <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
                   </div>
                 </div>
               </div>
@@ -29,8 +29,8 @@
               Altamente interesado
                 <div class="container-cards">
                   <div v-for="customer in customers">
-                    <div v-if="customer.grade == 5">
-                      <CardCustomer :customer="customer"/>
+                    <div v-if="customer.status == 5">
+                      <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
                     </div>
                   </div>
                 </div>
@@ -39,8 +39,8 @@
               Cliente
               <div class="container-cards">
                   <div v-for="customer in customers">
-                    <div v-if="customer.grade == 6">
-                      <CardCustomer :customer="customer"/>
+                    <div v-if="customer.status == 6">
+                      <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
                     </div>
                   </div>
               </div>
@@ -83,12 +83,23 @@ export default{
     drop(e){
           e.preventDefault()
           var data = e.dataTransfer.getData("text");
-          e.target.appendChild(document.getElementById(data));
+          //e.target.appendChild(document.getElementById(data));
 
           console.log(data)
-          if(e.target.id == 'highInterested'){
+          if(e.target.id == 'interested'){
+            axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/4`)
+            .then(res =>{
+                this.getAllCustomers()
+                console.log(res)
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+          }
+          else if(e.target.id == 'highInterested'){
             axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/5`)
             .then(res =>{
+                this.getAllCustomers()
                 console.log(res)
             })
             .catch(err =>{

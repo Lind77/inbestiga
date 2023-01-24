@@ -118,6 +118,7 @@ class ProductController extends Controller
 
         $customer = Customer::find($request->get('customer_id'));
 
+
         $project = Project::create([
             'title' => 'Prospecto '.$customer->name,
             'customer_id' => $request->get('customer_id'),
@@ -126,7 +127,7 @@ class ProductController extends Controller
         ]);
 
         $customer->update([
-            'grade' => 4
+            'status' => 4
         ]);
 
         return response()->json([

@@ -243,13 +243,14 @@ class ProjectController extends Controller
         $customer = Customer::find($id);
 
         $customer->update([
-            'grade' => 6
+            'status' => 6
         ]);
 
         $project = Project::where('customer_id', $id)->get();
 
         $project[0]->update([
-            'status' => 0
+            'status' => 0,
+            'title' => 'Proyecto '.$customer->name
         ]);
 
         return response()->json([

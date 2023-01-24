@@ -20,6 +20,7 @@ class CustomerSeeder extends Seeder
             'cell' => '960506806',
             'university' => 'UNCP',
             'career' => 'Economy',
+            'email' => 'jdoe@example.com',
             'status' => 0
         ]);
     }

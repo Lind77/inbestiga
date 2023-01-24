@@ -31,26 +31,31 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user2 = \App\Models\User::factory()->create([
-            'name' => 'Jhon Doe',
+            'name' => 'Berenice',
             'email' => 'ventas@gmail.com',
             'password' => '$2a$12$fFXGRX43WileiQFiKeeLte/3EC9oEEMode1mksa/wUGnWbrmzPAKW'
-       ])->assignRole('Seller');
+        ])->assignRole('Seller');
 
-       Memoir::create([
+        Memoir::create([
         'user_id' => $user2->id,
         'area' => 'sales'
         ]);
 
-       \App\Models\User::factory()->create([
+        $user3 = \App\Models\User::factory()->create([
         'name' => 'Eduardo',
-        'email' => 'ed@gmail.com',
-        'password' => '$2a$12$fFXGRX43WileiQFiKeeLte/3EC9oEEMode1mksa/wUGnWbrmzPAKW'
+        'email' => 'edu@inbestiga.com',
+        'password' => '$2a$12$S.H8l6XSNTc/tSAzJUcZz.T1Fvn7p.b8.b9SyQO5A1gfR5T8ZsKqK' //hola
         ])->assignRole('AdminAcad');
+
+        Memoir::create([
+        'user_id' => $user3->id,
+        'area' => 'acad'
+        ]);
 
         \App\Models\User::factory()->create([
         'name' => 'Anto',
-        'email' => 'anto@gmail.com',
-        'password' => '$2a$12$fFXGRX43WileiQFiKeeLte/3EC9oEEMode1mksa/wUGnWbrmzPAKW'
+        'email' => 'anto@inbestiga.com',
+        'password' => '$2a$12$S.H8l6XSNTc/tSAzJUcZz.T1Fvn7p.b8.b9SyQO5A1gfR5T8ZsKqK'
         ])->assignRole('Acad');
         
 
