@@ -110,6 +110,7 @@ export default{
             axios.get(`/api/setProject/${data.substring(data.length-1)}`)
             .then(res =>{
               console.log(res)
+              this.getAllCustomers()
             })
             .catch(err =>{
               console.log(err)

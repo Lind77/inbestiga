@@ -34,6 +34,12 @@
                     </select>
                 </div>
                 <div class="row g-2">
+                    <div class="col mb-0">
+                        <label for="emailBasic" class="form-label">Indicaciones Adicionales</label>
+                        <input type="text" v-model="indication" class="form-control">
+                    </div>
+                </div>
+                <div class="row g-2">
                     <div class="col mb-3">
                     <label for="nameBasic" class="form-label">Producto</label>
                     <input type="text" v-model="product" class="form-control" @keyup="search"/>
@@ -96,7 +102,8 @@
                 product_id:'',
                 products: [],
                 products_filtered:[],
-                hover: false
+                hover: false,
+                indication: ''
             }
         },
         methods:{

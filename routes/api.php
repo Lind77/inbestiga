@@ -86,6 +86,7 @@ Route::post('/assignTeam', [TeamController::class, 'assignTeam']);
 Route::get('/getAllCustomers', [CustomerController::class, 'index']);
 Route::post('/insertCustomer', [CustomerController::class, 'insertCustomer']);
 Route::get('/updateCustomerGrade/{id}/{status}', [CustomerController::class,'updateCustomerGrade']);
+Route::post('/updateCustomer', [CustomerController::class, 'updateCustomer']);
 Route::get('/standByCustomer/{id}', [CustomerController::class,'standByCustomer']);
 Route::get('/getAllStandByCustomers', [CustomerController::class, 'getAllStandByCustomers']);
 Route::get('/reactivateCustomer/{id}', [CustomerController::class, 'reactivateCustomer']);

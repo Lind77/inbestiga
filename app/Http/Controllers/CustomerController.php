@@ -93,6 +93,23 @@ class CustomerController extends Controller
         ]);
     }
 
+    public function updateCustomer(Request $request){
+
+        $customer = Customer::find($request->get('id'));
+
+        $customer->update([
+            'name' => $request->get('name'),
+            'cell' => $request->get('cell'),
+            'university' => $request->get('university'),
+            'career' => $request->get('career'),
+            'email' => $request->get('email')
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
     public function updateCustomerGrade($id, $status){
         $customer = Customer::find($id);
         $customer->update([

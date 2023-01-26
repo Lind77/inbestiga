@@ -7,7 +7,7 @@
         <div class="h6 text-white" v-if="project.team">Equipo {{ project.team.name }}</div>
         <h4 class="card-title text-white m-0">{{ project.title }}</h4>
             <router-link v-if="this.project.status == 1" class="btn btn-primary btn-sm mt-2" :to="{name:'kanban', params:{ idProject: project.id }}">Ver Kanban</router-link>
-        <div v-if="this.project.status == 1" class="btn btn-primary btn-sm mt-2 ms-1" @click="updateQuality">Listo</div>
+        <div v-if="tasksPercent == 100" class="btn btn-primary btn-sm mt-2 ms-1" @click="updateQuality">Listo</div>
         <div v-if="this.project.status == 2" class="btn btn-info btn-sm mt-2 ms-1" @click="pointsQual">Indicadores de Calidad</div>
     </div>
     </div>
@@ -51,6 +51,25 @@
                 }else if(this.project.status == 2){
                     return 'bg-warning'
                 }
+            },
+            tasksPercent(){
+                var activities_filtered = []
+                var tasks_filtered = []
+                var totalPercent = 0
+                this.project.activities.forEach(activity => {
+                    if(activity.type != 0){
+                        activities_filtered.push(activity)
+                        activity.tasks.forEach(task =>{
+                        tasks_filtered.push(task)
+                    })
+                    }
+                });
+
+                tasks_filtered.forEach(task =>{
+                    totalPercent = totalPercent + task.progress.percentage
+                })
+
+                return totalPercent / tasks_filtered.length
             }        
         }
     }

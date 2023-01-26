@@ -24,7 +24,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::with(['customer','activities','activities.progress','team'])->get();
+        $projects = Project::with(['customer','activities','activities.progress', 'activities.tasks', 'activities.tasks.progress','team'])->get();
     
         return $projects;
     }
@@ -252,6 +252,60 @@ class ProjectController extends Controller
             'status' => 0,
             'title' => 'Proyecto '.$customer->name
         ]);
+
+        //Traer actividades de Inbestiga por default
+        $fixedActivitiesEnterprise = FixedActivity::where('type',0)->get();
+
+        foreach($fixedActivitiesEnterprise as $enterpriseActivity) {
+            $defaultActivity = Activity::create([
+                'project_id' => $project[0]->id,
+                'title' => $enterpriseActivity->title,
+                'type' => 0
+            ]);
+
+            $progressDefaultActivity = Progress::create([
+                'progressable_id' => $defaultActivity->id,
+                'progressable_type' => 'App\Models\Activity',
+                'percentage' => 0.0,
+                'comment' => 'Sin comentarios'
+            ]);
+       }
+
+        $fixedActivities = FixedActivity::where('product_id',$project[0]->product_id)->where('type', '!=', 0)->with('fixedTasks')->get();
+        
+            foreach($fixedActivities as $fixedActivity){
+                $activity = Activity::create([
+                    'project_id' => $project[0]->id,
+                    'title' => $fixedActivity->title,
+                    'type' => 1
+                ]);
+
+                $progressActivity = Progress::create([
+                    'progressable_id' => $activity->id,
+                    'progressable_type' => 'App\Models\Activity',
+                    'percentage' => 0.0,
+                    'comment' => 'Sin comentarios'
+                ]);
+
+                foreach($fixedActivity->fixedTasks as $fixedTask){
+                    $task = Task::create([
+                        'activity_id' => $activity->id,
+                        'type' => 0,
+                        'title' => $fixedTask->title,
+                        'status' => 0
+                    ]);
+
+                    $progressTask = Progress::create([
+                        'progressable_id' => $task->id,
+                        'progressable_type' => 'App\Models\Task',
+                        'percentage' => 0.0,
+                        'comment' => 'Sin comentarios'
+                    ]);
+                }
+            }
+
+
+       
 
         return response()->json([
             'msg' => 'success'

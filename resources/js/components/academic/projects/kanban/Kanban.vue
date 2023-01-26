@@ -141,6 +141,20 @@ export default {
           
           if(e.target.id == 'doneArea'){
             this.addPercent(1)
+            const fd = new FormData();
+
+                fd.append("id_task", data.substr(4,6))
+                fd.append("end_time", new Date())
+
+            axios.post('/api/insertEndTimeTask', fd)
+            .then(res =>{
+                console.log('seteando task en completed')
+                this.taskSelected = res.data.task
+                this.getProjectById()   
+            })
+            .catch(err =>{
+                console.log(err)
+            })
           }
           }else{
             alert('Usted no puede modificar las tareas')

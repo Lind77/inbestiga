@@ -108,23 +108,23 @@ class TaskController extends Controller
     }
 
     public function insertEndTimeTask(Request $request){
-        $task = Task::find($request->get('id_task'));
 
-        $activity = $task->activity;
+        $task = Task::find($request->get('id_task'));
 
         $task->update([
             'status' => 2
         ]);
 
-        $task->progress[0]->update([
+        $task->progress->update([
             'end_time' => date("Y-m-d H:i:s"),
             'percentage' => 100
         ]);
 
+        $activity = $task->activity;
+
         return response()->json([
             'msg' => 'success',
-            'task' => $task,
-            'activity' => $activity
+            'task' => $task
         ]);
     }
 }

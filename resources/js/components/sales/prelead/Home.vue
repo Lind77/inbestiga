@@ -70,7 +70,7 @@ export default {
           if(e.target.id == 'noAtendedArea'){
             axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/0`)
             .then(res =>{
-                console.log(res)
+              this.getAllCustomers()
             })
             .catch(err =>{
                 console.log(err)

@@ -3,7 +3,8 @@
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel1">Insertar Cliente</h5>
+            <h5 class="modal-title" v-if="action == 1" id="exampleModalLabel1">Insertar Cliente</h5>
+            <h5 class="modal-title" v-else id="exampleModalLabel1">Actualizar Cliente {{ customer.name || customer.cell }}</h5>
             <button
                 type="button"
                 class="btn-close"
@@ -15,31 +16,36 @@
             <div class="row">
                 <div class="col mb-3">
                 <label for="nameBasic" class="form-label">Nombre</label>
-                <input type="text" v-model="name" class="form-control" />
+                <input type="text" v-if="action==2" v-model="customer.name" class="form-control" />
+                <input type="text" v-else v-model="name" class="form-control" />
                 </div>
             </div>
             <div class="row g-2">
                 <div class="col mb-0">
                     <label for="nameBasic" class="form-label">Celular</label>
-                <input type="text" v-model="cell" class="form-control" />
+                <input type="text" v-if="action==2" v-model="customer.cell" class="form-control" />
+                <input type="text" v-else v-model="cell" class="form-control" />
                 </div>
             </div>
             <div class="row g-2">
                 <div class="col mb-0">
                     <label for="nameBasic" class="form-label">Email</label>
-                <input type="email" v-model="email" class="form-control" />
+                <input type="email" v-if="action==2" v-model="customer.email" class="form-control" />
+                <input type="text" v-else v-model="email" class="form-control" />
                 </div>
             </div>
             <div class="row g-2">
                 <div class="col mb-0">
                 <label for="dobBasic" class="form-label">Universidad</label>
-                <input type="text" v-model="university" class="form-control" />
+                <input type="text" v-if="action==2" v-model="customer.university" class="form-control" />
+                <input type="text" v-else v-model="university" class="form-control" />
                 </div>
             </div>
             <div class="row g-2">
                 <div class="col mb-0">
                 <label for="emailBasic" class="form-label">Carrera</label>
-                <input type="text" v-model="career" class="form-control" />
+                <input type="text" v-if="action==2" v-model="customer.career" class="form-control" />
+                <input type="text" v-else v-model="career" class="form-control" />
                 </div>
             </div>
             </div>
@@ -47,7 +53,8 @@
             <button type="button" id="close-insert-customer" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                 Cerrar
             </button>
-            <button type="button" @click="insertCustomer" class="btn btn-primary">Registrar</button>
+            <button type="button" v-if="action == 1" @click="insertCustomer" class="btn btn-primary">Registrar</button>
+            <button type="button" v-else @click="updateCustomer" class="btn btn-primary">Actualizar</button>
             </div>
         </div>
         </div>
@@ -55,6 +62,10 @@
 </template>
 <script>
 export default {
+    props:{
+        action: Number,
+        customer: Object
+    },
     data(){
         return{
             name: '',
@@ -64,7 +75,26 @@ export default {
             email: ''
         }
     },
-    methods:{  
+    methods:{
+        updateCustomer(){
+            const fd = new FormData()
+            fd.append('id', this.customer.id)
+            fd.append('name',this.customer.name)
+            fd.append('cell',this.customer.cell)
+            fd.append('university',this.customer.university)
+            fd.append('career',this.customer.career)
+            fd.append('email',this.customer.email)
+
+            axios.post('/api/updateCustomer', fd)
+            .then(res =>{
+                console.log(res)
+                this.$emit('getAllCustomers')
+                $('#customerModal').modal('hide')
+            })
+            .catch(err =>{
+                console.log(err.response.data)
+            })
+        },  
         insertCustomer(){
             const fd = new FormData()
             fd.append('name',this.name)
@@ -87,6 +117,3 @@ export default {
     }
 }
 </script>
-<style lang="">
-    
-</style>

@@ -43,7 +43,7 @@
     </div>
     <div class="row" v-else>
       <div v-for="project in projects">
-        <div class="col-md-4" v-if="store.memoir.team_id == project.team_id">
+        <div class="col-md-4">
           <div class="card bg-primary text-white mb-3" >
           <div class="card-body">
             <h4 class="card-title text-white">{{ project.title }}</h4>
