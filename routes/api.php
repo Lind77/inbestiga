@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
@@ -90,3 +91,6 @@ Route::post('/updateCustomer', [CustomerController::class, 'updateCustomer']);
 Route::get('/standByCustomer/{id}', [CustomerController::class,'standByCustomer']);
 Route::get('/getAllStandByCustomers', [CustomerController::class, 'getAllStandByCustomers']);
 Route::get('/reactivateCustomer/{id}', [CustomerController::class, 'reactivateCustomer']);
+
+Route::get('/getAllMessages', [ChatController::class, 'index']);
+Route::post('/storeMessage',[ChatController::class, 'store']);

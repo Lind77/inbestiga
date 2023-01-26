@@ -52,6 +52,8 @@ import MainAdmin from '../components/admin/Main.vue'
 import UsersAdmin from '../components/admin/Users.vue'
 import RolesAdmin from '../components/admin/Roles.vue'
 
+import RealTime from '../components/admin/Realtime.vue'
+
 export const routes = [
     {
         path: '/',
@@ -174,6 +176,11 @@ export const routes = [
                 path: 'roles-admin',
                 component:  RolesAdmin,
                 name: 'roles-admin'
+            },
+            {
+                path: 'real-time',
+                component: RealTime,
+                name: 'real-time'
             }
         ]
     }

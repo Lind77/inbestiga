@@ -84,6 +84,12 @@
               <div data-i18n="Form Layouts">Roles</div>
             </div>
           </router-link>
+          <router-link :to="{name:'real-time'}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-user"></i>
+              <div data-i18n="Form Layouts">Realtime</div>
+            </div>
+          </router-link>
       </ul>
 
       <ul class="menu-inner py-1" v-if="store.rol == 'AdminAcad'">

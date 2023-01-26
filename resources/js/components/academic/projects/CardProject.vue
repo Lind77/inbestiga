@@ -11,7 +11,6 @@
         <div v-if="this.project.status == 2" class="btn btn-info btn-sm mt-2 ms-1" @click="pointsQual">Indicadores de Calidad</div>
     </div>
     </div>
-    
 </template>
 <script>
     export default{
