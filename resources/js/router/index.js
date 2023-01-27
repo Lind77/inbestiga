@@ -52,7 +52,7 @@ import MainAdmin from '../components/admin/Main.vue'
 import UsersAdmin from '../components/admin/Users.vue'
 import RolesAdmin from '../components/admin/Roles.vue'
 
-import RealTime from '../components/admin/Realtime.vue'
+import RealTime from '../components/admin/chat/Chat.vue'
 
 export const routes = [
     {

@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     </div>
-                    <div id="bodyChats" class="chat-history-body bg-body ps" style="height:80vh; overflow-y: scroll !important;">
+                    <div ref="bodyChats" id="bodyChats" class="chat-history-body bg-body ps" style="height:80vh; overflow-y: scroll !important;">
                     <ul class="list-unstyled chat-history mb-0 px-2 py-2">
                         <li class="chat-message" v-for="message in selected_messages">
                         <div class="d-flex justify-content-end overflow-hidden" v-if="message.emisor_id == store.authUser[0].id">
@@ -113,9 +113,16 @@
 </template>
 <script>
 import axios from 'axios';
+import Echo from 'laravel-echo';
 import {useCounterStore} from '../../stores/UserStore'
 
 export default {
+    props:{
+        token: {
+            type: String,
+            default : localStorage.getItem('token')
+        }
+    },
     setup(){
       const store = useCounterStore()
       return{
@@ -149,10 +156,10 @@ export default {
 
             this.user_selected = user
 
-            this.selected_messages = this.messages.filter(message => message.receptor_id == user.id && message.emisor_id == this.store.authUser[0].id || message.receptor_id == this.store.authUser[0].id && message.emisor_id == user.id)
-
-            let bodyChat = document.getElementById('bodyChats')
-            console.log(bodyChat)
+            if(this.store.authUser){
+                this.selected_messages = this.messages.filter(message => message.receptor_id == user.id && message.emisor_id == this.store.authUser[0].id || message.receptor_id == this.store.authUser[0].id && message.emisor_id == user.id)
+            }
+           
             //bodyChat.scrollTop = bodyChat.scrollHeight
 
         },
@@ -198,6 +205,10 @@ export default {
         }
     },
     mounted(){
+        window.Echo.private(`message.1`)
+        .listen('NewMessage', (e) =>{
+            console.log('event',e)
+        })
         this.getAllMessages()
         this.getAllUsers()
     },
@@ -208,6 +219,18 @@ export default {
                 this.selectContact(this.user_selected)
             }    
            
+        },
+        selected_messages(){
+            if(this.user_selected.name){
+            console.log('entrando a un chat unico')
+                setTimeout(() => {
+                    if(document.getElementById('bodyChats')){
+                    document.getElementById('bodyChats').scrollTop = document.getElementById('bodyChats').scrollHeight
+                }
+                }, 100);
+              
+               
+            }
         }
     }
 }

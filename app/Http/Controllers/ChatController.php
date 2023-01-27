@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewMessage;
 use App\Models\Chat;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreChatRequest;
@@ -40,6 +41,8 @@ class ChatController extends Controller
     public function store(Request $request)
     {
         $chat = Chat::create($request->all());
+
+        broadcast(new NewMessage($chat));
 
         return response()->json([
             'msg' => 'success'
