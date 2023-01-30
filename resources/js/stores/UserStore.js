@@ -7,7 +7,8 @@ export let useCounterStore = defineStore('counter', {
             authUser: null,
             rol: '',
             token: localStorage.getItem("token"),
-            memoir:[]
+            memoir:[],
+            userId:0
         }
     },
     getters: {
@@ -20,6 +21,7 @@ export let useCounterStore = defineStore('counter', {
     await axios.get('/api/user')
       .then((res) => {
         this.authUser = res.data
+        this.userId = this.authUser[0].id
         this.rol = this.authUser[0].roles[0].name
         this.memoir = this.authUser[0].memoir
       })

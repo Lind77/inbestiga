@@ -29,26 +29,18 @@
                 <div class="row g-2">
                     <div class="col mb-0">
                     <label for="emailBasic" class="form-label">Cliente</label>
-                    <select v-model="customer_id" id="" class="form-select">
-                        <option :value="customer.id" v-for="customer in customers">{{ customer.name }}</option>
-                    </select>
                 </div>
                 <div class="row g-2">
                     <div class="col mb-0">
                         <label for="emailBasic" class="form-label">Indicaciones Adicionales</label>
-                        <input type="text" v-model="indication" class="form-control">
+                        <textarea v-model="indication" class="form-control">
+                        </textarea>
                     </div>
                 </div>
                 <div class="row g-2">
                     <div class="col mb-3">
                     <label for="nameBasic" class="form-label">Producto</label>
-                    <input type="text" v-model="product" class="form-control" @keyup="search"/>
-                    <table class="table table-striped mb-3">
-                        <tr v-for="product in products_filtered" @click="selectProduct(product)" class="cursor-pointer border border-light p-2">
-                            {{ product.title }}
-                        </tr>
-                        
-                    </table>
+                   
                     </div>
                 </div>
                 <div class="row g-2">

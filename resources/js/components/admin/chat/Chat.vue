@@ -1,6 +1,6 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">Realtime</h4>
+        <h4 class="fw-bold py-3 mb-4">Chat</h4>
         <div class="card vh-100">
            <div class="row">
             <div class="col-4">
@@ -19,7 +19,7 @@
 
                     </div>
                 </div>
-                <ContactList :users="users"/>
+                <ContactList :users="users" @listConversations="listConversations"/>
             </div>
             <div class="col-8 app-chat-history">
         <div class="chat-history-wrapper">
@@ -42,41 +42,11 @@
                 </div>
             </div>
             </div>
-            <div ref="bodyChats" id="bodyChats" class="chat-history-body bg-body ps" style="height:80vh; overflow-y: scroll !important;">
-            <ul class="list-unstyled chat-history mb-0 px-2 py-2">
-                <li class="chat-message" v-for="message in selected_messages">
-                <div class="d-flex justify-content-end overflow-hidden" v-if="message.emisor_id == store.authUser[0].id">
-                    <div class="chat-message-wrapper">
-                    <div class="chat-message-text chat-message-right">
-                        <p class="mb-0">{{ message.message }}</p>
-                    </div>
-                    <div class="text-end text-muted mt-1">
-                        <i class="bx bx-check-double text-success"></i>
-                        <small>10:00 AM</small>
-                    </div>
-                    </div>
-                    <div class="flex-shrink-0 avatar ms-2">
-                        <span class="avatar-initial rounded-circle bg-primary">{{ store.authUser[0].name[0] }}</span>
-                    </div>
-                </div>
-                <div v-else class="d-flex justify-content-start overflow-hidden">
-                    <div class="flex-shrink-0 avatar me-2">
-                        <span class="avatar-initial rounded-circle bg-primary">{{ user_selected.name[0] }}</span>
-                    </div>
-                    <div class="chat-message-wrapper">
-                    <div class="chat-message-text chat-message-left">
-                        <p class="mb-0">{{ message.message }}</p>
-                    </div>
-                    <div class="text-muted">
-                        <small>10:02 AM</small>
-                    </div>
-                    </div>
-                </div>
-                </li>
-            </ul>
-            <div class="ps__rail-x" style="left: 0px; bottom: -751px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 751px; height: 324px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 226px; height: 97px;"></div></div></div>
+            
+            <Conversation :selected_messages="selected_messages" :user_selected="user_selected"/>
+            
             <!-- Chat message form -->
-            <SendMessage @message="setNewMessage"/>
+            <SendMessage @message="setNewMessage" :user_selected="user_selected"/>
                 </div>
             </div>
            </div>
@@ -96,7 +66,7 @@ export default {
         return{
             users:[],
             user_selected: {},
-            selected_messages:[]
+            selected_messages:[],
         }
     },  
     setup(){
@@ -115,11 +85,41 @@ export default {
                 console.log(err)
             })
         },
-        setNewMessage(ms){
-            console.log(ms)
+        setNewMessage(msg){
+            this.selected_messages.push(msg)
+            this.scrollToBottom()
+        },
+        listConversations(contact){
+            this.user_selected = contact
+            axios.get('/api/getAllMessagesById/'+ contact.id)
+            .then(res => {
+                this.selected_messages= res.data
+                console.log(this.selected_messages)
+                this.scrollToBottom()
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+        },
+        scrollToBottom(){
+            setTimeout(() => {
+                    if(document.getElementById('bodyChats')){
+                    document.getElementById('bodyChats').scrollTop = document.getElementById('bodyChats').scrollHeight
+                }
+                }, 100);
+        },
+        setNewMessageBroadcasted(message){
+            if(this.user_selected && this.user_selected.id == message.emisor_id){
+                this.setNewMessage(message)
+            }
         }
     },
     mounted(){
+        console.log(this.store.userId)
+        Echo.private(`message.${this.$route.params.userId}`)
+        .listen('NewMessage',(e)=>{
+            this.setNewMessageBroadcasted(e.message)
+        })
         this.getAllUsers()
     }
 }

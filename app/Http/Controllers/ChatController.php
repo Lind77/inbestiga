@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreChatRequest;
 use App\Http\Requests\UpdateChatRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
@@ -40,13 +41,19 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-        $chat = Chat::create($request->all());
+        $chat = Chat::create([
+            'emisor_id' => Auth::id(),
+            'receptor_id' => $request->get('receptor_id'),
+            'message' => $request->get('message'),
+            'viewed' => 0
+        ]);
 
+       
         broadcast(new NewMessage($chat));
 
-        return response()->json([
-            'msg' => 'success'
-        ]);
+        return response()->json($chat);
+
+    
     }
 
     /**
@@ -92,5 +99,18 @@ class ChatController extends Controller
     public function destroy(Chat $chat)
     {
         //
+    }
+
+    public function getAllMessagesById($id){
+
+        $emisor_id = Auth::id();
+
+        $messages = Chat::where('receptor_id',$id)
+                        ->where('emisor_id',$emisor_id)
+                        ->orWhere('receptor_id',$emisor_id)
+                        ->where('emisor_id',$id)
+                        ->get();
+
+        return response()->json($messages);
     }
 }

@@ -93,4 +93,5 @@ Route::get('/getAllStandByCustomers', [CustomerController::class, 'getAllStandBy
 Route::get('/reactivateCustomer/{id}', [CustomerController::class, 'reactivateCustomer']);
 
 Route::get('/getAllMessages', [ChatController::class, 'index']);
-Route::post('/storeMessage',[ChatController::class, 'store']);
+Route::get('/getAllMessagesById/{id}', [ChatController::class, 'getAllMessagesById'])->middleware('auth:sanctum');
+Route::post('/storeMessage',[ChatController::class, 'store'])->middleware('auth:sanctum');

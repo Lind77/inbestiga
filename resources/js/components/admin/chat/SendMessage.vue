@@ -17,8 +17,13 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
+
 
     export default{
+        props:{
+            user_selected: Object
+        },
         data(){
             return{
                 message: ''
@@ -26,11 +31,23 @@
         },
         methods:{
             sendMessage(){
-               if(!this.message){
+               if(!this.message || !this.user_selected){
                 return
                }else{
-                this.$emit('message', this.message)
-                this.message = ''
+                const fd = new FormData()
+
+                fd.append('receptor_id', this.user_selected.id)
+                fd.append('message', this.message)
+                axios.post('/api/storeMessage', fd)
+                .then(res =>{
+                    this.$emit('message', res.data)
+                    this.message = ''
+                })
+                .catch(err =>{
+
+                })
+
+                
                }                
             }
         }

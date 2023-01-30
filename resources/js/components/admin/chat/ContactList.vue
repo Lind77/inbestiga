@@ -2,7 +2,7 @@
     <div class="chat-history-body ps ps--active-y ">
         <ul class="list-unstyled chat-history mb-0 px-3 py-2 ">
             <h5 class="text-primary mb-2">Chats</h5>
-            <li class="contact rounded py-2 mb-2" :id="`user${user.id}`" v-for="user in users" @click="selectContact(user)">
+            <li class="contact rounded py-2 mb-2" :id="`user${user.id}`" v-for="(user, index) in users" :key="index" @click="selectContact(user, index)">
             <div class="d-flex justify-content-start overflow-hidden">
                 <div class="flex-shrink-0 avatar ms-2">
                 <span class="avatar-initial rounded-circle bg-success">{{ user.name[0] }}</span>
@@ -28,7 +28,7 @@ export default{
         users: Array
     },
     methods:{
-        selectContact(user){
+        selectContact(user, index){
             document.querySelectorAll('.contact').forEach((contact)=>{
                 contact.classList.remove('bg-primary')
             })
@@ -41,6 +41,7 @@ export default{
             document.getElementById('name'+user.id).classList.add('text-white')
             }
             
+            this.$emit('listConversations', user)
         }
     }
 }

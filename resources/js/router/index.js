@@ -178,9 +178,10 @@ export const routes = [
                 name: 'roles-admin'
             },
             {
-                path: 'real-time',
+                path: 'real-time/:userId',
                 component: RealTime,
-                name: 'real-time'
+                name: 'real-time',
+                props: true
             }
         ]
     }

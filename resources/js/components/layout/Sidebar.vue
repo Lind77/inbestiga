@@ -63,7 +63,7 @@
             </div>
           </router-link>
       </ul>
-      <!-- Menú departamento académico -->
+      <!-- Menú departamento admin -->
       <ul class="menu-inner py-1" v-if="store.rol == 'Admin'">
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
           <router-link :to="{name:'main-admin'}" class="menu-item">
@@ -84,7 +84,7 @@
               <div data-i18n="Form Layouts">Roles</div>
             </div>
           </router-link>
-          <router-link :to="{name:'real-time'}" class="menu-item">
+            <router-link :to="{name:'real-time',params:{ userId: this.store.userId}}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-user"></i>
               <div data-i18n="Form Layouts">Realtime</div>
