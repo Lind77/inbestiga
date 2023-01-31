@@ -123,7 +123,7 @@
                 axios.get('/api/getAllProjects')
                 .then(res =>{
                   this.projects = res.data
-
+                  
                   this.projects.forEach(element =>{
                     if(element.status == 0){
                       element.textStatus = 'Sin primer contacto'

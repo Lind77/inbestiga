@@ -87,7 +87,7 @@
             <router-link :to="{name:'real-time',params:{ userId: this.store.userId}}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-user"></i>
-              <div data-i18n="Form Layouts">Realtime</div>
+              <div data-i18n="Form Layouts">Chat</div>
             </div>
           </router-link>
       </ul>

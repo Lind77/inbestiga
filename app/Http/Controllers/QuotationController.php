@@ -19,7 +19,7 @@ class QuotationController extends Controller
      */
     public function index()
     {
-        $quotations = Quotation::with('customer')->orderBy('id','desc')->take(10)->get();
+        $quotations = Quotation::with('customer')->get();
         return response()->json($quotations);
     }
 
@@ -41,26 +41,29 @@ class QuotationController extends Controller
      */
     public function store(Request $request)
     {
-        $customer = Customer::create([
+        /* $customer = Customer::create([
             'name' => $request->get('name'),
             'cell' => $request->get('cell'),
             'university' => $request->get('university'),
             'career' => $request->get('career'),
             'grade' => $request->get('grade'),
-        ]);
+        ]); */
 
+        
         $products = json_decode($request->get('products'),true);
 
-        $amount = 0;
+        $price = 0;
 
         foreach($products as $product){
-            $amount = $amount+$product['amount'];
+            foreach($product['amount'] as $amount){
+                $price = $price+$amount['price'];
+            }
         }
 
         $quotation = Quotation::create([
-            'customer_id' => $customer->id,
+            'customer_id' => $request->get('user_id'),
             'date' => $request->get('date'),
-            'amount' => $amount
+            'amount' => $price
         ]);
 
         foreach($products as $product){

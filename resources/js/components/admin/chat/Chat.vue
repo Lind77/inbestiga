@@ -1,6 +1,6 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">Chat</h4>
+        <h4 class="fw-bold py-3">Chat</h4>
         <div class="card vh-100">
            <div class="row">
             <div class="col-4">
@@ -36,9 +36,9 @@
                 </div>
                 </div>
                 <div class="d-flex align-items-center">
-                <i class="bx bx-phone-call cursor-pointer d-sm-block d-none me-3 fs-4"></i>
+                <!-- <i class="bx bx-phone-call cursor-pointer d-sm-block d-none me-3 fs-4"></i>
                 <i class="bx bx-video cursor-pointer d-sm-block d-none me-3 fs-4"></i>
-                <i class="bx bx-search cursor-pointer d-sm-block d-none me-3 fs-4"></i>
+                <i class="bx bx-search cursor-pointer d-sm-block d-none me-3 fs-4"></i> -->
                 </div>
             </div>
             </div>

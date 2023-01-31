@@ -20,20 +20,30 @@
             <div class="card-body">
               
                 <div class="row">
-                  <div class="col-sm-12 col-lg-6">
+                  <div class="col-12">
                   <div class="mb-3">
                   <label class="form-label" for="basic-default-fullname">Nombre del cliente</label>
-                  <input type="text" v-model="name" class="form-control" id="basic-default-fullname" />
+                  <input type="text" v-model="name" class="form-control" id="inputSearchName" @keyup="searchCustomer"/>
+                  <table class="table table-bordered mb-3">
+                    <tr v-for="customer in customersFiltered" @click="selectCustomer(customer)">{{ customer.name }}</tr>
+                  </table>
                   </div>
-                </div>
-                <div class="col-sm-12 col-lg-6">
-                  <div class="mb-3">
-                  <label class="form-label" for="basic-default-company">Fecha</label>
-                  <input type="date" v-model="date" class="form-control" id="basic-default-company" />
+                  <div class="card shadow-none bg-transparent border border-info mb-3 w-50"  v-if="customerSelected.id">
+                    <div class="card-body">
+                    <h5 class="card-title">Cliente: {{ customerSelected.name }}</h5>
+                    <p class="card-text">
+                      Universidad: {{ customerSelected.university }}
+                    </p>
+                    <p class="card-text">
+                      Estado: {{ status[customerSelected.status] }}
+                    </p>
                   </div>
+                  </div>
+                  
                 </div>
+                
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                   <div class="col-sm-12 col-lg-6">
                   <div class="mb-3">
                   <label class="form-label" for="basic-default-fullname">Celular</label>
@@ -46,8 +56,8 @@
                   <input type="text" v-model="university" class="form-control" />
                   </div>
                 </div>
-                </div>
-                <div class="row">
+                </div> -->
+                <!-- <div class="row">
                   <div class="col-sm-12 col-lg-6">
                   <div class="mb-3">
                   <label class="form-label" for="basic-default-fullname">Carrera</label>
@@ -65,7 +75,7 @@
                 </select>
                   </div>
                 </div>
-                </div>
+                </div> -->
                 <div class="row">
                   <div class="col-sm-12 col-lg-6">
                   <div class="mb-3">
@@ -82,8 +92,8 @@
                 </div>
                 <div class="col-sm-12 col-lg-6">
                   <div class="mb-3">
-                  <label class="form-label" for="basic-default-company">Precio</label>
-                  {{ price[0]? 'S./ '+price[0].price : '' }}
+                  <label class="form-label" for="basic-default-company">Fecha</label>
+                  <input type="date" v-model="date" class="form-control" id="basic-default-company" />
                   </div>
                 </div>
                 </div>
@@ -116,6 +126,14 @@
                     </tbody>
                   </table>
                 </div>
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                  <div class="mb-3">
+                  <label class="form-label" for="basic-default-company">TOTAL</label>
+                  {{ price[0]? 'S./ '+price[0].price : '' }}
+                  </div>
+                </div>
+                </div>
                 <button @click="insertQuotation" class="btn btn-primary mt-2 text-white">Guardar</button>
                 <button @click="print" target="_blank" id="buttonPDF" class="btn btn-primary mt-2 mx-2 text-white" disabled>Generar PDF</button>
               
@@ -145,6 +163,9 @@
     components:{List, calcModal},
     data(){
       return{
+        customers:[],
+        customersFiltered:[],
+        customerSelected:{},
         products:[],
         selected_product:{},
         filtered_products:[],
@@ -157,21 +178,33 @@
         grade:0,
         idQuotation:0,
         level: 0,
-        price: []
+        price: [],
+        status:{
+          0: 'No atendido',
+          1: 'Atendido',
+          2: 'Comunicación establecida',
+          3: 'Lead',
+          4: 'Interesado',
+          5: 'Altamente Interesado',
+          6: 'Cliente',
+          null: 'Stand By'
+        }
       }
     },
     methods:{
+      selectCustomer(customer){
+        this.customerSelected = customer
+        this.customersFiltered = []
+        this.name = ''
+      },
       print(e){
             e.preventDefault()
             window.open('/api/generatePDF/'+this.idQuotation)
       },
       insertQuotation(){
         const fd = new FormData()
-        fd.append('name', this.name)
+        fd.append('user_id', this.customerSelected.id)
         fd.append('date', this.date)
-        fd.append('cell', this.cell)
-        fd.append('university', this.university)
-        fd.append('career', this.career)
         fd.append('grade', this.grade)
         fd.append('products', JSON.stringify(this.car_products))
 
@@ -224,6 +257,14 @@
           this.filtered_products = [] 
         }
       },
+      searchCustomer(e){
+        console.log(e.target.value)
+        if(e.target.value != ''){
+          this.customersFiltered = this.customers.filter(customer => customer.name.toLowerCase().includes(e.target.value))
+        }else{
+          this.customersFiltered = [] 
+        }
+      },
       getAllProducts(){
                 axios.get('/api/getAllProducts')
                 .then(res =>{
@@ -233,10 +274,17 @@
                 .catch(err =>{
                   console.log(err.response.data)
                 })
+      },
+      getAllCustomers(){
+        axios.get('/api/getAllCustomers')
+        .then(res => {
+          this.customers = res.data
+        })
       }
     },
     mounted(){
       this.getAllProducts()
+      this.getAllCustomers()
     }
   }
 </script>

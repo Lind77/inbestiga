@@ -58,7 +58,7 @@
                 </div>
               </a>
             </li>
-            <li>
+            <!-- <li>
               <div class="dropdown-divider"></div>
             </li>
             <li>
@@ -72,7 +72,7 @@
                 <i class="bx bx-cog me-2"></i>
                 <span class="align-middle">Ajustes</span>
               </a>
-            </li>
+            </li> -->
           
             <li>
               <div class="dropdown-divider"></div>
