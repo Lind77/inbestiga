@@ -194,6 +194,11 @@
         }
       },
       mounted(){
+        Echo.private('projects')
+        .listen('NewProject',()=>{
+            alert('nuevo proyecto creado')
+            this.getAllProjects()
+        })
         this.getAllProjects()
         this.getAllCustomers()
         this.getAllTeams()

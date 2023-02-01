@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewProject;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
@@ -252,6 +253,8 @@ class ProjectController extends Controller
             'status' => 0,
             'title' => 'Proyecto '.$customer->name
         ]);
+
+        broadcast(new NewProject($project));
 
         //Traer actividades de Inbestiga por default
         $fixedActivitiesEnterprise = FixedActivity::where('type',0)->get();
