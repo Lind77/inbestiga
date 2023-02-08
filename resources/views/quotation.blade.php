@@ -13,15 +13,15 @@
         }
         .bg-purple{
             background-color: #6E26F7;
-            border-radius: 10px;
+            border-radius: 0px 0px 10px 10px;
         }
         .main-logo{
             width: 300px;
         }
         .header-text{
             font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            font-size: 20;
+            font-weight: 700;
+            font-size: 12px;
             color: #fff;
             margin: 0px;
         }
@@ -29,9 +29,10 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             color: #6E26F7;
-            font-size: 20px;
+            font-size: 14px;
             text-align: left;
             margin-bottom: 0;
+            margin-top: 2px;
         }
         .name-customer span{
             color: #000;
@@ -39,10 +40,10 @@
         .info-user{
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
-            font-size: 20px;
             color: #6E26F7;
-            font-size: 19px;
+            font-size: 12px;
             margin-bottom: 0;
+            margin-top: 2px;
         }
         .name{
             font-weight: 900;
@@ -52,20 +53,81 @@
             font-weight: 700;
             color: #000;
             padding: 0px 0px 0px 10px;
+            display: inline-block;
+        }
+        .main-table tr:nth-child(even) {
+            background-color: #6f26f71a;
         }
         table, th{
+            /* border: 1px solid #000; */
+        }
+        .customer-data{
+            /* border: 1px solid #000; */
+        }
+        .customer-data tr, th{
+           /*  border: 1px solid #000; */
+            vertical-align:top;
         }
         .info-doc{
             font-weight: 700;
         }
-        .info-foc-p{
+        .info-doc-p{
             margin: 0px !important;
+        }
+        .sub-header{
+            margin-top: 10px;
+            font-weight: 700;
+        }
+        .text-purple{
+            color: #6E26F7;
+        }
+        .main-table{
+            width: 100%;
+        }
+        .main-table thead{
+            background-color: #6f26f71a;
+            font-weight: 700;
+        }
+        .table-item{
+            font-weight: 4 fw-30000;
+            border: 1px solid #6E26F7;
+        }
+        .sugested{
+            font-weight: 900;
+        }
+        .sugested-title{
+            background-color: #6f26f71a;
+        }
+        .pig-text{
+            font-weight: 700;
+        }
+        .pig-text span{
+            color: #6E26F7;
+        }
+        .last{
+            position: absolute;
+            bottom: 0;
+        }
+        .watermark{
+            position: absolute;
+            top: 28%;
+            left: 30%;
+            width: 40%;
+            z-index: -1;
+        }
+        footer{
+            background-color: #6f26f71a;
+            color: #000;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 15px 18px 15px 18px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-dark bg-purple">
-        <div class="row w-100 px-4">
+        <div class="row w-100 px-4 py-3">
             <div class="col-6 d-flex align-items-center justify-content-center">
                 <img src="https://inbestiga.com/pdf-sys/logo.png" alt="" class="main-logo">
             </div>
@@ -79,7 +141,7 @@
     </nav>
     <section class="row">
         <div class="col-8 ps-5 pt-4">
-            <table>
+            <table class="customer-data">
                 <tbody>
                     <tr>
                         <th><h2 class="name-customer">COTIZACIÓN DE: </h2></th>
@@ -99,6 +161,7 @@
                     </tr>
                 </thead>
             </table>
+            <p class="sub-header">Elaboración completa de Tesis: <span class="text-purple">Posgrado</span></p>
         </div>
         <div class="col-4 info-doc pt-3">
             <p class="info-doc-p">COTIZACIÓN N°: 01-EN-VL</p>
@@ -107,6 +170,96 @@
             <p class="info-doc-p">IMPORTE: S./3930.00</p>
         </div>
     </section>
+    <section class="d-flex justify-content-center">
+        <table class="main-table">
+            <thead>
+                <tr>
+                    <th class="text-purple fw-bolder py-3 ps-2">PRODUCTO / SERVICIO</th>
+                    <th class="text-purple fw-bolder py-3 ps-1">DESCRIPCIÓN</th>
+                    <th class="text-purple fw-bolder py-3 ps-1">PLAZO</th>
+                    <th class="text-purple fw-bolder py-3 ps-1">TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th class="table-item fw-normal ps-2">ASPECTOS PRELIMINARES</th>
+                    <th class="table-item fw-normal">
+                        -Matriz de consistencia.<br>
+                        -Descripción del problema.<br>
+                        -Problemas.<br>
+                        -Objetivos.<br>
+                        -Justificación.<br>
+                        -Delimitación.<br>
+                    </th>
+                    <th class="table-item fw-normal">- 02 Semanas</th>
+                    <th class="table-item fw-normal">S./990.00</th>
+                </tr>
+                <tr>
+                    <th class="table-item fw-normal ps-2">MARCO TEÓRICO</th>
+                    <th class="table-item fw-normal">
+                        -Antecedentes de Investigación.<br>
+                        -Bases teóricas.<br>
+                        -Definición de términos.<br>
+                    </th>
+                    <th class="table-item fw-normal">- 02 Semanas</th>
+                    <th class="table-item fw-normal">S./990.00</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th class="text-purple">TOTAL</th>
+                    <th class="text-purple">S./3990.00</th>
+                </tr>
+                <tr class="sugested-title">
+                    <th class="text-purple sugested py-3 ps-1" colspan="4">PRODUCTO SUGERIDO</th>
+                </tr>
+                <tr style=" background-color: #ffffff00;">
+                    <th class="table-item fw-normal ps-2">MARCO TEÓRICO</th>
+                    <th class="table-item fw-normal">
+                        -Antecedentes de Investigación.<br>
+                        -Bases teóricas.<br>
+                        -Definición de términos.<br>
+                    </th>
+                    <th class="table-item fw-normal">- 02 Semanas</th>
+                    <th class="table-item fw-normal">S./990.00</th>
+                </tr>
+                <tr style=" background-color: #ffffff00;">
+                    <th></th>
+                    <th></th>
+                    <th class="text-purple">TOTAL</th>
+                    <th class="text-purple">S./3990.00</th>
+                </tr>
+                <tr class="sugested-title">
+                    <th class="text-purple sugested py-3 ps-1" colspan="4">PRECIO FINAL</th>
+                </tr>
+                <tr style=" background-color: #fff;">
+                    <th></th>
+                    <th></th>
+                    <th class="text-purple">TOTAL</th>
+                    <th class="text-purple">S./3990.00</th>
+                </tr>
+                <tr style=" background-color: #fff;">
+                    <th></th>
+                    <th></th>
+                    <th class="text-danger">DESCUENTO</th>
+                    <th class="text-danger">S./0000.00</th>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    <section class="last">
+        <div class="row mt-3">
+            <div class="col-6 ps-5 d-flex justify-content-center align-items-center">
+                <img src="https://inbestiga.com/pdf-sys/pig.png" class="w-25">
+                <p class="ps-3 pig-text">Recuerda que puedes hacer el pago en <span>CUOTAS</span>!</p>
+            </div>
+            <div class="col-6"></div>
+        </div>
+        <footer class="mt-3">
+            <p>Gracias por brindarnos tu confianza. Contáctanos si tienes alguna duda acerca de esta cotización.</p>
+        </footer>
+    </section>
+    <img src="https://inbestiga.com/pdf-sys/watermark.png" class="watermark">
     <script>
         /* window.print() */
     </script>
