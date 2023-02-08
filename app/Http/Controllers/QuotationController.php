@@ -141,4 +141,8 @@ class QuotationController extends Controller
     {
         //
     }
+
+    public function newPDF(){
+        return view('quotation');
+    }
 }

@@ -68,6 +68,7 @@ Route::post('/insertTimes', [TimeController::class, 'insertTimes']);
 
 Route::post('/insertQuotation', [QuotationController::class, 'store']);
 Route::get('/generatePDF/{id}', [QuotationController::class, 'generatePDF']);
+Route::get('/quotationPDF', [QuotationController::class, 'newPDF']);
 
 Route::get('/getAllProjects',[ProjectController::class, 'index']);
 Route::get('/getProjectById/{id}', [ProjectController::class, 'show']);

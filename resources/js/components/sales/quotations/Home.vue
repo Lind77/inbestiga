@@ -136,7 +136,7 @@
                 </div>
                 <button @click="insertQuotation" class="btn btn-primary mt-2 text-white">Guardar</button>
                 <button @click="print" target="_blank" id="buttonPDF" class="btn btn-primary mt-2 mx-2 text-white" disabled>Generar PDF</button>
-              
+                <a class="btn btn-primary" target="_blank" href="/api/quotationPDF">PDF</a>
             </div>
         </div>
         <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
