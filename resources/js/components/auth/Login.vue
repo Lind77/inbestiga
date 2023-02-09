@@ -69,7 +69,7 @@
               <!-- /Logo -->
               <h4 class="mb-2">Welcome to Inbestiga! 👋</h4>
 
-              <p class="text-danger" v-text="errors.email"></p>
+             <!--  <p class="text-danger" v-text="errors.email"></p> -->
 
               <form id="formAuthentication" class="mb-3" v-on:submit.prevent>
                 <div class="mb-3">
@@ -150,7 +150,10 @@ export default {
                 console.log(res.data.memoir)
                 this.$router.push({path:`${res.data.memoir.area}/home`})
             }).catch((err) => {
-                console.log(err)
+                this.$swal({
+                  icon: 'error',
+                  title: 'Credenciales incorrectas'
+                })
                 this.errors = err.response.data.errors
             });
         }

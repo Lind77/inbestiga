@@ -30,7 +30,7 @@
               <div class="container-cards">
                 <div v-for="customer in customers">
                 <div v-if="customer.status == 2">
-                  <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers" :status="status"/>
+                  <CardCustomer :customer="customer" @selectCustomer="selectCustomer" @getAllCustomers="getAllCustomers" :status="status"/>
                 </div>
                 </div>
               </div>
@@ -38,18 +38,21 @@
           </div>
         </div>
       </div>
-    </div>  
+      <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>  
+    </div>
 </template>
 <script>
 import axios from 'axios'
 import CardCustomer from './CardCustomer.vue'
+import ProductModal from '../funnel/ProductModal.vue'
 
 export default {
-    components: {CardCustomer},
+    components: {CardCustomer, ProductModal},
     data(){
         return{
         customers:[],
-        status: 0
+        status: 0,
+        customer_selected:{}
         }
     },
     methods:{
@@ -62,13 +65,17 @@ export default {
             console.log(err.response.data)
         })
         },
+        selectCustomer(customer){
+        console.log('customer selected')
+        this.customer_selected = customer
+        },
         drop(e){
           e.preventDefault()
           var data = e.dataTransfer.getData("text");
          
           console.log(data)
           if(e.target.id == 'noAtendedArea'){
-            axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/0`)
+            axios.get(`/api/updateCustomerGrade/${data}/0`)
             .then(res =>{
               this.getAllCustomers()
             })
@@ -77,7 +84,7 @@ export default {
             })
           }
           else if(e.target.id == 'atendedArea'){
-            axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/1`)
+            axios.get(`/api/updateCustomerGrade/${data}/1`)
             .then(res =>{
                 this.getAllCustomers()
                 console.log(res)
@@ -87,7 +94,7 @@ export default {
             })
           }else if(e.target.id == 'comunicationArea'){
             
-            axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/2`)
+            axios.get(`/api/updateCustomerGrade/${data}/2`)
             .then(res =>{
                 this.getAllCustomers()
                 console.log(res)

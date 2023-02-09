@@ -24,7 +24,7 @@
                 <textarea v-model="description" id="" cols="30" rows="3" class="form-control"></textarea>
               </div>
             </div>
-            <div class="row g-2">
+            <!-- <div class="row g-2">
                 <div class="col mb-0">
                 <label for="dobBasic" class="form-label">Precios</label>
               </div>
@@ -36,7 +36,7 @@
                     <input type="number" :placeholder="`Nivel ${index+1}`" v-model="prices[index]" class="form-control mt-1"/>
                   </div>
                 </div>
-            </div>
+            </div> -->
             <div class="row g-2">
               <div class="col mb-0">
                 <label for="emailBasic" class="form-label">Plazo</label>

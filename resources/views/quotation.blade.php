@@ -261,7 +261,7 @@
     </section>
     <img src="https://inbestiga.com/pdf-sys/watermark.png" class="watermark">
     <script>
-        /* window.print() */
+        window.print()
     </script>
 </body>
 </html>

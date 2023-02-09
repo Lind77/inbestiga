@@ -1,13 +1,13 @@
 <template>
-    <div class="btn-group mt-2" draggable="true" @dragstart="drag" :id="`customer${customer.id}`">
+    <div class="btn-group mt-2" draggable="true" @dragstart="drag" :id="`${customer.id}`">
         <button type="button" :class="`btn btn-${bgColor}`">{{ customer.name || customer.cell }}</button>
         <button type="button" :class="`btn btn-${bgColor} dropdown-toggle dropdown-toggle-split`" data-bs-toggle="dropdown" aria-expanded="false">
           <span class="visually-hidden">Toggle Dropdown</span>
         </button>
         <ul class="dropdown-menu" style="">
           <li><a class="dropdown-item" @click="customerStandBy(customer.id)" href="javascript:void(0);">Stand By</a></li>
-          <li><a class="dropdown-item" v-if="customer.status == 2" @click="convertLead(customer.id)" href="javascript:void(0);">Lead</a></li>
-          <li><a class="dropdown-item" v-if="customer.status == 3" @click="openProductModal(customer)" href="javascript:void(0);">Asignar Producto</a></li>
+          <li><router-link class="dropdown-item" v-if="customer.status == 2" :to="{name:'home-quotation', params:{ idUser: customer.id }}">Generar Cotización</router-link></li>
+          <!-- <li><a class="dropdown-item" v-if="customer.status == 2" @click="openProductModal(customer)" href="javascript:void(0);">Asignar Producto</a></li> -->
         </ul>
     </div>
 </template>

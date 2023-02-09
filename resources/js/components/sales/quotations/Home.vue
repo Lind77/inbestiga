@@ -15,31 +15,57 @@
         <div class="tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
           
             <div class="card-header d-flex justify-content-between align-items-center">
-              <h5 class="mb-0">Ingrese los datos para generar el PDF</h5>
+              <h5 class="mb-0">Ingrese los datos para generar la cotización.</h5>
             </div>
             <div class="card-body">
               
                 <div class="row">
-                  <div class="col-12">
-                  <div class="mb-3">
+                  <div class="col">
+                  <!-- <div class="mb-3">
                   <label class="form-label" for="basic-default-fullname">Nombre del cliente</label>
                   <input type="text" v-model="name" class="form-control" id="inputSearchName" @keyup="searchCustomer"/>
                   <table class="table table-bordered mb-3">
                     <tr v-for="customer in customersFiltered" @click="selectCustomer(customer)">{{ customer.name }}</tr>
                   </table>
-                  </div>
-                  <div class="card shadow-none bg-transparent border border-info mb-3 w-50"  v-if="customerSelected.id">
+                  </div> -->
+                  <div class="card shadow-none bg-transparent border border-info mb-3"  v-if="customerSelected.id">
                     <div class="card-body">
-                    <h5 class="card-title">Cliente: {{ customerSelected.name }}</h5>
+                    <h5 class="card-title">Cliente: {{ customerSelected.name }} <i @click="deleteCustomerSelected" class='bx bx-trash text-danger cursor-pointer'></i></h5>
+                    <p class="card-text">
+                      Teléfono: {{ customerSelected.cell }}
+                    </p>
+                    <p class="card-text">
+                      Carrera: {{ customerSelected.career }}
+                    </p>
                     <p class="card-text">
                       Universidad: {{ customerSelected.university }}
                     </p>
-                    <p class="card-text">
+                    <!-- <p class="card-text">
                       Estado: {{ status[customerSelected.status] }}
-                    </p>
+                    </p> -->
                   </div>
                   </div>
+
                   
+                  
+                </div>
+
+                <div class="col">
+                  <div class="card shadow-none bg-transparent border border-info mb-3">
+                    <div class="card-body">
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-company">Fecha</label>
+                        <input type="date" v-model="date" class="form-control" id="basic-default-company" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-company">Validez</label>
+                        <p>{{  finalDayMonth }}</p>
+                      </div>
+                    <!-- <p class="card-text">
+                      Estado: {{ status[customerSelected.status] }}
+                    </p> -->
+                  </div>
+                  </div>
                 </div>
                 
                 </div>
@@ -76,9 +102,9 @@
                   </div>
                 </div>
                 </div> -->
+                <h5 class="mb-4">Productos</h5>
                 <div class="row">
-                  <div class="col-sm-12 col-lg-6">
-                  <div class="mb-3">
+                  <div class="col-6">
                   <label class="form-label" for="basic-default-company">Nivel</label>
                   <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" v-model="level">
                     <option selected="">Seleccione un nivel</option>
@@ -88,22 +114,73 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                   </select>
-                  </div>
                 </div>
-                <div class="col-sm-12 col-lg-6">
+                <div class="col-6">
                   <div class="mb-3">
-                  <label class="form-label" for="basic-default-company">Fecha</label>
-                  <input type="date" v-model="date" class="form-control" id="basic-default-company" />
+                    <label class="form-label" for="basic-default-company">Producto</label>
+                    <input type="text" id="inputSearch" v-model="searchProduct" autocomplete="off" class="form-control" @keyup="search"/>
+                    <table class="table table-bordered mb-3">
+                      <tr v-for="product in filtered_products">
+                        <td class="cursor-pointer" @click="addCart(product)">{{product.title}}</td>
+                      </tr>
+                    </table>
                   </div>
                 </div>
                 </div>
-                <h5 class="mb-4">Productos</h5>
-                <input type="text" id="inputSearch" autocomplete="off" class="form-control" @keyup="search"/>
-                <table class="table table-bordered mb-3">
-                  <tr v-for="product in filtered_products">
-                    <td class="cursor-pointer" @click="addCart(product)">{{product.title}}</td>
-                  </tr>
-                </table>
+                <div class="table-responsive text-nowrap">
+                  <table class="table">
+                    <thead class="table-primary">
+                      <tr>
+                        <th>Producto/Servicio</th>
+                        <th>Descripción</th>
+                        <th>Plazo</th>
+                        <th>Total</th>
+                        <th>Borrar</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                      <tr v-for="(product, index) in car_products" :key="index">
+                        <td>{{ product.title }}</td>
+                        <td style="white-space: pre-line">{{ product.description }}</td>
+                        <td>{{ product.term }}</td>
+                        <td>S./ {{ product.amount }}</td>
+                        <td><a @click="removeCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                  <div class="mb-3">
+                    <p>TOTAL:  S./ {{ totalProducts }}</p>
+                  </div>
+                </div>
+                </div>
+                <!-- <h5 class="mb-4">Producto Sugerido</h5>
+                <div class="row">
+                  <div class="col-6">
+                  <label class="form-label" for="basic-default-company">Nivel</label>
+                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" v-model="levelSugested">
+                    <option selected="">Seleccione un nivel</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label" for="basic-default-company">Producto</label>
+                    <input type="text" id="inputSearch" autocomplete="off" class="form-control" @keyup="search"/>
+                    <table class="table table-bordered mb-3">
+                      <tr v-for="product in filtered_products_sugested">
+                        <td class="cursor-pointer" @click="addCart(product)">{{product.title}}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                </div>
                 <div class="table-responsive text-nowrap">
                   <table class="table">
                     <thead class="table-primary">
@@ -129,8 +206,14 @@
                 <div class="row">
                   <div class="col-sm-12 col-lg-6">
                   <div class="mb-3">
-                  <label class="form-label" for="basic-default-company">TOTAL</label>
-                  {{ price[0]? 'S./ '+price[0].price : '' }}
+                    <p>TOTAL:  {{ price[0]? 'S./ '+price[0].price : '' }}</p>
+                  </div>
+                </div>
+                </div> -->
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                  <div class="mb-3">
+                    <p>DESCUENTO: </p>
                   </div>
                 </div>
                 </div>
@@ -157,6 +240,7 @@
     </div>
 </template>
 <script>
+  import moment from 'moment'
   import List from './List.vue'
   import calcModal from './calcModal.vue'
   export default{
@@ -167,17 +251,20 @@
         customersFiltered:[],
         customerSelected:{},
         products:[],
+        fixed_products:[],
         selected_product:{},
         filtered_products:[],
         car_products:[],
         name: '',
         date:null,
         cell:'',
+        searchProduct:'',
         university:'',
         career:'',
         grade:0,
         idQuotation:0,
         level: 0,
+        levelSugested: 0,
         price: [],
         status:{
           0: 'No atendido',
@@ -196,6 +283,9 @@
         this.customerSelected = customer
         this.customersFiltered = []
         this.name = ''
+      },
+      deleteCustomerSelected(){
+        this.customerSelected = {}
       },
       print(e){
             e.preventDefault()
@@ -229,28 +319,60 @@
         document.getElementById('inputSearch').focus()
       },
       addCart(product){
+        if(this.level == 0){
+          this.$swal('Selecciona un nivel, por favor')
+        }else{
         if(product.id == 41){
           this.selected_product = product
           $('#calcModal').modal('show')
         }else{
-        product.amount = product.prices.filter(price => price.level == this.level)
-        this.car_products.push(product)
-        this.filtered_products = []
-        const objWithIdIndex = this.products.findIndex((obj) => obj.id === product.id)
-        this.products.splice(objWithIdIndex,1)
-        document.getElementById('inputSearch').value = ''
-        document.getElementById('inputSearch').focus()
+          
+          this.filtered_products = []
+          var selectedProduct = {}
 
-        this.price = product.prices.filter(price => price.level == this.level)
+          selectedProduct = product
+
+          let price =  selectedProduct.prices.filter(prices => prices.level == this.level)[0].price
+
+          selectedProduct.id_product = product.id
+          selectedProduct.level = this.level
+          selectedProduct.amount = price 
+
+          console.log(selectedProduct)
+
+          this.car_products.push(selectedProduct)
+
+          this.searchProduct = ''
+          /* 
+
+          selectedProduct = product
+
+         
+
+         
+
+          console.log(selectedProduct)
+
+          
+         
+        
+           */
+          /* 
+        
+        
+        
+
+        this.price = product.prices.filter(price => price.level == this.level) */
         }
+        }
+        
       },
       removeCart(product){
-        const objWithIdIndex = this.products.findIndex((obj) => obj.id === product.id)
-        this.products.push(product)
-        this.car_products.splice(objWithIdIndex,1)
+        const index = this.car_products.indexOf(product)
+        this.car_products.splice(index,1)
+        console.log(product)
       },
       search(e){
-        console.log(e.target.value)
         if(e.target.value != ''){
           this.filtered_products = this.products.filter(product => product.title.toLowerCase().includes(e.target.value))
         }else{
@@ -266,25 +388,43 @@
         }
       },
       getAllProducts(){
-                axios.get('/api/getAllProducts')
-                .then(res =>{
-                  this.products = res.data
-                  console.log(this.products)
-                })
-                .catch(err =>{
-                  console.log(err.response.data)
-                })
+        axios.get('/api/getAllProducts')
+        .then(res =>{
+          this.products = res.data
+          this.fixed_products = res.data
+        })
+        .catch(err =>{
+          console.log(err.response.data)
+        })
       },
       getAllCustomers(){
+        this.$swal('Cargando ...')
         axios.get('/api/getAllCustomers')
         .then(res => {
           this.customers = res.data
+          if(this.$route.params.idUser != 0){
+            this.customerSelected = this.customers.find(customer => customer.id == this.$route.params.idUser)
+          }
+          this.$swal.close()
         })
       }
     },
     mounted(){
       this.getAllProducts()
       this.getAllCustomers()
+    },
+    computed:{
+      finalDayMonth(){
+        return moment().endOf('month').format('DD/MM/YYYY')
+      },
+      totalProducts(){
+        var total = 0
+        this.car_products.forEach((product)=>{
+            total += product.amount
+        })
+
+        return Math.round(total * 100)/100
+      }
     }
   }
 </script>
