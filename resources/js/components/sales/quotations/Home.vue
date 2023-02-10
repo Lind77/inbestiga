@@ -140,10 +140,10 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                       <tr v-for="(product, index) in car_products" :key="index">
-                        <td>{{ product.title }}</td>
+                        <td>{{ JSON.parse(product).title }}</td>
                         <td style="white-space: pre-line">{{ product.description }}</td>
                         <td>{{ product.term }}</td>
-                        <td>S./ {{ product.amount }}</td>
+                        <td>S./ {{ JSON.parse(product).amount }}</td>
                         <td><a @click="removeCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
                     </tbody>
@@ -156,7 +156,7 @@
                   </div>
                 </div>
                 </div>
-                <!-- <h5 class="mb-4">Producto Sugerido</h5>
+                <h5 class="mb-4">Producto Sugerido</h5>
                 <div class="row">
                   <div class="col-6">
                   <label class="form-label" for="basic-default-company">Nivel</label>
@@ -172,10 +172,10 @@
                 <div class="col-6">
                   <div class="mb-3">
                     <label class="form-label" for="basic-default-company">Producto</label>
-                    <input type="text" id="inputSearch" autocomplete="off" class="form-control" @keyup="search"/>
+                    <input type="text" id="inputSearch" autocomplete="off" class="form-control" v-model="searchSugestedProduct" @keyup="searchSugested"/>
                     <table class="table table-bordered mb-3">
                       <tr v-for="product in filtered_products_sugested">
-                        <td class="cursor-pointer" @click="addCart(product)">{{product.title}}</td>
+                        <td class="cursor-pointer" @click="addCartSuggested(product)">{{product.title}}</td>
                       </tr>
                     </table>
                   </div>
@@ -193,12 +193,12 @@
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                      <tr v-for="product in car_products">
-                        <td>{{ product.title }}</td>
+                      <tr v-for="(product, index) in carSugestedProducts" :key="index">
+                        <td>{{ JSON.parse(product).title }}</td>
                         <td style="white-space: pre-line">{{ product.description }}</td>
                         <td>{{ product.term }}</td>
-                        <td>S./ {{ product.amount[0]? product.amount[0].price : product.amount }}</td>
-                        <td><a @click="removeCart(product)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
+                        <td>S./ {{ JSON.parse(product).amount }}</td>
+                        <td><a @click="removeSuggestedCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
                     </tbody>
                   </table>
@@ -206,20 +206,28 @@
                 <div class="row">
                   <div class="col-sm-12 col-lg-6">
                   <div class="mb-3">
-                    <p>TOTAL:  {{ price[0]? 'S./ '+price[0].price : '' }}</p>
+                    <p>TOTAL: S./ {{ totalSuggestedProducts }}</p>
                   </div>
                 </div>
-                </div> -->
+                </div>
                 <div class="row">
                   <div class="col-sm-12 col-lg-6">
                   <div class="mb-3">
                     <p>DESCUENTO: </p>
+                    <input type="text" class="form-control" v-model="discount">
+                  </div>
+                </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                  <div class="mb-3">
+                    <p>TOTAL FINAL: S./ {{ totalProducts - discount }}</p>
                   </div>
                 </div>
                 </div>
                 <button @click="insertQuotation" class="btn btn-primary mt-2 text-white">Guardar</button>
                 <button @click="print" target="_blank" id="buttonPDF" class="btn btn-primary mt-2 mx-2 text-white" disabled>Generar PDF</button>
-                <a class="btn btn-primary" target="_blank" href="/api/quotationPDF">PDF</a>
+                <button class="btn btn-primary" @click="generatePDF">PDF</button>
             </div>
         </div>
         <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
@@ -250,15 +258,19 @@
         customers:[],
         customersFiltered:[],
         customerSelected:{},
+        discount:0,
         products:[],
         fixed_products:[],
         selected_product:{},
         filtered_products:[],
+        filtered_products_sugested:[],
         car_products:[],
+        carSugestedProducts:[],
         name: '',
         date:null,
         cell:'',
         searchProduct:'',
+        searchSugestedProduct:'',
         university:'',
         career:'',
         grade:0,
@@ -279,6 +291,25 @@
       }
     },
     methods:{
+      generatePDF(){
+
+        const fd =  new FormData()
+      
+        fd.append('customer', this.customerSelected)
+        fd.append('date', this.date)
+        fd.append('expirationDay', finalDayMonth)
+        fd.append('products', this.car_products)
+        fd.append('suggestedProducts', this.suggested_products)
+        fd.append('discount', this.discount)
+
+        axios.post('/api/quotationPDF', fd)
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      },
       selectCustomer(customer){
         this.customerSelected = customer
         this.customersFiltered = []
@@ -292,17 +323,21 @@
             window.open('/api/generatePDF/'+this.idQuotation)
       },
       insertQuotation(){
-        const fd = new FormData()
-        fd.append('user_id', this.customerSelected.id)
+        const fd =  new FormData()
+      
+        fd.append('customer', JSON.stringify(this.customerSelected))
         fd.append('date', this.date)
-        fd.append('grade', this.grade)
+        fd.append('expirationDay', this.finalDayMonthFormatted)
         fd.append('products', JSON.stringify(this.car_products))
+        fd.append('suggestedProducts', JSON.stringify(this.carSugestedProducts))
+        fd.append('discount', this.discount)
 
         axios.post('/api/insertQuotation',fd)
         .then(res =>{
           console.log(res)
+
           this.idQuotation = res.data.id
-          alert('Cotización almacenada correctamente')
+          this.$swal('Cotización almacenada correctamente')
           document.getElementById('buttonPDF').disabled = false
         })
         .catch(err =>{
@@ -339,38 +374,52 @@
           selectedProduct.amount = price 
 
           console.log(selectedProduct)
-
-          this.car_products.push(selectedProduct)
+          this.car_products.push(JSON.stringify(selectedProduct))
 
           this.searchProduct = ''
-          /* 
+        }
+        }
+      },
+      addCartSuggested(product){
+        if(this.levelSugested == 0){
+          this.$swal('Selecciona un nivel en producto sugerido, por favor')
+        }else{
+        if(product.id == 41){
+          this.selected_product = product
+          $('#calcModal').modal('show')
+        }else{
+          
+          this.filtered_products_sugested = []
+          var selectedProduct = {}
 
           selectedProduct = product
 
-         
+          let price =  selectedProduct.prices.filter(prices => prices.level == this.level)[0].price
 
-         
+          selectedProduct.id_product = product.id
+          selectedProduct.level = this.level
+          selectedProduct.amount = price
 
-          console.log(selectedProduct)
+          this.carSugestedProducts.push(JSON.stringify(selectedProduct))
 
-          
-         
-        
-           */
-          /* 
-        
-        
-        
-
-        this.price = product.prices.filter(price => price.level == this.level) */
+          this.searchSugestedProduct = ''
         }
         }
-        
       },
       removeCart(product){
-        const index = this.car_products.indexOf(product)
-        this.car_products.splice(index,1)
+        this.car_products.splice(product,1)
         console.log(product)
+      },
+      removeSuggestedCart(product){
+        this.carSugestedProducts.splice(product,1)
+        console.log(product)
+      },
+      searchSugested(e){
+        if(e.target.value != ''){
+          this.filtered_products_sugested = this.products.filter(product => product.title.toLowerCase().includes(e.target.value))
+        }else{
+          this.filtered_products_sugested = [] 
+        }
       },
       search(e){
         if(e.target.value != ''){
@@ -414,13 +463,24 @@
       this.getAllCustomers()
     },
     computed:{
+      finalDayMonthFormatted(){
+        return moment().endOf('month').format('YYYY-MM-DD')
+      },
       finalDayMonth(){
         return moment().endOf('month').format('DD/MM/YYYY')
       },
       totalProducts(){
         var total = 0
         this.car_products.forEach((product)=>{
-            total += product.amount
+            total += JSON.parse(product).amount
+        })
+
+        return Math.round(total * 100)/100
+      },
+      totalSuggestedProducts(){
+        var total = 0
+        this.carSugestedProducts.forEach((product)=>{
+            total += JSON.parse(product).amount
         })
 
         return Math.round(total * 100)/100

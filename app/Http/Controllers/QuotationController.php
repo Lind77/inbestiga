@@ -49,8 +49,75 @@ class QuotationController extends Controller
             'grade' => $request->get('grade'),
         ]); */
 
+        $customer = json_decode($request->get('customer'),true);
+
+        $quotation = Quotation::create([
+            'customer_id' => $customer['id'],
+            'date' => $request->get('date'),
+            'amount' => $request->get('amount'),
+            'expiration_date' => $request->get('expirationDay'),
+            'discount' => $request->get('discount')
+        ]);
+
+        $products = $request->get('products');
+        $suggestedProducts = $request->get('suggestedProducts');
+
+        $arrProds = json_decode($products, true);
+
+        $arrSuggesProds = json_decode($suggestedProducts, true);
+
+        if(is_array($arrProds)){
+            foreach($arrProds as $prod){
+                $prod_decode =  json_decode($prod);
+                $detail = Detail::create([
+                    'product_id' => $prod_decode->id,
+                    'quotation_id' => $quotation->id,
+                    'type' => 1
+                ]);
+            }
+        }else{
+            return 'no es array';
+        };
+
+        if(is_array($arrSuggesProds)){
+            foreach($arrSuggesProds as $prod){
+                $prod_decode =  json_decode($prod);
+                $detail = Detail::create([
+                    'product_id' => $prod_decode->id,
+                    'quotation_id' => $quotation->id,
+                    'type' => 2
+                ]);
+            }
+        }else{
+            return 'no es array';
+        };
+
+        return response()->json([
+            'msg' => 'success',
+            'id' => $quotation->id
+        ]);
+
+        /* return  */
         
-        $products = json_decode($request->get('products'),true);
+        /* foreach($products as $product){
+            
+        }
+
+        
+
+        $sugested_products = json_decode($request->get('suggestedProducts'),true);
+
+        foreach($sugested_products as $product){
+            $detail = Detail::create([
+                'product_id' => $product['id'],
+                'quotation_id' => $quotation->id,
+                'type' => 2
+            ]);
+        }
+ */
+       
+        
+        /* 
 
         $price = 0;
 
@@ -60,23 +127,11 @@ class QuotationController extends Controller
             }
         }
 
-        $quotation = Quotation::create([
-            'customer_id' => $request->get('user_id'),
-            'date' => $request->get('date'),
-            'amount' => $price
-        ]);
-
-        foreach($products as $product){
-            $detail = Detail::create([
-                'product_id' => $product['id'],
-                'quotation_id' => $quotation->id,
-            ]);
-        }
         
-        return response()->json([
-            'msg' => 'success',
-            'id' => $quotation->id
-        ]);
+
+        
+        
+         */
     }
 
     public function generatePDF($id){
@@ -90,11 +145,7 @@ class QuotationController extends Controller
             'customer' => $customer,
             'details' => $details
         ];
-
-        $pdf = PDF::loadView('pdf', $data);
-        $pdf->set_option('isRemoteEnabled', true);
-
-        return $pdf->stream('cotizacion.pdf');   
+        return view('quotation', compact('quotation','customer', 'details'));   
     }
 
     /**
@@ -142,7 +193,10 @@ class QuotationController extends Controller
         //
     }
 
-    public function newPDF(){
-        return view('quotation');
+    public function newPDF(Request $request){
+
+        $prueba = $request->get('all');
+
+
     }
 }

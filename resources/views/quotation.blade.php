@@ -145,29 +145,29 @@
                 <tbody>
                     <tr>
                         <th><h2 class="name-customer">COTIZACIÓN DE: </h2></th>
-                        <th><span class="name">JULY MENDOZA</span></th>
+                        <th><span class="name">{{strtoupper($customer->name)}}</span></th>
                     </tr>
                     <tr>
                         <th><h2 class="info-user">Teléfono: </h2></th>
-                        <th><span>942 450 894</span></th>
+                        <th><span>{{ $customer->cell }}</span></th>
                     </tr>
                     <tr>
                         <th><h2 class="info-user">Carrera o mención: </h2></th>
-                        <th><span>Mg. Salud Pública</span></th>
+                        <th><span>{{ $customer->career }}</span></th>
                     </tr>
                     <tr>
                         <th><h2 class="info-user">Universidad: </h2></th>
-                        <th><span>Universidad Nacional del Centro del Perú</span></th>
+                        <th><span>{{ $customer->university }}</span></th>
                     </tr>
                 </thead>
             </table>
-            <p class="sub-header">Elaboración completa de Tesis: <span class="text-purple">Posgrado</span></p>
+            <p class="sub-header">Elaboración completa de Tesis: <span class="text-purple"></span></p>
         </div>
         <div class="col-4 info-doc pt-3">
             <p class="info-doc-p">COTIZACIÓN N°: 01-EN-VL</p>
-            <p class="info-doc-p">FECHA: 09-01-2023</p>
-            <p class="info-doc-p">VALIDEZ: 16-01-2023</p>
-            <p class="info-doc-p">IMPORTE: S./3930.00</p>
+            <p class="info-doc-p">FECHA: {{$quotation->date}}</p>
+            <p class="info-doc-p">VALIDEZ: {{$quotation->expiration_date}}</p>
+            <p class="info-doc-p">IMPORTE: S./ {{$quotation->amount}}</p>
         </div>
     </section>
     <section class="d-flex justify-content-center">
@@ -181,8 +181,10 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach($details as $detail)
+                @if($detail->type == 1)
                 <tr>
-                    <th class="table-item fw-normal ps-2">ASPECTOS PRELIMINARES</th>
+                    <th class="table-item fw-normal ps-2">{{$detail->product->title}}</th>
                     <th class="table-item fw-normal">
                         -Matriz de consistencia.<br>
                         -Descripción del problema.<br>
@@ -194,16 +196,8 @@
                     <th class="table-item fw-normal">- 02 Semanas</th>
                     <th class="table-item fw-normal">S./990.00</th>
                 </tr>
-                <tr>
-                    <th class="table-item fw-normal ps-2">MARCO TEÓRICO</th>
-                    <th class="table-item fw-normal">
-                        -Antecedentes de Investigación.<br>
-                        -Bases teóricas.<br>
-                        -Definición de términos.<br>
-                    </th>
-                    <th class="table-item fw-normal">- 02 Semanas</th>
-                    <th class="table-item fw-normal">S./990.00</th>
-                </tr>
+                @endif
+                @endforeach
                 <tr>
                     <th></th>
                     <th></th>
@@ -213,8 +207,10 @@
                 <tr class="sugested-title">
                     <th class="text-purple sugested py-3 ps-1" colspan="4">PRODUCTO SUGERIDO</th>
                 </tr>
-                <tr style=" background-color: #ffffff00;">
-                    <th class="table-item fw-normal ps-2">MARCO TEÓRICO</th>
+                @foreach($details as $detail)
+                @if($detail->type == 2)
+                <tr>
+                    <th class="table-item fw-normal ps-2">{{$detail->product->title}}</th>
                     <th class="table-item fw-normal">
                         -Antecedentes de Investigación.<br>
                         -Bases teóricas.<br>
@@ -223,6 +219,8 @@
                     <th class="table-item fw-normal">- 02 Semanas</th>
                     <th class="table-item fw-normal">S./990.00</th>
                 </tr>
+                @endif
+                @endforeach
                 <tr style=" background-color: #ffffff00;">
                     <th></th>
                     <th></th>
@@ -242,7 +240,7 @@
                     <th></th>
                     <th></th>
                     <th class="text-danger">DESCUENTO</th>
-                    <th class="text-danger">S./0000.00</th>
+                    <th class="text-danger">S./{{$quotation->discount}}</th>
                 </tr>
             </tbody>
         </table>
