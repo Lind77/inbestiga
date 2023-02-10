@@ -98,18 +98,10 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                       <tr v-for="(product, index) in car_products" :key="index">
-<<<<<<< HEAD
                         <td>{{ JSON.parse(product).title }}</td>
                         <td style="white-space: pre-line">{{ product.description }}</td>
                         <td>{{ product.term }}</td>
                         <td>S./ {{ JSON.parse(product).amount }}</td>
-=======
-                        <td>{{ index }}</td>
-                        <td>{{ product.title }}</td>
-                        <td style="white-space: pre-line">{{ product.description }}</td>
-                        <td>{{ product.term }}</td>
-                        <td>S./ {{ product.amountLevel }}</td>
->>>>>>> e668cc76f81a851229866c33eb88308e53c70b48
                         <td><a @click="removeCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
                     </tbody>
@@ -333,7 +325,6 @@
 
           console.log(this.car_products)
 
-<<<<<<< HEAD
           selectedProduct.id_product = product.id
           selectedProduct.level = this.level
           selectedProduct.amount = price 
@@ -368,8 +359,6 @@
           this.carSugestedProducts.push(JSON.stringify(selectedProduct))
 
           this.searchSugestedProduct = ''
-=======
->>>>>>> e668cc76f81a851229866c33eb88308e53c70b48
         }
         }
       },
