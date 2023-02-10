@@ -21,13 +21,6 @@
               
                 <div class="row">
                   <div class="col">
-                  <!-- <div class="mb-3">
-                  <label class="form-label" for="basic-default-fullname">Nombre del cliente</label>
-                  <input type="text" v-model="name" class="form-control" id="inputSearchName" @keyup="searchCustomer"/>
-                  <table class="table table-bordered mb-3">
-                    <tr v-for="customer in customersFiltered" @click="selectCustomer(customer)">{{ customer.name }}</tr>
-                  </table>
-                  </div> -->
                   <div class="card shadow-none bg-transparent border border-info mb-3"  v-if="customerSelected.id">
                     <div class="card-body">
                     <h5 class="card-title">Cliente: {{ customerSelected.name }} <i @click="deleteCustomerSelected" class='bx bx-trash text-danger cursor-pointer'></i></h5>
@@ -61,47 +54,11 @@
                         <label class="form-label" for="basic-default-company">Validez</label>
                         <p>{{  finalDayMonth }}</p>
                       </div>
-                    <!-- <p class="card-text">
-                      Estado: {{ status[customerSelected.status] }}
-                    </p> -->
                   </div>
                   </div>
                 </div>
                 
                 </div>
-                <!-- <div class="row">
-                  <div class="col-sm-12 col-lg-6">
-                  <div class="mb-3">
-                  <label class="form-label" for="basic-default-fullname">Celular</label>
-                  <input type="text" v-model="cell" class="form-control" />
-                  </div>
-                </div>
-                <div class="col-sm-12 col-lg-6">
-                  <div class="mb-3">
-                  <label class="form-label" for="basic-default-company">Universidad</label>
-                  <input type="text" v-model="university" class="form-control" />
-                  </div>
-                </div>
-                </div> -->
-                <!-- <div class="row">
-                  <div class="col-sm-12 col-lg-6">
-                  <div class="mb-3">
-                  <label class="form-label" for="basic-default-fullname">Carrera</label>
-                  <input type="text" v-model="career" class="form-control" />
-                  </div>
-                </div>
-                <div class="col-sm-12 col-lg-6">
-                  <div class="mb-3">
-                  <label class="form-label" for="basic-default-company">Grado</label>
-                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" v-model="grade">
-                  <option selected="">Seleccione un grado</option>
-                  <option value="1">Pregrado</option>
-                  <option value="2">Maestría</option>
-                  <option value="3">Doctorado</option>
-                </select>
-                  </div>
-                </div>
-                </div> -->
                 <h5 class="mb-4">Productos</h5>
                 <div class="row">
                   <div class="col-6">
@@ -121,7 +78,7 @@
                     <input type="text" id="inputSearch" v-model="searchProduct" autocomplete="off" class="form-control" @keyup="search"/>
                     <table class="table table-bordered mb-3">
                       <tr v-for="product in filtered_products">
-                        <td class="cursor-pointer" @click="addCart(product)">{{product.title}}</td>
+                        <td class="cursor-pointer" @click="addCart(product)">{{product.title}} - S./ {{ product.amountLevel }}</td>
                       </tr>
                     </table>
                   </div>
@@ -131,6 +88,7 @@
                   <table class="table">
                     <thead class="table-primary">
                       <tr>
+                        <th>#</th>
                         <th>Producto/Servicio</th>
                         <th>Descripción</th>
                         <th>Plazo</th>
@@ -140,10 +98,11 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                       <tr v-for="(product, index) in car_products" :key="index">
+                        <td>{{ index }}</td>
                         <td>{{ product.title }}</td>
                         <td style="white-space: pre-line">{{ product.description }}</td>
                         <td>{{ product.term }}</td>
-                        <td>S./ {{ product.amount }}</td>
+                        <td>S./ {{ product.amountLevel }}</td>
                         <td><a @click="removeCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
                     </tbody>
@@ -326,43 +285,12 @@
           this.selected_product = product
           $('#calcModal').modal('show')
         }else{
-          
-          this.filtered_products = []
-          var selectedProduct = {}
+          this.selected_product = product
 
-          selectedProduct = product
+          this.car_products = [...this.car_products,  Object.freeze(product)]
 
-          let price =  selectedProduct.prices.filter(prices => prices.level == this.level)[0].price
+          console.log(this.car_products)
 
-          selectedProduct.id_product = product.id
-          selectedProduct.level = this.level
-          selectedProduct.amount = price 
-
-          console.log(selectedProduct)
-
-          this.car_products.push(selectedProduct)
-
-          this.searchProduct = ''
-          /* 
-
-          selectedProduct = product
-
-         
-
-         
-
-          console.log(selectedProduct)
-
-          
-         
-        
-           */
-          /* 
-        
-        
-        
-
-        this.price = product.prices.filter(price => price.level == this.level) */
         }
         }
         
@@ -373,8 +301,15 @@
         console.log(product)
       },
       search(e){
-        if(e.target.value != ''){
-          this.filtered_products = this.products.filter(product => product.title.toLowerCase().includes(e.target.value))
+        if(e.target.value != '' && this.level != 0){
+
+          var productsFound = this.products.filter(product => product.title.toLowerCase().includes(e.target.value))
+
+          productsFound.forEach(product => {
+            product.amountLevel = product.prices.filter(price => price.level == this.level)[0].price
+          })
+
+          this.filtered_products = productsFound
         }else{
           this.filtered_products = [] 
         }
