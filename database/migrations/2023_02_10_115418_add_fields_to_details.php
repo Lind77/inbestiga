@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('details', function (Blueprint $table) {
             $table->tinyInteger('type')->nullable();
+            $table->double('price');
         });
     }
 

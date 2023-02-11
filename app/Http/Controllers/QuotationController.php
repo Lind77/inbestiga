@@ -72,7 +72,9 @@ class QuotationController extends Controller
                 $detail = Detail::create([
                     'product_id' => $prod_decode->id,
                     'quotation_id' => $quotation->id,
-                    'type' => 1
+                    'type' => 1,
+                    'description' => '-',
+                    'price' => $prod_decode->amountLevel
                 ]);
             }
         }else{
@@ -85,7 +87,9 @@ class QuotationController extends Controller
                 $detail = Detail::create([
                     'product_id' => $prod_decode->id,
                     'quotation_id' => $quotation->id,
-                    'type' => 2
+                    'type' => 2,
+                    'description' => '-',
+                    'price' => $prod_decode->amountLevel
                 ]);
             }
         }else{

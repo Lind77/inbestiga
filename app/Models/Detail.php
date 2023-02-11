@@ -9,7 +9,7 @@ class Detail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id','quotation_id', 'type'];
+    protected $fillable = ['product_id','quotation_id', 'type', 'description', 'price'];
 
     public function product(){
         return $this->belongsTo("App\Models\Product");

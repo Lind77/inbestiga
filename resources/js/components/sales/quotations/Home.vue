@@ -98,6 +98,7 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                       <tr v-for="(product, index) in car_products" :key="index">
+                        <td>{{ index }}</td>
                         <td>{{ JSON.parse(product).title }}</td>
                         <td style="white-space: pre-line">{{ product.description }}</td>
                         <td>{{ product.term }}</td>
@@ -133,7 +134,7 @@
                     <input type="text" id="inputSearch" autocomplete="off" class="form-control" v-model="searchSugestedProduct" @keyup="searchSugested"/>
                     <table class="table table-bordered mb-3">
                       <tr v-for="product in filtered_products_sugested">
-                        <td class="cursor-pointer" @click="addCartSuggested(product)">{{product.title}}</td>
+                        <td class="cursor-pointer" @click="addCartSuggested(product)">{{product.title}} - S./ {{ product.amountLevel }}</td>
                       </tr>
                     </table>
                   </div>
@@ -289,6 +290,7 @@
         fd.append('products', JSON.stringify(this.car_products))
         fd.append('suggestedProducts', JSON.stringify(this.carSugestedProducts))
         fd.append('discount', this.discount)
+        fd.append('amount', this.totalProducts - this.discount)
 
         axios.post('/api/insertQuotation',fd)
         .then(res =>{
@@ -319,17 +321,17 @@
           this.selected_product = product
           $('#calcModal').modal('show')
         }else{
-          this.selected_product = product
+          this.filtered_products = []
+          var selectedProduct = {}
 
-          this.car_products = [...this.car_products,  Object.freeze(product)]
+          selectedProduct = product
 
-          console.log(this.car_products)
+          let price =  selectedProduct.prices.filter(prices => prices.level == this.level)[0].price
 
           selectedProduct.id_product = product.id
           selectedProduct.level = this.level
-          selectedProduct.amount = price 
+          selectedProduct.amount = price
 
-          console.log(selectedProduct)
           this.car_products.push(JSON.stringify(selectedProduct))
 
           this.searchProduct = ''
@@ -371,8 +373,14 @@
         console.log(product)
       },
       searchSugested(e){
-        if(e.target.value != ''){
-          this.filtered_products_sugested = this.products.filter(product => product.title.toLowerCase().includes(e.target.value))
+        if(e.target.value != '' && this.levelSugested != 0){
+          var productsFound = this.products.filter(product => product.title.toLowerCase().includes(e.target.value))
+
+          productsFound.forEach(product => {
+            product.amountLevel = product.prices.filter(price => price.level == this.level)[0].price
+          })
+
+          this.filtered_products_sugested = productsFound
         }else{
           this.filtered_products_sugested = [] 
         }

@@ -181,66 +181,64 @@
                 </tr>
             </thead>
             <tbody>
+                <?php $sum_products = 0; ?>
                 @foreach($details as $detail)
                 @if($detail->type == 1)
                 <tr>
                     <th class="table-item fw-normal ps-2">{{$detail->product->title}}</th>
                     <th class="table-item fw-normal">
-                        -Matriz de consistencia.<br>
-                        -Descripción del problema.<br>
-                        -Problemas.<br>
-                        -Objetivos.<br>
-                        -Justificación.<br>
-                        -Delimitación.<br>
+                        {{$detail->description}}
                     </th>
                     <th class="table-item fw-normal">- 02 Semanas</th>
-                    <th class="table-item fw-normal">S./990.00</th>
+                    <th class="table-item fw-normal">S./{{$detail->price}}</th>
                 </tr>
+                <?php $sum_products += $detail->price; ?>
                 @endif
                 @endforeach
                 <tr>
                     <th></th>
                     <th></th>
                     <th class="text-purple">TOTAL</th>
-                    <th class="text-purple">S./3990.00</th>
+                    <th class="text-purple">S./{{$sum_products}}</th>
                 </tr>
                 <tr class="sugested-title">
                     <th class="text-purple sugested py-3 ps-1" colspan="4">PRODUCTO SUGERIDO</th>
                 </tr>
+                <?php $sum_products_sugested = 0; ?>
                 @foreach($details as $detail)
                 @if($detail->type == 2)
                 <tr>
                     <th class="table-item fw-normal ps-2">{{$detail->product->title}}</th>
                     <th class="table-item fw-normal">
-                        -Antecedentes de Investigación.<br>
-                        -Bases teóricas.<br>
-                        -Definición de términos.<br>
+                        {{$detail->description}}
                     </th>
                     <th class="table-item fw-normal">- 02 Semanas</th>
-                    <th class="table-item fw-normal">S./990.00</th>
+                    <th class="table-item fw-normal">S./{{$detail->price}}</th>
                 </tr>
+                <?php $sum_products_sugested += $detail->price; ?>
                 @endif
                 @endforeach
                 <tr style=" background-color: #ffffff00;">
                     <th></th>
                     <th></th>
                     <th class="text-purple">TOTAL</th>
-                    <th class="text-purple">S./3990.00</th>
+                    <th class="text-purple">S./{{$sum_products_sugested}}</th>
                 </tr>
                 <tr class="sugested-title">
                     <th class="text-purple sugested py-3 ps-1" colspan="4">PRECIO FINAL</th>
                 </tr>
-                <tr style=" background-color: #fff;">
-                    <th></th>
-                    <th></th>
-                    <th class="text-purple">TOTAL</th>
-                    <th class="text-purple">S./3990.00</th>
-                </tr>
-                <tr style=" background-color: #fff;">
+               
+                <tr style=" background-color: #ffffff00;">
                     <th></th>
                     <th></th>
                     <th class="text-danger">DESCUENTO</th>
                     <th class="text-danger">S./{{$quotation->discount}}</th>
+                </tr>
+                <tr style=" background-color: #ffffff00;">
+                    <th></th>
+                    <th></th>
+                    <th class="text-purple">TOTAL</th>
+                    <th class="text-purple">S./{{$quotation->amount}}</th>
                 </tr>
             </tbody>
         </table>
