@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
         $products = Product::orderBy('id','asc')
                             ->where('id', '!=', 1)
-                            ->with(['fixedActivities','fixedActivities.fixedTasks','prices'])->get();
+                            ->with(['fixedActivities','fixedActivities.fixedTasks','prices','times'])->get();
         return response()->json($products);
     }
 

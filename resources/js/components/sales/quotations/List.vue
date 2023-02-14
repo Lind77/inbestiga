@@ -12,14 +12,14 @@
                   <tr class="text-nowrap">
                     <th>Cliente</th>
                     <th>Fecha</th>
-                    <th>PDF</th>
+                    <th>Imprimir</th>
                   </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                   <tr v-for="quotation in quotations">
                     <td><strong>{{quotation.customer.name}}</strong></td>
                     <td>{{quotation.date}}</td>
-                    <td><a @click="print(quotation.id)" class="btn btn-success text-white">PDF</a></td>
+                    <td><a @click="print(quotation.id)" class="btn btn-success text-white"><i class='bx bx-printer'></i></a></td>
                   </tr>
                 </tbody>
               </table>

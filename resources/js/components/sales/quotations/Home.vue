@@ -88,7 +88,6 @@
                   <table class="table">
                     <thead class="table-primary">
                       <tr>
-                        <th>#</th>
                         <th>Producto/Servicio</th>
                         <th>Descripción</th>
                         <th>Plazo</th>
@@ -98,11 +97,10 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                       <tr v-for="(product, index) in car_products" :key="index">
-                        <td>{{ index }}</td>
                         <td>{{ JSON.parse(product).title }}</td>
-                        <td style="white-space: pre-line">{{ product.description }}</td>
-                        <td>{{ product.term }}</td>
-                        <td>S./ {{ JSON.parse(product).amount }}</td>
+                        <td style="white-space: pre-line">{{ JSON.parse(product).description }}</td>
+                        <td>{{ JSON.parse(product).term }}</td>
+                        <td>S./ {{ JSON.parse(product).total }}</td>
                         <td><a @click="removeCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
                     </tbody>
@@ -154,9 +152,9 @@
                     <tbody class="table-border-bottom-0">
                       <tr v-for="(product, index) in carSugestedProducts" :key="index">
                         <td>{{ JSON.parse(product).title }}</td>
-                        <td style="white-space: pre-line">{{ product.description }}</td>
-                        <td>{{ product.term }}</td>
-                        <td>S./ {{ JSON.parse(product).amount }}</td>
+                        <td style="white-space: pre-line">{{ JSON.parse(product).description }}</td>
+                        <td>{{ JSON.parse(product).term }}</td>
+                        <td>S./ {{ JSON.parse(product).total }}</td>
                         <td><a @click="removeSuggestedCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
                     </tbody>
@@ -170,10 +168,16 @@
                 </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-12 col-lg-6">
+                  <div class="col-6">
                   <div class="mb-3">
-                    <p>DESCUENTO: </p>
+                    <label class="form-label" for="basic-default-company">Descuento</label>
                     <input type="text" class="form-control" v-model="discount">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label" for="basic-default-company">Tiempo de Ejecucion</label>
+                    <input type="text" class="form-control">
                   </div>
                 </div>
                 </div>
@@ -185,8 +189,8 @@
                 </div>
                 </div>
                 <button @click="insertQuotation" class="btn btn-primary mt-2 text-white">Guardar</button>
-                <button @click="print" target="_blank" id="buttonPDF" class="btn btn-primary mt-2 mx-2 text-white" disabled>Generar PDF</button>
-                <button class="btn btn-primary" @click="generatePDF">PDF</button>
+                <button @click="print" target="_blank" id="buttonPDF" class="btn btn-primary mt-2 mx-2 text-white" disabled>Imprimir</button>
+                <!-- <button class="btn btn-primary" @click="generatePDF">PDF</button> -->
             </div>
         </div>
         <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
@@ -204,14 +208,16 @@
         </div>
       </div>
       <calcModal @addCartParaphrase="addCartParaphrase"/>
+      <InsertDetail @addCartModal="addCartModal" @addSugestCartModal="addSugestCartModal" :product="selected_product"/>
     </div>
 </template>
 <script>
   import moment from 'moment'
   import List from './List.vue'
   import calcModal from './calcModal.vue'
+  import InsertDetail from './InsertDetail.vue'
   export default{
-    components:{List, calcModal},
+    components:{List, calcModal, InsertDetail},
     data(){
       return{
         customers:[],
@@ -282,7 +288,10 @@
             window.open('/api/generatePDF/'+this.idQuotation)
       },
       insertQuotation(){
-        const fd =  new FormData()
+        if(this.date == null){
+          this.$swal('Porfavor agregar la fecha de cotización')
+        }else{
+          const fd =  new FormData()
       
         fd.append('customer', JSON.stringify(this.customerSelected))
         fd.append('date', this.date)
@@ -303,6 +312,8 @@
         .catch(err =>{
           console.log(err.response.data)
         })
+        } 
+        
       },
       addCartParaphrase(cost){
         this.selected_product.amount = cost
@@ -313,6 +324,16 @@
         document.getElementById('inputSearch').value = ''
         document.getElementById('inputSearch').focus()
       },
+      addCartModal(product){
+        this.car_products.push(JSON.stringify(product))
+        this.filtered_products = []
+        this.searchProduct = ''
+      },
+      addSugestCartModal(product){
+        this.carSugestedProducts.push(JSON.stringify(product))
+        this.filtered_products_sugested = []
+        this.searchSugestedProduct = ''
+      },
       addCart(product){
         if(this.level == 0){
           this.$swal('Selecciona un nivel, por favor')
@@ -321,7 +342,11 @@
           this.selected_product = product
           $('#calcModal').modal('show')
         }else{
-          this.filtered_products = []
+          this.selected_product = product
+          this.selected_product.level = this.level
+          this.selected_product.typeOp = 1
+          $('#insertDetailModal').modal('show')
+          /* this.filtered_products = []
           var selectedProduct = {}
 
           selectedProduct = product
@@ -334,7 +359,7 @@
 
           this.car_products.push(JSON.stringify(selectedProduct))
 
-          this.searchProduct = ''
+          this.searchProduct = '' */
         }
         }
       },
@@ -346,21 +371,21 @@
           this.selected_product = product
           $('#calcModal').modal('show')
         }else{
-          
-          this.filtered_products_sugested = []
+          this.selected_product = product
+          this.selected_product.level = this.levelSugested
+          this.selected_product.typeOp = 2
+          $('#insertDetailModal').modal('show')
+          /* this.filtered_products_sugested = []
           var selectedProduct = {}
 
           selectedProduct = product
-
-          let price =  selectedProduct.prices.filter(prices => prices.level == this.level)[0].price
-
           selectedProduct.id_product = product.id
           selectedProduct.level = this.level
-          selectedProduct.amount = price
+          selectedProduct.amountLevel = product.amountLevel
 
           this.carSugestedProducts.push(JSON.stringify(selectedProduct))
 
-          this.searchSugestedProduct = ''
+          this.searchSugestedProduct = '' */
         }
         }
       },
@@ -374,10 +399,11 @@
       },
       searchSugested(e){
         if(e.target.value != '' && this.levelSugested != 0){
+
           var productsFound = this.products.filter(product => product.title.toLowerCase().includes(e.target.value))
 
           productsFound.forEach(product => {
-            product.amountLevel = product.prices.filter(price => price.level == this.level)[0].price
+            product.amountLevel = product.prices.filter(price => price.level == this.levelSugested)[0].price
           })
 
           this.filtered_products_sugested = productsFound
@@ -443,7 +469,7 @@
       totalProducts(){
         var total = 0
         this.car_products.forEach((product)=>{
-            total += JSON.parse(product).amount
+            total += JSON.parse(product).total
         })
 
         return Math.round(total * 100)/100
@@ -451,7 +477,7 @@
       totalSuggestedProducts(){
         var total = 0
         this.carSugestedProducts.forEach((product)=>{
-            total += JSON.parse(product).amount
+            total += JSON.parse(product).total
         })
 
         return Math.round(total * 100)/100

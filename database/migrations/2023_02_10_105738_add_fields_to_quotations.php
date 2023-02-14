@@ -27,7 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('quotations', function (Blueprint $table) {
-            //
+            
         });
     }
 };

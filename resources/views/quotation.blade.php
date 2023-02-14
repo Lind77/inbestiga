@@ -89,7 +89,7 @@
             font-weight: 700;
         }
         .table-item{
-            font-weight: 4 fw-30000;
+            font-weight: 400;
             border: 1px solid #6E26F7;
         }
         .sugested{
@@ -161,22 +161,22 @@
                     </tr>
                 </thead>
             </table>
-            <p class="sub-header">Elaboración completa de Tesis: <span class="text-purple"></span></p>
+            {{-- <p class="sub-header">Elaboración completa de Tesis: <span class="text-purple"></span></p> --}}
         </div>
         <div class="col-4 info-doc pt-3">
             <p class="info-doc-p">COTIZACIÓN N°: 01-EN-VL</p>
             <p class="info-doc-p">FECHA: {{$quotation->date}}</p>
             <p class="info-doc-p">VALIDEZ: {{$quotation->expiration_date}}</p>
             <p class="info-doc-p">IMPORTE: S./ {{$quotation->amount}}</p>
+            <p class="info-doc-p">TIEMPO DE EJECUCIÓN: </p>
         </div>
     </section>
     <section class="d-flex justify-content-center">
-        <table class="main-table">
+        <table class="main-table mt-3">
             <thead>
                 <tr>
                     <th class="text-purple fw-bolder py-3 ps-2">PRODUCTO / SERVICIO</th>
                     <th class="text-purple fw-bolder py-3 ps-1">DESCRIPCIÓN</th>
-                    <th class="text-purple fw-bolder py-3 ps-1">PLAZO</th>
                     <th class="text-purple fw-bolder py-3 ps-1">TOTAL</th>
                 </tr>
             </thead>
@@ -186,33 +186,26 @@
                 @if($detail->type == 1)
                 <tr>
                     <th class="table-item fw-normal ps-2">{{$detail->product->title}}</th>
-                    <th class="table-item fw-normal">
-                        {{$detail->description}}
-                    </th>
-                    <th class="table-item fw-normal">- 02 Semanas</th>
+                    <th class="table-item fw-normal" style="white-space: pre;">{{$detail->description}}</th>
                     <th class="table-item fw-normal">S./{{$detail->price}}</th>
                 </tr>
                 <?php $sum_products += $detail->price; ?>
                 @endif
                 @endforeach
-                <tr>
-                    <th></th>
+                <tr style=" background-color: #ffffff00;">
                     <th></th>
                     <th class="text-purple">TOTAL</th>
                     <th class="text-purple">S./{{$sum_products}}</th>
                 </tr>
                 <tr class="sugested-title">
-                    <th class="text-purple sugested py-3 ps-1" colspan="4">PRODUCTO SUGERIDO</th>
+                    <th class="text-purple sugested py-3 ps-1" colspan="3">PRODUCTO SUGERIDO</th>
                 </tr>
                 <?php $sum_products_sugested = 0; ?>
                 @foreach($details as $detail)
                 @if($detail->type == 2)
                 <tr>
                     <th class="table-item fw-normal ps-2">{{$detail->product->title}}</th>
-                    <th class="table-item fw-normal">
-                        {{$detail->description}}
-                    </th>
-                    <th class="table-item fw-normal">- 02 Semanas</th>
+                    <th class="table-item fw-normal" style="white-space: pre;">{{$detail->description}}</th>
                     <th class="table-item fw-normal">S./{{$detail->price}}</th>
                 </tr>
                 <?php $sum_products_sugested += $detail->price; ?>
@@ -220,22 +213,19 @@
                 @endforeach
                 <tr style=" background-color: #ffffff00;">
                     <th></th>
-                    <th></th>
                     <th class="text-purple">TOTAL</th>
                     <th class="text-purple">S./{{$sum_products_sugested}}</th>
                 </tr>
                 <tr class="sugested-title">
-                    <th class="text-purple sugested py-3 ps-1" colspan="4">PRECIO FINAL</th>
+                    <th class="text-purple sugested py-3 ps-1" colspan="3">PRECIO FINAL</th>
                 </tr>
                
                 <tr style=" background-color: #ffffff00;">
-                    <th></th>
                     <th></th>
                     <th class="text-danger">DESCUENTO</th>
                     <th class="text-danger">S./{{$quotation->discount}}</th>
                 </tr>
                 <tr style=" background-color: #ffffff00;">
-                    <th></th>
                     <th></th>
                     <th class="text-purple">TOTAL</th>
                     <th class="text-purple">S./{{$quotation->amount}}</th>

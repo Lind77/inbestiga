@@ -73,8 +73,8 @@ class QuotationController extends Controller
                     'product_id' => $prod_decode->id,
                     'quotation_id' => $quotation->id,
                     'type' => 1,
-                    'description' => '-',
-                    'price' => $prod_decode->amountLevel
+                    'description' => $prod_decode->description,
+                    'price' => $prod_decode->total
                 ]);
             }
         }else{
@@ -88,13 +88,17 @@ class QuotationController extends Controller
                     'product_id' => $prod_decode->id,
                     'quotation_id' => $quotation->id,
                     'type' => 2,
-                    'description' => '-',
-                    'price' => $prod_decode->amountLevel
+                    'description' => $prod_decode->description,
+                    'price' => $prod_decode->total
                 ]);
             }
         }else{
             return 'no es array';
         };
+
+        $customerToUpdate = Customer::find($customer['id'])->update([
+            'status' => 3
+        ]);
 
         return response()->json([
             'msg' => 'success',

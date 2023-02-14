@@ -35,7 +35,7 @@
                   </div>
                 </div>
             </div>
-            <div class="col vh-100" id="client" @drop="drop" @dragover="allowDrop">
+            <div class="col vh-100" id="withContract" @drop="drop" @dragover="allowDrop">
               Con Contrato
               <div class="container-cards">
                   <div v-for="customer in customers">
