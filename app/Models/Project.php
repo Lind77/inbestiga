@@ -9,7 +9,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'team_id', 'customer_id', 'product_id', 'status', 'deadline', 'level'];
+    protected $fillable = ['title', 'team_id', 'customer_id', 'product_id', 'status', 'deadline', 'level','aditional'];
 
     public function customer(){
         return $this->belongsTo("App\Models\Customer");

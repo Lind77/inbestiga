@@ -116,6 +116,16 @@ export default{
                 console.log(err)
             })
           }
+          else if(e.target.id == 'withContract'){
+            axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/6`)
+            .then(res =>{
+                this.getAllCustomers()
+                console.log(res)
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+          }
           else if(e.target.id == 'client'){
             axios.get(`/api/setProject/${data.substring(data.length-1)}`)
             .then(res =>{

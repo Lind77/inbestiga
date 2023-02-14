@@ -56,7 +56,8 @@ class QuotationController extends Controller
             'date' => $request->get('date'),
             'amount' => $request->get('amount'),
             'expiration_date' => $request->get('expirationDay'),
-            'discount' => $request->get('discount')
+            'discount' => $request->get('discount'),
+            'term' => $request->get('term')
         ]);
 
         $products = $request->get('products');
@@ -162,9 +163,11 @@ class QuotationController extends Controller
      * @param  \App\Models\Quotation  $quotation
      * @return \Illuminate\Http\Response
      */
-    public function show(Quotation $quotation)
+    public function show($id)
     {
-        //
+        $quotation = Quotation::where('id', $id)->with(['customer', 'details', 'details.product'])->with('details')->get();
+
+        return response()->json($quotation);
     }
 
     /**

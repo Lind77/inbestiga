@@ -244,14 +244,15 @@ class ProjectController extends Controller
         $customer = Customer::find($id);
 
         $customer->update([
-            'status' => 6
+            'status' => 7
         ]);
 
-        $project = Project::where('customer_id', $id)->get();
-
-        $project[0]->update([
-            'status' => 0,
-            'title' => 'Proyecto '.$customer->name
+        $project = Project::create([
+            'title' => 'Proyecto '.$customer->name,
+            'customer_id' => $customer->id,
+            'deadline' => date('Y-m-d'),
+            'product_id' => 1,
+            'status' => 0
         ]);
 
         broadcast(new NewProject($project));
@@ -261,7 +262,7 @@ class ProjectController extends Controller
 
         foreach($fixedActivitiesEnterprise as $enterpriseActivity) {
             $defaultActivity = Activity::create([
-                'project_id' => $project[0]->id,
+                'project_id' => $project->id,
                 'title' => $enterpriseActivity->title,
                 'type' => 0
             ]);
@@ -272,13 +273,13 @@ class ProjectController extends Controller
                 'percentage' => 0.0,
                 'comment' => 'Sin comentarios'
             ]);
-       }
+        }
 
-        $fixedActivities = FixedActivity::where('product_id',$project[0]->product_id)->where('type', '!=', 0)->with('fixedTasks')->get();
+        $fixedActivities = FixedActivity::where('product_id',$project->product_id)->where('type', '!=', 0)->with('fixedTasks')->get();
         
             foreach($fixedActivities as $fixedActivity){
                 $activity = Activity::create([
-                    'project_id' => $project[0]->id,
+                    'project_id' => $project->id,
                     'title' => $fixedActivity->title,
                     'type' => 1
                 ]);

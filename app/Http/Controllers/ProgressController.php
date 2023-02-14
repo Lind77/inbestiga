@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Progress;
 use App\Http\Requests\StoreProgressRequest;
 use App\Http\Requests\UpdateProgressRequest;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class ProgressController extends Controller
@@ -72,6 +73,12 @@ class ProgressController extends Controller
     public function update(Request $request)
     {
         $progress = Progress::where('progressable_type', 'App\Models\Activity')->where('progressable_id', $request->get('id'))->get();
+
+        $project = Project::find($request->get('project_id'));
+
+        $project->update([
+            'aditional' =>  $request->get('comment')
+        ]);
 
         $progress[0]->update([
             'comment' => $request->get('comment'),

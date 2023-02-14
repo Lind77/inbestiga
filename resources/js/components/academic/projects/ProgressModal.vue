@@ -15,9 +15,9 @@
             <div class="modal-body">
                 <form @submit="updateProgress">
                     <div class="row">
-                        <p>¿Tienes la seguridad de registrar progreso de este proyecto?</p>
+                        <p>Agrega las indicaciones iniciales para iniciar el proyecto</p>
                         <div class="col mb-3">
-                        <label for="nameBasic" class="form-label">Comentario <span class="text-danger text-capitalize">Obligatorio</span></label>
+                        <label for="nameBasic" class="form-label">Indicaciones</label>
                         <input type="text" v-model="comment" class="form-control" required/>
                         </div>
                     </div>
@@ -47,6 +47,7 @@
                 const fd = new FormData()
                 fd.append('id', this.activity.id)
                 fd.append('comment',this.comment)
+                fd.append('project_id', this.project_selected.id)
 
                 axios.post('/api/updateProgress', fd)
                 .then(res =>{

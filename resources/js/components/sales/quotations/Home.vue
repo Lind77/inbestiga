@@ -90,7 +90,6 @@
                       <tr>
                         <th>Producto/Servicio</th>
                         <th>Descripción</th>
-                        <th>Plazo</th>
                         <th>Total</th>
                         <th>Borrar</th>
                       </tr>
@@ -99,7 +98,6 @@
                       <tr v-for="(product, index) in car_products" :key="index">
                         <td>{{ JSON.parse(product).title }}</td>
                         <td style="white-space: pre-line">{{ JSON.parse(product).description }}</td>
-                        <td>{{ JSON.parse(product).term }}</td>
                         <td>S./ {{ JSON.parse(product).total }}</td>
                         <td><a @click="removeCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
@@ -144,7 +142,6 @@
                       <tr>
                         <th>Producto/Servicio</th>
                         <th>Descripción</th>
-                        <th>Plazo</th>
                         <th>Total</th>
                         <th>Borrar</th>
                       </tr>
@@ -153,7 +150,6 @@
                       <tr v-for="(product, index) in carSugestedProducts" :key="index">
                         <td>{{ JSON.parse(product).title }}</td>
                         <td style="white-space: pre-line">{{ JSON.parse(product).description }}</td>
-                        <td>{{ JSON.parse(product).term }}</td>
                         <td>S./ {{ JSON.parse(product).total }}</td>
                         <td><a @click="removeSuggestedCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
@@ -177,7 +173,7 @@
                 <div class="col-6">
                   <div class="mb-3">
                     <label class="form-label" for="basic-default-company">Tiempo de Ejecucion</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" v-model="term">
                   </div>
                 </div>
                 </div>
@@ -189,7 +185,7 @@
                 </div>
                 </div>
                 <button @click="insertQuotation" class="btn btn-primary mt-2 text-white">Guardar</button>
-                <button @click="print" target="_blank" id="buttonPDF" class="btn btn-primary mt-2 mx-2 text-white" disabled>Imprimir</button>
+                <router-link v-if="this.idQuotation != 0" :to="{name:'quotation-file', params:{ id: this.idQuotation }}" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>Imprimir</router-link>
                 <!-- <button class="btn btn-primary" @click="generatePDF">PDF</button> -->
             </div>
         </div>
@@ -208,7 +204,7 @@
         </div>
       </div>
       <calcModal @addCartParaphrase="addCartParaphrase"/>
-      <InsertDetail @addCartModal="addCartModal" @addSugestCartModal="addSugestCartModal" :product="selected_product"/>
+      <InsertDetail @addCartModal="addCartModal" @addSugestCartModal="addSugestCartModal" :product="selected_product" :products="fixed_products"/>
     </div>
 </template>
 <script>
@@ -221,6 +217,7 @@
     data(){
       return{
         customers:[],
+        term:'',
         customersFiltered:[],
         customerSelected:{},
         discount:0,
@@ -300,6 +297,7 @@
         fd.append('suggestedProducts', JSON.stringify(this.carSugestedProducts))
         fd.append('discount', this.discount)
         fd.append('amount', this.totalProducts - this.discount)
+        fd.append('term', this.term)
 
         axios.post('/api/insertQuotation',fd)
         .then(res =>{

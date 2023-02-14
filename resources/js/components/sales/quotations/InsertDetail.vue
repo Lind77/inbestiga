@@ -57,7 +57,8 @@
 <script>
 export default {
     props:{
-        product: Object
+        product: Object,
+        products: Array
     },
     data(){
         return{
@@ -116,13 +117,42 @@ export default {
         }
     },
     computed:{
-        minTimeEstimated(){    
-        if(this.product.prices){
-            var minTime = this.product.times.filter(time => time.level == this.product.level)
-        }    
-        
+        minTimeEstimated(){
+            
+        if(this.product.id == 34){
 
+
+            var productsFiltered = []
+
+            productsFiltered = this.products.filter(product => product.id < 34)
+
+            var timesFiltered = []
+
+            productsFiltered.forEach(product =>{
+                product.times.forEach(time =>{
+                    if(time.level == this.product.level){
+                        timesFiltered.push(time)
+                    }
+                })
+            })
+
+            var sumMinTime = 0
+            var sumMaxTime = 0
+            timesFiltered.forEach((time)=>{
+                sumMinTime = sumMinTime + time.min_time
+                sumMaxTime = sumMaxTime + time.max_time
+            })
+
+            var minTime = [{min_time: sumMinTime, max_time: sumMaxTime}]
+            return minTime
+            
+        }else{
+            if(this.product.prices){
+            var minTime = this.product.times.filter(time => time.level == this.product.level)
+            }
+        }    
         return minTime
+        
         }
     }
 }

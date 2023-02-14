@@ -28,7 +28,7 @@
             </div>
             <div class="row g-2 mt-2">
               <button class="btn btn-primary btn-sm" @click="calcCost">Calcular</button>
-              Costo de Parafraseo: {{ cost }}
+              Costo de Parafraseo: S./ {{ cost }}
             </div>
           </div>
           <div class="modal-footer">

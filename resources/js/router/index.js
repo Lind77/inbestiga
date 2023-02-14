@@ -54,6 +54,8 @@ import RolesAdmin from '../components/admin/Roles.vue'
 
 import RealTime from '../components/admin/chat/Chat.vue'
 
+import QuotationFile from '../components/sales/quotations/quotationFile.vue'
+
 export const routes = [
     {
         path: '/',
@@ -185,6 +187,12 @@ export const routes = [
                 props: true
             }
         ]
+    },
+    {
+        path: '/quotation-file/:id',
+        component:  QuotationFile,
+        name: 'quotation-file',
+        props: true
     }
 ]
 
