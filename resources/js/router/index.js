@@ -38,6 +38,7 @@ import MainAcad from '../components/academic/Main.vue'
 import HomeProject  from '../components/academic/projects/Home.vue'
 import Kanban from '../components/academic/projects/kanban/Kanban.vue'
 import UserAcad from '../components/academic/UserAcad.vue'
+import Ecard from '../components/academic/projects/Ecard.vue'
 
 // Área Acádemica - Productos
 import HomeProduct from '../components/sales/products/Home.vue'
@@ -207,6 +208,12 @@ export const routes = [
         path: '/order-file/:id',
         component:  OrderFile,
         name: 'order-file',
+        props: true
+    },
+    {
+        path: '/ecard/:id',
+        component:  Ecard,
+        name: 'ecard',
         props: true
     }
 ]

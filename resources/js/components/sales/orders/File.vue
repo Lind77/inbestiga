@@ -138,7 +138,7 @@ export default {
             .then((res) => {
                 console.log(res.data)
                 this.order = res.data 
-                /* this.print() */
+                this.print()
             })
             .catch(err => console.error(err))
         },
