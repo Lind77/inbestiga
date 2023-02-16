@@ -70,6 +70,7 @@ Route::post('/insertQuotation', [QuotationController::class, 'store']);
 Route::get('/quotation/{id}', [QuotationController::class, 'show']);
 Route::get('/generatePDF/{id}', [QuotationController::class, 'generatePDF']);
 Route::post('/quotationPDF', [QuotationController::class, 'newPDF']);
+Route::get('/getQuotationByCustomerId/{id}', [QuotationController::class, 'getQuotationByCustomerId']);
 
 Route::get('/getAllProjects',[ProjectController::class, 'index']);
 Route::get('/getProjectById/{id}', [ProjectController::class, 'show']);
@@ -93,6 +94,7 @@ Route::post('/updateCustomer', [CustomerController::class, 'updateCustomer']);
 Route::get('/standByCustomer/{id}', [CustomerController::class,'standByCustomer']);
 Route::get('/getAllStandByCustomers', [CustomerController::class, 'getAllStandByCustomers']);
 Route::get('/reactivateCustomer/{id}', [CustomerController::class, 'reactivateCustomer']);
+Route::post('/updateDniCustomer', [CustomerController::class, 'updateDniCustomer']);
 
 Route::get('/getAllMessages', [ChatController::class, 'index']);
 Route::get('/getAllMessagesById/{id}', [ChatController::class, 'getAllMessagesById'])->middleware('auth:sanctum');

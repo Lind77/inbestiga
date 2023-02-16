@@ -7,7 +7,7 @@
         <ul class="dropdown-menu" style="">
           <li><a class="dropdown-item" @click="customerStandBy(customer.id)" href="javascript:void(0);">Stand By</a></li>
           <li><router-link class="dropdown-item" v-if="customer.status == 2" :to="{name:'home-quotation', params:{ idUser: customer.id }}">Generar Cotización</router-link></li>
-          <li><router-link class="dropdown-item" v-if="customer.status == 5" :to="{name:'home-quotation', params:{ idUser: customer.id }}">Generar Orden</router-link></li>
+          <li><router-link class="dropdown-item" v-if="customer.status == 5" :to="{name:'home-orders', params:{ idUser: customer.id }}">Generar Orden</router-link></li>
           <!-- <li><a class="dropdown-item" v-if="customer.status == 2" @click="openProductModal(customer)" href="javascript:void(0);">Asignar Producto</a></li> -->
         </ul>
     </div>

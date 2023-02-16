@@ -146,4 +146,14 @@ class CustomerController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function updateDniCustomer(Request $request){
+
+        $customer = Customer::find($request->get('id_customer'));
+        $customer->update([
+            'dni' => $request->get('dni')
+        ]);
+
+        return response()->json($customer);
+    }
 }

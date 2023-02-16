@@ -9,6 +9,11 @@ import MainSales from '../components/sales/Main.vue'
 
 //Área de Ventas - Cotizaciones
 import HomeQuotation from '../components/sales/quotations/Home.vue'
+import QuotationFile from '../components/sales/quotations/quotationFile.vue'
+
+//Área de Ventas - Ordenes
+import HomeOrders from '../components/sales/orders/Home.vue'
+import OrderFile from '../components/sales/orders/File.vue'
 
 //Área de Ventas - Clientes
 import HomeClient from '../components/sales/customers/Home.vue'
@@ -24,8 +29,6 @@ import HomeCalls from '../components/sales/calls/Home.vue'
 
 //Área de Ventas - Calendario
 import HomeCalendar from '../components/sales/calendar/Home.vue'
-
-
 
 // Área Académica
 import HomeAcad from '../components/academic/Home.vue'
@@ -54,7 +57,7 @@ import RolesAdmin from '../components/admin/Roles.vue'
 
 import RealTime from '../components/admin/chat/Chat.vue'
 
-import QuotationFile from '../components/sales/quotations/quotationFile.vue'
+
 
 export const routes = [
     {
@@ -133,6 +136,12 @@ export const routes = [
                 name: 'home-quotation'
             },
             {
+                path: 'orders/:idUser',
+                component: HomeOrders,
+                props: true,
+                name: 'home-orders'
+            },
+            {
                 path: 'customers',
                 component: HomeClient,
                 name: 'home-client'
@@ -192,6 +201,12 @@ export const routes = [
         path: '/quotation-file/:id',
         component:  QuotationFile,
         name: 'quotation-file',
+        props: true
+    },
+    {
+        path: '/order-file/:id',
+        component:  OrderFile,
+        name: 'order-file',
         props: true
     }
 ]

@@ -4,7 +4,7 @@
       <div class="card mb-4">
         <div class="card-body">
           <div class="row">
-            <div class="col vh-100" id="clientArea" @drop="drop" @dragover="allowDrop">
+            <div class="col vh-100" id="lead" @drop="drop" @dragover="allowDrop">
               Lead
             <div class="container-cards">
               <div v-for="customer in customers">
@@ -96,7 +96,17 @@ export default{
           //e.target.appendChild(document.getElementById(data));
 
           console.log(data)
-          if(e.target.id == 'interested'){
+          if(e.target.id == 'lead'){
+            axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/3`)
+            .then(res =>{
+                this.getAllCustomers()
+                console.log(res)
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+          }
+          else if(e.target.id == 'interested'){
             axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/4`)
             .then(res =>{
                 this.getAllCustomers()

@@ -196,10 +196,7 @@
       mounted(){
         Echo.private('projects')
         .listen('NewProject',()=>{
-          this.$swal({
-                  icon: 'success',
-                  title: 'Nuevo proyecto'
-          })
+          alert('Se ha asignado un nuevo proyecto')
           this.getAllProjects()
         })
         this.getAllProjects()

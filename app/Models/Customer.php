@@ -9,7 +9,7 @@ class Customer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'cell', 'university', 'career', 'status', 'email'];
+    protected $fillable = ['name', 'cell', 'university', 'career', 'status', 'email', 'dni'];
 
     public function quotation(){
         return $this->hasOne("App\Models\Customer");
