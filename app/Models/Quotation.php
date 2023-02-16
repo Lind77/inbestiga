@@ -18,4 +18,8 @@ class Quotation extends Model
     public function details(){
         return $this->hasMany("App\Models\Detail");
     }
+
+    public function order(){
+        return $this->hasMany("App\Models\Order");
+    }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\StoreQuotationRequest;
 use App\Http\Requests\UpdateQuotationRequest;
 use App\Models\Customer;
 use App\Models\Detail;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -165,7 +166,7 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        $quotation = Quotation::where('id', $id)->with(['customer', 'details', 'details.product'])->with('details')->get();
+        $quotation = Quotation::where('id', $id)->with(['customer', 'details', 'details.product','order'])->get();
 
         return response()->json($quotation);
     }
@@ -214,8 +215,14 @@ class QuotationController extends Controller
     public function getQuotationByCustomerId($id){
         $customer = Customer::find($id);
 
-        $quotation = Quotation::where('customer_id', $customer->id)->with(['details', 'details.product'])->get();
+        $quotation = Quotation::where('customer_id', $customer->id)->with(['details', 'details.product','order'])->get();
 
         return response()->json($quotation[0]);
-    }    
+    }
+    
+    public function getQuotationByOrder($id){
+        $order = Order::where('id',$id)->with(['quotation', 'quotation.customer','quotation.details', 'quotation.details.product'])->get();
+
+        return response()->json($order[0]);
+    }
 }

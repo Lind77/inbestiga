@@ -16,21 +16,21 @@
             </div>
         </div>
     </nav>
-    <section class="row">
+    <section class="row" v-if="order.quotation">
         <div class="ps-5 pt-3">
             <h2 class="name-customer">TIPO DE SERVICIO: <span class="name text-dark">SERVICIO ESPECÍFICO</span> </h2>
             
         </div>
         <div class="col-4 ps-5 pt-4">
             <table class="customer-data">
-                <thead v-if="quotation[0]">
+                <thead >
                     <tr>
                         <th><h2 class="name-customer">Fecha: </h2></th>
-                        <th><span class="name">{{quotation[0].customer.name}}</span></th>
+                        <th><span class="name">{{order.quotation.customer.name}}</span></th>
                     </tr>
                     <tr>
                         <th><h2 class="info-user">Importe: </h2></th>
-                        <th><span>{{ quotation[0].customer.cell }}</span></th>
+                        <th><span> S./{{ order.quotation.amount }}</span></th>
                     </tr>
                 </thead>
             </table>
@@ -38,71 +38,82 @@
         </div>
         <div class="col-4 ps-5 pt-4">
             <table class="customer-data">
-                <thead v-if="quotation[0]">
+                <thead>
                     <tr>
                         <th><h2 class="info-user">Teléfono: </h2></th>
-                        <th><span>{{ quotation[0].customer.cell }}</span></th>
+                        <th><span>{{ order.quotation.customer.cell }}</span></th>
                     </tr>
                     <tr>
                         <th><h2 class="info-user">N° DNI: </h2></th>
-                        <th><span>{{ quotation[0].customer.career }}</span></th>
+                        <th><span>{{ order.quotation.customer.dni }}</span></th>
                     </tr>
                 </thead>
             </table>
         </div>
         <div class="col-4 ps-5 pt-4">
             <table class="customer-data">
-                <thead v-if="quotation[0]">
+                <thead >
                     <tr>
                         <th><h2 class="info-user">Universidad: </h2></th>
-                        <th><span>{{ quotation[0].customer.university }}</span></th>
+                        <th><span>{{ order.quotation.customer.university }}</span></th>
                     </tr>
                     <tr>
                         <th><h2 class="info-user">Carrera o mención: </h2></th>
-                        <th><span>{{ quotation[0].customer.career }}</span></th>
+                        <th><span>{{ order.quotation.customer.career }}</span></th>
                     </tr>
                 </thead>
             </table>
         </div>
-        <!-- <div class="col-4 info-doc pt-3" v-if="quotation[0]">
-            <p class="info-doc-p">COTIZACIÓN N°: 01-EN-VL</p>
-            <p class="info-doc-p">FECHA: {{ quotation[0].date}}</p>
-            <p class="info-doc-p">VALIDEZ: {{ quotation[0].expiration_date}}</p>
-            <p class="info-doc-p">IMPORTE: S./ {{ quotation[0].amount}}</p>
-            <p class="info-doc-p">EJECUCIÓN: {{ quotation[0].term }}</p>
-        </div> -->
     </section>
     <section class="d-flex justify-content-center">
-       
         <table class="main-table mt-3">
             <thead>
                 <tr>
                     <th class="text-purple fw-bolder py-3 ps-2">DESCRIPCIÓN DE ORDEN / SERVICIO</th>
-                    <th class="text-purple fw-bolder py-3 ps-1">PRECIO</th>
+                    <th class="text-purple fw-bolder py-3 ps-1 " style="text-align: center;">PRECIO</th>
                     <th class="text-purple fw-bolder py-3 ps-1">ENTREGA FINAL</th>
                     <th class="text-purple fw-bolder py-3 ps-1">OBSERVACIONES</th>
                 </tr>
             </thead>
-            <tbody v-if="quotation[0]">
-                <tr v-for="detail in quotation[0].details" class="text-dark">
-                    <th class="table-item fw-normal ps-2" v-if="detail.type == 1 ">{{detail.product.title}}</th>
-                    <th class="table-item fw-normal" v-if="detail.type == 1 ">S./{{detail.price}}</th>
-                    <th class="table-item fw-normal"  v-if="detail.type == 1 " >-Bajo Coordinacion(Avance del 80% martes 24 de enero)</th>
-                    <th class="table-item fw-normal"  v-if="detail.type == 1 ">-</th>
+            <tbody v-if="order.quotation">
+                <tr class="text-dark">
+                    <td class="table-item" width="30%">
+                        <p class="mb-0 ps-3" v-for="detail in order.quotation.details">{{ detail.product.title }}</p>
+                    </td>
+                    <td class="table-item" width="10%">
+                        <p class="mb-0" style="text-align: center;" v-for="detail in order.quotation.details">S./ {{ detail.price }}</p>
+                    </td>
+                    <td class="table-item" width="30%">
+                        <p>{{ order.final_delivery }}</p>
+                    </td>
+                    <td class="table-item" width="30%">
+                        <p>{{ order.observations }}</p>
+                    </td>
+                    <!-- <th class="table-item fw-normal ps-2" >{{detail.product.title}}</th>
+                    <th class="table-item fw-normal px-3" >S./{{detail.price}}</th>
+                    <th class="table-item fw-normal px-2" ></th>
+                    <th class="table-item fw-normal px-2" width="30%">{{ order.observations }}</th> -->
                 </tr>
                 <tr class="sugested-title">
-                    <th class="text-purple sugested py-3 ps-1">TOTAL</th>
-                    <th class="text-purple sugested py-3 ps-1">S/ 0000</th>
-                    <th  class="text-purple sugested py-3 ps-1">DESCUENTO S./{{quotation[0].discount}}</th>
-                </tr>
-               
-                <tr style=" background-color: #ffffff00;">
-                    <th></th>
-                    <th class="text-danger"></th>
-                    <th class="text-danger"></th>
+                    <th class="text-purple sugested py-3 ps-2">TOTAL</th>
+                    <th class="text-purple sugested py-3" style="text-align: center;">S/ {{order.quotation.amount}}</th>
+                    <th  class="text-danger sugested py-3 ps-1">* DESCUENTO S./{{order.quotation.discount}}</th>
                 </tr>
             </tbody>
         </table>
+    </section>
+    <section>
+        <div class="row mt-3">
+            <div class="col-4"></div>
+            <div class="col-3 signature-box">
+                <h5 class="signature-text">Firma de Conformidad</h5>
+                <div class="signature"></div>
+            </div>
+            <div class="col-3 signature-box">
+                <h5 class="signature-text">Aprobación de dirección</h5>
+                <div class="signature"></div>
+            </div>
+        </div>
     </section>
     <section class="last">
         <footer class="mt-3">
@@ -118,15 +129,16 @@
 export default {
     data(){
         return{
-            quotation: []
+            order: {}
         }
     },
     methods:{
         getQuotationInfo(){
-            axios.get(`/api/quotation/1`)
+            axios.get('/api/quotationByOrder/'+ this.$route.params.id)
             .then((res) => {
-                this.quotation = res.data 
-                this.print()
+                console.log(res.data)
+                this.order = res.data 
+                /* this.print() */
             })
             .catch(err => console.error(err))
         },
@@ -137,7 +149,6 @@ export default {
     },
     mounted(){
         this.getQuotationInfo()
-        this.print()
     },
     computed:{
         subTotalProds(){
@@ -255,6 +266,7 @@ export default {
         .table-item{
             font-weight: 400;
             border: 1px solid #6E26F7;
+            vertical-align: top;
         }
         .sugested{
             font-weight: 900;
@@ -271,6 +283,21 @@ export default {
         .last{
             position: absolute;
             bottom: 0;
+        }
+        .signature-box{
+            display: flex;
+            justify-content: start;
+        }
+        .signature{
+            height: 50px;
+            border: 2px solid #6E26F7;
+            border-radius: 3px;
+            width: 40%;
+            padding-right: -10%;
+        }
+        .signature-text{
+            font-weight: 800;
+            color: #000;
         }
         .watermark{
             position: absolute;

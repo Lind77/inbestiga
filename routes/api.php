@@ -6,6 +6,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProgressController;
@@ -71,6 +72,8 @@ Route::get('/quotation/{id}', [QuotationController::class, 'show']);
 Route::get('/generatePDF/{id}', [QuotationController::class, 'generatePDF']);
 Route::post('/quotationPDF', [QuotationController::class, 'newPDF']);
 Route::get('/getQuotationByCustomerId/{id}', [QuotationController::class, 'getQuotationByCustomerId']);
+Route::get('/quotationByOrder/{id}', [QuotationController::class, 'getQuotationByOrder']);
+
 
 Route::get('/getAllProjects',[ProjectController::class, 'index']);
 Route::get('/getProjectById/{id}', [ProjectController::class, 'show']);
@@ -99,3 +102,5 @@ Route::post('/updateDniCustomer', [CustomerController::class, 'updateDniCustomer
 Route::get('/getAllMessages', [ChatController::class, 'index']);
 Route::get('/getAllMessagesById/{id}', [ChatController::class, 'getAllMessagesById'])->middleware('auth:sanctum');
 Route::post('/storeMessage',[ChatController::class, 'store'])->middleware('auth:sanctum');
+
+Route::post('/insertOrder',[OrderController::class, 'store']);

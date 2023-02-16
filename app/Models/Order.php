@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['quotation_id', 'final_delivery', 'observations'];
+
+    public function quotation(){
+        return $this->belongsTo('App\Models\Quotation');
+    }
+
 }

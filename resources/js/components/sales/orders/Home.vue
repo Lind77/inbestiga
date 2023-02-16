@@ -194,8 +194,8 @@
                       </div>
                     </div>
                     </div> -->
-                    <button @click="insertQuotation" class="btn btn-primary mt-2 text-white">Guardar</button>
-                    <router-link :to="{name:'order-file', params:{ id: this.idQuotation }}" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>Imprimir</router-link>
+                    <button @click="insertOrder" class="btn btn-primary mt-2 text-white">Guardar</button>
+                    <router-link v-if="this.idOrder != 0" :to="{name:'order-file', params:{ id: this.idOrder }}" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>Imprimir</router-link>
                     <!-- <button class="btn btn-primary" @click="generatePDF">PDF</button> -->
                 </div>
             </div>
@@ -219,7 +219,7 @@
     </template>
     <script>
       import axios from 'axios'
-import moment from 'moment'
+      import moment from 'moment'
       import List from './List.vue'
      /*  import calcModal from './calcModal.vue' */
      /*  import InsertDetail from './InsertDetail.vue' */
@@ -251,7 +251,7 @@ import moment from 'moment'
             university:'',
             career:'',
             grade:0,
-            idQuotation:0,
+            idOrder:0,
             level: 0,
             levelSugested: 0,
             price: [],
@@ -312,27 +312,22 @@ import moment from 'moment'
                 e.preventDefault()
                 window.open('/api/generatePDF/'+this.idQuotation)
           },
-          insertQuotation(){
+          insertOrder(){
             if(this.date == null){
               this.$swal('Porfavor agregar la fecha de cotización')
             }else{
               const fd =  new FormData()
           
-            fd.append('customer', JSON.stringify(this.customerSelected))
-            fd.append('date', this.date)
-            fd.append('expirationDay', this.finalDayMonthFormatted)
-            fd.append('products', JSON.stringify(this.car_products))
-            fd.append('suggestedProducts', JSON.stringify(this.carSugestedProducts))
-            fd.append('discount', this.discount)
-            fd.append('amount', this.totalProducts - this.discount)
-            fd.append('term', this.term)
+            fd.append('quotation_id', this.quotation.id)
+            fd.append('final_delivery', this.final_delivery)
+            fd.append('observations', this.observations)
     
-            axios.post('/api/insertQuotation',fd)
+            axios.post('/api/insertOrder',fd)
             .then(res =>{
               console.log(res)
     
-              this.idQuotation = res.data.id
-              this.$swal('Cotización almacenada correctamente')
+              this.idOrder = res.data
+              this.$swal('Orden almacenada correctamente')
               document.getElementById('buttonPDF').disabled = false
             })
             .catch(err =>{
@@ -483,7 +478,8 @@ import moment from 'moment'
           getQuotation(){
             axios.get(`/api/getQuotationByCustomerId/${this.$route.params.idUser}`)
             .then(res => {
-              this.quotation = res.data
+              console.log(res.data)
+              this.quotation = res.data[0].quotation
             })
             .catch(err => { console.error(err.data.message)})
           }
