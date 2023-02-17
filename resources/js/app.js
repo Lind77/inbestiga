@@ -65,7 +65,6 @@ router.beforeEach((to, from, next) => {
     }
   })
 
-
   const pinia = createPinia()
   const app = createApp(App)
 
@@ -74,6 +73,5 @@ router.beforeEach((to, from, next) => {
   app.use(pinia)
   app.use(router)
   app.use(VueAxios, axios)
-  
 
   app.mount('#app')

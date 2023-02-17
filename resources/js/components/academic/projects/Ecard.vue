@@ -27,7 +27,6 @@ export default {
     },
     methods:{
         print(){
-            setTimeout(()=>{window.print()}, 1000);
         }
     },
     mounted(){
@@ -48,11 +47,12 @@ export default {
         padding: 0px 10px 0px 10px;
     }
     .card-body{
-        padding: 10 px;
+        padding: 15px;
         background-color: #1f1f1f;
         width: 50%;
         height: auto;
         border-radius: 10px;
+        margin: 0px 250px 0px 250px;
     }
     .logo{
         width: 180px;
@@ -72,7 +72,7 @@ export default {
         font-size: 40px;
         font-weight: 700;
         color: #fff;
-        margin-left: -25%;
+        margin-left: -15%;
     }
     .info-footer{
         font-weight: 600;
