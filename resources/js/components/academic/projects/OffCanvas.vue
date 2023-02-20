@@ -79,7 +79,7 @@ export default{
             fd.append('status', 1)
             fd.append('project_id', this.project_selected.id)
 
-            axios.post('/api/changeStatusProject', fd)
+            axios.post('https://jairpl.com/autoDeploy/public/api/changeStatusProject', fd)
             .then(res =>{
               $('#offcanvas').offcanvas('hide')
               this.$emit('getAllProjects')
@@ -89,7 +89,7 @@ export default{
             })
         },
         getActivities(){
-          axios.get(`/api/getActivitiesPerId/${this.project_selected.id}`)
+          axios.get(`https://jairpl.com/autoDeploy/public/api/getActivitiesPerId/${this.project_selected.id}`)
           .then(res =>{
             this.project_selected.activities = res.data
           })

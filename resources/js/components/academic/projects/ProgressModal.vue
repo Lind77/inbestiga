@@ -49,7 +49,7 @@
                 fd.append('comment',this.comment)
                 fd.append('project_id', this.project_selected.id)
 
-                axios.post('/api/updateProgress', fd)
+                axios.post('https://jairpl.com/autoDeploy/public/api/updateProgress', fd)
                 .then(res =>{
                     console.log(res)
                     this.$emit('getActivities')

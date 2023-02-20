@@ -55,7 +55,7 @@ export default {
 
             fd.append('project_id', this.project.id)
             fd.append('team_selected', this.team_selected)
-            axios.post('/api/assignTeam', fd)
+            axios.post('https://jairpl.com/autoDeploy/public/api/assignTeam', fd)
             .then(res =>{
                 const fd = new FormData()
                 fd.append('id', this.activity.id)
@@ -78,7 +78,7 @@ export default {
 
         },
         getAllTeams(){
-            axios.get('/api/getAllTeams')
+            axios.get('https://jairpl.com/autoDeploy/public/api/getAllTeams')
             .then(res =>{
                 this.teams = res.data
             })
