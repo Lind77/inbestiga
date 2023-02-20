@@ -144,7 +144,7 @@ export default {
             fd.append('password', this.password)
             fd.append('device_name', this.device_name)
 
-            this.axios.post('/api/login', fd)
+            this.axios.post('./api/login', fd)
             .then(res =>{
                 localStorage.setItem('token',res.data.token)
                 console.log(res.data.memoir)
