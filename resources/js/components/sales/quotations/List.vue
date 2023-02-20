@@ -41,7 +41,7 @@
             window.open('/api/generatePDF/'+id)
         },
         getAllProducts(){
-                axios.get('/api/getAllQuotations')
+                axios.get('../api/getAllQuotations')
                 .then(res =>{
                   console.log(res)
                   this.quotations = res.data
