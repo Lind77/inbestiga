@@ -57,7 +57,7 @@ export default {
             fd.append('times', JSON.stringify(this.times))
             fd.append('product_id', this.idActivity)
 
-            axios.post('/api/insertTimes', fd)
+            axios.post('../api/insertTimes', fd)
             .then(res =>{
                 console.log(res)
             })

@@ -85,7 +85,7 @@ export default {
             fd.append('career',this.customer.career)
             fd.append('email',this.customer.email)
 
-            axios.post('./api/updateCustomer', fd)
+            axios.post('../api/updateCustomer', fd)
             .then(res =>{
                 console.log(res)
                 this.$emit('getAllCustomers')
@@ -104,7 +104,7 @@ export default {
             fd.append('email',this.email)
             fd.append('status',0)
 
-            axios.post('./api/insertCustomer', fd)
+            axios.post('../api/insertCustomer', fd)
             .then(res =>{
                 console.log(res)
                 this.$emit('getAllCustomers')

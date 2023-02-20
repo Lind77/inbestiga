@@ -105,7 +105,7 @@
                 fd.append('type',this.type)
                 fd.append('prices',JSON.stringify(this.prices))
 
-                axios.post('/api/insertProduct', fd)
+                axios.post('../api/insertProduct', fd)
                 .then(res =>{
                     console.log(res)
                     this.$emit('getAllProducts')
