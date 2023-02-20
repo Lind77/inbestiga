@@ -264,7 +264,7 @@
         fd.append('suggestedProducts', this.suggested_products)
         fd.append('discount', this.discount)
 
-        axios.post('./../api/quotationPDF', fd)
+        axios.post('https://jairpl.com/autoDeploy/public/api/quotationPDF', fd)
         .then(res => {
           console.log(res)
         })
@@ -282,7 +282,7 @@
       },
       print(e){
             e.preventDefault()
-            window.open('./../api/generatePDF/'+this.idQuotation)
+            window.open('https://jairpl.com/autoDeploy/public/api/generatePDF/'+this.idQuotation)
       },
       insertQuotation(){
         if(this.date == null){
