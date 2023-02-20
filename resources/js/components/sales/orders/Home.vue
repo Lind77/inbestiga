@@ -79,7 +79,7 @@
                           </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                          <tr v-for="(detail, index) in quotation.details" :key="index">
+                          <tr v-for="(detail, index) in details" :key="index">
                             <td>{{ detail.product.title }}</td>
                             <td>S./ {{ detail.price }}</td>
                           </tr>
@@ -243,6 +243,7 @@
             filtered_products_sugested:[],
             car_products:[],
             carSugestedProducts:[],
+            details:[],
             name: '',
             date:null,
             cell:'',
@@ -479,7 +480,7 @@
             axios.get(`https://jairpl.com/autoDeploy/public/api/getQuotationByCustomerId/${this.$route.params.idUser}`)
             .then(res => {
               console.log(res.data)
-              this.quotation = res.data[0].quotation
+              this.details = res.data.details
             })
             .catch(err => { console.error(err.data.message)})
           }
