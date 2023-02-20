@@ -480,6 +480,7 @@
             axios.get(`https://jairpl.com/autoDeploy/public/api/getQuotationByCustomerId/${this.$route.params.idUser}`)
             .then(res => {
               console.log(res.data)
+              this.quotation = res.data
               this.details = res.data.details
             })
             .catch(err => { console.error(err.data.message)})
