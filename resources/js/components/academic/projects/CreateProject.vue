@@ -139,7 +139,7 @@
                 })
             },
             getAllProducts(){
-                axios.get('/api/getAllProducts')
+                axios.get('https://jairpl.com/autoDeploy/public/api/getAllProducts')
                 .then(res => {
                     this.products = res.data
                 })
