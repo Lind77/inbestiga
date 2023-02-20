@@ -443,7 +443,7 @@
       },
       getAllCustomers(){
         this.$swal('Cargando ...')
-        axios.get('../api/getAllCustomers')
+        axios.get('./api/getAllCustomers')
         .then(res => {
           this.customers = res.data
           if(this.$route.params.idUser != 0){
