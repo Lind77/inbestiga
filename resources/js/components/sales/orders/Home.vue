@@ -273,7 +273,7 @@
             fd.append('id_customer', this.$route.params.idUser)
             fd.append('dni', this.dni)
 
-            axios.post('/api/updateDniCustomer', fd)
+            axios.post('https://jairpl.com/autoDeploy/public/api/updateDniCustomer', fd)
             .then((res) =>{
               this.customerSelected = res.data
             })
@@ -292,7 +292,7 @@
             fd.append('suggestedProducts', this.suggested_products)
             fd.append('discount', this.discount)
     
-            axios.post('/api/quotationPDF', fd)
+            axios.post('https://jairpl.com/autoDeploy/public/api/quotationPDF', fd)
             .then(res => {
               console.log(res)
             })
@@ -310,7 +310,7 @@
           },
           print(e){
                 e.preventDefault()
-                window.open('/api/generatePDF/'+this.idQuotation)
+                window.open('https://jairpl.com/autoDeploy/public/api/generatePDF/'+this.idQuotation)
           },
           insertOrder(){
             if(this.date == null){
@@ -322,7 +322,7 @@
             fd.append('final_delivery', this.final_delivery)
             fd.append('observations', this.observations)
     
-            axios.post('/api/insertOrder',fd)
+            axios.post('https://jairpl.com/autoDeploy/public/api/insertOrder',fd)
             .then(res =>{
               console.log(res)
     
@@ -455,7 +455,7 @@
             }
           },
           getAllProducts(){
-            axios.get('/api/getAllProducts')
+            axios.get('https://jairpl.com/autoDeploy/public/api/getAllProducts')
             .then(res =>{
               this.products = res.data
               this.fixed_products = res.data
@@ -466,7 +466,7 @@
           },
           getAllCustomers(){
             this.$swal('Cargando ...')
-            axios.get('/api/getAllCustomers')
+            axios.get('https://jairpl.com/autoDeploy/public/api/getAllCustomers')
             .then(res => {
               this.customers = res.data
               if(this.$route.params.idUser != 0){
@@ -476,7 +476,7 @@
             })
           },
           getQuotation(){
-            axios.get(`/api/getQuotationByCustomerId/${this.$route.params.idUser}`)
+            axios.get(`https://jairpl.com/autoDeploy/public/api/getQuotationByCustomerId/${this.$route.params.idUser}`)
             .then(res => {
               console.log(res.data)
               this.quotation = res.data[0].quotation

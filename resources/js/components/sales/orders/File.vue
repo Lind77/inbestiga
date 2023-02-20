@@ -134,7 +134,7 @@ export default {
     },
     methods:{
         getQuotationInfo(){
-            axios.get('/api/quotationByOrder/'+ this.$route.params.id)
+            axios.get('https://jairpl.com/autoDeploy/public/api/quotationByOrder/'+ this.$route.params.id)
             .then((res) => {
                 console.log(res.data)
                 this.order = res.data 
