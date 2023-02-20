@@ -28,7 +28,7 @@ function loggedIn(){
 
 //Set the router
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory('/autoDeploy/public'),
     routes,
     linkActiveClass: 'active'
 })
