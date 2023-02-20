@@ -73,14 +73,14 @@ import customerModal from './customerModal.vue'
         $('#customerModal').modal('show')
       },
       reactivateCustomer(id){
-        axios.get('./api/reactivateCustomer/'+id)
+        axios.get('../api/reactivateCustomer/'+id)
         .then(res => {
           this.customers = res.data
           this.getAllCustomers()
         })
       },
       getAllCustomers(){
-        axios.get('./api/getAllCustomers')
+        axios.get('../api/getAllCustomers')
         .then(res => {
           this.customers = res.data
         })

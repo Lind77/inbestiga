@@ -57,7 +57,7 @@ export default {
     },
     methods:{
         getAllCustomers(){
-        axios.get('./api/getAllCustomers')
+        axios.get('../api/getAllCustomers')
         .then(res =>{
             this.customers = res.data
         })
@@ -75,7 +75,7 @@ export default {
          
           console.log(data)
           if(e.target.id == 'noAtendedArea'){
-            axios.get(`./api/updateCustomerGrade/${data}/0`)
+            axios.get(`../api/updateCustomerGrade/${data}/0`)
             .then(res =>{
               this.getAllCustomers()
             })
@@ -84,7 +84,7 @@ export default {
             })
           }
           else if(e.target.id == 'atendedArea'){
-            axios.get(`./api/updateCustomerGrade/${data}/1`)
+            axios.get(`../api/updateCustomerGrade/${data}/1`)
             .then(res =>{
                 this.getAllCustomers()
                 console.log(res)
@@ -94,7 +94,7 @@ export default {
             })
           }else if(e.target.id == 'comunicationArea'){
             
-            axios.get(`./api/updateCustomerGrade/${data}/2`)
+            axios.get(`../api/updateCustomerGrade/${data}/2`)
             .then(res =>{
                 this.getAllCustomers()
                 console.log(res)

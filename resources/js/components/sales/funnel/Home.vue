@@ -75,7 +75,7 @@ export default{
   },
   methods:{
     getAllCustomers(){
-      axios.get('/api/getAllCustomers')
+      axios.get('../api/getAllCustomers')
       .then(res =>{
           this.customers = res.data
       })
@@ -97,7 +97,7 @@ export default{
 
           console.log(data)
           if(e.target.id == 'lead'){
-            axios.get(`./api/updateCustomerGrade/${data.substring(data.length-1)}/3`)
+            axios.get(`../api/updateCustomerGrade/${data.substring(data.length-1)}/3`)
             .then(res =>{
                 this.getAllCustomers()
                 console.log(res)
@@ -107,7 +107,7 @@ export default{
             })
           }
           else if(e.target.id == 'interested'){
-            axios.get(`./api/updateCustomerGrade/${data.substring(data.length-1)}/4`)
+            axios.get(`../api/updateCustomerGrade/${data.substring(data.length-1)}/4`)
             .then(res =>{
                 this.getAllCustomers()
                 console.log(res)
@@ -117,7 +117,7 @@ export default{
             })
           }
           else if(e.target.id == 'highInterested'){
-            axios.get(`./api/updateCustomerGrade/${data.substring(data.length-1)}/5`)
+            axios.get(`../api/updateCustomerGrade/${data.substring(data.length-1)}/5`)
             .then(res =>{
                 this.getAllCustomers()
                 console.log(res)
@@ -127,7 +127,7 @@ export default{
             })
           }
           else if(e.target.id == 'withContract'){
-            axios.get(`./api/updateCustomerGrade/${data.substring(data.length-1)}/6`)
+            axios.get(`../api/updateCustomerGrade/${data.substring(data.length-1)}/6`)
             .then(res =>{
                 this.getAllCustomers()
                 console.log(res)
@@ -137,7 +137,7 @@ export default{
             })
           }
           else if(e.target.id == 'client'){
-            axios.get(`./api/setProject/${data.substring(data.length-1)}`)
+            axios.get(`../api/setProject/${data.substring(data.length-1)}`)
             .then(res =>{
               console.log(res)
               this.getAllCustomers()
