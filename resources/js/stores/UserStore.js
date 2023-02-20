@@ -18,7 +18,7 @@ export let useCounterStore = defineStore('counter', {
     async getUser(){
     var token = localStorage.getItem("token")  
     window.axios.defaults.headers.common['Authorization'] = `Bearer ${ token }`
-    await axios.get('./api/user')
+    await axios.get('../api/user')
       .then((res) => {
         this.authUser = res.data
         this.userId = this.authUser[0].id
