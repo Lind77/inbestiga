@@ -97,7 +97,7 @@
             this.progress = progress
         },
         getAllTeams(){
-                axios.get('https://jairpl.com/autoDeploy/public/api/getAllTeams')
+                axios.get('/api/getAllTeams')
                 .then(res =>{
                     this.teams = res.data
                 })
@@ -106,7 +106,7 @@
                 })
         },
         getAllCustomers(){
-                axios.get('https://jairpl.com/autoDeploy/public/api/getAllCustomers')
+                axios.get('/api/getAllCustomers')
                 .then(res =>{
                     this.customers = res.data
                 })
@@ -120,7 +120,7 @@
                   title: 'Cargando ...',
                   showConfirmButton: false,
                 });
-                axios.get('https://jairpl.com/autoDeploy/public/api/getAllProjects')
+                axios.get('/api/getAllProjects')
                 .then(res =>{
                   this.projects = res.data
                   
@@ -141,7 +141,7 @@
                 })
         },
         getAllProducts(){
-                axios.get('https://jairpl.com/autoDeploy/public/api/getAllProducts')
+                axios.get('/api/getAllProducts')
                 .then(res =>{
                   console.log(res)
                   this.products = res.data
@@ -181,7 +181,7 @@
             fd.append('status', idStatus)
             fd.append('project_id', data)
 
-            axios.post('https://jairpl.com/autoDeploy/public/api/changeStatusProject', fd)
+            axios.post('/api/changeStatusProject', fd)
             .then(res =>{
               console.log(res.data)
               this.getAllProjects()

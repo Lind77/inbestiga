@@ -55,12 +55,12 @@ export default {
 
             fd.append('project_id', this.project.id)
             fd.append('team_selected', this.team_selected)
-            axios.post('https://jairpl.com/autoDeploy/public/api/assignTeam', fd)
+            axios.post('/api/assignTeam', fd)
             .then(res =>{
                 const fd = new FormData()
                 fd.append('id', this.activity.id)
                 fd.append('comment', 'Completado')
-
+                fd.append('project_id', this.project.id)
                 axios.post('/api/updateProgress', fd)
                 .then(res =>{
                     this.$emit('getActivities')
