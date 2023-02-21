@@ -140,7 +140,7 @@ export default{
           var numTasks = 0
           this.project_selected.activities.forEach(activity => {
               if(activity.type == 0){
-               sumTasks = sumTasks + activity.progress[0].percentage
+               sumTasks = sumTasks + parseFloat(activity.progress[0].percentage)
                numTasks = numTasks + 1
               }
           })
