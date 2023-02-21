@@ -87,9 +87,9 @@ class ProgressController extends Controller
             'percentage' => 100
         ]);
 
-        /* return response()->json([
+        return response()->json([
             'msg' => 'success'
-        ]); */
+        ]);
     }
 
     /**

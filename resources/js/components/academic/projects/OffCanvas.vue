@@ -89,7 +89,7 @@ export default{
             })
         },
         getActivities(){
-          axios.get(`https://jairpl.com/autoDeploy/public/api/getActivitiesPerId/${this.project_selected.id}`)
+          axios.get(`/api/getActivitiesPerId/${this.project_selected.id}`)
           .then(res =>{
             this.project_selected.activities = res.data
           })
@@ -112,6 +112,7 @@ export default{
             const fd = new FormData()
                 fd.append('id', activity.id)
                 fd.append('comment', 'Completado')
+                fd.append('project_id', this.project_selected.id)
 
                 axios.post('/api/updateProgress', fd)
                 .then(res =>{
