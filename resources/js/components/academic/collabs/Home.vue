@@ -33,7 +33,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="badge bg-label-success" v-if="owner.memoir.team">Equipo {{ owner.memoir.team.name }}</span>
+                                    <span class="badge bg-label-success" v-if="owner.memoir">Equipo {{ owner.memoir.team.name }}</span>
                                     <div v-else class="d-inline-block text-nowrap">
                                         <button class="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                         <span class="badge bg-label-danger" >Pendiente</span>

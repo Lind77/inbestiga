@@ -5,7 +5,7 @@
           <div class="col-6">
             <div class="card px-2 py-2">
               <h6>Porcentaje de avance</h6>
-              <a href="javascript:void(0)">{{ percentAcad +15 }}%</a>
+              <a href="javascript:void(0)">{{ parseInt(percentAcad) +15 }}%</a>
         <div class="progress mb-3">
           <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated shadow-none" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
           <div class="progress-bar bg-success progress-bar-striped progress-bar-animated shadow-none" role="progressbar" :style="{width: percentAcad + '%' }" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
@@ -89,7 +89,7 @@ export default {
     },
     methods:{
         addPercent(nroTasksDone){
-          this.percentAcad = this.percentAcad + (80/this.tasks.length)*nroTasksDone
+          //this.percentAcad = this.percentAcad + (80/this.tasks.length)*nroTasksDone
         },
         getProjectById(){
             axios.get(`/api/getProjectById/${this.$route.params.idProject}`)

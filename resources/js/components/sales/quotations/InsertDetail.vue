@@ -139,8 +139,8 @@ export default {
             var sumMinTime = 0
             var sumMaxTime = 0
             timesFiltered.forEach((time)=>{
-                sumMinTime = sumMinTime + time.min_time
-                sumMaxTime = sumMaxTime + time.max_time
+                sumMinTime = sumMinTime + parseFloat(time.min_time)
+                sumMaxTime = sumMaxTime + parseFloat(time.max_time)
             })
 
             var minTime = [{min_time: sumMinTime, max_time: sumMaxTime}]
