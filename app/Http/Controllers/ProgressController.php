@@ -76,9 +76,11 @@ class ProgressController extends Controller
 
         $project = Project::find($request->get('project_id'));
 
-        $project->update([
-            'aditional' =>  $request->get('comment')
-        ]);
+        if($request->get('comment')){
+            $project->update([
+                'aditional' =>  $request->get('comment')
+            ]);
+        }
 
         $progress[0]->update([
             'comment' => $request->get('comment'),
