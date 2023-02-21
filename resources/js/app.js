@@ -12,7 +12,7 @@ import './bootstrap'
 
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost/autoDeploy/public/'
+axios.defaults.baseURL = 'https://jairpl.com/autoDeploy/public/'
 
 import VueSweetalert2 from 'vue-sweetalert2'
 
