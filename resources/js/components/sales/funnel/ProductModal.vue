@@ -51,7 +51,7 @@ export default {
     },
     methods:{
         getAllProducts(){
-            axios.get('./api/getAllProducts')
+            axios.get('/api/getAllProducts')
             .then(res =>{
                 this.products = res.data
             })
@@ -79,7 +79,7 @@ export default {
             fd.append('product_id', this.product_id)
             fd.append('customer_id', this.customer.id)
 
-            axios.post('./api/assignProduct', fd)
+            axios.post('/api/assignProduct', fd)
             .then(res =>{
                 this.$emit('getAllCustomers')
                 $('#productModal').modal('hide')

@@ -119,7 +119,7 @@
           fd.append('product_id', id)
           fd.append('title', this.activityTitle)
           fd.append('type', 1)
-          axios.post('../api/insertFixedActivity', fd)
+          axios.post('/api/insertFixedActivity', fd)
           .then(res => {
             this.getAllProducts()
             this.activityTitle = ''
@@ -137,7 +137,7 @@
           const fd = new FormData
           fd.append('fixed_activity_id', id)
           fd.append('title', this.taskTitle)
-          axios.post('../api/insertFixedTask', fd)
+          axios.post('/api/insertFixedTask', fd)
           .then(res => {
             this.getAllProducts()
             this.taskTitle = ''
@@ -152,7 +152,7 @@
                   title: 'Cargando ...',
                   showConfirmButton: false,
             });
-            axios.get('../api/getAllProducts')
+            axios.get('/api/getAllProducts')
             .then(res =>{
               console.log(res)
               this.products = res.data

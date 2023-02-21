@@ -30,7 +30,7 @@ import axios from 'axios'
                 this.$swal.fire('Tienes la seguridad de enviar a este usuario a stand by?')
                 .then((res) =>{
                     if(res.isConfirmed){
-                        axios.get('./api/standByCustomer/'+id)
+                        axios.get('/api/standByCustomer/'+id)
                         .then(res =>{
                             this.$emit('getAllCustomers')
                         })
@@ -47,7 +47,7 @@ import axios from 'axios'
                 this.$swal.fire('Tienes la seguridad de convertir a este usuario en un lead?')
                 .then((res) => {
                     if(res.isConfirmed){
-                        axios.get(`./api/updateCustomerGrade/${id}/3`)
+                        axios.get(`/api/updateCustomerGrade/${id}/3`)
                         .then(res =>{
                             console.log(res)
                             this.$emit('getAllCustomers')
