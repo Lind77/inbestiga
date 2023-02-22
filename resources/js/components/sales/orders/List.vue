@@ -17,7 +17,7 @@
                 </thead>
                 <tbody class="table-border-bottom-0">
                   <tr v-for="order in orders">
-                    <td><strong>{{order.quotation}}</strong></td>
+                    <td><strong>{{order.quotation.customer.name}}</strong></td>
                     <td>{{order.created_at}}</td>
                     <td>
                       <router-link :to="{name:'order-file', params:{ id: order.id }}" target="_blank" class="btn btn-success text-white"><i class='bx bx-printer'></i></router-link>
