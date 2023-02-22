@@ -103,4 +103,5 @@ Route::get('/getAllMessages', [ChatController::class, 'index']);
 Route::get('/getAllMessagesById/{id}', [ChatController::class, 'getAllMessagesById'])->middleware('auth:sanctum');
 Route::post('/storeMessage',[ChatController::class, 'store'])->middleware('auth:sanctum');
 
+Route::get('/getAllOrders', [OrderController::class, 'index']);
 Route::post('/insertOrder',[OrderController::class, 'store']);

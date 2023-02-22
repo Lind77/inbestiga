@@ -144,7 +144,7 @@ export default {
                 var total = 0
                 this.quotation[0].details.forEach(detail => {
                     if(detail.type == 1){
-                        total = total + detail.price
+                        total = total + parseFloat(detail.price)
                     }
                 }); 
                 return total
@@ -155,7 +155,7 @@ export default {
                 var total = 0
                 this.quotation[0].details.forEach(detail => {
                     if(detail.type == 2){
-                        total = total + detail.price
+                        total = total + parseFloat(detail.price)
                     }
                 }); 
                 return total

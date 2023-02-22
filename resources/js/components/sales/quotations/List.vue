@@ -19,7 +19,9 @@
                   <tr v-for="quotation in quotations">
                     <td><strong>{{quotation.customer.name}}</strong></td>
                     <td>{{quotation.date}}</td>
-                    <td><a @click="print(quotation.id)" class="btn btn-success text-white"><i class='bx bx-printer'></i></a></td>
+                    <td>
+                      <router-link :to="{name:'quotation-file', params:{ id: quotation.id }}" target="_blank" class="btn btn-success text-white"><i class='bx bx-printer'></i></router-link>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -38,10 +40,10 @@
       },
       methods:{
         print(id){
-            window.open('/api/generatePDF/'+id)
+            window.open('./api/generatePDF/'+id)
         },
-        getAllProducts(){
-                axios.get('https://jairpl.com/autoDeploy/public/api/getAllQuotations')
+        getAllQuotations(){
+                axios.get('/api/getAllQuotations')
                 .then(res =>{
                   console.log(res)
                   this.quotations = res.data
@@ -52,7 +54,7 @@
             },
       },
       mounted(){
-        this.getAllProducts()
+        this.getAllQuotations()
       }
     }
   </script>
