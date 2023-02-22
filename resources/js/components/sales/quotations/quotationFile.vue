@@ -58,7 +58,7 @@
             <tbody v-if="quotation[0]">
                 <tr v-for="detail in quotation[0].details" class="text-dark">
                     <th class="table-item fw-normal ps-2" v-if="detail.type == 1 ">{{detail.product.title}}
-                    <template v-if="detail.product_id == 34">
+                    <template v-if="detail.product_id == 34" style="white-space: pre;">
                         - 02 propuestas de tema
                         - Plan de tesis o proyecto de investigación
                         - Aplicación de instrumentos y procesamiento estadístico
@@ -68,7 +68,7 @@
                         - Reporte de similitud TURNITIN
                         - E-book para la sustentación
                         - Balotario de preguntas
-                        - Simulación de sustentación
+                        - Simulación de sustentación
                     </template>
                     </th>
                     <th class="table-item fw-normal" v-if="detail.type == 1 " style="white-space: pre;">{{detail.description}}</th>
