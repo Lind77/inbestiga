@@ -17,7 +17,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::all();
+        $orders = Order::with(['quotation','quotation.customer'])->get();
 
         return response()->json($orders);
     }
