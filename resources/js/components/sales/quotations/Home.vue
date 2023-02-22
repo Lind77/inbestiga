@@ -264,7 +264,7 @@
         fd.append('suggestedProducts', this.suggested_products)
         fd.append('discount', this.discount)
 
-        axios.post('https://jairpl.com/autoDeploy/public/api/quotationPDF', fd)
+        axios.post('/api/quotationPDF', fd)
         .then(res => {
           console.log(res)
         })
@@ -282,7 +282,7 @@
       },
       print(e){
             e.preventDefault()
-            window.open('https://jairpl.com/autoDeploy/public/api/generatePDF/'+this.idQuotation)
+            window.open('/api/generatePDF/'+this.idQuotation)
       },
       insertQuotation(){
         if(this.date == null){
@@ -299,7 +299,7 @@
         fd.append('amount', this.totalProducts - this.discount)
         fd.append('term', this.term)
 
-        axios.post('https://jairpl.com/autoDeploy/public/api/insertQuotation',fd)
+        axios.post('/api/insertQuotation',fd)
         .then(res =>{
           console.log(res)
 
@@ -432,7 +432,7 @@
         }
       },
       getAllProducts(){
-        axios.get('https://jairpl.com/autoDeploy/public/api/getAllProducts')
+        axios.get('/api/getAllProducts')
         .then(res =>{
           this.products = res.data
           this.fixed_products = res.data
@@ -443,7 +443,7 @@
       },
       getAllCustomers(){
         this.$swal('Cargando ...')
-        axios.get('https://jairpl.com/autoDeploy/public/api/getAllCustomers')
+        axios.get('/api/getAllCustomers')
         .then(res => {
           this.customers = res.data
           if(this.$route.params.idUser != 0){

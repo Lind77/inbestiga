@@ -122,7 +122,7 @@ export default {
     },
     methods:{
         getQuotationInfo(){
-            axios.get(`https://jairpl.com/autoDeploy/public/api/quotation/${this.$route.params.id}`)
+            axios.get(`/api/quotation/${this.$route.params.id}`)
             .then((res) => {
                 this.quotation = res.data 
                 this.print()

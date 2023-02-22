@@ -58,7 +58,7 @@
                           </div>
                           <div class="mb-3">
                             <div v-if="countSugestedProducts != 0" class="form-check mt-3">
-                            <input @click="addSugested" class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                            <input @click="considerSugested" class="form-check-input" type="checkbox" id="defaultCheck1">
                             <label class="form-check-label" for="defaultCheck1">
                               Considerar Sugeridos
                             </label>
@@ -79,10 +79,12 @@
                           </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                          <tr v-for="(detail, index) in details" :key="index">
-                            <td>{{ detail.product.title }}</td>
-                            <td>S./ {{ detail.price }}</td>
-                          </tr>
+                          <template v-for="(detail, index) in details">
+                            <tr :key="index" v-if="detail.type <= detail_type">
+                              <td>{{ detail.product.title }}</td>
+                              <td>S./ {{ detail.price }}</td>
+                            </tr>
+                          </template>
                         </tbody>
                       </table>
                     </div>
@@ -101,6 +103,21 @@
                       </div>
                     </div>
                     </div>
+                    <div class="row">
+                    <div class="col-6">
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-company">Descuento</label>
+                        <input type="text" class="form-control" v-model="discount">
+                      </div>
+                    </div>
+                  <div class="col-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="basic-default-company">TOTAL FINAL:</label>
+                      <br>
+                      S./ {{ totalFinal }}
+                    </div>
+                  </div>
+                  </div>
                     <!-- <h5 class="mb-4">Productos</h5>
                     <div class="row">
                       <div class="col-6">
@@ -227,6 +244,8 @@
         components:{List},
         data(){
           return{
+            detail_type: 1,
+            total:0,
             quotation:{},
             final_delivery:'',
             observations:'',
@@ -269,12 +288,15 @@
           }
         },
         methods:{
+          considerSugested(){
+            this.detail_type = (this.detail_type === 1) ? 2 : 1
+          },
           saveDni(){
             const fd = new FormData()
             fd.append('id_customer', this.$route.params.idUser)
             fd.append('dni', this.dni)
 
-            axios.post('https://jairpl.com/autoDeploy/public/api/updateDniCustomer', fd)
+            axios.post('/api/updateDniCustomer', fd)
             .then((res) =>{
               this.customerSelected = res.data
             })
@@ -293,7 +315,7 @@
             fd.append('suggestedProducts', this.suggested_products)
             fd.append('discount', this.discount)
     
-            axios.post('https://jairpl.com/autoDeploy/public/api/quotationPDF', fd)
+            axios.post('/api/quotationPDF', fd)
             .then(res => {
               console.log(res)
             })
@@ -311,7 +333,7 @@
           },
           print(e){
                 e.preventDefault()
-                window.open('https://jairpl.com/autoDeploy/public/api/generatePDF/'+this.idQuotation)
+                window.open('/api/generatePDF/'+this.idQuotation)
           },
           insertOrder(){
             if(this.date == null){
@@ -323,7 +345,7 @@
             fd.append('final_delivery', this.final_delivery)
             fd.append('observations', this.observations)
     
-            axios.post('https://jairpl.com/autoDeploy/public/api/insertOrder',fd)
+            axios.post('/api/insertOrder',fd)
             .then(res =>{
               console.log(res)
     
@@ -456,7 +478,7 @@
             }
           },
           getAllProducts(){
-            axios.get('https://jairpl.com/autoDeploy/public/api/getAllProducts')
+            axios.get('/api/getAllProducts')
             .then(res =>{
               this.products = res.data
               this.fixed_products = res.data
@@ -467,7 +489,7 @@
           },
           getAllCustomers(){
             this.$swal('Cargando ...')
-            axios.get('https://jairpl.com/autoDeploy/public/api/getAllCustomers')
+            axios.get('/api/getAllCustomers')
             .then(res => {
               this.customers = res.data
               if(this.$route.params.idUser != 0){
@@ -477,11 +499,12 @@
             })
           },
           getQuotation(){
-            axios.get(`https://jairpl.com/autoDeploy/public/api/getQuotationByCustomerId/${this.$route.params.idUser}`)
+            axios.get(`/api/getQuotationByCustomerId/${this.$route.params.idUser}`)
             .then(res => {
               console.log(res.data)
               this.quotation = res.data
               this.details = res.data.details
+              this.discount = res.data.discount
             })
             .catch(err => { console.error(err.data.message)})
           }
@@ -492,6 +515,24 @@
           this.getQuotation()
         },
         computed:{
+          totalFinal(){
+            var sumMonto = 0
+            if(this.detail_type == 1){
+              this.details.forEach(detail =>{
+                  if(detail.type == 1){
+                    sumMonto += parseFloat(detail.price)
+                  }
+              })
+              return sumMonto - parseFloat(this.discount)
+            }else{
+              this.details.forEach(detail =>{
+                  if(detail.type <= 2){
+                    sumMonto += parseFloat(detail.price)
+                  }
+              })
+              return sumMonto - parseFloat(this.discount) 
+            }
+          },
           countSugestedProducts(){
             if(this.quotation.details){
               var numSugested = 0
