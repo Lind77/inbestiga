@@ -18,7 +18,7 @@
                 <tbody class="table-border-bottom-0">
                   <tr v-for="order in orders">
                     <td><strong>{{order.quotation.customer.name}}</strong></td>
-                    <td>{{order.created_at}}</td>
+                    <td>{{formatDate(order.created_at)}}</td>
                     <td>
                       <router-link :to="{name:'order-file', params:{ id: order.id }}" target="_blank" class="btn btn-success text-white"><i class='bx bx-printer'></i></router-link>
                     </td>
@@ -51,7 +51,12 @@
                 .catch(err =>{
                   console.log(err.response.data)
                 })
-            },
+        },
+        formatDate(date){
+          var dataObj = new Date(date)
+          var dateFormatted = dataObj.toISOString().slice(0,10)
+          return dateFormatted
+        }
       },
       mounted(){
         this.getAllOrders()

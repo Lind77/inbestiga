@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['quotation_id', 'final_delivery', 'observations'];
+    protected $fillable = ['quotation_id', 'final_delivery', 'observations', 'suggested'];
 
     public function quotation(){
         return $this->belongsTo('App\Models\Quotation');

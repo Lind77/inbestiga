@@ -43,7 +43,8 @@ class OrderController extends Controller
         $order = Order::create([
             'quotation_id' => $request->get('quotation_id'),
             'final_delivery' => $request->get('final_delivery'),
-            'observations' => $request->get('observations')
+            'observations' => $request->get('observations'),
+            'suggested' => $request->get('suggested')
         ]);
 
         return response()->json($order->id);

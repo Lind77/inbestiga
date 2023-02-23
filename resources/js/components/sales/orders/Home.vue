@@ -8,7 +8,7 @@
               <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true">Home</button>
             </li>
             <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile" aria-selected="false">Lista</button>
+              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile" aria-selected="false" @click="getOrders">Lista</button>
             </li>
           </ul>
           <div class="tab-content p-0">
@@ -217,7 +217,7 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
-              <List/>
+              <List ref="ordersList"/>
             </div>
           </div>
         </div>
@@ -344,6 +344,7 @@
             fd.append('quotation_id', this.quotation.id)
             fd.append('final_delivery', this.final_delivery)
             fd.append('observations', this.observations)
+            fd.append('suggested', this.detail_type)
     
             axios.post('/api/insertOrder',fd)
             .then(res =>{
@@ -354,7 +355,7 @@
               document.getElementById('buttonPDF').disabled = false
             })
             .catch(err =>{
-              console.log(err.response.data)
+              console.error(err)
             })
             } 
             
@@ -507,6 +508,9 @@
               this.discount = res.data.discount
             })
             .catch(err => { console.error(err.data.message)})
+          },
+          getOrders(){
+            this.$refs.ordersList.getAllOrders()
           }
         },
         mounted(){

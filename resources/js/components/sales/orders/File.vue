@@ -76,19 +76,45 @@
                 </tr>
             </thead>
             <tbody v-if="order.quotation">
-                <tr class="text-dark">
-                    <td class="table-item" width="30%">
-                        <p class="mb-0 ps-3" v-for="detail in order.quotation.details">{{ detail.product.title }}</p>
+                <tr class="text-dark" v-for="(detail, index) in order.quotation.details" :key="index">
+                    <td class="table-item ps-2" width="30%">
+                            <template v-if="detail.type <= order.suggested">
+                                <h5 class="fw-bold text-dark m-0 pb-0">{{ detail.product.title }}</h5>
+                            <template v-if="detail.product_id == 34">
+                                - 02 propuestas de tema
+                                <br>
+                                - Plan de tesis o proyecto de investigación
+                                <br>
+                                - Aplicación de instrumentos y procesamiento estadístico
+                                <br>
+                                - Informe final de tesis o Tesis Final
+                                <br>
+                                - Orientación y/o asesoría extraordinaria en cualquier etapa de la tesis.
+                                <br>
+                                - Plantilla de diapositivas
+                                <br>
+                                - Reporte de similitud TURNITIN
+                                <br>
+                                - E-book para la sustentación
+                                <br>
+                                - Balotario de preguntas
+                                <br>
+                                - Simulación de sustentación
+                            </template>
+                            </template>
                     </td>
                     <td class="table-item" width="10%">
-                        <p class="mb-0" style="text-align: center;" v-for="detail in order.quotation.details">S./ {{ detail.price }}</p>
+                        <p class="mb-0" style="text-align: center;">S./ {{ detail.price }}</p>
                     </td>
-                    <td class="table-item" width="30%">
+                    <template v-if="index == 0">
+                    <td class="table-item ps-2" width="30%" :rowspan="order.quotation.details.length">
                         <p>{{ order.final_delivery }}</p>
                     </td>
-                    <td class="table-item" width="30%">
+                    <td class="table-item ps-2" width="30%" :rowspan="order.quotation.details.length">
                         <p>{{ order.observations }}</p>
                     </td>
+                    </template>
+                    
                     <!-- <th class="table-item fw-normal ps-2" >{{detail.product.title}}</th>
                     <th class="table-item fw-normal px-3" >S./{{detail.price}}</th>
                     <th class="table-item fw-normal px-2" ></th>
@@ -96,7 +122,7 @@
                 </tr>
                 <tr class="sugested-title">
                     <th class="text-purple sugested py-3 ps-2">TOTAL</th>
-                    <th class="text-purple sugested py-3" style="text-align: center;">S/ {{order.quotation.amount}}</th>
+                    <th class="text-purple sugested py-3" style="text-align: center;">S/ {{totalPrice}}</th>
                     <th  class="text-danger sugested py-3 ps-1">* DESCUENTO S./{{order.quotation.discount}}</th>
                 </tr>
             </tbody>
@@ -151,28 +177,16 @@ export default {
         this.getQuotationInfo()
     },
     computed:{
-        subTotalProds(){
-            if(this.quotation[0]){
-                var total = 0
-                this.quotation[0].details.forEach(detail => {
-                    if(detail.type == 1){
-                        total = total + detail.price
-                    }
-                }); 
-                return total
-            }
-        },
-        subTotalProdsSugest(){
-            if(this.quotation[0]){
-                var total = 0
-                this.quotation[0].details.forEach(detail => {
-                    if(detail.type == 2){
-                        total = total + detail.price
-                    }
-                }); 
-                return total
-            }
-        }
+       totalPrice(){
+        var details = this.order.quotation.details
+        var sumTotal = 0
+
+        details.forEach(detail =>{
+            sumTotal += parseFloat(detail.price)
+        })
+
+        return sumTotal
+       }
     }
 }
 </script>
