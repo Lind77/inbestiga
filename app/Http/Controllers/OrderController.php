@@ -6,6 +6,8 @@ use App\Models\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Customer;
+use App\Models\Quotation;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -45,6 +47,14 @@ class OrderController extends Controller
             'final_delivery' => $request->get('final_delivery'),
             'observations' => $request->get('observations'),
             'suggested' => $request->get('suggested')
+        ]);
+
+        $quotation = Quotation::find('quotation_id');
+
+        $customer = Customer::find($quotation->customer_id);
+
+        $customer->update([
+            'status' => 6
         ]);
 
         return response()->json($order->id);

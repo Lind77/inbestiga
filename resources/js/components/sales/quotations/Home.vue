@@ -467,7 +467,7 @@
       totalProducts(){
         var total = 0
         this.car_products.forEach((product)=>{
-            total += JSON.parse(product).total
+            total += parseFloat(JSON.parse(product).total)
         })
 
         return Math.round(total * 100)/100
@@ -475,7 +475,7 @@
       totalSuggestedProducts(){
         var total = 0
         this.carSugestedProducts.forEach((product)=>{
-            total += JSON.parse(product).total
+            total += parseFloat(JSON.parse(product).total)
         })
 
         return Math.round(total * 100)/100
