@@ -24,7 +24,7 @@
                 </div>
                 
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col mb-0">
                
                 <p v-if="minTimeEstimated">Tiempo mínimo estimado: {{ secondsToString(minTimeEstimated[0].min_time) }}</p>
@@ -32,8 +32,8 @@
                 
                 </div>
                 
-            </div>
-            <div class="row">
+            </div> -->
+            <!-- <div class="row">
                 <label class="form-label" for="emailSmall">Plazo</label>
                 <div class="col-6">
                     <input type="number" @change="calcTime" class="form-control" v-model="cantTime">
@@ -45,7 +45,7 @@
                         <option value="2419200">Meses</option>
                     </select>
                 </div>
-            </div>
+            </div> -->
           </div>
           <div class="modal-footer">
             <button type="button" id="addDetail" class="btn btn-primary" @click="addCart" disabled>Añadir</button>
@@ -70,11 +70,11 @@ export default {
     methods:{
         calcTime(e){
 
-        if(this.typeTime* this.cantTime > this.minTimeEstimated[0].min_time ){
+       /*  if(this.typeTime* this.cantTime > this.minTimeEstimated[0].min_time ){
             document.getElementById('addDetail').disabled = false
         }else{
             document.getElementById('addDetail').disabled = true
-        }    
+        } */    
         },
         addCart(){
             var e = document.getElementById("tagsTime")
