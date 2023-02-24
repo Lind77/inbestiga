@@ -17,13 +17,12 @@
                 <p>Nivel: {{ product.level }} </p>
                 <p>Costo: S./ {{ product.amountLevel }}</p>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col mb-0">
                     <label class="form-label" for="emailSmall">Descripción</label>
                     <textarea class="form-control" v-model="description" rows="3"></textarea>
                 </div>
-                
-            </div>
+            </div> -->
             <!-- <div class="row">
                 <div class="col mb-0">
                

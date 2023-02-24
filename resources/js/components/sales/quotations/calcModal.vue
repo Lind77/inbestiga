@@ -52,10 +52,17 @@ export default {
         calcCost(){
             var totalPages = 0
             totalPages = (this.pages*this.actualPercent)/100 - (this.pages*this.desiredPercent)/100
-            this.cost = (totalPages+2)*23
+            this.cost = ((totalPages+2)*23)*100/100
         },
         saveCost(){
-            this.$emit('addCartParaphrase', this.cost)
+          var productModal = {}
+
+          productModal.id = 41
+          productModal.title = 'Parafraseo por página'
+          productModal.description = ''
+          productModal.total = this.cost
+
+            this.$emit('addCartModal', productModal)
             $('#calcModal').modal('hide')
         }
     }

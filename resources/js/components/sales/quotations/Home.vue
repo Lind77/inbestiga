@@ -89,7 +89,6 @@
                     <thead class="table-primary">
                       <tr>
                         <th>Producto/Servicio</th>
-                        <th>Descripción</th>
                         <th>Total</th>
                         <th>Borrar</th>
                       </tr>
@@ -97,7 +96,6 @@
                     <tbody class="table-border-bottom-0">
                       <tr v-for="(product, index) in car_products" :key="index">
                         <td>{{ JSON.parse(product).title }}</td>
-                        <td style="white-space: pre-line">{{ JSON.parse(product).description }}</td>
                         <td>S./ {{ JSON.parse(product).total }}</td>
                         <td><a @click="removeCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
@@ -141,7 +139,6 @@
                     <thead class="table-primary">
                       <tr>
                         <th>Producto/Servicio</th>
-                        <th>Descripción</th>
                         <th>Total</th>
                         <th>Borrar</th>
                       </tr>
@@ -149,7 +146,6 @@
                     <tbody class="table-border-bottom-0">
                       <tr v-for="(product, index) in carSugestedProducts" :key="index">
                         <td>{{ JSON.parse(product).title }}</td>
-                        <td style="white-space: pre-line">{{ JSON.parse(product).description }}</td>
                         <td>S./ {{ JSON.parse(product).total }}</td>
                         <td><a @click="removeSuggestedCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
@@ -203,7 +199,7 @@
           
         </div>
       </div>
-      <calcModal @addCartParaphrase="addCartParaphrase"/>
+      <calcModal @addCartModal="addCartModal"/>
       <InsertDetail @addCartModal="addCartModal" @addSugestCartModal="addSugestCartModal" :product="selected_product" :products="fixed_products"/>
     </div>
 </template>
