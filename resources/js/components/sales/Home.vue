@@ -1,9 +1,9 @@
 <template>
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
-      <Sidebar />
+      <Sidebar :hidden = "hidden"/>
       <div class="layout-page">
-        <Navbar /> 
+        <Navbar @hideSidebar="hideSidebar"/> 
         <div class="content-wrapper">
               <!-- Content --> 
               <router-view></router-view>
@@ -20,6 +20,24 @@
     import Sidebar from '../layout/Sidebar.vue'
     import Navbar from '../layout/Navbar.vue'
     export default{
-      components: { Sidebar, Navbar }
+      components: { Sidebar, Navbar },
+      data(){
+        return{
+          hidden: true
+        }
+      },
+      methods:{
+        hideSidebar(){
+          this.hidden = !this.hidden
+        }
+      }
     }
-  </script>  
+  </script>
+  <style scoped>
+    @media (max-width: 1199.98px){
+      .layout-menu{
+        position: relative !important;
+        transform: none;
+      }
+    }
+  </style>  

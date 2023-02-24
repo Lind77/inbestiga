@@ -1,7 +1,7 @@
 <template>
   <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
-    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-      <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0">
+      <a @click="toggleAside" class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
         <i class="bx bx-menu bx-sm"></i>
       </a>
     </div>
@@ -133,7 +133,8 @@
       return{
         token: localStorage.getItem("token"),
         name: '',
-        numberNotifications: 0
+        numberNotifications: 0,
+        toggle: true
       }
     },
     methods:{
@@ -147,6 +148,9 @@
         }).catch((err) => {
             console.log(err)
         });
+      },
+      toggleAside(){
+        this.$emit('hideSidebar')
       }
     },
     mounted(){
