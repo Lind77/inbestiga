@@ -68,14 +68,6 @@ export default {
         }
     },
     methods:{
-        calcTime(e){
-
-       /*  if(this.typeTime* this.cantTime > this.minTimeEstimated[0].min_time ){
-            document.getElementById('addDetail').disabled = false
-        }else{
-            document.getElementById('addDetail').disabled = true
-        } */    
-        },
         addCart(){
             var e = document.getElementById("tagsTime")
             var text = e.options[e.selectedIndex].text
