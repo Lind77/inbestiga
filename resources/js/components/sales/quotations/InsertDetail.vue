@@ -48,7 +48,7 @@
             </div> -->
           </div>
           <div class="modal-footer">
-            <button type="button" id="addDetail" class="btn btn-primary" @click="addCart" disabled>Añadir</button>
+            <button type="button" id="addDetail" class="btn btn-primary" @click="addCart">Añadir</button>
           </div>
         </div>
       </div>
