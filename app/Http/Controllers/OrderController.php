@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Customer;
+use App\Models\Payments;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
 
@@ -49,7 +50,17 @@ class OrderController extends Controller
             'suggested' => $request->get('suggested')
         ]);
 
-        $quotation = Quotation::find('quotation_id');
+        $payments = json_decode($request->get('payments'), true);
+
+        foreach ($payments as $payment) {
+            $payment_registered = Payments::create([
+                'order_id' => $order->id,
+                'date' => $payment['date'],
+                'amount' => $payment['amount']
+            ]);
+        }
+
+        $quotation = Quotation::find($request->get('quotation_id'));
 
         $customer = Customer::find($quotation->customer_id);
 

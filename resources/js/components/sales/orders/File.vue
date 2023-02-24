@@ -77,7 +77,7 @@
             </thead>
             <tbody v-if="order.quotation">
                 <tr class="text-dark" v-for="(detail, index) in order.quotation.details" :key="index">
-                    <td class="table-item ps-2" width="30%">
+                    <td class="table-item ps-2" width="30%" v-if="detail.type <= order.suggested">
                             <template v-if="detail.type <= order.suggested">
                                 <h5 class="fw-bold text-dark m-0 pb-0">{{ detail.product.title }}</h5>
                             <template v-if="detail.product_id == 34">
@@ -103,7 +103,7 @@
                             </template>
                             </template>
                     </td>
-                    <td class="table-item" width="10%">
+                    <td class="table-item" width="10%"  v-if="detail.type <= order.suggested">
                         <p class="mb-0" style="text-align: center;">S./ {{ detail.price }}</p>
                     </td>
                     <template v-if="index == 0">
@@ -130,7 +130,11 @@
     </section>
     <section>
         <div class="row mt-3">
-            <div class="col-4"></div>
+            <div class="col-4 px-2">
+                <p v-for="(payment, index) in order.payments" class="ps-4 h5">
+                    {{index+1+'° Pago'}} {{ payment.date }} S./{{ payment.amount }}
+                </p>
+            </div>
             <div class="col-3 signature-box">
                 <h5 class="signature-text">Firma de Conformidad</h5>
                 <div class="signature"></div>
@@ -182,10 +186,13 @@ export default {
         var sumTotal = 0
 
         details.forEach(detail =>{
-            sumTotal += parseFloat(detail.price)
+            if(detail.type <= this.order.suggested){
+                sumTotal += parseFloat(detail.price)
+            }
+           
         })
 
-        return sumTotal
+        return sumTotal - parseFloat(this.order.quotation.discount)
        }
     }
 }

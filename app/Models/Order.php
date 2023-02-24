@@ -15,4 +15,8 @@ class Order extends Model
         return $this->belongsTo('App\Models\Quotation');
     }
 
+    public function payments(){
+        return $this->hasMany('App\Models\Payments');
+    }
+
 }
