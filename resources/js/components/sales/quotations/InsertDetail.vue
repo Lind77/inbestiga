@@ -70,14 +70,12 @@ export default {
     methods:{
         addCart(){
             var e = document.getElementById("tagsTime")
-            var text = e.options[e.selectedIndex].text
 
             var productModal = {}
 
             productModal.id = this.product.id
             productModal.title = this.product.title
             productModal.description = this.description
-            productModal.term = this.cantTime +' '+ text
             productModal.total = this.product.amountLevel
 
             if(this.product.typeOp == 1){
