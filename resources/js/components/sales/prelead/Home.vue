@@ -9,7 +9,7 @@
             <div class="container-cards">
               <div v-for="customer in customers">
                 <div v-if="customer.status == 0">
-                  <CardCustomer :customer="customer"  @getAllCustomers="getAllCustomers" :status="status"/>
+                  <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers" :status="status"/>
                 </div>
               </div>
             </div>
@@ -73,7 +73,7 @@ export default {
           e.preventDefault()
           var data = e.dataTransfer.getData("text");
          
-          console.log(data)
+          //console.log(data)
           if(e.target.id == 'noAtendedArea'){
             axios.get(`/api/updateCustomerGrade/${data}/0`)
             .then(res =>{
