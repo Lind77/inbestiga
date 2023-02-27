@@ -19,7 +19,7 @@
                   </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                  <tr v-for="customer in customers">
+                  <tr v-for="customer in customersPag">
                     <td><strong>{{customer.name}}</strong></td>
                       <td>{{customer.cell}}</td>
                       <td>{{customer.email}}</td>
@@ -37,6 +37,13 @@
                   </tr>
                 </tbody>
               </table>
+              <div class="row ps-4">
+                <ul class="pagination">
+                  <!-- <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="previous" tabindex="0" class="page-link">Anterior</a></li> -->
+                  <li class="paginate_button page-item" :id="`li`+index" v-for="(chunk, index) in customersChunked"><a @click="stepPag(index)" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">{{ index+1 }}</a></li>
+                  <!-- <li class="paginate_button page-item next" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="next" tabindex="0" class="page-link">Siguiente</a></li> -->
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -52,6 +59,8 @@ import customerModal from './customerModal.vue'
     data(){
       return{
         customers:[],
+        customersPag: [],
+        customersChunked: [],
         customer_selected:{},
         action: 1,
         status:{
@@ -67,6 +76,13 @@ import customerModal from './customerModal.vue'
       }
     },
     methods:{
+      stepPag(i){
+        this.customersPag = this.customersChunked[i]
+        document.querySelectorAll('.paginate_button').forEach(el =>{
+          el.classList.remove('active')
+        })
+        document.getElementById('li'+i).classList.add('active')
+      },
       openCustomerModal(action, customer){
         this.action = action
         this.customer_selected = customer
@@ -83,6 +99,17 @@ import customerModal from './customerModal.vue'
         axios.get('/api/getAllCustomers')
         .then(res => {
           this.customers = res.data
+          var i = 0
+          var cant = 10
+          this.customers.forEach(customer => {
+            if(this.customers.slice(i, i+cant).length > 0){
+              this.customersChunked.push(this.customers.slice(i, i+cant))
+            }
+            
+            i = i+cant
+          })
+         
+          this.customersPag  = this.customersChunked[0]
         })
       }
     },
