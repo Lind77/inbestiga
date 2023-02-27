@@ -1,9 +1,9 @@
 <template>
   <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
-    <Sidebar />
+    <Sidebar :hidden = "hidden"/>
     <div class="layout-page">
-      <Navbar /> 
+      <Navbar @hideSidebar="hideSidebar"/> 
       <div class="content-wrapper">
             <!-- Content --> 
             <router-view></router-view>
@@ -22,8 +22,14 @@
     components: { Sidebar, Navbar },
     data(){
       return{
+        hidden: true,
         token: localStorage.getItem('token')
       }
+    },
+    methods:{
+        hideSidebar(){
+          this.hidden = !this.hidden
+        }
     }
   }
 </script>  
