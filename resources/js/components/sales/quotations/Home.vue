@@ -4,7 +4,7 @@
   <div class="col-xl-12">
     <div class="nav-align-top mb-4">
       <ul class="nav nav-pills mb-3" role="tablist">
-        <li class="nav-item">
+        <li class="nav-item" v-if="this.$route.params.idUser != 0">
           <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true">Home</button>
         </li>
         <li class="nav-item">
@@ -13,12 +13,10 @@
       </ul>
       <div class="tab-content p-0">
         <div class="tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
-          
             <div class="card-header d-flex justify-content-between align-items-center">
               <h5 class="mb-0">Ingrese los datos para generar la cotización.</h5>
             </div>
             <div class="card-body">
-              
                 <div class="row">
                   <div class="col">
                   <div class="card shadow-none bg-transparent border border-info mb-3"  v-if="customerSelected.id">
@@ -38,11 +36,7 @@
                     </p> -->
                   </div>
                   </div>
-
-                  
-                  
                 </div>
-
                 <div class="col">
                   <div class="card shadow-none bg-transparent border border-info mb-3">
                     <div class="card-body">

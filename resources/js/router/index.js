@@ -10,6 +10,7 @@ import MainSales from '../components/sales/Main.vue'
 //Área de Ventas - Cotizaciones
 import HomeQuotation from '../components/sales/quotations/Home.vue'
 import QuotationFile from '../components/sales/quotations/quotationFile.vue'
+import ListQuotation from '../components/sales/quotations/List.vue'
 
 //Área de Ventas - Ordenes
 import HomeOrders from '../components/sales/orders/Home.vue'
@@ -57,6 +58,8 @@ import UsersAdmin from '../components/admin/Users.vue'
 import RolesAdmin from '../components/admin/Roles.vue'
 
 import RealTime from '../components/admin/chat/Chat.vue'
+
+
 
 
 
@@ -166,6 +169,11 @@ export const routes = [
                 path: 'calendars',
                 component: HomeCalendar,
                 name: 'home-calendar'
+            },
+            {
+                path: 'list-quotations',
+                component: ListQuotation,
+                name: 'list-quotations'
             }
         ]
     },
