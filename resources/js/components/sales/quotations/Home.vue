@@ -47,7 +47,7 @@
                   <div class="card shadow-none bg-transparent border border-info mb-3">
                     <div class="card-body">
                       <div class="mb-3">
-                        <label class="form-label" for="basic-default-company">Fecha</label>
+                        <label class="form-label" for="basic-default-company">Fecha <span class="text-danger">*</span></label>
                         <input type="date" v-model="date" class="form-control" id="basic-default-company" />
                       </div>
                       <div class="mb-3">
@@ -168,7 +168,7 @@
                 </div>
                 <div class="col-6">
                   <div class="mb-3">
-                    <label class="form-label" for="basic-default-company">Tiempo de Ejecucion</label>
+                    <label class="form-label" for="basic-default-company">Tiempo de Ejecucion <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" v-model="term">
                   </div>
                 </div>
@@ -283,7 +283,11 @@
       insertQuotation(){
         if(this.date == null){
           this.$swal('Porfavor agregar la fecha de cotización')
-        }else{
+        }
+        else if(this.term == ''){
+          this.$swal('Porfavor agregar el tiempo de ejecución')
+        }
+        else{
           const fd =  new FormData()
       
         fd.append('customer', JSON.stringify(this.customerSelected))
