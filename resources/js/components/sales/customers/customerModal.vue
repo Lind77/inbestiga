@@ -61,7 +61,15 @@
     </div>
 </template>
 <script>
+import {useCounterStore} from '../../../stores/UserStore'
+
 export default {
+    setup(){
+      const store = useCounterStore()
+      return{
+        store
+      }
+    },
     props:{
         action: Number,
         customer: Object
@@ -103,6 +111,7 @@ export default {
             fd.append('career',this.career)
             fd.append('email',this.email)
             fd.append('status',0)
+            fd.append('user_id',this.store.authUser[0].id)
 
             axios.post('/api/insertCustomer', fd)
             .then(res =>{
