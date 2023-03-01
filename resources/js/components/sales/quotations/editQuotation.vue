@@ -43,8 +43,8 @@
                 </div>
                 </div>
                 </div>
-                <h5 class="mb-4">Productos</h5>
-                <div class="row mb-3">
+                <h5 class="mb-2">Productos</h5>
+                <div class="row">
                 <div class="col-6">
                 <label class="form-label" for="basic-default-company">Nivel</label>
                 <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" v-model="level">
@@ -56,7 +56,7 @@
                     <option value="5">5</option>
                 </select>
                 </div>
-                <searchProduct :level="level" :products="fixed_products"/>
+                <searchProduct :level="level" :products="fixed_products" @addProduct="addProduct"/>
                 </div>
                 <div class="table-responsive text-nowrap">
                 <table class="table">
@@ -76,17 +76,33 @@
                     </tbody>
                 </table>
                 </div>
-                <!-- 
-                
-                
                 <div class="row">
-                <div class="col-sm-12 col-lg-6">
+                    <div class="col-sm-12 col-lg-6">
+                        <div class="mb-3">
+                            <p>TOTAL PRODUCTOS :  S./ {{ totalProducts }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-6">
                 <div class="mb-3">
-                    <p>TOTAL:  S./ {{ totalProducts }}</p>
+                    <label class="form-label" for="basic-default-company">Descuento</label>
+                    <input type="text" class="form-control" v-model="discount">
                 </div>
                 </div>
-                </div> -->
-                <!-- <h5 class="mb-4">Producto Sugerido</h5>
+                <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label" for="basic-default-company">Tiempo de Ejecucion <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" v-model="term">
+                </div>
+                </div>
+                </div>
+               
+                <p>TOTAL FINAL : S./ {{ totalProducts - parseFloat(discount) }}</p>
+
+                <button @click="editQuotation" class="btn btn-primary mt-2 text-white">Actualizar</button>
+                <router-link v-if="this.idQuotation != 0" :to="{name:'quotation-file', params:{ id: this.idQuotation }}" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>Imprimir</router-link>
+                <!-- <h5 class="my-3">Producto Sugerido</h5>
                 <div class="row">
                 <div class="col-6">
                 <label class="form-label" for="basic-default-company">Nivel</label>
@@ -132,24 +148,11 @@
                 <div class="row">
                 <div class="col-sm-12 col-lg-6">
                 <div class="mb-3">
-                    <p>TOTAL: S./ {{ totalSuggestedProducts }}</p>
+                    
                 </div>
                 </div>
-                </div> -->
-                <!-- <div class="row">
-                <div class="col-6">
-                <div class="mb-3">
-                    <label class="form-label" for="basic-default-company">Descuento</label>
-                    <input type="text" class="form-control" v-model="discount">
-                </div>
-                </div>
-                <div class="col-6">
-                <div class="mb-3">
-                    <label class="form-label" for="basic-default-company">Tiempo de Ejecucion <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" v-model="term">
-                </div>
-                </div>
-                </div> -->
+                </div>  -->
+                <!--  -->
                 <!-- <div class="row">
                 <div class="col-sm-12 col-lg-6">
                 <div class="mb-3">
@@ -157,8 +160,7 @@
                 </div>
                 </div>
                 </div>
-                <button @click="insertQuotation" class="btn btn-primary mt-2 text-white">Guardar</button>
-                <router-link v-if="this.idQuotation != 0" :to="{name:'quotation-file', params:{ id: this.idQuotation }}" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>Imprimir</router-link> -->
+                 -->
                 <!-- <button class="btn btn-primary" @click="generatePDF">PDF</button> -->
             </div>
             </div>
@@ -191,7 +193,10 @@ export default {
             products: [],
             level: '',
             searchProduct: '',
-            fixed_products: []
+            fixed_products: [],
+            discount:0,
+            term: '',
+            idQuotation: 0
         }
     },
     methods:{
@@ -202,6 +207,8 @@ export default {
                 this.customerSelected = this.quotation.customer
                 this.date = this.quotation.date
                 this.products = this.quotation.details
+                this.discount = this.quotation.discount
+                this.term = this.quotation.term
             })
             .catch(err =>{
                 console.log(err.data)
@@ -215,6 +222,33 @@ export default {
         .catch(err =>{
           console.log(err.response.data)
         })
+        },
+        addProduct(product){
+            console.log(product)
+            this.products.push(product)
+        },
+        editQuotation(){
+
+            const fd = new FormData()
+            fd.append('id_quotation', this.quotation.id)
+            fd.append('date', this.date)
+            fd.append('amount', this.totalProducts - this.discount)
+            fd.append('term', this.term)
+            fd.append('discount', this.discount)
+            fd.append('products', JSON.stringify(this.products))
+            fd.append('expirationDay', this.finalDayMonth)
+
+        axios.post('/api/updateQuotation', fd)
+        .then(res =>{
+            this.$swal('Cotización actualizada correctamente')
+            this.idQuotation = res.data.id
+        })
+        .catch(err =>{
+            console.error(err)
+        })
+        },
+        removeCart(index){
+            this.products.splice(index,1)
         }
     },
     mounted(){
@@ -223,7 +257,14 @@ export default {
     },
     computed:{
         finalDayMonth(){
-        return moment().endOf('month').format('DD/MM/YYYY')
+        return moment().endOf('month').format('YYYY-MM-DD')
+        },
+        totalProducts(){
+            var total = 0
+            this.products.forEach(product =>{
+                total = total + parseFloat(product.price)
+            })
+            return total.toFixed(1)
         }
     }
 }

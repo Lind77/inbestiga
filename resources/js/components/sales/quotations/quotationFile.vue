@@ -159,7 +159,6 @@ export default {
     },
     mounted(){
         this.getQuotationInfo()
-        this.print()
     },
     computed:{
         subTotalProds(){

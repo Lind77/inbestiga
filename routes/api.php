@@ -53,8 +53,6 @@ Route::get('/deleteUser/{id}', [UserController::class, 'deleteUser']);
 Route::post('/assignTeamUser', [UserController::class, 'assignTeamUser']);
 Route::get('/getUserData/{id}', [UserController::class, 'getUserData']);
 
-Route::get('/getAllQuotations',[QuotationController::class, 'index']);
-
 Route::get('/getAllProducts',[ProductController::class, 'index']);
 Route::post('/insertProduct',[ProductController::class, 'store']);
 Route::post('/assignProduct', [ProductController::class, 'assignProduct']);
@@ -71,13 +69,14 @@ Route::post('/insertEndTimeTask', [TaskController::class, 'insertEndTimeTask']);
 
 Route::post('/insertTimes', [TimeController::class, 'insertTimes']);
 
-
+Route::get('/getAllQuotations',[QuotationController::class, 'index']);
 Route::post('/insertQuotation', [QuotationController::class, 'store']);
 Route::get('/quotation/{id}', [QuotationController::class, 'show']);
 Route::get('/generatePDF/{id}', [QuotationController::class, 'generatePDF']);
 Route::post('/quotationPDF', [QuotationController::class, 'newPDF']);
 Route::get('/getQuotationByCustomerId/{id}', [QuotationController::class, 'getQuotationByCustomerId']);
 Route::get('/quotationByOrder/{id}', [QuotationController::class, 'getQuotationByOrder']);
+Route::post('/updateQuotation',[QuotationController::class, 'updateQuotation']);
 
 
 Route::get('/getAllProjects',[ProjectController::class, 'index']);

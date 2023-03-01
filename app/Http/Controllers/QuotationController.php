@@ -115,7 +115,7 @@ class QuotationController extends Controller
 
         
 
-        $sugested_products = json_decode($request->get('suggestedProducts'),true);
+        
 
         foreach($sugested_products as $product){
             $detail = Detail::create([
@@ -225,4 +225,38 @@ class QuotationController extends Controller
 
         return response()->json($order[0]);
     }
+
+    public function updateQuotation(Request $request){
+
+        $quotation = Quotation::find($request->get('id_quotation'));
+
+        $quotation->update([
+            'date' => $request->get('date'),
+            'amount' => $request->get('amount'),
+            'expiration_date' => $request->get('expirationDay'),
+            'discount' => $request->get('discount'),
+            'term' => $request->get('term')
+        ]);
+
+        $quotation->details()->delete();
+
+        $products = json_decode($request->get('products'),true);
+        
+
+        foreach ($products as $product) {
+            $detail = Detail::create([
+                'product_id' => $product['product']['id'],
+                'quotation_id' => $quotation->id,
+                'type' => 1,
+                'description' => $product['product']['description'],
+                'price' => $product['price']
+            ]);
+        }
+
+        return response()->json([
+            'msg' => 'success',
+            'id' => $quotation->id
+        ]);
+    }
 }
+
