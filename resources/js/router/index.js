@@ -11,6 +11,7 @@ import MainSales from '../components/sales/Main.vue'
 import HomeQuotation from '../components/sales/quotations/Home.vue'
 import QuotationFile from '../components/sales/quotations/quotationFile.vue'
 import ListQuotation from '../components/sales/quotations/List.vue'
+import EditQuotation from '../components/sales/quotations/editQuotation.vue'
 
 //Área de Ventas - Ordenes
 import HomeOrders from '../components/sales/orders/Home.vue'
@@ -174,6 +175,12 @@ export const routes = [
                 path: 'list-quotations',
                 component: ListQuotation,
                 name: 'list-quotations'
+            },
+            {
+                path: 'edit-quotation/:idQuot',
+                component: EditQuotation,
+                props: true,
+                name: 'edit-quotation'
             }
         ]
     },

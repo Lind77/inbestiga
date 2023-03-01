@@ -195,7 +195,7 @@
       </div>
       <calcModal @addCartModal="addCartModal"/>
       <InsertDetail @addCartModal="addCartModal" @addSugestCartModal="addSugestCartModal" :product="selected_product" :products="fixed_products"/>
-    </div>
+</div>
 </template>
 <script>
   import moment from 'moment'

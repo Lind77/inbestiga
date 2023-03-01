@@ -20,7 +20,7 @@ class QuotationController extends Controller
      */
     public function index()
     {
-        $quotations = Quotation::with('customer')->orderBy('id', 'desc')->get();
+        $quotations = Quotation::with(['customer','details','details.product'])->orderBy('id', 'desc')->get();
         return response()->json($quotations);
     }
 
