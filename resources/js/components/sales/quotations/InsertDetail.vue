@@ -17,6 +17,11 @@
                 <p>Nivel: {{ product.level }} </p>
                 <p>Costo: S./ {{ product.amountLevel }}</p>
             </div>
+            <div v-if="product.id == 40">
+                <label for="">Cantidad de Sesiones</label>
+                <input @change="calcFinalCost" v-model="cantSesions" type="number" class="form-control">
+                <p>Costo final: S./ {{ finalCost }}</p>
+            </div>
             <!-- <div class="row">
                 <div class="col mb-0">
                     <label class="form-label" for="emailSmall">Descripción</label>
@@ -63,10 +68,20 @@ export default {
         return{
             description:'',
             cantTime: 0,
-            typeTime: 0
+            typeTime: 0,
+            cantSesions: 0,
+            finalCost:0
         }
     },
     methods:{
+        calcFinalCost(){
+            if(this.cantSesions <= 2){
+                this.finalCost = this.cantSesions * this.product.amountLevel
+            }else{
+                this.finalCost = (this.cantSesions * this.product.amountLevel) - this.product.amountLevel
+            }
+            
+        },
         addCart(){
             var e = document.getElementById("tagsTime")
 
@@ -75,7 +90,13 @@ export default {
             productModal.id = this.product.id
             productModal.title = this.product.title
             productModal.description = this.description
-            productModal.total = this.product.amountLevel
+
+            if(this.product.id == 40){
+                productModal.total = this.finalCost
+            }else{
+                productModal.total = this.product.amountLevel
+            }
+            
 
             if(this.product.typeOp == 1){
                 this.$emit('addCartModal', productModal)
