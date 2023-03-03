@@ -99,6 +99,22 @@
           </router-link>
       </ul>
 
+      <ul class="menu-inner py-1" v-if="store.rol == 'Experience'">
+        <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
+          <router-link :to="{name:'main-experience'}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-home"></i>
+              <div data-i18n="Form Layouts">Inicio</div>
+            </div>
+          </router-link>
+          <router-link :to="{name:'home-project'}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-pie-chart"></i>
+              <div data-i18n="Form Layouts">Proyectos</div>
+            </div>
+          </router-link>
+      </ul>
+
       <ul class="menu-inner py-1" v-if="store.rol == 'AdminAcad'">
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
           <router-link :to="{name:'main-acad'}" class="menu-item">

@@ -39,32 +39,22 @@
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item list-group-item-action dropdown-notifications-item">
                     <div class="d-flex">
-                      <div class="flex-shrink-0 me-3">
-                        <div class="avatar">
-                          <span class="avatar-initial rounded-circle bg-label-primary">CF</span>
-                        </div>
-                      </div>
                       <div class="flex-grow-1">
                         <h6 class="mb-1">Charles Franklin</h6>
                         <p class="mb-0">Agregó un nuevo proyecto</p>
                         <small class="text-muted">12hr ago</small>
                       </div>
-                      <div class="flex-shrink-0 dropdown-notifications-actions">
-                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
-                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="bx bx-x"></span></a>
-                      </div>
                     </div>
                   </li>
                 </ul>
               <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></li>
-              <router-link :to="{name:'notifications', params:{ idUser: this.store.userId}}" class="dropdown-menu-footer border-top">
+              <router-link :to="{name:'notifications', params:{ idUser: this.store.userId }}" class="dropdown-menu-footer border-top">
                 <a href="javascript:void(0);" class="dropdown-item d-flex justify-content-center p-3">
                   Ver todas las notificaciones
                 </a>
               </router-link>
             </ul>
           </li>
-        
         <!-- User -->
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
           <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -103,7 +93,6 @@
                 <span class="align-middle">Ajustes</span>
               </a>
             </li> -->
-          
             <li>
               <div class="dropdown-divider"></div>
             </li>
@@ -136,13 +125,16 @@
         name: '',
         numberNotifications: 0,
         toggle: true,
-        cantNotifications: 0
+        cantNotifications: 0,
+        notifications: []
       }
     },
     methods:{
       updateNotifications(){
-        this.cantNotifications = this.cantNotifications + 1
-        this.playSound()
+        if(this.store.authUser[0].roles[0].name == 'Experience'){
+          this.cantNotifications = this.cantNotifications + 1
+          this.playSound()
+        }
       },
       playSound(){
         const audio = new Audio(sound)
@@ -165,6 +157,7 @@
     },
     mounted(){
       this.store.getUser()
+      console.log(this.store.authUser)
       Echo.private('projects')
         .listen('NewProject',()=>{
           this.updateNotifications()

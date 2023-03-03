@@ -7,11 +7,14 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Activity;
+use App\Models\Chat;
 use App\Models\Customer;
 use App\Models\FixedActivity;
+use App\Models\Order;
 use App\Models\ProcessProject;
 use App\Models\Product;
 use App\Models\Progress;
+use App\Models\Quotation;
 use App\Models\Task;
 use App\Models\Time;
 use Illuminate\Http\Request;
@@ -25,7 +28,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::with(['customer','activities','activities.progress', 'activities.tasks', 'activities.tasks.progress','team'])->get();
+        $projects = Project::with(['customer','activities','activities.progress', 'activities.tasks', 'activities.tasks.progress','team', 'product'])->get();
     
         return $projects;
     }
@@ -247,15 +250,22 @@ class ProjectController extends Controller
             'status' => 7
         ]);
 
+        $lastQuotation = Quotation::where('customer_id', $customer->id)->with('order')->first();
+
+        $lastOrder = $lastQuotation->order->first();
+
         $project = Project::create([
             'title' => 'Proyecto '.$customer->name,
             'customer_id' => $customer->id,
             'deadline' => date('Y-m-d'),
             'product_id' => 1,
-            'status' => 0
+            'status' => 0,
+            'order_id' =>  $lastOrder->id
         ]);
 
         broadcast(new NewProject($project));
+
+        
 
         //Traer actividades de Inbestiga por default
         $fixedActivitiesEnterprise = FixedActivity::where('type',0)->get();

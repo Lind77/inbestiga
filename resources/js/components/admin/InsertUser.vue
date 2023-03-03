@@ -43,6 +43,7 @@
                         <label for="nameSmall" class="form-label">Área</label>
                         <select v-model="area" class="form-select">
                             <option value="acad">Acádemica</option>
+                            <option value="experience">Experiencia</option>
                             <option value="sales">Ventas</option>
                             <option value="admin">Administrativa</option>
                         </select>

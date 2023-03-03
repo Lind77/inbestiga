@@ -61,6 +61,10 @@ import RolesAdmin from '../components/admin/Roles.vue'
 
 import RealTime from '../components/admin/chat/Chat.vue'
 
+//Área de Experiencia
+import HomeExperience from '../components/experience/Home.vue'
+import MainExperience from '../components/experience/Main.vue'
+
 //Notifications
 import Notifications from '../components/notifications/Home.vue'
 
@@ -214,6 +218,19 @@ export const routes = [
                 component: RealTime,
                 name: 'real-time',
                 props: true
+            }
+        ]
+    },
+    {
+        path: '/experience',
+        component: HomeExperience,
+        redirect:'/experience/home',
+        meta: {requiresAuth:true},
+        children:[
+            {
+                path: 'home',
+                component:  MainExperience,
+                name: 'main-experience'
             }
         ]
     },

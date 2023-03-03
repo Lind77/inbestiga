@@ -1,14 +1,16 @@
 <template>        
-    <div :class="`card text-white mb-3 ${bgColor} cursor-pointer`" draggable="true" @dragstart="drag" :id="`${project.id}`">
+    <div :class="`card mb-3 bg-light cursor-move`" draggable="true" @dragstart="drag" :id="`${project.id}`">
     <!-- <div class="card-header">
         <p class="mb-0">{{ project.textStatus }}</p>
     </div> -->
     <div class="card-body">
-        <div class="h6 text-white" v-if="project.team">Equipo {{ project.team.name }}</div>
-        <h4 class="card-title text-white m-0">{{ project.title }}</h4>
+        <div class="badge rounded-pill bg-label-success"> {{ project.product.title }}</div>
+        <!-- <div class="h6 text-white" v-if="project.team">Equipo {{ project.team.name }}</div> -->
+        <h4 class="card-title h5 mt-3">{{ project.title }}</h4>
             <router-link v-if="this.project.status == 1" class="btn btn-primary btn-sm mt-2" :to="{name:'kanban', params:{ idProject: project.id }}">Ver Kanban</router-link>
         <div v-if="tasksPercent == 100" class="btn btn-primary btn-sm mt-2 ms-1" @click="updateQuality">Listo</div>
         <div v-if="this.project.status == 2" class="btn btn-info btn-sm mt-2 ms-1" @click="pointsQual">Indicadores de Calidad</div>
+        <router-link v-if="project.customer" target="_blank" :to="{name:'ecard', params:{ id: project.customer.id}}"><i class='bx bx-credit-card-alt'></i></router-link>
     </div>
     </div>
 </template>

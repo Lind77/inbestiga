@@ -1,7 +1,7 @@
 <template>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasEndLabel">
       <div class="offcanvas-header">
-        <h3 id="offcanvasEndLabel" class="offcanvas-title">{{ project_selected.title }}<small class="text-primary h5" v-if="project_selected.team"> (Equipo {{ project_selected.team.name }})</small><router-link v-if="project_selected.customer" target="_blank" :to="{name:'ecard', params:{ id: project_selected.customer.id}}" class="btn btn-dark btn-sm"><i class='bx bx-credit-card-alt'></i></router-link></h3>
+        <h3 id="offcanvasEndLabel" class="offcanvas-title">{{ project_selected.title }}<small class="text-primary h5" v-if="project_selected.team"> (Equipo {{ project_selected.team.name }})</small></h3>
         <button
           type="button"
           class="btn-close text-reset"
