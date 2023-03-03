@@ -25,7 +25,7 @@
         <!-- Place this tag where you want the button to render. -->
         <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-              <i class="bx bx-bell bx-sm"></i>
+              <i class="bx bx-bell bx-sm"></i><span v-if="cantNotifications != 0" class="badge bg-danger rounded-pill badge-notifications">{{ cantNotifications }}</span>
               <span class="badge bg-danger rounded-pill badge-notifications" v-if="numberNotifications > 0">{{ numberNotifications }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end py-0">
@@ -57,11 +57,11 @@
                   </li>
                 </ul>
               <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></li>
-              <li class="dropdown-menu-footer border-top">
+              <router-link :to="{name:'notifications', params:{ idUser: this.store.userId}}" class="dropdown-menu-footer border-top">
                 <a href="javascript:void(0);" class="dropdown-item d-flex justify-content-center p-3">
                   Ver todas las notificaciones
                 </a>
-              </li>
+              </router-link>
             </ul>
           </li>
         
@@ -121,6 +121,7 @@
   </nav>
 </template>
 <script>
+ import sound from '../../../../public/sound/tone-alert.mp3'
  import {useCounterStore} from '../../stores/UserStore'
   export default{
     setup(){
@@ -134,10 +135,19 @@
         token: localStorage.getItem("token"),
         name: '',
         numberNotifications: 0,
-        toggle: true
+        toggle: true,
+        cantNotifications: 0
       }
     },
     methods:{
+      updateNotifications(){
+        this.cantNotifications = this.cantNotifications + 1
+        this.playSound()
+      },
+      playSound(){
+        const audio = new Audio(sound)
+        audio.play()
+      },
       logout(){
         window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
         this.axios.post('/api/logout')
@@ -155,6 +165,19 @@
     },
     mounted(){
       this.store.getUser()
+      Echo.private('projects')
+        .listen('NewProject',()=>{
+          this.updateNotifications()
+      })
     }
   }
 </script>
+<style scoped>
+  .badge-notifications{
+    font-size: .582rem;
+    line-height: .55rem;
+    padding-bottom: 2px;
+    margin-bottom: 10px;
+    margin-left: -10px;
+  }
+</style>

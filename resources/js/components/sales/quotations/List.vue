@@ -23,6 +23,8 @@
                             <td><strong>{{quotation.customer.name}}</strong></td>
                             <td>{{quotation.date}}</td>
                             <td>
+                              <router-link :to="{name:'quotation-img', params:{ id: quotation.id }}" target="_blank" class="btn btn-success text-white mx-1"><i class='bx bx-image'></i>
+                              </router-link>
                               <router-link :to="{name:'quotation-file', params:{ id: quotation.id }}" target="_blank" class="btn btn-success text-white mx-1"><i class='bx bx-printer'></i>
                               </router-link>
                               <router-link :to="{name:'edit-quotation', params:{ idQuot: quotation.id }}" class="btn btn-success text-white"><i class='bx bx-edit'></i></router-link>

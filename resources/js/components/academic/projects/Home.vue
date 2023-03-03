@@ -194,14 +194,13 @@
         }
       },
       mounted(){
-        Echo.private('projects')
-        .listen('NewProject',()=>{
-          alert('Se ha asignado un nuevo proyecto')
-          this.getAllProjects()
-        })
         this.getAllProjects()
         this.getAllCustomers()
         this.getAllTeams()
+        Echo.private('projects')
+        .listen('NewProject',()=>{
+          this.getAllProjects()
+        })
       }
     }
   </script>

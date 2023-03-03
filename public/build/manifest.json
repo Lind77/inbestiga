@@ -1,19 +1,26 @@
 {
+  "public/sound/tone-alert.mp3": {
+    "file": "assets/tone-alert.1a21ca07.mp3",
+    "src": "public/sound/tone-alert.mp3"
+  },
   "resources/css/app.css": {
     "file": "assets/app.7c3c19f8.js",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app.2f9786da.js",
+    "file": "assets/app.dd05c4ff.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app.4a9bc4f9.css"
+      "assets/app.8b858e3d.css"
+    ],
+    "assets": [
+      "assets/tone-alert.1a21ca07.mp3"
     ]
   },
   "resources/js/app.css": {
-    "file": "assets/app.4a9bc4f9.css",
+    "file": "assets/app.8b858e3d.css",
     "src": "resources/js/app.css"
   }
 }

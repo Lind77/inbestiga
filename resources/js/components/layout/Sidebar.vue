@@ -1,5 +1,5 @@
 <template>
-    <aside v-if="this.hidden" id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" :class="{ 'hide-aside': !hidden }">
       <div class="app-brand demo">
         <a href="index.html" class="app-brand-link">
           <span class="app-brand-text demo menu-text fw-bolder ms-2">Inbestiga </span>
@@ -163,13 +163,20 @@ export default {
       }
     },
     props:{
-      hidden: Boolean
+      hidden: {
+        type: Boolean,
+        default: true
+      }
     }
 }
 </script>
 <style scoped>
+  aside{
+    transition: all 0.4s !important;
+  }
   .hide-aside{
-    transform: translate3d(-100%, 0, 0);
+    transition: all 0.4s;
     position: fixed !important;
+    transform: translate3d(-100%, 0, 0);
   }
 </style>

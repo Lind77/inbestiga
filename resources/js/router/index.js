@@ -12,6 +12,7 @@ import HomeQuotation from '../components/sales/quotations/Home.vue'
 import QuotationFile from '../components/sales/quotations/quotationFile.vue'
 import ListQuotation from '../components/sales/quotations/List.vue'
 import EditQuotation from '../components/sales/quotations/editQuotation.vue'
+import QuotationImg from '../components/sales/quotations/quotationImg.vue'
 
 //Área de Ventas - Ordenes
 import HomeOrders from '../components/sales/orders/Home.vue'
@@ -59,6 +60,9 @@ import UsersAdmin from '../components/admin/Users.vue'
 import RolesAdmin from '../components/admin/Roles.vue'
 
 import RealTime from '../components/admin/chat/Chat.vue'
+
+//Notifications
+import Notifications from '../components/notifications/Home.vue'
 
 
 
@@ -214,9 +218,22 @@ export const routes = [
         ]
     },
     {
+        path: '/notifications/:idUser',
+        component: Notifications,
+        name: 'notifications',
+        meta: {requiresAuth:true},
+        props: true
+    },
+    {
         path: '/quotation-file/:id',
         component:  QuotationFile,
         name: 'quotation-file',
+        props: true
+    },
+    {
+        path: '/quotation-img/:id',
+        component:  QuotationImg,
+        name: 'quotation-img',
         props: true
     },
     {
