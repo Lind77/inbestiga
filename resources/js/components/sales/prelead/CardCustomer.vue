@@ -1,6 +1,6 @@
 <template>
     <div class="btn-group pt-2" draggable="true" @dragstart="drag" :id="`${customer.id}`">
-        <button type="button" :class="`btn btn-${bgColor}`">{{ customer.name || customer.cell }}</button>
+        <button type="button" :class="`btn btn-${bgColor} text-truncate`">{{ customer.name || customer.cell }}</button>
         <button type="button" :class="`btn btn-${bgColor} dropdown-toggle dropdown-toggle-split`" data-bs-toggle="dropdown" aria-expanded="false">
           <span class="visually-hidden">Toggle Dropdown</span>
         </button>

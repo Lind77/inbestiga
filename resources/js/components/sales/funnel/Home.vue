@@ -6,7 +6,7 @@
           <div class="row">
             <div class="col vh-100" id="lead" @drop="drop" @dragover="allowDrop">
               Lead
-            <div class="container-cards">
+            <div class="container-cards overflow-auto h-100">
               <div v-for="customer in customers">
                 <div v-if="customer.status == 3">
                   <CardCustomer :customer="customer" @selectCustomer="selectCustomer" @getAllCustomers="getAllCustomers"/>
@@ -17,7 +17,7 @@
             </div>
             <div class="col vh-100" id="interested" @drop="drop" @dragover="allowDrop">
               Interesado
-                <div class="container-cards">
+                <div class="container-cards overflow-auto h-100">
                 <div v-for="customer in customers">
                   <div v-if="customer.status == 4">
                     <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
@@ -27,7 +27,7 @@
             </div>
             <div class="col vh-100" id="highInterested" @drop="drop" @dragover="allowDrop">
               Altamente interesado
-                <div class="container-cards">
+                <div class="container-cards overflow-auto h-100">
                   <div v-for="customer in customers">
                     <div v-if="customer.status == 5">
                       <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
@@ -37,7 +37,7 @@
             </div>
             <div class="col vh-100" id="withContract" @drop="drop" @dragover="allowDrop">
               Con Contrato
-              <div class="container-cards">
+              <div class="container-cards overflow-auto h-100">
                   <div v-for="customer in customers">
                     <div v-if="customer.status == 6">
                       <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
@@ -47,7 +47,7 @@
             </div>
             <div class="col vh-100" id="client" @drop="drop" @dragover="allowDrop">
               Cliente
-              <div class="container-cards">
+              <div class="container-cards overflow-auto h-100">
                   <div v-for="customer in customers">
                     <div v-if="customer.status == 7">
                       <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
