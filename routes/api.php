@@ -86,6 +86,7 @@ Route::post('/insertProject',[ProjectController::class, 'store']);
 Route::post('/changeStatusProject',[ProjectController::class, 'changeStatus']);
 Route::get('/updateQuality/{id}', [ProjectController::class, 'updateQuality']);
 Route::post('/setProject', [ProjectController::class, 'setProject']);
+Route::get('/deleteProject/{id}',[ProjectController::class, 'destroy']);
 
 Route::post('/updateProgress',[ProgressController::class, 'update']);
 

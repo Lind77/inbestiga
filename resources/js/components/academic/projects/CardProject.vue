@@ -8,9 +8,10 @@
         <!-- <div class="h6 text-white" v-if="project.team">Equipo {{ project.team.name }}</div> -->
         <h4 class="card-title h5 mt-3">{{ project.title }}</h4>
             <router-link v-if="this.project.status == 1" :to="{name:'kanban', params:{ idProject: project.id }}"><i class='bx bx-table'></i></router-link>
-        <div v-if="tasksPercent == 100" class="btn btn-primary btn-sm mt-2 ms-1" @click="updateQuality">Listo</div>
         <div v-if="this.project.status == 2" class="btn btn-info btn-sm mt-2 ms-1" @click="pointsQual">Indicadores de Calidad</div>
         <router-link v-if="project.customer" target="_blank" :to="{name:'ecard', params:{ id: project.customer.id}}"><i class='bx bx-credit-card-alt'></i></router-link>
+        <i class='bx bx-trash text-danger cursor-pointer' @click="deleteProject(project.id)"></i>
+        <i v-if="tasksPercent == 100" @click="updateQuality" class='bx bx-check-circle text-success cursor-pointer'></i>
     </div>
     </div>
 </template>
@@ -25,7 +26,19 @@
         props:{
             project: Object
         },
-        methods:{      
+        methods:{
+        deleteProject(id){
+            if(confirm('Desea eliminar este proyecto con seguridad?')){
+            axios.get(`/api/deleteProject/${id}`)
+                .then(res =>{
+                    this.$swal('Proyecto eliminado.')
+                    this.$emit('getAllProjects')
+                })
+                .catch(err =>{
+                    console.log(err)
+                })
+            }
+        },          
         pointsQual(){
             $('#qualityModal').modal('show')
         },   

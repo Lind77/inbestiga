@@ -30,7 +30,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::with(['customer','activities','activities.progress', 'activities.tasks', 'activities.tasks.progress','team', 'product'])->get();
+        $projects = Project::with(['customer','activities','activities.progress', 'activities.fixed_activity', 'activities.fixed_activity.product', 'activities.tasks', 'activities.tasks.progress','team', 'product'])->get();
     
         return $projects;
     }
@@ -113,7 +113,7 @@ class ProjectController extends Controller
 
         $total_time = $total_maxtime + $total_mintime/2;
 
-        $project = Project::where('id',$id)->with(['activities','activities.tasks','activities.tasks.progress', 'activities.tasks.activity','product','product.times'])->get();
+        $project = Project::where('id',$id)->with(['customer','activities','activities.progress', 'activities.fixed_activity', 'activities.fixed_activity.product', 'activities.tasks', 'activities.tasks.progress', 'activities.tasks.fixed_task', 'activities.tasks.fixed_task.fixed_activity','activities.tasks.fixed_task.fixed_activity.product','team', 'product'])->get();
         return response()->json([
             'project' => $project,
             'total_time' => $total_time
@@ -149,9 +149,16 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project)
+    public function destroy($id)
     {
-        //
+        $project = Project::find($id);
+
+        $project->delete();
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+
     }
 
     public function changeStatus(Request $request){
@@ -238,7 +245,8 @@ class ProjectController extends Controller
                 $activity = Activity::create([
                     'project_id' => $project->id,
                     'title' => $fixedActivity->title,
-                    'type' => 1
+                    'type' => 1,
+                    'fixed_activity_id' => $fixedActivity->id
                 ]);
     
                 $progressDefaultActivity = Progress::create([
@@ -253,7 +261,8 @@ class ProjectController extends Controller
                         'activity_id' => $activity->id,
                         'type' => 0,
                         'title' => $fixedTask->title,
-                        'status' => 0
+                        'status' => 0,
+                        'fixed_task_id' => $fixedTask->id
                     ]);
     
                     $progressTask = Progress::create([

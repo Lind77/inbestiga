@@ -9,8 +9,7 @@ class Task extends Model
 {
     use HasFactory;
 
-
-    protected $fillable = ['activity_id', 'type','title', 'status', 'owner', 'start_time', 'end_time'];
+    protected $fillable = ['activity_id', 'type','title', 'status', 'owner', 'start_time', 'end_time', 'fixed_task_id'];
 
     public function activity(){
         return $this->belongsTo('App\Models\Activity');
@@ -22,5 +21,9 @@ class Task extends Model
 
     public function projects(){
         return $this->belongsToMany("App\Models\Project");
+    }
+
+    public function fixed_task(){
+        return $this->belongsTo("App\Models\FixedTask");
     }
 }

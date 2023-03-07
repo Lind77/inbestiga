@@ -13,4 +13,8 @@ class FixedTask extends Model
         'fixed_activity_id',
         'title'
     ];
+
+    public function fixed_activity(){
+        return $this->belongsTo("App\Models\FixedActivity");
+    }
 }

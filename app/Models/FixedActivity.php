@@ -18,4 +18,8 @@ class FixedActivity extends Model
     public function fixedTasks(){
         return $this->hasMany('App\Models\FixedTask');
     }
+
+    public function product(){
+        return $this->belongsTo('App\Models\Product');
+    }
 }

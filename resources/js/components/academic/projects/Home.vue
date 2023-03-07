@@ -8,7 +8,7 @@
        <p class="fw-bold h5">Clientes</p> 
       <div class="container-cards" v-for="project in projects">
         <div v-if="project.status == 0">
-          <CardProject :project="project" @click="showProject(project)"/>
+          <CardProject :project="project" @click="showProject(project)" @getAllProjects="getAllProjects"/>
         </div>
       </div>
       
@@ -17,7 +17,7 @@
         <p class="fw-bold h5">Dirección académica</p>
         <div class="container-cards" v-for="project in projects">
           <div v-if="project.status == 1">
-            <CardProject :project="project"/>
+            <CardProject :project="project" @getAllProjects="getAllProjects"/>
         </div>
         </div>
       </div>
@@ -25,7 +25,7 @@
         <p class="fw-bold h5">Calidad académica</p>
         <div class="container-cards" v-for="project in projects">
           <div v-if="project.status == 2">
-            <CardProject :project="project"  @getAllProjects="getAllProjects"/>
+            <CardProject :project="project" @getAllProjects="getAllProjects"/>
         </div>
         </div>
       </div>

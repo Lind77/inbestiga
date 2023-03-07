@@ -1,8 +1,9 @@
 <template>
     <div class="card bg-light p-2 mt-2 w-100 text-secondary cursor-pointer" draggable="true" @dragstart="drag" :id="`task${taskSelected.id}`">
         <div class="d-flex justify-content-between flex-wrap align-items-center mb-2 pb-1">
-            <div class="item-badges" v-if="taskSelected.activity">
-                <div class="badge rounded-pill bg-label-primary" :title="taskSelected.activity.title"> {{ taskSelected.activity.title.substring(0,15)+ '...' }}</div>
+            <div class="item-badges" v-if="taskSelected.fixed_task.fixed_activity">
+                <div class="badge rounded-pill bg-label-success" :title="taskSelected.fixed_task.fixed_activity.product.title"> {{ taskSelected.fixed_task.fixed_activity.product.title.substring(0,15) }}</div>
+                <div class="badge rounded-pill bg-label-primary ms-1" :title="taskSelected.fixed_task.fixed_activity.title "> {{ taskSelected.fixed_task.fixed_activity.title.substring(0,15) }}</div>
             </div>
         </div>
             {{ taskSelected.title }}
