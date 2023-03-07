@@ -6,6 +6,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ProductController;
@@ -84,7 +85,7 @@ Route::get('/getProjectById/{id}', [ProjectController::class, 'show']);
 Route::post('/insertProject',[ProjectController::class, 'store']);
 Route::post('/changeStatusProject',[ProjectController::class, 'changeStatus']);
 Route::get('/updateQuality/{id}', [ProjectController::class, 'updateQuality']);
-Route::get('/setProject/{id}', [ProjectController::class, 'setProject']);
+Route::post('/setProject', [ProjectController::class, 'setProject']);
 
 Route::post('/updateProgress',[ProgressController::class, 'update']);
 
@@ -109,3 +110,5 @@ Route::post('/storeMessage',[ChatController::class, 'store'])->middleware('auth:
 
 Route::get('/getAllOrders', [OrderController::class, 'index']);
 Route::post('/insertOrder',[OrderController::class, 'store']);
+
+Route::get('/getNotifications', [NotificationController::class, 'index']);

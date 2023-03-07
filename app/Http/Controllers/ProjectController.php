@@ -10,7 +10,9 @@ use App\Models\Activity;
 use App\Models\Chat;
 use App\Models\Customer;
 use App\Models\FixedActivity;
+use App\Models\Notification;
 use App\Models\Order;
+use App\Models\Price;
 use App\Models\ProcessProject;
 use App\Models\Product;
 use App\Models\Progress;
@@ -77,80 +79,9 @@ class ProjectController extends Controller
                 'percentage' => 0.0,
                 'comment' => 'Sin comentarios'
             ]);
-       }
+        }
 
-       if($project->product_id == 34){
-            $fixedActivities = FixedActivity::where('product_id','<', 34)->where('type', '!=', 0)->with('fixedTasks')->get();
-            
-            foreach($fixedActivities as $fixedActivity){
-                $activity = Activity::create([
-                    'project_id' => $project->id,
-                    'title' => $fixedActivity->title,
-                    'type' => 1
-                ]);
-
-                $progressActivity = Progress::create([
-                    'progressable_id' => $activity->id,
-                    'progressable_type' => 'App\Models\Activity',
-                    'percentage' => 0.0,
-                    'comment' => 'Sin comentarios'
-                ]);
-
-                foreach($fixedActivity->fixedTasks as $fixedTask){
-                    $task = Task::create([
-                        'activity_id' => $activity->id,
-                        'type' => 0,
-                        'title' => $fixedTask->title,
-                        'status' => 0
-                    ]);
-
-                    $progressTask = Progress::create([
-                        'progressable_id' => $task->id,
-                        'progressable_type' => 'App\Models\Task',
-                        'percentage' => 0.0,
-                        'comment' => 'Sin comentarios'
-                    ]);
-                }
-            }
-       }else{
-            $fixedActivities = FixedActivity::where('product_id',$request->get('product_id'))->where('type', '!=', 0)->with('fixedTasks')->get();
-        
-            foreach($fixedActivities as $fixedActivity){
-                $activity = Activity::create([
-                    'project_id' => $project->id,
-                    'title' => $fixedActivity->title,
-                    'type' => 1
-                ]);
-
-                $progressActivity = Progress::create([
-                    'progressable_id' => $activity->id,
-                    'progressable_type' => 'App\Models\Activity',
-                    'percentage' => 0.0,
-                    'comment' => 'Sin comentarios'
-                ]);
-
-                foreach($fixedActivity->fixedTasks as $fixedTask){
-                    $task = Task::create([
-                        'activity_id' => $activity->id,
-                        'type' => 0,
-                        'title' => $fixedTask->title,
-                        'status' => 0
-                    ]);
-
-                    $progressTask = Progress::create([
-                        'progressable_id' => $task->id,
-                        'progressable_type' => 'App\Models\Task',
-                        'percentage' => 0.0,
-                        'comment' => 'Sin comentarios'
-                    ]);
-                }
-            }
-       }
-
-       //Traer actividades del producto
-
-       /*  */
-        
+       
         return response()->json([
         'msg' => 'success'
         ]);
@@ -164,14 +95,18 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $level = 3;
+        $project = Project::find($id);
 
-        $times = Time::where('product_id', '<', 34)->where('level', '=', $level)->get();
+        $quotation = $project->order->quotation;
+
+        $projectDetails = $quotation->details;
 
         $total_mintime = 0;
         $total_maxtime = 0;
 
-        foreach ($times as $time) {
+        foreach($projectDetails as $detail){
+            $price = Price::where('product_id', $detail->product_id)->where('price', $detail->price)->first();
+            $time = Time::where('product_id', $detail->product_id)->where('level', $price->level)->first();
             $total_mintime = $total_mintime + $time->min_time;
             $total_maxtime = $total_mintime + $time->max_time;
         }
@@ -221,7 +156,6 @@ class ProjectController extends Controller
 
     public function changeStatus(Request $request){
         $project = Project::find($request->get('project_id'));
-        
         $project->update([
             'status' => $request->get('status')
         ]);
@@ -242,30 +176,41 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function setProject($id){
+    public function setProject(Request $request){
 
-        $customer = Customer::find($id);
+        $customer = Customer::find($request->get('id_customer'));
 
-        $customer->update([
-            'status' => 7
-        ]);
-
-        $lastQuotation = Quotation::where('customer_id', $customer->id)->with('order')->first();
+        $lastQuotation = Quotation::where('customer_id', $customer->id)->orderBy('id', 'desc')->with('order')->first();
 
         $lastOrder = $lastQuotation->order->first();
-
-        $project = Project::create([
-            'title' => 'Proyecto '.$customer->name,
-            'customer_id' => $customer->id,
-            'deadline' => date('Y-m-d'),
-            'product_id' => 1,
-            'status' => 0,
-            'order_id' =>  $lastOrder->id
-        ]);
-
-        broadcast(new NewProject($project));
-
         
+        if($lastOrder){
+
+            $customer->update([
+                'status' => 7
+            ]);
+
+            $project = Project::create([
+                'title' => 'Proyecto '.$customer->name,
+                'customer_id' => $customer->id,
+                'deadline' => date('Y-m-d'),
+                'product_id' => 1,
+                'status' => 0,
+                'order_id' =>  $lastOrder->id
+            ]);
+
+            /* $notification = Notification::create([
+                'emisor_id' => $request->get('emisor_id'),
+                'content' => 'Asignó un nuevo cliente',
+                'type' => 1
+            ]); */
+    
+            /* broadcast(new NewProject($project)); */
+        }else{
+            return response()->json([
+                'msg' => 'No existe un contrato para este cliente'
+            ],404);
+        }
 
         //Traer actividades de Inbestiga por default
         $fixedActivitiesEnterprise = FixedActivity::where('type',0)->get();
@@ -285,16 +230,18 @@ class ProjectController extends Controller
             ]);
         }
 
-        $fixedActivities = FixedActivity::where('product_id',$project->product_id)->where('type', '!=', 0)->with('fixedTasks')->get();
-        
-            foreach($fixedActivities as $fixedActivity){
+       $details = $lastQuotation->details;
+
+       foreach($details as $detail){
+            
+            foreach($detail->product->fixedActivities as $fixedActivity){
                 $activity = Activity::create([
                     'project_id' => $project->id,
                     'title' => $fixedActivity->title,
                     'type' => 1
                 ]);
-
-                $progressActivity = Progress::create([
+    
+                $progressDefaultActivity = Progress::create([
                     'progressable_id' => $activity->id,
                     'progressable_type' => 'App\Models\Activity',
                     'percentage' => 0.0,
@@ -308,7 +255,7 @@ class ProjectController extends Controller
                         'title' => $fixedTask->title,
                         'status' => 0
                     ]);
-
+    
                     $progressTask = Progress::create([
                         'progressable_id' => $task->id,
                         'progressable_type' => 'App\Models\Task',
@@ -316,9 +263,11 @@ class ProjectController extends Controller
                         'comment' => 'Sin comentarios'
                     ]);
                 }
+
+                
+                
             }
-
-
+        }
        
 
         return response()->json([

@@ -37,12 +37,12 @@
               </li>
               <li class="dropdown-notifications-list scrollable-container ps">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                  <li class="list-group-item list-group-item-action dropdown-notifications-item" v-for="notification in notifications">
                     <div class="d-flex">
                       <div class="flex-grow-1">
-                        <h6 class="mb-1">Charles Franklin</h6>
-                        <p class="mb-0">Agregó un nuevo proyecto</p>
-                        <small class="text-muted">12hr ago</small>
+                        <h6 class="mb-1">{{ notification.user.name }}</h6>
+                        <p class="mb-0">{{ notification.content }}</p>
+                        <small class="text-muted">{{ dateFormatted(notification.created_at) }}</small>
                       </div>
                     </div>
                   </li>
@@ -110,6 +110,7 @@
   </nav>
 </template>
 <script>
+  import moment from 'moment'
  import sound from '../../../../public/sound/tone-alert.mp3'
  import {useCounterStore} from '../../stores/UserStore'
   export default{
@@ -130,6 +131,19 @@
       }
     },
     methods:{
+      dateFormatted(date){
+        return moment(date).fromNow()
+      },
+      getNotifications(){
+        this.axios.get('/api/getNotifications')
+        .then((res) => {
+            var filteredNotifications = res.data.filter(notification => notification.user.id != this.store.authUser[0].id)
+            this.notifications = filteredNotifications
+            this.cantNotifications = this.notifications.length
+        }).catch((err) => {
+            console.log(err)
+        });
+      },
       updateNotifications(){
         if(this.store.authUser[0].roles[0].name == 'Experience'){
           this.cantNotifications = this.cantNotifications + 1
@@ -157,6 +171,7 @@
     },
     mounted(){
       this.store.getUser()
+      this.getNotifications()
       console.log(this.store.authUser)
       Echo.private('projects')
         .listen('NewProject',()=>{

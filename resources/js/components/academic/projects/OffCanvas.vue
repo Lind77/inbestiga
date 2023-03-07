@@ -79,7 +79,7 @@ export default{
             fd.append('status', 1)
             fd.append('project_id', this.project_selected.id)
 
-            axios.post('https://jairpl.com/autoDeploy/public/api/changeStatusProject', fd)
+            axios.post('/api/changeStatusProject', fd)
             .then(res =>{
               $('#offcanvas').offcanvas('hide')
               this.$emit('getAllProjects')

@@ -7,7 +7,7 @@
         <div class="badge rounded-pill bg-label-success"> {{ project.product.title }}</div>
         <!-- <div class="h6 text-white" v-if="project.team">Equipo {{ project.team.name }}</div> -->
         <h4 class="card-title h5 mt-3">{{ project.title }}</h4>
-            <router-link v-if="this.project.status == 1" class="btn btn-primary btn-sm mt-2" :to="{name:'kanban', params:{ idProject: project.id }}">Ver Kanban</router-link>
+            <router-link v-if="this.project.status == 1" :to="{name:'kanban', params:{ idProject: project.id }}"><i class='bx bx-table'></i></router-link>
         <div v-if="tasksPercent == 100" class="btn btn-primary btn-sm mt-2 ms-1" @click="updateQuality">Listo</div>
         <div v-if="this.project.status == 2" class="btn btn-info btn-sm mt-2 ms-1" @click="pointsQual">Indicadores de Calidad</div>
         <router-link v-if="project.customer" target="_blank" :to="{name:'ecard', params:{ id: project.customer.id}}"><i class='bx bx-credit-card-alt'></i></router-link>

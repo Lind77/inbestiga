@@ -16,7 +16,9 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        //
+        $notifications = Notification::with('user')->orderBy('id', 'desc')->take(5)->get();
+
+        return response()->json($notifications);
     }
 
     /**

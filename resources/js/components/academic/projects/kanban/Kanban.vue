@@ -171,7 +171,7 @@ export default {
             })
           }
           }else{
-            alert('Usted no puede modificar las tareas')
+            this.$swal('Usted no tiene permisos para modificar las tareas')
           }
         }
     },

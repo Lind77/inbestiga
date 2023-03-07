@@ -11,6 +11,11 @@
               <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile" aria-selected="false" @click="getOrders">Lista</button>
             </li>
           </ul>
+          <div class="alert alert-warning alert-dismissible" role="alert">
+            Atención! Los detalles de esta orden están asociados a la última cotización de este cliente
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+          </div>
           <div class="tab-content p-0">
             <div class="tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
               

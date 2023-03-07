@@ -4,9 +4,9 @@
       <div class="card mb-4">
         <div class="card-body">
           <div class="row">
-            <div class="col vh-100" id="lead" @drop="drop" @dragover="allowDrop">
+            <div class="col vh-100" @drop="drop" @dragover="allowDrop">
               Lead
-            <div class="container-cards overflow-auto h-100">
+            <div class="container-cards overflow-auto h-100" id="3">
               <div v-for="customer in customers">
                 <div v-if="customer.status == 3">
                   <CardCustomer :customer="customer" @selectCustomer="selectCustomer" @getAllCustomers="getAllCustomers"/>
@@ -15,9 +15,9 @@
             </div>
             
             </div>
-            <div class="col vh-100" id="interested" @drop="drop" @dragover="allowDrop">
+            <div class="col vh-100" id="2" @drop="drop" @dragover="allowDrop">
               Interesado
-                <div class="container-cards overflow-auto h-100">
+                <div class="container-cards overflow-auto h-100" id="4">
                 <div v-for="customer in customers">
                   <div v-if="customer.status == 4">
                     <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
@@ -25,9 +25,9 @@
                 </div>
               </div>
             </div>
-            <div class="col vh-100" id="highInterested" @drop="drop" @dragover="allowDrop">
+            <div class="col vh-100" id="3" @drop="drop" @dragover="allowDrop">
               Altamente interesado
-                <div class="container-cards overflow-auto h-100">
+                <div class="container-cards overflow-auto h-100" id="5">
                   <div v-for="customer in customers">
                     <div v-if="customer.status == 5">
                       <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
@@ -35,9 +35,9 @@
                   </div>
                 </div>
             </div>
-            <div class="col vh-100" id="withContract" @drop="drop" @dragover="allowDrop">
+            <div class="col vh-100" id="4" @drop="drop" @dragover="allowDrop">
               Con Contrato
-              <div class="container-cards overflow-auto h-100">
+              <div class="container-cards overflow-auto h-100" id="6">
                   <div v-for="customer in customers">
                     <div v-if="customer.status == 6">
                       <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
@@ -45,9 +45,9 @@
                   </div>
               </div>
             </div>
-            <div class="col vh-100" id="client" @drop="drop" @dragover="allowDrop">
+            <div class="col vh-100" id="5" @drop="drop" @dragover="allowDrop">
               Cliente
-              <div class="container-cards overflow-auto h-100">
+              <div class="container-cards overflow-auto h-100" id="7">
                   <div v-for="customer in customers">
                     <div v-if="customer.status == 7">
                       <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
@@ -64,8 +64,16 @@
 <script>
 import CardCustomer from '../prelead/CardCustomer.vue'
 import ProductModal from './ProductModal.vue'
+import {useCounterStore} from '../../../stores/UserStore'
+
 
 export default{
+  setup(){
+      const store = useCounterStore()
+      return{
+        store
+      }
+  },
   components:{CardCustomer, ProductModal},
   data(){
     return{
@@ -95,57 +103,38 @@ export default{
           var data = e.dataTransfer.getData("text");
           //e.target.appendChild(document.getElementById(data));
 
-          console.log(data)
-          if(e.target.id == 'lead'){
-            axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/3`)
-            .then(res =>{
-                this.getAllCustomers()
-                console.log(res)
-            })
-            .catch(err =>{
-                console.log(err)
-            })
+          console.log(data, e.target.id)
+
+          if(e.target.id != 7){
+            this.updateStatus(data, e.target.id)
+          }else{
+            this.setProject(data)
           }
-          else if(e.target.id == 'interested'){
-            axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/4`)
-            .then(res =>{
-                this.getAllCustomers()
-                console.log(res)
-            })
-            .catch(err =>{
-                console.log(err)
-            })
-          }
-          else if(e.target.id == 'highInterested'){
-            axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/5`)
-            .then(res =>{
-                this.getAllCustomers()
-                console.log(res)
-            })
-            .catch(err =>{
-                console.log(err)
-            })
-          }
-          else if(e.target.id == 'withContract'){
-            axios.get(`/api/updateCustomerGrade/${data.substring(data.length-1)}/6`)
-            .then(res =>{
-                this.getAllCustomers()
-                console.log(res)
-            })
-            .catch(err =>{
-                console.log(err)
-            })
-          }
-          else if(e.target.id == 'client'){
-            axios.get(`/api/setProject/${data.substring(data.length-1)}`)
-            .then(res =>{
-              console.log(res)
-              this.getAllCustomers()
-            })
-            .catch(err =>{
-              console.log(err)
-            })
-          }
+    },
+    updateStatus(id, status){
+      axios.get(`/api/updateCustomerGrade/${id}/${status}`)
+      .then(res =>{
+          this.getAllCustomers()
+          console.log(res)
+      })
+      .catch(err =>{
+          console.log(err)
+      })
+    },
+    setProject(id){
+      console.log(id)
+
+      const fd = new FormData()
+      fd.append('id_customer', id)
+      fd.append('emisor_id', this.store.authUser[0].id)
+      axios.post(`/api/setProject`, fd)
+      .then(res =>{
+        console.log(res)
+        this.getAllCustomers()
+      })
+      .catch(err =>{
+        this.$swal(err.response.data.msg)
+      })
     }
   },
   mounted(){
