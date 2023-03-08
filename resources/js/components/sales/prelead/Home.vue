@@ -1,10 +1,7 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-      <h4 class="fw-bold py-3"> Pre-leads</h4>
-      <div class="card mb-4">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-4 vh-85" id="noAtendedArea" @drop="drop" @dragover="allowDrop">
+      <div class="row">
+            <!-- <div class="col-md-4 vh-85" id="noAtendedArea" @drop="drop" @dragover="allowDrop">
               No atendido
             <div class="container-cards">
               <div v-for="customer in customers">
@@ -14,9 +11,9 @@
               </div>
             </div>
             
-            </div>
-            <div class="col-md-4 vh-85" id="atendedArea" @drop="drop" @dragover="allowDrop">
-              Atendido
+            </div> -->
+            <div class="col-md-6 vh-85 overflow-auto" id="atendedArea" @drop="drop" @dragover="allowDrop">
+              <h5 class="fw-600">Atendido</h5>
               <div class="container-cards">
                 <div v-for="customer in customers">
                 <div v-if="customer.status == 1">
@@ -25,8 +22,8 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-4 vh-85" id="comunicationArea" @drop="drop" @dragover="allowDrop">
-              Comunicación establecida
+            <div class="col-md-6 vh-85 overflow-auto" id="comunicationArea" @drop="drop" @dragover="allowDrop">
+              <h5 class="fw-600">Comunicación establecida</h5>
               <div class="container-cards">
                 <div v-for="customer in customers">
                 <div v-if="customer.status == 2">
@@ -36,8 +33,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
       <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>  
     </div>
 </template>
@@ -57,9 +52,15 @@ export default {
     },
     methods:{
         getAllCustomers(){
+        this.$swal({
+        title: 'Cargando ...',
+        allowOutsideClick: false,
+        showConfirmButton: false
+        })
         axios.get('/api/getAllCustomers')
         .then(res =>{
             this.customers = res.data
+            this.$swal().close()
         })
         .catch(err =>{
             console.log(err.response.data)
@@ -114,7 +115,24 @@ export default {
     }
 </script>
 <style scoped>
-.vh-85{
-  height: 85vh;
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(67, 89, 113, 0.075);
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(67,89,113,.7);
 }
 </style>

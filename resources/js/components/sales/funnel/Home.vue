@@ -1,12 +1,9 @@
 <template>
-    <div class="container-xxl flex-grow-1 container-p-y">
-      <h4 class="fw-bold py-3"> Funnel</h4>
-      <div class="card mb-4">
-        <div class="card-body">
-          <div class="row">
+    <div class="container-xxl flex-grow-1 container-p-y"> 
+      <div class="row">
             <div class="col vh-100" @drop="drop" @dragover="allowDrop">
-              Lead
-            <div class="container-cards overflow-auto h-100" id="3">
+              <h5 class="fw-600">Lead</h5> 
+            <div class="container-cards overflow-auto h-75" id="3">
               <div v-for="customer in customers">
                 <div v-if="customer.status == 3">
                   <CardCustomer :customer="customer" @selectCustomer="selectCustomer" @getAllCustomers="getAllCustomers"/>
@@ -16,8 +13,8 @@
             
             </div>
             <div class="col vh-100" id="2" @drop="drop" @dragover="allowDrop">
-              Interesado
-                <div class="container-cards overflow-auto h-100" id="4">
+              <h5 class="fw-600">Con cotización</h5>
+                <div class="container-cards overflow-auto h-75" id="4">
                 <div v-for="customer in customers">
                   <div v-if="customer.status == 4">
                     <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
@@ -26,8 +23,8 @@
               </div>
             </div>
             <div class="col vh-100" id="3" @drop="drop" @dragover="allowDrop">
-              Altamente interesado
-                <div class="container-cards overflow-auto h-100" id="5">
+              <h5 class="fw-600">Altamente interesado</h5>
+                <div class="container-cards overflow-auto h-75" id="5">
                   <div v-for="customer in customers">
                     <div v-if="customer.status == 5">
                       <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
@@ -36,8 +33,8 @@
                 </div>
             </div>
             <div class="col vh-100" id="4" @drop="drop" @dragover="allowDrop">
-              Con Contrato
-              <div class="container-cards overflow-auto h-100" id="6">
+              <h5 class="fw-600">Con Contrato</h5>
+              <div class="container-cards overflow-auto h-75" id="6">
                   <div v-for="customer in customers">
                     <div v-if="customer.status == 6">
                       <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
@@ -46,8 +43,8 @@
               </div>
             </div>
             <div class="col vh-100" id="5" @drop="drop" @dragover="allowDrop">
-              Cliente
-              <div class="container-cards overflow-auto h-100" id="7">
+              <h5 class="fw-600">Cliente</h5>
+              <div class="container-cards overflow-auto h-75" id="7">
                   <div v-for="customer in customers">
                     <div v-if="customer.status == 7">
                       <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
@@ -56,8 +53,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
       <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
     </div>
 </template>
@@ -83,9 +78,15 @@ export default{
   },
   methods:{
     getAllCustomers(){
+      this.$swal({
+        title: 'Cargando ...',
+        allowOutsideClick: false,
+        showConfirmButton: false
+      })
       axios.get('/api/getAllCustomers')
       .then(res =>{
           this.customers = res.data
+          this.$swal().close()
       })
       .catch(err =>{
           console.log(err.response.data)
@@ -142,3 +143,25 @@ export default{
   }
 }
 </script>
+<style scoped>
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(67, 89, 113, 0.075);
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(67,89,113,.7);
+}
+</style>

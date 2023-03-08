@@ -57,12 +57,13 @@
               <div data-i18n="Form Layouts">Funnel</div>
             </div>
           </router-link>
-          <!-- <router-link :to="{name:'home-call'}" class="menu-item">
+          <router-link :to="{name:'home-call'}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-phone-call"></i>
-              <div data-i18n="Form Layouts">Llamadas</div>
+              <div data-i18n="Form Layouts">Comunicaciones</div>
             </div>
           </router-link>
+          <!-- 
           <router-link :to="{name:'home-calendar'}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-calendar-event"></i>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\Comunication;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -16,7 +17,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with(['project','project.product'])->orderBy('id', 'desc')->get();
+        $customers = Customer::with(['project','project.product', 'comunication'])->orderBy('updated_at', 'desc')->get();
         return response()->json($customers);
     }
 
@@ -88,6 +89,17 @@ class CustomerController extends Controller
 
     public function insertCustomer(Request $request){
         $customer = Customer::create($request->all());
+
+        $comunication = Comunication::create([
+            'customer_id' => $customer->id,
+            'first_management' => $request->get('first_management'),
+            'last_management' => $request->get('last_management'),
+            'next_management' => $request->get('next_management'),
+            'comment' => $request->get('comment'),
+            'product_tentative' => $request->get('product_tentative'),
+            'type' => $request->get('type')
+        ]);
+
         return response()->json([
             'msg' => 'success'
         ]);

@@ -48,6 +48,43 @@
                 <input type="text" v-else v-model="career" class="form-control" />
                 </div>
             </div>
+            <div class="row g-2">
+                <h5 class="mt-3">Comunicación</h5>
+                <div class="col mb-0">
+                <label for="emailBasic" class="form-label">Primera Gestión</label>
+                <input type="date" v-model="first_management" class="form-control">
+                </div>
+                <div class="col mb-0">
+                <label for="emailBasic" class="form-label">Última Gestión</label>
+                <input type="date" v-model="last_management" class="form-control">
+                </div>
+                
+            </div>
+            <div class="row g-2 mt-2">
+                <div class="col mb-0">
+                <label for="emailBasic" class="form-label">Próxima Gestión</label>
+                <input type="date" v-model="next_management" class="form-control">
+                </div>
+                <div class="col mb-0">
+                <label for="emailBasic" class="form-label">Comentario</label>
+                <input type="text" v-model="comment" class="form-control"/>
+                </div>
+                
+            </div>
+            <div class="row g-2 mt-2">
+                <div class="col mb-0">
+                <label for="emailBasic" class="form-label">Producto Tentativo</label>
+                <input type="text" v-model="product_tentative" class="form-control"/>
+                </div>
+                <div class="col mb-0">
+                <label for="emailBasic" class="form-label">Tipo</label>
+                <select v-model="type" class="form-select">
+                    <option value="1">Llamar</option>
+                    <option value="2">Escribir</option>
+                    <option value="3">Meet</option>
+                </select>
+                </div>
+            </div>
             </div>
             <div class="modal-footer">
             <button type="button" id="close-insert-customer" class="btn btn-outline-secondary" data-bs-dismiss="modal">
@@ -80,7 +117,13 @@ export default {
             cell: '',
             university: '',
             career: '',
-            email: ''
+            email: '',
+            first_management: null,
+            last_management: null,
+            next_management: null,
+            comment: '',
+            product_tentative: '',
+            type: 0
         }
     },
     methods:{
@@ -110,8 +153,14 @@ export default {
             fd.append('university',this.university)
             fd.append('career',this.career)
             fd.append('email',this.email)
-            fd.append('status',0)
+            fd.append('status',1)
             fd.append('user_id',this.store.authUser[0].id)
+            fd.append('first_management',this.first_management)
+            fd.append('last_management', this.last_management)
+            fd.append('next_management', this.next_management)
+            fd.append('comment', this.comment)
+            fd.append('product_tentative', this.product_tentative)
+            fd.append('type', this.type)
 
             axios.post('/api/insertCustomer', fd)
             .then(res =>{
