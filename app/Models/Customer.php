@@ -11,8 +11,8 @@ class Customer extends Model
 
     protected $fillable = ['name', 'cell', 'university', 'career', 'status', 'email', 'dni','user_id'];
 
-    public function quotation(){
-        return $this->hasOne("App\Models\Customer");
+    public function quotations(){
+        return $this->hasMany("App\Models\Quotation");
     }
 
     public function project(){

@@ -20,7 +20,7 @@ class QuotationController extends Controller
      */
     public function index()
     {
-        $quotations = Quotation::with(['customer','details','details.product'])->orderBy('id', 'desc')->get();
+        $quotations = Quotation::with(['customer','details','details.product'])->orderBy('id', 'desc')->take(10)->get();
         return response()->json($quotations);
     }
 
@@ -99,7 +99,7 @@ class QuotationController extends Controller
         };
 
         $customerToUpdate = Customer::find($customer['id'])->update([
-            'status' => 3
+            'status' => 4
         ]);
 
         return response()->json([
@@ -166,7 +166,7 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        $quotation = Quotation::where('id', $id)->with(['customer', 'details', 'details.product','order'])->get();
+        $quotation = Quotation::where('id', $id)->with(['customer', 'details', 'details.product','orders'])->get();
 
         return response()->json($quotation);
     }

@@ -25,8 +25,30 @@
                         <p>1ra Gestión: {{ formatDate(customer.comunication.first_management) }}</p>
                         <p>Última Gestión: {{ formatDate(customer.comunication.last_management) }}</p>
                         <p>Siguiente Gestión: {{ formatDate(customer.comunication.next_management) }}</p>
+                        <p>Producto tentativo: {{ customer.comunication.product_tentative }}</p>
                         <p>Tipo: {{ comunication[customer.comunication.type] }}</p>
                         <p>Comentario: {{ customer.comunication.comment }}</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="btn-group" v-if="customer.quotations.length != 0">
+                <button type="button" class="btn btn-primary btn-sm btn-icon rounded-pill dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class='bx bx-file'></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" style="">
+                    <li class="p-2">
+                        <p class="mb-0">Cotizaciones :</p>
+                        <template v-for="quotation in customer.quotations">
+                            <router-link target="_blank" :to="{name:'quotation-file', params:{ id: quotation.id }}"  class="btn btn-success w-100 mt-1">{{ formatDate(quotation.date) }}</router-link>
+                            <template v-if="quotation.orders">
+                                <template v-for="order in quotation.orders">
+                                    <router-link target="_blank" :to="{name:'order-file', params:{ id: order.id }}"  class="btn btn-info mt-1">{{ formatDate(order.created_at) }}</router-link>
+                                </template>
+                            </template>
+                        </template>
+                        
+                       
                     </li>
                 </ul>
             </div>
@@ -39,7 +61,7 @@
                     <a class="dropdown-item" v-if="customer.status == 2" @click="convertLead(customer.id)" href="javascript:void(0);">Convertir en Lead</a>
                 </li>   
                 <li>
-                    <router-link class="dropdown-item" v-if="customer.status >= 3 && customer.status < 5" :to="{name:'home-quotation', params:{ idUser: customer.id }}">Generar Cotización</router-link>
+                    <router-link class="dropdown-item" v-if="customer.status == 3" :to="{name:'home-quotation', params:{ idUser: customer.id }}">Generar Cotización</router-link>
                 </li>
                 <li>
                     <router-link class="dropdown-item" v-if="customer.status == 5" :to="{name:'home-orders', params:{ idUser: customer.id }}">Generar Orden</router-link>
@@ -90,7 +112,8 @@ import moment from 'moment'
         },
         props:{
             customer: Object,
-            status: Number
+            status: Number,
+            visible: Boolean
         },
         methods:{
             formatDate(date){
@@ -111,7 +134,8 @@ import moment from 'moment'
                 })
             },
             drag(e){
-                e.dataTransfer.setData('text', e.target.id)
+                e.dataTransfer.setData('id_card', this.customer.id)
+                /* this.$emit('visibleArea') */
             },
             convertLead(id){
                 this.$swal.fire('Tienes la seguridad de convertir a este usuario en un lead?')

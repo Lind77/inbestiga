@@ -1,5 +1,5 @@
 <template>
-    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" :class="{ 'hide-aside': !hidden }">
+    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-primary" :class="{ 'hide-aside': !hidden }">
       <div class="app-brand demo">
         <a href="index.html" class="app-brand-link">
           <span class="app-brand-text demo menu-text fw-bolder ms-2">Inbestiga </span>

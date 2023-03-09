@@ -19,7 +19,7 @@ class Quotation extends Model
         return $this->hasMany("App\Models\Detail");
     }
 
-    public function order(){
+    public function orders(){
         return $this->hasMany("App\Models\Order");
     }
 }

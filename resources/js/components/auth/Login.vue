@@ -139,6 +139,11 @@ export default {
     },
     methods:{
         login(){
+          this.$swal({
+          title: 'Cargando ...',
+          allowOutsideClick: false,
+          showConfirmButton: false
+          })
             const fd = new FormData()
             fd.append('email', this.email)
             fd.append('password', this.password)
@@ -149,6 +154,7 @@ export default {
                 localStorage.setItem('token',res.data.token)
                 console.log(res.data.memoir)
                 this.$router.push({path:`${res.data.memoir.area}/home`})
+                this.$swal().close()
             }).catch((err) => {
                 this.$swal({
                   icon: 'error',

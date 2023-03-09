@@ -1,66 +1,20 @@
 <template>
-    <div class="container-xxl flex-grow-1 container-p-y"> 
-      <div class="row">
-            <div class="col vh-100" @drop="drop" @dragover="allowDrop">
-              <h5 class="fw-600">Lead</h5> 
-            <div class="container-cards overflow-auto h-75" id="3">
-              <div v-for="customer in customers">
-                <div v-if="customer.status == 3">
-                  <CardCustomer :customer="customer" @selectCustomer="selectCustomer" @getAllCustomers="getAllCustomers"/>
-                </div>
-              </div>
-            </div>
-            
-            </div>
-            <div class="col vh-100" id="2" @drop="drop" @dragover="allowDrop">
-              <h5 class="fw-600">Con cotización</h5>
-                <div class="container-cards overflow-auto h-75" id="4">
-                <div v-for="customer in customers">
-                  <div v-if="customer.status == 4">
-                    <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col vh-100" id="3" @drop="drop" @dragover="allowDrop">
-              <h5 class="fw-600">Altamente interesado</h5>
-                <div class="container-cards overflow-auto h-75" id="5">
-                  <div v-for="customer in customers">
-                    <div v-if="customer.status == 5">
-                      <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
-                    </div>
-                  </div>
-                </div>
-            </div>
-            <div class="col vh-100" id="4" @drop="drop" @dragover="allowDrop">
-              <h5 class="fw-600">Con Contrato</h5>
-              <div class="container-cards overflow-auto h-75" id="6">
-                  <div v-for="customer in customers">
-                    <div v-if="customer.status == 6">
-                      <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
-                    </div>
-                  </div>
-              </div>
-            </div>
-            <div class="col vh-100" id="5" @drop="drop" @dragover="allowDrop">
-              <h5 class="fw-600">Cliente</h5>
-              <div class="container-cards overflow-auto h-75" id="7">
-                  <div v-for="customer in customers">
-                    <div v-if="customer.status == 7">
-                      <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
-                    </div>
-                  </div>
-              </div>
-            </div>
-          </div>
-      <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
+  <div class="container-xxl flex-grow-1 container-p-y"> 
+    <div class="row">
+      <draggableArea :customers="customers" :title="'Lead'" :status="3"/>
+      <draggableArea :customers="customers" :title="'Con Cotización'"  :status="4"/>
+      <draggableArea :customers="customers" :title="'Altamente interesado'" :status="5"/>
+      <draggableArea :customers="customers" :title="'Con Contrato'" :status="6"/>
+      <draggableArea :customers="customers" :title="'Cliente'" :status="7"/>
     </div>
+    <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
+  </div>
 </template>
 <script>
 import CardCustomer from '../prelead/CardCustomer.vue'
 import ProductModal from './ProductModal.vue'
 import {useCounterStore} from '../../../stores/UserStore'
-
+import draggableArea from './draggableArea.vue'
 
 export default{
   setup(){
@@ -69,14 +23,21 @@ export default{
         store
       }
   },
-  components:{CardCustomer, ProductModal},
+  components:{CardCustomer, ProductModal, draggableArea},
   data(){
     return{
       customers:[],
-      customer_selected:{}
+      customer_selected:{},
+      visible: false
     }
   },
   methods:{
+    visibleArea(){
+      this.visible = true
+    },
+    hiddenArea(){
+      this.visible = false
+    },
     getAllCustomers(){
       this.$swal({
         title: 'Cargando ...',
@@ -98,25 +59,23 @@ export default{
     },
     allowDrop(e){
           e.preventDefault()
+         
+          e.dataTransfer.dropEffect = 'move';
     },
     drop(e){
           e.preventDefault()
-          var data = e.dataTransfer.getData("text");
-          //e.target.appendChild(document.getElementById(data));
+          var data = e.dataTransfer.getData("id_card");
+          e.target.appendChild(document.getElementById(data));
+          console.log(e.target)
 
-          console.log(data, e.target.id)
-
-          if(e.target.id != 7){
-            this.updateStatus(data, e.target.id)
-          }else{
-            this.setProject(data)
-          }
+        
+          
     },
     updateStatus(id, status){
       axios.get(`/api/updateCustomerGrade/${id}/${status}`)
       .then(res =>{
           this.getAllCustomers()
-          console.log(res)
+          console.log(res.data)
       })
       .catch(err =>{
           console.log(err)
@@ -143,25 +102,3 @@ export default{
   }
 }
 </script>
-<style scoped>
-/* width */
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: rgba(67, 89, 113, 0.075);
-  border-radius: 5px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(67,89,113,.7);
-}
-</style>
