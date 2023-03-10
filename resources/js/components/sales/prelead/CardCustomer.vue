@@ -22,12 +22,25 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" style="">
                     <li class="p-2">
-                        <p>1ra Gestión: {{ formatDate(customer.comunication.first_management) }}</p>
-                        <p>Última Gestión: {{ formatDate(customer.comunication.last_management) }}</p>
-                        <p>Siguiente Gestión: {{ formatDate(customer.comunication.next_management) }}</p>
-                        <p>Producto tentativo: {{ customer.comunication.product_tentative }}</p>
-                        <p>Tipo: {{ comunication[customer.comunication.type] }}</p>
-                        <p>Comentario: {{ customer.comunication.comment }}</p>
+                        <p> <span class="fw-bold"> 1ra Gestión: </span>
+                           <br> {{ formatDate(customer.comunication.first_management) }}
+                        </p>
+                        <p> <span class="fw-bold"> Última Gestión: </span>
+                           <br> {{ formatDate(customer.comunication.last_management) }}
+                        </p>
+                        <p> <span class="fw-bold"> Siguiente Gestión: </span>
+                           <br> {{ formatDate(customer.comunication.next_management) }}
+                        </p>
+                        <p> <span class="fw-bold"> Producto tentativo: </span>
+                           <br> {{ customer.comunication.product_tentative }}
+                        </p>
+                        <p> <span class="fw-bold"> Tipo: </span>
+                           <br> {{ comunication[customer.comunication.type] }}
+                        </p>
+                        <p> <span class="fw-bold"> Comentario: </span>
+                           <br> {{ customer.comunication.comment }}
+                        </p>
+                        <button @click="showModalUpdateCom" class="btn btn-sm btn-primary">Actualizar</button>
                     </li>
                 </ul>
             </div>
@@ -41,6 +54,19 @@
                         <p class="mb-0">Cotizaciones :</p>
                         <template v-for="quotation in customer.quotations">
                             <router-link target="_blank" :to="{name:'quotation-file', params:{ id: quotation.id }}"  class="btn btn-success w-100 mt-1">{{ formatDate(quotation.date) }}</router-link>
+                        </template>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="btn-group" v-if="customer.quotations.length != 0 && customer.quotations[0].orders[0]">
+                <button type="button" class="btn btn-primary btn-sm btn-icon rounded-pill dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class='bx bx-copy-alt'></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" style="">
+                    <li class="p-2">
+                        <p class="mb-0">Ordenes:</p>
+                        <template v-for="quotation in customer.quotations">
                             <template v-if="quotation.orders">
                                 <template v-for="order in quotation.orders">
                                     <router-link target="_blank" :to="{name:'order-file', params:{ id: order.id }}"  class="btn btn-info mt-1">{{ formatDate(order.created_at) }}</router-link>
@@ -116,6 +142,9 @@ import moment from 'moment'
             visible: Boolean
         },
         methods:{
+            showModalUpdateCom(){
+                this.$emit('showModalUpdateCom', this.customer.comunication)
+            },
             formatDate(date){
                 return moment(date).format('DD/MM/YYYY')
             },

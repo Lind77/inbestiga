@@ -1,10 +1,11 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
       <div class="row">
-            <draggableArea :customers="customers" :title="'Atendido'" :status="1"/>
-            <draggableArea :customers="customers" :title="'Comunicación Establecida'" :status="2"/>
+            <draggableArea :customers="customers" :title="'Atendido'" :status="1" @callModal="callModal"/>
+            <draggableArea :customers="customers" :title="'Comunicación Establecida'" :status="2" @callModal="callModal"/>
           </div>
-      <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>  
+      <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
+      <UpdateCom :comunication="comunication"/>  
     </div>
 </template>
 <script>
@@ -12,17 +13,23 @@ import axios from 'axios'
 import CardCustomer from './CardCustomer.vue'
 import ProductModal from '../funnel/ProductModal.vue'
 import draggableArea from '../funnel/draggableArea.vue'
+import UpdateCom from '../prelead/UpdateCom.vue'
 
 export default {
-    components: {CardCustomer, ProductModal, draggableArea},
+    components: {CardCustomer, ProductModal, draggableArea, UpdateCom},
     data(){
         return{
         customers:[],
         status: 0,
-        customer_selected:{}
+        customer_selected:{},
+        comunication: {}
         }
     },
     methods:{
+        callModal(com){
+          this.comunication = com
+          $('#updateComModal').modal('show')
+        },
         getAllCustomers(){
         this.$swal({
         title: 'Cargando ...',

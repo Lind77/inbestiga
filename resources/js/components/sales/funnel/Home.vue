@@ -2,13 +2,14 @@
   <div class="container-xxl flex-grow-1 container-p-y"> 
     <div class="row">
       <DatePicker @filterDate="filterDate" />
-      <draggableArea :customers="customers_filtered" :title="'Lead'" :status="3"/>
-      <draggableArea :customers="customers_filtered" :title="'Con Cotización'"  :status="4"/>
-      <draggableArea :customers="customers_filtered" :title="'Altamente interesado'" :status="5"/>
-      <draggableArea :customers="customers_filtered" :title="'Con Contrato'" :status="6"/>
-      <draggableArea :customers="customers_filtered" :title="'Cliente'" :status="7"/>
+      <draggableArea :customers="customers_filtered" @callModal="callModal" :title="'Lead'" :status="3"/>
+      <draggableArea :customers="customers_filtered" @callModal="callModal" :title="'Con Cotización'"  :status="4"/>
+      <draggableArea :customers="customers_filtered" @callModal="callModal" :title="'Altamente interesado'" :status="5"/>
+      <draggableArea :customers="customers_filtered" @callModal="callModal" :title="'Con Contrato'" :status="6"/>
+      <draggableArea :customers="customers_filtered" @callModal="callModal" :title="'Cliente'" :status="7"/>
     </div>
     <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
+    <UpdateCom :comunication="comunication"/>
   </div>
 </template>
 <script>
@@ -17,6 +18,7 @@ import CardCustomer from '../prelead/CardCustomer.vue'
 import ProductModal from './ProductModal.vue'
 import {useCounterStore} from '../../../stores/UserStore'
 import draggableArea from './draggableArea.vue'
+import UpdateCom from '../prelead/UpdateCom.vue'
 
 export default{
   setup(){
@@ -25,15 +27,20 @@ export default{
         store
       }
   },
-  components:{ CardCustomer, ProductModal, draggableArea, DatePicker },
+  components:{ CardCustomer, ProductModal, draggableArea, DatePicker, UpdateCom },
   data(){
     return{
       customers:[],
       customers_filtered:[],
-      customer_selected:{}
+      customer_selected:{},
+      comunication:{}
     }
   },
   methods:{
+    callModal(com){
+      this.comunication = com
+      $('#updateComModal').modal('show')
+    },
     filterDate(date){
         this.$swal({
           title: 'Cargando ...',
@@ -78,9 +85,6 @@ export default{
           var data = e.dataTransfer.getData("id_card");
           e.target.appendChild(document.getElementById(data));
           console.log(e.target)
-
-        
-          
     },
     updateStatus(id, status){
       axios.get(`/api/updateCustomerGrade/${id}/${status}`)

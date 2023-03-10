@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ComunicationController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
@@ -113,3 +114,5 @@ Route::get('/getAllOrders', [OrderController::class, 'index']);
 Route::post('/insertOrder',[OrderController::class, 'store']);
 
 Route::get('/getNotifications', [NotificationController::class, 'index']);
+
+Route::post('/updateComunication', [ComunicationController::class, 'update']);

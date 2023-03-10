@@ -6,6 +6,7 @@ use App\Models\Comunication;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreComunicationRequest;
 use App\Http\Requests\UpdateComunicationRequest;
+use Illuminate\Http\Request;
 
 class ComunicationController extends Controller
 {
@@ -69,9 +70,21 @@ class ComunicationController extends Controller
      * @param  \App\Models\Comunication  $comunication
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateComunicationRequest $request, Comunication $comunication)
+    public function update(Request $request)
     {
-        //
+        $comunication = Comunication::find($request->get('comunication_id'));
+
+        $comunication->update([
+            'last_management' => $request->get('last_management'),
+            'next_management' => $request->get('next_management'),
+            'comment' => $request->get('comment'),
+            'product_tentative' => $request->get('product_tentative'),
+            'type' => $request->get('type')
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     /**

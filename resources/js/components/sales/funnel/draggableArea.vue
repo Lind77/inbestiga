@@ -4,7 +4,7 @@
         <div id="draggableArea" class="container-cards overflow-auto h-90" @drop="drop" @dragover="allowDrop" @dragleave="hide">
             <template v-for="(customer, index) in customers" :key="customer.id">
                     <template v-if="customer.status == status">
-                        <CardCustomer :customer="customer"/>
+                        <CardCustomer :customer="customer" @showModalUpdateCom="showModalUpdateCom"/>
                     </template>
                     <div v-if="visible">
                         <br>
@@ -14,12 +14,14 @@
     </div>
 </template>
 <script>
+import UpdateCom from '../prelead/UpdateCom.vue'
 import CardCustomer from '../prelead/CardCustomer.vue'
     export default{
-        components:{CardCustomer},
+        components:{CardCustomer, UpdateCom},
         data(){
             return{
-                visible: false
+                visible: false,
+                comunication: {}
             }
         },
         props:{
@@ -29,6 +31,9 @@ import CardCustomer from '../prelead/CardCustomer.vue'
             status: Number
         },
         methods:{
+            showModalUpdateCom(com){
+                this.$emit('callModal', com)
+            },
             hide(e){
                 e.preventDefault()
                 e.target.classList.remove('pt-20')
