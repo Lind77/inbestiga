@@ -172,7 +172,6 @@
     mounted(){
       this.store.getUser()
       this.getNotifications()
-      console.log(this.store.authUser)
       Echo.private('projects')
         .listen('NewProject',()=>{
           this.updateNotifications()

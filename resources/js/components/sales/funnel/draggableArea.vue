@@ -1,11 +1,14 @@
 <template>
-   <div :class="`col vh-100`" id="3" @drop="drop" @dragover="allowDrop">
+   <div class="col vh-100">
     <h5 class="fw-600">{{ title }}</h5>
-        <div class="container-cards overflow-auto h-75">
-            <template v-for="customer in customers">
+        <div id="draggableArea" class="container-cards overflow-auto h-90" @drop="drop" @dragover="allowDrop" @dragleave="hide">
+            <template v-for="(customer, index) in customers" :key="customer.id">
                     <template v-if="customer.status == status">
-                        <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers"/>
+                        <CardCustomer :customer="customer"/>
                     </template>
+                    <div v-if="visible">
+                        <br>
+                    </div>
             </template>
         </div>
     </div>
@@ -14,6 +17,11 @@
 import CardCustomer from '../prelead/CardCustomer.vue'
     export default{
         components:{CardCustomer},
+        data(){
+            return{
+                visible: false
+            }
+        },
         props:{
             title: String,
             bg: String,
@@ -21,16 +29,22 @@ import CardCustomer from '../prelead/CardCustomer.vue'
             status: Number
         },
         methods:{
+            hide(e){
+                e.preventDefault()
+                e.target.classList.remove('pt-20')
+            },
             allowDrop(e){
                 e.preventDefault()
-                console.log('allow drop')
-                e.dataTransfer.dropEffect = 'move'
-                e.dataTransfer.effectAllowed = 'move'
+                e.target.classList.add('pt-20')
             },
             drop(e){
                 e.preventDefault()
                 var data = e.dataTransfer.getData("id_card");
-                e.target.appendChild(document.getElementById(data));
+                document.getElementById(data).classList.remove('pt-10')
+                e.target.prepend(document.getElementById(data));
+                
+                e.target.classList.remove('pt-20')
+                this.visible = false
                 console.log(e.target)
 
                 if(e.target.id != 7){
@@ -47,7 +61,6 @@ import CardCustomer from '../prelead/CardCustomer.vue'
             updateStatus(id){
                 axios.get(`/api/updateCustomerGrade/${id}/${this.status}`)
                 .then(res =>{
-                    this.getAllCustomers()
                     console.log(res.data)
                 })
                 .catch(err =>{
@@ -63,7 +76,6 @@ import CardCustomer from '../prelead/CardCustomer.vue'
                 axios.post(`/api/setProject`, fd)
                 .then(res =>{
                     console.log(res)
-                    this.getAllCustomers()
                 })
                 .catch(err =>{
                     this.$swal(err.response.data.msg)
@@ -73,6 +85,12 @@ import CardCustomer from '../prelead/CardCustomer.vue'
     }
 </script>
 <style scoped>
+.pt-20{
+    padding-top: 20%;
+}
+.h-90{
+    height: 90%;
+}
 /* width */
 ::-webkit-scrollbar {
   width: 5px;

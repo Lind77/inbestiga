@@ -1,37 +1,8 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
       <div class="row">
-            <!-- <div class="col-md-4 vh-85" id="noAtendedArea" @drop="drop" @dragover="allowDrop">
-              No atendido
-            <div class="container-cards">
-              <div v-for="customer in customers">
-                <div v-if="customer.status == 0">
-                  <CardCustomer :customer="customer" @getAllCustomers="getAllCustomers" :status="status"/>
-                </div>
-              </div>
-            </div>
-            
-            </div> -->
-            <div class="col-md-6 vh-85 overflow-auto" id="atendedArea" @drop="drop" @dragover="allowDrop">
-              <h5 class="fw-600">Atendido</h5>
-              <div class="container-cards">
-                <div v-for="customer in customers">
-                <div v-if="customer.status == 1">
-                  <CardCustomer :customer="customer"  @getAllCustomers="getAllCustomers" :status="status"/>
-                </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 vh-85 overflow-auto" id="comunicationArea" @drop="drop" @dragover="allowDrop">
-              <h5 class="fw-600">Comunicación establecida</h5>
-              <div class="container-cards">
-                <div v-for="customer in customers">
-                <div v-if="customer.status == 2">
-                  <CardCustomer :customer="customer" @selectCustomer="selectCustomer" @getAllCustomers="getAllCustomers" :status="status"/>
-                </div>
-                </div>
-              </div>
-            </div>
+            <draggableArea :customers="customers" :title="'Atendido'" :status="1"/>
+            <draggableArea :customers="customers" :title="'Comunicación Establecida'" :status="2"/>
           </div>
       <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>  
     </div>
@@ -40,9 +11,10 @@
 import axios from 'axios'
 import CardCustomer from './CardCustomer.vue'
 import ProductModal from '../funnel/ProductModal.vue'
+import draggableArea from '../funnel/draggableArea.vue'
 
 export default {
-    components: {CardCustomer, ProductModal},
+    components: {CardCustomer, ProductModal, draggableArea},
     data(){
         return{
         customers:[],
@@ -73,37 +45,7 @@ export default {
         drop(e){
           e.preventDefault()
           var data = e.dataTransfer.getData("text");
-         
-          //console.log(data)
-          if(e.target.id == 'noAtendedArea'){
-            axios.get(`/api/updateCustomerGrade/${data}/0`)
-            .then(res =>{
-              this.getAllCustomers()
-            })
-            .catch(err =>{
-                console.log(err)
-            })
-          }
-          else if(e.target.id == 'atendedArea'){
-            axios.get(`/api/updateCustomerGrade/${data}/1`)
-            .then(res =>{
-                this.getAllCustomers()
-                console.log(res)
-            })
-            .catch(err =>{
-                console.log(err)
-            })
-          }else if(e.target.id == 'comunicationArea'){
-            
-            axios.get(`/api/updateCustomerGrade/${data}/2`)
-            .then(res =>{
-                this.getAllCustomers()
-                console.log(res)
-            })
-            .catch(err =>{
-                console.log(err)
-            })
-          }
+          
         },
         allowDrop(e){
           e.preventDefault()

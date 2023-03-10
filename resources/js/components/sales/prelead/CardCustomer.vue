@@ -1,5 +1,5 @@
 <template>
-    <div class="card bg-light mb-2 p-2 cursor-pointer" draggable="true" @dragstart="drag" :id="`${customer.id}`">
+    <div class="card bg-light mb-2 p-2 cursor-pointer" draggable="true" @dragover="allowDrop" @dragstart="drag" :id="`${customer.id}`">
         <h6 class="mb-0">{{ customer.name || customer.cell }}</h6>
         <div class="demo-inline-spacing">
             <div class="btn-group">
@@ -125,7 +125,7 @@ import moment from 'moment'
                     if(res.isConfirmed){
                         axios.get('/api/standByCustomer/'+id)
                         .then(res =>{
-                            this.$emit('getAllCustomers')
+                            console.log(res)
                         })
                         .catch(err =>{
 
@@ -133,9 +133,14 @@ import moment from 'moment'
                     }
                 })
             },
+            allowDrop(e){
+                return
+            },
             drag(e){
                 e.dataTransfer.setData('id_card', this.customer.id)
-                /* this.$emit('visibleArea') */
+            },
+            rejectDrop(id){
+                e.preventDefault()
             },
             convertLead(id){
                 this.$swal.fire('Tienes la seguridad de convertir a este usuario en un lead?')
@@ -144,7 +149,6 @@ import moment from 'moment'
                         axios.get(`/api/updateCustomerGrade/${id}/3`)
                         .then(res =>{
                             console.log(res)
-                            this.$emit('getAllCustomers')
                         })
                         .catch(err =>{
                             console.log(err)
@@ -173,3 +177,8 @@ import moment from 'moment'
         }
     }
 </script>
+<style scoped>
+.pt-10{
+    margin-top: 100px;
+}
+</style>
