@@ -8,10 +8,10 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" style="">
                     <li class="p-2">
-                        <p>Celular: {{ customer.cell }}</p>
-                        <p>Universidad: {{ customer.university }}</p>
-                        <p>Carrera: {{ customer.career }}</p>
-                        <p>Email: {{ customer.email }}</p>
+                        <p><span class="fw-bold">Celular:</span><br> {{ customer.cell }}</p>
+                        <p><span class="fw-bold">Universidad:</span><br> {{ customer.university }}</p>
+                        <p><span class="fw-bold">Carrera:</span><br> {{ customer.career }}</p>
+                        <p><span class="fw-bold">Email: </span><br> {{ customer.email }}</p>
                     </li>
                 </ul>
             </div>
@@ -22,22 +22,22 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" style="">
                     <li class="p-2">
-                        <p> <span class="fw-bold"> 1ra Gestión: </span>
+                        <p> <span class="fw-bold"> 1ra Gestión:</span>
                            <br> {{ formatDate(customer.comunication.first_management) }}
                         </p>
-                        <p> <span class="fw-bold"> Última Gestión: </span>
+                        <p> <span class="fw-bold"> Última Gestión:</span>
                            <br> {{ formatDate(customer.comunication.last_management) }}
                         </p>
-                        <p> <span class="fw-bold"> Siguiente Gestión: </span>
+                        <p> <span class="fw-bold"> Siguiente Gestión:</span>
                            <br> {{ formatDate(customer.comunication.next_management) }}
                         </p>
-                        <p> <span class="fw-bold"> Producto tentativo: </span>
+                        <p> <span class="fw-bold"> Producto tentativo:</span>
                            <br> {{ customer.comunication.product_tentative }}
                         </p>
-                        <p> <span class="fw-bold"> Tipo: </span>
+                        <p> <span class="fw-bold"> Tipo:</span>
                            <br> {{ comunication[customer.comunication.type] }}
                         </p>
-                        <p> <span class="fw-bold"> Comentario: </span>
+                        <p> <span class="fw-bold"> Comentario:</span>
                            <br> {{ customer.comunication.comment }}
                         </p>
                         <button @click="showModalUpdateCom" class="btn btn-sm btn-primary">Actualizar</button>
