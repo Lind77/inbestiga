@@ -153,7 +153,7 @@ class CustomerController extends Controller
     public function reactivateCustomer($id){
         $customer = Customer::find($id);
         $customer->update([
-            'status' => 0
+            'status' => 1
         ]);
         return response()->json([
             'msg' => 'success'

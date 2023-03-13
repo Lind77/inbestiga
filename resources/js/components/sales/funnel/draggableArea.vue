@@ -1,7 +1,7 @@
 <template>
-   <div class="col vh-100">
+   <div class="col">
     <h5 class="fw-600">{{ title }}</h5>
-        <div id="draggableArea" class="container-cards overflow-auto h-90" @drop="drop" @dragover="allowDrop" @dragleave="hide">
+        <div id="draggableArea" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent @dragover.prevent>
             <template v-for="(customer, index) in customers" :key="customer.id">
                     <template v-if="customer.status == status">
                         <CardCustomer :customer="customer" @showModalUpdateCom="showModalUpdateCom"/>
@@ -40,28 +40,42 @@ import CardCustomer from '../prelead/CardCustomer.vue'
             },
             allowDrop(e){
                 e.preventDefault()
-                e.target.classList.add('pt-20')
+                e.target.classList.add('bg-hover')
             },
             drop(e){
                 e.preventDefault()
-                var data = e.dataTransfer.getData("id_card");
-                document.getElementById(data).classList.remove('pt-10')
-                e.target.prepend(document.getElementById(data));
-                
-                e.target.classList.remove('pt-20')
-                this.visible = false
-                console.log(e.target)
 
-                if(e.target.id != 7){
-                    this.updateStatus(data)
-                }else{
-                    this.setProject(data)
-                }
+                var quotation = e.dataTransfer.getData("quot")
+                var orders = e.dataTransfer.getData("order")
+                var data = e.dataTransfer.getData("id_card")
 
-               /*  if(e.target.id != status && e.target.id != ''){
-                   
+                //Verification Quotation
+                if(this.status >= 4){
+                    if(quotation == 'null'){
+                        this.$swal.fire('Este usuario no presenta una cotización')
+                    }else if(this.status >= 6){
+                        if(orders == 'null'){
+                            // Verification Order
+                            this.$swal.fire('Este usuario no presenta una orden de servicio')
+                        }else{
+                            e.target.prepend(document.getElementById(data));
+                            e.target.classList.remove('bg-hover')
+                            if(this.status != 7){
+                                this.updateStatus(data)
+                            }else{
+                                this.setProject(data)
+                            }
+                        }
+                    }else{
+                        e.target.prepend(document.getElementById(data));
+                        e.target.classList.remove('bg-hover')
+                        if(this.status != 7){
+                            this.updateStatus(data)
+                        }else{
+                            this.setProject(data)
+                        }
+                    }
                 }
-                 */
             },
             updateStatus(id){
                 axios.get(`/api/updateCustomerGrade/${id}/${this.status}`)
@@ -90,6 +104,9 @@ import CardCustomer from '../prelead/CardCustomer.vue'
     }
 </script>
 <style scoped>
+.bg-hover{
+    background-color: #696cff;
+}
 .pt-20{
     padding-top: 20%;
 }

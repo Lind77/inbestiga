@@ -1,5 +1,5 @@
 <template>
-    <div class="card bg-light mb-2 p-2 cursor-pointer" draggable="true" @dragover="allowDrop" @dragstart="drag" :id="`${customer.id}`">
+    <div class="card bg-light mb-2 p-2 cursor-pointer" draggable="true" @dragover.prevent   @drop.stop.prevent @dragstart="drag" :id="`${customer.id}`">
         <h6 class="mb-0">{{ customer.name || customer.cell }}</h6>
         <div class="demo-inline-spacing">
             <div class="btn-group">
@@ -167,6 +167,16 @@ import moment from 'moment'
             },
             drag(e){
                 e.dataTransfer.setData('id_card', this.customer.id)
+                if(this.customer.quotations.length != 0){
+                    e.dataTransfer.setData('quot', this.customer.quotations[0].id)
+                    if(this.customer.quotations[0].orders.length != 0){
+                        e.dataTransfer.setData('order', this.customer.quotations[0].orders[0].id)
+                    }else{
+                        e.dataTransfer.setData('order', null)
+                    }
+                }else{
+                    e.dataTransfer.setData('quot', null)
+                }
             },
             rejectDrop(id){
                 e.preventDefault()
