@@ -12,7 +12,7 @@ import './bootstrap'
 
 import axios from 'axios'
 
-axios.defaults.baseURL = 'https://jairpl.com/autoDeploy/public/'
+axios.defaults.baseURL = 'https://sistema.inbestiga.com/public/'
 
 import VueSweetalert2 from 'vue-sweetalert2'
 
@@ -30,7 +30,7 @@ function loggedIn(){
 
 //Set the router
 const router = createRouter({
-    history: createWebHistory('/autoDeploy/public'),
+    history: createWebHistory('/public'),
     routes,
     linkActiveClass: 'active'
 })
