@@ -130,8 +130,9 @@ import moment from 'moment'
             },
             dropSpace(e, id){
                 var data = e.dataTransfer.getData("id_card")
-                console.log(data)
-                var draggableArea = document.getElementById('draggableArea'+this.status)
+                var draggableArea = e.target.parentNode.parentNode
+                var lastCharacter = draggableArea.id.substring(draggableArea.id.length-1)
+                this.$emit('updateStatusSpace', data, lastCharacter)
                 draggableArea.prepend(document.getElementById(data))
                 document.getElementById('space'+id).classList.remove('space-show')
             },

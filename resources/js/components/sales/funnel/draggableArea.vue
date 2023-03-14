@@ -4,7 +4,7 @@
         <div :id="'draggableArea'+status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent @dragover.prevent>
             <template v-for="(customer, index) in customers" :key="customer.id">
                     <template v-if="customer.status == status">
-                        <CardCustomer :customer="customer" :status="status"  :index="index" @showModalUpdateCom="showModalUpdateCom"/>
+                        <CardCustomer :customer="customer" :status="status"  :index="index" @showModalUpdateCom="showModalUpdateCom" @updateStatusSpace="updateStatusSpace"/>
                     </template>
             </template>
         </div>
@@ -84,6 +84,15 @@ import CardCustomer from '../prelead/CardCustomer.vue'
                         this.setProject(data)
                     }
                 }
+            },
+            updateStatusSpace(id, status){
+                axios.get(`/api/updateCustomerGrade/${id}/${status}`)
+                .then(res =>{
+                    console.log(res.data)
+                })
+                .catch(err =>{
+                    console.log(err)
+                })
             },
             updateStatus(id){
                 axios.get(`/api/updateCustomerGrade/${id}/${this.status}`)
