@@ -48,7 +48,7 @@
         store
       }
       },
-      components: { CreateProject, CardProject, OffCanvas, QualityModal },
+      components: { CardProject, OffCanvas, QualityModal },
       data(){
         return{
           projects:[],
