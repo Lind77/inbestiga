@@ -1,5 +1,6 @@
 <template>
-    <div class="card bg-light mb-2 p-2 cursor-pointer" draggable="true" @dragover.prevent   @drop.stop.prevent @dragstart="drag" :id="`${customer.id}`">
+    <div class="cardSpace" draggable="true" @dragover.prevent @drop.stop.prevent @dragstart="drag" :id="`${customer.id}`">
+        <div class="card bg-light p-2 cursor-pointer">
         <h6 class="mb-0">{{ customer.name || customer.cell }}</h6>
         <div class="demo-inline-spacing">
             <div class="btn-group">
@@ -95,32 +96,10 @@
                 <li><a class="dropdown-item" @click="customerStandBy(customer.id)" href="javascript:void(0);">Stand By</a></li>
                 </ul>
         </div>
+        </div>
+        <div class="space" :id="'space'+index" @dragover="changeColor(index)" @dragleave="removeColor(index)" @drop="dropSpace($event, index)">
+        </div>
     </div>
-    <!-- <div class="btn-group pt-2" draggable="true" @dragstart="drag" :id="`${customer.id}`">
-        <button type="button" :class="`btn btn-${bgColor} text-truncate`">{{ customer.name || customer.cell }}</button>
-        <button type="button" :class="`btn btn-${bgColor} dropdown-toggle dropdown-toggle-split`" data-bs-toggle="dropdown" aria-expanded="false">
-          <span class="visually-hidden">Toggle Dropdown</span>
-        </button>
-        <ul class="dropdown-menu">
-          <li class="ps-2">
-            <template v-if="customer.comunication">
-                <p class="mb-0">Primera comunicación: {{customer.comunication.first_management}}</p>
-                <p class="mb-0">Última comunicación: {{customer.comunication.last_management}}</p>
-                <p class="mb-0">Próxima comunicación: {{customer.comunication.next_management}}</p>
-                <p class="mb-0">Comentario: {{customer.comunication.comment}}</p>
-                <p class="mb-0">Producto Tentativo: {{customer.comunication.product_tentative}}</p>
-                <p class="mb-0">Tipo: {{customer.comunication.type}}</p>
-            </template>
-            
-            <p class="mb-0">Universidad: {{ customer.university }}</p>
-            <p class="mb-0">Celular: {{ customer.cell }}</p>
-            <p class="mb-0">Correo: {{ customer.email }}</p>
-          </li>
-          <li><a class="dropdown-item"  href="javascript:void(0);">Stand By</a></li>
-          <li></li>
-          <li></li>
-        </ul>
-    </div> -->
 </template>
 <script>
 import moment from 'moment'
@@ -139,9 +118,23 @@ import moment from 'moment'
         props:{
             customer: Object,
             status: Number,
-            visible: Boolean
+            visible: Boolean,
+            index: Number
         },
         methods:{
+            removeColor(index){
+                document.getElementById('space'+index).classList.remove('space-show')
+            },
+            changeColor(index){
+                document.getElementById('space'+index).classList.add('space-show')
+            },
+            dropSpace(e, id){
+                var data = e.dataTransfer.getData("id_card")
+                console.log(data)
+                var draggableArea = document.getElementById('draggableArea'+this.status)
+                draggableArea.prepend(document.getElementById(data))
+                document.getElementById('space'+id).classList.remove('space-show')
+            },
             showModalUpdateCom(){
                 this.$emit('showModalUpdateCom', this.customer.comunication)
             },
@@ -217,6 +210,16 @@ import moment from 'moment'
     }
 </script>
 <style scoped>
+.space{
+    height: 10px;
+    border-radius: 5px;
+}
+.space-show{
+    background-color: #696cff;
+}
+.bg-hover{
+    background-color: #696cff;
+}
 .pt-10{
     margin-top: 100px;
 }

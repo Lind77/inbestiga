@@ -1,14 +1,11 @@
 <template>
    <div class="col">
     <h5 class="fw-600">{{ title }}</h5>
-        <div id="draggableArea" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent @dragover.prevent>
+        <div :id="'draggableArea'+status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent @dragover.prevent>
             <template v-for="(customer, index) in customers" :key="customer.id">
                     <template v-if="customer.status == status">
-                        <CardCustomer :customer="customer" @showModalUpdateCom="showModalUpdateCom"/>
+                        <CardCustomer :customer="customer" :status="status"  :index="index" @showModalUpdateCom="showModalUpdateCom"/>
                     </template>
-                    <div v-if="visible">
-                        <br>
-                    </div>
             </template>
         </div>
     </div>
@@ -44,13 +41,16 @@ import CardCustomer from '../prelead/CardCustomer.vue'
             },
             drop(e){
                 e.preventDefault()
-
+                
                 var quotation = e.dataTransfer.getData("quot")
                 var orders = e.dataTransfer.getData("order")
                 var data = e.dataTransfer.getData("id_card")
 
+                console.log(quotation, orders, data)
+
                 //Verification Quotation
                 if(this.status >= 4){
+                    console.log('verif')
                     if(quotation == 'null'){
                         this.$swal.fire('Este usuario no presenta una cotización')
                     }else if(this.status >= 6){
@@ -58,7 +58,7 @@ import CardCustomer from '../prelead/CardCustomer.vue'
                             // Verification Order
                             this.$swal.fire('Este usuario no presenta una orden de servicio')
                         }else{
-                            e.target.prepend(document.getElementById(data));
+                            e.target.prepend(document.getElementById(data))
                             e.target.classList.remove('bg-hover')
                             if(this.status != 7){
                                 this.updateStatus(data)
@@ -67,13 +67,21 @@ import CardCustomer from '../prelead/CardCustomer.vue'
                             }
                         }
                     }else{
-                        e.target.prepend(document.getElementById(data));
+                        console.log('verif <4')
+                        e.target.prepend(document.getElementById(data))
                         e.target.classList.remove('bg-hover')
                         if(this.status != 7){
                             this.updateStatus(data)
                         }else{
                             this.setProject(data)
                         }
+                    }
+                }else{
+                    e.target.prepend(document.getElementById(data))
+                    if(this.status != 7){
+                        this.updateStatus(data)
+                    }else{
+                        this.setProject(data)
                     }
                 }
             },
@@ -104,9 +112,6 @@ import CardCustomer from '../prelead/CardCustomer.vue'
     }
 </script>
 <style scoped>
-.bg-hover{
-    background-color: #696cff;
-}
 .pt-20{
     padding-top: 20%;
 }
