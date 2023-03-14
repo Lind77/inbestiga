@@ -31,15 +31,12 @@
       </div>
     </div>
   </div>
-
-  <CreateProject :customers="customers" @getAllProjects="getAllProjects" :teams="teams"/>
   <OffCanvas :project_selected="project_selected" @getAllProjects="getAllProjects"/>
   <QualityModal/>
 </template>
 
 <script>
     import {useCounterStore} from '../../../stores/UserStore'
-    import CreateProject from './CreateProject.vue'
     import CardProject from './CardProject.vue'
     import OffCanvas from './OffCanvas.vue'
     import QualityModal from './QualityModal.vue'
@@ -92,40 +89,40 @@
                 })
         },  
         getAllProjects(){
-                this.project_selected = {}
-                this.$swal({
-                  title: 'Cargando ...',
-                  showConfirmButton: false,
-                });
-                axios.get('/api/getAllProjects')
-                .then(res =>{
-                  this.projects = res.data
-                  
-                  this.projects.forEach(element =>{
-                    if(element.status == 0){
-                      element.textStatus = 'Sin primer contacto'
-                    }
-                    else if(element.status == 1){
-                      element.textStatus = 'En desarrollo'
-                    }else if(element.status == 2){
-                      element.textStatus = 'En revisión'
-                    }
-                  })
-                  this.$swal.close()
-                })
-                .catch(err =>{
-                  console.log(err.response.data)
-                })
+        this.project_selected = {}
+        this.$swal({
+          title: 'Cargando ...',
+          showConfirmButton: false,
+        });
+        axios.get('/api/getAllProjects')
+        .then(res =>{
+          this.projects = res.data
+          
+          this.projects.forEach(element =>{
+            if(element.status == 0){
+              element.textStatus = 'Sin primer contacto'
+            }
+            else if(element.status == 1){
+              element.textStatus = 'En desarrollo'
+            }else if(element.status == 2){
+              element.textStatus = 'En revisión'
+            }
+          })
+          this.$swal.close()
+        })
+        .catch(err =>{
+          console.log(err.response.data)
+        })
         },
         getAllProducts(){
-                axios.get('/api/getAllProducts')
-                .then(res =>{
-                  console.log(res)
-                  this.products = res.data
-                })
-                .catch(err =>{
-                  console.log(err.response.data)
-                })
+          axios.get('/api/getAllProducts')
+          .then(res =>{
+            console.log(res)
+            this.products = res.data
+          })
+          .catch(err =>{
+            console.log(err.response.data)
+          })
         },
         allowDrop(e){
           e.preventDefault()

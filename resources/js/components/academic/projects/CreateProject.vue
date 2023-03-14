@@ -137,15 +137,6 @@
                 .catch(err =>{
                     console.log(err.response.data)
                 })
-            },
-            getAllProducts(){
-                axios.get('https://jairpl.com/autoDeploy/public/api/getAllProducts')
-                .then(res => {
-                    this.products = res.data
-                })
-                .catch(err =>{
-                    console.log(err.response.data)
-                }) 
             }
         },
         mounted(){
