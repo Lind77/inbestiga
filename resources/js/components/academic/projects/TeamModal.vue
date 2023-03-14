@@ -78,7 +78,7 @@ export default {
 
         },
         getAllTeams(){
-            axios.get('https://jairpl.com/autoDeploy/public/api/getAllTeams')
+            axios.get('/api/getAllTeams')
             .then(res =>{
                 this.teams = res.data
             })
