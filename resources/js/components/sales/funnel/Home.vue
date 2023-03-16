@@ -2,11 +2,11 @@
   <div class="container-xxl flex-grow-1 container-p-y"> 
     <div class="row">
       <DatePicker @filterDate="filterDate" />
-      <draggableArea :customers="customers_filtered" @callModal="callModal" :title="'Lead'" :status="3"/>
-      <draggableArea :customers="customers_filtered" @callModal="callModal" :title="'Con Cotización'"  :status="4"/>
-      <draggableArea :customers="customers_filtered" @callModal="callModal" :title="'Altamente interesado'" :status="5"/>
-      <draggableArea :customers="customers_filtered" @callModal="callModal" :title="'Con Contrato'" :status="6"/>
-      <draggableArea :customers="customers_filtered" @callModal="callModal" :title="'Cliente'" :status="7"/>
+      <draggableArea :customers="leads" @callModal="callModal" :title="'Lead'" :status="3" @updateStatusSpace="updateStatusSpaces"/>
+      <draggableArea :customers="quotations" @callModal="callModal" :title="'Con Cotización'"  :status="4" @updateStatusSpace="updateStatusSpaces"/>
+      <draggableArea :customers="highs" @callModal="callModal" :title="'Altamente interesado'" :status="5" @updateStatusSpace="updateStatusSpaces"/>
+      <draggableArea :customers="orders" @callModal="callModal" :title="'Con Contrato'" :status="6" @updateStatusSpace="updateStatusSpaces"/>
+      <draggableArea :customers="customers" @callModal="callModal" :title="'Cliente'" :status="7" @updateStatusSpace="updateStatusSpaces"/>
     </div>
     <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
     <UpdateCom :comunication="comunication"/>
@@ -31,12 +31,68 @@ export default{
   data(){
     return{
       customers:[],
+      leads:[],
+      quotations:[],
+      highs:[],
+      orders:[],
+      totalLeads:[],
       customers_filtered:[],
       customer_selected:{},
       comunication:{}
     }
   },
   methods:{
+    updateStatusSpaces(leadId, status){
+
+      console.log(leadId)
+      
+      var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
+
+      var firstStatus = leadSelected.status
+
+      leadSelected.status = status
+
+      this.removeLead(firstStatus, leadId)
+      
+      this.addLead(leadSelected, status)
+      
+    },
+    removeLead(firstStatus, leadId){
+      console.log(firstStatus, leadId)
+      let arraysByStatus = {
+        3: this.leads,
+        4: this.quotations,
+        5: this.highs,
+        6: this.orders,
+        default: this.customers
+      }
+      let arraySelected = arraysByStatus[firstStatus]
+
+      let index = arraySelected.findIndex(el => el.id == leadId)
+      arraySelected.splice(index, 1)
+    },
+    addLead(lead, status){
+      let arraysByStatus = {
+        3: this.leads,
+        4: this.quotations,
+        5: this.highs,
+        6: this.orders,
+        default: this.customers
+      }
+      let array = arraysByStatus[status]
+
+      array = array.unshift(lead)
+      this.updateStatusSpace(lead.id, status)
+    },
+    updateStatusSpace(id, status){
+      axios.get(`/api/updateCustomerGrade/${id}/${status}`)
+      .then(res =>{
+          console.log(res.data)
+      })
+      .catch(err =>{
+          console.log(err)
+      })
+    },
     callModal(com){
       this.comunication = com
       $('#updateComModal').modal('show')
@@ -61,10 +117,26 @@ export default{
         allowOutsideClick: false,
         showConfirmButton: false
       })
-      axios.get('/api/getAllCustomers')
+      axios.get('/api/getAllLeads')
       .then(res =>{
-          this.customers = res.data
-          this.customers_filtered = this.customers
+          this.totalLeads = res.data
+
+          this.totalLeads.forEach(lead => {
+            if(lead.status == 3){
+              this.leads.push(lead)
+            }else if(lead.status == 4){
+              this.quotations.push(lead)
+            }else if(lead.status == 5){
+              this.highs.push(lead)
+            }else if(lead.status == 6){
+              this.orders.push(lead)
+            }else{
+              this.customers.push(lead)
+            }
+          });
+
+
+          this.customers_filtered = this.totalLeads
           this.$swal().close()
       })
       .catch(err =>{

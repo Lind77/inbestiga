@@ -2,7 +2,7 @@
    <div class="col">
     <h5 class="fw-600">{{ title }}</h5>
         <div :id="'draggableArea'+status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent @dragover.prevent>
-            <template v-for="(customer, index) in customers" :key="customer.id">
+            <template v-for="(customer, index) in customers" :key="index">
                     <template v-if="customer.status == status">
                         <CardCustomer :customer="customer" :status="status"  :index="index" @showModalUpdateCom="showModalUpdateCom" @updateStatusSpace="updateStatusSpace"/>
                     </template>
@@ -24,8 +24,13 @@ import CardCustomer from '../prelead/CardCustomer.vue'
         props:{
             title: String,
             bg: String,
-            customers: Array,
+            customers:Array,
             status: Number
+        },
+        watch:{
+            customers(){
+                console.log('ha cambiado el array de customers')
+            }
         },
         methods:{
             showModalUpdateCom(com){
@@ -46,7 +51,7 @@ import CardCustomer from '../prelead/CardCustomer.vue'
                 var orders = e.dataTransfer.getData("order")
                 var data = e.dataTransfer.getData("id_card")
 
-                console.log(quotation, orders, data)
+                console.log(quotation, orders, data)    
 
                 //Verification Quotation
                 if(this.status >= 4){
@@ -85,14 +90,17 @@ import CardCustomer from '../prelead/CardCustomer.vue'
                     }
                 }
             },
-            updateStatusSpace(id, status){
+            updateStatusSpace(leadId){
+                this.$emit('updateStatusSpace', leadId, this.status)
+                /* const index = this.customers.findIndex(c => c.id == id)
+                this.customers[index].status = status
                 axios.get(`/api/updateCustomerGrade/${id}/${status}`)
                 .then(res =>{
                     console.log(res.data)
                 })
                 .catch(err =>{
                     console.log(err)
-                })
+                }) */
             },
             updateStatus(id){
                 axios.get(`/api/updateCustomerGrade/${id}/${this.status}`)

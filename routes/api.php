@@ -55,6 +55,7 @@ Route::get('/deleteUser/{id}', [UserController::class, 'deleteUser']);
 Route::post('/assignTeamUser', [UserController::class, 'assignTeamUser']);
 Route::get('/getUserData/{id}', [UserController::class, 'getUserData']);
 
+
 Route::get('/getAllProducts',[ProductController::class, 'index']);
 Route::post('/insertProduct',[ProductController::class, 'store']);
 Route::post('/assignProduct', [ProductController::class, 'assignProduct']);
@@ -105,6 +106,8 @@ Route::get('/standByCustomer/{id}', [CustomerController::class,'standByCustomer'
 Route::get('/getAllStandByCustomers', [CustomerController::class, 'getAllStandByCustomers']);
 Route::get('/reactivateCustomer/{id}', [CustomerController::class, 'reactivateCustomer']);
 Route::post('/updateDniCustomer', [CustomerController::class, 'updateDniCustomer']);
+Route::get('/getAllPreleads', [CustomerController::class, 'getAllPreleads']);
+Route::get('/getAllLeads', [CustomerController::class, 'getAllLeads']);
 
 Route::get('/getAllMessages', [ChatController::class, 'index']);
 Route::get('/getAllMessagesById/{id}', [ChatController::class, 'getAllMessagesById'])->middleware('auth:sanctum');

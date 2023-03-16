@@ -1,11 +1,11 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
       <div class="row">
-            <draggableArea :customers="customers" :title="'Atendido'" :status="1" @callModal="callModal"/>
-            <draggableArea :customers="customers" :title="'Comunicación Establecida'" :status="2" @callModal="callModal"/>
+            <draggableArea :customers="attended" :title="'Atendido'" :status="1" @callModal="callModal" @updateStatusSpace="updateStatusSpace"/>
+            <draggableArea :customers="comunications" :title="'Comunicación Establecida'" :status="2" @callModal="callModal" @updateStatusSpace="updateStatusSpace"/>
           </div>
-      <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
-      <UpdateCom :comunication="comunication"/>  
+      <ProductModal :customer="customerSelected" @getAllCustomers="getAllCustomers"/>
+      <!-- <UpdateCom :comunication="comunication"/>   -->
     </div>
 </template>
 <script>
@@ -19,35 +19,64 @@ export default {
     components: {CardCustomer, ProductModal, draggableArea, UpdateCom},
     data(){
         return{
-        customers:[],
-        status: 0,
-        customer_selected:{},
-        comunication: {}
+          customers:[],
+          attended:[],
+          comunications:[],
+          status: 0,
+          customerSelected: null,
+          comunication: null
         }
     },
     methods:{
+        updateStatusSpace(customer_id, status){
+          var customerSelected = this.customers.find(customer => customer.id == customer_id)
+          customerSelected.status = status
+          if(status == 1){
+            let index = this.comunications.findIndex(comunication => comunication.id == customerSelected.id)
+            this.comunications.splice(index, 1)
+            this.attended.unshift({...customerSelected})
+            this.updateStatus(customer_id, status)
+          }else{
+            let index = this.attended.findIndex(el => el.id == customerSelected.id)
+            this.attended.splice(index, 1)
+            this.comunications.unshift({...customerSelected})
+            this.updateStatus(customer_id, status)
+          }
+            /* if(customerSelected.status == 2){
+              this.attended.push(customerSelected)
+            }else{
+              this.comunications.push(customerSelected)
+            } */
+        },
         callModal(com){
           this.comunication = com
           $('#updateComModal').modal('show')
         },
         getAllCustomers(){
-        this.$swal({
-        title: 'Cargando ...',
-        allowOutsideClick: false,
-        showConfirmButton: false
-        })
-        axios.get('/api/getAllCustomers')
-        .then(res =>{
-            this.customers = res.data
-            this.$swal().close()
-        })
-        .catch(err =>{
-            console.log(err.response.data)
-        })
+          this.$swal({
+          title: 'Cargando ...',
+          allowOutsideClick: false,
+          showConfirmButton: false
+          })
+            axios.get('/api/getAllPreleads')
+            .then(res =>{
+                this.customers = res.data
+                this.customers.forEach(customer =>{
+                  if(customer.status == 1){
+                    this.attended.push(customer)
+                  }else{
+                    this.comunications.push(customer)
+                  }
+                })
+                this.$swal().close()
+            })
+            .catch(err =>{
+                console.log(err)
+            })
         },
         selectCustomer(customer){
-        console.log('customer selected')
-        this.customer_selected = customer
+          console.log('customer selected')
+          this.customerSelected = customer
         },
         drop(e){
           e.preventDefault()
@@ -56,6 +85,15 @@ export default {
         },
         allowDrop(e){
           e.preventDefault()
+        },
+        updateStatus(id, status){
+          axios.get(`/api/updateCustomerGrade/${id}/${status}`)
+          .then(res =>{
+              console.log(res.data)
+          })
+          .catch(err =>{
+              console.log(err)
+          })
         }
     },
     mounted(){

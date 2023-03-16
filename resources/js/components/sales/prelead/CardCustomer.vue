@@ -1,7 +1,7 @@
 <template>
     <div class="cardSpace" draggable="true" @dragover.prevent @drop.stop.prevent @dragstart="drag" :id="`${customer.id}`">
         <div class="card bg-light p-2 cursor-pointer">
-        <h6 class="mb-0">{{ customer.name || customer.cell }}</h6>
+        <h6 class="mb-0">{{ customer.name || customer.cell }} {{ statusCard }}</h6>
         <div class="demo-inline-spacing">
             <div class="btn-group">
                 <button type="button" class="btn btn-primary btn-sm btn-icon rounded-pill dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
@@ -74,8 +74,6 @@
                                 </template>
                             </template>
                         </template>
-                        
-                       
                     </li>
                 </ul>
             </div>
@@ -85,19 +83,19 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" style="">
                 <li>
-                    <a class="dropdown-item" v-if="customer.status == 2" @click="convertLead(customer.id)" href="javascript:void(0);">Convertir en Lead</a>
+                    <a class="dropdown-item" v-if="statusCard == 2" @click="convertLead(customer.id)" href="javascript:void(0);">Convertir en Lead</a>
                 </li>   
                 <li>
-                    <router-link class="dropdown-item" v-if="customer.status == 3" :to="{name:'home-quotation', params:{ idUser: customer.id }}">Generar Cotización</router-link>
+                    <router-link class="dropdown-item" v-if="statusCard == 3" :to="{name:'home-quotation', params:{ idUser: customer.id }}">Generar Cotización</router-link>
                 </li>
                 <li>
-                    <router-link class="dropdown-item" v-if="customer.status == 5" :to="{name:'home-orders', params:{ idUser: customer.id }}">Generar Orden</router-link>
+                    <router-link class="dropdown-item" v-if="statusCard == 5" :to="{name:'home-orders', params:{ idUser: customer.id }}">Generar Orden</router-link>
                 </li>
                 <li><a class="dropdown-item" @click="customerStandBy(customer.id)" href="javascript:void(0);">Stand By</a></li>
                 </ul>
         </div>
         </div>
-        <div class="space" :id="'space'+index" @dragover="changeColor(index)" @dragleave="removeColor(index)" @drop="dropSpace($event, index)">
+        <div class="space" :id="'space'+customer.id" @dragover="changeColor(customer.id)" @dragleave="removeColor(customer.id)" @drop="dropSpace($event, customer.id)">
         </div>
     </div>
 </template>
@@ -112,7 +110,8 @@ import moment from 'moment'
                     1: 'Llamar',
                     2: 'Escribir',
                     3: 'Meet'
-                }
+                },
+                statusCard: 0
             } 
         },
         props:{
@@ -128,13 +127,10 @@ import moment from 'moment'
             changeColor(index){
                 document.getElementById('space'+index).classList.add('space-show')
             },
-            dropSpace(e, id){
-                var data = e.dataTransfer.getData("id_card")
-                var draggableArea = e.target.parentNode.parentNode
-                var lastCharacter = draggableArea.id.substring(draggableArea.id.length-1)
-                this.$emit('updateStatusSpace', data, lastCharacter)
-                draggableArea.prepend(document.getElementById(data))
-                document.getElementById('space'+id).classList.remove('space-show')
+            dropSpace(e, index){
+                var leadId = e.dataTransfer.getData('leadId')
+                this.$emit('updateStatusSpace', leadId)
+                document.getElementById('space'+index).classList.remove('space-show')
             },
             showModalUpdateCom(){
                 this.$emit('showModalUpdateCom', this.customer.comunication)
@@ -160,7 +156,7 @@ import moment from 'moment'
                 return
             },
             drag(e){
-                e.dataTransfer.setData('id_card', this.customer.id)
+                e.dataTransfer.setData('leadId', this.customer.id)
                 if(this.customer.quotations.length != 0){
                     e.dataTransfer.setData('quot', this.customer.quotations[0].id)
                     if(this.customer.quotations[0].orders.length != 0){
@@ -207,6 +203,9 @@ import moment from 'moment'
                     return 'success'
                 }
             }
+        },
+        mounted(){
+            this.statusCard = this.customer.status
         }
     }
 </script>

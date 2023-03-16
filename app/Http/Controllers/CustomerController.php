@@ -169,4 +169,14 @@ class CustomerController extends Controller
 
         return response()->json($customer);
     }
+    
+    public function getAllPreleads(){
+        $customers = Customer::where('status','<=', 2)->with(['project','project.product', 'comunication','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
+        return response()->json($customers);
+    }
+
+    public function getAllLeads(){
+        $customers = Customer::where('status','>', 2)->with(['project','project.product', 'comunication','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
+        return response()->json($customers);
+    }
 }
