@@ -191,8 +191,8 @@ export default {
             font-family: 'Montserrat', sans-serif !important;
         }
         .page{
-            width: 620px;
-            height: 877px;
+            width: 1200px;
+            
             background-color: #fff;
         }
         .bg-purple{
@@ -200,12 +200,12 @@ export default {
             border-radius: 0px 0px 10px 10px;
         }
         .main-logo{
-            width: 170px;
+            width: 270px;
         }
         .header-text{
             font-family: 'Montserrat', sans-serif !important;
             font-weight: 700;
-            font-size: 10px;
+            font-size: 15px;
             color: #fff;
             margin: 0px;
         }
@@ -213,7 +213,7 @@ export default {
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             color: #6E26F7;
-            font-size: 14px;
+            font-size: 18px;
             text-align: left;
             margin-bottom: 0;
             margin-top: 2px;
@@ -225,12 +225,13 @@ export default {
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             color: #6E26F7;
-            font-size: 12px;
+            font-size: 15px;
             margin-bottom: 0;
             margin-top: 2px;
         }
         .name{
             font-weight: 900;
+            font-size: 19px;
         }
         th span{
             font-family: 'Montserrat', sans-serif;
@@ -246,7 +247,7 @@ export default {
             /* border: 1px solid #000; */
         }
         .customer-data{
-           font-size: 12px;
+           font-size: 16px;
         }
         .customer-data tr, th{
            /*  border: 1px solid #000; */
@@ -255,19 +256,19 @@ export default {
         .info-doc{
             font-weight: 700;
             color: #000;
-            font-size: 12px;
+            font-size: 16px;
             padding-left: 40px;
         }
         .info-doc-p{
             margin: 0px !important;
         }
         .sub-header{
-            margin-top: 10px;
+            margin-top: 15px;
             font-weight: 700;
         }
         .text-purple{
             color: #6E26F7;
-            font-size: 12px;
+            font-size: 20px;
         }
         .main-table{
             width: 100%;
@@ -279,7 +280,7 @@ export default {
         .table-item{
             font-weight: 400;
             border: 1px solid #6E26F7;
-            font-size: 12px;
+            font-size: 20px;
         }
         .sugested{
             font-weight: 900;
@@ -298,9 +299,9 @@ export default {
             
         }
         .watermark{
-            margin-top: -160%;
-            margin-left: 25%;
-            width: 50%;
+            margin-top: -90%;
+            margin-left: 33%;
+            width: 33%;
             z-index: -1;
         }
         footer{
