@@ -193,7 +193,6 @@ export default {
         .page{
             width: 620px;
             height: 877px;
-            border: 1px solid #000;
             background-color: #fff;
         }
         .bg-purple{

@@ -1,7 +1,7 @@
 <template>
     <div class="cardSpace" draggable="true" @dragover.prevent @drop.stop.prevent @dragstart="drag" :id="`${customer.id}`">
         <div class="card bg-light p-2 cursor-pointer">
-        <h6 class="mb-0">{{ customer.name || customer.cell }} {{ statusCard }}</h6>
+        <h6 class="mb-0">{{ customer.name || customer.cell }}</h6>
         <div class="demo-inline-spacing">
             <div class="btn-group">
                 <button type="button" class="btn btn-primary btn-sm btn-icon rounded-pill dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
