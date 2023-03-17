@@ -95,7 +95,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::find($id);
+        $project = Project::with(['order', 'order.quotation'])->find($id);
 
         $quotation = $project->order->quotation;
 

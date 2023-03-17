@@ -101,6 +101,8 @@ import customerModal from './customerModal.vue'
           this.customers = res.data
           var i = 0
           var cant = 10
+          this.customersPag = []
+          this.customersChunked = []
           this.customers.forEach(customer => {
             if(this.customers.slice(i, i+cant).length > 0){
               this.customersChunked.push(this.customers.slice(i, i+cant))
@@ -108,7 +110,6 @@ import customerModal from './customerModal.vue'
             
             i = i+cant
           })
-         
           this.customersPag  = this.customersChunked[0]
         })
       }
