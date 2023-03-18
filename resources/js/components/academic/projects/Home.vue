@@ -18,7 +18,7 @@
         <div class="container-cards" v-for="project in projects">
           <div v-if="project.status == 1">
             <CardProject :project="project" @getAllProjects="getAllProjects"/>
-        </div>
+          </div>
         </div>
       </div>
       <div class="col-md-4" id="qualityArea" @drop="drop" @dragover="allowDrop">
@@ -26,7 +26,7 @@
         <div class="container-cards" v-for="project in projects">
           <div v-if="project.status == 2">
             <CardProject :project="project" @getAllProjects="getAllProjects"/>
-        </div>
+          </div>
         </div>
       </div>
     </div>

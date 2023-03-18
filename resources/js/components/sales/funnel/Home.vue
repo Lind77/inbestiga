@@ -43,19 +43,39 @@ export default{
   },
   methods:{
     updateStatusSpaces(leadId, status){
-
       console.log(leadId)
-      
       var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
 
-      var firstStatus = leadSelected.status
+      if(this.verifyChange(leadSelected, status)){
+        var firstStatus = leadSelected.status
+        leadSelected.status = status
+        this.removeLead(firstStatus, leadId)
+        this.addLead(leadSelected, status)
+      }
 
-      leadSelected.status = status
-
-      this.removeLead(firstStatus, leadId)
-      
-      this.addLead(leadSelected, status)
-      
+    },
+    verifyChange(customer, status){
+      console.log('verify',customer.quotations.length != 0)
+        if(status == 4 || status == 5){
+          if(customer.quotations.length != 0){
+            return true
+          }else{
+            this.$swal.fire('Este usuario no cuenta con una cotización')
+          }
+        }
+        if(status == 6 || status == 7 ){
+          var i = 0
+          customer.quotations.forEach((quot)=>{
+            quot.orders.forEach((order)=>{
+              i++
+            })            
+          })
+          if(i > 0){
+            return true
+          }else{
+            this.$swal.fire('Este usuario no cuenta con una orden de contrato')
+          }
+        }
     },
     removeLead(firstStatus, leadId){
       console.log(firstStatus, leadId)
@@ -64,7 +84,7 @@ export default{
         4: this.quotations,
         5: this.highs,
         6: this.orders,
-        default: this.customers
+        7: this.customers
       }
       let arraySelected = arraysByStatus[firstStatus]
 
@@ -77,12 +97,15 @@ export default{
         4: this.quotations,
         5: this.highs,
         6: this.orders,
-        default: this.customers
+        7: this.customers
       }
       let array = arraysByStatus[status]
 
       array = array.unshift(lead)
       this.updateStatusSpace(lead.id, status)
+      if(status == 7){
+        this.setProject(lead.id)
+      }
     },
     updateStatusSpace(id, status){
       axios.get(`/api/updateCustomerGrade/${id}/${status}`)
@@ -91,6 +114,20 @@ export default{
       })
       .catch(err =>{
           console.log(err)
+      })
+    },
+    setProject(id){
+      console.log(id)
+
+      const fd = new FormData()
+      fd.append('id_customer', id)
+      fd.append('emisor_id', this.store.authUser[0].id)
+      axios.post(`/api/setProject`, fd)
+      .then(res =>{
+          console.log(res)
+      })
+      .catch(err =>{
+          this.$swal(err.response.data.msg)
       })
     },
     callModal(com){
@@ -161,7 +198,6 @@ export default{
     updateStatus(id, status){
       axios.get(`/api/updateCustomerGrade/${id}/${status}`)
       .then(res =>{
-          this.getAllCustomers()
           console.log(res.data)
       })
       .catch(err =>{
@@ -174,10 +210,9 @@ export default{
       const fd = new FormData()
       fd.append('id_customer', id)
       fd.append('emisor_id', this.store.authUser[0].id)
-      axios.post(`/api/setProject`, fd)
+      axios.post('/api/setProject', fd)
       .then(res =>{
         console.log(res)
-        this.getAllCustomers()
       })
       .catch(err =>{
         this.$swal(err.response.data.msg)

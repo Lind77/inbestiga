@@ -30,7 +30,7 @@
                     </tr>
                     <tr>
                         <th><h2 class="info-user">Importe: </h2></th>
-                        <th><span> S./{{ order.quotation.amount }}</span></th>
+                        <th><span> S./{{ totalPrice }}</span></th>
                     </tr>
                 </thead>
             </table>
@@ -122,7 +122,7 @@
                 </tr>
                 <tr class="sugested-title">
                     <th class="text-purple sugested py-3 ps-2">TOTAL</th>
-                    <th class="text-purple sugested py-3" style="text-align: center;">S/ {{totalPrice}}</th>
+                    <th class="text-purple sugested py-3" style="text-align: center;">S/ {{totalPrice }}</th>
                     <th  class="text-danger sugested py-3 ps-1">* DESCUENTO S./{{order.quotation.discount}}</th>
                 </tr>
             </tbody>
@@ -322,7 +322,7 @@ export default {
         }
         .watermark{
             position: absolute;
-            top: 38%;
+            top: 20%;
             left: 10%;
             width: 80%;
             z-index: -1;

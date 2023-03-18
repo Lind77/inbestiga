@@ -187,9 +187,11 @@ class ProjectController extends Controller
 
         $customer = Customer::find($request->get('id_customer'));
 
-        $lastQuotation = Quotation::where('customer_id', $customer->id)->orderBy('id', 'desc')->with('order')->first();
+        $quotations = Quotation::where('customer_id', $customer->id)->with('orders')->orderBy('id', 'desc')->get();
 
-        $lastOrder = $lastQuotation->order->first();
+        $lastQuotation = $quotations->first();
+
+        $lastOrder = $lastQuotation->orders->first();
         
         if($lastOrder){
 

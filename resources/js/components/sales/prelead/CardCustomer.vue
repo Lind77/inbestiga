@@ -59,8 +59,8 @@
                     </li>
                 </ul>
             </div>
-
-            <div class="btn-group" v-if="customer.quotations.length != 0 && customer.quotations[0].orders[0]">
+            {{ verifyOrders }}
+            <div class="btn-group" v-if="customer.quotations.length != 0 && orders[0]">
                 <button type="button" class="btn btn-primary btn-sm btn-icon rounded-pill dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class='bx bx-copy-alt'></i>
                 </button>
@@ -111,7 +111,8 @@ import moment from 'moment'
                     2: 'Escribir',
                     3: 'Meet'
                 },
-                statusCard: 0
+                statusCard: 0,
+                orders:[]
             } 
         },
         props:{
@@ -159,8 +160,8 @@ import moment from 'moment'
                 e.dataTransfer.setData('leadId', this.customer.id)
                 if(this.customer.quotations.length != 0){
                     e.dataTransfer.setData('quot', this.customer.quotations[0].id)
-                    if(this.customer.quotations[0].orders.length != 0){
-                        e.dataTransfer.setData('order', this.customer.quotations[0].orders[0].id)
+                    if(this.orders != 0){
+                        e.dataTransfer.setData('order', this.orders[0].id)
                     }else{
                         e.dataTransfer.setData('order', null)
                     }
@@ -202,6 +203,9 @@ import moment from 'moment'
                 }else if (this.customer.status >= 3){
                     return 'success'
                 }
+            },
+            verifyOrders(){
+                
             }
         },
         mounted(){

@@ -62,6 +62,10 @@ class OrderController extends Controller
 
         $quotation = Quotation::find($request->get('quotation_id'));
 
+        $quotation->update([
+            'discount' => $request->get('discount')
+        ]);
+
         $customer = Customer::find($quotation->customer_id);
 
         $customer->update([

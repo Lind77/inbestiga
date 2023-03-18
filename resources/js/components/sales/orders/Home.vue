@@ -282,6 +282,7 @@
             fd.append('observations', this.observations)
             fd.append('suggested', this.detail_type)
             fd.append('payments', JSON.stringify(this.payments))
+            fd.append('discount', this.discount)
     
             axios.post('/api/insertOrder',fd)
             .then(res =>{

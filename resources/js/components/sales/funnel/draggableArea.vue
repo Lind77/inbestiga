@@ -48,47 +48,11 @@ import CardCustomer from '../prelead/CardCustomer.vue'
                 e.preventDefault()
                 
                 var quotation = e.dataTransfer.getData("quot")
-                var orders = e.dataTransfer.getData("order")
-                var data = e.dataTransfer.getData("id_card")
+                var order = e.dataTransfer.getData("order")
+                var data = e.dataTransfer.getData("leadId")
 
-                console.log(quotation, orders, data)    
-
-                //Verification Quotation
-                if(this.status >= 4){
-                    console.log('verif')
-                    if(quotation == 'null'){
-                        this.$swal.fire('Este usuario no presenta una cotización')
-                    }else if(this.status >= 6){
-                        if(orders == 'null'){
-                            // Verification Order
-                            this.$swal.fire('Este usuario no presenta una orden de servicio')
-                        }else{
-                            e.target.prepend(document.getElementById(data))
-                            e.target.classList.remove('bg-hover')
-                            if(this.status != 7){
-                                this.updateStatus(data)
-                            }else{
-                                this.setProject(data)
-                            }
-                        }
-                    }else{
-                        console.log('verif <4')
-                        e.target.prepend(document.getElementById(data))
-                        e.target.classList.remove('bg-hover')
-                        if(this.status != 7){
-                            this.updateStatus(data)
-                        }else{
-                            this.setProject(data)
-                        }
-                    }
-                }else{
-                    e.target.prepend(document.getElementById(data))
-                    if(this.status != 7){
-                        this.updateStatus(data)
-                    }else{
-                        this.setProject(data)
-                    }
-                }
+                console.log('dragarea', data)    
+                this.$emit('updateStatusSpace', data, this.status)
             },
             updateStatusSpace(leadId){
                 this.$emit('updateStatusSpace', leadId, this.status)
