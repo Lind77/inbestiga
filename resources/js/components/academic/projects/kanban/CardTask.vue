@@ -1,19 +1,27 @@
 <template>
-    <div class="card bg-light p-2 mt-2 w-100 text-secondary cursor-pointer" draggable="true" @dragstart="drag" :id="`task${taskSelected.id}`">
-        <div class="d-flex justify-content-between flex-wrap align-items-center mb-2 pb-1">
-            <div class="item-badges" v-if="taskSelected.fixed_task.fixed_activity">
-                <div class="badge rounded-pill bg-label-success" :title="taskSelected.fixed_task.fixed_activity.product.title"> {{ taskSelected.fixed_task.fixed_activity.product.title.substring(0,15) }}</div>
-                <div class="badge rounded-pill bg-label-primary ms-1" :title="taskSelected.fixed_task.fixed_activity.title "> {{ taskSelected.fixed_task.fixed_activity.title.substring(0,15) }}</div>
-            </div>
-        </div>
-            {{ taskSelected.title }}
-        <div v-if="taskSelected.progress && showCronometer== true && taskSelected.status == 1">
-            <p class="mb-0">{{ taskSelected.progress.owner }} - {{ formattedDate }}  {{ taskSelected.progress.owner== this.store.authUser[0].name? cronometer : '' }}</p>
-        </div>
-        <div v-else-if="taskSelected.status == 2">
-            <p>{{ taskSelected.progress.owner }} - {{ formattedDate }} - {{ calcStopwatch }}</p>
+    <div class="card card-action mb-4 cursor-pointer" draggable="true" @dragstart="drag" :id="`task${taskSelected.id}`">
+    <div class="card-header">
+        <div class="card-action-title h5 fw-bold">{{ taskSelected.title }}</div>
+        <div class="card-action-element">
+        <ul class="list-inline mb-0">
+            <li class="list-inline-item">
+            <a class="card-collapsible" data-bs-toggle="collapse" :href="`#collapseExample${taskSelected.id}`" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="tf-icons bx bx-chevron-up"></i></a>
+            </li>
+        </ul>
         </div>
     </div>
+    <div class="collapse" :id="`collapseExample${taskSelected.id}`">
+        <div class="card-body pt-0">
+            <p class="card-text">
+                <div class="item-badges" v-if="taskSelected.fixed_task.fixed_activity">
+                    <p class="h5">Actividad padre: {{ taskSelected.fixed_task.fixed_activity.title }}</p>
+                    <p class="h6">Producto: {{ taskSelected.fixed_task.fixed_activity.product.title }}</p>
+                </div>  
+            </p>
+        </div>
+    </div>
+    </div>
+    
 </template>
 <script>
 import moment from 'moment'

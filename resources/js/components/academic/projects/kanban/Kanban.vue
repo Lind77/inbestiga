@@ -1,6 +1,6 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3">Kanban - {{ project.title }} - {{ secondsFormatted }}</h4>
+        <h4 class="fw-bold py-3">Kanban - {{ project.title }} - Tiempo estimado: {{ secondsFormatted }}</h4>
         <div class="row mb-3">
           <div class="col-6">
             <div class="card px-2 py-2">
@@ -22,42 +22,9 @@
         </div>
         
         <div class="row">
-          <div class="col-md-4 pb-3" id="todoArea" @drop="drop" @dragover="allowDrop">
-            <div class="kanban-header fw-bold">
-              <h4>To Do</h4>
-            </div>
-            <div class="container-cards">
-              <div v-for="task in tasks">
-                <div v-if="task.status == 0">
-                  <CardTask :task="task"/>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 pb-3" id="doingArea" @drop="drop" @dragover="allowDrop">
-            <div class="kanban-header fw-bold">
-              <h4>Doing</h4>
-            </div>
-            <div class="container-cards">
-              <div v-for="task in tasks">
-                <div v-if="task.status == 1">
-                  <CardTask :task="task"/>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 pb-3" id="doneArea" @drop="drop" @dragover="allowDrop">
-            <div class="kanban-header fw-bold">
-              <h4>Done</h4>
-            </div>
-            <div class="container-cards">
-              <div v-for="task in tasks">
-                <div v-if="task.status == 2">
-                  <CardTask :task="task"/>
-                </div>
-              </div>
-            </div>
-          </div>
+          <dragArea :title="'To Do'" :tasks="toDo" :status="0"/>
+          <dragArea :title="'Doing'" :tasks="toDo" :status="1"/>
+          <dragArea :title="'Done'" :tasks="toDo" :status="2"/>
         </div>
     </div>
 </template>
@@ -65,10 +32,11 @@
 import moment from 'moment'
 import CardActivity from './CardActivity.vue'
 import CardTask from './CardTask.vue'
+import dragArea from './DragArea.vue'
 import {useCounterStore} from '../../../../stores/UserStore'
 
 export default {
-    components: { CardActivity, CardTask },
+    components: { CardActivity, CardTask, dragArea },
     setup(){
       const store = useCounterStore()
       return{
@@ -79,6 +47,7 @@ export default {
         return{
             project: [],
             activities: [],
+            toDo:[],
             tasks:[],
             localTime: " ",
             seconds: " ",
@@ -99,6 +68,10 @@ export default {
           this.percentAcad = this.percentAcad + (80/this.tasks.length)*nroTasksDone
         },
         getProjectById(){
+            this.$swal({
+              title: 'Cargando ...',
+              showConfirmButton: false,
+            });
             axios.get(`/api/getProjectById/${this.$route.params.idProject}`)
             .then(res =>{
                 this.tasks = []
@@ -108,15 +81,19 @@ export default {
                 var nroTasksDone = 0
                 this.activities.forEach((activity) =>{
                   activity.tasks.forEach((task) =>{
-                    this.tasks.push(task)
+                    if(task.status == 0){
+                      this.toDo.push(task)
+                    }
+                    /* this.tasks.push(task)
                       if(task.status == 2){
                         nroTasksDone = nroTasksDone + 1
-                      }
+                      } */
                   })
                 })
                 if(this.percentAcad == 0){
                   this.addPercent()
                 }
+                this.$swal().close()
             })
         },
         allowDrop(e){
@@ -206,6 +183,9 @@ export default {
         }else{
             return this.totalTime+'s'
         }
+      },
+      percentAcad(){
+        return 0
       }
     }
 }
