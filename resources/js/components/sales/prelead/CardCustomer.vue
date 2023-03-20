@@ -59,8 +59,7 @@
                     </li>
                 </ul>
             </div>
-            {{ verifyOrders }}
-            <div class="btn-group" v-if="customer.quotations.length != 0 && orders[0]">
+            <div class="btn-group" v-if="verifyOrders">
                 <button type="button" class="btn btn-primary btn-sm btn-icon rounded-pill dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class='bx bx-copy-alt'></i>
                 </button>
@@ -118,8 +117,7 @@ import moment from 'moment'
         props:{
             customer: Object,
             status: Number,
-            visible: Boolean,
-            index: Number
+            visible: Boolean
         },
         methods:{
             removeColor(index){
@@ -205,7 +203,9 @@ import moment from 'moment'
                 }
             },
             verifyOrders(){
-                
+                return this.customer.quotations.some(quotation => {
+                    return quotation.orders?.length > 0
+                })
             }
         },
         mounted(){

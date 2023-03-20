@@ -56,7 +56,7 @@ export default{
     },
     verifyChange(customer, status){
       console.log('verify',customer.quotations.length != 0)
-        if(status == 4 || status == 5){
+        if(status < 6){
           if(customer.quotations.length != 0){
             return true
           }else{

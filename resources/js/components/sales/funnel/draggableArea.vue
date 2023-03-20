@@ -4,7 +4,7 @@
         <div :id="'draggableArea'+status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent @dragover.prevent>
             <template v-for="(customer, index) in customers" :key="index">
                     <template v-if="customer.status == status">
-                        <CardCustomer :customer="customer" :status="status"  :index="index" @showModalUpdateCom="showModalUpdateCom" @updateStatusSpace="updateStatusSpace"/>
+                        <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom" @updateStatusSpace="updateStatusSpace"/>
                     </template>
             </template>
         </div>
