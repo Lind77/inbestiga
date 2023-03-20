@@ -6,6 +6,7 @@
                 <img src="https://inbestiga.com/pdf-sys/e-card.png" class="resource w-75">
                 <p class="code w-50">B{{this.month}}{{ this.year }} - 000{{ this.$route.params.id }}</p>
             </div>
+            <div class="name">{{ user? user.name : '' }}</div>
             <div class="footer">
                 <div class="info-footer">
                     <p>Atención al Cliente</p>
@@ -21,16 +22,21 @@ import moment from "moment"
 export default {
     data(){
        return{
+            user: null,
             year: moment(new Date()).format('YY'),
             month: moment(new Date()).format('MM')
        }
     },
     methods:{
-        print(){
+        getUser(){
+            axios.get('/api/getCustomer/'+this.$route.params.id)
+            .then((res)=>{
+                this.user = res.data
+            })
         }
     },
     mounted(){
-        this.print()
+        this.getUser()
     }
 }
 </script>
@@ -67,6 +73,14 @@ export default {
     .resource{
         width: 550px;
         margin-bottom: 0px;
+    }
+    .name{
+        color: #fff;
+        font-size: 50px;
+        font-style: italic;
+        text-transform: uppercase;
+        letter-spacing: 9px;
+        margin-left: 10px;
     }
     .code{
         font-size: 40px;

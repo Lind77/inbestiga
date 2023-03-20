@@ -30,7 +30,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::with(['customer','activities','activities.progress', 'activities.fixed_activity', 'activities.fixed_activity.product', 'activities.tasks', 'activities.tasks.progress','team', 'product'])->get();
+        $projects = Project::orderBy('updated_at')->with(['customer','activities','activities.progress', 'activities.fixed_activity', 'activities.fixed_activity.product', 'activities.tasks', 'activities.tasks.progress','team', 'product'])->get();
     
         return $projects;
     }
@@ -104,12 +104,25 @@ class ProjectController extends Controller
         $total_mintime = 0;
         $total_maxtime = 0;
 
+       
+
         foreach($projectDetails as $detail){
-            $price = Price::where('product_id', $detail->product_id)->where('price', $detail->price)->first();
-            $time = Time::where('product_id', $detail->product_id)->where('level', $price->level)->first();
-            $total_mintime = $total_mintime + $time->min_time;
-            $total_maxtime = $total_mintime + $time->max_time;
+            if($detail->product_id == 34){
+                $times = Time::where('product_id', '<', 34)->get();
+                foreach($times as $time){
+                    $total_mintime = $total_mintime + $time->min_time;
+                    $total_maxtime = $total_mintime + $time->max_time;
+                }
+            }else{
+                $price = Price::where('product_id', $detail->product_id)->where('price', $detail->price)->first();
+                $time = Time::where('product_id', $detail->product_id)->where('level', $price->level)->get();
+                    $total_mintime = $total_mintime + $time->min_time;
+                    $total_maxtime = $total_mintime + $time->max_time;
+            }
+           
         }
+
+        
 
         $total_time = $total_maxtime + $total_mintime/2;
 
@@ -241,8 +254,48 @@ class ProjectController extends Controller
 
        $details = $lastQuotation->details;
 
+       //Prodcutos de la tesis
+       $thesisProducts = Product::where('id','<',34)->where('id','!=', 1)->with('fixedActivities')->get();
+
        foreach($details as $detail){
+            if($detail->product_id == 34){
+                foreach($thesisProducts as $thesisProduct){
+                    foreach($thesisProduct->fixedActivities as $fixedActivity){
+                        $activity = Activity::create([
+                            'project_id' => $project->id,
+                            'title' => $fixedActivity->title,
+                            'type' => 1,
+                            'fixed_activity_id' => $fixedActivity->id
+                        ]);
             
+                        $progressDefaultActivity = Progress::create([
+                            'progressable_id' => $activity->id,
+                            'progressable_type' => 'App\Models\Activity',
+                            'percentage' => 0.0,
+                            'comment' => 'Sin comentarios'
+                        ]);
+    
+                            foreach($fixedActivity->fixedTasks as $fixedTask){
+                                $task = Task::create([
+                                    'activity_id' => $activity->id,
+                                    'type' => 0,
+                                    'title' => $fixedTask->title,
+                                    'status' => 0,
+                                    'fixed_task_id' => $fixedTask->id
+                                ]);
+                
+                                $progressTask = Progress::create([
+                                    'progressable_id' => $task->id,
+                                    'progressable_type' => 'App\Models\Task',
+                                    'percentage' => 0.0,
+                                    'comment' => 'Sin comentarios'
+                                ]);
+                            }
+                    }
+                }
+                
+            }
+
             foreach($detail->product->fixedActivities as $fixedActivity){
                 $activity = Activity::create([
                     'project_id' => $project->id,
@@ -274,9 +327,6 @@ class ProjectController extends Controller
                         'comment' => 'Sin comentarios'
                     ]);
                 }
-
-                
-                
             }
         }
        

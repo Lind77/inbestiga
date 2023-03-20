@@ -99,6 +99,7 @@ Route::get('/getAllTeams', [TeamController::class,'index']);
 Route::post('/assignTeam', [TeamController::class, 'assignTeam']);
 
 Route::get('/getAllCustomers', [CustomerController::class, 'index']);
+Route::get('/getCustomer/{id}', [CustomerController::class, 'show']);
 Route::post('/insertCustomer', [CustomerController::class, 'insertCustomer']);
 Route::get('/updateCustomerGrade/{id}/{status}', [CustomerController::class,'updateCustomerGrade']);
 Route::post('/updateCustomer', [CustomerController::class, 'updateCustomer']);
