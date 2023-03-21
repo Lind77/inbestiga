@@ -127,4 +127,14 @@ class TaskController extends Controller
             'task' => $task
         ]);
     }
+
+    public function changeStatus(Request $request){
+        $task = Task::find($request->get('taskId'));
+        $task->update([
+           'status' => $request->get('newStatus')
+        ]);
+        return response()->json([
+           'msg' =>'success'
+        ]);
+    }
 }

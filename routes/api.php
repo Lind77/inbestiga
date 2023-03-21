@@ -67,6 +67,8 @@ Route::get('/getActivitiesPerId/{id}', [ActivityController::class, 'getActivitie
 Route::get('/deleteActivity/{id}', [ActivityController::class, 'destroy']);
 Route::get('/changeStatusActivity/{id}', [ActivityController::class, 'changeStatus']);
 
+
+Route::post('/changeTaskStatus', [TaskController::class, 'changeStatus']);
 Route::post('/insertTimeTask', [TaskController::class, 'insertTimeTask']);
 Route::post('/insertEndTimeTask', [TaskController::class, 'insertEndTimeTask']);
 

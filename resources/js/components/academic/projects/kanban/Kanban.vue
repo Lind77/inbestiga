@@ -5,10 +5,10 @@
           <div class="col-6">
             <div class="card px-2 py-2">
               <h6>Porcentaje de avance</h6>
-              <a href="javascript:void(0)">{{ parseInt(percentAcad) +15 }}%</a>
+              <a href="javascript:void(0)">{{ parseInt(0) +15 }}%</a>
               <div class="progress mb-3">
                 <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated shadow-none" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated shadow-none" role="progressbar" :style="{width: percentAcad + '%' }" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated shadow-none" role="progressbar" :style="{width: 0 + '%' }" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
               <!--  <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated shadow-none" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div> -->
               </div>
             </div>
@@ -22,9 +22,9 @@
         </div>
         
         <div class="row">
-          <dragArea :title="'To Do'" :tasks="toDo" :status="0"/>
-          <dragArea :title="'Doing'" :tasks="toDo" :status="1"/>
-          <dragArea :title="'Done'" :tasks="toDo" :status="2"/>
+          <dragArea :title="'To Do'" :tasks="toDo" :status="0" @updateTask="updateTask"/>
+          <dragArea :title="'Doing'" :tasks="doing" :status="1" @updateTask="updateTask"/>
+          <dragArea :title="'Done'" :tasks="done" :status="2" @updateTask="updateTask"/>
         </div>
     </div>
 </template>
@@ -32,7 +32,7 @@
 import moment from 'moment'
 import CardActivity from './CardActivity.vue'
 import CardTask from './CardTask.vue'
-import dragArea from './DragArea.vue'
+import dragArea from './dragArea.vue'
 import {useCounterStore} from '../../../../stores/UserStore'
 
 export default {
@@ -48,14 +48,85 @@ export default {
             project: [],
             activities: [],
             toDo:[],
+            done:[],
+            doing:[],
             tasks:[],
             localTime: " ",
             seconds: " ",
-            totalTime: '',
-            percentAcad: 0
+            totalTime: ''
         }
     },
     methods:{
+        updateTask(taskId, newStatus){
+          var taskSelected = this.tasks.find(task => task.id == taskId)
+          var firstStatus = taskSelected.status
+          this.removeTask(firstStatus, taskId)
+          this.addTask(taskSelected, newStatus)
+          //this.updateStatus(taskId, newStatus)
+          this.updateProgressTask(taskId)
+          if(newStatus == 2){
+            this.updateEndTime(taskId)
+          }
+        },
+        removeTask(firstStatus, taskId){
+          let arraysByStatus = {
+            0: this.toDo,
+            1: this.doing,
+            2: this.done
+          }
+          let arraySelected = arraysByStatus[firstStatus]
+          let index = arraySelected.findIndex(el => el.id == taskId)
+          arraySelected.filter(el => el.id == taskId)
+        },
+        addTask(taskSelected, newStatus){
+          let arraysByStatus = {
+            0: this.toDo,
+            1: this.doing,
+            2: this.done
+          }
+          let arraySelected = arraysByStatus[newStatus]
+          taskSelected.status = newStatus
+          taskSelected.progress.owner = this.store.authUser[0].name
+          arraySelected.push(taskSelected)
+        },
+        updateStatus(taskId, newStatus){
+          const fd = new FormData();
+
+          fd.append('taskId', taskId)
+          fd.append('newStatus', newStatus)
+          axios.post('/api/changeTaskStatus', fd)
+          .then(res =>{
+            console.log(res)
+          })
+          .catch(err =>{
+            console.error(err)
+          })
+        },
+        updateProgressTask(taskId){
+          const fd = new FormData();
+          fd.append('id_task', taskId)
+          fd.append('owner', this.store.authUser[0].name)
+          fd.append('start_time', new Date())
+          axios.post('/api/insertTimeTask', fd)
+          .then(res =>{
+            console.log(res)
+          })
+          .catch(err =>{
+            console.log(err)
+          })
+        },
+        updateEndTime(taskId){
+          const fd = new FormData()
+          fd.append('id_task', taskId)
+          fd.append('end_time', new Date())
+          axios.post('/api/insertEndTimeTask', fd)
+          .then(res =>{
+              console.log('seteando task en completed') 
+          })
+          .catch(err =>{
+              console.log(err)
+          })
+        },
         addPercent(){
           var nroTasksDone = 0
           this.activities.forEach((activity) =>{
@@ -81,8 +152,13 @@ export default {
                 var nroTasksDone = 0
                 this.activities.forEach((activity) =>{
                   activity.tasks.forEach((task) =>{
+                    this.tasks.push(task)
                     if(task.status == 0){
                       this.toDo.push(task)
+                    }else if(task.status == 1){
+                      this.doing.push(task)
+                    }else{
+                      this.done.push(task)
                     }
                     /* this.tasks.push(task)
                       if(task.status == 2){
@@ -109,53 +185,12 @@ export default {
             this.$swal({
                   title: 'Asignando Tarea ...'  
             });
-            axios.get(`/api/verifyOwner/${data.substr(4,6)}`)
-            .then(res =>{
-              console.log(res.data)
-              if(res.data.owner != null){
-                this.$swal({
-                  title: 'Esta tarea ya ha sido elegida por un InBESTigador'  
-                });
-                this.getProjectById()
-              }else{
-
-                const fd = new FormData();
-
-                fd.append("id_task", res.data.progressable_id)
-                fd.append("owner", this.store.authUser[0].name)
-                fd.append("start_time", new Date())
-
-                axios.post('/api/insertTimeTask', fd)
-                .then(res =>{
-                  this.getProjectById()
-                })
-                .catch(err =>{
-                console.log(err)
-                })
-              }
-            })
-            .catch(err =>{
-              console.log(err)
-            })
+            
           }
           
           if(e.target.id == 'doneArea'){
             
-            const fd = new FormData();
-
-                fd.append("id_task", data.substr(4,6))
-                fd.append("end_time", new Date())
-
-            axios.post('/api/insertEndTimeTask', fd)
-            .then(res =>{
-                console.log('seteando task en completed')
-                this.taskSelected = res.data.task
-                this.getProjectById()
-                this.addPercent()   
-            })
-            .catch(err =>{
-                console.log(err)
-            })
+            
           }
           }else{
             this.$swal('Usted no tiene permisos para modificar las tareas')
@@ -183,9 +218,6 @@ export default {
         }else{
             return this.totalTime+'s'
         }
-      },
-      percentAcad(){
-        return 0
       }
     }
 }

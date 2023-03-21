@@ -1,7 +1,15 @@
 <template>
-    <div class="card card-action mb-4 cursor-pointer" draggable="true" @dragstart="drag" :id="`task${taskSelected.id}`">
+    <div class="card card-action mb-4 cursor-pointer" draggable="true" @dragstart="drag" :id="taskSelected.id">
     <div class="card-header">
-        <div class="card-action-title h5 fw-bold">{{ taskSelected.title }}</div>
+        <div class="card-action-title h5 fw-bold">
+            {{ taskSelected.fixed_task.fixed_activity.product.title }}
+            <template v-if="taskSelected.status == 1">
+                - <span class="h6" :id="`cronometer${taskSelected.id}`"></span><i class='bx bx-timer'></i>
+            </template>
+            <template v-if="taskSelected.status >= 1">
+                <span class="h6">{{ taskSelected.progress.owner }}</span> <i class='bx bx-user'></i>
+            </template>
+        </div>
         <div class="card-action-element">
         <ul class="list-inline mb-0">
             <li class="list-inline-item">
@@ -14,8 +22,8 @@
         <div class="card-body pt-0">
             <p class="card-text">
                 <div class="item-badges" v-if="taskSelected.fixed_task.fixed_activity">
-                    <p class="h5">Actividad padre: {{ taskSelected.fixed_task.fixed_activity.title }}</p>
-                    <p class="h6">Producto: {{ taskSelected.fixed_task.fixed_activity.product.title }}</p>
+                    <p class="h5">Actividad: {{ taskSelected.fixed_task.fixed_activity.title }}</p>
+                    <p class="h6">Tarea: {{ taskSelected.fixed_task.title }}</p>
                 </div>  
             </p>
         </div>
@@ -39,19 +47,29 @@ export default {
     },
     data(){
         return {
-            time: new Date().toLocaleTimeString(),
             visible: false,
             taskSelected: this.task,
             cronometer: "",
             showCronometer: true,
             subtract: 0,
-            stopWatch: ""
+            seconds: 0,
+            timer: null,
+            time: ''
         }
     },
     methods:{
+        startCronometer(){
+            var id = this.taskSelected.id
+            var d = new Date()
+            d.setHours(0,0,0,0)
+            var timer = setInterval(function(){
+                d.setSeconds(d.getSeconds() + 1)
+                document.getElementById('cronometer'+id).innerHTML = d.toLocaleTimeString()
+            }, 1000)
+        },
         showLocalTime(){
           var time =  this
-          var d = new Date();
+          var d = new Date()
           d.setHours(0,0,0,0)
           setInterval(() => {
             d.setSeconds(d.getSeconds() + 1)
@@ -60,7 +78,6 @@ export default {
           }, 1000);
         },
         drag(e){  
-          this.visible =  true
           e.dataTransfer.setData('text', e.target.id)
         }
     },
@@ -105,6 +122,15 @@ export default {
                
             }
         }
-    }   
+    },
+    watch:{
+        'task.status'(){
+            if(this.task.status == 1){
+                this.startCronometer()
+            }else{
+                console.log('watcher detectando status 2')
+            }
+        }
+    } 
 }
 </script>
