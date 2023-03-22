@@ -58,7 +58,7 @@ import SendMessage from './SendMessage.vue'
 import ContactList from './ContactList.vue'
 import Conversation from './Conversation.vue'
 
-import {useCounterStore} from '../../../stores/UserStore'
+import {userStore} from '../../../stores/UserStore'
 
 export default {
     components: { ContactList, Conversation, SendMessage },
@@ -70,7 +70,7 @@ export default {
         }
     },  
     setup(){
-      const store = useCounterStore()
+      const store = userStore()
       return{
         store
       }

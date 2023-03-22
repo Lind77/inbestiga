@@ -33,14 +33,14 @@
 </template>
 <script>
 import moment from 'moment'
-import {useCounterStore} from '../../../../stores/UserStore'
+import {userStore} from '../../../../stores/UserStore'
 
 export default {
     props:{
         task: Object
     },
     setup(){
-      const store = useCounterStore()
+      const store = userStore()
       return{
         store
       }

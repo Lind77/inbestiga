@@ -98,14 +98,12 @@
     </div>
 </template>
 <script>
-import {useCounterStore} from '../../../stores/UserStore'
+import {userStore} from '../../../stores/UserStore'
 
 export default {
     setup(){
-      const store = useCounterStore()
-      return{
-        store
-      }
+      const store = userStore()
+      return { store }
     },
     props:{
         action: Number,
@@ -154,7 +152,7 @@ export default {
             fd.append('career',this.career)
             fd.append('email',this.email)
             fd.append('status',1)
-            fd.append('user_id',this.store.authUser[0].id)
+            fd.append('user_id',this.store.authUser.id)
             fd.append('first_management',this.first_management)
             fd.append('last_management', this.last_management)
             fd.append('next_management', this.next_management)

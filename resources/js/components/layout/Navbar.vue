@@ -40,26 +40,29 @@
                   <li class="list-group-item list-group-item-action dropdown-notifications-item" v-for="notification in notifications">
                     <div class="d-flex">
                       <div class="flex-grow-1">
-                        <h6 class="mb-1">{{ notification.user.name }}</h6>
+                        <h6 class="mb-1">{{ notification.emisor.name }}</h6>
                         <p class="mb-0">{{ notification.content }}</p>
                         <small class="text-muted">{{ dateFormatted(notification.created_at) }}</small>
+                      </div>
+                      <div class="flex-grow-1">
+                        <i @click="confirmSeen(notification.id)" :id="`checkNot${notification.id}`" class='bx bx-check-circle text-secondary'></i>
                       </div>
                     </div>
                   </li>
                 </ul>
               <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></li>
-              <router-link :to="{name:'notifications', params:{ idUser: this.store.userId }}" class="dropdown-menu-footer border-top">
+              <!-- <router-link :to="{name:'notifications', params:{ idUser: user.id }}" class="dropdown-menu-footer border-top">
                 <a href="javascript:void(0);" class="dropdown-item d-flex justify-content-center p-3">
                   Ver todas las notificaciones
                 </a>
-              </router-link>
+              </router-link> -->
             </ul>
           </li>
         <!-- User -->
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
           <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
             <div class="avatar avatar-online" v-if="store.authUser">
-              <span class="avatar-initial rounded-circle bg-primary">{{ store.authUser[0].name[0] }}</span>
+              <span class="avatar-initial rounded-circle bg-primary">{{ store.authUser.name[0] }}</span>
             </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
@@ -71,9 +74,9 @@
                       <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/avatars/1.png" class="w-px-40 h-auto rounded-circle" />
                     </div>
                   </div> -->
-                  <div class="flex-grow-1">
-                    <span class="fw-semibold d-block">{{ store.authUser == null? '' : store.authUser[0].name }}</span>
-                    <small class="text-muted">{{ store.authUser == null? '' : store.authUser[0].roles[0].name }}</small>
+                  <div class="flex-grow-1" v-if="store.authUser">
+                    <span class="fw-semibold d-block">{{ store.authUser.name }}</span>
+                    <small class="text-muted">{{ store.authUser.roles[0].name }}</small>
                   </div>
                 </div>
               </a>
@@ -112,13 +115,11 @@
 <script>
   import moment from 'moment'
  import sound from '../../../../public/sound/tone-alert.mp3'
- import {useCounterStore} from '../../stores/UserStore'
+ import {userStore} from '../../stores/UserStore'
   export default{
     setup(){
-      const store = useCounterStore()
-      return{
-        store
-      }
+      const store = userStore()
+      return{ store }
     },
     data(){
       return{
@@ -131,21 +132,35 @@
       }
     },
     methods:{
+      confirmSeen(id){
+        document.getElementById('checkNot'+id).classList.remove('text-secondary')
+        document.getElementById('checkNot'+id).classList.add('text-success')
+        this.cantNotifications--
+      },
       dateFormatted(date){
         return moment(date).fromNow()
       },
       getNotifications(){
         this.axios.get('/api/getNotifications')
         .then((res) => {
-            var filteredNotifications = res.data.filter(notification => notification.user.id != this.store.authUser[0].id)
+            var filteredNotifications = res.data.filter(notification => notification.user.id != this.store.authUser.id)
             this.notifications = filteredNotifications
             this.cantNotifications = this.notifications.length
         }).catch((err) => {
             console.log(err)
         });
       },
+      getNoSeenNotifications(){
+        this.axios.get('/api/getNoSeenNotifications/'+this.store.authUser.id)
+        .then((res) => {
+          this.notifications = res.data
+          this.cantNotifications = this.notifications.length
+        }).catch((err) => {
+            console.log(err)
+        });
+      },
       updateNotifications(){
-        if(this.store.authUser[0].roles[0].name == 'Experience'){
+        if(this.store.authUser.roles[0].name == 'Experience'){
           this.cantNotifications = this.cantNotifications + 1
           this.playSound()
         }
@@ -170,8 +185,7 @@
       }
     },
     mounted(){
-      this.store.getUser()
-      this.getNotifications()
+      this.getNoSeenNotifications()
       Echo.private('projects')
         .listen('NewProject',()=>{
           this.updateNotifications()

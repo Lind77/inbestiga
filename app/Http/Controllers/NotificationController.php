@@ -6,6 +6,7 @@ use App\Models\Notification;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNotificationRequest;
 use App\Http\Requests\UpdateNotificationRequest;
+use App\Models\Seen;
 
 class NotificationController extends Controller
 {
@@ -85,5 +86,17 @@ class NotificationController extends Controller
     public function destroy(Notification $notification)
     {
         //
+    }
+
+    public function getNoSeenNotifications($id){
+        $seens = Seen::where('user_id', $id)->orderBy('id', 'desc')->get();
+        $notSeenNotifications = [];
+
+        foreach($seens as $seen){
+            $notification = Notification::with(['users', 'emisor'])->find($seen->notification_id);
+            array_push($notSeenNotifications, $notification);
+        }
+
+        return response()->json($notSeenNotifications);
     }
 }

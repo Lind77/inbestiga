@@ -47,4 +47,8 @@ class User extends Authenticatable
     public function memoir(){
         return $this->hasOne('App\Models\Memoir');
     }
+
+    public function notifications(){
+        return $this->belongsToMany('App\Models\Notification','seens');
+    }
 }

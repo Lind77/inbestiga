@@ -1,7 +1,7 @@
 <template>
-    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-primary" :class="{ 'hide-aside': !hidden }">
+    <aside v-if="store.authUser" id="layout-menu" class="layout-menu menu-vertical menu bg-primary" :class="{ 'hide-aside': !hidden }">
       <div class="app-brand demo">
-        <a href="index.html" class="app-brand-link">
+        <a href="#" class="app-brand-link">
           <span class="app-brand-text demo menu-text fw-bolder ms-2">Inbestiga </span>
         </a>
 
@@ -12,7 +12,7 @@
 
       <div class="menu-inner-shadow"></div>
      <!--  Menú departamento de ventas -->
-      <ul class="menu-inner py-1" v-if="store.rol == 'Seller'">
+      <ul class="menu-inner py-1" v-if="store.authUser.roles[0].name == 'Seller'">
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
           <router-link :to="{name:'main-sales'}" class="menu-item">
             <div class="menu-link">
@@ -72,7 +72,7 @@
           </router-link> -->
       </ul>
       <!-- Menú departamento admin -->
-      <ul class="menu-inner py-1" v-if="store.rol == 'Admin'">
+      <ul class="menu-inner py-1" v-if="store.authUser.roles[0].name == 'Admin'">
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
           <router-link :to="{name:'main-admin'}" class="menu-item">
             <div class="menu-link">
@@ -92,7 +92,7 @@
               <div data-i18n="Form Layouts">Roles</div>
             </div>
           </router-link>
-            <router-link :to="{name:'real-time',params:{ userId: this.store.userId}}" class="menu-item">
+            <router-link :to="{name:'real-time',params:{ userId: store.authUser.id }}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-user"></i>
               <div data-i18n="Form Layouts">Chat</div>
@@ -100,7 +100,7 @@
           </router-link>
       </ul>
 
-      <ul class="menu-inner py-1" v-if="store.rol == 'Experience'">
+      <ul class="menu-inner py-1" v-if="store.authUser.roles[0].name == 'Experience'">
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
           <router-link :to="{name:'main-experience'}" class="menu-item">
             <div class="menu-link">
@@ -116,7 +116,7 @@
           </router-link>
       </ul>
 
-      <ul class="menu-inner py-1" v-if="store.rol == 'AdminAcad'">
+      <ul class="menu-inner py-1" v-if="store.authUser.roles[0].name == 'AdminAcad'">
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
           <router-link :to="{name:'main-acad'}" class="menu-item">
             <div class="menu-link">
@@ -169,15 +169,13 @@
     </aside>
 </template>
 <script>
-import {useCounterStore} from '../../stores/UserStore'
+import {userStore} from '../../stores/UserStore'
 
 export default {
     name: 'Sidebar',
     setup(){
-      const store = useCounterStore()
-      return{
-        store
-      }
+      const store = userStore()
+      return{ store }
     },
     props:{
       hidden: {

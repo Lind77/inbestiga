@@ -17,7 +17,7 @@ class AuthController extends Controller
             'device_name' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->with('roles')->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
@@ -26,6 +26,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
+            'user' => $user,
             'token' =>  $user->createToken($request->device_name)->plainTextToken,
             'memoir' => $user->memoir
         ]);

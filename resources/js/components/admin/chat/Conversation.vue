@@ -35,7 +35,7 @@
 </template>
 <script>
 import SendMessage from './SendMessage.vue'
-import {useCounterStore} from '../../../stores/UserStore'
+import {userStore} from '../../../stores/UserStore'
 
 export default{
     props:{
@@ -44,7 +44,7 @@ export default{
     },
     components:{SendMessage},
     setup(){
-      const store = useCounterStore()
+      const store = userStore()
       return{
         store
       }

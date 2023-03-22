@@ -17,8 +17,10 @@ use App\Models\ProcessProject;
 use App\Models\Product;
 use App\Models\Progress;
 use App\Models\Quotation;
+use App\Models\Seen;
 use App\Models\Task;
 use App\Models\Time;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -221,13 +223,23 @@ class ProjectController extends Controller
                 'order_id' =>  $lastOrder->id
             ]);
 
-            /* $notification = Notification::create([
+            $notification = Notification::create([
                 'emisor_id' => $request->get('emisor_id'),
-                'content' => 'Asignó un nuevo cliente',
+                'content' => 'Asignó un nuevo proyecto',
                 'type' => 1
-            ]); */
-    
-            /* broadcast(new NewProject($project)); */
+            ]);
+            
+            $usersToNotify = User::role('Experience')->get();
+
+            foreach($usersToNotify as $user){
+                Seen::create([
+                    'user_id' => $user->id,
+                    'notification_id' => $notification->id,
+                    'seen' => 0
+                ]);
+            }
+
+            broadcast(new NewProject($project));
         }else{
             return response()->json([
                 'msg' => 'No existe un contrato para este cliente'

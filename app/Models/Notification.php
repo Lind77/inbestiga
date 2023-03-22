@@ -11,8 +11,11 @@ class Notification extends Model
 
     protected $fillable = ['emisor_id', 'content', 'type'];
 
-    public function user(){
-        return $this->belongsTo('App\Models\User','emisor_id');
+    public function users(){
+        return $this->belongsToMany('App\Models\User','seens');
     }
 
+    public function emisor(){
+        return $this->belongsTo('App\Models\User', 'emisor_id');
+    }
 }

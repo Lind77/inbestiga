@@ -128,6 +128,7 @@
     </div>
 </template>
 <script>
+import { userStore } from '../../stores/UserStore'
 export default {  
     data(){
         return{
@@ -136,6 +137,10 @@ export default {
             device_name:'browser',
             errors:{}
         }
+    },
+    setup(){
+      const store = userStore()
+      return { store }
     },
     methods:{
         login(){
@@ -151,8 +156,8 @@ export default {
 
             this.axios.post('./api/login', fd)
             .then(res =>{
+                this.store.setUser(res.data.user)
                 localStorage.setItem('token',res.data.token)
-                console.log(res.data.memoir)
                 this.$router.push({path:`${res.data.memoir.area}/home`})
                 this.$swal().close()
             }).catch((err) => {
@@ -160,7 +165,10 @@ export default {
                   icon: 'error',
                   title: 'Credenciales incorrectas'
                 })
-                this.errors = err.response.data.errors
+                console.error(err)
+                if(err.response){
+                  this.errors = err.response.data.errors
+                }
             });
         }
     }

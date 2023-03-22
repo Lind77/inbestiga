@@ -36,14 +36,14 @@
 </template>
 
 <script>
-    import {useCounterStore} from '../../../stores/UserStore'
+    import { userStore } from '../../../stores/UserStore'
     import CardProject from './CardProject.vue'
     import OffCanvas from './OffCanvas.vue'
     import QualityModal from './QualityModal.vue'
     
     export default{
       setup(){
-      const store = useCounterStore()
+      const store = userStore()
       return{
         store
       }

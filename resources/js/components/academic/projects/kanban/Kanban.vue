@@ -33,12 +33,12 @@ import moment from 'moment'
 import CardActivity from './CardActivity.vue'
 import CardTask from './CardTask.vue'
 import dragArea from './dragArea.vue'
-import {useCounterStore} from '../../../../stores/UserStore'
+import {userStore} from '../../../../stores/UserStore'
 
 export default {
     components: { CardActivity, CardTask, dragArea },
     setup(){
-      const store = useCounterStore()
+      const store = userStore()
       return{
         store
       }

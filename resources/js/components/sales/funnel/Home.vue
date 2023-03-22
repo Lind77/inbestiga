@@ -16,13 +16,13 @@
 import DatePicker from './DatePicker.vue'
 import CardCustomer from '../prelead/CardCustomer.vue'
 import ProductModal from './ProductModal.vue'
-import {useCounterStore} from '../../../stores/UserStore'
+import {userStore} from '../../../stores/UserStore'
 import draggableArea from './draggableArea.vue'
 import UpdateCom from '../prelead/UpdateCom.vue'
 
 export default{
   setup(){
-      const store = useCounterStore()
+      const store = userStore()
       return{
         store
       }
@@ -209,7 +209,7 @@ export default{
 
       const fd = new FormData()
       fd.append('id_customer', id)
-      fd.append('emisor_id', this.store.authUser[0].id)
+      fd.append('emisor_id', this.store.authUser.id)
       axios.post('/api/setProject', fd)
       .then(res =>{
         console.log(res)

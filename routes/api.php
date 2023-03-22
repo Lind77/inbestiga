@@ -120,5 +120,6 @@ Route::get('/getAllOrders', [OrderController::class, 'index']);
 Route::post('/insertOrder',[OrderController::class, 'store']);
 
 Route::get('/getNotifications', [NotificationController::class, 'index']);
+Route::get('/getNoSeenNotifications/{id}', [NotificationController::class, 'getNoSeenNotifications']);
 
 Route::post('/updateComunication', [ComunicationController::class, 'update']);

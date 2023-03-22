@@ -9,7 +9,7 @@
     </div>
 </template>
 <script>
- import {useCounterStore} from '../../../../stores/UserStore'
+ import {userStore} from '../../../../stores/UserStore'
  import CardTask from './CardTask.vue'
 
 
@@ -22,7 +22,7 @@ export default {
         }
     },
     setup(){
-      const store = useCounterStore()
+      const store = userStore()
       return{
         store
       }
