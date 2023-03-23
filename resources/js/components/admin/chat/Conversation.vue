@@ -2,7 +2,7 @@
     <div id="bodyChats" class="chat-history-body bg-body ps" style="height:80vh; overflow-y: scroll !important;">
     <ul class="list-unstyled chat-history mb-0 px-2 py-2">
                 <li class="chat-message" v-for="message in selected_messages">
-                <div class="d-flex justify-content-end overflow-hidden" v-if="message.emisor_id == store.authUser[0].id">
+                <div class="d-flex justify-content-end overflow-hidden" v-if="message.emisor_id == store.authUser.id">
                     <div class="chat-message-wrapper">
                     <div class="chat-message-text chat-message-right">
                         <p class="mb-0">{{ message.message }}</p>
@@ -13,7 +13,7 @@
                     </div>
                     </div>
                     <div class="flex-shrink-0 avatar ms-2">
-                        <span class="avatar-initial rounded-circle bg-primary">{{ store.authUser[0].name[0] }}</span>
+                        <span class="avatar-initial rounded-circle bg-primary">{{ store.authUser.name[0] }}</span>
                     </div>
                 </div>
                 <div v-else class="d-flex justify-content-start overflow-hidden">

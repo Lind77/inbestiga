@@ -43,9 +43,7 @@ export default{
   },
   methods:{
     updateStatusSpaces(leadId, status){
-      console.log(leadId)
       var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
-
       if(this.verifyChange(leadSelected, status)){
         var firstStatus = leadSelected.status
         leadSelected.status = status
@@ -55,7 +53,6 @@ export default{
 
     },
     verifyChange(customer, status){
-      console.log('verify',customer.quotations.length != 0)
         if(status < 6){
           if(customer.quotations.length != 0){
             return true
@@ -114,20 +111,6 @@ export default{
       })
       .catch(err =>{
           console.log(err)
-      })
-    },
-    setProject(id){
-      console.log(id)
-
-      const fd = new FormData()
-      fd.append('id_customer', id)
-      fd.append('emisor_id', this.store.authUser[0].id)
-      axios.post(`/api/setProject`, fd)
-      .then(res =>{
-          console.log(res)
-      })
-      .catch(err =>{
-          this.$swal(err.response.data.msg)
       })
     },
     callModal(com){
@@ -206,7 +189,6 @@ export default{
     },
     setProject(id){
       console.log(id)
-
       const fd = new FormData()
       fd.append('id_customer', id)
       fd.append('emisor_id', this.store.authUser.id)

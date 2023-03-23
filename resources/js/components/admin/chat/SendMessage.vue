@@ -17,10 +17,17 @@
     </div>
 </template>
 <script>
+import { userStore } from '../../../stores/UserStore'
 import axios from 'axios'
 
 
     export default{
+        setup(){
+            const store = userStore()
+            return{
+                store
+            }
+        },
         props:{
             user_selected: Object
         },
@@ -34,10 +41,13 @@ import axios from 'axios'
                if(!this.message || !this.user_selected){
                 return
                }else{
-                const fd = new FormData()
 
+                const fd = new FormData()
                 fd.append('receptor_id', this.user_selected.id)
                 fd.append('message', this.message)
+
+                var token = localStorage.getItem('token')
+                window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
                 axios.post('/api/storeMessage', fd)
                 .then(res =>{
                     this.$emit('message', res.data)

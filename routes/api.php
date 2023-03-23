@@ -14,6 +14,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\SeenController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TimeController;
@@ -120,6 +121,9 @@ Route::get('/getAllOrders', [OrderController::class, 'index']);
 Route::post('/insertOrder',[OrderController::class, 'store']);
 
 Route::get('/getNotifications', [NotificationController::class, 'index']);
+Route::get('/getAllNotifications/{id}', [NotificationController::class, 'getAllNotifications']);
+
 Route::get('/getNoSeenNotifications/{id}', [NotificationController::class, 'getNoSeenNotifications']);
+Route::get('/registerSeen/{id}', [SeenController::class, 'registerSeen']);
 
 Route::post('/updateComunication', [ComunicationController::class, 'update']);

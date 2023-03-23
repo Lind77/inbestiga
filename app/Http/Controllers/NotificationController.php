@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNotificationRequest;
 use App\Http\Requests\UpdateNotificationRequest;
 use App\Models\Seen;
+use App\Models\User;
 
 class NotificationController extends Controller
 {
@@ -89,7 +90,7 @@ class NotificationController extends Controller
     }
 
     public function getNoSeenNotifications($id){
-        $seens = Seen::where('user_id', $id)->orderBy('id', 'desc')->get();
+        $seens = Seen::where('user_id', $id)->where('seen', 0)->orderBy('id', 'desc')->get();
         $notSeenNotifications = [];
 
         foreach($seens as $seen){
@@ -98,5 +99,10 @@ class NotificationController extends Controller
         }
 
         return response()->json($notSeenNotifications);
+    }
+
+    public function getAllNotifications($id){
+        $user = User::where('id',$id)->with(['notifications', 'notifications.emisor'])->get();
+        return response()->json($user);
     }
 }

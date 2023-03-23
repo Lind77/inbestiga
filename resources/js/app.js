@@ -20,6 +20,8 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 
 import { createPinia } from 'pinia'
 
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+
 import VueAxios from 'vue-axios'
 
 import VueApexCharts from 'vue3-apexcharts'
@@ -68,6 +70,7 @@ router.beforeEach((to, from, next) => {
   })
 
   const pinia = createPinia()
+  pinia.use(piniaPluginPersistedstate)
   const app = createApp(App)
 
   app.use(VueApexCharts)

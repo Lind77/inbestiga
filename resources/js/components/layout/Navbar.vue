@@ -37,7 +37,8 @@
               </li>
               <li class="dropdown-notifications-list scrollable-container ps">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item list-group-item-action dropdown-notifications-item" v-for="notification in notifications">
+                  <template v-for="notification in notifications">
+                    <li class="list-group-item list-group-item-action dropdown-notifications-item" :id="`notification${notification.id}`">
                     <div class="d-flex">
                       <div class="flex-grow-1">
                         <h6 class="mb-1">{{ notification.emisor.name }}</h6>
@@ -45,17 +46,18 @@
                         <small class="text-muted">{{ dateFormatted(notification.created_at) }}</small>
                       </div>
                       <div class="flex-grow-1">
-                        <i @click="confirmSeen(notification.id)" :id="`checkNot${notification.id}`" class='bx bx-check-circle text-secondary'></i>
+                        <i @click="confirmSeen(notification.users[0].pivot.id, notification.id)" :id="`checkNot${notification.users[0].pivot.id}`" class='bx bx-check-circle text-secondary'></i>
                       </div>
                     </div>
                   </li>
+                  </template>
                 </ul>
               <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></li>
-              <!-- <router-link :to="{name:'notifications', params:{ idUser: user.id }}" class="dropdown-menu-footer border-top">
+              <router-link v-if="store.authUser" :to="{name:'notifications', params:{ idUser: store.authUser.id }}" class="dropdown-menu-footer border-top">
                 <a href="javascript:void(0);" class="dropdown-item d-flex justify-content-center p-3">
                   Ver todas las notificaciones
                 </a>
-              </router-link> -->
+              </router-link>
             </ul>
           </li>
         <!-- User -->
@@ -128,14 +130,29 @@
         numberNotifications: 0,
         toggle: true,
         cantNotifications: 0,
-        notifications: []
+        notifications: [],
+        seens:[]
       }
     },
     methods:{
-      confirmSeen(id){
-        document.getElementById('checkNot'+id).classList.remove('text-secondary')
-        document.getElementById('checkNot'+id).classList.add('text-success')
+      confirmSeen(seen, notId){
+        console.log(seen)
+        
         this.cantNotifications--
+
+        document.getElementById('notification'+notId).classList.add('hideNotification')
+
+        setTimeout(() => {
+          document.getElementById('notification'+notId).classList.add('killSpace')
+        }, 2000);
+
+        axios.get('/api/registerSeen/'+seen)
+        .then(res =>{
+          console.log(res)
+        })
+        .catch(err =>{
+          console.log(err)
+        })
       },
       dateFormatted(date){
         return moment(date).fromNow()
@@ -160,6 +177,7 @@
         });
       },
       updateNotifications(){
+        console.log('ha llegado una nueva notificacion atraves de pusher')
         if(this.store.authUser.roles[0].name == 'Experience'){
           this.cantNotifications = this.cantNotifications + 1
           this.playSound()
@@ -200,5 +218,12 @@
     padding-bottom: 2px;
     margin-bottom: 10px;
     margin-left: -10px;
+  }
+  .hideNotification{
+    opacity: 0; 
+    transition: opacity 2s;
+  }
+  .killSpace{
+    display: none;
   }
 </style>

@@ -32,7 +32,7 @@ window.Echo = new Echo({
     authEndpoint: `http://localhost/inbestiga/public/broadcasting/auth`,
     auth:{
         headers:{
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Authorization': 'Bearer '+localStorage.getItem('token'),
             'X-CSRF-Token': "CSRF_TOKEN"
         }
     }

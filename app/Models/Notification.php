@@ -12,7 +12,7 @@ class Notification extends Model
     protected $fillable = ['emisor_id', 'content', 'type'];
 
     public function users(){
-        return $this->belongsToMany('App\Models\User','seens');
+        return $this->belongsToMany('App\Models\User','seens')->withPivot('id','seen');
     }
 
     public function emisor(){

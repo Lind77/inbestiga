@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Seen;
 use App\Http\Requests\StoreSeenRequest;
 use App\Http\Requests\UpdateSeenRequest;
+use Illuminate\Http\Request;
 
 class SeenController extends Controller
 {
@@ -82,5 +83,17 @@ class SeenController extends Controller
     public function destroy(Seen $seen)
     {
         //
+    }
+
+    public function registerSeen($id){
+        $seen = Seen::find($id);
+
+        $seen->update([
+            'seen' => 1
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }

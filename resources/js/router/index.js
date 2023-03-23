@@ -66,7 +66,7 @@ import HomeExperience from '../components/experience/Home.vue'
 import MainExperience from '../components/experience/Main.vue'
 
 //Notifications
-import Notifications from '../components/notifications/Home.vue'
+import Notifications from '../components/layout/Notifications.vue'
 
 
 

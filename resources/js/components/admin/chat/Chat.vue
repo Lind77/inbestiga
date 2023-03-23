@@ -9,7 +9,7 @@
                         <div class="d-flex overflow-hidden align-items-center">
                         <i class="bx bx-menu bx-sm cursor-pointer d-lg-none d-block me-2" data-bs-toggle="sidebar" data-overlay="" data-target="#app-chat-contacts"></i>
                         <div class="flex-shrink-0 avatar me-2">
-                            <span class="avatar-initial rounded-circle bg-primary" v-if="store.authUser">{{ store.authUser[0].name[0] }}</span>
+                            <span class="avatar-initial rounded-circle bg-primary" v-if="store.authUser">{{ store.authUser.name[0] }}</span>
                         </div>
                         <div class="input-group input-group-merge rounded-pill ms-1">
                             <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search fs-4"></i></span>
@@ -79,7 +79,7 @@ export default {
         getAllUsers(){
             axios.get('/api/getAllUsers')
             .then(res => {
-                this.users= res.data.filter(user => user.id != this.store.authUser[0].id)
+                this.users= res.data.filter(user => user.id != this.store.authUser.id)
             })
             .catch(err =>{
                 console.log(err)
@@ -91,6 +91,8 @@ export default {
         },
         listConversations(contact){
             this.user_selected = contact
+            var token = localStorage.getItem('token')
+            window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
             axios.get('/api/getAllMessagesById/'+ contact.id)
             .then(res => {
                 this.selected_messages= res.data
@@ -103,10 +105,10 @@ export default {
         },
         scrollToBottom(){
             setTimeout(() => {
-                    if(document.getElementById('bodyChats')){
-                    document.getElementById('bodyChats').scrollTop = document.getElementById('bodyChats').scrollHeight
-                }
-                }, 100);
+                if(document.getElementById('bodyChats')){
+                document.getElementById('bodyChats').scrollTop = document.getElementById('bodyChats').scrollHeight
+            }
+            }, 100);
         },
         setNewMessageBroadcasted(message){
             if(this.user_selected && this.user_selected.id == message.emisor_id){
@@ -115,7 +117,7 @@ export default {
         }
     },
     mounted(){
-        console.log(this.store.userId)
+        console.log(this.store.authUser.id)
         Echo.private(`message.${this.$route.params.userId}`)
         .listen('NewMessage',(e)=>{
             this.setNewMessageBroadcasted(e.message)

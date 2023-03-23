@@ -48,12 +48,9 @@ class ChatController extends Controller
             'viewed' => 0
         ]);
 
-       
         broadcast(new NewMessage($chat));
 
         return response()->json($chat);
-
-    
     }
 
     /**
