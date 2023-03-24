@@ -24,7 +24,7 @@
       <ul class="navbar-nav flex-row align-items-center ms-auto">
         <!-- Place this tag where you want the button to render. -->
         <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
-            <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            <a @click="clearCantNotifications" class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
               <i class="bx bx-bell bx-sm"></i><span v-if="cantNotifications != 0" class="badge bg-danger rounded-pill badge-notifications">{{ cantNotifications }}</span>
               <span class="badge bg-danger rounded-pill badge-notifications" v-if="numberNotifications > 0">{{ numberNotifications }}</span>
             </a>
@@ -135,6 +135,24 @@
       }
     },
     methods:{
+      clearCantNotifications(){
+        this.cantNotifications = 0
+        if(this.notifications.length>0){
+          this.notifications.forEach((notification)=>{
+          var seen_id = notification.users[0].pivot.id
+          console.log(seen_id )
+          axios.get('/api/registerSeen/'+seen_id)
+          .then(res =>{
+            console.log(res)
+          })
+          .catch(err =>{
+            console.log(err)
+          })
+        })
+        }
+        
+
+      },
       confirmSeen(seen, notId){
         console.log(seen)
         
@@ -180,6 +198,7 @@
         console.log('ha llegado una nueva notificacion atraves de pusher')
         if(this.store.authUser.roles[0].name == 'Experience'){
           this.cantNotifications = this.cantNotifications + 1
+          this.getNoSeenNotifications()
           this.playSound()
         }
       },
@@ -200,6 +219,11 @@
       },
       toggleAside(){
         this.$emit('hideSidebar')
+      },
+      newDirectionProject(){
+        if(this.store.authUser.roles[0].name == 'AdminAcad'){
+          alert('tienes un nuevo proyecto')
+        }
       }
     },
     mounted(){
@@ -208,6 +232,11 @@
         .listen('NewProject',()=>{
           this.updateNotifications()
       })
+      console.log()
+        Echo.private('direction')
+          .listen('NewDirection',()=>{
+             this.newDirectionProject()
+        })
     }
   }
 </script>

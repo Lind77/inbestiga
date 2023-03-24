@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewDirection;
 use App\Events\NewProject;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
@@ -181,6 +182,9 @@ class ProjectController extends Controller
         $project->update([
             'status' => $request->get('status')
         ]);
+
+        broadcast(new NewDirection($project));
+
         return response()->json([
             'msg' => 'success'
         ]);

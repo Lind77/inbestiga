@@ -21,3 +21,7 @@ Broadcast::channel('message.{id}', function ($user, $id) {
 Broadcast::channel('projects', function ($id) {
     return Project::find($id);
 });
+
+Broadcast::channel('direction', function ($id) {
+    return Project::find($id);
+});
