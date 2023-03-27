@@ -228,15 +228,19 @@
     },
     mounted(){
       this.getNoSeenNotifications()
-      Echo.private('projects')
-        .listen('NewProject',()=>{
+
+      if(this.store.authUser.roles[0].name == 'Experience'){
+        Echo.private('projects')
+        .listen('NewProject',(e)=>{
           this.updateNotifications()
-      })
-      console.log()
-        Echo.private('direction')
-          .listen('NewDirection',()=>{
-             this.newDirectionProject()
         })
+      }else if(this.store.authUser.roles[0].name == 'AdminAcad'){
+        Echo.private('direction')
+          .listen('NewDirection',(e)=>{
+             this.getNoSeenNotifications()
+        })
+      }
+      
     }
   }
 </script>

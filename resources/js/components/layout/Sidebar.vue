@@ -63,6 +63,12 @@
               <div data-i18n="Form Layouts">Comunicaciones</div>
             </div>
           </router-link>
+          <router-link :to="{name:'real-time',params:{ userId: store.authUser.id }}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-user"></i>
+              <div data-i18n="Form Layouts">Chat</div>
+            </div>
+          </router-link>
           <!-- 
           <router-link :to="{name:'home-calendar'}" class="menu-item">
             <div class="menu-link">
@@ -92,7 +98,7 @@
               <div data-i18n="Form Layouts">Roles</div>
             </div>
           </router-link>
-            <router-link :to="{name:'real-time',params:{ userId: store.authUser.id }}" class="menu-item">
+          <router-link :to="{name:'real-time',params:{ userId: store.authUser.id }}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-user"></i>
               <div data-i18n="Form Layouts">Chat</div>
@@ -112,6 +118,13 @@
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-pie-chart"></i>
               <div data-i18n="Form Layouts">Proyectos</div>
+            </div>
+          </router-link>
+          <router-link :to="{name:'real-time',params:{ userId: store.authUser.id }}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-user"></i>
+              <div data-i18n="Form Layouts">Chat</div>
+              <span v-if="messages != 0" class="badge bg-danger rounded-pill badge-notifications ms-1">{{ messages }}</span>
             </div>
           </router-link>
       </ul>
@@ -182,6 +195,17 @@ export default {
         type: Boolean,
         default: true
       }
+    },
+    data(){
+      return {
+        messages: 0
+      }
+    },
+    mounted(){
+      Echo.private(`message.${this.store.authUser.id}`)
+        .listen('NewMessage',(e)=>{
+            this.messages++
+        })
     }
 }
 </script>

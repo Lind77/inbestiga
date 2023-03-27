@@ -183,6 +183,22 @@ class ProjectController extends Controller
             'status' => $request->get('status')
         ]);
 
+        $notification = Notification::create([
+            'emisor_id' => $request->get('emisor_id'),
+            'content' => 'envió un nuevo proyecto a Dirección Académica',
+            'type' => 1
+        ]);
+        
+        $usersToNotify = User::role('AdminAcad')->get();
+
+        foreach($usersToNotify as $user){
+            Seen::create([
+                'user_id' => $user->id,
+                'notification_id' => $notification->id,
+                'seen' => 0
+            ]);
+        }
+
         broadcast(new NewDirection($project));
 
         return response()->json([

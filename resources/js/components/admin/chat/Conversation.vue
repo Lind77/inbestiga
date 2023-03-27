@@ -8,8 +8,8 @@
                         <p class="mb-0">{{ message.message }}</p>
                     </div>
                     <div class="text-end text-muted mt-1">
-                        <i class="bx bx-check-double text-success"></i>
-                        <small>10:00 AM</small>
+                        <!-- <i class="bx bx-check-double text-success"></i> -->
+                        <small>{{  formattedTime(message.created_at) }}</small>
                     </div>
                     </div>
                     <div class="flex-shrink-0 avatar ms-2">
@@ -25,7 +25,7 @@
                         <p class="mb-0">{{ message.message }}</p>
                     </div>
                     <div class="text-muted">
-                        <small>10:02 AM</small>
+                        <small>{{  formattedTime(message.created_at) }}</small>
                     </div>
                     </div>
                 </div>
@@ -36,8 +36,10 @@
 <script>
 import SendMessage from './SendMessage.vue'
 import {userStore} from '../../../stores/UserStore'
+import moment from 'moment'
 
 export default{
+    
     props:{
         selected_messages: Array,
         user_selected: Object
@@ -48,6 +50,11 @@ export default{
       return{
         store
       }
+    },
+    methods:{
+        formattedTime(date){
+            return moment(date).format('h:mm a')
+        }
     }
 }
 

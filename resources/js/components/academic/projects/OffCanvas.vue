@@ -46,7 +46,7 @@
     <TeamModal :project="project_selected" :activity="activity_selected" @getActivities="getActivities"/>
 </template>
 <script>
-//import moment from 'moment'
+import { userStore } from '../../../stores/UserStore'
 import ProgressModal from './ProgressModal.vue'
 import CardTeam from './CardTeam.vue'
 import CardCustomer from './CardCustomer.vue'
@@ -63,6 +63,10 @@ export default{
           default: []
         }
     },
+    setup(){
+      const store = userStore()
+      return { store }
+    },
     data(){
       return {
         fecha: new Date(),
@@ -76,7 +80,8 @@ export default{
         changeStatus(){
           const fd = new FormData()
 
-            fd.append('status', 1)
+            fd.append('emisor_id', this.store.authUser.id)
+            fd.append('status', 1)  
             fd.append('project_id', this.project_selected.id)
 
             axios.post('/api/changeStatusProject', fd)

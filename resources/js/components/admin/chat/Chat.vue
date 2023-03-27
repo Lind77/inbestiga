@@ -1,6 +1,6 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3">Chat</h4>
+        <h4 class="fw-bold">Chat</h4>
         <div class="card vh-100">
            <div class="row">
             <div class="col-4">
@@ -11,10 +11,10 @@
                         <div class="flex-shrink-0 avatar me-2">
                             <span class="avatar-initial rounded-circle bg-primary" v-if="store.authUser">{{ store.authUser.name[0] }}</span>
                         </div>
-                        <div class="input-group input-group-merge rounded-pill ms-1">
+                        <!-- <div class="input-group input-group-merge rounded-pill ms-1">
                             <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search fs-4"></i></span>
                             <input type="text" class="form-control chat-search-input" placeholder="Search..." aria-label="Search..." aria-describedby="basic-addon-search31">
-                        </div>
+                        </div> -->
                         </div>
 
                     </div>
