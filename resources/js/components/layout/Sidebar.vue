@@ -1,8 +1,8 @@
 <template>
-    <aside v-if="store.authUser" id="layout-menu" class="layout-menu menu-vertical menu bg-primary" :class="{ 'hide-aside': !hidden }">
+    <aside v-if="store.authUser" id="layout-menu" class="layout-menu menu-vertical menu bg-primary text-white" :class="{ 'hide-aside': !hidden }">
       <div class="app-brand demo">
         <a href="#" class="app-brand-link">
-          <span class="app-brand-text demo menu-text fw-bolder ms-2">Inbestiga </span>
+          <span class="app-brand-text demo menu-text fw-bolder ms-2 text-white">Inbestiga </span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -164,7 +164,7 @@
         </router-link>
       </ul>
 
-      <ul class="menu-inner py-1" v-if="store.rol == 'Acad'">
+      <ul class="menu-inner py-1" v-if="store.authUser.roles[0].name == 'Acad'">
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
           <router-link :to="{name:'main-acad'}" class="menu-item">
             <div class="menu-link">
@@ -172,7 +172,7 @@
               <div data-i18n="Form Layouts">Inicio</div>
             </div>
           </router-link>
-          <router-link :to="{name:'home-project'}" class="menu-item">
+          <router-link :to="{name:'my-projects'}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-pie-chart"></i>
               <div data-i18n="Form Layouts">Mis Proyectos</div>
@@ -218,4 +218,5 @@ export default {
     position: fixed !important;
     transform: translate3d(-100%, 0, 0);
   }
+ 
 </style>

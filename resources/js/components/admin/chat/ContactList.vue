@@ -29,6 +29,12 @@ export default{
     },
     methods:{
         selectContact(user, index){
+
+            console.log(window.innerWidth)
+            if(window.innerWidth < 567){
+                this.$emit('hideList')
+            }
+
             document.querySelectorAll('.contact').forEach((contact)=>{
                 contact.classList.remove('bg-primary')
             })

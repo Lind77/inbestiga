@@ -1,17 +1,27 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">Usuarios <span class="badge bg-label-primary me-1 cursor-pointer" @click="addUser">+</span></h4>
-        <div class="row">
-            <div class="col-md-4" v-for="user in users">
-                <div class="card bg-primary text-white mb-3">   
-                    <div class="card-body">
-                        <h5 class="card-title text-white">{{ user.name }}</h5>
-                        <div v-if="user.roles[0]">
-                            <p>{{ user.roles[0].name }}</p>
-                        </div>
-                        <button v-if="user.id != 1" @click="deleteUser(user.id)" class="btn btn-danger btn-sm"><i class='bx bx-trash'></i></button>
-                    </div>
-                </div>
+        <div class="card">
+        <h5 class="card-header d-flex align-items-center justify-content-between">Usuarios 
+            <button @click="addUser" class="btn btn-secondary add-new btn-primary w-25" type="button"><span><i class="bx bx-plus me-0 me-sm-1"></i><span class="d-none d-sm-inline-block">Nuevo Usuario</span></span></button>
+        </h5>
+       
+            <div class="table-responsive text-nowrap">
+                <table class="table">
+                <thead>
+                    <tr>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    <tr v-for="user in users">
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.roles[0].name }}</td>
+                    <td><span v-if="user.id != 1" @click="deleteUser(user.id)" class="badge bg-label-danger me-1 cursor-pointer"><i class='bx bx-trash'></i></span></td>
+                    </tr>
+                </tbody>
+                </table>
             </div>
         </div>
         <InsertUser @getAllUsers="getAllUsers"/>

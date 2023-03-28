@@ -20,6 +20,7 @@ use App\Models\Progress;
 use App\Models\Quotation;
 use App\Models\Seen;
 use App\Models\Task;
+use App\Models\Team;
 use App\Models\Time;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -216,6 +217,12 @@ class ProjectController extends Controller
         return response()->json([
             'msg' => 'success'
         ]);
+    }
+
+    public function getMyProjects($id){
+        $user = User::find($id);
+        $projects = Project::where('team_id', $user->memoir->team_id)->with(['customer', 'order', 'order.quotation', 'order.quotation.details', 'order.quotation.details.product'])->get();
+        return response()->json($projects);
     }
 
     public function setProject(Request $request){

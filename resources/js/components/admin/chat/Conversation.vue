@@ -39,7 +39,6 @@ import {userStore} from '../../../stores/UserStore'
 import moment from 'moment'
 
 export default{
-    
     props:{
         selected_messages: Array,
         user_selected: Object

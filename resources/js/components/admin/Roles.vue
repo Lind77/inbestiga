@@ -1,11 +1,11 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">Roles <span class="badge bg-label-primary me-1 cursor-pointer" @click="addUser">+</span></h4>
+        <h4 class="fw-bold py-3 mb-4">Roles</h4>
         <div class="row">
             <div class="col-md-4" v-for="rol in roles">
-                <div class="card bg-primary text-white mb-3">   
+                <div class="card mb-3">   
                     <div class="card-body">
-                        <h5 class="card-title text-white">{{ rol }}</h5>
+                        <h4 class="card-title">{{ rol }}</h4>
                         <!-- <div v-if="user.roles[0]">
                             <p>{{ user.roles[0].name }}</p>
                         </div>
@@ -13,6 +13,27 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="card  h-100">
+                    <div class="row h-100">
+                        <div class="col-sm-5">
+                        <div class="d-flex align-items-end h-100 justify-content-center mt-sm-0 mt-3">
+                            <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/illustrations/sitting-girl-with-laptop-light.png" class="img-fluid" alt="Image" width="120" data-app-light-img="illustrations/sitting-girl-with-laptop-light.png" data-app-dark-img="illustrations/sitting-girl-with-laptop-dark.png">
+                        </div>
+                        </div>
+                        <div class="col-sm-7">
+                        <div class="card-body text-sm-end text-center ps-sm-0">
+                            <button @click="addUser" data-bs-target="#addRoleModal" data-bs-toggle="modal" class="btn btn-primary mb-3 text-nowrap add-new-role">Nuevo Rol</button>
+                            <p class="mb-0">Agrega un nuevo rol</p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-4"></div>
         </div>
         <InsertRole @getAllRoles="getAllRoles"/>
     </div>

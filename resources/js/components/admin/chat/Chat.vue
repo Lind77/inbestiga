@@ -3,11 +3,11 @@
         <h4 class="fw-bold">Chat</h4>
         <div class="card vh-100">
            <div class="row">
-            <div class="col-4">
+            <div class="d-none d-lg-block col-xs-12 col-lg-4" id="listSection">
                 <div class="chat-history-header border-bottom">
                     <div class="d-flex justify-content-between align-items-center p-3">
                         <div class="d-flex overflow-hidden align-items-center">
-                        <i class="bx bx-menu bx-sm cursor-pointer d-lg-none d-block me-2" data-bs-toggle="sidebar" data-overlay="" data-target="#app-chat-contacts"></i>
+                        <i @click="hideList" class="bx bx-menu bx-sm cursor-pointer d-lg-none d-block me-2" data-bs-toggle="sidebar" data-overlay="" data-target="#app-chat-contacts"></i>
                         <div class="flex-shrink-0 avatar me-2">
                             <span class="avatar-initial rounded-circle bg-primary" v-if="store.authUser">{{ store.authUser.name[0] }}</span>
                         </div>
@@ -19,14 +19,14 @@
 
                     </div>
                 </div>
-                <ContactList :users="users" @listConversations="listConversations"/>
+                <ContactList :users="users" @listConversations="listConversations" @hideList="hideList"/>
             </div>
-            <div class="col-8 app-chat-history">
+            <div class="col-xs-8 col-sm-12 col-lg-8 app-chat-history" id="chatConverstion">
         <div class="chat-history-wrapper">
             <div class="chat-history-header border-bottom">
             <div class="d-flex justify-content-between align-items-center p-3">
                 <div class="d-flex overflow-hidden align-items-center">
-                <i class="bx bx-menu bx-sm cursor-pointer d-lg-none d-block me-2" data-bs-toggle="sidebar" data-overlay="" data-target="#app-chat-contacts"></i>
+                <i @click="showList" class="bx bx-menu bx-sm cursor-pointer d-lg-none d-block me-2" data-bs-toggle="sidebar" data-overlay="" data-target="#app-chat-contacts"></i>
                 <div class="flex-shrink-0 avatar">
                     <span class="avatar-initial rounded-circle bg-primary" v-if="user_selected.name">{{ user_selected.name[0] }}</span>
                 </div>
@@ -67,6 +67,7 @@ export default {
             users:[],
             user_selected: {},
             selected_messages:[],
+            hidden: true,
         }
     },  
     setup(){
@@ -76,6 +77,14 @@ export default {
       }
     },
     methods:{
+        showList(){
+            document.getElementById('listSection').classList.remove('d-none')
+            document.getElementById('chatConverstion').classList.add('d-none')
+        },
+        hideList(){
+            document.getElementById('listSection').classList.add('d-none')
+            document.getElementById('chatConverstion').classList.remove('d-none')
+        },
         getAllUsers(){
             axios.get('/api/getAllUsers')
             .then(res => {
@@ -126,3 +135,29 @@ export default {
     }
 }
 </script>
+<style scoped>
+.hidden{
+    display: block;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(67, 89, 113, 0.075);
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(67,89,113,.7);
+}
+</style>
