@@ -10,6 +10,7 @@
                 <thead>
                     <tr>
                     <th>Usuario</th>
+                    <th>Área</th>
                     <th>Rol</th>
                     <th>Eliminar</th>
                     </tr>
@@ -17,6 +18,7 @@
                 <tbody class="table-border-bottom-0">
                     <tr v-for="user in users">
                     <td>{{ user.name }}</td>
+                    <td>{{ area[user.memoir.area] }}</td>
                     <td>{{ user.roles[0].name }}</td>
                     <td><span v-if="user.id != 1" @click="deleteUser(user.id)" class="badge bg-label-danger me-1 cursor-pointer"><i class='bx bx-trash'></i></span></td>
                     </tr>
@@ -34,7 +36,13 @@ export default {
     components:{InsertUser},
     data(){
         return{
-            users: []
+            users: [],
+            area:{
+                'admin': 'Administración',
+                'sales': 'Ventas',
+                'acad': 'Académico',
+                'experience': 'Experiencia del Inbestigador'
+            }
         }
     },
     methods:{

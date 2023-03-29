@@ -74,7 +74,8 @@ class ProjectController extends Controller
             $defaultActivity = Activity::create([
                 'project_id' => $project->id,
                 'title' => $enterpriseActivity->title,
-                'type' => 0
+                'type' => 0,
+                'fixed_activity_id' => $enterpriseActivity->id
             ]);
 
             $progressDefaultActivity = Progress::create([
@@ -221,7 +222,23 @@ class ProjectController extends Controller
 
     public function getMyProjects($id){
         $user = User::find($id);
-        $projects = Project::where('team_id', $user->memoir->team_id)->with(['customer', 'order', 'order.quotation', 'order.quotation.details', 'order.quotation.details.product'])->get();
+        $projects = Project::where('team_id', $user->memoir->team_id)->with(['customer', 'activities', 'activities.tasks', 'activities.tasks.progress', 'order', 'order.quotation', 'order.quotation.details', 'order.quotation.details.product'])->get();
+        $numTasks = 0;
+        $numTasksCompleted = 0;
+        foreach($projects as $project){
+            $project->num_activities = count($project->activities);
+            foreach($project->activities as $activity){
+                $numTasks += count($activity->tasks);
+                foreach($activity->tasks as $task){
+                    if($task->percentage == 100){
+                        $numTasksCompleted++;
+                    }
+                }
+            }
+            $project->num_tasks = $numTasks;
+            $project->num_tasks_completed = $numTasksCompleted;
+        }
+
         return response()->json($projects);
     }
 
@@ -280,7 +297,8 @@ class ProjectController extends Controller
             $defaultActivity = Activity::create([
                 'project_id' => $project->id,
                 'title' => $enterpriseActivity->title,
-                'type' => 0
+                'type' => 0,
+                'fixed_activity_id' => $enterpriseActivity->id
             ]);
 
             $progressDefaultActivity = Progress::create([

@@ -1,7 +1,7 @@
 <template>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasEndLabel">
       <div class="offcanvas-header">
-        <h3 id="offcanvasEndLabel" class="offcanvas-title">{{ project_selected.title }}<small class="text-primary h5" v-if="project_selected.team"> (Equipo {{ project_selected.team.name }})</small></h3>
+        <h3 id="offcanvasEndLabel" class="offcanvas-title">{{ project_selected.title }}</h3>
         <button
           type="button"
           class="btn-close text-reset"
@@ -9,8 +9,8 @@
           aria-label="Close"
         ></button>
       </div>
-      
       <div class="offcanvas-body my-auto mx-0 flex-grow-0">
+        <p class="text-primary h5" v-if="project_selected.team"> (Equipo {{ project_selected.team.name }})</p>
         <a href="javascript:void(0)">{{ sumTasksPercent }} %</a>
         <div class="progress mb-3">
           <div class="progress-bar" role="progressbar" :style="{width: sumTasksPercent + '%' }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
@@ -25,8 +25,7 @@
           <div class="card-title d-flex align-items-center justify-content-between mb-0">
             <h5 class="text-white mb-0">{{ activity.title }}</h5>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" v-bind:checked="activity.progress[0].percentage == 100" @click="selectActivity(activity)">
-              
+              <input class="form-check-input" type="checkbox" value="" v-bind:checked="activity.progress[0].percentage == 100" @click="selectActivity(activity.fixed_activity_id)">
             </div>           
           </div>
           </div>
@@ -44,6 +43,7 @@
     </div>
     <ProgressModal :activity="activity_selected" :project_selected="project_selected" @getActivities="getActivities"/>
     <TeamModal :project="project_selected" :activity="activity_selected" @getActivities="getActivities"/>
+    <FirstModal />
 </template>
 <script>
 import { userStore } from '../../../stores/UserStore'
@@ -51,6 +51,7 @@ import ProgressModal from './ProgressModal.vue'
 import CardTeam from './CardTeam.vue'
 import CardCustomer from './CardCustomer.vue'
 import TeamModal from './TeamModal.vue'
+import FirstModal from './FirstModal.vue'
 
 export default{
     name:'OffCanvas',
@@ -108,8 +109,14 @@ export default{
           }
           this.percentageActivities = sumTasks
         },
-        selectActivity(activity){
-          if(activity.title == 'Reunión con dirección académica'){
+        selectActivity(activityFixedId){
+          if(activityFixedId == 5){
+            $('#firstMeetModal').modal('show')
+          }
+          /* if(activity.title == 'Programar primera reunión con Dirección Académica'){
+
+          }
+          else if(activity.title == 'Reunión con dirección académica'){
             $('#progressModal').modal('show')
           }else if(activity.title == 'Asignar Equipo'){
             $('#teamModal').modal('show')
@@ -130,8 +137,8 @@ export default{
                         console.log(err.response.data)
                     }
                 })
-          }
-          this.activity_selected = activity
+          } */
+          /* this.activity_selected = activity */
         },
         addProgress(progress, e){
             document.getElementById(e.target.id).indeterminate = true

@@ -12,7 +12,7 @@ use Spatie\Permission\Models\Role;
 class UserController extends Controller
 {
     public function getAllUsers(){
-        $users = User::with('roles')->get();
+        $users = User::with(['roles','memoir'])->get();
         return response()->json($users);
     }
 

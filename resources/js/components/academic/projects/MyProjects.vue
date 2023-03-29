@@ -7,10 +7,10 @@
           <div class="card-header">
             <div class="d-flex align-items-start">
               <div class="d-flex align-items-start">
-                <div class="me-2">
-                  <h5 class="mb-1"><a href="javascript:;" class="h5 stretched-link">{{ project.title }}</a></h5>
+                <div class="me-2" v-if="project.id">
+                  <h5 class="mb-1"><router-link :to="{name:'kanban', params:{ idProject: project.id }}" class="h5 stretched-link">{{ project.title }}</router-link></h5>
                   <div class="client-info d-flex align-items-center">
-                    <h6 class="mb-0 me-1">Cliente:</h6><span>{{ project.customer.name }}</span>
+                    <h6 class="mb-0 me-1">Cliente:</h6><span>{{ project.customer?project.customer.name:'' }}</span>
                   </div>
                 </div>
               </div>
@@ -30,7 +30,7 @@
           </div>
           <div class="card-body">
             <div class="d-flex align-items-center flex-wrap">
-              <div class="bg-lighter p-2 rounded me-auto mb-3">
+              <div class="bg-lighter p-2 rounded me-auto mb-3" v-if="project.order">
                 <template v-for="details in project.order.quotation.details">
                   <p class="mb-0">{{ details.product.title }}</p>
                 </template>
@@ -47,11 +47,11 @@
               <span class="badge bg-label-success ms-auto">{{ formatDays(project.deadline) }}</span>
             </div>
             <div class="d-flex justify-content-between align-items-center mb-1">
-              <small>Tareas: 290/344</small>
-              <small>95% Completado</small>
+              <small>Tareas: {{project.num_tasks_completed}}/{{ project.num_tasks }}</small>
+              <small>{{percentageProject(project)}}% Completado</small>
             </div>
             <div class="progress mb-3" style="height: 8px;">
-              <div class="progress-bar" role="progressbar" style="width: 95%;" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+              <div class="progress-bar" role="progressbar" :style="{width: percentageProject(project) + '%' }" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <div class="d-flex align-items-center">
               
@@ -100,6 +100,9 @@ import { localeData } from 'moment_spanish_locale'
         },
         formatDays(date){
           return moment(date).endOf('day').fromNow();  
+        },
+        percentageProject(project){
+          return (100/project.num_tasks)*project.num_tasks_completed
         }
       },
       mounted(){

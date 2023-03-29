@@ -26,7 +26,7 @@
           <dragArea :title="'Doing'" :tasks="doing" :status="1" @updateTask="updateTask"/>
           <dragArea :title="'Done'" :tasks="done" :status="2" @updateTask="updateTask"/>
         </div>
-    </div>
+    </div>  
 </template>
 <script>
 import moment from 'moment'
@@ -86,7 +86,7 @@ export default {
           }
           let arraySelected = arraysByStatus[newStatus]
           taskSelected.status = newStatus
-          taskSelected.progress.owner = this.store.authUser[0].name
+          taskSelected.progress.owner = this.store.authUser.name
           arraySelected.push(taskSelected)
         },
         updateStatus(taskId, newStatus){
