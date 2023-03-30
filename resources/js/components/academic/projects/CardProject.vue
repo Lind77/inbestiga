@@ -16,8 +16,16 @@
     </div>
 </template>
 <script>
+    import { userStore } from '../../../stores/UserStore'
+
     export default{
         name:'CardProject',
+        setup(){
+            const store = userStore()
+            return{
+                store
+            }
+        },
         data(){
             return{
                 project_selected: {}

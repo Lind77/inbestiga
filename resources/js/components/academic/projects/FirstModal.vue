@@ -13,10 +13,58 @@
             ></button>
             </div>
             <div class="modal-body">
-            </div>    
+                <!-- <div class="row mb-3">
+                    <div class="col">
+                        <label for="firstMeetingDate" class="form-label">Fecha</label>
+                        <input type="date" name="" id="firstMeetingDate" class="form-control">
+                    </div>
+                    <div class="col">
+                        <label for="firstMeetingTime" class="form-label">Hora</label>
+                        <input type="time" name="" id="firstMeetingTime" class="form-control">
+                    </div>
+                </div> -->
+                <div class="mb-3">
+                    <label for="firstMeetingDetails" class="form-label">Detalles de la primera reunión</label>
+                    <textarea class="form-control" id="firstMeetingDetails" v-model="detail" cols="30" rows="4"></textarea>
+                </div>
+                <!-- <div class="mb-3">
+                    <label for="formFileMultiple" class="form-label">Archivos importantes</label>
+                    <input class="form-control" type="file" id="formFileMultiple" multiple="">
+                </div>  -->
+            </div>
+               
             <div class="modal-footer">
+                <input @click="insertDetailsFirstMeeting" type="submit" class="btn btn-primary" value="Enviar"/>
             </div>
         </div>
         </div>
     </div>
 </template>
+<script>
+    export default{
+        data(){
+            return{
+                detail: ''
+            }
+        },
+        props:{
+            activityId: Number
+        },
+        methods:{
+            insertDetailsFirstMeeting(){
+                const fd = new FormData()
+                fd.append('activityId', this.activityId)
+                fd.append('detail', this.detail)
+
+                axios.post('/api/insertDetailsFirstMeeting', fd)
+                .then((res)=>{
+                    this.detail = ''
+                    $('#firstMeetModal').modal('hide')
+                })
+                .catch((err)=>{
+                    console.error(err)
+                })
+            }
+        }
+    }
+</script>

@@ -20,17 +20,10 @@
         <div v-if="project_selected.activities == []">No hay actividades asignadas</div>
         <div v-else>
           <div v-for="activity in project_selected.activities">
-          <div v-if="activity.type == 0">
-          <div :class="`card ${activity.progress[0].percentage == 100 ? 'bg-success' : 'bg-danger'} text-white p-3 mb-1`" >
-          <div class="card-title d-flex align-items-center justify-content-between mb-0">
-            <h5 class="text-white mb-0">{{ activity.title }}</h5>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" v-bind:checked="activity.progress[0].percentage == 100" @click="selectActivity(activity.fixed_activity_id)">
-            </div>           
+            <template v-if="activity.type == 0">
+              <ActivityCard :activity="activity" @selectActivity="selectActivity"/>
+            </template>
           </div>
-          </div>
-        </div>
-        </div>
         </div>        
         <div class="row">
           <div class="col-lg-12 col-md-12 mt-2">
@@ -43,7 +36,7 @@
     </div>
     <ProgressModal :activity="activity_selected" :project_selected="project_selected" @getActivities="getActivities"/>
     <TeamModal :project="project_selected" :activity="activity_selected" @getActivities="getActivities"/>
-    <FirstModal />
+    <FirstModal :activityId="activityId"/>
 </template>
 <script>
 import { userStore } from '../../../stores/UserStore'
@@ -52,10 +45,11 @@ import CardTeam from './CardTeam.vue'
 import CardCustomer from './CardCustomer.vue'
 import TeamModal from './TeamModal.vue'
 import FirstModal from './FirstModal.vue'
+import ActivityCard from './ActivityCard.vue'
 
 export default{
     name:'OffCanvas',
-    components:{ CardTeam, CardCustomer, ProgressModal, TeamModal },
+    components:{ CardTeam, CardCustomer, ProgressModal, TeamModal, FirstModal, ActivityCard},
     emits:['getAllProjects'],
     props:{
         project_selected: Object,
@@ -74,7 +68,8 @@ export default{
         progress_selected: {},
         activity_selected: {},
         percentageActivities: 0,
-        activities: []
+        activities: [],
+        activityId: 0
       }
     },
     methods:{
@@ -102,15 +97,27 @@ export default{
           .catch(err =>{
             console.log(err.response.data)
           })
-        },
+        },  
         sumTasks(project_selected){
           if(project_selected){
             var sumTasks = 0
           }
           this.percentageActivities = sumTasks
         },
-        selectActivity(activityFixedId){
-          if(activityFixedId == 5){
+        selectActivity(activity){
+          if(activity.fixed_activity_id == 5){
+            activity.progress[0].percentage = 100
+            this.updateProgress(activity)
+          }else if(activity.fixed_activity_id == 6){
+            if(this.store.authUser.roles[0].name == 'AdminAcad'){
+              activity.progress[0].percentage = 100
+              this.updateProgress(activity)
+            }else{
+              this.swal('El encargado de asignar equipo es el Director Académico')
+            }
+          }
+          else if(activity.fixed_activity_id == 7){
+            this.activityId = activity.id
             $('#firstMeetModal').modal('show')
           }
           /* if(activity.title == 'Programar primera reunión con Dirección Académica'){
@@ -121,7 +128,15 @@ export default{
           }else if(activity.title == 'Asignar Equipo'){
             $('#teamModal').modal('show')
           }else{
-            const fd = new FormData()
+            
+          } */
+          /* this.activity_selected = activity */
+        },
+        activateCheckbox(activityId){
+
+        },
+        updateProgress(activity){
+          const fd = new FormData()
                 fd.append('id', activity.id)
                 fd.append('comment', 'Completado')
                 fd.append('project_id', this.project_selected.id)
@@ -137,8 +152,6 @@ export default{
                         console.log(err.response.data)
                     }
                 })
-          } */
-          /* this.activity_selected = activity */
         },
         addProgress(progress, e){
             document.getElementById(e.target.id).indeterminate = true
@@ -152,7 +165,7 @@ export default{
           var numTasks = 0
           this.project_selected.activities.forEach(activity => {
               if(activity.type == 0){
-               sumTasks = sumTasks + parseFloat(activity.progress[0].percentage)
+               sumTasks = sumTasks + parseFloat(activity.progresses[0].percentage)
                numTasks = numTasks + 1
               }
           })
@@ -170,9 +183,6 @@ export default{
           return this.project_selected.acttasks.reduce((acc, item) => acc + item.pivot.percent, 0)/this.project_selected.tasks.length;
         }
       } */
-    },
-    mounted(){
-      this.getActivities(this.project_selected.id)
     }
 } 
 </script>

@@ -102,4 +102,16 @@ class ProgressController extends Controller
     {
         //
     }
+
+    public function insertDetailsFirstMeeting(Request $request){
+        $progress = Progress::where('progressable_id', $request->get('activityId'))->where('progressable_type','App\Models\Activity')->get();
+
+        $progress[0]->update([
+            'comment' => $request->get('detail')
+        ]);
+
+        return response()->json([
+            'msg' => 'progress updated successfully'
+        ]);
+    }
 }

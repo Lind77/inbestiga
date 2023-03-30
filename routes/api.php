@@ -94,6 +94,7 @@ Route::post('/setProject', [ProjectController::class, 'setProject']);
 Route::get('/deleteProject/{id}',[ProjectController::class, 'destroy']);
 Route::get('/getMyProjects/{id}', [ProjectController::class, 'getMyProjects']);
 
+Route::post('/insertDetailsFirstMeeting', [ProgressController::class, 'insertDetailsFirstMeeting']);
 Route::post('/updateProgress',[ProgressController::class, 'update']);
 
 Route::get('/getAllOwners', [OwnerController::class, 'index']);

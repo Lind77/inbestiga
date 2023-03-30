@@ -15,7 +15,7 @@ class Activity extends Model
         return $this->hasMany("App\Models\Task");
     }
 
-    public function progress(){
+    public function progresses(){
         return $this->morphMany('App\Models\Progress', 'progressable');
     }
 

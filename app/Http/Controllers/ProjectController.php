@@ -34,7 +34,17 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::orderBy('updated_at')->with(['customer','activities','activities.progress', 'activities.fixed_activity', 'activities.fixed_activity.product', 'activities.tasks', 'activities.tasks.progress','team', 'product'])->get();
+        $projects = Project::orderBy('updated_at')->with(['customer','activities','activities.progresses', 'activities.fixed_activity', 'activities.fixed_activity.product', 'activities.tasks', 'activities.tasks.progress','team', 'product'])->get();
+
+        foreach($projects as $project){
+            foreach($project->activities as $activity){
+                if($activity->progresses[0]->percentage == 100){
+                    $activity->isCompleted = true;
+                }else{
+                    $activity->isCompleted = false;
+                }
+            }
+        }
     
         return $projects;
     }
