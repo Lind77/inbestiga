@@ -8,7 +8,7 @@
        <p class="fw-bold h5">Clientes</p> 
       <div class="container-cards" v-for="project in projects">
         <div v-if="project.status == 0">
-          <CardProject :project="project" @click="showProject(project)" @getAllProjects="getAllProjects"/>
+          <CardProject :project="project" @click="showProject(project)" @getAllProjects="getAllProjectsAcad"/>
         </div>
       </div>
       
@@ -17,7 +17,7 @@
         <p class="fw-bold h5">Dirección académica</p>
         <div class="container-cards" v-for="project in projects">
           <div v-if="project.status == 1">
-            <CardProject :project="project" @getAllProjects="getAllProjects"/>
+            <CardProject :project="project" @getAllProjects="getAllProjectsAcad"/>
           </div>
         </div>
       </div>
@@ -25,13 +25,13 @@
         <p class="fw-bold h5">Calidad académica</p>
         <div class="container-cards" v-for="project in projects">
           <div v-if="project.status == 2">
-            <CardProject :project="project" @getAllProjects="getAllProjects"/>
+            <CardProject :project="project" @getAllProjects="getAllProjectsAcad"/>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <OffCanvas :project_selected="project_selected" @getAllProjects="getAllProjects"/>
+  <OffCanvas :project_selected="project_selected" @getAllProjects="getAllProjectsAcad"/>
   <QualityModal/>
 </template>
 
@@ -88,13 +88,13 @@
                     console.log(err.response.data)
                 })
         },  
-        getAllProjects(){
+        getAllProjectsAcad(){
         this.project_selected = {}
         this.$swal({
           title: 'Cargando ...',
           showConfirmButton: false,
         });
-        axios.get('/api/getAllProjects')
+        axios.get('/api/getAllProjectsAcad')
         .then(res =>{
           this.projects = res.data
           
@@ -168,13 +168,13 @@
         }
       },
       mounted(){
-        this.getAllProjects()
+        this.getAllProjectsAcad()
         this.getAllCustomers()
         this.getAllTeams()
         Echo.private('projects')
         .listen('NewProject',(e)=>{
           console.log(e)
-          this.getAllProjects()
+          this.getAllProjectsAcad()
         })
       }
     }

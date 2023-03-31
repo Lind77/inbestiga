@@ -11,7 +11,7 @@
         <div v-if="this.project.status == 2" class="btn btn-info btn-sm mt-2 ms-1" @click="pointsQual">Indicadores de Calidad</div>
         <router-link v-if="project.customer" target="_blank" :to="{name:'ecard', params:{ id: project.customer.id}}"><i class='bx bx-credit-card-alt'></i></router-link>
         <i class='bx bx-trash text-danger cursor-pointer' @click="deleteProject(project.id)"></i>
-        <i v-if="tasksPercent == 100" @click="updateQuality" class='bx bx-check-circle text-success cursor-pointer'></i>
+        <!-- <i v-if="tasksPercent == 100" @click="updateQuality" class='bx bx-check-circle text-success cursor-pointer'></i> -->
     </div>
     </div>
 </template>
@@ -73,26 +73,7 @@
                 }else if(this.project.status == 2){
                     return 'bg-warning'
                 }
-            },
-            tasksPercent(){
-                var activities_filtered = []
-                var tasks_filtered = []
-                var totalPercent = 0
-                this.project.activities.forEach(activity => {
-                    if(activity.type != 0){
-                        activities_filtered.push(activity)
-                        activity.tasks.forEach(task =>{
-                        tasks_filtered.push(task)
-                    })
-                    }
-                });
-
-                tasks_filtered.forEach(task =>{
-                    totalPercent = totalPercent + task.progress.percentage
-                })
-
-                return totalPercent / tasks_filtered.length
-            }        
+            }     
         }
     }
 </script>

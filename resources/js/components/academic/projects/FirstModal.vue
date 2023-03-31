@@ -3,7 +3,7 @@
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title"> Detalles para la primera reunión</h5>
+            <h5 class="modal-title"> Detalles para la primera reunión {{ activityId }}</h5>
             <button
                 type="button"
                 class="btn-close"
@@ -59,6 +59,7 @@
                 axios.post('/api/insertDetailsFirstMeeting', fd)
                 .then((res)=>{
                     this.detail = ''
+                    this.$emit('checkActivity', this.activityId)
                     $('#firstMeetModal').modal('hide')
                 })
                 .catch((err)=>{

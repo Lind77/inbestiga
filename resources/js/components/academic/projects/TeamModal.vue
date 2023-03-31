@@ -14,8 +14,6 @@
             <div class="modal-body">
                 <div class="row">
                 <div class="col mb-3">
-                    <label for="nameSmall" class="form-label">Proyecto</label>
-                    <p>{{ this.project.title }}</p>
                     <label for="nameSmall" class="form-label">Equipo</label>
                     <select v-model="team_selected" class="form-select">
                         <option :value="team.id" v-for="team in teams">
@@ -63,14 +61,15 @@ export default {
                 fd.append('project_id', this.project.id)
                 axios.post('/api/updateProgress', fd)
                 .then(res =>{
-                    this.$emit('getActivities')
+                    $('#teamModal').modal('hide')
+                    this.$swal('Proyecto asignado correctamente')
                 })
                 .catch(err =>{
                     if(err.response){
                         console.log(err.response.data)
                     }
                 })
-                $('#teamModal').modal('hide')
+                
             })
             .catch(err =>{
                 console.error(err)

@@ -111,7 +111,7 @@ class ActivityController extends Controller
     public function getActivitiesPerId($id){
         $activities = Activity::where('project_id', $id)
                                 ->where('type', '==', 0)
-                                ->with('progress')
+                                ->with('progresses')
                                 ->get();
         return response()->json($activities);
     }

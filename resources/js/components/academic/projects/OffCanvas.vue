@@ -20,9 +20,7 @@
         <div v-if="project_selected.activities == []">No hay actividades asignadas</div>
         <div v-else>
           <div v-for="activity in project_selected.activities">
-            <template v-if="activity.type == 0">
-              <ActivityCard :activity="activity" @selectActivity="selectActivity"/>
-            </template>
+              <ActivityCard :project_selected="project_selected" :activity="activity" @selectActivity="selectActivity" @unselectActivity="unselectActivity" @checkActivity="checkActivity"/>
           </div>
         </div>        
         <div class="row">
@@ -35,21 +33,21 @@
       </div>
     </div>
     <ProgressModal :activity="activity_selected" :project_selected="project_selected" @getActivities="getActivities"/>
-    <TeamModal :project="project_selected" :activity="activity_selected" @getActivities="getActivities"/>
-    <FirstModal :activityId="activityId"/>
+    <TeamModal :project="project_selected" :activity="activity_selected"/>
+    <FirstModal :activityId="activitySelectedId" @checkActivity="checkActivity"/>
 </template>
 <script>
 import { userStore } from '../../../stores/UserStore'
 import ProgressModal from './ProgressModal.vue'
 import CardTeam from './CardTeam.vue'
 import CardCustomer from './CardCustomer.vue'
+import ActivityCard from './ActivityCard.vue'
 import TeamModal from './TeamModal.vue'
 import FirstModal from './FirstModal.vue'
-import ActivityCard from './ActivityCard.vue'
 
 export default{
     name:'OffCanvas',
-    components:{ CardTeam, CardCustomer, ProgressModal, TeamModal, FirstModal, ActivityCard},
+    components:{ CardTeam, CardCustomer, ProgressModal, ActivityCard, TeamModal, FirstModal},
     emits:['getAllProjects'],
     props:{
         project_selected: Object,
@@ -69,10 +67,19 @@ export default{
         activity_selected: {},
         percentageActivities: 0,
         activities: [],
-        activityId: 0
+        activityId: 0,
+        activitySelectedId:0
       }
     },
     methods:{
+        checkActivity(activityId){
+
+            this.activitySelectedId = activityId
+              
+                /* 
+                console.log(this.bgColor) */
+                    //this.updateActivityProgress(activityId)     
+        },
         changeStatus(){
           const fd = new FormData()
 
@@ -104,33 +111,16 @@ export default{
           }
           this.percentageActivities = sumTasks
         },
-        selectActivity(activity){
-          if(activity.fixed_activity_id == 5){
-            activity.progress[0].percentage = 100
-            this.updateProgress(activity)
-          }else if(activity.fixed_activity_id == 6){
-            if(this.store.authUser.roles[0].name == 'AdminAcad'){
-              activity.progress[0].percentage = 100
-              this.updateProgress(activity)
-            }else{
-              this.swal('El encargado de asignar equipo es el Director Académico')
-            }
+        selectActivity(activityId){
+          var selectedActivity =  this.project_selected.activities.find(activity => activity.id == activityId)
+          if(selectedActivity.progresses[0].percentage != 100){
+            selectedActivity.progresses[0].percentage = 100
           }
-          else if(activity.fixed_activity_id == 7){
-            this.activityId = activity.id
-            $('#firstMeetModal').modal('show')
-          }
-          /* if(activity.title == 'Programar primera reunión con Dirección Académica'){
-
-          }
-          else if(activity.title == 'Reunión con dirección académica'){
-            $('#progressModal').modal('show')
-          }else if(activity.title == 'Asignar Equipo'){
-            $('#teamModal').modal('show')
-          }else{
-            
-          } */
-          /* this.activity_selected = activity */
+        },
+        unselectActivity(activityId){
+          var selectedActivity =  this.project_selected.activities.find(activity => activity.id == activityId)
+        
+          selectedActivity.progresses[0].percentage = 0
         },
         activateCheckbox(activityId){
 

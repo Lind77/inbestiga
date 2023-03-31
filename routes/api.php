@@ -86,6 +86,7 @@ Route::post('/updateQuotation',[QuotationController::class, 'updateQuotation']);
 
 
 Route::get('/getAllProjects',[ProjectController::class, 'index']);
+Route::get('/getAllProjectsAcad',[ProjectController::class, 'getAllProjectsAcad']);
 Route::get('/getProjectById/{id}', [ProjectController::class, 'show']);
 Route::post('/insertProject',[ProjectController::class, 'store']);
 Route::post('/changeStatusProject',[ProjectController::class, 'changeStatus']);
@@ -95,7 +96,10 @@ Route::get('/deleteProject/{id}',[ProjectController::class, 'destroy']);
 Route::get('/getMyProjects/{id}', [ProjectController::class, 'getMyProjects']);
 
 Route::post('/insertDetailsFirstMeeting', [ProgressController::class, 'insertDetailsFirstMeeting']);
+
 Route::post('/updateProgress',[ProgressController::class, 'update']);
+Route::get('/updateActivityProgress/{id}', [ProgressController::class, 'updateActivityProgress']);
+Route::get('/removeActivityProgress/{id}', [ProgressController::class, 'removeActivityProgress']);
 
 Route::get('/getAllOwners', [OwnerController::class, 'index']);
 Route::get('/verifyOwner/{id}', [OwnerController::class, 'verifyOwner']);

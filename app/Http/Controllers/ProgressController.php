@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Progress;
 use App\Http\Requests\StoreProgressRequest;
 use App\Http\Requests\UpdateProgressRequest;
+use App\Models\Activity;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
@@ -107,7 +108,32 @@ class ProgressController extends Controller
         $progress = Progress::where('progressable_id', $request->get('activityId'))->where('progressable_type','App\Models\Activity')->get();
 
         $progress[0]->update([
-            'comment' => $request->get('detail')
+            'comment' => $request->get('detail'),
+            'percentage' => 100
+        ]);
+
+        return response()->json([
+            'msg' => 'progress updated successfully'
+        ]);
+    }
+
+    public function updateActivityProgress($id){
+        $activity = Activity::find($id);
+        $progress = $activity->progresses[0];
+        $progress->update([
+            'percentage' => 100
+        ]);
+
+        return response()->json([
+            'msg' => 'progress updated successfully'
+        ]);
+    }
+
+    public function removeActivityProgress($id){
+        $activity = Activity::find($id);
+        $progress = $activity->progresses[0];
+        $progress->update([
+            'percentage' => 0
         ]);
 
         return response()->json([
