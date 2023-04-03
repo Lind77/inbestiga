@@ -3,7 +3,7 @@
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title"> Detalles para la primera reunión {{ activityId }}</h5>
+            <h5 class="modal-title"> Detalles para la primera reunión {{ activity.id }}</h5>
             <button
                 type="button"
                 class="btn-close"
@@ -48,19 +48,19 @@
             }
         },
         props:{
-            activityId: Number
+            activity: Object
         },
         methods:{
             insertDetailsFirstMeeting(){
                 const fd = new FormData()
-                fd.append('activityId', this.activityId)
+                fd.append('activityId', this.activity.id)
                 fd.append('detail', this.detail)
 
                 axios.post('/api/insertDetailsFirstMeeting', fd)
                 .then((res)=>{
                     this.detail = ''
-                    this.$emit('checkActivity', this.activityId)
                     $('#firstMeetModal').modal('hide')
+                    this.$emit('colorActivity', this.activity)
                 })
                 .catch((err)=>{
                     console.error(err)

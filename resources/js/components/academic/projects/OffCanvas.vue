@@ -33,8 +33,8 @@
       </div>
     </div>
     <ProgressModal :activity="activity_selected" :project_selected="project_selected" @getActivities="getActivities"/>
-    <TeamModal :project="project_selected" :activity="activity_selected"/>
-    <FirstModal :activityId="activitySelectedId" @checkActivity="checkActivity"/>
+    <TeamModal :project="project_selected" :activity="activity_selected" @colorActivity="colorActivity"/>
+    <FirstModal :activity="activity_selected" @checkActivity="checkActivity" @colorActivity="colorActivity"/>
 </template>
 <script>
 import { userStore } from '../../../stores/UserStore'
@@ -72,9 +72,31 @@ export default{
       }
     },
     methods:{
-        checkActivity(activityId){
+        colorActivity(activity){
+          console.log('called since first modal')
+          var activitySelected = this.project_selected.activities.find(el => el.id == activity.id)
+          activitySelected.isCompleted = true
+          activitySelected.progresses[0].percentage = 100
+        },
+        checkActivity(activity){
 
-            this.activitySelectedId = activityId
+          var activitySelected = this.project_selected.activities.find(el => el.id == activity.id)
+
+          if(activity.fixed_activity_id == 5 || activity.fixed_activity_id == 8){
+            activitySelected.isCompleted = true
+            activitySelected.progresses[0].percentage = 100
+            this.updateProgress(activity)
+          }else if(activity.fixed_activity_id == 6){
+            this.activity_selected = activitySelected
+            $('#teamModal').modal('show')
+          }else if(activity.fixed_activity_id == 7){
+            this.activity_selected = activitySelected
+            $('#firstMeetModal').modal('show')
+          }
+
+          
+
+           /*  this.activitySelectedId = activityId */
               
                 /* 
                 console.log(this.bgColor) */
@@ -133,8 +155,7 @@ export default{
 
                 axios.post('/api/updateProgress', fd)
                 .then(res =>{
-                    console.log(res)
-                    this.getActivities()
+                    console.log(res)  
                     this.comment = ''
                 })
                 .catch(err =>{

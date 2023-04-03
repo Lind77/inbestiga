@@ -20,7 +20,6 @@
             </div> 
           </div>
         </div>
-        
         <div class="row">
           <dragArea :title="'To Do'" :tasks="toDo" :status="0" @updateTask="updateTask"/>
           <dragArea :title="'Doing'" :tasks="doing" :status="1" @updateTask="updateTask"/>
@@ -53,10 +52,20 @@ export default {
             tasks:[],
             localTime: " ",
             seconds: " ",
-            totalTime: ''
+            totalTime: '',
+            timer: 0,
+            interval: null
         }
     },
     methods:{
+        startCron(){
+          this.interval = setInterval(()=>{
+            this.timer++
+          }, 1000)
+        },
+        stopCron(){
+          clearInterval(this.interval)
+        },
         updateTask(taskId, newStatus){
           var taskSelected = this.tasks.find(task => task.id == taskId)
           var firstStatus = taskSelected.status
@@ -105,7 +114,7 @@ export default {
         updateProgressTask(taskId){
           const fd = new FormData();
           fd.append('id_task', taskId)
-          fd.append('owner', this.store.authUser[0].name)
+          fd.append('owner', this.store.authUser.name)
           fd.append('start_time', new Date())
           axios.post('/api/insertTimeTask', fd)
           .then(res =>{

@@ -163,7 +163,7 @@ class ProjectController extends Controller
 
         $total_time = $total_maxtime + $total_mintime/2;
 
-        $project = Project::where('id',$id)->with(['customer','activities','activities.progress', 'activities.fixed_activity', 'activities.fixed_activity.product', 'activities.tasks', 'activities.tasks.progress', 'activities.tasks.fixed_task', 'activities.tasks.fixed_task.fixed_activity','activities.tasks.fixed_task.fixed_activity.product','team', 'product'])->get();
+        $project = Project::where('id',$id)->with(['customer','activities','activities.progresses', 'activities.fixed_activity', 'activities.fixed_activity.product', 'activities.tasks', 'activities.tasks.progress', 'activities.tasks.fixed_task', 'activities.tasks.fixed_task.fixed_activity','activities.tasks.fixed_task.fixed_activity.product','team', 'product'])->get();
         return response()->json([
             'project' => $project,
             'total_time' => $total_time

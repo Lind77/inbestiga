@@ -53,23 +53,12 @@ export default {
 
             fd.append('project_id', this.project.id)
             fd.append('team_selected', this.team_selected)
+            fd.append('activity_id', this.activity.id)
             axios.post('/api/assignTeam', fd)
             .then(res =>{
-                const fd = new FormData()
-                fd.append('id', this.activity.id)
-                fd.append('comment', 'Completado')
-                fd.append('project_id', this.project.id)
-                axios.post('/api/updateProgress', fd)
-                .then(res =>{
-                    $('#teamModal').modal('hide')
-                    this.$swal('Proyecto asignado correctamente')
-                })
-                .catch(err =>{
-                    if(err.response){
-                        console.log(err.response.data)
-                    }
-                })
-                
+                console.log(res)
+                $('#teamModal').modal('hide')
+                this.$emit('colorActivity', this.activity)
             })
             .catch(err =>{
                 console.error(err)

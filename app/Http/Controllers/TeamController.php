@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Team;
 use App\Http\Requests\StoreTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
+use App\Models\Activity;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
@@ -92,6 +93,14 @@ class TeamController extends Controller
         $project =  Project::find($request->get('project_id'));
         $project->update([
             'team_id' => $request->get('team_selected')
+        ]);
+        
+        $activity = Activity::with('progresses')->find($request->get('activity_id'));
+
+        $progress = $activity->progresses()->first();
+
+        $progress->update([
+            'percentage' => 100
         ]);
 
         return response()->json([

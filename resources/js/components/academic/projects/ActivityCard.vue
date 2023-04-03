@@ -3,7 +3,7 @@
         <div class="card-title d-flex align-items-center justify-content-between mb-0">
             <h5 class="text-white mb-0">{{ activity.title }}</h5>
                 <div class="form-check" v-show="mustShowCheckbox">
-                    <input class="form-check-input" type="checkbox" :checked="isChecked" @click="handleCheck(activity, $event)">
+                    <input class="form-check-input" type="checkbox" id="checkbox" v-model="activity.isCompleted" @click="handleCheck(activity, $event)"/>
                 </div>   
         </div>
     </div>  
@@ -24,7 +24,6 @@
         },
         data(){
             return{
-                activated: true,
                 isChecked: false,
                 bgColor: ''
             }
@@ -35,12 +34,15 @@
         },
         methods:{
             handleCheck(activity, e){
-                e.preventDefault()
-                this.$emit('checkActivity', activity.id)
-
-                if(activity.fixed_activity_id == 7){
-                    $('#firstMeetModal').modal('show')
+                if(activity.fixed_activity_id == 5 || activity.fixed_activity_id == 8){
+                    this.$emit('checkActivity', activity)
+                }else{
+                    e.preventDefault()
+                    this.$emit('checkActivity', activity)
                 }
+               /*  if(activity.fixed_activity_id == 7){
+                    $('#firstMeetModal').modal('show')
+                } */
 
                 /* var selectActivityByFixed = {
                     1 : ''
@@ -103,6 +105,9 @@
                 } else {
                     return false
                 }
+            },
+            checked(){
+                return this.isChecked
             }
         }
     }

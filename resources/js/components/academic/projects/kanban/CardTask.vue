@@ -1,11 +1,20 @@
 <template>
-    <div class="card card-action mb-4 cursor-pointer" draggable="true" @dragstart="drag" :id="taskSelected.id">
+    <div class="card card-action mb-4 cursor-pointer" draggable="true" @dragstart="drag" :id="task.id">
     <div class="card-header">
         <div class="card-action-title h5 fw-bold">
+            <div class="demo-inline-spacing" v-if="task.status == 1">
+                <button type="button" @click="startCron" class="btn rounded-pill btn-icon btn-primary">
+                    <span class="tf-icons bx bx-play"></span>
+                </button>
+                <button type="button" @click="stopCron" class="btn rounded-pill btn-icon btn-secondary">
+                    <span class="tf-icons bx bx-pause"></span>
+                </button>
+                {{ timer }}
+                {{ cronometer }}
+            </div>
+          
+
             {{ taskSelected.fixed_task.fixed_activity.product.title }}
-            <template v-if="taskSelected.status == 1">
-                - <span class="h6" :id="`cronometer${taskSelected.id}`"></span><i class='bx bx-timer'></i>
-            </template>
             <template v-if="taskSelected.status >= 1">
                 <span class="h6">{{ taskSelected.progress.owner }}</span> <i class='bx bx-user'></i>
             </template>
@@ -49,33 +58,35 @@ export default {
         return {
             visible: false,
             taskSelected: this.task,
-            cronometer: "",
+            cronometer: new Date().setHours(0,0,0,0),
             showCronometer: true,
             subtract: 0,
             seconds: 0,
-            timer: null,
-            time: ''
+            timer: 0,
+            interval: null
         }
     },
     methods:{
+        startCron(){
+          this.interval = setInterval(()=>{
+            this.timer++
+            this.cronometer.setSeconds(this.cronometer.getSeconds() + 1)
+          }, 1000)
+        },
+        stopCron(){
+          clearInterval(this.interval)
+        },
         startCronometer(){
-            var id = this.taskSelected.id
-            var d = new Date()
-            d.setHours(0,0,0,0)
-            var timer = setInterval(function(){
-                d.setSeconds(d.getSeconds() + 1)
-                document.getElementById('cronometer'+id).innerHTML = d.toLocaleTimeString()
+            console.log('iniciando cronometro')
+           
+            this.interval = setInterval(()=>{
+               
+                //document.getElementById('cronometer'+id).innerHTML = d.toLocaleTimeString()
             }, 1000)
         },
-        showLocalTime(){
-          var time =  this
-          var d = new Date()
-          d.setHours(0,0,0,0)
-          setInterval(() => {
-            d.setSeconds(d.getSeconds() + 1)
-            time.cronometer = d.toLocaleTimeString()
-            this.seconds = d.getTime()
-          }, 1000);
+        stopCronometer(){
+            console.log('stopeando cronometer')
+            clearInterval(this.interval)
         },
         drag(e){  
           e.dataTransfer.setData('text', e.target.id)
@@ -124,12 +135,8 @@ export default {
         }
     },
     watch:{
-        'task.status'(){
-            if(this.task.status == 1){
-                this.startCronometer()
-            }else{
-                console.log('watcher detectando status 2')
-            }
+        task(){
+            this.startCron()
         }
     } 
 }

@@ -28,6 +28,7 @@
               /*   e.target.appendChild(document.getElementById(card)) */
 
                 this.$emit('updateTask', card, this.status)
+                console.log('seteando card a este estado: ', this.status)
             }
         }
     }
