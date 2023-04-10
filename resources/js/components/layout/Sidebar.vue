@@ -42,7 +42,7 @@
           <router-link :to="{name:'home-client'}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-user"></i>
-              <div data-i18n="Form Layouts">Clientes</div>
+              <div data-i18n="Form Layouts">Base de datos</div>
             </div>
           </router-link>
           <router-link :to="{name:'home-pre-lead'}" class="menu-item">

@@ -1,10 +1,10 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-      <h4 class="fw-bold py-3 mb-4"> Clientes <span class="badge bg-label-primary me-1 cursor-pointer" @click="openCustomerModal(1)">+</span></h4>
+      <h4 class="fw-bold py-3 mb-4"> Base de datos <span class="badge bg-label-primary me-1 cursor-pointer" @click="openCustomerModal(1)">+</span></h4>
       <div class="row">
         <div class="col-xl-12 col-lg-12">
           <div class="card">
-            <h5 class="card-header">Directorio de Clientes</h5>
+            <h5 class="card-header">Base de datos</h5>
             <div class="table-responsive text-nowrap">
               <table class="table">
                 <thead>

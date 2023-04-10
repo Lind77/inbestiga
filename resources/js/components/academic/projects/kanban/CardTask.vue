@@ -2,7 +2,12 @@
     <div class="card card-action mb-4 cursor-pointer" draggable="true" @dragstart="drag" :id="task.id">
     <div class="card-header">
         <div class="card-action-title h5 fw-bold">
-            <div class="demo-inline-spacing" v-if="task.status == 1">
+            {{ task.fixed_task.fixed_activity.product.title }}
+            <template v-if="task.status >= 1">
+                <span class="h6">{{ task.progress.owner }}</span> <i class='bx bx-user'></i>
+            </template>
+        </div>
+        <div class="demo-inline-spacing" v-if="task.status == 1">
                 <button type="button" @click="startCron" class="btn rounded-pill btn-icon btn-primary">
                     <span class="tf-icons bx bx-play"></span>
                 </button>
@@ -10,29 +15,23 @@
                     <span class="tf-icons bx bx-pause"></span>
                 </button>
                 {{ timer }}
-                {{ cronometer }}
+                <!-- {{ cronometer }} -->
             </div>
           
-
-            {{ taskSelected.fixed_task.fixed_activity.product.title }}
-            <template v-if="taskSelected.status >= 1">
-                <span class="h6">{{ taskSelected.progress.owner }}</span> <i class='bx bx-user'></i>
-            </template>
-        </div>
         <div class="card-action-element">
         <ul class="list-inline mb-0">
             <li class="list-inline-item">
-            <a class="card-collapsible" data-bs-toggle="collapse" :href="`#collapseExample${taskSelected.id}`" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="tf-icons bx bx-chevron-up"></i></a>
+            <a class="card-collapsible" data-bs-toggle="collapse" :href="`#collapseExample${task.id}`" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="tf-icons bx bx-chevron-up"></i></a>
             </li>
         </ul>
         </div>
     </div>
-    <div class="collapse" :id="`collapseExample${taskSelected.id}`">
+    <div class="collapse" :id="`collapseExample${task.id}`">
         <div class="card-body pt-0">
             <p class="card-text">
-                <div class="item-badges" v-if="taskSelected.fixed_task.fixed_activity">
-                    <p class="h5">Actividad: {{ taskSelected.fixed_task.fixed_activity.title }}</p>
-                    <p class="h6">Tarea: {{ taskSelected.fixed_task.title }}</p>
+                <div class="item-badges" v-if="task.fixed_task.fixed_activity">
+                    <p class="h5">Actividad: {{ task.fixed_task.fixed_activity.title }}</p>
+                    <p class="h6">Tarea: {{ task.fixed_task.title }}</p>
                 </div>  
             </p>
         </div>
@@ -57,7 +56,6 @@ export default {
     data(){
         return {
             visible: false,
-            taskSelected: this.task,
             cronometer: new Date().setHours(0,0,0,0),
             showCronometer: true,
             subtract: 0,
@@ -68,9 +66,10 @@ export default {
     },
     methods:{
         startCron(){
+            console.log('Se inicia el cron')
           this.interval = setInterval(()=>{
             this.timer++
-            this.cronometer.setSeconds(this.cronometer.getSeconds() + 1)
+            //this.cronometer.setSeconds(this.cronometer.getSeconds() + 1)
           }, 1000)
         },
         stopCron(){
@@ -135,8 +134,10 @@ export default {
         }
     },
     watch:{
-        task(){
-            this.startCron()
+        'task.status'(){
+            setTimeout(() => {
+                this.startCron()
+            }, 5000)
         }
     } 
 }

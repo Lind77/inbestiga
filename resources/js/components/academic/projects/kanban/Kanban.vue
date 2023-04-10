@@ -72,7 +72,7 @@ export default {
           this.removeTask(firstStatus, taskId)
           this.addTask(taskSelected, newStatus)
           //this.updateStatus(taskId, newStatus)
-          this.updateProgressTask(taskId)
+          //this.updateProgressTask(taskId) 
           if(newStatus == 2){
             this.updateEndTime(taskId)
           }
@@ -99,7 +99,7 @@ export default {
           arraySelected.push(taskSelected)
         },
         updateStatus(taskId, newStatus){
-          const fd = new FormData();
+          const fd = new FormData()
 
           fd.append('taskId', taskId)
           fd.append('newStatus', newStatus)
