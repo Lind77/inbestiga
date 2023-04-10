@@ -18,6 +18,9 @@ import QuotationImg from '../components/sales/quotations/quotationImg.vue'
 import HomeOrders from '../components/sales/orders/Home.vue'
 import OrderFile from '../components/sales/orders/File.vue'
 
+//Área de Ventas - Contratos
+import HomeContracts from '../components/sales/contracts/Home.vue'
+
 //Área de Ventas - Clientes
 import HomeClient from '../components/sales/customers/Home.vue'
 
@@ -158,6 +161,12 @@ export const routes = [
                 component: HomeOrders,
                 props: true,
                 name: 'home-orders'
+            },
+            {
+                path: 'contracts/:idUser',
+                component: HomeContracts,
+                props: true,
+                name: 'home-contracts'
             },
             {
                 path: 'customers',

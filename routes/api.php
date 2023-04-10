@@ -55,6 +55,7 @@ Route::get('/getAllUsers', [UserController::class, 'getAllUsers']);
 Route::get('/deleteUser/{id}', [UserController::class, 'deleteUser']);
 Route::post('/assignTeamUser', [UserController::class, 'assignTeamUser']);
 Route::get('/getUserData/{id}', [UserController::class, 'getUserData']);
+Route::get('/getAllSellers', [UserController::class, 'getAllSellers']);
 
 
 Route::get('/getAllProducts',[ProductController::class, 'index']);
@@ -118,6 +119,7 @@ Route::get('/reactivateCustomer/{id}', [CustomerController::class, 'reactivateCu
 Route::post('/updateDniCustomer', [CustomerController::class, 'updateDniCustomer']);
 Route::get('/getAllPreleads', [CustomerController::class, 'getAllPreleads']);
 Route::get('/getAllLeads', [CustomerController::class, 'getAllLeads']);
+Route::post('/assignOwner', [CustomerController::class, 'assignOwner']);
 
 Route::get('/getAllMessages', [ChatController::class, 'index']);
 Route::get('/getAllMessagesById/{id}', [ChatController::class, 'getAllMessagesById'])->middleware('auth:sanctum');
@@ -133,3 +135,5 @@ Route::get('/getNoSeenNotifications/{id}', [NotificationController::class, 'getN
 Route::get('/registerSeen/{id}', [SeenController::class, 'registerSeen']);
 
 Route::post('/updateComunication', [ComunicationController::class, 'update']);
+
+Route::get('/generateContract', [OrderController::class, 'generateContract']);

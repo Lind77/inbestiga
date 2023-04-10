@@ -2,11 +2,12 @@
     <div class="container-xxl flex-grow-1 container-p-y">
       <div class="row">
             <draggableArea :customers="attended" :title="'Atendido'" :status="1" @callModal="callModal" @updateStatusSpace="updateStatusSpace"/>
-            <draggableArea :customers="comunications" :title="'Comunicación Establecida'" :status="2" @callModal="callModal" @updateStatusSpace="updateStatusSpace"/>
+            <draggableArea :customers="comunications" :title="'Comunicación Establecida'" :status="2" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @convertLead="convertLead" @cleanLead="cleanLead"/>
           </div>
       <ProductModal :customer="customerSelected" @getAllCustomers="getAllCustomers"/>
       <!-- <UpdateCom :comunication="comunication"/>   -->
     </div>
+      <OwnerModal :customerId="customerId" @convertLead="convertLead" @cleanLead="cleanLead"/>
 </template>
 <script>
 import axios from 'axios'
@@ -14,9 +15,11 @@ import CardCustomer from './CardCustomer.vue'
 import ProductModal from '../funnel/ProductModal.vue'
 import draggableArea from '../funnel/draggableArea.vue'
 import UpdateCom from '../prelead/UpdateCom.vue'
+import OwnerModal from './OwnerModal.vue'
+
 
 export default {
-    components: {CardCustomer, ProductModal, draggableArea, UpdateCom},
+    components: {CardCustomer, ProductModal, draggableArea, UpdateCom, OwnerModal},
     data(){
         return{
           customers:[],
@@ -24,10 +27,19 @@ export default {
           comunications:[],
           status: 0,
           customerSelected: null,
-          comunication: null
+          comunication: null,
+          customerId:0
         }
     },
     methods:{
+      cleanLead(id){
+        var customerSelected = this.comunications.find(lead => lead.id == id)
+        customerSelected.status = 3
+      },
+      convertLead(id){
+        this.customerId = id
+        $('#ownerModal').modal('show')
+      },
         updateStatusSpace(customer_id, status){
           var customerSelected = this.customers.find(customer => customer.id == customer_id)
           customerSelected.status = status

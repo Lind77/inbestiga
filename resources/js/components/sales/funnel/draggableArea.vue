@@ -4,7 +4,7 @@
         <div :id="'draggableArea'+status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent @dragover.prevent>
             <template v-for="(customer, index) in customers" :key="index">
                     <template v-if="customer.status == status">
-                        <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom" @updateStatusSpace="updateStatusSpace"/>
+                        <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom" @updateStatusSpace="updateStatusSpace" @convertLead = "convertLead"/>
                     </template>
             </template>
         </div>
@@ -33,6 +33,13 @@ import CardCustomer from '../prelead/CardCustomer.vue'
             }
         },
         methods:{
+            cleanLead(id){
+                var leadSelected = this.customers.find(customer => customer.id == id)
+                leadSelected.status = 3 
+            },
+            convertLead(id){
+                this.$emit('convertLead',id)
+            },
             showModalUpdateCom(com){
                 this.$emit('callModal', com)
             },

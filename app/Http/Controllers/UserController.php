@@ -74,6 +74,11 @@ class UserController extends Controller
         return response()->json([
             'user' => $user,
             'progress' => $progress
-        ]);;
+        ]);
+    }
+
+    public function getAllSellers(){
+        $memoirs = Memoir::where('area', 'sales')->with('user')->get();
+        return response()->json($memoirs);
     }
 }

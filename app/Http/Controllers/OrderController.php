@@ -10,6 +10,7 @@ use App\Models\Customer;
 use App\Models\Payments;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
+use PDF;
 
 class OrderController extends Controller
 {
@@ -118,5 +119,11 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         //
+    }
+
+    public function generateContract(){
+        $name = 'Juanito Perez';
+		$pdf = PDF::loadView('contract', compact('name'));
+		return $pdf->stream('prueba.pdf');
     }
 }

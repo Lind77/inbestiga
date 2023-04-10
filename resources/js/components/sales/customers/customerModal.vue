@@ -49,6 +49,16 @@
                 </div>
             </div>
             <div class="row g-2">
+                <div class="col mb-0">
+                <label for="emailBasic" class="form-label">Origen</label>
+                    <select class="form-select" v-model="origin">
+                        <option value="1">Messenger</option>
+                        <option value="2">Whatsapp</option>
+                        <option value="3">Página web</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row g-2">
                 <h5 class="mt-3">Comunicación</h5>
                 <div class="col mb-0">
                 <label for="emailBasic" class="form-label">Primera Gestión</label>
@@ -121,7 +131,8 @@ export default {
             next_management: null,
             comment: '',
             product_tentative: '',
-            type: 0
+            type: 0,
+            origin: 0
         }
     },
     methods:{
@@ -151,6 +162,7 @@ export default {
             fd.append('university',this.university)
             fd.append('career',this.career)
             fd.append('email',this.email)
+            fd.append('origin', this.origin)
             fd.append('status',1)
             fd.append('user_id',this.store.authUser.id)
             fd.append('first_management',this.first_management)

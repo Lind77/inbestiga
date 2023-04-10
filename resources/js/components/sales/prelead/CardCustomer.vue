@@ -89,6 +89,7 @@
                 </li>
                 <li>
                     <router-link class="dropdown-item" v-if="statusCard == 5" :to="{name:'home-orders', params:{ idUser: customer.id }}">Generar Orden</router-link>
+                    <router-link class="dropdown-item" v-if="statusCard == 5" :to="{name:'home-contracts', params:{ idUser: customer.id }}">Generar Contrato</router-link>
                 </li>
                 <li><a class="dropdown-item" @click="customerStandBy(customer.id)" href="javascript:void(0);">Stand By</a></li>
                 </ul>
@@ -171,18 +172,9 @@ import moment from 'moment'
                 e.preventDefault()
             },
             convertLead(id){
-                this.$swal.fire('Tienes la seguridad de convertir a este usuario en un lead?')
-                .then((res) => {
-                    if(res.isConfirmed){
-                        axios.get(`/api/updateCustomerGrade/${id}/3`)
-                        .then(res =>{
-                            console.log(res)
-                        })
-                        .catch(err =>{
-                            console.log(err)
-                        })
-                    }
-                })
+
+                this.$emit('convertLead', id)
+                /*  */
             },
             openProductModal(customer){
                 console.log('asignando customer')

@@ -179,4 +179,12 @@ class CustomerController extends Controller
         $customers = Customer::where('status','>', 2)->with(['project','project.product', 'comunication','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
         return response()->json($customers);
     }
+
+    public function assignOwner(Request $request){
+        $customer = Customer::find($request->get('customer_id'));
+        $customer->update([
+            'user_id' => $request->get('seller_selected'),
+            'status' => 3
+        ]);
+    }
 }
