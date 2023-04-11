@@ -27,7 +27,7 @@
             <input type="text" class="form-control" v-model="address">
             </div>
             <div v-else>
-            Dirección: {{ customerSelected.address }}
+            Dirección: {{ customerSelected.address }}   
             </div>
         </p>
         <button v-if="customerSelected.address == null || customerSelected.dni == null" class="btn btn-success btn-sm mt-2" @click="saveDni"> Guardar Datos</button>
@@ -53,14 +53,13 @@
             const fd = new FormData()
             fd.append('id_customer', this.$route.params.idUser)
             fd.append('dni', this.dni)
-            fd.append('address', this.address)
-
+            fd.append('address', this.address)  
             axios.post('/api/updateDniCustomer', fd)
             .then((res) =>{
-              this.customerSelected = res.data
+                this.$emit('updateCustomer')  
             })
             .catch((err)=>{
-              console.error(err)
+                console.error(err)
             })
           },
         }

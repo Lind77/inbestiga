@@ -136,4 +136,5 @@ Route::get('/registerSeen/{id}', [SeenController::class, 'registerSeen']);
 
 Route::post('/updateComunication', [ComunicationController::class, 'update']);
 
-Route::get('/generateContract', [OrderController::class, 'generateContract']);
+Route::get('/generateContract/{id}', [OrderController::class, 'generateContract']);
+Route::post('/insertContract',[OrderController::class, 'insertContract']);

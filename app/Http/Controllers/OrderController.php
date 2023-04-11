@@ -6,11 +6,15 @@ use App\Models\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Contract;
 use App\Models\Customer;
+use App\Models\Fee;
 use App\Models\Payments;
 use App\Models\Quotation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use PDF;
+use Symfony\Component\CssSelector\Node\FunctionNode;
 
 class OrderController extends Controller
 {
@@ -121,9 +125,30 @@ class OrderController extends Controller
         //
     }
 
-    public function generateContract(){
-        $name = 'Juanito Perez';
-		$pdf = PDF::loadView('contract', compact('name'));
+    public function generateContract($id){
+        $customer = Customer::with(['quotations'=> function($query){
+            $query->orderBy('id', 'desc')->with(['contracts'=> function($query2){
+                $query2->orderBy('id', 'desc')->with('fees')->first();
+            }])->first();
+        }])->find($id);
+		$pdf = PDF::loadView('contract', compact('customer'));
 		return $pdf->stream('prueba.pdf');
+    }
+
+    public function insertContract(Request $request){
+        $contract = Contract::create($request->all());
+        $fees = json_decode($request->get('fees'), true);
+
+        foreach ($fees as $fee) {
+           Fee::create([
+                'contract_id' => $contract->id,
+                'date' => $fee['date'],
+                'amount' => $fee['amount'],
+                'advance' => $fee['advance'],
+                'percentage' => $fee['percentage']
+           ]);
+        }
+
+        return response()->json($contract->id);
     }
 }

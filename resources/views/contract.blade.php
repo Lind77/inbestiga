@@ -59,7 +59,7 @@
                 font-weight: 700;
             }
             .container{
-                padding: 20px 35px 0px 35px;
+                padding: 30px 35px 0px 35px;
             }
             ul{
                 padding-left: 15px;
@@ -75,6 +75,10 @@
             }
             td{
                 padding: 0px 5px;
+            }
+            .name{
+                font-weight: 400;
+                text-transform: uppercase;
             }
         </style>
     </head>
@@ -101,7 +105,7 @@
                         con domicilio para estos efectos en Calle Elías Aguirre 180º, distrito de Miraflores y provincia de Lima; a quien en adelante se le denominará como “EL LOCADOR”.</li>
                         Y, de la otra parte:
                     <li>
-                        NOMBRE Y APELLIDOS, identificado con DNI No. 00000000, con domicilio para estos efectos en Psj. XXXX; a quien en adelante se le denominará como “EL CLIENTE”.
+                        <span class="name">{{$customer->name}}</span>, identificado con DNI No. {{$customer->dni}}, con domicilio para estos efectos en {{$customer->address}}; a quien en adelante se le denominará como “EL CLIENTE”.
                     </li>
                 </ul>
                 <p>
@@ -157,7 +161,7 @@
                 <p>
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
                 Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un 
-                monto total de S/……… (……… soles), monto que será abonado en las siguientes fechas:
+                monto total de S/{{$customer->quotation[0]}} (……… soles), monto que será abonado en las siguientes fechas:
                 </p>
                 <table>
                     <thead>
@@ -310,7 +314,19 @@
                <p>En caso de que EL CLIENTE refiera a EL LOCADOR y este celebre un contrato de índole similar a la del 
                     presente contrato, EL LOCADOR otorgará a EL CLIENTE una bonificación de S/60.00 (sesenta soles) por cada 
                     mil soles de ingreso con los que la empresa se vea beneficiada.</p> 
-                    <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el 14 de Marzo del 2023</p>      
+                    <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el 14 de Marzo del 2023</p>
+                    
+                <div class="">
+                    <div class="col">
+                        <p>________________</p>
+                        <p>EL LOCADOR</p>
+                        <p>Representante Legal</p>
+                    </div>
+                    <div class="col">
+                        <p>________________</p>
+                        <p>EL CLIENTE</p>
+                    </div>
+                </div>
             </div>
         </main>
     </body>

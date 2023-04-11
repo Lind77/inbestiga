@@ -22,4 +22,8 @@ class Quotation extends Model
     public function orders(){
         return $this->hasMany("App\Models\Order");
     }
+
+    public function contracts(){
+        return $this->hasMany("App\Models\Contract");
+    }
 }

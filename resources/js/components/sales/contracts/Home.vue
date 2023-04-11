@@ -18,15 +18,13 @@
           </div>
           <div class="tab-content p-0">
             <div class="tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
-              
                 <div class="card-header d-flex justify-content-between align-items-center">
                   <h5 class="mb-0">Verifique los datos para generar el contrato.</h5>
                 </div>
                 <div class="card-body">
-                  
                     <div class="row">
                       <div class="col">
-                        <ClientSection :customerSelected="customerSelected"/>
+                        <ClientSection :customerSelected="customerSelected" @updateCustomer="updateCustomer"/>
                       </div>
                     <div class="col">
                       <div class="card shadow-none bg-transparent border border-info mb-3">
@@ -67,21 +65,6 @@
                         </tbody>
                       </table>
                     </div>
-
-                    <div class="row">
-                      <div class="col-6">
-                      <div class="mb-3">
-                        <label class="form-label" for="basic-default-company">Entrega Final</label>
-                        <textarea class="form-control" v-model="final_delivery"></textarea>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="mb-3">
-                        <label class="form-label" for="basic-default-company">Observaciones</label>
-                        <textarea class="form-control" v-model="observations"></textarea>
-                      </div>
-                    </div>
-                    </div>
                     <div class="row">
                     <div class="col-6">
                       <div class="mb-3">
@@ -99,20 +82,21 @@
                   </div>
                     <div class="row">
                       <div class="col-xl">
-                        <h5 class="mb-0">Pagos <span class="badge bg-label-primary me-1 cursor-pointer" @click="openPaymentModal()">+</span></h5>
+                        <h5 class="mb-0">Pagos y entregas <span class="badge bg-label-primary me-1 cursor-pointer" @click="openFeesModal()">+</span></h5>
                         <div class="row mt-3">
-                          <div class="col-3" v-for="payment in payments">
+                          <div class="col-3" v-for="fee in fees">
                             <div class="card shadow-none bg-transparent border border-success p-3">
-                              <p>Fecha: {{ payment.date }}</p>
-                              <p>Monto: S./ {{ payment.amount }}</p>
+                              <p>Fecha: {{ fee.date }}</p>
+                              <p>Monto: S./ {{ fee.amount }}</p>
+                              <p>Porcentaje: {{ fee.percentage }} %</p>
+                              <p>Avance: {{ fee.advance }}</p>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <button @click="insertOrder" class="btn btn-primary mt-2 text-white">Guardar</button>
-                    <router-link v-if="this.idOrder != 0" :to="{name:'order-file', params:{ id: this.idOrder }}" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>Imprimir</router-link>
-                    <a href="../../api/generateContract" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>PDF</a>
+                    <button @click="insertContract" class="btn btn-primary mt-2 text-white">Guardar</button>
+                    <a v-if="this.idContract != 0" :href="`../../api/generateContract/${$route.params.idUser}`" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>PDF</a>
                 </div>
             </div>
             <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
@@ -127,10 +111,13 @@
           
           <!-- <calcModal @addCartParaphrase="addCartParaphrase"/> -->
           <!-- <InsertDetail @addCartModal="addCartModal" @addSugestCartModal="addSugestCartModal" :product="selected_product" :products="fixed_products"/> -->
+          <FeesModal @addFee="addFee"/>
         </div>
     </template>
     <script>
-    import ClientSection from './ClientSection.vue'
+      import conversor from 'conversor-numero-a-letras-es-ar'
+      import ClientSection from './ClientSection.vue'
+      import FeesModal from './FeesModal.vue'
       import axios from 'axios'
       import moment from 'moment'
       /* import List from './List.vue'
@@ -138,9 +125,10 @@
      /*  import calcModal from './calcModal.vue' */
      /*  import InsertDetail from './InsertDetail.vue' */
       export default{
-        components:{ClientSection},
+        components:{ClientSection, FeesModal},
         data(){
           return{
+            fees:[],
             address:'',
             payments: [],
             detail_type: 1,
@@ -170,6 +158,7 @@
             university:'',
             career:'',
             grade:0,
+            idContract:0,
             idOrder:0,
             level: 0,
             levelSugested: 0,
@@ -187,11 +176,17 @@
           }
         },
         methods:{
+          addFee(fee){
+            this.fees.push(fee)
+          },
+          updateCustomer(){
+            this.getCustomer()
+          },
           addPayment(payment){
             this.payments.push(payment);
           },
-          openPaymentModal(){
-            $('#paymentModal').modal('show')
+          openFeesModal(){
+            $('#feesModal').modal('show')
           },
           considerSugested(){
             this.detail_type = (this.detail_type === 1) ? 2 : 1
@@ -226,6 +221,26 @@
           print(e){
                 e.preventDefault()
                 window.open('/api/generatePDF/'+this.idQuotation)
+          },
+          insertContract(){
+            let conversorClass = conversor.conversorNumerosALetras
+            let myConverter = new conversorClass()
+            const fd =  new FormData()
+            fd.append('quotation_id', this.quotation.id)
+            fd.append('amount', this.totalFinal)
+            fd.append('amount_text',myConverter.convertToText(this.totalFinal))
+            fd.append('date', this.date)
+            fd.append('fees', JSON.stringify(this.fees))
+          
+            axios.post('/api/insertContract', fd)
+            .then(res =>{
+              this.idContract = res.data
+              this.$swal('Contrato generado correctamente')
+              document.getElementById('buttonPDF').disabled = false
+            })
+            .catch(err =>{
+              console.log(err)
+            })
           },
           insertOrder(){
             var sumTotalPayments = 0
@@ -387,14 +402,11 @@
               console.log(err.response.data)
             })
           },
-          getAllCustomers(){
+          getCustomer(){
             this.$swal('Cargando ...')
-            axios.get('/api/getAllCustomers')
+            axios.get('/api/getCustomer/'+this.$route.params.idUser)
             .then(res => {
-              this.customers = res.data
-              if(this.$route.params.idUser != 0){
-                this.customerSelected = this.customers.find(customer => customer.id == this.$route.params.idUser)
-              }
+              this.customerSelected = res.data
               this.$swal.close()
             })
           },
@@ -414,7 +426,7 @@
         },
         mounted(){
           this.getAllProducts()
-          this.getAllCustomers()
+          this.getCustomer()
           this.getQuotation()
         },
         computed:{
