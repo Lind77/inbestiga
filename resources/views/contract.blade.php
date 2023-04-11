@@ -80,6 +80,24 @@
                 font-weight: 400;
                 text-transform: uppercase;
             }
+            .signatures{
+                padding: 0px 120px;
+                margin-top: 40px;
+            }
+            .col{
+                text-align: center;
+            }
+            .col-left{
+                float: left;
+            }
+            .col-right{
+                float: right;
+            }
+            .col p{
+                text-align: center;
+                margin: 0px;
+                padding: 0px;
+            }
         </style>
     </head>
     <body>
@@ -161,7 +179,7 @@
                 <p>
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
                 Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un 
-                monto total de S/{{$customer->quotation[0]}} (……… soles), monto que será abonado en las siguientes fechas:
+                monto total de S/{{$customer->quotations[0]->amount}} (<span class="name">{{$customer->quotations[0]->contracts[0]->amount_text}}</span> soles), monto que será abonado en las siguientes fechas:
                 </p>
                 <table>
                     <thead>
@@ -171,18 +189,12 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($customer->quotations[0]->contracts[0]->fees as $fee)
                         <tr>
-                            <td>00/03/2023</td>
-                            <td>30% - S/ 00.00</td>
+                            <td>{{$fee->date}}</td>
+                            <td>{{$fee->percentage}}% - S/ {{$fee->amount}}</td>
                         </tr>
-                        <tr>
-                            <td>00/04/2023</td>
-                            <td>40% - S/ 00.00</td>
-                        </tr>
-                        <tr>
-                            <td>Bajo coordinación con gerencia</td>
-                            <td>30% - S/ 00.00</td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 El pago será abonado bajo las siguientes modalidades:
@@ -235,18 +247,12 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($customer->quotations[0]->contracts[0]->fees as $fee)
                         <tr>
-                            <td>00/03/2023</td>
-                            <td>Firma de contrato</td>
+                            <td>{{$fee->date}}</td>
+                            <td>{{$fee->advance}}</td>
                         </tr>
-                        <tr>
-                            <td>00/04/2023</td>
-                            <td>Plan de tesis</td>
-                        </tr>
-                        <tr>
-                            <td>Bajo coordinación con tesista</td>
-                            <td>Informe final de tesis</td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 <p>Además, EL LOCADOR se compromete con entregar a favor de EL CLIENTE los siguientes beneficios adicionales:
@@ -313,17 +319,17 @@
                 <span>DÉCIMO SEGUNDO: BONIFICACIONES</span><br>
                <p>En caso de que EL CLIENTE refiera a EL LOCADOR y este celebre un contrato de índole similar a la del 
                     presente contrato, EL LOCADOR otorgará a EL CLIENTE una bonificación de S/60.00 (sesenta soles) por cada 
-                    mil soles de ingreso con los que la empresa se vea beneficiada.</p> 
-                    <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el 14 de Marzo del 2023</p>
-                    
-                <div class="">
-                    <div class="col">
-                        <p>________________</p>
+                    mil soles de ingreso con los que la empresa se vea beneficiada.</p>
+                    <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
+                    <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($customer->quotations[0]->contracts[0]->date))}}</p>
+                <div class="signatures">
+                    <div class="col col-left">
+                        <p>__________________________</p>
                         <p>EL LOCADOR</p>
                         <p>Representante Legal</p>
                     </div>
-                    <div class="col">
-                        <p>________________</p>
+                    <div class="col col-right">
+                        <p>__________________________</p>
                         <p>EL CLIENTE</p>
                     </div>
                 </div>

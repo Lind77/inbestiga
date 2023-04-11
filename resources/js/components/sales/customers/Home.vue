@@ -5,6 +5,7 @@
         <div class="col-xl-12 col-lg-12">
           <div class="card">
             <h5 class="card-header">Base de datos</h5>
+            <input type="text" name="" id="" placeholder="Buscar..." class="form-control w-50 ms-2 py-2" @keyup="searchCustomer" v-model="search">
             <div class="table-responsive text-nowrap">
               <table class="table">
                 <thead>
@@ -63,6 +64,7 @@ import customerModal from './customerModal.vue'
         customersChunked: [],
         customer_selected:{},
         action: 1,
+        search: '',
         status:{
           0: 'No atendido',
           1: 'Atendido',
@@ -76,6 +78,11 @@ import customerModal from './customerModal.vue'
       }
     },
     methods:{
+      searchCustomer(e){
+        console.log(e.target.value)
+        var results = this.customers.filter(customer => customer.name != null && customer.name.toLowerCase().includes(e.target.value))
+        this.customersPag = results
+      },
       stepPag(i){
         this.customersPag = this.customersChunked[i]
         document.querySelectorAll('.paginate_button').forEach(el =>{
