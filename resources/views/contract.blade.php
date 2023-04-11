@@ -45,8 +45,8 @@
             }
 
             body{
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 12px;
             }
             h1{
                 text-align: center;

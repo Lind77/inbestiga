@@ -164,7 +164,8 @@ class CustomerController extends Controller
 
         $customer = Customer::find($request->get('id_customer'));
         $customer->update([
-            'dni' => $request->get('dni')
+            'dni' => $request->get('dni'),
+            'address' => $request->get('address')
         ]);
 
         return response()->json($customer);

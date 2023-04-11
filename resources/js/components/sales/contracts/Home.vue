@@ -12,7 +12,7 @@
             </li>
           </ul>
           <div class="alert alert-warning alert-dismissible" role="alert">
-            Atención! Los detalles de esta orden están asociados a la última cotización de este cliente
+            Atención! Los detalles de este contrato están asociados a la última cotización de este cliente
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
             </button>
           </div>
@@ -26,34 +26,8 @@
                   
                     <div class="row">
                       <div class="col">
-                      <div class="card shadow-none bg-transparent border border-info mb-3"  v-if="customerSelected.id">
-                        <div class="card-body">
-                        <h5 class="card-title">Cliente: {{ customerSelected.name }} <!-- <i @click="deleteCustomerSelected" class='bx bx-trash text-danger cursor-pointer'></i> --></h5>
-                        <p class="card-text">
-                          Teléfono: {{ customerSelected.cell }}
-                        </p>
-                        <p class="card-text">
-                          Carrera: {{ customerSelected.career }}
-                        </p>
-                        <p class="card-text">
-                          Universidad: {{ customerSelected.university }}
-                        </p>
-                        <p class="card-text">
-                          <div v-if="customerSelected.dni == null">
-                            <label for="">DNI</label>
-                            <input type="text" class="form-control" v-model="dni">
-                          </div>
-                          <div v-else>
-                            DNI: {{ customerSelected.dni }}
-                          </div>
-                          <button v-if="customerSelected.dni == null" class="btn btn-success btn-sm mt-2" @click="saveDni"> Guardar DNI</button>
-                        </p>
-                        <!-- <p class="card-text">
-                          Estado: {{ status[customerSelected.status] }}
-                        </p> -->
+                        <ClientSection :customerSelected="customerSelected"/>
                       </div>
-                      </div>
-                    </div>
                     <div class="col">
                       <div class="card shadow-none bg-transparent border border-info mb-3">
                         <div class="card-body">
@@ -156,6 +130,7 @@
         </div>
     </template>
     <script>
+    import ClientSection from './ClientSection.vue'
       import axios from 'axios'
       import moment from 'moment'
       /* import List from './List.vue'
@@ -163,9 +138,10 @@
      /*  import calcModal from './calcModal.vue' */
      /*  import InsertDetail from './InsertDetail.vue' */
       export default{
-       /*  components:{List, PaymentModal}, */
+        components:{ClientSection},
         data(){
           return{
+            address:'',
             payments: [],
             detail_type: 1,
             total:0,
@@ -219,19 +195,6 @@
           },
           considerSugested(){
             this.detail_type = (this.detail_type === 1) ? 2 : 1
-          },
-          saveDni(){
-            const fd = new FormData()
-            fd.append('id_customer', this.$route.params.idUser)
-            fd.append('dni', this.dni)
-
-            axios.post('/api/updateDniCustomer', fd)
-            .then((res) =>{
-              this.customerSelected = res.data
-            })
-            .catch((err)=>{
-              console.error(err.data.message)
-            })
           },
           generatePDF(){
     
@@ -396,9 +359,7 @@
           },
           search(e){
             if(e.target.value != '' && this.level != 0){
-    
               var productsFound = this.products.filter(product => product.title.toLowerCase().includes(e.target.value))
-    
               productsFound.forEach(product => {
                 product.amountLevel = product.prices.filter(price => price.level == this.level)[0].price
               })
