@@ -8,13 +8,13 @@
             </template>
         </div>
         <div class="demo-inline-spacing" v-if="task.status == 1">
-                <button type="button" @click="startCron" class="btn rounded-pill btn-icon btn-primary">
+                <!-- <button type="button" @click="startCron" class="btn rounded-pill btn-icon btn-primary">
                     <span class="tf-icons bx bx-play"></span>
                 </button>
                 <button type="button" @click="stopCron" class="btn rounded-pill btn-icon btn-secondary">
                     <span class="tf-icons bx bx-pause"></span>
-                </button>
-                {{ timer }}
+                </button> -->
+                {{ time }}
                 <!-- {{ cronometer }} -->
             </div>
           
@@ -61,16 +61,22 @@ export default {
             subtract: 0,
             seconds: 0,
             timer: 0,
-            interval: null
+            interval: null,
+            time: "00:00"
         }
     },
     methods:{
         startCron(){
-            console.log('Se inicia el cron')
           this.interval = setInterval(()=>{
             this.timer++
-            //this.cronometer.setSeconds(this.cronometer.getSeconds() + 1)
+            this.time = this.formatTime(this.timer)
           }, 1000)
+        },
+        formatTime(time) {
+            // Formatear el tiempo en un formato legible por humanos
+            const minutes = Math.floor(time / 60)
+            const seconds = time % 60
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
         },
         stopCron(){
           clearInterval(this.interval)
@@ -133,12 +139,12 @@ export default {
             }
         }
     },
-    watch:{
-        'task.status'(){
-            setTimeout(() => {
-                this.startCron()
-            }, 5000)
+    mounted(){
+        if(this.task.status == 1){
+            this.startCron()
+        }else if(this.task.status == 2){
+            this.stopCron()
         }
-    } 
+    }
 }
 </script>
