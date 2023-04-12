@@ -75,7 +75,7 @@
             <div class="row g-2 mt-2">
                 <div class="col mb-0">
                 <label for="emailBasic" class="form-label">Próxima Gestión</label>
-                <input type="date" v-model="next_management" class="form-control">
+                <input type="datetime-local" v-model="next_management" class="form-control">
                 </div>
                 <div class="col mb-0">
                 <label for="emailBasic" class="form-label">Comentario</label>

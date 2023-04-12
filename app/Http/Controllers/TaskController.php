@@ -129,10 +129,17 @@ class TaskController extends Controller
     }
 
     public function changeStatus(Request $request){
-        $task = Task::find($request->get('taskId'));
+        
+        $task = Task::with('progress')->find($request->get('taskId'));
+
         $task->update([
            'status' => $request->get('newStatus')
         ]);
+
+        $task->progress->update([
+            'owner' => $request->get('owner')
+        ]);
+
         return response()->json([
            'msg' =>'success'
         ]);

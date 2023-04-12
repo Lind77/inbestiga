@@ -89,16 +89,20 @@ class CustomerController extends Controller
     }
 
     public function insertCustomer(Request $request){
+        $time = strtotime($request->get('next_management'));
+        $date = date('Y-m-d', $time);
+        $hour = date('H:i:s', $time);
         $customer = Customer::create($request->all());
 
         $comunication = Comunication::create([
             'customer_id' => $customer->id,
             'first_management' => $request->get('first_management'),
             'last_management' => $request->get('last_management'),
-            'next_management' => $request->get('next_management'),
+            'next_management' => $date,
             'comment' => $request->get('comment'),
             'product_tentative' => $request->get('product_tentative'),
-            'type' => $request->get('type')
+            'type' => $request->get('type'),
+            'time' => $hour
         ]);
 
         return response()->json([

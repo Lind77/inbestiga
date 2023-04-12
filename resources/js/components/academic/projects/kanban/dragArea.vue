@@ -14,9 +14,16 @@
 </template>
 <script>
     import CardTask from './CardTask.vue'
-
+    import {userStore} from '../../../../stores/UserStore'
+    
     export default {
         components:{ CardTask },
+        setup(){
+          const store = userStore()
+          return{
+            store
+          }
+        },
         props:{
             title: String,
             tasks: Array,
@@ -25,10 +32,17 @@
         methods:{
             drop(e){
                 let card = e.dataTransfer.getData('text')
+                let owner = e.dataTransfer.getData('owner')
               /*   e.target.appendChild(document.getElementById(card)) */
-
-                this.$emit('updateTask', card, this.status)
-                console.log('seteando card a este estado: ', this.status)
+                if(this.status == 2){
+                  if(this.store.authUser.name == owner){
+                    this.$emit('updateTask', card, this.status)
+                  }else{
+                    this.$swal('Usted no es dueño de esta tarea')
+                  }
+                }else{
+                  this.$emit('updateTask', card, this.status)
+                }
             }
         }
     }

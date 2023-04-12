@@ -7,7 +7,7 @@
                 <span class="h6">{{ task.progress.owner }}</span> <i class='bx bx-user'></i>
             </template>
         </div>
-        <div class="demo-inline-spacing" v-if="task.status == 1">
+        <div class="demo-inline-spacing" v-if="task.status == 1  && this.task.progress.owner == this.store.authUser.name">
                 <!-- <button type="button" @click="startCron" class="btn rounded-pill btn-icon btn-primary">
                     <span class="tf-icons bx bx-play"></span>
                 </button>
@@ -95,6 +95,11 @@ export default {
         },
         drag(e){  
           e.dataTransfer.setData('text', e.target.id)
+          console.log('este es mi status',this.task.status)
+          if(this.task.status == 1){
+            
+            e.dataTransfer.setData('owner', this.task.progress.owner)
+          }
         }
     },
     computed:{
@@ -140,7 +145,7 @@ export default {
         }
     },
     mounted(){
-        if(this.task.status == 1){
+        if(this.task.status == 1 && this.task.progress.owner == this.store.authUser.name){
             this.startCron()
         }else if(this.task.status == 2){
             this.stopCron()

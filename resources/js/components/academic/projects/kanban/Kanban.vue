@@ -71,11 +71,15 @@ export default {
           var firstStatus = taskSelected.status
           this.removeTask(firstStatus, taskId)
           this.addTask(taskSelected, newStatus)
-          //this.updateStatus(taskId, newStatus)
+          this.updateStatus(taskId, newStatus)
           //this.updateProgressTask(taskId) 
           if(newStatus == 2){
             this.updateEndTime(taskId)
+            this.incrementBar()
           }
+        },
+        incrementBar(){
+          
         },
         removeTask(firstStatus, taskId){
           let arraysByStatus = {
@@ -103,6 +107,7 @@ export default {
 
           fd.append('taskId', taskId)
           fd.append('newStatus', newStatus)
+          fd.append('owner', this.store.authUser.name)
           axios.post('/api/changeTaskStatus', fd)
           .then(res =>{
             console.log(res)
@@ -183,27 +188,6 @@ export default {
         },
         allowDrop(e){
           e.preventDefault()
-        },
-        drop(e){
-          e.preventDefault()
-          if(this.store.rol == 'Acad'){ 
-          var data = e.dataTransfer.getData('text')
-          //e.target.appendChild(document.getElementById(data))
-
-          if(e.target.id == 'doingArea'){
-            this.$swal({
-                  title: 'Asignando Tarea ...'  
-            });
-            
-          }
-          
-          if(e.target.id == 'doneArea'){
-            
-            
-          }
-          }else{
-            this.$swal('Usted no tiene permisos para modificar las tareas')
-          }
         }
     },
     mounted(){

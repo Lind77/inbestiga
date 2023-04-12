@@ -9,5 +9,5 @@ class Comunication extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['customer_id', 'first_management', 'last_management', 'next_management', 'comment', 'product_tentative', 'type'];
+    protected $fillable = ['customer_id', 'first_management', 'last_management', 'next_management', 'comment', 'product_tentative', 'type','time'];
 }

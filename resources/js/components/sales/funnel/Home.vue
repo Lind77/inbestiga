@@ -118,18 +118,13 @@ export default{
       $('#updateComModal').modal('show')
     },
     filterDate(date){
-        this.$swal({
-          title: 'Cargando ...',
-          allowOutsideClick: false,
-          showConfirmButton: false
-        })
         if(date == ''){
-          this.customers_filtered = this.customers
-          this.$swal().close()
+          this.distributeLeads(this.totalLeads)
         }else{
-          this.customers_filtered = this.customers.filter((customer) => customer.comunication && customer.comunication.next_management == date)
-          this.$swal().close()
+          this.customers_filtered = this.totalLeads.filter((customer) => customer.comunication && customer.comunication.next_management == date)
+          this.distributeLeads(this.customers_filtered)
         }
+        console.log(this.customers_filtered)
     },
     getAllCustomers(){
       this.$swal({
@@ -141,7 +136,24 @@ export default{
       .then(res =>{
           this.totalLeads = res.data
 
-          this.totalLeads.forEach(lead => {
+          this.distributeLeads(this.totalLeads)
+
+          this.customers_filtered = this.totalLeads
+          this.$swal().close()
+      })
+      .catch(err =>{
+          console.log(err.response.data)
+      })
+    },
+    distributeLeads(totalLeads){
+
+      this.leads = []
+      this.quotations = []
+      this.highs = []
+      this.orders = []
+      this.customers = []
+
+      totalLeads.forEach(lead => {
             if(lead.status == 3){
               this.leads.push(lead)
             }else if(lead.status == 4){
@@ -154,14 +166,6 @@ export default{
               this.customers.push(lead)
             }
           });
-
-
-          this.customers_filtered = this.totalLeads
-          this.$swal().close()
-      })
-      .catch(err =>{
-          console.log(err.response.data)
-      })
     },
     selectCustomer(customer){
       console.log('customer selected')
