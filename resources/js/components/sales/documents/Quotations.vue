@@ -1,7 +1,7 @@
 <template>
     <div class="card tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
                 <h5 class="card-header">Cotizaciones</h5>
-                <SearchDocs :group="'Quotations'"/>
+                <SearchDocs :group="'Quotations'" @updateRows="updateRows" @getAllQuotations="getAllQuotations"/>
                 <div class="table-responsive text-nowrap">
                   <table class="table">
                     <thead>
@@ -47,6 +47,9 @@ export default {
           .catch(err =>{
             console.log(err.response.data)
           })
+      },
+      updateRows(quotations){
+        this.quotations = quotations
       }
     },
     mounted(){

@@ -263,9 +263,14 @@ class QuotationController extends Controller
     public function search($search){
         $quotations = Quotation::with('customer')
                 ->whereHas('customer', function($query) use ($search) {
-                    $query->where('name', 'like', '%'.$search.'%');
+                    $query->whereRaw('LOWER(name) like ?', ['%'.strtolower($search).'%']);
                 })->get();
 
+        return response()->json($quotations);
+    }
+
+    public function searchQuotationsByDate($date){
+        $quotations = Quotation::with('customer')->where('date', $date)->get();
         return response()->json($quotations);
     }
 }

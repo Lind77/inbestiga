@@ -86,6 +86,7 @@ Route::get('/getQuotationByCustomerId/{id}', [QuotationController::class, 'getQu
 Route::get('/quotationByOrder/{id}', [QuotationController::class, 'getQuotationByOrder']);
 Route::post('/updateQuotation',[QuotationController::class, 'updateQuotation']);
 Route::get('/searchQuotations/{search}', [QuotationController::class, 'search']);
+Route::get('/searchQuotationsByDate/{date}', [QuotationController::class, 'searchQuotationsByDate']);
 
 
 Route::get('/getAllProjects',[ProjectController::class, 'index']);
