@@ -121,6 +121,9 @@
             </tbody>
         </table>
     </section>
+    <div class="section ps-4" v-if="quotation[0]">
+        <p>NOTA: {{ quotation[0].note }}</p>
+    </div>
     <section class="last">
         <div class="row mt-3">
             <div class="col-6 ps-5 d-flex justify-content-center align-items-center">

@@ -20,7 +20,7 @@
         <div v-if="project_selected.activities == []">No hay actividades asignadas</div>
         <div v-else>
           <div v-for="activity in project_selected.activities">
-              <ActivityCard :project_selected="project_selected" :activity="activity" @selectActivity="selectActivity" @unselectActivity="unselectActivity" @checkActivity="checkActivity"/>
+              <ActivityCard :project_selected="project_selected" :activity="activity" @selectActivity="selectActivity" @uncheckActivity="uncheckActivity" @checkActivity="checkActivity"/>
           </div>
         </div>        
         <div class="row">
@@ -33,7 +33,7 @@
       </div>
     </div>
     <ProgressModal :activity="activity_selected" :project_selected="project_selected" @getActivities="getActivities"/>
-    <TeamModal :project="project_selected" :activity="activity_selected" @colorActivity="colorActivity"/>
+    <TeamModal :project="project_selected" :activity="activity_selected" @colorActivity="colorActivity" @updateProgress="updateProgress"/>
     <FirstModal :activity="activity_selected" @checkActivity="checkActivity" @colorActivity="colorActivity"/>
 </template>
 <script>
@@ -94,13 +94,20 @@ export default{
             $('#firstMeetModal').modal('show')
           }
 
-          
-
            /*  this.activitySelectedId = activityId */
               
                 /* 
                 console.log(this.bgColor) */
                     //this.updateActivityProgress(activityId)     
+        },
+        uncheckActivity(activity){
+          var activitySelected = this.project_selected.activities.find(el => el.id == activity.id)
+
+            if(activity.fixed_activity_id == 5 || activity.fixed_activity_id == 8){
+              activitySelected.isCompleted = false
+              activitySelected.progresses[0].percentage = 0
+              this.minusProgress(activity)
+            }
         },
         changeStatus(){
           const fd = new FormData()
@@ -152,8 +159,27 @@ export default{
                 fd.append('id', activity.id)
                 fd.append('comment', 'Completado')
                 fd.append('project_id', this.project_selected.id)
+                fd.append('emisor_id', this.store.authUser.id)
 
                 axios.post('/api/updateProgress', fd)
+                .then(res =>{
+                    console.log(res)  
+                    this.comment = ''
+                })
+                .catch(err =>{
+                    if(err.response){
+                        console.log(err.response.data)
+                    }
+                })
+        },
+        minusProgress(activity){
+          const fd = new FormData()
+                fd.append('id', activity.id)
+                fd.append('comment', 'No Completado')
+                fd.append('project_id', this.project_selected.id)
+                fd.append('emisor_id', this.store.authUser.id)
+
+                axios.post('/api/deleteActivityProgress', fd)
                 .then(res =>{
                     console.log(res)  
                     this.comment = ''

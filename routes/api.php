@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ComunicationController;
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
@@ -84,6 +85,7 @@ Route::post('/quotationPDF', [QuotationController::class, 'newPDF']);
 Route::get('/getQuotationByCustomerId/{id}', [QuotationController::class, 'getQuotationByCustomerId']);
 Route::get('/quotationByOrder/{id}', [QuotationController::class, 'getQuotationByOrder']);
 Route::post('/updateQuotation',[QuotationController::class, 'updateQuotation']);
+Route::get('/searchQuotations/{search}', [QuotationController::class, 'search']);
 
 
 Route::get('/getAllProjects',[ProjectController::class, 'index']);
@@ -99,6 +101,7 @@ Route::get('/getMyProjects/{id}', [ProjectController::class, 'getMyProjects']);
 Route::post('/insertDetailsFirstMeeting', [ProgressController::class, 'insertDetailsFirstMeeting']);
 
 Route::post('/updateProgress',[ProgressController::class, 'update']);
+Route::post('/deleteActivityProgress',[ProgressController::class, 'deleteActivityProgress']);
 Route::get('/updateActivityProgress/{id}', [ProgressController::class, 'updateActivityProgress']);
 Route::get('/removeActivityProgress/{id}', [ProgressController::class, 'removeActivityProgress']);
 
@@ -136,5 +139,6 @@ Route::get('/registerSeen/{id}', [SeenController::class, 'registerSeen']);
 
 Route::post('/updateComunication', [ComunicationController::class, 'update']);
 
+Route::get('/getAllContracts', [ContractController::class, 'index']);
 Route::get('/generateContract/{id}', [OrderController::class, 'generateContract']);
 Route::post('/insertContract',[OrderController::class, 'insertContract']);

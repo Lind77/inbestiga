@@ -20,7 +20,7 @@ class QuotationController extends Controller
      */
     public function index()
     {
-        $quotations = Quotation::with(['customer','details','details.product'])->orderBy('id', 'desc')->get();
+        $quotations = Quotation::with(['customer','details','details.product'])->orderBy('id', 'desc')->take(10)->get();
         return response()->json($quotations);
     }
 
@@ -58,7 +58,8 @@ class QuotationController extends Controller
             'amount' => $request->get('amount'),
             'expiration_date' => $request->get('expirationDay'),
             'discount' => $request->get('discount'),
-            'term' => $request->get('term')
+            'term' => $request->get('term'),
+            'note' => $request->get('note')
         ]);
 
         $products = $request->get('products');
@@ -257,6 +258,15 @@ class QuotationController extends Controller
             'msg' => 'success',
             'id' => $quotation->id
         ]);
+    }
+
+    public function search($search){
+        $quotations = Quotation::with('customer')
+                ->whereHas('customer', function($query) use ($search) {
+                    $query->where('name', 'like', '%'.$search.'%');
+                })->get();
+
+        return response()->json($quotations);
     }
 }
 

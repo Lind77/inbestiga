@@ -15,7 +15,8 @@ class ContractController extends Controller
      */
     public function index()
     {
-        //
+        $contracts = Contract::with(['quotation','quotation.customer'])->get();
+        return response()->json($contracts);
     }
 
     /**

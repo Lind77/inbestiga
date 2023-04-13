@@ -12,6 +12,14 @@
         <router-link v-if="project.customer" target="_blank" :to="{name:'ecard', params:{ id: project.customer.id}}"><i class='bx bx-credit-card-alt'></i></router-link>
         <i class='bx bx-trash text-danger cursor-pointer' @click="deleteProject(project.id)"></i>
         <!-- <i v-if="tasksPercent == 100" @click="updateQuality" class='bx bx-check-circle text-success cursor-pointer'></i> -->
+        <!-- <template v-if="project.status == 0">
+            <p v-for="activity in project.activities">
+            {{ activity.title }}
+            <i v-if="activity.isCompleted" class='bx bx-check-circle text-success'></i>
+            <i v-else class='bx bx-x-circle text-danger'></i>
+            </p>
+        </template>
+        -->
     </div>
     </div>
 </template>

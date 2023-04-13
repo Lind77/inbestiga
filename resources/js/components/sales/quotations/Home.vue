@@ -174,6 +174,12 @@
                   </div>
                 </div>
                 </div>
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <label class="form-label" for="basic-default-company">Nota</label>
+                    <input type="text" class="form-control" v-model="note">
+                  </div>
+                </div>
                 <button @click="insertQuotation" class="btn btn-primary mt-2 text-white">Guardar</button>
                 <router-link v-if="this.idQuotation != 0" :to="{name:'quotation-file', params:{ id: this.idQuotation }}" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>Imprimir</router-link>
                 <!-- <button class="btn btn-primary" @click="generatePDF">PDF</button> -->
@@ -206,6 +212,7 @@
     components:{List, calcModal, InsertDetail},
     data(){
       return{
+        note:'',
         customers:[],
         term:'',
         customersFiltered:[],
@@ -292,6 +299,7 @@
         fd.append('discount', this.discount)
         fd.append('amount', this.totalProducts - this.discount)
         fd.append('term', this.term)
+        fd.append('note', this.note)
 
         axios.post('/api/insertQuotation',fd)
         .then(res =>{

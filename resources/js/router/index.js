@@ -72,7 +72,8 @@ import MainExperience from '../components/experience/Main.vue'
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
 
-
+//Docs
+import HomeDocuments from '../components/sales/documents/Home.vue'
 
 
 
@@ -203,6 +204,11 @@ export const routes = [
                 component: EditQuotation,
                 props: true,
                 name: 'edit-quotation'
+            },
+            {
+                path: 'documents',
+                component: HomeDocuments,
+                name: 'home-documents'
             }
         ]
     },

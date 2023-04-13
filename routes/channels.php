@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Activity;
 use App\Models\Project;
 use Illuminate\Support\Facades\Broadcast;
 
@@ -24,4 +25,8 @@ Broadcast::channel('projects', function ($id) {
 
 Broadcast::channel('direction', function ($id) {
     return Project::find($id);
+});
+
+Broadcast::channel('updates', function ($id) {
+    return Activity::find($id);
 });

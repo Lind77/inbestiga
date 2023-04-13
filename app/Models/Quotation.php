@@ -9,7 +9,7 @@ class Quotation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['customer_id', 'date', 'amount','expiration_date','discount','term'];
+    protected $fillable = ['customer_id', 'date', 'amount','expiration_date','discount','term', 'note'];
 
     public function customer(){
         return $this->belongsTo("App\Models\Customer");

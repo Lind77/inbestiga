@@ -59,6 +59,7 @@ export default {
                 console.log(res)
                 $('#teamModal').modal('hide')
                 this.$emit('colorActivity', this.activity)
+                this.$emit('updateProgress', this.activity)
             })
             .catch(err =>{
                 console.error(err)

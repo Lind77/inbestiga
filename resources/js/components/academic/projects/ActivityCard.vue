@@ -34,12 +34,17 @@
         },
         methods:{
             handleCheck(activity, e){
-                if(activity.fixed_activity_id == 5 || activity.fixed_activity_id == 8){
-                    this.$emit('checkActivity', activity)
+                if(this.activity.isCompleted){
+                    this.$emit('uncheckActivity', activity)
                 }else{
-                    e.preventDefault()
-                    this.$emit('checkActivity', activity)
-                }
+                    if(activity.fixed_activity_id == 5 || activity.fixed_activity_id == 8){
+                        this.$emit('checkActivity', activity)
+                    }else{
+                        e.preventDefault()
+                        this.$emit('checkActivity', activity)
+                    }
+                }   
+                
                /*  if(activity.fixed_activity_id == 7){
                     $('#firstMeetModal').modal('show')
                 } */

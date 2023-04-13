@@ -234,10 +234,21 @@
         .listen('NewProject',(e)=>{
           this.updateNotifications()
         })
+
+        Echo.private('updates')
+          .listen('NewUpdate',(e)=>{
+            this.getNoSeenNotifications()
+        })
+
       }else if(this.store.authUser.roles[0].name == 'AdminAcad'){
         Echo.private('direction')
           .listen('NewDirection',(e)=>{
              this.getNoSeenNotifications()
+        })
+
+        Echo.private('updates')
+          .listen('NewUpdate',(e)=>{
+            this.getNoSeenNotifications()
         })
       }
       

@@ -26,10 +26,10 @@
               <div data-i18n="Form Layouts">Productos</div>
             </div>
           </router-link>
-          <router-link :to="{name:'list-quotations'}" class="menu-item">
+          <router-link :to="{name:'home-documents'}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-detail"></i>
-              <div data-i18n="Form Layouts">Cotizaciones</div>
+              <div data-i18n="Form Layouts">Documentos</div>
             </div>
           </router-link>
           <!-- 

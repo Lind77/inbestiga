@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewUpdate;
 use App\Models\Progress;
 use App\Http\Requests\StoreProgressRequest;
 use App\Http\Requests\UpdateProgressRequest;
 use App\Models\Activity;
+use App\Models\Notification;
 use App\Models\Project;
+use App\Models\Seen;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProgressController extends Controller
@@ -73,6 +77,8 @@ class ProgressController extends Controller
      */
     public function update(Request $request)
     {
+        $activity = Activity::find($request->get('id'));
+
         $progress = Progress::where('progressable_type', 'App\Models\Activity')->where('progressable_id', $request->get('id'))->get();
 
         $project = Project::find($request->get('project_id'));
@@ -87,6 +93,32 @@ class ProgressController extends Controller
             'comment' => $request->get('comment'),
             'percentage' => 100
         ]);
+
+        $notification = Notification::create([
+            'emisor_id' => $request->get('emisor_id'),
+            'content' => 'Completó '.$activity->title.' del '.$project->title,
+            'type' => 1
+        ]);
+
+        $userEmisor = User::with('roles')->find($request->get('emisor_id'));
+
+        $roleName = $userEmisor->roles->first()->name;
+
+        if($roleName == 'AdminAcad'){
+            $usersToNotify = User::role('Experience')->get();
+        }else{
+            $usersToNotify = User::role('AdminAcad')->get();
+        }
+       
+        foreach($usersToNotify as $user){
+            Seen::create([
+                'user_id' => $user->id,
+                'notification_id' => $notification->id,
+                'seen' => 0
+            ]);
+        }
+
+        broadcast(new NewUpdate($activity));
 
         return response()->json([
             'msg' => 'success'
@@ -138,6 +170,48 @@ class ProgressController extends Controller
 
         return response()->json([
             'msg' => 'progress updated successfully'
+        ]);
+    }
+
+    public function deleteActivityProgress(Request $request){
+
+        $activity = Activity::find($request->get('id'));
+
+        $progress = Progress::where('progressable_type', 'App\Models\Activity')->where('progressable_id', $request->get('id'))->get();
+
+        $project = Project::find($request->get('project_id'));
+
+        if($request->get('comment')){
+            $project->update([
+                'aditional' =>  $request->get('comment')
+            ]);
+        }
+
+        $progress[0]->update([
+            'comment' => $request->get('comment'),
+            'percentage' => 0
+        ]);
+
+       /*  $notification = Notification::create([
+            'emisor_id' => $request->get('emisor_id'),
+            'content' => 'Completó '.$activity->title.'del '.$project->title,
+            'type' => 1
+        ]);
+
+        $usersToNotify = User::role('AdminAcad')->get();
+
+        foreach($usersToNotify as $user){
+            Seen::create([
+                'user_id' => $user->id,
+                'notification_id' => $notification->id,
+                'seen' => 0
+            ]);
+        } */
+
+        //broadcast(new NewUpdate($activity));
+
+        return response()->json([
+            'msg' => 'success'
         ]);
     }
 }
