@@ -78,6 +78,21 @@ export default {
             this.incrementBar()
           }
         },
+        updateTaskRealTime(taskToUpdate){
+          var taskSelected = this.tasks.find(task => task.id == taskToUpdate.id)
+          var firstStatus = taskSelected.status
+          this.removeTask(firstStatus, taskToUpdate.id)
+          taskSelected.progress.owner = taskToUpdate.progress.owner
+          console.log(taskSelected.progress.owner)
+          let arraysByStatus = {
+            0: this.toDo,
+            1: this.doing,
+            2: this.done
+          }
+          let arraySelected = arraysByStatus[taskToUpdate.status]
+          taskSelected.status = taskToUpdate.status
+          arraySelected.push(taskSelected)
+        },
         incrementBar(){
           
         },
@@ -92,6 +107,7 @@ export default {
           arraySelected.filter(el => el.id == taskId)
         },
         addTask(taskSelected, newStatus){
+          console.log(taskSelected, newStatus)
           let arraysByStatus = {
             0: this.toDo,
             1: this.doing,
@@ -188,10 +204,29 @@ export default {
         },
         allowDrop(e){
           e.preventDefault()
+        },
+        updateSinceRealTime(task){
+          console.log('procesando', task)
+          var taskInToDo = this.toDo.find(activity => activity.id == task.activity_id)
+          var taskInDoing = this.doing.find(activity => activity.id == task.activity_id)
+
+          if(taskInToDo){
+            taskInToDo.status = 1
+          }else if(taskInDoing){
+            taskInToDo.status = 2
+          }
+
         }
     },
     mounted(){
-        this.getProjectById()
+        this.getProjectById(),
+        Echo.private('tasks')
+        .listen('NewDoing', (e)=>{
+          console.log(e.task)
+          if(e.task.progress.owner != this.store.authUser.name){
+            this.updateTaskRealTime(e.task)
+          }
+        })
     },
     computed:{
       secondsFormatted(){

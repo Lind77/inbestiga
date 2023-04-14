@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Http\Request;
+use App\Events\NewDoing;
 
 class TaskController extends Controller
 {
@@ -133,12 +134,14 @@ class TaskController extends Controller
         $task = Task::with('progress')->find($request->get('taskId'));
 
         $task->update([
-           'status' => $request->get('newStatus')
+            'status' => $request->get('newStatus')
         ]);
 
         $task->progress->update([
             'owner' => $request->get('owner')
         ]);
+
+        broadcast(new NewDoing($task));
 
         return response()->json([
            'msg' =>'success'

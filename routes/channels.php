@@ -2,6 +2,7 @@
 
 use App\Models\Activity;
 use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -29,4 +30,8 @@ Broadcast::channel('direction', function ($id) {
 
 Broadcast::channel('updates', function ($id) {
     return Activity::find($id);
+});
+
+Broadcast::channel('tasks', function ($id) {
+    return true;
 });
