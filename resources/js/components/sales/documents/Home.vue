@@ -44,5 +44,6 @@ export default {
         background: none;
         border: none;
         box-shadow: none;
+        padding: 0;
     }
 </style>

@@ -54,7 +54,7 @@ export default {
             axios.post('/api/assignOwner', fd)
             .then(res =>{
                 $('#ownerModal').modal('hide')
-                this.$emit('cleanLead', this.customerId)
+                this.$emit('cleanLead', this.customerId, this.seller_selected)
             })
             .catch(err =>{
                 console.error(err)

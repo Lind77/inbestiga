@@ -10,7 +10,7 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th>Nombre</th>
+                      <th>Nombre</th>
                       <th>Celular</th>
                       <th>Correo</th>
                       <th>Universidad</th>
@@ -21,7 +21,7 @@
                 </thead>
                 <tbody class="table-border-bottom-0">
                   <tr v-for="customer in customersPag">
-                    <td><strong>{{customer.name}}</strong></td>
+                    <td><strong>{{customer.name}}</strong><i @click="openAsignOwner(customer.id)" v-show="customer.user_id == null" class='bx bxs-user-x text-danger'></i></td>
                       <td>{{customer.cell}}</td>
                       <td>{{customer.email}}</td>
                       <td>{{customer.university}}</td>
@@ -39,7 +39,7 @@
                 </tbody>
               </table>
             </div>
-            <div class="row ps-4 pt-3">
+            <div class="row ps-4 pt-3" v-show="this.search == ''">
                 <ul class="pagination">
                   <!-- <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="previous" tabindex="0" class="page-link">Anterior</a></li> -->
                   <li class="paginate_button page-item" :id="`li`+index" v-for="(chunk, index) in customersChunked"><a @click="stepPag(index)" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">{{ index+1 }}</a></li>
@@ -50,15 +50,17 @@
         </div>
       </div>
       <customerModal :customer="customer_selected" :action="action" @getAllCustomers="getAllCustomers"/>
+      <OwnerModal :customerId="customerId" @cleanLead="cleanLead"/>
     </div>
 </template>
 <script>
 import customerModal from './customerModal.vue'
-
+import OwnerModal from '../prelead/OwnerModal.vue'
   export default{
-    components:{ customerModal },
+    components:{ customerModal, OwnerModal },
     data(){
       return{
+        customerId:0,
         customers:[],
         customersPag: [],
         customersChunked: [],
@@ -78,10 +80,23 @@ import customerModal from './customerModal.vue'
       }
     },
     methods:{
+      cleanLead(customerId, seller){
+        var customerSelected = this.customersPag.find(customer => customer.id == customerId)
+        customerSelected.user_id = seller
+      },
+      openAsignOwner(id){
+        this.customerId = id
+        $('#ownerModal').modal('show')
+      },
       searchCustomer(e){
         console.log(e.target.value)
-        var results = this.customers.filter(customer => customer.name != null && customer.name.toLowerCase().includes(e.target.value))
+        if(e.target.value != ''){
+          var results = this.customers.filter(customer => customer.name != null && customer.name.toLowerCase().includes(e.target.value))
         this.customersPag = results
+        }else{
+          this.customersPag  = this.customersChunked[0]
+        }
+        
       },
       stepPag(i){
         this.customersPag = this.customersChunked[i]

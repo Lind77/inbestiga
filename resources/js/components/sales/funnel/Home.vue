@@ -132,7 +132,7 @@ export default{
         allowOutsideClick: false,
         showConfirmButton: false
       })
-      axios.get('/api/getAllLeads')
+      axios.get('/api/getAllLeads/'+this.store.authUser.id)
       .then(res =>{
           this.totalLeads = res.data
 

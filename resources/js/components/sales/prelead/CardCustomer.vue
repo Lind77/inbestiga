@@ -13,6 +13,7 @@
                         <p><span class="fw-bold">Universidad:</span><br> {{ customer.university }}</p>
                         <p><span class="fw-bold">Carrera:</span><br> {{ customer.career }}</p>
                         <p><span class="fw-bold">Email: </span><br> {{ customer.email }}</p>
+                        <button class="btn btn-sm btn-primary">Actualizar</button>
                     </li>
                 </ul>
             </div>
