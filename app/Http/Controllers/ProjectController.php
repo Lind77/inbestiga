@@ -54,20 +54,20 @@ class ProjectController extends Controller
                                     'team', 
                                     'product', 
                                     'activities' => function($query){
-                                        $query->where('type', 0);
+                                        $query->where('type', 0)->with('tasks')->get();
                                     },
-                                    'activities.progresses'])->get();
+                                    'activities.progresses'])->get();                            
+        /* $numTasks = 0;
     
         foreach($projects as $project){
             foreach($project->activities as $activity){
-                if($activity->progresses[0]->percentage == 100){
-                    $activity->isCompleted = true;
-                }else{
-                    $activity->isCompleted = false;
+                $numTasks++;
+                foreach ($activity->tasks as $task) {
+                   
                 }
             }
         }
-    
+        return $numTasks; */
         return $projects;
     }
 
@@ -262,7 +262,7 @@ class ProjectController extends Controller
             foreach($project->activities as $activity){
                 $numTasks += count($activity->tasks);
                 foreach($activity->tasks as $task){
-                    if($task->percentage == 100){
+                    if($task->status == 2){
                         $numTasksCompleted++;
                     }
                 }

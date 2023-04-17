@@ -67,9 +67,13 @@ export default {
     },
     methods:{
         startCron(){
+        var a = moment(new Date(this.task.start_time))
+        console.log(a)
+
           this.interval = setInterval(()=>{
+            var b = moment(new Date())
             this.timer++
-            this.time = this.formatTime(this.timer)
+            this.time = moment(b.diff(a)).format('mm:ss')
           }, 1000)
         },
         formatTime(time) {

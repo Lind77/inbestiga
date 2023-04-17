@@ -5,7 +5,7 @@
           <div class="col-6">
             <div class="card px-2 py-2">
               <h6>Porcentaje de avance</h6>
-              <a href="javascript:void(0)">{{ parseInt(0) + defaultBar }}%</a>
+              <a href="javascript:void(0)">{{ parseInt(0) + cantBar }}%</a>
               <div class="progress mb-3">
                 <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated shadow-none" role="progressbar" :style="{width: defaultBar + '%'}" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
                 <div class="progress-bar bg-success progress-bar-striped progress-bar-animated shadow-none" role="progressbar" :style="{width: doneBar + '%' }" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
@@ -44,6 +44,7 @@ export default {
     },
     data(){
         return{
+            cantBar: 15,
             defaultBar: 15,
             doneBar: 0,
             project: [],
@@ -202,7 +203,9 @@ export default {
                   this.addPercent()
                 }
                 console.log(this.done.length*(1/80))
-                this.doneBar = this.done.length*(112/80)
+                this.doneBar = this.done.length*(80/112)
+                var sumBar = (parseFloat(15) + parseFloat(this.doneBar.toFixed(2)))
+                this.cantBar = sumBar
                 this.$swal().close()
             })
         },

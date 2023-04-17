@@ -102,7 +102,7 @@ import { localeData } from 'moment_spanish_locale'
           return moment(date).endOf('day').fromNow();  
         },
         percentageProject(project){
-          return (100/project.num_tasks)*project.num_tasks_completed
+          return parseFloat((100/project.num_tasks)*project.num_tasks_completed).toFixed(2)
         }
       },
       mounted(){

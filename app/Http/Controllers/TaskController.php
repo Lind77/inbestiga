@@ -156,6 +156,12 @@ class TaskController extends Controller
             ]);
         }
 
+        if($newStatus == 2){ 
+            $task->update([
+                'end_time' => date('Y-m-d H:i:s')
+            ]);
+        }
+
         $task->progress->update([
             'owner' => $request->get('owner')
         ]);

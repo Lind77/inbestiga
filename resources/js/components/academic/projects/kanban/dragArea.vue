@@ -38,7 +38,7 @@
                   if(this.store.authUser.name == owner){
                     this.$emit('updateTask', card, this.status)
                   }else{
-                    this.$swal('Usted no es dueño de esta tarea')
+                    this.$swal('A usted no le pertenece esta tarea')
                   }
                 }else{
                   this.$emit('updateTask', card, this.status)
