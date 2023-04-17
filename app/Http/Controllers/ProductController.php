@@ -134,4 +134,10 @@ class ProductController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function getAllProductsWithPrices(){
+        $products = Product::where('id', '!=', 1)->with('prices')->get();
+
+        return response()->json($products);
+    }
 }

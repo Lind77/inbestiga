@@ -64,8 +64,6 @@
                                 <br>
                                 - Plan de tesis o proyecto de investigación
                                 <br>
-                                - Aplicación de instrumentos y procesamiento estadístico
-                                <br>
                                 - Informe final de tesis o Tesis Final
                                 <br>
                                 - Orientación y/o asesoría extraordinaria en cualquier etapa de la tesis.

@@ -36,6 +36,12 @@ import HomeCalls from '../components/sales/calls/Home.vue'
 //Área de Ventas - Calendario
 import HomeCalendar from '../components/sales/calendar/Home.vue'
 
+//Área de Ventas - Documentos
+import HomeDocuments from '../components/sales/documents/Home.vue'
+
+//Área de Ventas - Precios
+import HomePrices from '../components/sales/prices/Home.vue'
+
 // Área Académica
 import HomeAcad from '../components/academic/Home.vue'
 import MainAcad from '../components/academic/Main.vue'
@@ -72,8 +78,7 @@ import MainExperience from '../components/experience/Main.vue'
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
 
-//Docs
-import HomeDocuments from '../components/sales/documents/Home.vue'
+
 
 
 
@@ -209,6 +214,11 @@ export const routes = [
                 path: 'documents',
                 component: HomeDocuments,
                 name: 'home-documents'
+            },
+            {
+                path: 'prices',
+                component: HomePrices,
+                name: 'home-prices'
             }
         ]
     },

@@ -344,7 +344,7 @@ class ProjectController extends Controller
        $details = $lastQuotation->details;
 
        //Prodcutos de la tesis
-       $thesisProducts = Product::where('id','<',34)->where('id','!=', 1)->with('fixedActivities')->get();
+       $thesisProducts = Product::where('id','<',34)->where('id','!=', 1)->where('id','!=',25)->with('fixedActivities')->get();
 
        foreach($details as $detail){
             if($detail->product_id == 34){

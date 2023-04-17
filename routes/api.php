@@ -62,6 +62,7 @@ Route::get('/getAllSellers', [UserController::class, 'getAllSellers']);
 Route::get('/getAllProducts',[ProductController::class, 'index']);
 Route::post('/insertProduct',[ProductController::class, 'store']);
 Route::post('/assignProduct', [ProductController::class, 'assignProduct']);
+Route::get('/getAllProductsWithPrices',[ProductController::class, 'getAllProductsWithPrices']);
 
 Route::post('/insertFixedActivity', [FixedActivityController::class, 'store']);
 Route::post('/insertFixedTask',[FixedTaskController::class, 'store']);
