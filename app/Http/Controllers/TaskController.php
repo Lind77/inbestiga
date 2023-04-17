@@ -129,13 +129,32 @@ class TaskController extends Controller
         ]);
     }
 
+    public function insertStartTimeTask($id){
+        $task = Task::find($id);
+        $task->update([
+            'start_time' => time()
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
     public function changeStatus(Request $request){
         
         $task = Task::with('progress')->find($request->get('taskId'));
 
+        $newStatus = $request->get('newStatus');
+
         $task->update([
-            'status' => $request->get('newStatus')
+            'status' => $newStatus
         ]);
+
+        if($newStatus == 1){ 
+            $task->update([
+                'start_time' => date('Y-m-d H:i:s')
+            ]);
+        }
 
         $task->progress->update([
             'owner' => $request->get('owner')

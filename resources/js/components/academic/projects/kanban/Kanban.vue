@@ -5,10 +5,10 @@
           <div class="col-6">
             <div class="card px-2 py-2">
               <h6>Porcentaje de avance</h6>
-              <a href="javascript:void(0)">{{ parseInt(0) +15 }}%</a>
+              <a href="javascript:void(0)">{{ parseInt(0) + defaultBar }}%</a>
               <div class="progress mb-3">
-                <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated shadow-none" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated shadow-none" role="progressbar" :style="{width: 0 + '%' }" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated shadow-none" role="progressbar" :style="{width: defaultBar + '%'}" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated shadow-none" role="progressbar" :style="{width: doneBar + '%' }" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
               <!--  <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated shadow-none" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div> -->
               </div>
             </div>
@@ -44,6 +44,8 @@ export default {
     },
     data(){
         return{
+            defaultBar: 15,
+            doneBar: 0,
             project: [],
             activities: [],
             toDo:[],
@@ -94,7 +96,7 @@ export default {
           arraySelected.push(taskSelected)
         },
         incrementBar(){
-          
+          this.doneBar = this.doneBar + (this.toDo.length + this.doing.length + this.done.length)/80
         },
         removeTask(firstStatus, taskId){
           let arraysByStatus = {
@@ -199,6 +201,8 @@ export default {
                 if(this.percentAcad == 0){
                   this.addPercent()
                 }
+                console.log(this.done.length*(1/80))
+                this.doneBar = this.done.length*(112/80)
                 this.$swal().close()
             })
         },

@@ -181,7 +181,12 @@ class CustomerController extends Controller
     }
 
     public function getAllLeads($id){
-        $customers = Customer::where('status','>', 2)->where('user_id', $id)->with(['project','project.product', 'comunication','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
+        if($id == 7){
+            $customers = Customer::where('status','>', 2)->with(['project','project.product', 'comunication','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
+        }else{
+            $customers = Customer::where('status','>', 2)->where('user_id', $id)->with(['project','project.product', 'comunication','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
+        }
+        
         return response()->json($customers);
     }
 

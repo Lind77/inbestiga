@@ -158,7 +158,7 @@
           <router-link :to="{name:'home-collabs'}" class="menu-item">
           <div class="menu-link">
             <i class="menu-icon tf-icons bx bx-user"></i>
-            <div data-i18n="Form Layouts">Colaboradores</div>
+            <div data-i18n="Form Layouts">Inbestigadores</div>
           </div>
         </router-link>
 

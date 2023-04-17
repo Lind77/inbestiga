@@ -1,6 +1,6 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3">Colaboradores</h4>
+        <h4 class="fw-bold py-3">Inbestigadores</h4>
         <div class="card">
             <div class="card-datatable table-responsive">
                 <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1039px">
@@ -8,7 +8,7 @@
                             <tr>
                                 <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1" style="width: 0px; display: none" aria-label=""></th>
                                 <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 252px" aria-label="User: activate to sort column ascending" aria-sort="descending">
-                                    Colaborador
+                                    Inbestigador
                                 </th>
                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 120px" aria-label="Role: activate to sort column ascending">
                                     Equipo
