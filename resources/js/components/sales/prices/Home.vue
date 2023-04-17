@@ -7,7 +7,7 @@
                 <div class="col-4 mb-2" v-for="product in products_filtered">
                     <div class="card">
                         <div class="card-header">
-                            {{ product.title }}  <i @click="showModalPrices(product.prices)" class='text-primary bx bx-edit' ></i>
+                            {{ product.title }}  <i @click="showModalPrices(product)" class='text-primary bx bx-edit' ></i>
                             <br>
                             <button class="btn btn-sm btn-success m-1" v-for="price in product.prices">
                                 S./ {{ price.price }}
@@ -18,7 +18,7 @@
             </div>
         </div>
     </div>
-    <ModalPrices :prices="prices_selected"/>
+    <ModalPrices :product="productSelected"/>
 </template>
 <script>
     import ModalPrices from './ModalPrices.vue'
@@ -26,7 +26,7 @@
         components:{ModalPrices},
         data(){
             return{
-                prices_selected:[],
+                productSelected:[],
                 products:[],
                 products_filtered:[]
             }
@@ -46,8 +46,8 @@
                 this.products_filtered = this.products.filter(product => product.title.toLowerCase().includes(e.target.value))
                 console.log(this.products_filtered)
             },
-            showModalPrices(prices){
-                this.prices_selected = prices
+            showModalPrices(product){
+                this.productSelected = product
                 $('#pricesModal').modal('show')
             }
         },

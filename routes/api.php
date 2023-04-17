@@ -11,6 +11,7 @@ use App\Http\Controllers\FixedTaskController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\ProjectController;
@@ -144,3 +145,5 @@ Route::post('/updateComunication', [ComunicationController::class, 'update']);
 Route::get('/getAllContracts', [ContractController::class, 'index']);
 Route::get('/generateContract/{id}', [OrderController::class, 'generateContract']);
 Route::post('/insertContract',[OrderController::class, 'insertContract']);
+
+Route::post('/updatePrices', [PriceController::class, 'updatePrices']);

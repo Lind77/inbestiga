@@ -3,7 +3,7 @@
       <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel2">Precios</h5>
+            <h5 class="modal-title" id="exampleModalLabel2">Precios de {{ product.title }}</h5>
             <button
               type="button"
               class="btn-close"
@@ -12,17 +12,39 @@
             ></button>
           </div>
           <div class="modal-body">
-            <div class="row">
+            <div class="row" v-for="price in product.prices">
               <div class="col mb-0">
-                <label class="form-label" for="emailSmall">Total de Pags</label>
-                <input type="number" class="form-control"/>
+                <label class="form-label" for="emailSmall">Nivel {{ price.level }}</label>
+                <input type="number" class="form-control" v-model="price.price"/>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Añadir</button>
+            <button type="button" class="btn btn-primary" @click="updatePrices">Actualizar</button>
           </div>
         </div>
       </div>
     </div>
 </template>
+<script>
+    export default{
+        props:{
+            product: Object
+        },
+        methods:{
+            updatePrices(){
+                const fd = new FormData()
+                fd.append('productId', this.product.id)
+                fd.append('prices', JSON.stringify(this.product.prices))
+
+                axios.post('/api/updatePrices', fd)
+                .then((res) =>{
+                    $('#pricesModal').modal('hide')
+                })
+                .catch((err) =>{
+
+                })
+            }
+        }
+    }
+</script>

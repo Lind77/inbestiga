@@ -6,6 +6,8 @@ use App\Models\Price;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePriceRequest;
 use App\Http\Requests\UpdatePriceRequest;
+use App\Models\Product;
+use Illuminate\Http\Request;
 
 class PriceController extends Controller
 {
@@ -83,5 +85,21 @@ class PriceController extends Controller
     public function destroy(Price $price)
     {
         //
+    }
+
+    public function updatePrices(Request $request){
+        $product = Product::find($request->get('productId'));
+        $prices = $request->get('prices');
+        $pricesArray = json_decode($prices, true);
+
+        foreach ($pricesArray as $price){
+            Price::find($price['id'])->update([
+                'price' => $price['price']
+            ]);
+        }
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }
