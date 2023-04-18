@@ -50,25 +50,27 @@ class ProjectController extends Controller
     }
 
     public function getAllProjectsAcad(){
-        $projects = Project::with(['customer', 
-                                    'team', 
-                                    'product', 
-                                    'activities' => function($query){
-                                        $query->where('type', 0)->with('tasks')->get();
-                                    },
-                                    'activities.progresses'])->get();                            
-        /* $numTasks = 0;
+        $projects = Project::with(['customer','team', 'product', 'activities.tasks','activities.progresses'])->get();                            
+        $numActivities = 0;
+        $numTasks = 0;
+        $numTasksCompleted = 0;
     
         foreach($projects as $project){
             foreach($project->activities as $activity){
-                $numTasks++;
-                foreach ($activity->tasks as $task) {
-                   
+                $numActivities++;
+                foreach($activity->tasks as $task){
+                    $numTasks++;
+                    if($task->status == 2){
+                        $numTasksCompleted++;
+                    }
                 }
             }
+            $project->numActivities = $numActivities;
+            $project->numTasks = $numTasks;
+            $project->numTasksCompleted = $numTasksCompleted;
         }
-        return $numTasks; */
-        return $projects;
+
+        return response()->json($projects);
     }
 
     /**
@@ -246,6 +248,25 @@ class ProjectController extends Controller
         $project->update([
             'status' => 2
         ]);
+
+        $fixedActivitiesEnterprise = FixedActivity::where('product_id', 1)->where('type', 2)->get();
+
+        foreach($fixedActivitiesEnterprise as $enterpriseActivity) {
+            $defaultActivity = Activity::create([
+                'project_id' => $project->id,
+                'title' => $enterpriseActivity->title,
+                'type' => 2,
+                'fixed_activity_id' => $enterpriseActivity->id
+            ]);
+
+            $progressDefaultActivity = Progress::create([
+                'progressable_id' => $defaultActivity->id,
+                'progressable_type' => 'App\Models\Activity',
+                'percentage' => 0.0,
+                'comment' => 'Sin comentarios'
+            ]);
+        }
+
         
         return response()->json([
             'msg' => 'success'

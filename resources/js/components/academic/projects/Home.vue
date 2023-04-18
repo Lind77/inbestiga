@@ -25,14 +25,14 @@
         <p class="fw-bold h5">Calidad académica</p>
         <div class="container-cards" v-for="project in projects">
           <div v-if="project.status == 2">
-            <CardProject :project="project" @getAllProjects="getAllProjectsAcad"/>
+            <CardProject :project="project" @getAllProjects="getAllProjectsAcad" @showQualityModal="showQualityModal"/>
           </div>
         </div>
       </div>
     </div>
   </div>
   <OffCanvas :project_selected="project_selected" @getAllProjects="getAllProjectsAcad"/>
-  <QualityModal/>
+  <QualityModal :qualityActivities="qualityActivities"/>
 </template>
 
 <script>
@@ -57,10 +57,15 @@
           customers:[],
           products:[],
           project_selected: {},
-          activities: []
+          activities: [],
+          qualityActivities:[]
         }
       },
       methods:{
+        showQualityModal(qualityActivities){
+          this.qualityActivities = qualityActivities
+          $('#qualityModal').modal('show')
+        },
         showProject(project){
             this.project_selected = project
             if(this.project_selected.title){

@@ -9,7 +9,7 @@ class Activity extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['project_id', 'title', 'type', 'fixed_activity_id'];
+    protected $fillable = ['project_id', 'title', 'type', 'fixed_activity_id', 'progress'];
 
     public function tasks(){
         return $this->hasMany("App\Models\Task");

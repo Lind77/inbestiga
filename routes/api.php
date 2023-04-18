@@ -107,6 +107,8 @@ Route::post('/updateProgress',[ProgressController::class, 'update']);
 Route::post('/deleteActivityProgress',[ProgressController::class, 'deleteActivityProgress']);
 Route::get('/updateActivityProgress/{id}', [ProgressController::class, 'updateActivityProgress']);
 Route::get('/removeActivityProgress/{id}', [ProgressController::class, 'removeActivityProgress']);
+Route::get('/updateQualityActivity/{id}', [ProgressController::class, 'updateQualityActivity']);
+Route::get('/removeQualityActivity/{id}', [ProgressController::class, 'removeQualityActivity']);
 
 Route::get('/getAllOwners', [OwnerController::class, 'index']);
 Route::get('/verifyOwner/{id}', [OwnerController::class, 'verifyOwner']);

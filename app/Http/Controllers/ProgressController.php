@@ -214,4 +214,28 @@ class ProgressController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function updateQualityActivity($id){
+        $activity = Activity::find($id);
+
+        $activity->update([
+            'progress' => 100
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function removeQualityActivity($id){
+        $activity = Activity::find($id);
+
+        $activity->update([
+            'progress' => 0
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
 }

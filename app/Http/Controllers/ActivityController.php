@@ -104,7 +104,7 @@ class ActivityController extends Controller
         ]);
         return $project;
         return response()->json([
-            'msg' => 'nanis'
+            'msg' => 'success'
         ]);
     }   
 
