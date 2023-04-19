@@ -113,12 +113,15 @@
       </ul>
     </div>
   </nav>
+  <Toast />
 </template>
 <script>
   import moment from 'moment'
  import sound from '../../../../public/sound/tone-alert.mp3'
+ import Toast from './Toast.vue'
  import {userStore} from '../../stores/UserStore'
   export default{
+    components:{Toast},
     setup(){
       const store = userStore()
       return{ store }
@@ -200,6 +203,7 @@
           this.cantNotifications = this.cantNotifications + 1
           this.getNoSeenNotifications()
           this.playSound()
+          $('#toast').toast('show')
         }
       },
       playSound(){
