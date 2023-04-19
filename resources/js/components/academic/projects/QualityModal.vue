@@ -25,12 +25,18 @@
                             <div class="card-body d-flex flex-column align-items-center">
                             <h5 class="card-title">{{ qualityActivity.title }}</h5>
                             <div class="form-check p-0">
-                                <template v-if="qualityActivity.progress != 100">
-                                    <checkQuality :qualityActivity="qualityActivity" @checkQuality="checkQuality" @uncheckQuality="uncheckQuality"/>
+                                <template v-if="qualityActivity.progress == 0">
+                                    <checkQuality :qualityActivity="qualityActivity" @checkQuality="checkQuality" @uncheckQuality="uncheckQuality" @rejectQuality="rejectQuality"/>
                                 </template>
-                               <template v-else>
-                                <i class='bx bx-check-circle text-success'></i>
-                               </template>
+                                <template v-else-if="qualityActivity.progress == 50">
+                                    <div class="d-flex justify-content-center">
+                                        <p class="text-danger mb-0">!! Pendiente de Rectificación</p>
+                                    </div>
+                                    <checkQuality :qualityActivity="qualityActivity" @checkQuality="checkQuality" @uncheckQuality="uncheckQuality" @rejectQuality="rejectQuality"/>
+                                </template>
+                                <template v-else>
+                                    <i class='bx bx-check-circle text-success'></i>
+                                </template>
 
                                 <!-- <input class="form-check-input form-control-lg" @click="checkQuality(qualityActivity.id)" type="checkbox" v-model="isChecked" :id="`disabledCheck${qualityActivity.id}`"> -->
                             </div>
@@ -60,6 +66,10 @@ export default {
         }
     },
     methods:{
+        rejectQuality(id){
+            var activitySelected = this.qualityActivities.find(activity => activity.id == id)
+            activitySelected.progress = 50
+        },
         checkQuality(id){
             var activitySelected = this.qualityActivities.find(activity => activity.id == id)
             activitySelected.progress = 100
@@ -86,6 +96,7 @@ export default {
             this.qualityBar -= 1.25
         },
         chargingBar(){
+            this.qualityBar = 0
             if(this.qualityActivities.length != 0){
                 this.qualityActivities.forEach((activity)=>{
                 if(activity.progress == 100){

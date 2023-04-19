@@ -2,7 +2,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3">Inbestigadores</h4>
         <div class="card">
-            <div class="card-datatable table-responsive">
+            <!-- <div class="card-datatable table-responsive">
                 <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1039px">
                         <thead>
                             <tr>
@@ -19,18 +19,7 @@
                             <tr class="even" v-for="owner in owners">
                                 <td class="control" tabindex="0" style="display: none"></td>
                                 <td class="sorting_1">
-                                    <div class="d-flex justify-content-start align-items-center user-name">
-                                        <div class="avatar-wrapper">
-                                            <div class="avatar avatar-sm me-3">
-                                                <span class="avatar-initial rounded-circle bg-label-success">{{ owner.name[0] }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-column">
-                                            <router-link :to="{name:'user-acad', params:{ idUser: owner.id }}" class="text-body text-truncate"><span class="fw-semibold">{{ owner.name }}</span>
-                                            </router-link>
-                                            <small class="text-muted">{{ owner.email }}</small>
-                                        </div>
-                                    </div>
+                                    
                                 </td>
                                 <td>
                                     <span class="badge bg-label-success" v-if="owner.memoir">Equipo {{ owner.memoir.team.name }}</span>
@@ -46,20 +35,59 @@
                             </tr>
                         </tbody>
                     </table>
-            </div>
-            
+            </div> -->
+            <div class="card">
+  <h5 class="card-header">Inbestigadores</h5>
+  <div class="table-responsive text-nowrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Inbestigador</th>
+          <th>Equipo</th>
+        </tr>
+      </thead>
+      <tbody class="table-border-bottom-0">
+        <tr v-for="owner in owners">
+            <td>
+                <div class="d-flex justify-content-start align-items-center user-name">
+                    <div class="avatar-wrapper">
+                        <div class="avatar avatar-sm me-3">
+                            <span class="avatar-initial rounded-circle bg-label-success">{{ owner.name[0] }}</span>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <router-link :to="{name:'user-acad', params:{ idUser: owner.id }}" class="text-body text-truncate"><span class="fw-semibold">{{ owner.name }}</span>
+                        </router-link>
+                        <small class="text-muted">{{ owner.email }}</small>
+                    </div>
+                </div>
+            </td>
+            <td>
+             <SelectTeam :owner="owner" :teams="teams"/>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
         </div>
     </div>
 </template>
 <script>
+import SelectTeam from './SelectTeam.vue'
 export default {
+    components:{SelectTeam},
     data(){
         return{
             owners:[],
-            teams: []
+            teams: [],
+            showSelect: true
         }
     },
     methods:{
+        doubleClick(){
+            this.showSelect = false
+        },
         getAllOwners(){
             axios.get('/api/getAllOwners')
             .then(res =>{

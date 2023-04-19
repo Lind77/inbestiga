@@ -96,7 +96,7 @@ class ProgressController extends Controller
 
         $notification = Notification::create([
             'emisor_id' => $request->get('emisor_id'),
-            'content' => 'Completó '.$activity->title.' del '.$project->title,
+            'content' => 'completó '.$activity->title.' del '.$project->title,
             'type' => 1
         ]);
 

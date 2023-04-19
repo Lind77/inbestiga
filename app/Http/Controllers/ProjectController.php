@@ -322,7 +322,7 @@ class ProjectController extends Controller
 
             $notification = Notification::create([
                 'emisor_id' => $request->get('emisor_id'),
-                'content' => 'Asignó un nuevo proyecto',
+                'content' => 'asignó un nuevo proyecto',
                 'type' => 1
             ]);
             

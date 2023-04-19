@@ -6,8 +6,10 @@ use App\Models\Notification;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNotificationRequest;
 use App\Http\Requests\UpdateNotificationRequest;
+use App\Models\Project;
 use App\Models\Seen;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
@@ -102,7 +104,34 @@ class NotificationController extends Controller
     }
 
     public function getAllNotifications($id){
-        $user = User::where('id',$id)->with(['notifications', 'notifications.emisor'])->get();
+        $user = User::where('id',$id)->with(['notifications'=> function($query){
+            $query->orderBy('id', 'desc')->get();
+        }, 'notifications.emisor'])->get();
         return response()->json($user);
+    }
+
+    public function insertReject(Request $request){
+        $project = Project::find($request->get('project_id'));
+
+        $notification = Notification::create([
+            'emisor_id' => $request->get('emisor_id'),
+            'content' => 'ha rechazado el '.$project->title.' en la fase de '.$request->get('title'),
+            'type' => 2,
+            'extra' =>  $request->get('extra')
+        ]);
+
+        $usersToNotify = User::role('AdminAcad')->get();
+
+        foreach($usersToNotify as $user){
+            Seen::create([
+                'user_id' => $user->id,
+                'notification_id' => $notification->id,
+                'seen' => 0
+            ]);
+        }
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }

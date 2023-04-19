@@ -8,19 +8,12 @@
               <!-- Content --> 
               <div class="container-xxl flex-grow-1 container-p-y">
                 <h4 class="fw-bold py-3 mb-4">Mis notificaciones</h4>
-
-                <table class="table px-5">
-                    <thead>
-                        <tr>
-                            <th>Notificaciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="notification in notifications">
-                            <td>{{ notification.emisor.name }} {{ notification.content }} - {{ dateFormatted(notification.created_at) }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex align-items-center" v-for="notification in notifications">
+                        <i class='bx bx-check pe-2'></i>
+                        {{ notification.emisor.name }} {{ notification.content }} - {{ dateFormatted(notification.created_at) }}
+                    </li>
+                </ul>
               </div>
               
               <!-- / Content -->
@@ -30,9 +23,9 @@
     </div>
 </template>
 <script>
-    import Sidebar from './Sidebar.vue';
-    import Navbar from './Navbar.vue';
-    import moment from 'moment';
+    import Sidebar from './Sidebar.vue'
+    import Navbar from './Navbar.vue'
+    import moment from 'moment/min/moment-with-locales'
     export default {
         components:{ Sidebar, Navbar },
         data(){
@@ -57,6 +50,7 @@
                 this.hidden = !this.hidden
             },
             dateFormatted(date){
+                moment.locale('es')
                 return moment(date).fromNow()
             }
         },

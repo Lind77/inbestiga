@@ -9,7 +9,7 @@ class Notification extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['emisor_id', 'content', 'type'];
+    protected $fillable = ['emisor_id', 'content', 'type','extra'];
 
     public function users(){
         return $this->belongsToMany('App\Models\User','seens')->withPivot('id','seen');
