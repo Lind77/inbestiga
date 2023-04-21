@@ -8,6 +8,7 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
+use App\Http\Controllers\NewProductController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OwnerController;
@@ -64,6 +65,9 @@ Route::get('/getAllProducts',[ProductController::class, 'index']);
 Route::post('/insertProduct',[ProductController::class, 'store']);
 Route::post('/assignProduct', [ProductController::class, 'assignProduct']);
 Route::get('/getAllProductsWithPrices',[ProductController::class, 'getAllProductsWithPrices']);
+
+Route::get('/getAllNewProducts',[NewProductController::class, 'getAllNewProducts']);
+Route::post('/insertNewProduct',[ProductController::class, 'insertNewProduct']);
 
 Route::post('/insertFixedActivity', [FixedActivityController::class, 'store']);
 Route::post('/insertFixedTask',[FixedTaskController::class, 'store']);

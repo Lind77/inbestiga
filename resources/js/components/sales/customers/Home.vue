@@ -49,7 +49,7 @@
           </div>
         </div>
       </div>
-      <customerModal :customer="customer_selected" :action="action" @getAllCustomers="getAllCustomers"/>
+      <customerModal :customer="customer_selected" :action="action" :allUsers="allUsers" @getAllCustomers="getAllCustomers"/>
       <OwnerModal :customerId="customerId" @cleanLead="cleanLead"/>
     </div>
 </template>
@@ -65,6 +65,7 @@ import OwnerModal from '../prelead/OwnerModal.vue'
         customersPag: [],
         customersChunked: [],
         customer_selected:{},
+        allUsers:[],
         action: 1,
         search: '',
         status:{
@@ -134,10 +135,20 @@ import OwnerModal from '../prelead/OwnerModal.vue'
           })
           this.customersPag  = this.customersChunked[0]
         })
-      }
+      },
+      getAllUsers(){
+          axios.get('/api/getAllUsers')
+          .then((res)=>{
+            this.allUsers = res.data
+          })
+          .catch((err)=>{
+
+          })
+        },
     },
     mounted(){
       this.getAllCustomers()
+      this.getAllUsers()
     }
   }
 </script>

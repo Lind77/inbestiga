@@ -6,6 +6,8 @@ use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Customer;
+use App\Models\NewPrice;
+use App\Models\NewProduct;
 use App\Models\Price;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -136,8 +138,31 @@ class ProductController extends Controller
     }
 
     public function getAllProductsWithPrices(){
+        $newProducts = NewProduct::with('newprices')->get();
         $products = Product::where('id', '!=', 1)->with('prices')->get();
 
-        return response()->json($products);
+        return response()->json($newProducts);
     }
+
+    public function insertNewProduct(Request $request){
+        $new_product = NewProduct::create([
+            'name' => $request->get('name'),
+            'type' => $request->get('type'),
+            'mode' => $request->get('mode')
+        ]);
+
+        $prices = json_decode($request->get('prices'));
+
+        foreach ($prices as $key=>$price) {
+            $price = NewPrice::create([
+                'new_product_id' => $new_product->id,
+                'level' => $key,
+                'price' => $price
+            ]);
+        }
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }   
 }

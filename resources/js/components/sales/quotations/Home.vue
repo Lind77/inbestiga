@@ -18,148 +18,44 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                  <div class="col">
-                  <div class="card shadow-none bg-transparent border border-info mb-3"  v-if="customerSelected.id">
-                    <div class="card-body">
-                    <h5 class="card-title">Cliente: {{ customerSelected.name }} <i @click="deleteCustomerSelected" class='bx bx-trash text-danger cursor-pointer'></i></h5>
-                    <p class="card-text">
-                      Teléfono: {{ customerSelected.cell }}
-                    </p>
-                    <p class="card-text">
-                      Carrera: {{ customerSelected.career }}
-                    </p>
-                    <p class="card-text">
-                      Universidad: {{ customerSelected.university }}
-                    </p>
-                    <!-- <p class="card-text">
-                      Estado: {{ status[customerSelected.status] }}
-                    </p> -->
-                  </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="card shadow-none bg-transparent border border-info mb-3">
-                    <div class="card-body">
-                      <div class="mb-3">
-                        <label class="form-label" for="basic-default-company">Fecha <span class="text-danger">*</span></label>
-                        <input type="date" v-model="date" class="form-control" id="basic-default-company" />
-                      </div>
-                      <div class="mb-3">
-                        <label class="form-label" for="basic-default-company">Validez</label>
-                        <p>{{  finalDayMonth }}</p>
-                      </div>
-                  </div>
-                  </div>
-                </div>
-                
-                </div>
-                <h5 class="mb-4">Productos</h5>
-                <div class="row">
                   <div class="col-6">
-                  <label class="form-label" for="basic-default-company">Nivel</label>
-                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" v-model="level">
-                    <option selected="">Seleccione un nivel</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
-                </div>
-                <div class="col-6">
-                  <div class="mb-3">
-                    <label class="form-label" for="basic-default-company">Producto</label>
-                    <input type="text" id="inputSearch" v-model="searchProduct" autocomplete="off" class="form-control" @keyup="search"/>
-                    <table class="table table-bordered mb-3">
-                      <tr v-for="product in filtered_products">
-                        <td class="cursor-pointer" @click="addCart(product)">{{product.title}} - S./ {{ product.amountLevel }}</td>
-                      </tr>
-                    </table>
+                    <CustomerCard :customerSelected="customerSelected"/>
+                  </div>
+                  <div class="col-6">
+                    <DateCard :date="date" :dateValidate="dateValidate"/>
                   </div>
                 </div>
-                </div>
-                <div class="table-responsive text-nowrap">
-                  <table class="table">
+
+                <SearchProduct :title="'Productos'" @filterNewProducts="filterNewProducts" :newProductsByType="newProductsByType" @callProductModal="callProductModal" />
+
+                <div class="table-responsive text-nowrap" v-show="carNewProducts.length">
+                  <table class="table table-bordered mb-3">
                     <thead class="table-primary">
                       <tr>
                         <th>Producto/Servicio</th>
+                        <th>Tipo</th>
                         <th>Total</th>
                         <th>Borrar</th>
                       </tr>
                     </thead>
-                    <tbody class="table-border-bottom-0">
-                      <tr v-for="(product, index) in car_products" :key="index">
-                        <td>{{ JSON.parse(product).title }}</td>
-                        <td>S./ {{ JSON.parse(product).total }}</td>
-                        <td><a @click="removeCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12 col-lg-6">
-                  <div class="mb-3">
-                    <p>TOTAL:  S./ {{ totalProducts }}</p>
-                  </div>
-                </div>
-                </div>
-                <h5 class="mb-4">Producto Sugerido</h5>
-                <div class="row">
-                  <div class="col-6">
-                  <label class="form-label" for="basic-default-company">Nivel</label>
-                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" v-model="levelSugested">
-                    <option selected="">Seleccione un nivel</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
-                </div>
-                <div class="col-6">
-                  <div class="mb-3">
-                    <label class="form-label" for="basic-default-company">Producto</label>
-                    <input type="text" id="inputSearch" autocomplete="off" class="form-control" v-model="searchSugestedProduct" @keyup="searchSugested"/>
-                    <table class="table table-bordered mb-3">
-                      <tr v-for="product in filtered_products_sugested">
-                        <td class="cursor-pointer" @click="addCartSuggested(product)">{{product.title}} - S./ {{ product.amountLevel }}</td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-                </div>
-                <div class="table-responsive text-nowrap">
-                  <table class="table">
-                    <thead class="table-primary">
-                      <tr>
-                        <th>Producto/Servicio</th>
-                        <th>Total</th>
-                        <th>Borrar</th>
-                      </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0">
-                      <tr v-for="(product, index) in carSugestedProducts" :key="index">
-                        <td>{{ JSON.parse(product).title }}</td>
-                        <td>S./ {{ JSON.parse(product).total }}</td>
+                    <tbody>
+                      <tr v-for="(carNewProduct, index) in carNewProducts">
+                        <td>{{ carNewProduct.name }}</td>
+                        <td>{{ carNewProduct.typeDetail==1?'Normal':'Sugerido' }}</td>
+                        <td>{{ carNewProduct.priceFinal }}</td>
                         <td><a @click="removeSuggestedCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-                <div class="row">
-                  <div class="col-sm-12 col-lg-6">
-                  <div class="mb-3">
-                    <p>TOTAL: S./ {{ totalSuggestedProducts }}</p>
-                  </div>
-                </div>
-                </div>
+                
                 <div class="row">
                   <div class="col-6">
-                  <div class="mb-3">
-                    <label class="form-label" for="basic-default-company">Descuento</label>
-                    <input type="text" class="form-control" v-model="discount">
+                    <div class="mb-3">
+                      <label class="form-label" for="basic-default-company">Descuento</label>
+                      <input type="text" class="form-control" v-model="discount">
+                    </div>
                   </div>
-                </div>
                 <div class="col-6">
                   <div class="mb-3">
                     <label class="form-label" for="basic-default-company">Tiempo de Ejecucion <span class="text-danger">*</span></label>
@@ -170,7 +66,7 @@
                 <div class="row">
                   <div class="col-sm-12 col-lg-6">
                   <div class="mb-3">
-                    <p>TOTAL FINAL: S./ {{ totalProducts - discount }}</p>
+                    <h3>S./ TOTAL {{ totalProducts - discount }}</h3>  
                   </div>
                 </div>
                 </div>
@@ -180,7 +76,10 @@
                     <input type="text" class="form-control" v-model="note">
                   </div>
                 </div>
-                <button @click="insertQuotation" class="btn btn-primary mt-2 text-white">Guardar</button>
+                <div class="row d-flex justify-content-center ">
+                  <button @click="insertQuotation" class="btn btn-primary btn-lg mt-2 text-white w-50">Guardar</button>
+                </div>
+                
                 <router-link v-if="this.idQuotation != 0" :to="{name:'quotation-file', params:{ id: this.idQuotation }}" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>Imprimir</router-link>
                 <!-- <button class="btn btn-primary" @click="generatePDF">PDF</button> -->
             </div>
@@ -201,17 +100,24 @@
       </div>
       <calcModal @addCartModal="addCartModal"/>
       <InsertDetail @addCartModal="addCartModal" @addSugestCartModal="addSugestCartModal" :product="selected_product" :products="fixed_products"/>
+      <ProductModal :newProduct="newProduct" @insertCarProducts="insertCarProducts"/>
 </div>
 </template>
 <script>
   import moment from 'moment'
+  import CustomerCard from './CustomerCard.vue'
+  import DateCard from './DateCard.vue'
   import List from './List.vue'
   import calcModal from './calcModal.vue'
   import InsertDetail from './InsertDetail.vue'
+  import SearchProduct from './searchProduct.vue'
+  import ProductModal from './ProductModal.vue'
   export default{
-    components:{List, calcModal, InsertDetail},
+    components:{ List, calcModal, InsertDetail, CustomerCard, DateCard, SearchProduct, ProductModal },
     data(){
       return{
+        carNewProducts:[],
+        newProduct: {},
         note:'',
         customers:[],
         term:'',
@@ -226,7 +132,8 @@
         car_products:[],
         carSugestedProducts:[],
         name: '',
-        date:null,
+        date:'',
+        dateValidate:'',
         cell:'',
         searchProduct:'',
         searchSugestedProduct:'',
@@ -246,16 +153,40 @@
           5: 'Altamente Interesado',
           6: 'Cliente',
           null: 'Stand By'
-        }
+        },
+        newProducts:[],
+        newProductsByType:[]
       }
     },
     methods:{
+      insertCarProducts(newProduct){
+        this.carNewProducts.push(newProduct)
+      },
+      callProductModal(newProduct){
+        this.newProduct = newProduct
+
+        $('#productModal').modal('show')
+      },
+      filterNewProducts(type){
+        console.log(type)
+        this.newProductsByType = this.newProducts.filter(product => product.type == type)
+      },
+      getAllNewProducts(){
+        axios.get('/api/getAllNewProducts')
+        .then((res)=>{
+          this.newProducts = res.data
+        })
+        .catch((err)=>{
+          console.error(err)
+        })
+      },
       generatePDF(){
 
         const fd =  new FormData()
       
         fd.append('customer', this.customerSelected)
         fd.append('date', this.date)
+        fd.append('amount', this.totalProducts)
         fd.append('expirationDay', finalDayMonth)
         fd.append('products', this.car_products)
         fd.append('suggestedProducts', this.suggested_products)
@@ -282,6 +213,7 @@
             window.open('/api/generatePDF/'+this.idQuotation)
       },
       insertQuotation(){
+        console.log(this.date)
         if(this.date == null){
           this.$swal('Porfavor agregar la fecha de cotización')
         }
@@ -289,17 +221,17 @@
           this.$swal('Porfavor agregar el tiempo de ejecución')
         }
         else{
+          
           const fd =  new FormData()
       
-        fd.append('customer', JSON.stringify(this.customerSelected))
+        fd.append('customer_id', this.customerSelected.id)
         fd.append('date', this.date)
-        fd.append('expirationDay', this.finalDayMonthFormatted)
-        fd.append('products', JSON.stringify(this.car_products))
-        fd.append('suggestedProducts', JSON.stringify(this.carSugestedProducts))
+        fd.append('expirationDay', this.dateValidate)
+        fd.append('amount', this.totalProducts)
         fd.append('discount', this.discount)
-        fd.append('amount', this.totalProducts - this.discount)
         fd.append('term', this.term)
         fd.append('note', this.note)
+        fd.append('products', JSON.stringify(this.carNewProducts))
 
         axios.post('/api/insertQuotation',fd)
         .then(res =>{
@@ -394,7 +326,7 @@
         console.log(product)
       },
       removeSuggestedCart(product){
-        this.carSugestedProducts.splice(product,1)
+        this.carNewProducts.splice(product,1)
         console.log(product)
       },
       searchSugested(e){
@@ -457,6 +389,7 @@
     },
     mounted(){
       this.getAllProducts()
+      this.getAllNewProducts()
       this.getAllCustomers()
     },
     computed:{
@@ -468,19 +401,11 @@
       },
       totalProducts(){
         var total = 0
-        this.car_products.forEach((product)=>{
-            total += parseFloat(JSON.parse(product).total)
+        this.carNewProducts.forEach((product)=>{
+            total += parseFloat(product.priceFinal)
         })
 
-        return Math.round(total * 100)/100
-      },
-      totalSuggestedProducts(){
-        var total = 0
-        this.carSugestedProducts.forEach((product)=>{
-            total += parseFloat(JSON.parse(product).total)
-        })
-
-        return Math.round(total * 100)/100
+        return total.toFixed(2)
       }
     }
   }

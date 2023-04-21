@@ -40,7 +40,7 @@
                         <h5 class="card-title m-0 me-2">Chart de Productividad</h5>
                     </div>
                     <div class="card-body">
-                        <apexchart width="500" type="line" :options="options" :series="series"></apexchart>
+                        <apexchart width="500" type="heatmap" :options="options" :series="series"></apexchart>
                     </div>
                 </div>
             </div>             
@@ -55,18 +55,124 @@ export default {
         return{
             user:{},
             progress:[],
-            options: {
-                chart: {
-                id: 'vuechart-example'
-                },
-                xaxis: {
-                categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
-                }
+            options:{
+                colors: ["#008FFB"],
+                width: 700
             },
-            series: [{
-                name: 'series-1',
-                data: [30, 40, 45, 50, 49, 60, 70, 91]
-            }]
+            series: [
+                {
+                name: "S",
+                data: [{
+                    x: 'W1',
+                    y: 22
+                }, {
+                    x: 'W2',
+                    y: 29
+                }, {
+                    x: 'W3',
+                    y: 13
+                }, {
+                    x: 'W4',
+                    y: 32
+                }]
+                },
+                {
+                name: "V",
+                data: [{
+                    x: 'W1',
+                    y: 43
+                }, {
+                    x: 'W2',
+                    y: 43
+                }, {
+                    x: 'W3',
+                    y: 43
+                }, {
+                    x: 'W4',
+                    y: 43
+                }]
+                },
+                {
+                name: "J",
+                data: [{
+                    x: 'W1',
+                    y: 43
+                }, {
+                    x: 'W2',
+                    y: 43
+                }, {
+                    x: 'W3',
+                    y: 43
+                }, {
+                    x: 'W4',
+                    y: 43
+                }]
+                },
+                {
+                name: "Mi",
+                data: [{
+                    x: 'W1',
+                    y: 43
+                }, {
+                    x: 'W2',
+                    y: 43
+                }, {
+                    x: 'W3',
+                    y: 43
+                }, {
+                    x: 'W4',
+                    y: 43
+                }]
+                },
+                {
+                name: "Ma",
+                data: [{
+                    x: 'W1',
+                    y: 43
+                }, {
+                    x: 'W2',
+                    y: 43
+                }, {
+                    x: 'W3',
+                    y: 43
+                }, {
+                    x: 'W4',
+                    y: 43
+                }]
+                },
+                {
+                name: "L",
+                data: [{
+                    x: 'W1',
+                    y: 43
+                }, {
+                    x: 'W2',
+                    y: 43
+                }, {
+                    x: 'W3',
+                    y: 43
+                }, {
+                    x: 'W4',
+                    y: 43
+                }]
+                },
+                {
+                name: "D",
+                data: [{
+                    x: 'W1',
+                    y: 43
+                }, {
+                    x: 'W2',
+                    y: 43
+                }, {
+                    x: 'W3',
+                    y: 43
+                }, {
+                    x: 'W4',
+                    y: 43
+                }]
+                }
+            ]
         }
     },
     methods:{

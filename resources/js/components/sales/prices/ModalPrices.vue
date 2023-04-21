@@ -3,7 +3,7 @@
       <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel2">Precios de {{ product.title }}</h5>
+            <h5 class="modal-title" id="exampleModalLabel2">Precios de {{ product.name }}</h5>
             <button
               type="button"
               class="btn-close"
@@ -12,7 +12,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <div class="row" v-for="price in product.prices">
+            <div class="row" v-for="price in product.newprices">
               <div class="col mb-0">
                 <label class="form-label" for="emailSmall">Nivel {{ price.level }}</label>
                 <input type="number" class="form-control" v-model="price.price"/>

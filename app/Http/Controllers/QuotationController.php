@@ -50,10 +50,8 @@ class QuotationController extends Controller
             'grade' => $request->get('grade'),
         ]); */
 
-        $customer = json_decode($request->get('customer'),true);
-
         $quotation = Quotation::create([
-            'customer_id' => $customer['id'],
+            'customer_id' => $request->get('customer_id'),
             'date' => $request->get('date'),
             'amount' => $request->get('amount'),
             'expiration_date' => $request->get('expirationDay'),
@@ -63,43 +61,23 @@ class QuotationController extends Controller
         ]);
 
         $products = $request->get('products');
-        $suggestedProducts = $request->get('suggestedProducts');
-
+       
         $arrProds = json_decode($products, true);
 
-        $arrSuggesProds = json_decode($suggestedProducts, true);
-
-        if(is_array($arrProds)){
+        return $arrProds;
+       
             foreach($arrProds as $prod){
-                $prod_decode =  json_decode($prod);
-                $detail = Detail::create([
-                    'product_id' => $prod_decode->id,
+                
+                /* $detail = Detail::create([
+                    'product_id' => $prod,
                     'quotation_id' => $quotation->id,
                     'type' => 1,
                     'description' => $prod_decode->description,
                     'price' => $prod_decode->total
-                ]);
+                ]); */
             }
-        }else{
-            return 'no es array';
-        };
 
-        if(is_array($arrSuggesProds)){
-            foreach($arrSuggesProds as $prod){
-                $prod_decode =  json_decode($prod);
-                $detail = Detail::create([
-                    'product_id' => $prod_decode->id,
-                    'quotation_id' => $quotation->id,
-                    'type' => 2,
-                    'description' => $prod_decode->description,
-                    'price' => $prod_decode->total
-                ]);
-            }
-        }else{
-            return 'no es array';
-        };
-
-        $customerToUpdate = Customer::find($customer['id'])->update([
+        $customerToUpdate = Customer::find($request->get('customer_id'))->update([
             'status' => 4
         ]);
 

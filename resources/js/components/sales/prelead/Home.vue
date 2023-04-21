@@ -1,8 +1,10 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
       <div class="row">
-            <draggableArea :customers="attended" :title="'Atendido'" :status="1" @callModal="callModal" @updateStatusSpace="updateStatusSpace"/>
-            <draggableArea :customers="comunications" :title="'Comunicación Establecida'" :status="2" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @convertLead="convertLead" @cleanLead="cleanLead"/>
+          <draggableArea :customers="attended" :title="'Origen'" :status="0" @callModal="callModal" @updateStatusSpace="updateStatusSpace"/>
+            <draggableArea :customers="attended" :title="'No Atendido'" :status="1" @callModal="callModal" @updateStatusSpace="updateStatusSpace"/>
+            <draggableArea :customers="attended" :title="'Atendido'" :status="2" @callModal="callModal" @updateStatusSpace="updateStatusSpace"/>
+            <draggableArea :customers="comunications" :title="'Comunicación Establecida'" :status="3" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @convertLead="convertLead" @cleanLead="cleanLead"/>
           </div>
       <ProductModal :customer="customerSelected" @getAllCustomers="getAllCustomers"/>
       <!-- <UpdateCom :comunication="comunication"/>   -->

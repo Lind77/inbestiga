@@ -122,6 +122,7 @@
  import {userStore} from '../../stores/UserStore'
   export default{
     components:{Toast},
+    emits:['hideSidebar'],
     setup(){
       const store = userStore()
       return{ store }
