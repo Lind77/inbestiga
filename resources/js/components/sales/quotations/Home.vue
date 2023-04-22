@@ -22,7 +22,18 @@
                     <CustomerCard :customerSelected="customerSelected"/>
                   </div>
                   <div class="col-6">
-                    <DateCard :date="date" :dateValidate="dateValidate"/>
+                    <div class="card shadow-none bg-transparent border border-info mb-3">
+                      <div class="card-body">
+                          <div class="mb-3">
+                          <label class="form-label" for="basic-default-company">Fecha <span class="text-danger">*</span></label>
+                          <input type="date" v-model="date" class="form-control" id="basic-default-company" />
+                          </div>
+                          <div class="mb-0">
+                          <label class="form-label" for="basic-default-company">Validez</label>
+                          <input type="date" v-model="dateValidate" class="form-control" id="basic-default-company" />
+                          </div>
+                      </div>
+                  </div>
                   </div>
                 </div>
 
@@ -78,9 +89,10 @@
                 </div>
                 <div class="row d-flex justify-content-center ">
                   <button @click="insertQuotation" class="btn btn-primary btn-lg mt-2 text-white w-50">Guardar</button>
+                  <router-link v-if="idQuotation != 0" :to="{name:'quotation-file', params:{ id: this.idQuotation }}" target="_blank" class="btn btn-primary mt-2 mx-2 text-white w-50" disabled>Imprimir</router-link>
                 </div>
                 
-                <router-link v-if="this.idQuotation != 0" :to="{name:'quotation-file', params:{ id: this.idQuotation }}" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>Imprimir</router-link>
+                
                 <!-- <button class="btn btn-primary" @click="generatePDF">PDF</button> -->
             </div>
         </div>
@@ -227,7 +239,7 @@
         fd.append('customer_id', this.customerSelected.id)
         fd.append('date', this.date)
         fd.append('expirationDay', this.dateValidate)
-        fd.append('amount', this.totalProducts)
+        fd.append('amount', this.totalProducts - this.discount)
         fd.append('discount', this.discount)
         fd.append('term', this.term)
         fd.append('note', this.note)

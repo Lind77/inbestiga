@@ -9,9 +9,13 @@ class Detail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id','quotation_id', 'type', 'description', 'price'];
+    protected $fillable = ['product_id','quotation_id', 'type', 'description', 'price','new_product_id'];
 
     public function product(){
         return $this->belongsTo("App\Models\Product");
+    }
+
+    public function new_product(){
+        return $this->belongsTo("App\Models\NewProduct");
     }
 }

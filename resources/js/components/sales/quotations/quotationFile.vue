@@ -57,7 +57,7 @@
             </thead>
             <tbody v-if="quotation[0]">
                 <tr v-for="detail in quotation[0].details" class="text-dark">
-                    <th class="table-item fw-normal ps-2" v-if="detail.type == 1 ">{{detail.product.title}}
+                    <th class="table-item fw-normal ps-2" v-if="detail.type == 1 ">{{detail.new_product.name}}
                     <template v-if="detail.product_id == 34">
                         <br>
                         - 02 propuestas de tema

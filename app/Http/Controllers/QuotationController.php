@@ -64,17 +64,15 @@ class QuotationController extends Controller
        
         $arrProds = json_decode($products, true);
 
-        return $arrProds;
-       
             foreach($arrProds as $prod){
-                
-                /* $detail = Detail::create([
-                    'product_id' => $prod,
+                $detail = Detail::create([
                     'quotation_id' => $quotation->id,
-                    'type' => 1,
-                    'description' => $prod_decode->description,
-                    'price' => $prod_decode->total
-                ]); */
+                    'product_id' => 1,
+                    'type' => $prod['typeDetail'],
+                    'description' => '-',
+                    'price' => $prod['priceFinal'],
+                    'new_product_id' => $prod['id']
+                ]);
             }
 
         $customerToUpdate = Customer::find($request->get('customer_id'))->update([
@@ -145,7 +143,7 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        $quotation = Quotation::where('id', $id)->with(['customer', 'details', 'details.product','orders'])->get();
+        $quotation = Quotation::where('id', $id)->with(['customer', 'details', 'details.product', 'details.new_product','orders'])->get();
 
         return response()->json($quotation);
     }
