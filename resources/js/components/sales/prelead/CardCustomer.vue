@@ -1,7 +1,7 @@
 <template>
     <div class="cardSpace" draggable="true" @dragover.prevent @drop.stop.prevent @dragstart="drag" :id="`${customer.id}`">
         <div class="card bg-light p-2 cursor-pointer">
-        <h6 class="mb-0">{{ customer.name || customer.cell }}</h6>
+        <h6 class="mb-0" @click="showModalFunnel">{{ customer.name || customer.cell }}</h6>
         <div class="demo-inline-spacing">
             <div class="btn-group">
                 <button type="button" class="btn btn-primary btn-sm btn-icon rounded-pill dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
@@ -9,11 +9,11 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" style="">
                     <li class="p-2">
-                        <p><span class="fw-bold">Celular:</span><br> {{ customer.cell }}</p>
+                        <p><span class="fw-bold">Celular:</span><span class="text-danger">*</span><br> {{ customer.cell }}</p>
                         <p><span class="fw-bold">Universidad:</span><br> {{ customer.university }}</p>
                         <p><span class="fw-bold">Carrera:</span><br> {{ customer.career }}</p>
                         <p><span class="fw-bold">Email: </span><br> {{ customer.email }}</p>
-                        <button class="btn btn-sm btn-primary">Actualizar</button>
+                        <button class="btn btn-sm btn-primary" @click="showModalUpdateData">Actualizar</button>
                     </li>
                 </ul>
             </div>
@@ -83,10 +83,10 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" style="">
                 <li>
-                    <a class="dropdown-item" v-if="statusCard == 2" @click="convertLead(customer.id)" href="javascript:void(0);">Convertir en Lead</a>
+                    <a class="dropdown-item" v-if="statusCard == 3" @click="convertLead(customer.id)" href="javascript:void(0);">Convertir en Lead</a>
                 </li>   
                 <li>
-                    <router-link class="dropdown-item" v-if="statusCard == 3" :to="{name:'home-quotation', params:{ idUser: customer.id }}">Generar Cotización</router-link>
+                    <router-link class="dropdown-item" v-if="statusCard == 5" :to="{name:'home-quotation', params:{ idUser: customer.id }}">Generar Cotización</router-link>
                 </li>
                 <li>
                     <router-link class="dropdown-item" v-if="statusCard == 5" :to="{name:'home-orders', params:{ idUser: customer.id }}">Generar Orden</router-link>
@@ -102,7 +102,6 @@
 </template>
 <script>
 import moment from 'moment'
-
     export default{
         data(){
             return{
@@ -122,6 +121,9 @@ import moment from 'moment'
             visible: Boolean
         },
         methods:{
+            showModalFunnel(){
+                this.$emit('showModalFunnel')
+            },
             removeColor(index){
                 document.getElementById('space'+index).classList.remove('space-show')
             },
@@ -135,6 +137,9 @@ import moment from 'moment'
             },
             showModalUpdateCom(){
                 this.$emit('showModalUpdateCom', this.customer.comunication)
+            },
+            showModalUpdateData(){
+                this.$emit('showModalUpdateData', this.customer)
             },
             formatDate(date){
                 return moment(date).format('DD/MM/YYYY')

@@ -2,14 +2,18 @@
   <div class="container-xxl flex-grow-1 container-p-y"> 
     <div class="row">
       <DatePicker @filterDate="filterDate" />
-      <draggableArea :customers="leads" @callModal="callModal" :title="'Lead'" :status="3" @updateStatusSpace="updateStatusSpaces"/>
+      <draggableArea :customers="leads" @callModal="callModal" :title="'Obtención de necesidades específicas'" :status="3" @updateStatusSpace="updateStatusSpaces" @showModalFunnel="showModalFunnel"/>
       <draggableArea :customers="quotations" @callModal="callModal" :title="'Con Cotización'"  :status="4" @updateStatusSpace="updateStatusSpaces"/>
-      <draggableArea :customers="highs" @callModal="callModal" :title="'Altamente interesado'" :status="5" @updateStatusSpace="updateStatusSpaces"/>
-      <draggableArea :customers="orders" @callModal="callModal" :title="'Con Contrato'" :status="6" @updateStatusSpace="updateStatusSpaces"/>
-      <draggableArea :customers="customers" @callModal="callModal" :title="'Cliente'" :status="7" @updateStatusSpace="updateStatusSpaces"/>
+      <draggableArea :customers="quotations" @callModal="callModal" :title="'Explicación de Cotización'"  :status="5" @updateStatusSpace="updateStatusSpaces"/>
+      <draggableArea :customers="quotations" @callModal="callModal" :title="'Explicación de la Experiencia'"  :status="6" @updateStatusSpace="updateStatusSpaces"/>
+      <draggableArea :customers="quotations" @callModal="callModal" :title="'Seguimientos'"  :status="7" @updateStatusSpace="updateStatusSpaces"/>
+      <draggableArea :customers="highs" @callModal="callModal" :title="'Cierre no pagado'" :status="8" @updateStatusSpace="updateStatusSpaces"/>
+      <draggableArea :customers="orders" @callModal="callModal" :title="'Seguimiento de cierre'" :status="9" @updateStatusSpace="updateStatusSpaces"/>
+      <draggableArea :customers="customers" @callModal="callModal" :title="'Cliente'" :status="10" @updateStatusSpace="updateStatusSpaces"/>
     </div>
     <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
     <UpdateCom :comunication="comunication"/>
+   
   </div>
 </template>
 <script>
@@ -19,6 +23,7 @@ import ProductModal from './ProductModal.vue'
 import {userStore} from '../../../stores/UserStore'
 import draggableArea from './draggableArea.vue'
 import UpdateCom from '../prelead/UpdateCom.vue'
+import FunnelModal from './FunnelModal.vue'
 
 export default{
   setup(){
@@ -27,7 +32,7 @@ export default{
         store
       }
   },
-  components:{ CardCustomer, ProductModal, draggableArea, DatePicker, UpdateCom },
+  components:{ CardCustomer, ProductModal, draggableArea, DatePicker, UpdateCom, FunnelModal},
   data(){
     return{
       customers:[],
@@ -42,6 +47,9 @@ export default{
     }
   },
   methods:{
+    showModalFunnel(){
+      alert('fin')
+    },
     updateStatusSpaces(leadId, status){
       var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
       if(this.verifyChange(leadSelected, status)){

@@ -1,15 +1,16 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
       <div class="row">
-          <draggableArea :customers="attended" :title="'Origen'" :status="0" @callModal="callModal" @updateStatusSpace="updateStatusSpace"/>
-            <draggableArea :customers="attended" :title="'No Atendido'" :status="1" @callModal="callModal" @updateStatusSpace="updateStatusSpace"/>
-            <draggableArea :customers="attended" :title="'Atendido'" :status="2" @callModal="callModal" @updateStatusSpace="updateStatusSpace"/>
-            <draggableArea :customers="comunications" :title="'Comunicación Establecida'" :status="3" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @convertLead="convertLead" @cleanLead="cleanLead"/>
+          <draggableArea :customers="origin" :title="'Origen'" :status="0" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData"/>
+            <draggableArea :customers="noAttended" :title="'No Atendido'" :status="1" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData"/>
+            <draggableArea :customers="attended" :title="'Atendido'" :status="2" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData"/>
+            <draggableArea :customers="comunications" :title="'Comunicación Establecida'" :status="3" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @convertLead="convertLead" @cleanLead="cleanLead"/>
           </div>
       <ProductModal :customer="customerSelected" @getAllCustomers="getAllCustomers"/>
       <!-- <UpdateCom :comunication="comunication"/>   -->
     </div>
       <OwnerModal :customerId="customerId" @convertLead="convertLead" @cleanLead="cleanLead"/>
+      <customerModal :customer="customer" :action="2"/>
 </template>
 <script>
 import axios from 'axios'
@@ -18,19 +19,22 @@ import ProductModal from '../funnel/ProductModal.vue'
 import draggableArea from '../funnel/draggableArea.vue'
 import UpdateCom from '../prelead/UpdateCom.vue'
 import OwnerModal from './OwnerModal.vue'
-
+import customerModal from '../customers/customerModal.vue'
 
 export default {
-    components: {CardCustomer, ProductModal, draggableArea, UpdateCom, OwnerModal},
+    components: {CardCustomer, ProductModal, draggableArea, UpdateCom, OwnerModal, customerModal},
     data(){
         return{
           customers:[],
           attended:[],
+          noAttended:[],
           comunications:[],
+          origin:[],
           status: 0,
           customerSelected: null,
           comunication: null,
-          customerId:0
+          customerId:0,
+          customer:{}
         }
     },
     methods:{
@@ -42,29 +46,61 @@ export default {
         this.customerId = id
         $('#ownerModal').modal('show')
       },
-        updateStatusSpace(customer_id, status){
+        updateStatusSpace(customer_id, newStatus){
           var customerSelected = this.customers.find(customer => customer.id == customer_id)
-          customerSelected.status = status
-          if(status == 1){
-            let index = this.comunications.findIndex(comunication => comunication.id == customerSelected.id)
-            this.comunications.splice(index, 1)
-            this.attended.unshift({...customerSelected})
-            this.updateStatus(customer_id, status)
-          }else{
-            let index = this.attended.findIndex(el => el.id == customerSelected.id)
-            this.attended.splice(index, 1)
-            this.comunications.unshift({...customerSelected})
-            this.updateStatus(customer_id, status)
-          }
-            /* if(customerSelected.status == 2){
-              this.attended.push(customerSelected)
+
+          if(newStatus == 3){
+            if(customerSelected.name == null || customerSelected.cell == null){
+              this.$swal('El usuario carece de información básica necesaria (nombre o número de celular)')
             }else{
-              this.comunications.push(customerSelected)
-            } */
+              var oldStatus = customerSelected.status
+
+            console.log(oldStatus)
+
+            let arraysByStatus = {
+              0: this.origin,
+              1: this.noAttended,
+              2: this.attended,
+              3: this.comunications
+            }
+
+            let index = arraysByStatus[oldStatus].findIndex(el => el.id == customerSelected.id)
+
+            arraysByStatus[oldStatus].splice(index, 1)
+            customerSelected.status = newStatus
+            arraysByStatus[newStatus].unshift({...customerSelected})
+
+            this.updateStatus(customer_id, newStatus)
+            }
+          }else{
+            var oldStatus = customerSelected.status
+
+            console.log(oldStatus)
+
+            let arraysByStatus = {
+              0: this.origin,
+              1: this.noAttended,
+              2: this.attended,
+              3: this.comunications
+            }
+
+            let index = arraysByStatus[oldStatus].findIndex(el => el.id == customerSelected.id)
+
+            arraysByStatus[oldStatus].splice(index, 1)
+            customerSelected.status = newStatus
+            arraysByStatus[newStatus].unshift({...customerSelected})
+
+            this.updateStatus(customer_id, newStatus)
+          }
+
         },
         callModal(com){
           this.comunication = com
           $('#updateComModal').modal('show')
+        },
+        showModalUpdateData(customer){
+          this.customer = customer
+          $('#customerModal').modal('show')
         },
         getAllCustomers(){
           this.$swal({
@@ -76,7 +112,12 @@ export default {
             .then(res =>{
                 this.customers = res.data
                 this.customers.forEach(customer =>{
-                  if(customer.status == 1){
+                  if(customer.status == 0){
+                    this.origin.push(customer)
+                  }
+                  else if(customer.status == 1){
+                    this.noAttended.push(customer)
+                  }else if(customer.status == 2){
                     this.attended.push(customer)
                   }else{
                     this.comunications.push(customer)

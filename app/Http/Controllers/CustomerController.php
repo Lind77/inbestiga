@@ -6,6 +6,9 @@ use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Comunication;
+use App\Models\Detail;
+use App\Models\Origin;
+use App\Models\Quotation;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -94,7 +97,26 @@ class CustomerController extends Controller
         $hour = date('H:i:s', $time);
         $customer = Customer::create($request->all());
 
-        $comunication = Comunication::create([
+        if($request->get('referedFrom') != 0){
+            $origin = Origin::create([
+                'customer_id' => $customer->id,
+                'type' => $request->get('origin'),
+                'channel' => null,
+                'user_id' => $request->get('referedFrom')
+           ]);
+        }else{
+            $origin = Origin::create([
+                'customer_id' => $customer->id,
+                'type' => $request->get('origin'),
+                'channel' => $request->get('channel'),
+                'user_id' => null
+    
+           ]);
+        }
+
+        
+
+        /* $comunication = Comunication::create([
             'customer_id' => $customer->id,
             'first_management' => $request->get('first_management'),
             'last_management' => $request->get('last_management'),
@@ -104,7 +126,7 @@ class CustomerController extends Controller
             'type' => $request->get('type'),
             'time' => $hour
         ]);
-
+ */
         return response()->json([
             'msg' => 'success'
         ]);
@@ -176,7 +198,7 @@ class CustomerController extends Controller
     }
     
     public function getAllPreleads(){
-        $customers = Customer::where('status','<=', 2)->with(['project','project.product', 'comunication','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
+        $customers = Customer::where('status','<=', 3)->with(['project','project.product', 'comunication','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
         return response()->json($customers);
     }
 
@@ -195,6 +217,31 @@ class CustomerController extends Controller
         $customer->update([
             'user_id' => $request->get('seller_selected'),
             'status' => 3
+        ]);
+
+        $quotation = Quotation::create([
+            'customer_id' => $request->get('customer_id'),
+            'date' => date('Y-m-d'),
+            'amount' => 0,
+            'term' => '-'
+        ]);
+
+        $products = json_decode($request->get('products'), true);
+
+        foreach ($products as $product){
+
+            $detail = Detail::create([
+                'quotation_id' => $quotation->id,
+                'product_id' => $product['id'],
+                'description' => '',
+                'price' => 0
+            ]);
+
+        }
+
+
+        return response()->json([
+            'msg' => 'success'
         ]);
     }
 }

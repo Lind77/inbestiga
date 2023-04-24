@@ -52,16 +52,33 @@
                 <div class="col mb-0">
                 <label for="emailBasic" class="form-label">Origen</label>
                     <select class="form-select" v-model="origin">
+                        <option value="1">Marketing</option>
+                        <option value="2">Referido</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div v-show="origin == 1" class="row g-2">
+                <div class="col mb-0">
+                <label for="emailBasic" class="form-label">Canal</label>
+                    <select class="form-select" v-model="channel">
                         <option value="1">Messenger</option>
                         <option value="2">Whatsapp</option>
                         <option value="3">Página web</option>
                         <option value="4">Instagram</option>
-                        <option value="5">Referido</option>
-                        <option value="6">Campo</option>
+                        <option value="5">Campo</option>
                     </select>
                 </div>
             </div>
-            <div class="row g-2">
+            <div v-show="origin == 2" class="row g-2">
+                <div class="col mb-0">
+                <label for="emailBasic" class="form-label">Referido por</label>
+                    <select class="form-select" v-model="referedFrom">
+                        <option :value="user.id" v-for="user in users">{{ user.name }}</option>
+                    </select>
+                </div>
+            </div>
+           <!--  <div class="row g-2">
                 <h5 class="mt-3">Comunicación</h5>
                 <div class="col mb-0">
                 <label for="emailBasic" class="form-label">Primera Gestión</label>
@@ -97,7 +114,7 @@
                     <option value="3">Meet</option>
                 </select>
                 </div>
-            </div>
+            </div> -->
             </div>
             <div class="modal-footer">
             <button type="button" id="close-insert-customer" class="btn btn-outline-secondary" data-bs-dismiss="modal">
@@ -135,7 +152,10 @@ export default {
             comment: '',
             product_tentative: '',
             type: 0,
-            origin: 0
+            origin: 0,
+            users:[],
+            referedFrom: 0,
+            channel: 0
         }
     },
     methods:{
@@ -166,13 +186,15 @@ export default {
             fd.append('career',this.career)
             fd.append('email',this.email)
             fd.append('origin', this.origin)
-            fd.append('status',1)
-            fd.append('user_id',this.store.authUser.id)
+            fd.append('status',0)
+            fd.append('referedFrom',this.referedFrom)
+            fd.append('channel', this.channel)
+            /* fd.append('user_id',this.store.authUser.id)
             fd.append('first_management',this.first_management)
             fd.append('last_management', this.last_management)
             fd.append('next_management', this.next_management)
             fd.append('comment', this.comment)
-            fd.append('product_tentative', this.product_tentative)
+            fd.append('product_tentative', this.product_tentative) */
             fd.append('type', this.type)
 
             axios.post('/api/insertCustomer', fd)
@@ -184,7 +206,19 @@ export default {
             .catch(err =>{
                 console.log(err.response.data)
             })
+        },
+        getAllUsers(){
+            axios.get('/api/getAllUsers')
+            .then(res =>{
+                this.users = res.data
+            })
+            .catch(err =>{
+                console.log(err.response.data)
+            })
         }
+    },
+    mounted(){
+        this.getAllUsers()
     }
 }
 </script>

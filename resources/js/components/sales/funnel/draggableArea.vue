@@ -4,7 +4,7 @@
         <div :id="'draggableArea'+status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent @dragover.prevent>
             <template v-for="(customer, index) in customers" :key="index">
                     <template v-if="customer.status == status">
-                        <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom" @updateStatusSpace="updateStatusSpace" @convertLead = "convertLead"/>
+                        <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom" @showModalUpdateData="showModalUpdateData" @updateStatusSpace="updateStatusSpace" @convertLead = "convertLead" @showModalFunnel="showModalFunnel"/>
                     </template>
             </template>
         </div>
@@ -18,7 +18,8 @@ import CardCustomer from '../prelead/CardCustomer.vue'
         data(){
             return{
                 visible: false,
-                comunication: {}
+                comunication: {},
+                customer: {}
             }
         },
         props:{
@@ -33,6 +34,9 @@ import CardCustomer from '../prelead/CardCustomer.vue'
             }
         },
         methods:{
+            showModalFunnel(){
+               this.$emit('showModalFunnel')
+            },
             cleanLead(id){
                 var leadSelected = this.customers.find(customer => customer.id == id)
                 leadSelected.status = 3 
@@ -42,6 +46,9 @@ import CardCustomer from '../prelead/CardCustomer.vue'
             },
             showModalUpdateCom(com){
                 this.$emit('callModal', com)
+            },
+            showModalUpdateData(customer){
+                this.$emit('showModalUpdateData', customer)
             },
             hide(e){
                 e.preventDefault()
