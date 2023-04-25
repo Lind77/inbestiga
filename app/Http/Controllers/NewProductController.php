@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\NewProduct;
 use App\Http\Requests\StoreNewProductRequest;
 use App\Http\Requests\UpdateNewProductRequest;
+use App\Models\Customer;
 
 class NewProductController extends Controller
 {
@@ -87,5 +88,13 @@ class NewProductController extends Controller
     public function getAllNewProducts(){
         $new_products = NewProduct::with('newprices')->get();
         return response()->json($new_products);
+    }
+
+    public function getNewProductsById($id){
+        $customer = Customer::with(['quotations' => function($query){
+            $query->orderBy('date', 'desc')->with(['details', 'details.new_product'])->first();
+        }])->find($id);
+
+        return response()->json($customer->quotations[0]->details);
     }
 }

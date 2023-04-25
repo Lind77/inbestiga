@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Comission;
 use App\Models\Comunication;
 use App\Models\Detail;
+use App\Models\NewProduct;
 use App\Models\Origin;
 use App\Models\Quotation;
 use App\Models\User;
@@ -165,10 +166,22 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function updateCustomerGrade($id, $status){
-        $customer = Customer::find($id);
+    public function updateCustomerGrade(Request $request){
+        $customer = Customer::find($request->get('customer_id'));
+        $user = User::find($request->get('user_id'));
+
+        if($request->get('status') == 3){
+            $comission = Comission::create([
+                'customer_id' => $customer->id,
+                'concept' => 'Obtención de datos',
+                'percent' => 2,
+                'referal' => $user->name,
+                'user_id' => $request->get('user_id')
+            ]);
+        }
+
         $customer->update([
-            'status' => $status
+            'status' => $request->get('status')
         ]);
         return response()->json([
             'msg' => 'success'
@@ -232,7 +245,7 @@ class CustomerController extends Controller
         $customer = Customer::find($request->get('customer_id'));
         $customer->update([
             'user_id' => $request->get('seller_selected'),
-            'status' => 3
+            'status' => 4
         ]);
 
         $quotation = Quotation::create([
@@ -246,14 +259,40 @@ class CustomerController extends Controller
 
         foreach ($products as $product){
 
+            $newProduct = NewProduct::with('newprices')->find($product['id']);
+
+            $levelSearched = $product['level'];
+
+            $priceFounded = 0;
+
+            foreach($newProduct->newprices as $price){
+                if($price->level == $levelSearched){
+                    $priceFounded = $price->price;
+                }
+            }
+           
             $detail = Detail::create([
                 'quotation_id' => $quotation->id,
-                'product_id' => $product['id'],
-                'description' => '',
-                'price' => 0
+                'product_id' => 1,
+                'new_product_id' => $product['id'],
+                'description' => '-',
+                'type' => 1,
+                'price' => $priceFounded,
+                'level' => $product['level']
             ]);
 
         }
+
+        $user = User::find($request->get('user_id'));
+        $nameReferal = $user->name;
+
+        $comission = Comission::create([
+            'customer_id' => $customer->id,
+            'concept' => 'Obtención de necesidades específicas',
+            'percent' => 8,
+            'referal' => $nameReferal,
+            'user_id' => $request->get('user_id')
+        ]);
 
 
         return response()->json([

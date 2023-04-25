@@ -8,7 +8,7 @@
     </div>
     <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
     <UpdateCom :comunication="comunication"/>
-   <FunnelModal :customer="customer_selected"/>
+   <FunnelModal :customer="customer_selected" @updateStatusSpace="updateStatusSpace"/>
   </div>
 </template>
 <script>
@@ -49,19 +49,26 @@ export default{
     }
   },
   methods:{
+    updateStatusSpace(leadId, status){
+      $('#funnelModal').modal('hide')
+      this.updateStatusSpaces(leadId, status)
+    },
     showModalFunnel(customer){
       this.customer_selected = customer
       $('#funnelModal').modal('show')
     },
     updateStatusSpaces(leadId, status){
-      var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
-      if(this.verifyChange(leadSelected, status)){
-        var firstStatus = leadSelected.status
-        leadSelected.status = status
-        this.removeLead(firstStatus, leadId)
-        this.addLead(leadSelected, status)
+      if(status == 5){
+        this.$router.push({name:'home-quotation', params:{ idUser: leadId }});
+      }else{
+        var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
+          if(this.verifyChange(leadSelected, status)){
+            var firstStatus = leadSelected.status
+            leadSelected.status = status
+            this.removeLead(firstStatus, leadId)
+            this.addLead(leadSelected, status)
+          }
       }
-
     },
     verifyChange(customer, status){
         if(status < 6){
@@ -115,7 +122,7 @@ export default{
         this.setProject(lead.id)
       }
     },
-    updateStatusSpace(id, status){
+    /* updateStatusSpace(id, status){
       axios.get(`/api/updateCustomerGrade/${id}/${status}`)
       .then(res =>{
           console.log(res.data)
@@ -127,7 +134,7 @@ export default{
     callModal(com){
       this.comunication = com
       $('#updateComModal').modal('show')
-    },
+    }, */
     filterDate(date){
         if(date == ''){
           this.distributeLeads(this.totalLeads)

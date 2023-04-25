@@ -61,8 +61,9 @@ export default {
         customer: Object
     },
     methods:{
-        updateStatusSpace(){
-            this.$emit('updateStatusSpace')
+        updateStatusSpace(){    
+            var newStatus = parseInt(this.customer.status) + 1
+            this.$emit('updateStatusSpace', this.customer.id, newStatus)
         }
     }
 }

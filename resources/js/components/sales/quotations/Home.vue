@@ -51,9 +51,9 @@
                     </thead>
                     <tbody>
                       <tr v-for="(carNewProduct, index) in carNewProducts">
-                        <td>{{ carNewProduct.name }}</td>
-                        <td>{{ carNewProduct.typeDetail==1?'Normal':'Sugerido' }}</td>
-                        <td>{{ carNewProduct.priceFinal }}</td>
+                        <td>{{ carNewProduct.new_product?carNewProduct.new_product.name:carNewProduct.name }}</td>
+                        <td>{{ carNewProduct.type==1?'Normal':'Sugerido' }}</td>
+                        <td>{{ carNewProduct.price }}</td>
                         <td><a @click="removeSuggestedCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
                     </tbody>
@@ -171,8 +171,19 @@
       }
     },
     methods:{
+      getNewProducts(){
+        axios.get('/api/getNewProductsById/'+this.$route.params.idUser)
+        .then((res)=>{
+         this.carNewProducts = res.data
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+      },
       insertCarProducts(newProduct){
-        this.carNewProducts.push(newProduct)
+        console.log(newProduct)
+        var newProd = {'id' : newProduct.id, 'name' : newProduct.name, 'type' : newProduct.type, 'price' : newProduct.priceFinal}
+        this.carNewProducts.push(newProd)
       },
       callProductModal(newProduct){
         this.newProduct = newProduct
@@ -403,6 +414,7 @@
       this.getAllProducts()
       this.getAllNewProducts()
       this.getAllCustomers()
+      this.getNewProducts()
     },
     computed:{
       finalDayMonthFormatted(){
@@ -414,7 +426,7 @@
       totalProducts(){
         var total = 0
         this.carNewProducts.forEach((product)=>{
-            total += parseFloat(product.priceFinal)
+            total += parseFloat(product.price)
         })
 
         return total.toFixed(2)

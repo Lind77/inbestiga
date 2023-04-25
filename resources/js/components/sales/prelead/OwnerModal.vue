@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel2">Asignar dueño del Lead {{ customerId }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel2">Asignar dueño del Lead</h5>
                 <button
                 type="button"
                 class="btn-close"
@@ -15,7 +15,18 @@
                 <div class="row">
                 <div class="col mb-1">
                     <label for="nameSmall" class="form-label">¿Qué necesita el cliente?</label>
-                    <input type="text" name="" id="" v-model="search" @keyup="searchProduct" class="form-control">
+                    <div class="row">
+                        <select name="" id="" class="form-select w-25" v-model="level">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <input type="text" name="" id="" v-model="search" @keyup="searchProduct" class="form-control w-75">
+                    </div>
+                   
                 </div>
                 </div>
                 
@@ -26,7 +37,7 @@
                     <div class="col mb-3">
                         <label for="">Productos Seleccionados</label>
                         <ul>
-                            <li v-for="product in selectedProducts">{{ product.name }}<span class="text-danger" @click="removeProduct(product)"> X</span></li>
+                            <li v-for="product in selectedProducts">{{ product.name }} (Nivel {{ product.level }})<span class="text-danger" @click="removeProduct(product)"> X</span></li>
                         </ul>
                     </div>
                 </div>
@@ -53,13 +64,21 @@
 </template>
 <script>
 import axios from 'axios'
+import { userStore } from '../../../stores/UserStore'
 
 export default {
+    setup(){
+      const store = userStore()
+      return{
+        store
+      }
+    },
     props:{
         customerId: Number
     },
     data(){
         return{
+            level:0,
             seller_selected: '',
             sellers:[],
             search: '',
@@ -70,7 +89,8 @@ export default {
     },
     methods:{
         pickProduct(product){
-            this.selectedProducts.push(product)
+            var prodLevel = {id:product.id, name: product.name, level:this.level}
+            this.selectedProducts.push(prodLevel)
             this.filteredProducts = []
             this.search = ''
         },
@@ -91,10 +111,12 @@ export default {
             fd.append('customer_id', this.customerId)
             fd.append('seller_selected', this.seller_selected)
             fd.append('products', JSON.stringify(this.selectedProducts))
+            fd.append('user_id', this.store.authUser.id)
             axios.post('/api/assignOwner', fd)
             .then(res =>{
                 $('#ownerModal').modal('hide')
-                this.$emit('cleanLead', this.customerId, this.seller_selected)
+                this.selectedProducts = []
+                this.$emit('cleanLead', this.customerId)
             })
             .catch(err =>{
                 console.error(err)

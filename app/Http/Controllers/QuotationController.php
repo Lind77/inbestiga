@@ -68,15 +68,15 @@ class QuotationController extends Controller
                 $detail = Detail::create([
                     'quotation_id' => $quotation->id,
                     'product_id' => 1,
-                    'type' => $prod['typeDetail'],
+                    'type' => $prod['type'],
                     'description' => '-',
-                    'price' => $prod['priceFinal'],
-                    'new_product_id' => $prod['id']
+                    'price' => $prod['price'],
+                    'new_product_id' => $prod['new_product_id']
                 ]);
             }
 
         $customerToUpdate = Customer::find($request->get('customer_id'))->update([
-            'status' => 4
+            'status' => 5
         ]);
 
         return response()->json([

@@ -2,19 +2,20 @@
     <div class="container-xxl flex-grow-1 container-p-y">
       <div class="row">
           <draggableArea :customers="origin" :title="'Origen'" :status="0" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel"/>
-            <draggableArea :customers="noAttended" :title="'No Atendido'" :status="1" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel"/>
-            <draggableArea :customers="attended" :title="'Atendido'" :status="2" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel"/>
-            <draggableArea :customers="comunications" :title="'Comunicación Establecida'" :status="3" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @convertLead="convertLead" @cleanLead="cleanLead" @showModalFunnel="showModalFunnel"/>
-          </div>
+          <draggableArea :customers="noAttended" :title="'No Atendido'" :status="1" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel"/>
+          <draggableArea :customers="attended" :title="'Atendido'" :status="2" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel"/>
+          <draggableArea :customers="comunications" :title="'Comunicación Establecida'" :status="3" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @convertLead="convertLead" @cleanLead="cleanLead" @showModalFunnel="showModalFunnel"/>
+      </div>
       <ProductModal :customer="customerSelected" @getAllCustomers="getAllCustomers"/>
       <!-- <UpdateCom :comunication="comunication"/>   -->
     </div>
       <OwnerModal :customerId="customerId" @convertLead="convertLead" @cleanLead="cleanLead"/>
       <customerModal :customer="customer" :action="2"/>
-      <FunnelModal :customer="customer_selected" @updateToLead="updateToLead"/>
+      <FunnelModal :customer="customer_selected" @updateToLead="updateToLead" @updateStatusSpace="updateStatusSpace"/>
 </template>
 <script>
 import axios from 'axios'
+import { userStore } from '../../../stores/UserStore'
 import CardCustomer from './CardCustomer.vue'
 import ProductModal from '../funnel/ProductModal.vue'
 import draggableArea from '../funnel/draggableArea.vue'
@@ -24,6 +25,12 @@ import customerModal from '../customers/customerModal.vue'
 import FunnelModal from '../funnel/FunnelModal.vue'
 
 export default {
+    setup(){
+      const store = userStore()
+      return{
+        store
+      }
+    },
     components: {CardCustomer, ProductModal, draggableArea, UpdateCom, OwnerModal, customerModal, FunnelModal},
     data(){
         return{
@@ -49,8 +56,8 @@ export default {
         $('#funnelModal').modal('show')
       },
       cleanLead(id){
-        var customerSelected = this.comunications.find(lead => lead.id == id)
-        customerSelected.status = 3
+        var index = this.comunications.findIndex(lead => lead.id == id)
+        this.comunications.splice(index, 1)
       },
       convertLead(id){
         this.customerId = id
@@ -61,7 +68,7 @@ export default {
 
           if(newStatus == 3){
             if(customerSelected.name == null || customerSelected.cell == null){
-              this.$swal('El usuario carece de información básica necesaria (nombre o número de celular)')
+              this.$swal('El usuario carece de información básica necesaria (nombre y número de celular)')
             }else{
               var oldStatus = customerSelected.status
 
@@ -83,7 +90,8 @@ export default {
             this.updateStatus(customer_id, newStatus)
             }
           }else if(newStatus == 4){
-            alert('pasando a lead')
+            $('#funnelModal').modal('hide')
+            this.convertLead(customer_id)
           }else{
             var oldStatus = customerSelected.status
 
@@ -154,7 +162,11 @@ export default {
           e.preventDefault()
         },
         updateStatus(id, status){
-          axios.get(`/api/updateCustomerGrade/${id}/${status}`)
+          const fd = new FormData()
+          fd.append('customer_id', id)
+          fd.append('status', status)
+          fd.append('user_id', this.store.authUser.id)
+          axios.post(`/api/updateCustomerGrade`, fd)
           .then(res =>{
               console.log(res.data)
           })

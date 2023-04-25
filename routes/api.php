@@ -68,6 +68,7 @@ Route::get('/getAllProductsWithPrices',[ProductController::class, 'getAllProduct
 
 Route::get('/getAllNewProducts',[NewProductController::class, 'getAllNewProducts']);
 Route::post('/insertNewProduct',[ProductController::class, 'insertNewProduct']);
+Route::get('/getNewProductsById/{id}', [NewProductController::class, 'getNewProductsById']);
 
 Route::post('/insertFixedActivity', [FixedActivityController::class, 'store']);
 Route::post('/insertFixedTask',[FixedTaskController::class, 'store']);
@@ -123,7 +124,7 @@ Route::post('/assignTeam', [TeamController::class, 'assignTeam']);
 Route::get('/getAllCustomers', [CustomerController::class, 'index']);
 Route::get('/getCustomer/{id}', [CustomerController::class, 'show']);
 Route::post('/insertCustomer', [CustomerController::class, 'insertCustomer']);
-Route::get('/updateCustomerGrade/{id}/{status}', [CustomerController::class,'updateCustomerGrade']);
+Route::post('/updateCustomerGrade', [CustomerController::class,'updateCustomerGrade']);
 Route::post('/updateCustomer', [CustomerController::class, 'updateCustomer']);
 Route::get('/standByCustomer/{id}', [CustomerController::class,'standByCustomer']);
 Route::get('/getAllStandByCustomers', [CustomerController::class, 'getAllStandByCustomers']);

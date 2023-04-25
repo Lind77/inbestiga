@@ -40,13 +40,7 @@
                 </tbody>
               </table>
             </div>
-            <div class="row ps-4 pt-3" v-show="this.search == ''">
-                <ul class="pagination">
-                  <!-- <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="previous" tabindex="0" class="page-link">Anterior</a></li> -->
-                  <li class="paginate_button page-item" :id="`li`+index" v-for="(chunk, index) in customersChunked"><a @click="stepPag(index)" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">{{ index+1 }}</a></li>
-                  <!-- <li class="paginate_button page-item next" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="next" tabindex="0" class="page-link">Siguiente</a></li> -->
-                </ul>
-              </div>
+            
           </div>
         </div>
       </div>
