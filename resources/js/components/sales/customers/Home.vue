@@ -28,10 +28,11 @@
                       <td>{{customer.career}}</td>
                       <td>{{ status[customer.status] }}</td>
                       <td>
+                        <router-link class="btn btn-success btn-sm" :to="{name:'home-quotation', params:{ idUser: customer.id }}">Generar Cotización</router-link>
                         <button v-if="customer.status == null" @click="reactivateCustomer(customer.id)" class="btn btn-success btn-sm me-1">
                           <i class='bx bx-recycle'></i>
                         </button>
-                        <button @click="openCustomerModal(2, customer)" class="btn btn-success btn-sm">
+                        <button @click="openCustomerModal(2, customer)" class="btn btn-success btn-sm ms-2">
                           <i class='bx bx-edit'></i>
                         </button>
                       </td>

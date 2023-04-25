@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\Comission;
 use App\Models\Comunication;
 use App\Models\Detail;
 use App\Models\Origin;
 use App\Models\Quotation;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -114,7 +116,21 @@ class CustomerController extends Controller
            ]);
         }
 
-        
+        $referal = User::find($request->get('referedFrom'));
+
+        if(!$referal){
+            $nameReferal = '-';
+        }else{
+            $nameReferal = $referal->name;
+        }
+
+        $comission = Comission::create([
+            'customer_id' => $customer->id,
+            'concept' => 'Marketing/referenciación',
+            'percent' => 23,
+            'referal' => $nameReferal,
+            'user_id' => $request->get('user_id')
+        ]);
 
         /* $comunication = Comunication::create([
             'customer_id' => $customer->id,

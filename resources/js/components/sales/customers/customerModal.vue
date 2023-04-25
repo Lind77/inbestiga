@@ -189,7 +189,8 @@ export default {
             fd.append('status',0)
             fd.append('referedFrom',this.referedFrom)
             fd.append('channel', this.channel)
-            /* fd.append('user_id',this.store.authUser.id)
+            fd.append('user_id',this.store.authUser.id)
+            /* 
             fd.append('first_management',this.first_management)
             fd.append('last_management', this.last_management)
             fd.append('next_management', this.next_management)

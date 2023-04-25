@@ -2,18 +2,13 @@
   <div class="container-xxl flex-grow-1 container-p-y"> 
     <div class="row">
       <DatePicker @filterDate="filterDate" />
-      <draggableArea :customers="leads" @callModal="callModal" :title="'Obtención de necesidades específicas'" :status="3" @updateStatusSpace="updateStatusSpaces" @showModalFunnel="showModalFunnel"/>
-      <draggableArea :customers="quotations" @callModal="callModal" :title="'Con Cotización'"  :status="4" @updateStatusSpace="updateStatusSpaces"/>
-      <draggableArea :customers="quotations" @callModal="callModal" :title="'Explicación de Cotización'"  :status="5" @updateStatusSpace="updateStatusSpaces"/>
-      <draggableArea :customers="quotations" @callModal="callModal" :title="'Explicación de la Experiencia'"  :status="6" @updateStatusSpace="updateStatusSpaces"/>
-      <draggableArea :customers="quotations" @callModal="callModal" :title="'Seguimientos'"  :status="7" @updateStatusSpace="updateStatusSpaces"/>
-      <draggableArea :customers="highs" @callModal="callModal" :title="'Cierre no pagado'" :status="8" @updateStatusSpace="updateStatusSpaces"/>
-      <draggableArea :customers="orders" @callModal="callModal" :title="'Seguimiento de cierre'" :status="9" @updateStatusSpace="updateStatusSpaces"/>
-      <draggableArea :customers="customers" @callModal="callModal" :title="'Cliente'" :status="10" @updateStatusSpace="updateStatusSpaces"/>
+      <template v-for="area in draggableAreas">
+        <draggableArea :customers="area.customers" :title="area.title" :status="area.status" @callModal="callModal" @updateStatusSpace="updateStatusSpaces" @showModalFunnel="showModalFunnel"/>
+      </template>
     </div>
     <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
     <UpdateCom :comunication="comunication"/>
-   
+   <FunnelModal :customer="customer_selected"/>
   </div>
 </template>
 <script>
@@ -38,17 +33,25 @@ export default{
       customers:[],
       leads:[],
       quotations:[],
+      explanations:[],
+      experiences:[],
+      tracings:[],
+      nopays:[],
+      closings:[],
       highs:[],
       orders:[],
       totalLeads:[],
       customers_filtered:[],
       customer_selected:{},
-      comunication:{}
+      comunication:{},
+      needs: [],
+      draggableAreas: []
     }
   },
   methods:{
-    showModalFunnel(){
-      alert('fin')
+    showModalFunnel(customer){
+      this.customer_selected = customer
+      $('#funnelModal').modal('show')
     },
     updateStatusSpaces(leadId, status){
       var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
@@ -154,26 +157,67 @@ export default{
       })
     },
     distributeLeads(totalLeads){
-
-      this.leads = []
-      this.quotations = []
-      this.highs = []
-      this.orders = []
-      this.customers = []
-
       totalLeads.forEach(lead => {
-            if(lead.status == 3){
-              this.leads.push(lead)
-            }else if(lead.status == 4){
-              this.quotations.push(lead)
+            if(lead.status == 4){
+              this.needs.push(lead)
             }else if(lead.status == 5){
-              this.highs.push(lead)
+              this.quotations.push(lead)
             }else if(lead.status == 6){
-              this.orders.push(lead)
-            }else{
+              this.explanations.push(lead)
+            }else if(lead.status == 7){
+              this.experiences.push(lead)
+            }else if(lead.status == 8){
+              this.tracings.push(lead)
+            }else if(lead.status == 9){
+              this.nopays.push(lead)
+            }else if(lead.status == 10){
+              this.closings.push(lead)
+            }else if(lead.status == 11){
               this.customers.push(lead)
             }
           });
+          this.draggableAreas = [
+            {
+              customers: this.needs,
+              title: 'Obtención de necesidades específicas',
+              status: 4
+            },
+            {
+              customers: this.quotations,
+              title: 'Con Cotización',
+              status: 5
+            },
+            {
+              customers: this.explanations,
+              title: 'Explicación de Cotización',
+              status: 6
+            },
+            {
+              customers: this.experiences,
+              title: 'Explicación de la Experiencia',
+              status: 7
+            },
+            {
+              customers: this.tracings,
+              title: 'Seguimientos',
+              status: 8
+            },
+            {
+              customers: this.nopays,
+              title: 'Cierre no pagado',
+              status: 9
+            },
+            {
+              customers: this.closings,
+              title: 'Seguimiento de cierre',
+              status: 10
+            },
+            {
+              customers: this.customers,
+              title: 'Cliente',
+              status: 11
+            }
+          ]
     },
     selectCustomer(customer){
       console.log('customer selected')

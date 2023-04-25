@@ -3,9 +3,7 @@
     <h5 class="fw-600">{{ title }}</h5>
         <div :id="'draggableArea'+status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent @dragover.prevent>
             <template v-for="(customer, index) in customers" :key="index">
-                    <template v-if="customer.status == status">
                         <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom" @showModalUpdateData="showModalUpdateData" @updateStatusSpace="updateStatusSpace" @convertLead = "convertLead" @showModalFunnel="showModalFunnel"/>
-                    </template>
             </template>
         </div>
     </div>
@@ -25,7 +23,7 @@ import CardCustomer from '../prelead/CardCustomer.vue'
         props:{
             title: String,
             bg: String,
-            customers:Array,
+            customers: Array,
             status: Number
         },
         watch:{
@@ -34,8 +32,8 @@ import CardCustomer from '../prelead/CardCustomer.vue'
             }
         },
         methods:{
-            showModalFunnel(){
-               this.$emit('showModalFunnel')
+            showModalFunnel(customer){
+               this.$emit('showModalFunnel', customer)
             },
             cleanLead(id){
                 var leadSelected = this.customers.find(customer => customer.id == id)
