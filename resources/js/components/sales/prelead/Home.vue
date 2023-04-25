@@ -11,7 +11,7 @@
     </div>
       <OwnerModal :customerId="customerId" @convertLead="convertLead" @cleanLead="cleanLead"/>
       <customerModal :customer="customer" :action="2"/>
-      <FunnelModal :customer="customer_selected"/>
+      <FunnelModal :customer="customer_selected" @updateToLead="updateToLead"/>
 </template>
 <script>
 import axios from 'axios'
@@ -41,9 +41,12 @@ export default {
         }
     },
     methods:{
+      updateToLead(){
+        alert('pasando a lead')
+      },
       showModalFunnel(customer){
-      this.customer_selected = customer
-      $('#funnelModal').modal('show')
+        this.customer_selected = customer
+        $('#funnelModal').modal('show')
       },
       cleanLead(id){
         var customerSelected = this.comunications.find(lead => lead.id == id)
@@ -79,6 +82,8 @@ export default {
 
             this.updateStatus(customer_id, newStatus)
             }
+          }else if(newStatus == 4){
+            alert('pasando a lead')
           }else{
             var oldStatus = customerSelected.status
 
