@@ -15,4 +15,4 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/resources/js/app.jss
+/resources/js/app.js
