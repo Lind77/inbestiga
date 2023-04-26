@@ -53,7 +53,7 @@
                       <tr v-for="(carNewProduct, index) in carNewProducts">
                         <td>{{ carNewProduct.new_product?carNewProduct.new_product.name:carNewProduct.name }}</td>
                         <td>{{ carNewProduct.type==1?'Normal':'Sugerido' }}</td>
-                        <td>{{ carNewProduct.price }}</td>
+                        <td>S./{{ carNewProduct.price }}</td>
                         <td><a @click="removeSuggestedCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
                       </tr>
                     </tbody>
@@ -77,7 +77,7 @@
                 <div class="row">
                   <div class="col-sm-12 col-lg-6">
                   <div class="mb-3">
-                    <h3>S./ TOTAL {{ totalProducts - discount }}</h3>  
+                    <h3>TOTAL S./ {{ totalProducts - discount }}</h3>  
                   </div>
                 </div>
                 </div>
@@ -182,7 +182,7 @@
       },
       insertCarProducts(newProduct){
         console.log(newProduct)
-        var newProd = {'id' : newProduct.id, 'name' : newProduct.name, 'type' : newProduct.type, 'price' : newProduct.priceFinal}
+        var newProd = {'id' : newProduct.id, 'name' : newProduct.name, 'type' : newProduct.type, 'price' : newProduct.priceFinal, 'new_product_id': newProduct.id}
         this.carNewProducts.push(newProd)
       },
       callProductModal(newProduct){

@@ -178,6 +178,14 @@ class CustomerController extends Controller
                 'referal' => $user->name,
                 'user_id' => $request->get('user_id')
             ]);
+        }else if($request->get('status') == 4){
+            $comission = Comission::create([
+                'customer_id' => $customer->id,
+                'concept' => 'Obtención de datos',
+                'percent' => 2,
+                'referal' => $user->name,
+                'user_id' => $request->get('user_id')
+            ]);
         }
 
         $customer->update([

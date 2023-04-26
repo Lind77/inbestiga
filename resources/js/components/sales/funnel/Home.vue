@@ -3,12 +3,12 @@
     <div class="row">
       <DatePicker @filterDate="filterDate" />
       <template v-for="area in draggableAreas">
-        <draggableArea :customers="area.customers" :title="area.title" :status="area.status" @callModal="callModal" @updateStatusSpace="updateStatusSpaces" @showModalFunnel="showModalFunnel"/>
+        <draggableArea :customers="area.customers" :title="area.title" :status="area.status" @updateStatusSpace="updateStatusSpace" @showModalFunnel="showModalFunnel"/>
       </template>
     </div>
     <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
     <UpdateCom :comunication="comunication"/>
-   <FunnelModal :customer="customer_selected" @updateStatusSpace="updateStatusSpace"/>
+    <FunnelModal :customer="customer_selected" @updateStatusSpace="updateStatusSpace"/>
   </div>
 </template>
 <script>
@@ -50,7 +50,8 @@ export default{
   },
   methods:{
     updateStatusSpace(leadId, status){
-      $('#funnelModal').modal('hide')
+      //$('#funnelModal').modal('hide')
+      console.log(status)
       this.updateStatusSpaces(leadId, status)
     },
     showModalFunnel(customer){
@@ -77,8 +78,7 @@ export default{
           }else{
             this.$swal.fire('Este usuario no cuenta con una cotización')
           }
-        }
-        if(status == 6 || status == 7 ){
+        }else if(status == 9){
           var i = 0
           customer.quotations.forEach((quot)=>{
             quot.orders.forEach((order)=>{
@@ -90,16 +90,21 @@ export default{
           }else{
             this.$swal.fire('Este usuario no cuenta con una orden de contrato')
           }
+        }else{
+          return true
         }
     },
     removeLead(firstStatus, leadId){
       console.log(firstStatus, leadId)
       let arraysByStatus = {
-        3: this.leads,
-        4: this.quotations,
-        5: this.highs,
-        6: this.orders,
-        7: this.customers
+        4: this.needs,
+        5: this.quotations,
+        6: this.explanations,
+        7: this.experiences,
+        8: this.tracings,
+        9: this.nopays,
+        10: this.closings,
+        11: this.customers
       }
       let arraySelected = arraysByStatus[firstStatus]
 
@@ -108,19 +113,36 @@ export default{
     },
     addLead(lead, status){
       let arraysByStatus = {
-        3: this.leads,
-        4: this.quotations,
-        5: this.highs,
-        6: this.orders,
-        7: this.customers
+        4: this.needs,
+        5: this.quotations,
+        6: this.explanations,
+        7: this.experiences,
+        8: this.tracings,
+        9: this.nopays,
+        10: this.closings,
+        11: this.customers
       }
       let array = arraysByStatus[status]
 
       array = array.unshift(lead)
-      this.updateStatusSpace(lead.id, status)
+      this.updateInBd(lead.id, status)
+      /* this.updateStatusSpace(lead.id, status)
       if(status == 7){
         this.setProject(lead.id)
-      }
+      } */
+    },
+    updateInBd(id, status){
+      const fd = new FormData()
+      fd.append('customer_id', id)
+      fd.append('status', status)
+      fd.append('user_id', this.store.authUser.id)
+      axios.post('/api/updateCustomerGrade', fd)
+      .then(res =>{
+          console.log(res.data)
+      })
+      .catch(err =>{
+          console.log(err)
+      })
     },
     /* updateStatusSpace(id, status){
       axios.get(`/api/updateCustomerGrade/${id}/${status}`)

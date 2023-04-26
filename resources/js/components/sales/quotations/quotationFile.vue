@@ -86,7 +86,7 @@
                 <tr style=" background-color: #ffffff00;">
                     <th></th>
                     <th class="text-purple">TOTAL</th>
-                    <th class="text-purple">S./{{ subTotalProds }}</th>
+                    <th class="text-purple">S./{{ subTotalProds.toFixed(2) }}</th>
                 </tr>
                 <tr class="sugested-title">
                     <th class="text-purple sugested py-3 ps-1" colspan="3">PRODUCTO SUGERIDO</th>
@@ -114,7 +114,7 @@
                 <tr style=" background-color: #ffffff00;">
                     <th></th>
                     <th class="text-purple">TOTAL</th>
-                    <th class="text-purple">S./{{quotation[0].amount}}</th>
+                    <th class="text-purple">S./{{quotation[0].amount.toFixed(2)}}</th>
                 </tr>
             </tbody>
         </table>
