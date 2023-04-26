@@ -92,7 +92,28 @@
                     <th class="text-purple sugested py-3 ps-1" colspan="3">PRODUCTO SUGERIDO</th>
                 </tr>
                 <tr v-for="detail in quotation[0].details" class="text-dark">
-                    <th class="table-item fw-normal ps-2" v-if="detail.type == 2 ">{{detail.new_product.name}}</th>
+                    <th class="table-item fw-normal ps-2" v-if="detail.type == 2 ">{{detail.new_product.name}}
+                        <template v-if="detail.new_product.id == 58">
+                        <br>
+                        - 02 propuestas de tema
+                        <br>
+                        - Plan de tesis o proyecto de investigación
+                        <br>
+                        - Informe final de tesis o Tesis Final
+                        <br>
+                        - Orientación y/o asesoría extraordinaria en cualquier etapa de la tesis.
+                        <br>
+                        - Plantilla de diapositivas
+                        <br>
+                        - Reporte de similitud TURNITIN
+                        <br>
+                        - E-book para la sustentación
+                        <br>
+                        - Balotario de preguntas
+                        <br>
+                        - Simulación de sustentación
+                    </template>
+                    </th>
                     <th class="table-item fw-normal" v-if="detail.type == 2 " style="white-space: pre;">{{detail.description}}</th>
                     <th class="table-item fw-normal" v-if="detail.type == 2 ">S./{{detail.price}}</th>
                 </tr>
