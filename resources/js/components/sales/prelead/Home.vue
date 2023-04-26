@@ -11,7 +11,8 @@
     </div>
       <OwnerModal :customerId="customerId" @convertLead="convertLead" @cleanLead="cleanLead"/>
       <customerModal :customer="customer" :action="2"/>
-      <FunnelModal :customer="customer_selected" @updateToLead="updateToLead" @updateStatusSpace="updateStatusSpace"/>
+      <FunnelModal :customer="customer_selected" @updateToLead="updateToLead" @updateStatusSpace="updateStatusSpace" @callModal="callModal" @showModalUpdateData="showModalUpdateData"/>
+      <UpdateCom :comunication="comunication" :customerId="customerId" :action="action"/>
 </template>
 <script>
 import axios from 'axios'
@@ -34,6 +35,7 @@ export default {
     components: {CardCustomer, ProductModal, draggableArea, UpdateCom, OwnerModal, customerModal, FunnelModal},
     data(){
         return{
+          action: 0,
           customers:[],
           attended:[],
           noAttended:[],
@@ -48,6 +50,14 @@ export default {
         }
     },
     methods:{
+      callModal(customer){
+        $('#funnelModal').modal('hide')
+        this.customerId = customer.id
+        if(customer.comunication == null){
+          this.action = 1
+        }
+        $('#updateComModal').modal('show')
+      },
       updateToLead(){
         alert('pasando a lead')
       },
@@ -114,11 +124,12 @@ export default {
           }
 
         },
-        callModal(com){
+        callModal2(com){
           this.comunication = com
           $('#updateComModal').modal('show')
         },
         showModalUpdateData(customer){
+          $('#funnelModal').modal('hide')
           this.customer = customer
           $('#customerModal').modal('show')
         },

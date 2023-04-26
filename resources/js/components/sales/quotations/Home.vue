@@ -7,9 +7,6 @@
         <li class="nav-item" v-if="this.$route.params.idUser != 0">
           <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true">Home</button>
         </li>
-        <li class="nav-item">
-          <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile" aria-selected="false">Lista</button>
-        </li>
       </ul>
       <div class="tab-content p-0">
         <div class="tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
@@ -24,7 +21,7 @@
                   <div class="col-6">
                     <div class="card shadow-none bg-transparent border border-info mb-3">
                       <div class="card-body">
-                          <div class="mb-3">
+                          <div class="mb-0">
                           <label class="form-label" for="basic-default-company">Fecha <span class="text-danger">*</span></label>
                           <input type="date" v-model="date" class="form-control" id="basic-default-company" />
                           </div>
@@ -124,7 +121,14 @@
   import InsertDetail from './InsertDetail.vue'
   import SearchProduct from './searchProduct.vue'
   import ProductModal from './ProductModal.vue'
+  import { userStore } from '../../../stores/UserStore'
   export default{
+    setup(){
+      const store = userStore()
+      return{
+        store
+      }
+    },
     components:{ List, calcModal, InsertDetail, CustomerCard, DateCard, SearchProduct, ProductModal },
     data(){
       return{
@@ -255,6 +259,7 @@
         fd.append('term', this.term)
         fd.append('note', this.note)
         fd.append('products', JSON.stringify(this.carNewProducts))
+        fd.append('user_id', this.store.authUser.id)
 
         axios.post('/api/insertQuotation',fd)
         .then(res =>{
@@ -265,7 +270,7 @@
           document.getElementById('buttonPDF').disabled = false
         })
         .catch(err =>{
-          console.log(err.response.data)
+          console.log(err.response)
         })
         } 
         

@@ -97,4 +97,24 @@ class ComunicationController extends Controller
     {
         //
     }
+
+    public function insertComunication(Request $request){
+
+        $dateTime = date_create($request->get('next_management'));
+
+        $comunication = Comunication::create([
+            'customer_id' => $request->get('customer_id'),
+            'first_management' => $request->get('first_management'),
+            'last_management' => $request->get('last_management'),
+            'next_management' => date_format($dateTime, 'Y-m-d'),
+            'comment' => $request->get('comment'),
+            'product_tentative' => $request->get('product_tentative'),
+            'type' => $request->get('type'),
+            'time' => date_format($dateTime, 'H:i:s')
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
 }

@@ -3,12 +3,12 @@
     <div class="row">
       <DatePicker @filterDate="filterDate" />
       <template v-for="area in draggableAreas">
-        <draggableArea :customers="area.customers" :title="area.title" :status="area.status" @updateStatusSpace="updateStatusSpace" @showModalFunnel="showModalFunnel"/>
+        <draggableArea :customers="area.customers" :title="area.title" :status="area.status" @updateStatusSpace="updateStatusSpace" @showModalFunnel="showModalFunnel" @callModal="callModal"/>
       </template>
     </div>
     <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
     <UpdateCom :comunication="comunication"/>
-    <FunnelModal :customer="customer_selected" @updateStatusSpace="updateStatusSpace"/>
+    <FunnelModal :customer="customer_selected" @updateStatusSpace="updateStatusSpace" @callModal="callModal"/>
   </div>
 </template>
 <script>
@@ -61,6 +61,8 @@ export default{
     updateStatusSpaces(leadId, status){
       if(status == 5){
         this.$router.push({name:'home-quotation', params:{ idUser: leadId }});
+      }else if(status == 9){
+        this.$router.push({name:'home-orders', params:{ idUser: leadId }});
       }else{
         var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
           if(this.verifyChange(leadSelected, status)){
@@ -88,7 +90,7 @@ export default{
           if(i > 0){
             return true
           }else{
-            this.$swal.fire('Este usuario no cuenta con una orden de contrato')
+            this.$swal.fire('Este usuario no cuenta con una orden o contrato')
           }
         }else{
           return true
@@ -153,10 +155,13 @@ export default{
           console.log(err)
       })
     },
+    */
     callModal(com){
+      console.log('calling modal com')
       this.comunication = com
+      $('#funnelModal').modal('hide')
       $('#updateComModal').modal('show')
-    }, */
+    }, 
     filterDate(date){
         if(date == ''){
           this.distributeLeads(this.totalLeads)

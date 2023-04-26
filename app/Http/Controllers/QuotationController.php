@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Quotation;
 use App\Http\Requests\StoreQuotationRequest;
 use App\Http\Requests\UpdateQuotationRequest;
+use App\Models\Comission;
 use App\Models\Customer;
 use App\Models\Detail;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -75,9 +77,22 @@ class QuotationController extends Controller
                 ]);
             }
 
+        $customer = Customer::find($request->get('customer_id'));
+
         $customerToUpdate = Customer::find($request->get('customer_id'))->update([
             'status' => 5
         ]);
+
+        $user = User::find($request->get('user_id'));
+
+        $comission = Comission::create([
+            'customer_id' => $customer->id,
+            'concept' => 'Cotización',
+            'percent' => 5,
+            'referal' => $user->name,
+            'user_id' => $request->get('user_id')
+        ]);
+
 
         return response()->json([
             'msg' => 'success',

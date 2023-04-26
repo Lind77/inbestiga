@@ -170,23 +170,54 @@ class CustomerController extends Controller
         $customer = Customer::find($request->get('customer_id'));
         $user = User::find($request->get('user_id'));
 
-        if($request->get('status') == 3){
-            $comission = Comission::create([
-                'customer_id' => $customer->id,
-                'concept' => 'Obtención de datos',
-                'percent' => 2,
-                'referal' => $user->name,
-                'user_id' => $request->get('user_id')
-            ]);
-        }else if($request->get('status') == 4){
-            $comission = Comission::create([
-                'customer_id' => $customer->id,
-                'concept' => 'Obtención de datos',
-                'percent' => 2,
-                'referal' => $user->name,
-                'user_id' => $request->get('user_id')
-            ]);
+        $comissionData = [
+            'customer_id' => $customer->id,
+            'referal' => $user->name,
+            'user_id' => $request->get('user_id')
+        ];
+
+        switch ($request->get('status')) {
+            case 3:
+                $comissionData['concept'] = 'Obtención de datos';
+                $comissionData['percent'] = 2;
+                break;
+            case 4:
+                $comissionData['concept'] = 'Obtención de necesidades específicas';
+                $comissionData['percent'] = 8;
+                break;
+            case 5:
+                $comissionData['concept'] = 'Cotización';
+                $comissionData['percent'] = 5;
+                break;
+            case 6:
+                $comissionData['concept'] = 'Explicación de la cotización';
+                $comissionData['percent'] = 5;
+                break;
+            case 7:
+                $comissionData['concept'] = 'Explicación de la experiencia';    
+                $comissionData['percent'] = 15;
+                break;
+            case 8:
+                $comissionData['concept'] = 'Seguimientos';
+                $comissionData['percent'] = 15;
+                break;
+            case 9:
+                $comissionData['concept'] = 'Cierre no pagado';
+                $comissionData['percent'] = 15;
+                break;
+            case 10:
+                $comissionData['concept'] = 'Seguimiento de cierre';
+                $comissionData['percent'] = 10;
+                break;
+            case 11:
+                $comissionData['concept'] = 'Gestión Documental';
+                $comissionData['percent'] = 2;
+                break;
         }
+        if($request->get('status')>= 3){
+            $comission = Comission::create($comissionData);
+        }
+        
 
         $customer->update([
             'status' => $request->get('status')

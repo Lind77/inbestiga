@@ -1,18 +1,15 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-      <h4 class="fw-bold py-1">Orden de Servicio</h4>
+      <h4 class="fw-bold py-1">Contrato u Orden de Servicio</h4>
       <div class="col-xl-12">
         <div class="nav-align-top mb-4">
           <ul class="nav nav-pills mb-3" role="tablist">
             <li class="nav-item">
               <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true">Home</button>
             </li>
-            <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile" aria-selected="false" @click="getOrders">Lista</button>
-            </li>
           </ul>
           <div class="alert alert-warning alert-dismissible" role="alert">
-            Atención! Los detalles de esta orden están asociados a la última cotización de este cliente
+            Atención! Los detalles de esta orden están asociados a la cotización del cliente
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
             </button>
           </div>
