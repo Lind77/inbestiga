@@ -114,7 +114,7 @@
                 <tr style=" background-color: #ffffff00;">
                     <th></th>
                     <th class="text-purple">TOTAL</th>
-                    <th class="text-purple">S./{{quotation[0].amount.toFixed(2)}}</th>
+                    <th class="text-purple">S./{{Number(quotation[0].amount).toFixed(2)}}</th>
                 </tr>
             </tbody>
         </table>
