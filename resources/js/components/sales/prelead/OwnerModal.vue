@@ -15,32 +15,8 @@
                 <div class="row">
                 <div class="col mb-1">
                     <label for="nameSmall" class="form-label">¿Qué necesita el cliente?</label>
-                    
-                    <div class="row">
-                        <select name="" id="" class="form-select w-25" v-model="level">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                    <input type="text" name="" id="" v-model="search" @keyup="searchProduct" class="form-control w-75">
-                    </div>
-                   
+                    <textarea name="" id="" cols="30" rows="5" class="form-control" v-model="needs"></textarea>
                 </div>
-                </div>
-                
-                <ul class="list-group">
-                    <li v-for="product in filteredProducts" @click="pickProduct(product)" class="list-group-item d-flex justify-content-between align-items-center">{{ product.name }}</li>
-                </ul>
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="">Productos Seleccionados</label>
-                        <ul>
-                            <li v-for="product in selectedProducts">{{ product.name }} (Nivel {{ product.level }})<span class="text-danger" @click="removeProduct(product)"> X</span></li>
-                        </ul>
-                    </div>
                 </div>
                 <div class="row">
                 <div class="col mb-3">
@@ -85,7 +61,8 @@ export default {
             search: '',
             products:[],
             filteredProducts:[],
-            selectedProducts:[]
+            selectedProducts:[],
+            needs: ''
         }
     },
     methods:{
@@ -109,9 +86,9 @@ export default {
         },
         assignSeller(){
             const fd =  new FormData()
+            fd.append('needs', this.needs)
             fd.append('customer_id', this.customerId)
             fd.append('seller_selected', this.seller_selected)
-            fd.append('products', JSON.stringify(this.selectedProducts))
             fd.append('user_id', this.store.authUser.id)
             axios.post('/api/assignOwner', fd)
             .then(res =>{

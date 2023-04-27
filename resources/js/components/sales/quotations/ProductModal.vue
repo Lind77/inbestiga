@@ -39,11 +39,11 @@
             <div class="row g-2">
               <div class="col-md">
                 <div class="form-check form-check-inline mt-3">
-                  <input class="form-check-input" type="radio" v-model="typeDetail" name="inlineRadioOptions" id="inlineRadio1" value="1">
+                  <input class="form-check-input" type="radio" v-model="type" name="inlineRadioOptions" id="inlineRadio1" value="1">
                   <label class="form-check-label" for="inlineRadio1">Normal</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" v-model="typeDetail" name="inlineRadioOptions" id="inlineRadio2" value="2">
+                  <input class="form-check-input" type="radio" v-model="type" name="inlineRadioOptions" id="inlineRadio2" value="2">
                   <label class="form-check-label" for="inlineRadio2">Sugerido</label>
                 </div>
               </div>
@@ -61,7 +61,7 @@
     data(){
       return{
         cant: 1,
-        typeDetail: 1
+        type: 1
       }
       
     },
@@ -71,7 +71,7 @@
     methods:{
       insertCarProducts(){
         this.newProduct.priceFinal = this.totalPrice
-        this.newProduct.typeDetail = this.typeDetail
+        this.newProduct.typeDetail = this.type
         this.$emit('insertCarProducts', this.newProduct)
         $('#productModal').modal('hide')
       }

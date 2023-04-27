@@ -136,6 +136,7 @@
               
             },
             addCart(newProduct){
+                newProduct.level = this.level
                 this.$emit('callProductModal', newProduct)
                 this.newProductsByName = []
                 this.search = ''

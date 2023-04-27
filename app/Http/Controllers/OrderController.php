@@ -74,7 +74,7 @@ class OrderController extends Controller
         $customer = Customer::find($quotation->customer_id);
 
         $customer->update([
-            'status' => 6
+            'status' => 9
         ]);
 
         return response()->json($order->id);

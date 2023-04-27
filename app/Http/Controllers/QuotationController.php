@@ -73,7 +73,8 @@ class QuotationController extends Controller
                     'type' => $prod['type'],
                     'description' => '-',
                     'price' => $prod['price'],
-                    'new_product_id' => $prod['new_product_id']
+                    'new_product_id' => $prod['new_product_id'],
+                    'level' => $prod['level']
                 ]);
             }
 
@@ -207,20 +208,20 @@ class QuotationController extends Controller
     public function getQuotationByCustomerId($id){
         $customer = Customer::find($id);
 
-        $quotation = Quotation::where('customer_id', $customer->id)->orderBy('id', 'desc')->with(['details', 'details.product','orders'])->get();
+        $quotation = Quotation::where('customer_id', $customer->id)->orderBy('id', 'desc')->with(['details', 'details.product','details.new_product','orders'])->get();
 
         return response()->json($quotation[0]);
     }
     
     public function getQuotationByOrder($id){
-        $order = Order::where('id',$id)->with(['quotation', 'quotation.customer','quotation.details', 'quotation.details.product','payments'])->get();
+        $order = Order::where('id',$id)->with(['quotation', 'quotation.customer','quotation.details','quotation.details.new_product', 'quotation.details.product','payments'])->get();
 
         return response()->json($order[0]);
     }
 
     public function updateQuotation(Request $request){
 
-        $quotation = Quotation::find($request->get('id_quotation'));
+        $quotation = Quotation::find($request->get('quotation_id'));
 
         $quotation->update([
             'date' => $request->get('date'),
@@ -237,11 +238,13 @@ class QuotationController extends Controller
 
         foreach ($products as $product) {
             $detail = Detail::create([
-                'product_id' => $product['product']['id'],
                 'quotation_id' => $quotation->id,
-                'type' => 1,
-                'description' => $product['product']['description'],
-                'price' => $product['price']
+                'product_id' => 1,
+                'type' => $product['type'],
+                'description' => '-',
+                'price' => $product['price'],
+                'new_product_id' => $product['new_product_id'],
+                'level' => $product['level']
             ]);
         }
 

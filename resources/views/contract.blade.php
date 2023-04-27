@@ -179,7 +179,7 @@
                 <p>
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
                 Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un 
-                monto total de S/{{$customer->quotations[0]->amount}} (<span class="name">{{$customer->quotations[0]->contracts[0]->amount_text}}</span> soles), monto que será abonado en las siguientes fechas:
+                monto total de S/{{$customer->quotations[0]->contracts[0]->amount}} (<span class="name">{{$customer->quotations[0]->contracts[0]->amount_text}}</span> soles), monto que será abonado en las siguientes fechas:
                 </p>
                 <table>
                     <thead>

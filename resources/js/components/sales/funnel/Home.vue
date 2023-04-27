@@ -62,7 +62,14 @@ export default{
       if(status == 5){
         this.$router.push({name:'home-quotation', params:{ idUser: leadId }});
       }else if(status == 9){
-        this.$router.push({name:'home-orders', params:{ idUser: leadId }});
+        var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
+
+        if(leadSelected.quotations[0].amount < 1500){
+          this.$router.push({name:'home-orders', params:{ idUser: leadId }});
+        }else{
+          this.$router.push({name:'home-contracts', params:{ idUser: leadId }});
+        }
+       
       }else{
         var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
           if(this.verifyChange(leadSelected, status)){

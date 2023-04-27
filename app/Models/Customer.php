@@ -9,7 +9,7 @@ class Customer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'cell', 'university', 'career', 'status', 'email', 'dni','user_id','origin', 'address', 'time'];
+    protected $fillable = ['name', 'cell', 'university', 'career', 'status', 'email', 'dni','user_id','origin', 'address', 'time', 'needs'];
 
     public function quotations(){
         return $this->hasMany("App\Models\Quotation");

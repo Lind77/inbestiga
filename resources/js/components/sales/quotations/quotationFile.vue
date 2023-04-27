@@ -322,8 +322,9 @@ export default {
             color: #000;
             font-size: 15px;
             font-weight: 700;
-            padding: 15px 18px 15px 18px;
+            padding: 15px 28px 15px 28px;
             text-align: center;
+            width: 100%;
         }
 
 </style>

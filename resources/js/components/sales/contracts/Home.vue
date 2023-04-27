@@ -12,7 +12,9 @@
             </li>
           </ul>
           <div class="alert alert-warning alert-dismissible" role="alert">
-            Atención! Los detalles de este contrato están asociados a la última cotización de este cliente
+            Atención! Los detalles de este contrato están asociados a la última
+            <span class="fw-bold" @click="toQuotation">cotización</span>
+            de este cliente
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
             </button>
           </div>
@@ -57,8 +59,8 @@
                         </thead>
                         <tbody class="table-border-bottom-0">
                           <template v-for="(detail, index) in details">
-                            <tr :key="index" v-if="detail.type <= detail_type">
-                              <td>{{ detail.product.title }}</td>
+                            <tr>
+                              <td>{{ detail.new_product.name }}</td>
                               <td>S./ {{ detail.price }}</td>
                             </tr>
                           </template>
@@ -96,7 +98,7 @@
                       </div>
                     </div>
                     <button @click="insertContract" class="btn btn-primary mt-2 text-white">Guardar</button>
-                    <a v-if="this.idContract != 0" :href="`../../api/generateContract/${$route.params.idUser}`" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>PDF</a>
+                    <a v-if="idContract != 0" :href="`../../api/generateContract/${$route.params.idUser}`" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>PDF</a>
                 </div>
             </div>
             <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
@@ -176,6 +178,9 @@
           }
         },
         methods:{
+          toQuotation(){
+            this.$router.push({name:'home-quotation', params:{ idUser: this.customerSelected.id }});
+          },
           addFee(fee){
             this.fees.push(fee)
           },

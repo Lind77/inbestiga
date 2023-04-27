@@ -1,77 +1,68 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-      <h4 class="fw-bold py-1">Contrato u Orden de Servicio</h4>
-      <div class="col-xl-12">
-        <div class="nav-align-top mb-4">
-          <ul class="nav nav-pills mb-3" role="tablist">
-            <li class="nav-item">
-              <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true">Home</button>
-            </li>
-          </ul>
-          <div class="alert alert-warning alert-dismissible" role="alert">
-            Atención! Los detalles de esta orden están asociados a la cotización del cliente
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-            </button>
-          </div>
-          <div class="tab-content p-0">
-            <div class="tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
-              
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <h5 class="mb-0">Verifique los datos para generar la orden de servicio.</h5>
-                </div>
+      <h4 class="fw-bold py-1">Orden de Servicio</h4>
+      <div class="alert alert-warning alert-dismissible" role="alert">
+            Atención! Los detalles de esta orden están asociados a la 
+            <span class="fw-bold" @click="toQuotation">cotización</span> 
+            del cliente
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Verifique los datos para generar la orden de servicio.</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <div class="card shadow-none bg-transparent border border-info mb-3"  v-if="customerSelected.id">
                 <div class="card-body">
-                  
-                    <div class="row">
-                      <div class="col">
-                      <div class="card shadow-none bg-transparent border border-info mb-3"  v-if="customerSelected.id">
-                        <div class="card-body">
-                        <h5 class="card-title">Cliente: {{ customerSelected.name }} <!-- <i @click="deleteCustomerSelected" class='bx bx-trash text-danger cursor-pointer'></i> --></h5>
-                        <p class="card-text">
-                          Teléfono: {{ customerSelected.cell }}
-                        </p>
-                        <p class="card-text">
-                          Carrera: {{ customerSelected.career }}
-                        </p>
-                        <p class="card-text">
-                          Universidad: {{ customerSelected.university }}
-                        </p>
-                        <p class="card-text">
-                          <div v-if="customerSelected.dni == null">
-                            <label for="">DNI</label>
-                            <input type="text" class="form-control" v-model="dni">
-                          </div>
-                          <div v-else>
-                            DNI: {{ customerSelected.dni }}
-                          </div>
-                          <button v-if="customerSelected.dni == null" class="btn btn-success btn-sm mt-2" @click="saveDni"> Guardar DNI</button>
-                        </p>
-                        <!-- <p class="card-text">
-                          Estado: {{ status[customerSelected.status] }}
-                        </p> -->
-                      </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="card shadow-none bg-transparent border border-info mb-3">
-                        <div class="card-body">
-                          <div class="mb-3">
-                            <label class="form-label" for="basic-default-company">Fecha</label>
-                            <input type="date" v-model="date" class="form-control" id="basic-default-company" />
-                          </div>
-                          <div class="mb-3">
-                            <div v-if="countSugestedProducts != 0" class="form-check mt-3">
-                            <input @click="considerSugested" class="form-check-input" type="checkbox" id="defaultCheck1">
-                            <label class="form-check-label" for="defaultCheck1">
-                              Considerar Sugeridos
-                            </label>
-                          </div>
-                          </div>
-                      </div>
-                      </div>
-                    </div>
-                    
-                    </div>
-                    
+                <h5 class="card-title">Cliente: {{ customerSelected.name }} <!-- <i @click="deleteCustomerSelected" class='bx bx-trash text-danger cursor-pointer'></i> --></h5>
+                <p class="card-text">
+                  Teléfono: {{ customerSelected.cell }}
+                </p>
+                <p class="card-text">
+                  Carrera: {{ customerSelected.career }}
+                </p>
+                <p class="card-text">
+                  Universidad: {{ customerSelected.university }}
+                </p>
+                <p class="card-text">
+                  <div v-if="customerSelected.dni == null">
+                    <label for="">DNI</label>
+                    <input type="text" class="form-control" v-model="dni">
+                  </div>
+                  <div v-else>
+                    DNI: {{ customerSelected.dni }}
+                  </div>
+                  <button v-if="customerSelected.dni == null" class="btn btn-success btn-sm mt-2" @click="saveDni"> Guardar DNI</button>
+                </p>
+                <!-- <p class="card-text">
+                  Estado: {{ status[customerSelected.status] }}
+                </p> -->
+              </div>
+              </div>
+          </div>
+          <div class="col">
+            <div class="card shadow-none bg-transparent border border-info mb-3">
+              <div class="card-body">
+                <div class="mb-3">
+                  <label class="form-label" for="basic-default-company">Fecha</label>
+                  <input type="date" v-model="date" class="form-control" id="basic-default-company" />
+                </div>
+                <div class="mb-3">
+                  <div v-if="countSugestedProducts != 0" class="form-check mt-3">
+                  <input @click="considerSugested" class="form-check-input" type="checkbox" id="defaultCheck1">
+                  <label class="form-check-label" for="defaultCheck1">
+                    Considerar Sugeridos
+                  </label>
+                </div>
+                </div>
+            </div>
+            </div>
+          </div>
+          
+          </div>
                     <div class="table-responsive text-nowrap">
                       <table class="table">
                         <thead class="table-primary">
@@ -83,7 +74,7 @@
                         <tbody class="table-border-bottom-0">
                           <template v-for="(detail, index) in details">
                             <tr :key="index" v-if="detail.type <= detail_type">
-                              <td>{{ detail.product.title }}</td>
+                              <td>{{ detail.new_product.name }}</td>
                               <td>S./ {{ detail.price }}</td>
                             </tr>
                           </template>
@@ -134,16 +125,10 @@
                       </div>
                     </div>
                     <button @click="insertOrder" class="btn btn-primary mt-2 text-white">Guardar</button>
-                    <router-link v-if="this.idOrder != 0" :to="{name:'order-file', params:{ id: this.idOrder }}" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>Imprimir</router-link>
-                    <!-- <button class="btn btn-primary" @click="generatePDF">PDF</button> -->
-                </div>
-            </div>
-            <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
-              <List ref="ordersList"/>
-            </div>
-          </div>
+                    <router-link v-if="idOrder != 0" :to="{name:'order-file', params:{ id: this.idOrder }}" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>Imprimir</router-link>
         </div>
       </div>
+     
     <PaymentModal @addPayment="addPayment"/>
     
           <!-- Basic Layout -->
@@ -208,6 +193,9 @@
           }
         },
         methods:{
+          toQuotation(){
+            this.$router.push({name:'home-quotation', params:{ idUser: this.customerSelected.id }});
+          },
           addPayment(payment){
             this.payments.push(payment);
           },

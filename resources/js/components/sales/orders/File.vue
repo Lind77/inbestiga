@@ -79,7 +79,7 @@
                 <tr class="text-dark" v-for="(detail, index) in order.quotation.details" :key="index">
                     <td class="table-item ps-2" width="30%" v-if="detail.type <= order.suggested">
                             <template v-if="detail.type <= order.suggested">
-                                <h5 class="fw-bold text-dark m-0 pb-0">{{ detail.product.title }}</h5>
+                                <h5 class="fw-bold text-dark m-0 pb-0">{{ detail.new_product.name }}</h5>
                             <template v-if="detail.product_id == 34">
                                 - 02 propuestas de tema
                                 <br>

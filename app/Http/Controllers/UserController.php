@@ -69,8 +69,8 @@ class UserController extends Controller
     }
 
     public function getUserData($id){
-        $user = User::where('id',$id)->with(['memoir','memoir.team'])->get();
-        $progress = Progress::where('owner', '=', $user[0]->name)->with(['progressable','progressable.activity'])->get();
+        $user = User::with(['memoir','memoir.team'])->find($id);
+        $progress = Progress::where('owner', '=', $user->name)->with(['progressable','progressable.activity'])->get();
         return response()->json([
             'user' => $user,
             'progress' => $progress

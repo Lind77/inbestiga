@@ -56,7 +56,9 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $customer = Customer::find($id);
+        $customer = Customer::with(['quotations' => function($query){
+            $query->with(['details', 'details.new_product', 'details.new_product.newprices'])->orderBy('created_at', 'desc')->first();
+        }])->find($id);
         return response()->json($customer);
     }
 
@@ -284,17 +286,18 @@ class CustomerController extends Controller
         $customer = Customer::find($request->get('customer_id'));
         $customer->update([
             'user_id' => $request->get('seller_selected'),
-            'status' => 4
+            'status' => 4,
+            'needs' => $request->get('needs')
         ]);
 
-        $quotation = Quotation::create([
+        /* $quotation = Quotation::create([
             'customer_id' => $request->get('customer_id'),
             'date' => date('Y-m-d'),
             'amount' => 0,
             'term' => '-'
-        ]);
+        ]); */
 
-        $products = json_decode($request->get('products'), true);
+        /* $products = json_decode($request->get('products'), true);
 
         foreach ($products as $product){
 
@@ -320,7 +323,7 @@ class CustomerController extends Controller
                 'level' => $product['level']
             ]);
 
-        }
+        } */
 
         $user = User::find($request->get('user_id'));
         $nameReferal = $user->name;
