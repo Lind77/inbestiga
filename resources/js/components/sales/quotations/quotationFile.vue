@@ -95,6 +95,8 @@
                     <th class="table-item fw-normal ps-2" v-if="detail.type == 2 ">{{detail.new_product.name}}
                         <template v-if="detail.new_product.id == 58">
                         <br>
+                        - 02 propuestas de tema (Opcional)
+                        <br>
                         - Plan de tesis o proyecto de investigación
                         <br>
                         - Informe final de tesis o Tesis Final
