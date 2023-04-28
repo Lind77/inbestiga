@@ -81,8 +81,6 @@
                             <template v-if="detail.type <= order.suggested">
                                 <h5 class="fw-bold text-dark m-0 pb-0">{{ detail.new_product.name }}</h5>
                             <template v-if="detail.product_id == 34">
-                                - 02 propuestas de tema
-                                <br>
                                 - Plan de tesis o proyecto de investigación
                                 <br>
                                 - Aplicación de instrumentos y procesamiento estadístico

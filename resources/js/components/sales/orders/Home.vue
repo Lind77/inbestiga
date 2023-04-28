@@ -268,6 +268,7 @@
             fd.append('suggested', this.detail_type)
             fd.append('payments', JSON.stringify(this.payments))
             fd.append('discount', this.discount)
+            fd.append('customer_id', this.$route.params.idUser)
     
             axios.post('/api/insertOrder',fd)
             .then(res =>{

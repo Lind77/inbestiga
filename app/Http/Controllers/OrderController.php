@@ -149,6 +149,12 @@ class OrderController extends Controller
            ]);
         }
 
+        $customer = Customer::find($request->get('customer_id'));
+
+        $customer->update([
+            'status' => 9
+        ]);
+
         return response()->json($contract->id);
     }
 }

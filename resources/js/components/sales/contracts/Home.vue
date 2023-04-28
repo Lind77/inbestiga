@@ -236,6 +236,7 @@
             fd.append('amount_text',myConverter.convertToText(this.totalFinal))
             fd.append('date', this.date)
             fd.append('fees', JSON.stringify(this.fees))
+            fd.append('customer_id', this.$route.params.idUser)
           
             axios.post('/api/insertContract', fd)
             .then(res =>{
