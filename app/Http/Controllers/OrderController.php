@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Comission;
 use App\Models\Contract;
 use App\Models\Customer;
 use App\Models\Fee;
@@ -75,6 +76,16 @@ class OrderController extends Controller
 
         $customer->update([
             'status' => 9
+        ]);
+
+        $user = User::find($request->get('user_id'));
+
+        $comission = Comission::create([
+            'customer_id' => $customer->id,
+            'concept' => 'Cotización',
+            'percent' => 5,
+            'referal' => $user->name,
+            'user_id' => $request->get('user_id')
         ]);
 
         return response()->json($order->id);
@@ -154,6 +165,17 @@ class OrderController extends Controller
         $customer->update([
             'status' => 9
         ]);
+
+        $user = User::find($request->get('user_id'));
+
+        $comission = Comission::create([
+            'customer_id' => $customer->id,
+            'concept' => 'Cotización',
+            'percent' => 5,
+            'referal' => $user->name,
+            'user_id' => $request->get('user_id')
+        ]);
+
 
         return response()->json($contract->id);
     }

@@ -41,8 +41,7 @@
                     <li class="list-group-item list-group-item-action dropdown-notifications-item" :id="`notification${notification.id}`">
                     <div class="d-flex">
                       <div class="flex-grow-1">
-                        <h6 class="mb-1">{{ notification.emisor.name }}</h6>
-                        <p class="mb-0">{{ notification.content }}</p>
+                        <h6 class="mb-1">{{ notification.emisor.name }} {{ notification.content }}</h6>
                         <small class="text-muted">{{ dateFormatted(notification.created_at) }}</small>
                       </div>
                       <div class="flex-grow-1">

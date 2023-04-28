@@ -299,34 +299,30 @@ class ProjectController extends Controller
 
         $customer = Customer::find($request->get('id_customer'));
 
-        $quotations = Quotation::where('customer_id', $customer->id)->with('orders')->orderBy('id', 'desc')->get();
+        $customer->update([
+            'status' => 7
+        ]);
 
-        $lastQuotation = $quotations->first();
+        $quotation = Quotation::where('customer_id', $customer->id)->with('orders')->orderBy('id', 'desc')->first();
 
-        $lastOrder = $lastQuotation->orders->first();
-        
-        if($lastOrder){
+        $lastOrder = $quotation->orders->first();
 
-            $customer->update([
-                'status' => 7
-            ]);
+        $project = Project::create([
+            'title' => 'Proyecto '.$customer->name,
+            'customer_id' => $customer->id,
+            'deadline' => date('Y-m-d'),
+            'product_id' => 1,
+            'status' => 0,
+            'order_id' =>  $lastOrder->id
+        ]);
 
-            $project = Project::create([
-                'title' => 'Proyecto '.$customer->name,
-                'customer_id' => $customer->id,
-                'deadline' => date('Y-m-d'),
-                'product_id' => 1,
-                'status' => 0,
-                'order_id' =>  $lastOrder->id
-            ]);
+        $notification = Notification::create([
+            'emisor_id' => $request->get('emisor_id'),
+            'content' => 'asignó el '.$project->title,
+            'type' => 1
+        ]);
 
-            $notification = Notification::create([
-                'emisor_id' => $request->get('emisor_id'),
-                'content' => 'asignó un nuevo proyecto',
-                'type' => 1
-            ]);
-            
-            $usersToNotify = User::role('Experience')->get();
+        $usersToNotify = User::role('Experience')->get();
 
             foreach($usersToNotify as $user){
                 Seen::create([
@@ -336,15 +332,11 @@ class ProjectController extends Controller
                 ]);
             }
 
-            broadcast(new NewProject($project));
-        }else{
-            return response()->json([
-                'msg' => 'No existe un contrato para este cliente'
-            ],404);
-        }
+        broadcast(new NewProject($project));
+/*           
 
         //Traer actividades de Inbestiga por default
-        $fixedActivitiesEnterprise = FixedActivity::where('type',0)->get();
+       /*  $fixedActivitiesEnterprise = FixedActivity::where('type',0)->get();
 
         foreach($fixedActivitiesEnterprise as $enterpriseActivity) {
             $defaultActivity = Activity::create([
@@ -362,10 +354,10 @@ class ProjectController extends Controller
             ]);
         }
 
-       $details = $lastQuotation->details;
+       $details = $lastQuotation->details; */
 
        //Prodcutos de la tesis
-       $thesisProducts = Product::where('id','<',34)->where('id','!=', 1)->where('id','!=',25)->with('fixedActivities')->get();
+      /*  $thesisProducts = Product::where('id','<',34)->where('id','!=', 1)->where('id','!=',25)->with('fixedActivities')->get();
 
        foreach($details as $detail){
             if($detail->product_id == 34){
@@ -439,7 +431,7 @@ class ProjectController extends Controller
                 }
             }
         }
-       
+        */
 
         return response()->json([
             'msg' => 'success'

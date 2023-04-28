@@ -135,10 +135,10 @@ export default{
 
       array = array.unshift(lead)
       this.updateInBd(lead.id, status)
-      /* this.updateStatusSpace(lead.id, status)
-      if(status == 7){
+      //this.updateStatusSpace(lead.id, status)
+      if(status == 11){
         this.setProject(lead.id)
-      } */
+      }
     },
     updateInBd(id, status){
       const fd = new FormData()

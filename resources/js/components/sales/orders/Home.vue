@@ -142,9 +142,14 @@
       import moment from 'moment'
       import List from './List.vue'
       import PaymentModal from './PaymentModal.vue'
+      import { userStore } from '../../../stores/UserStore'
      /*  import calcModal from './calcModal.vue' */
      /*  import InsertDetail from './InsertDetail.vue' */
       export default{
+        setup(){
+          const store = userStore()
+          return { store }
+        },
         components:{List, PaymentModal},
         data(){
           return{
@@ -269,6 +274,7 @@
             fd.append('payments', JSON.stringify(this.payments))
             fd.append('discount', this.discount)
             fd.append('customer_id', this.$route.params.idUser)
+            fd.append('user_id', this.store.authUser.id)
     
             axios.post('/api/insertOrder',fd)
             .then(res =>{

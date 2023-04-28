@@ -78,7 +78,7 @@
                     <div class="mb-3">
                       <label class="form-label" for="basic-default-company">TOTAL FINAL:</label>
                       <br>
-                      S./ {{ totalFinal }}
+                      S./ {{ totalFinal.toFixed(2) }}
                     </div>
                   </div>
                   </div>
@@ -122,11 +122,16 @@
       import FeesModal from './FeesModal.vue'
       import axios from 'axios'
       import moment from 'moment'
+      import {userStore} from '../../../stores/UserStore'
       /* import List from './List.vue'
       import PaymentModal from './PaymentModal.vue' */
      /*  import calcModal from './calcModal.vue' */
      /*  import InsertDetail from './InsertDetail.vue' */
       export default{
+        setup(){
+          const store = userStore()
+          return { store }
+        },
         components:{ClientSection, FeesModal},
         data(){
           return{
@@ -182,6 +187,8 @@
             this.$router.push({name:'home-quotation', params:{ idUser: this.customerSelected.id }});
           },
           addFee(fee){
+            
+            fee.amount = parseInt(fee.amount)
             this.fees.push(fee)
           },
           updateCustomer(){
@@ -230,13 +237,15 @@
           insertContract(){
             let conversorClass = conversor.conversorNumerosALetras
             let myConverter = new conversorClass()
+
             const fd =  new FormData()
             fd.append('quotation_id', this.quotation.id)
-            fd.append('amount', this.totalFinal)
-            fd.append('amount_text',myConverter.convertToText(this.totalFinal))
+            fd.append('amount', parseInt(this.totalFinal))
+            fd.append('amount_text',myConverter.convertToText(parseInt(this.totalFinal)))
             fd.append('date', this.date)
             fd.append('fees', JSON.stringify(this.fees))
             fd.append('customer_id', this.$route.params.idUser)
+            fd.append('user_id', this.store.authUser.id)
           
             axios.post('/api/insertContract', fd)
             .then(res =>{
