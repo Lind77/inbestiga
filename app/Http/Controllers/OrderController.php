@@ -49,21 +49,35 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $order = Order::create([
-            'quotation_id' => $request->get('quotation_id'),
-            'final_delivery' => $request->get('final_delivery'),
-            'observations' => $request->get('observations'),
-            'suggested' => $request->get('suggested')
-        ]);
+        //Verificar si hay una orden con el id de cotización
+        $order = Order::where('quotation_id',$request->get('quotation_id'))->first();
 
-        $payments = json_decode($request->get('payments'), true);
+        if($order){
 
-        foreach ($payments as $payment) {
-            $payment_registered = Payments::create([
-                'order_id' => $order->id,
-                'date' => $payment['date'],
-                'amount' => $payment['amount']
+            $order->update([
+                'final_delivery' => $request->get('final_delivery'),
+                'observations' => $request->get('observations'),
+                'suggested' => $request->get('suggested')
             ]);
+
+        }else{
+
+            $order = Order::create([
+                'quotation_id' => $request->get('quotation_id'),
+                'final_delivery' => $request->get('final_delivery'),
+                'observations' => $request->get('observations'),
+                'suggested' => $request->get('suggested')
+            ]);
+    
+            $payments = json_decode($request->get('payments'), true);
+    
+            foreach ($payments as $payment) {
+                $payment_registered = Payments::create([
+                    'order_id' => $order->id,
+                    'date' => $payment['date'],
+                    'amount' => $payment['amount']
+                ]);
+            }
         }
 
         $quotation = Quotation::find($request->get('quotation_id'));

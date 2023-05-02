@@ -15,7 +15,7 @@
             <div class="row g-2">
                 <div class="col mb-0">
                     <label for="nameBasic" class="form-label">Porcentaje</label>
-                    <input type="number" v-model="fee.percentage" class="form-control">
+                    <input type="number" @keyup="calcAmount" v-model="fee.percentage" class="form-control">
                 </div>
             </div>
             <div class="row g-2">
@@ -40,6 +40,9 @@
 </template>
 <script>
     export default{
+        props:{
+            totalFinal: Number
+        },
         data(){
             return{
                 fee:{
@@ -61,7 +64,9 @@
                 }
                 $('#feesModal').modal('hide')
             },
-
+            calcAmount(){
+               this.fee.amount = this.fee.percentage * this.totalFinal /100
+            }
         }
     }
 </script>

@@ -119,10 +119,7 @@
         methods:{
             selectOption(value){
                 this.optionSelection = value
-                
                 this.$emit('filterNewProducts', value)
-                
-                console.log(this.newProductsByType)
             },
             searchNewProduct(){
                 if(this.search != ''){
@@ -133,7 +130,6 @@
                 }else{
                     this.newProductsByName = []
                 }
-              
             },
             addCart(newProduct){
                 newProduct.level = this.level

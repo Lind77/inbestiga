@@ -208,7 +208,7 @@ class QuotationController extends Controller
     public function getQuotationByCustomerId($id){
         $customer = Customer::find($id);
 
-        $quotation = Quotation::where('customer_id', $customer->id)->orderBy('id', 'desc')->with(['details', 'details.product','details.new_product','orders'])->get();
+        $quotation = Quotation::where('customer_id', $customer->id)->orderBy('id', 'desc')->with(['details', 'details.product','details.new_product','orders', 'orders.payments'])->get();
 
         return response()->json($quotation[0]);
     }

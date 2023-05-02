@@ -80,27 +80,27 @@
                     <td class="table-item ps-2" width="30%" v-if="detail.type <= order.suggested">
                             <template v-if="detail.type <= order.suggested">
                                 <h5 class="fw-bold text-dark m-0 pb-0">{{ detail.new_product.name }}</h5>
-                            <template v-if="detail.product_id == 34">
-                                - 02 propuestas de tema (Opcional)
-                                <br>
-                                - Plan de tesis o proyecto de investigación
-                                <br>
-                                - Aplicación de instrumentos y procesamiento estadístico
-                                <br>
-                                - Informe final de tesis o Tesis Final
-                                <br>
-                                - Orientación y/o asesoría extraordinaria en cualquier etapa de la tesis.
-                                <br>
-                                - Plantilla de diapositivas
-                                <br>
-                                - Reporte de similitud TURNITIN
-                                <br>
-                                - E-book para la sustentación
-                                <br>
-                                - Balotario de preguntas
-                                <br>
-                                - Simulación de sustentación
-                            </template>
+                                <template v-if="detail.product_id == 34">
+                                    - 02 propuestas de tema (Opcional)
+                                    <br>
+                                    - Plan de tesis o proyecto de investigación
+                                    <br>
+                                    - Procesamiento estadístico
+                                    <br>
+                                    - Informe final de tesis o Tesis Final
+                                    <br>
+                                    - Orientación y/o asesoría extraordinaria en cualquier etapa de la tesis.
+                                    <br>
+                                    - Plantilla de diapositivas
+                                    <br>
+                                    - Reporte de similitud TURNITIN
+                                    <br>
+                                    - E-book para la sustentación
+                                    <br>
+                                    - Balotario de preguntas
+                                    <br>
+                                    - Simulación de sustentación
+                                </template>
                             </template>
                     </td>
                     <td class="table-item" width="10%"  v-if="detail.type <= order.suggested">

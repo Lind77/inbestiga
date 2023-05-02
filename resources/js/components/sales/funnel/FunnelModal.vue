@@ -77,11 +77,16 @@ export default {
         },
         callToQuotation(customer){
             $('#funnelModal').modal('hide')
-            this.$router.push({name:'home-quotation', params:{ idUser: customer.id }});
+            this.$router.push({name:'home-quotation', params:{ idUser: customer.id }})
         },
         callToOrder(customer){
             $('#funnelModal').modal('hide')
-            this.$router.push({name:'home-orders', params:{ idUser: customer.id }});
+            if(customer.quotations[0].amount > 1500){
+                this.$router.push({name:'home-contracts', params:{ idUser: customer.id }})
+            }else{
+                this.$router.push({name:'home-orders', params:{ idUser: customer.id }})
+            }
+            
         }
     }
 }

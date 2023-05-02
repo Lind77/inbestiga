@@ -7,7 +7,6 @@
       {{ customer.needs }}
     </div>
   <div class="card">
-   
     <div class="card-header">
       <h5>Ingrese los datos para generar la cotización.</h5>
       <div class="alert alert-warning alert-dismissible mb-0" role="alert" v-if="!customer.quotations || !customer.quotations.length">
@@ -51,7 +50,7 @@
           <tbody>
             <tr v-for="(carNewProduct, index) in carNewProducts">
               <td>{{ carNewProduct.new_product?carNewProduct.new_product.name:carNewProduct.name }}</td>
-              <td>{{ carNewProduct.type==1?'Normal':'Sugerido' }}</td>
+              <td>{{ carNewProduct.type == 1?'Normal':'Sugerido' }}</td>
               <td>S./{{ carNewProduct.price }}</td>
               <td><a @click="removeSuggestedCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
             </tr>
@@ -88,8 +87,8 @@
         </div>
       </div>
       <div class="row d-flex justify-content-center ">
-        <button @click="insertQuotation" class="btn btn-primary btn-lg mt-2 text-white w-50">Guardar</button>
-        <router-link v-if="idQuotation != 0" :to="{name:'quotation-file', params:{ id: this.idQuotation }}" target="_blank" class="btn btn-primary mt-2 mx-2 text-white w-50" disabled>Imprimir</router-link>
+        <button @click="insertQuotation" class="btn btn-primary btn-lg mt-2 text-white w-25">Guardar</button>
+        <router-link v-if="idQuotation != 0" :to="{name:'quotation-file', params:{ id: this.idQuotation }}" target="_blank" class="btn btn-primary btn-lg mt-2 mx-2 text-white w-25" disabled>Imprimir</router-link>
       </div>
       </div>
       
