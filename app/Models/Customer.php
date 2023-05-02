@@ -19,7 +19,7 @@ class Customer extends Model
         return $this->hasOne("App\Models\Project");
     }
 
-    public function comunication(){
-        return $this->hasOne("App\Models\Comunication");
+    public function comunications(){
+        return $this->hasMany("App\Models\Comunication");
     }
 }

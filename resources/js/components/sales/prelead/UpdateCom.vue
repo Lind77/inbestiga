@@ -3,43 +3,39 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1" v-if="comunication != null">Actualizar Comunicación</h5>
-                    <h5 class="modal-title" id="exampleModalLabel1" v-else>Insertar Comunicación</h5>
+                    <h5 class="modal-title" id="exampleModalLabel1">Registrar Comunicación</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row g-2 mt-2">
                         <div class="col mb-0">
-                            <label for="emailBasic" class="form-label">Última Gestión</label>
-                            <input type="date" v-if="action==2" v-model="comunication.last_management" class="form-control" />
-                            <input type="date" v-else v-model="last_management" class="form-control" />
-                        </div>
-                        <div class="col mb-0">
-                        <label for="emailBasic" class="form-label">Próxima Gestión</label>
-                        <input type="datetime-local" v-if="action==2" v-model="comunication.next_management" class="form-control" />
-                        <input type="datetime-local" v-else v-model="next_management" class="form-control">
+                            <label for="emailBasic" class="form-label">Primera Gestión</label>
+                            <input type="date" v-model="first_management" class="form-control" />
                         </div>
                     </div>
                     <div class="row g-2 mt-2">
                         <div class="col mb-0">
-                        <label for="emailBasic" class="form-label">Comentario</label>
-                        <input type="text" v-if="action==2" v-model="comunication.comment" class="form-control" />
-                        <input type="text" v-else v-model="comment" class="form-control"/>
+                            <label for="emailBasic" class="form-label">Última Gestión</label>
+                            <input type="date" v-model="last_management" class="form-control" />
+                        </div>
+                        <div class="col mb-0">
+                        <label for="emailBasic" class="form-label">Próxima Gestión</label>
+                        <input type="datetime-local" v-model="next_management" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row g-2 mt-2">
+                        <div class="col mb-0">
+                        <label for="emailBasic" class="form-label">Comentario {{ comment.length }}/140</label>
+                        <textarea type="text" v-model="comment" class="form-control" rows="3"></textarea>
                         </div>
                     </div>
                     <div class="row g-2 mt-2">
                         <div class="col mb-0">
                         <label for="emailBasic" class="form-label">Producto Tentativo</label>
-                        <input type="text" v-if="action==2" v-model="comunication.product_tentative" class="form-control" />
                         <input type="text" v-model="product_tentative" class="form-control"/>
                         </div>
                         <div class="col mb-0">
                         <label for="emailBasic" class="form-label">Tipo</label>
-                        <select v-if="action==2" v-model="comunication.type" class="form-select">
-                            <option value="1">Llamar</option>
-                            <option value="2">Escribir</option>
-                            <option value="3">Meet</option>
-                        </select>
-                        <select v-else v-model="type" class="form-select">
+                        <select v-model="type" class="form-select">
                             <option value="1">Llamar</option>
                             <option value="2">Escribir</option>
                             <option value="3">Meet</option>
@@ -51,8 +47,7 @@
                 <button type="button" id="close-insert-customer" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                     Cerrar
                 </button>
-                <button v-if="action==2" type="button" @click="updateComunication" class="btn btn-primary">Actualizar</button>
-                <button v-else type="button" @click="insertComunication" class="btn btn-primary">Registrar</button>
+                <button type="button" @click="insertComunication" class="btn btn-primary">Registrar</button>
                 </div>
                 <!-- {{ comunication }} -->
             </div>
@@ -63,6 +58,7 @@
     export default {
         data(){
             return{
+                first_management: '',
                 last_management: '',
                 next_management: '',
                 comment: '',
@@ -77,8 +73,10 @@
         },
         methods:{
             insertComunication(){
+                if(this.comment.length <= 140){
                 const fd = new FormData()
                 fd.append('customer_id', this.customerId)
+                fd.append('first_management', this.first_management)
                 fd.append('last_management', this.last_management)
                 fd.append('next_management', this.next_management)
                 fd.append('comment', this.comment)
@@ -93,24 +91,9 @@
                 .catch((err) =>{
                     console.log(err)
                 })
-            },
-            updateComunication(){
-                const fd = new FormData()
-                fd.append('comunication_id', this.comunication.id)
-                fd.append('last_management', this.comunication.last_management)
-                fd.append('next_management', this.comunication.next_management)
-                fd.append('comment', this.comunication.comment)
-                fd.append('product_tentative', this.comunication.product_tentative)
-                fd.append('type', this.comunication.type)
-
-                axios.post('/api/updateComunication', fd)
-                .then((res) =>{
-                    console.log(res)
-                    $('#updateComModal').modal('hide')
-                })
-                .catch((err) =>{
-                    console.log(err)
-                })
+                }else{
+                    this.$swal('El comentario excede los 140 caracteres')
+                }
             }
         }
     }

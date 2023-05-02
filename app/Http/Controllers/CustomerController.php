@@ -23,7 +23,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with(['project','project.product', 'comunication','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
+        $customers = Customer::with(['project','project.product', 'comunications','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->take(21)->get();
         return response()->json($customers);
     }
 
@@ -268,15 +268,15 @@ class CustomerController extends Controller
     }
     
     public function getAllPreleads(){
-        $customers = Customer::where('status','<=', 3)->with(['project','project.product', 'comunication','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
+        $customers = Customer::where('status','<=', 3)->with(['project','project.product', 'comunications','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
         return response()->json($customers);
     }
 
     public function getAllLeads($id){
         if($id == 7){
-            $customers = Customer::where('status','>', 2)->with(['project','project.product', 'comunication','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
+            $customers = Customer::where('status','>', 2)->with(['project','project.product', 'comunications','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
         }else{
-            $customers = Customer::where('status','>', 2)->where('user_id', $id)->with(['project','project.product', 'comunication','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
+            $customers = Customer::where('status','>', 2)->where('user_id', $id)->with(['project','project.product', 'comunications','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
         }
         
         return response()->json($customers);
@@ -340,5 +340,10 @@ class CustomerController extends Controller
         return response()->json([
             'msg' => 'success'
         ]);
+    }
+    
+    public function searchCustomers($search){
+        $customers = Customer::with('comunications')->where('name', 'like', '%'.$search.'%')->get();
+        return response()->json($customers);
     }
 }

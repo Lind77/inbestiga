@@ -7,7 +7,7 @@
       </template>
     </div>
     <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
-    <UpdateCom :comunication="comunication"/>
+    <UpdateCom :customerId="customerId" :comunication="comunication"/>
     <FunnelModal :customer="customer_selected" @updateStatusSpace="updateStatusSpace" @callModal="callModal"/>
   </div>
 </template>
@@ -45,7 +45,8 @@ export default{
       customer_selected:{},
       comunication:{},
       needs: [],
-      draggableAreas: []
+      draggableAreas: [],
+      customerId: 0
     }
   },
   methods:{
@@ -164,8 +165,9 @@ export default{
     },
     */
     callModal(com){
-      console.log('calling modal com')
+      console.log(com)
       this.comunication = com
+      this.customerId = com.user_id
       $('#funnelModal').modal('hide')
       $('#updateComModal').modal('show')
     }, 
