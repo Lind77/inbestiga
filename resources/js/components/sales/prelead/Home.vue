@@ -1,7 +1,6 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
       <div class="row">
-          <draggableArea :customers="origin" :title="'Origen'" :status="0" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel"/>
           <draggableArea :customers="noAttended" :title="'No Atendido'" :status="1" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel"/>
           <draggableArea :customers="attended" :title="'Atendido'" :status="2" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel"/>
           <draggableArea :customers="comunications" :title="'Comunicación Establecida'" :status="3" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @convertLead="convertLead" @cleanLead="cleanLead" @showModalFunnel="showModalFunnel"/>
@@ -77,8 +76,8 @@ export default {
           var customerSelected = this.customers.find(customer => customer.id == customer_id)
 
           if(newStatus == 3){
-            if(customerSelected.name == null || customerSelected.cell == null){
-              this.$swal('El usuario carece de información básica necesaria (nombre y número de celular)')
+            if(customerSelected.name == null || customerSelected.cell == null || customerSelected.career == null || customerSelected.university == null){
+              this.$swal('El usuario carece de información básica necesaria (nombre, número, carrera y universidad de celular)')
             }else{
               var oldStatus = customerSelected.status
 

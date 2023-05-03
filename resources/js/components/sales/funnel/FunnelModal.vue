@@ -34,6 +34,7 @@
                         <p class="card-text">Carrera: {{ customer.career }}</p>
                     </div>
                 </div>
+                <div v-if="customer.quotations && customer.status > 3" class="alert alert-danger" role="alert">Este usuario no tiene una cotización hecha en el sistema</div>
                 </div>
                 <div class="col-6">
                     <div class="card shadow-none bg-transparent border border-warning mb-3" v-if="customer.comunication">

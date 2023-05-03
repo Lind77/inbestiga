@@ -1,7 +1,9 @@
 <template>
   <div class="container-xxl flex-grow-1 container-p-y"> 
     <div class="row">
-      <DatePicker @filterDate="filterDate" />
+      <div class="row">
+        <DatePicker @filterDate="filterDate" @distributeLeads="distributeLeads" @getAllCustomers="getAllCustomers"/>
+      </div>
       <template v-for="area in draggableAreas">
         <draggableArea :customers="area.customers" :title="area.title" :status="area.status" @updateStatusSpace="updateStatusSpace" @showModalFunnel="showModalFunnel" @callModal="callModal"/>
       </template>
@@ -27,7 +29,7 @@ export default{
         store
       }
   },
-  components:{ CardCustomer, ProductModal, draggableArea, DatePicker, UpdateCom, FunnelModal},
+  components:{ CardCustomer, ProductModal, draggableArea, DatePicker, UpdateCom, FunnelModal },
   data(){
     return{
       customers:[],
@@ -200,6 +202,16 @@ export default{
       })
     },
     distributeLeads(totalLeads){
+      this.needs = []
+      this.quotations = []
+      this.explanations = []
+      this.experiences = []
+      this.tracings = []
+      this.nopays = []
+      this.closings = []
+      this.customers = []
+
+
       totalLeads.forEach(lead => {
             if(lead.status == 4){
               this.needs.push(lead)

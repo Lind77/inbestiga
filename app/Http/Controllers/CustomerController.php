@@ -273,13 +273,16 @@ class CustomerController extends Controller
     }
 
     public function getAllLeads($id){
-        if($id == 7){
-            $customers = Customer::where('status','>', 2)->with(['project','project.product', 'comunications','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
-        }else{
-            $customers = Customer::where('status','>', 2)->where('user_id', $id)->with(['project','project.product', 'comunications','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
-        }
+
+            $totalCustomers = collect();
+            
+            for($i = 4; $i <= 11; $i++){
+                $customers = Customer::with(['project','project.product', 'comunications','quotations', 'quotations.orders'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+                
+                $totalCustomers = $totalCustomers->merge($customers);
+            }
         
-        return response()->json($customers);
+        return response()->json($totalCustomers);
     }
 
     public function assignOwner(Request $request){
@@ -346,4 +349,5 @@ class CustomerController extends Controller
         $customers = Customer::with('comunications')->where('name', 'like', '%'.$search.'%')->get();
         return response()->json($customers);
     }
+
 }

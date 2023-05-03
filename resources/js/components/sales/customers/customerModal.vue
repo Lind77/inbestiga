@@ -50,6 +50,18 @@
             </div>
             <div class="row g-2">
                 <div class="col mb-0">
+                    <label class="form-label">Estado</label>
+                    <select class="form-select" v-model="status">
+                        <option value="1" default>No atendido</option>
+                        <option value="2">Atendido</option>
+                        <option value="3">Comunicación establecida</option>
+                        <option value="4">Obtención de necesidades específicas</option>
+                        <option value="5">Con cotización</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row g-2">
+                <div class="col mb-0">
                 <label for="emailBasic" class="form-label">Origen</label>
                     <select class="form-select" v-model="origin">
                         <option value="1">Marketing</option>
@@ -155,7 +167,8 @@ export default {
             origin: 0,
             users:[],
             referedFrom: 0,
-            channel: 0
+            channel: 0,
+            status: 0
         }
     },
     methods:{
@@ -186,7 +199,7 @@ export default {
             fd.append('career',this.career)
             fd.append('email',this.email)
             fd.append('origin', this.origin)
-            fd.append('status',0)
+            fd.append('status', this.status)
             fd.append('referedFrom',this.referedFrom)
             fd.append('channel', this.channel)
             fd.append('user_id',this.store.authUser.id)
