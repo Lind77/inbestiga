@@ -97,6 +97,12 @@ class CustomerController extends Controller
     }
 
     public function insertCustomer(Request $request){
+
+        $request->validate([
+            'name' => 'unique:customers',
+            'cell' => 'unique:customers'
+        ]);
+
         $time = strtotime($request->get('next_management'));
         $date = date('Y-m-d', $time);
         $hour = date('H:i:s', $time);
@@ -348,6 +354,16 @@ class CustomerController extends Controller
     public function searchCustomers($search){
         $customers = Customer::with('comunications')->where('name', 'like', '%'.$search.'%')->get();
         return response()->json($customers);
+    }
+
+    public function verifyCustomer(Request $request){
+        $customer = Customer::where('name', 'like', '%'.$request->get('name'))->get();
+
+        return response()->json($customer);
+    }
+
+    public function getLeadsByDate($date){
+        $customers = Customer::with('comunications')->get();
     }
 
 }

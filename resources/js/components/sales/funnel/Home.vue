@@ -21,6 +21,7 @@ import {userStore} from '../../../stores/UserStore'
 import draggableArea from './draggableArea.vue'
 import UpdateCom from '../prelead/UpdateCom.vue'
 import FunnelModal from './FunnelModal.vue'
+import axios from 'axios'
 
 export default{
   setup(){
@@ -177,6 +178,10 @@ export default{
         if(date == ''){
           this.distributeLeads(this.totalLeads)
         }else{
+          axios.get('/api/getLeadsByDate/'+date)
+          .then(res =>{
+            console.log(res)
+          })
           this.customers_filtered = this.totalLeads.filter((customer) => customer.comunication && customer.comunication.next_management == date)
           this.distributeLeads(this.customers_filtered)
         }

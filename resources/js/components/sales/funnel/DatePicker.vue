@@ -1,7 +1,6 @@
 <template>
     <div class="row mb-3">
-        <input type="text" class="form-control w-25" @keyup="cleanLeads" v-model="search">
-        <button class="btn btn-primary btn-sm w-25" @click="searchByName">Buscar</button>
+        <input type="text" class="form-control w-50" placeholder="Buscar por nombre ..." @keyup="cleanLeads" v-on:keyup.enter="searchByName" v-model="search">
         <input type="date" @change="filterDate" class="form-control w-25 ms-2">
       </div>
 </template>

@@ -134,6 +134,8 @@ Route::get('/getAllPreleads', [CustomerController::class, 'getAllPreleads']);
 Route::get('/getAllLeads/{id}', [CustomerController::class, 'getAllLeads']);
 Route::post('/assignOwner', [CustomerController::class, 'assignOwner']);
 Route::get('/searchCustomers/{search}', [CustomerController::class, 'searchCustomers']);
+Route::post('/verifyCustomer', [CustomerController::class, 'verifyCustomer']);
+Route::get('/getLeadsByDate/{date}', [CustomerController::class, 'getLeadsByDate']);
 
 Route::get('/getAllMessages', [ChatController::class, 'index']);
 Route::get('/getAllMessagesById/{id}', [ChatController::class, 'getAllMessagesById'])->middleware('auth:sanctum');

@@ -190,6 +190,25 @@ export default {
             .catch(err =>{
                 console.log(err.response.data)
             })
+        },
+        verifyExistence(){
+            const fd = new FormData()
+
+            fd.append('name', this.name)
+            fd.append('cell', this.cell)
+            axios.post('/api/verifyCustomer', fd)
+            .then((res) => {
+                if(res.data[0]){
+                    $('#customerModal').modal('hide')
+                    this.$swal('Se ha encontrado un usuario con el mismo nombre')
+                }else{
+                    return true
+                }
+                
+            })
+            .catch((err) => {
+
+            })
         },  
         insertCustomer(){
             const fd = new FormData()
@@ -203,12 +222,6 @@ export default {
             fd.append('referedFrom',this.referedFrom)
             fd.append('channel', this.channel)
             fd.append('user_id',this.store.authUser.id)
-            /* 
-            fd.append('first_management',this.first_management)
-            fd.append('last_management', this.last_management)
-            fd.append('next_management', this.next_management)
-            fd.append('comment', this.comment)
-            fd.append('product_tentative', this.product_tentative) */
             fd.append('type', this.type)
 
             axios.post('/api/insertCustomer', fd)
@@ -218,6 +231,8 @@ export default {
                 document.getElementById('close-insert-customer').click()
             })
             .catch(err =>{
+                $('#customerModal').modal('hide')
+                this.$swal(err.response.data.message)
                 console.log(err.response.data)
             })
         },
