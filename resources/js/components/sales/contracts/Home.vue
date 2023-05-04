@@ -500,7 +500,7 @@
               total += fee.amount
             })
 
-            return total
+            return Math.round(total * 100)/100
           }
         }
       }
