@@ -99,8 +99,7 @@ class CustomerController extends Controller
     public function insertCustomer(Request $request){
 
         $request->validate([
-            'name' => 'unique:customers',
-            'cell' => 'unique:customers'
+            'cell' => 'unique:customers|max:9|min:9'
         ]);
 
         $time = strtotime($request->get('next_management'));
