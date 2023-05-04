@@ -37,26 +37,29 @@
               </div>
             </div>
           </div>
-            <div class="table-responsive text-nowrap">
-              <table class="table">
-                <thead class="table-primary">
-                  <tr>
-                    <th>Producto/Servicio</th>
-                    <th>Tipo</th>
-                    <th>Precio</th>
-                  </tr>
-                </thead>
-                <tbody class="table-border-bottom-0">
-                  <template v-for="(detail, index) in details">
-                    <tr v-if="detail.type <= detail_type">
-                      <td>{{ detail.new_product.name }}</td>
-                      <td>{{ detail.type == 1? 'Normal':'Sugerido' }}</td>
-                      <td>S./ {{ detail.price }}</td>
-                    </tr>
-                  </template>
-                </tbody>
-              </table>
-            </div>
+          <SearchProduct :title="'Productos'" @filterNewProducts="filterNewProducts" :newProductsByType="newProductsByType" @callProductModal="callProductModal" />
+            
+          <div class="table-responsive text-nowrap mt-2" v-show="carNewProducts.length">
+        <table class="table table-bordered mb-3">
+          <thead class="table-primary">
+            <tr>
+              <th>Producto/Servicio</th>
+              <th>Tipo</th>
+              <th>Total</th>
+              <th>Borrar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(carNewProduct, index) in carNewProducts">
+              <td>{{ carNewProduct.new_product?carNewProduct.new_product.name:carNewProduct.name }}</td>
+              <td>{{ carNewProduct.type == 1?'Normal':'Sugerido' }}</td>
+              <td>S./{{ carNewProduct.price }}</td>
+              <td><a @click="removeSuggestedCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
             <div class="row">
                     <div class="col-6">
                       <div class="mb-3">
@@ -64,14 +67,14 @@
                         <input type="text" class="form-control" v-model="discount">
                       </div>
                     </div>
-                  <div class="col-6">
-                    <div class="mb-3">
-                      <label class="form-label" for="basic-default-company">TOTAL FINAL:</label>
-                      <br>
-                      S./ {{ totalFinal.toFixed(2) }}
-                    </div>
                   </div>
-                  </div>
+                  <div class="row">
+        <div class="col-sm-12 col-lg-6">
+        <div class="mb-3">
+          <h3>TOTAL S./ {{ totalFinal - discount }}</h3>  
+        </div>
+      </div>
+      </div>
             <div class="row">
               <div class="col-xl">
                 <h5 class="mb-0">Pagos y entregas <span class="badge bg-label-primary me-1 cursor-pointer" @click="openFeesModal()">+</span></h5>
@@ -100,7 +103,8 @@
         
         <!-- <calcModal @addCartParaphrase="addCartParaphrase"/> -->
         <!-- <InsertDetail @addCartModal="addCartModal" @addSugestCartModal="addSugestCartModal" :product="selected_product" :products="fixed_products"/> -->
-        <FeesModal @addFee="addFee" :totalFinal="totalFinal"/>
+        <FeesModal @addFee="addFee" :totalFinal="totalFinal - discount"/>
+        <ProductModal :newProduct="newProduct" @insertCarProducts="insertCarProducts"/>
   </div>
 </template>
 <script>
@@ -110,6 +114,8 @@
       import axios from 'axios'
       import moment from 'moment'
       import {userStore} from '../../../stores/UserStore'
+      import SearchProduct from './SearchProduct.vue'
+      import ProductModal from '../quotations/ProductModal.vue'
       /* import List from './List.vue'
       import PaymentModal from './PaymentModal.vue' */
      /*  import calcModal from './calcModal.vue' */
@@ -119,9 +125,13 @@
           const store = userStore()
           return { store }
         },
-        components:{ClientSection, FeesModal},
+        components:{ClientSection, FeesModal, SearchProduct, ProductModal},
         data(){
           return{
+            carNewProducts:[],
+            newProduct: {},
+            newProducts:[],
+            newProductsByType:[],
             fees:[],
             address:'',
             payments: [],
@@ -170,49 +180,61 @@
           }
         },
         methods:{
-          toQuotation(){
-            this.$router.push({name:'home-quotation', params:{ idUser: this.customerSelected.id }});
-          },
-          addFee(fee){
-            
-            fee.amount = fee.amount
-            this.fees.push(fee)
-          },
-          removeFee(feeId){
-          var feedIndex =  this.fees.findIndex(fee => fee.id == feeId)
-          this.fees.splice(feedIndex, 1)
-          },
-          updateCustomer(){
-            this.getCustomer()
-          },
-          addPayment(payment){
-            this.payments.push(payment);
-          },
-          openFeesModal(){
-            $('#feesModal').modal('show')
-          },
-          considerSugested(){
-            this.detail_type = (this.detail_type === 1) ? 2 : 1
-          },
-          generatePDF(){
-    
-            const fd =  new FormData()
-          
-            fd.append('customer', this.customerSelected)
-            fd.append('date', this.date)
-            fd.append('expirationDay', finalDayMonth)
-            fd.append('products', this.car_products)
-            fd.append('suggestedProducts', this.suggested_products)
-            fd.append('discount', this.discount)
-    
-            axios.post('/api/quotationPDF', fd)
-            .then(res => {
-              console.log(res)
-            })
-            .catch(err => {
-              console.log(err)
-            })
-          },
+        insertCarProducts(newProduct){
+          console.log(newProduct)
+          var newProd = {'id' : newProduct.id, 'name' : newProduct.name, 'type' : newProduct.typeDetail, 'price' : newProduct.priceFinal, 'new_product_id': newProduct.id, 'level' : newProduct.level}
+          this.carNewProducts.push(newProd)
+        },
+        callProductModal(newProduct){
+          this.newProduct = newProduct
+          $('#productModal').modal('show')
+        },
+        filterNewProducts(type){
+          console.log(type)
+          this.newProductsByType = this.newProducts.filter(product => product.type == type)
+        },
+        toQuotation(){
+          this.$router.push({name:'home-quotation', params:{ idUser: this.customerSelected.id }});
+        },
+        addFee(fee){
+          fee.amount = fee.amount
+          this.fees.push(fee)
+        },
+        removeFee(feeId){
+        var feedIndex =  this.fees.findIndex(fee => fee.id == feeId)
+        this.fees.splice(feedIndex, 1)
+        },
+        updateCustomer(){
+          this.getCustomer()
+        },
+        addPayment(payment){
+          this.payments.push(payment);
+        },
+        openFeesModal(){
+          $('#feesModal').modal('show')
+        },
+        considerSugested(){
+          this.detail_type = (this.detail_type === 1) ? 2 : 1
+        },
+        generatePDF(){
+  
+          const fd =  new FormData()
+        
+          fd.append('customer', this.customerSelected)
+          fd.append('date', this.date)
+          fd.append('expirationDay', finalDayMonth)
+          fd.append('products', this.car_products)
+          fd.append('suggestedProducts', this.suggested_products)
+          fd.append('discount', this.discount)
+  
+          axios.post('/api/quotationPDF', fd)
+          .then(res => {
+            console.log(res)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+        },
           selectCustomer(customer){
             this.customerSelected = customer
             this.customersFiltered = []
@@ -227,9 +249,9 @@
           },
           insertContract(){
             if(this.date == null){
-              this.$swal('Porfavor agregar la fecha de cotización')
-            }else if(this.totalFinal != this.sumTotalFees){
-              console.log(this.totalFinal, this.sumTotalFees)
+              this.$swal('Porfavor, agrega la fecha del contrato')
+            }else if(this.totalFinal - this.discount != this.sumTotalFees){
+              console.log(this.totalFinal - this.discount, this.sumTotalFees)
               this.$swal('El monto final y el monto de los pagos no coincide')
             }else{
               let conversorClass = conversor.conversorNumerosALetras
@@ -243,7 +265,8 @@
               fd.append('fees', JSON.stringify(this.fees))
               fd.append('customer_id', this.$route.params.idUser)
               fd.append('user_id', this.store.authUser.id)
-            
+              fd.append('products', JSON.stringify(this.carNewProducts))
+              fd.append('emisor_id', this.store.authUser.id)
               axios.post('/api/insertContract', fd)
               .then(res =>{
                 this.idContract = res.data
@@ -368,7 +391,7 @@
             console.log(product)
           },
           removeSuggestedCart(product){
-            this.carSugestedProducts.splice(product,1)
+            this.carNewProducts.splice(product,1)
             console.log(product)
           },
           searchSugested(e){
@@ -426,82 +449,84 @@
           getQuotation(){
             axios.get(`/api/getQuotationByCustomerId/${this.$route.params.idUser}`)
             .then(res => {
-              console.log(res.data)
+              if(!res.data.msg){
+                
               this.quotation = res.data
-              this.details = res.data.details
+              this.carNewProducts = res.data.details
               this.discount = res.data.discount
+              }
+              
             })
-            .catch(err => { console.error(err.data.message)})
+            .catch(err => { console.error(err)})
           },
           getOrders(){
             this.$refs.ordersList.getAllOrders()
-          }
+          },
+          getAllNewProducts(){
+        axios.get('/api/getAllNewProducts')
+        .then((res)=>{
+          this.newProducts = res.data
+        })
+        .catch((err)=>{
+          console.error(err)
+        })
+      },
         },
         mounted(){
-          this.getAllProducts()
+          this.getAllNewProducts()
           this.getCustomer()
           this.getQuotation()
         },
         computed:{
-          totalFinal(){
-            var sumMonto = 0
-            if(this.detail_type == 1){
-              this.details.forEach(detail =>{
-                  if(detail.type == 1){
-                    sumMonto += parseFloat(detail.price)
-                  }
-              })
-              return parseFloat(sumMonto).toFixed(0) - parseFloat(this.discount).toFixed(0)
-            }else{
-              this.details.forEach(detail =>{
-                  if(detail.type <= 2){
-                    sumMonto += parseFloat(detail.price)
-                  }
-              })
-              return parseFloat(sumMonto).toFixed(0) - parseFloat(this.discount).toFixed(0) 
-            }
-          },
-          countSugestedProducts(){
-            if(this.quotation.details){
-              var numSugested = 0
-              this.quotation.details.forEach(detail =>{
-                if(detail.type == 2){
-                  numSugested ++
-                }
-              })
-              return numSugested
-            }
-          },
-          finalDayMonthFormatted(){
-            return moment().endOf('month').format('YYYY-MM-DD')
-          },
-          finalDayMonth(){
-            return moment().endOf('month').format('DD/MM/YYYY')
-          },
-          totalProducts(){
-            var total = 0
-            this.car_products.forEach((product)=>{
-                total += JSON.parse(product).total
-            })
-    
-            return Math.round(total * 100)/100
-          },
-          totalSuggestedProducts(){
-            var total = 0
-            this.carSugestedProducts.forEach((product)=>{
-                total += JSON.parse(product).total
-            })
-    
-            return Math.round(total * 100)/100
-          },
-          sumTotalFees(){
-            var total = 0
-            this.fees.forEach((fee)=>{
-              total += fee.amount
-            })
+        totalFinal(){
+          var total = 0
+          this.carNewProducts.forEach((product)=>{
+              total += parseFloat(product.price)
+          })
 
-            return Math.round(total * 100)/100
+          return total
+        },
+        countSugestedProducts(){
+          if(this.quotation.details){
+            var numSugested = 0
+            this.quotation.details.forEach(detail =>{
+              if(detail.type == 2){
+                numSugested ++
+              }
+            })
+            return numSugested
           }
+        },
+        finalDayMonthFormatted(){
+          return moment().endOf('month').format('YYYY-MM-DD')
+        },
+        finalDayMonth(){
+          return moment().endOf('month').format('DD/MM/YYYY')
+        },
+        totalProducts(){
+          var total = 0
+          this.car_products.forEach((product)=>{
+              total += JSON.parse(product).total
+          })
+  
+          return Math.round(total * 100)/100
+        },
+        totalSuggestedProducts(){
+          var total = 0
+          this.carSugestedProducts.forEach((product)=>{
+              total += JSON.parse(product).total
+          })
+  
+          return Math.round(total * 100)/100
+        },
+        sumTotalFees(){
+          var total = 0
+          this.fees.forEach((fee)=>{
+            total += fee.amount
+          })
+
+          return Math.round(total * 100)/100
+        }
         }
       }
     </script>

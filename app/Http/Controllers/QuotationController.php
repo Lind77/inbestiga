@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewDocument;
 use App\Models\Quotation;
 use App\Http\Requests\StoreQuotationRequest;
 use App\Http\Requests\UpdateQuotationRequest;
 use App\Models\Comission;
 use App\Models\Customer;
 use App\Models\Detail;
+use App\Models\Notification;
 use App\Models\Order;
+use App\Models\Seen;
 use App\Models\User;
 use Illuminate\Http\Request;
 use PDF;
@@ -94,6 +97,23 @@ class QuotationController extends Controller
             'user_id' => $request->get('user_id')
         ]);
 
+        $notification = Notification::create([
+            'emisor_id' => $request->get('emisor_id'),
+            'content' => 'generó la cotización de '.$customer->name,
+            'type' => 1
+        ]);
+
+        $usersToNotify = User::role('Seller')->get();
+
+        foreach($usersToNotify as $user){
+            Seen::create([
+                'user_id' => $user->id,
+                'notification_id' => $notification->id,
+                'seen' => 0
+            ]);
+        }
+
+        broadcast(new NewDocument($quotation));
 
         return response()->json([
             'msg' => 'success',
@@ -208,9 +228,16 @@ class QuotationController extends Controller
     public function getQuotationByCustomerId($id){
         $customer = Customer::find($id);
 
-        $quotation = Quotation::where('customer_id', $customer->id)->orderBy('id', 'desc')->with(['details', 'details.product','details.new_product','orders', 'orders.payments'])->get();
+        $quotation = Quotation::where('customer_id', $customer->id)->orderBy('id', 'desc')->with(['details', 'details.product','details.new_product','order', 'order.payments','contract','contract.fees'])->get();
 
-        return response()->json($quotation[0]);
+        if(count($quotation) != 0){
+            return response()->json($quotation[0]);
+        }else{
+            return response()->json([
+                'msg' => 'No existe cotización'
+            ]);
+        }
+        
     }
     
     public function getQuotationByOrder($id){
@@ -221,7 +248,7 @@ class QuotationController extends Controller
 
     public function updateQuotation(Request $request){
 
-        $quotation = Quotation::find($request->get('quotation_id'));
+        $quotation = Quotation::with('customer')->find($request->get('quotation_id'));
 
         $quotation->update([
             'date' => $request->get('date'),
@@ -247,6 +274,26 @@ class QuotationController extends Controller
                 'level' => $product['level']
             ]);
         }
+
+        $customer = $quotation->customer;
+
+        $notification = Notification::create([
+            'emisor_id' => $request->get('emisor_id'),
+            'content' => 'generó la cotización de '.$customer->name,
+            'type' => 1
+        ]);
+
+        $usersToNotify = User::role('Seller')->get();
+
+        foreach($usersToNotify as $user){
+            Seen::create([
+                'user_id' => $user->id,
+                'notification_id' => $notification->id,
+                'seen' => 0
+            ]);
+        }
+
+        broadcast(new NewDocument($quotation));
 
         return response()->json([
             'msg' => 'success',

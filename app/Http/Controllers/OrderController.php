@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewDocument;
 use App\Models\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
@@ -9,11 +10,15 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Comission;
 use App\Models\Contract;
 use App\Models\Customer;
+use App\Models\Detail;
 use App\Models\Fee;
+use App\Models\Notification;
 use App\Models\Payments;
 use App\Models\Quotation;
+use App\Models\Seen;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Mockery\Undefined;
 use PDF;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 
@@ -161,7 +166,55 @@ class OrderController extends Controller
     }
 
     public function insertContract(Request $request){
-        $contract = Contract::create($request->all());
+
+        if($request->get('quotation_id') == 'undefined'){
+            $quotation = Quotation::create([
+                'customer_id' => $request->get('customer_id'),
+                'date' => $request->get('date'),
+                'amount' => $request->get('amount'),
+                'expiration_date' => $request->get('expirationDay'),
+                'discount' => 0,
+                'term' => '-',
+                'note' => '-'
+            ]);
+
+            $products = $request->get('products');
+       
+            $arrProds = json_decode($products, true);
+
+            foreach($arrProds as $prod){
+                $detail = Detail::create([
+                    'quotation_id' => $quotation->id,
+                    'product_id' => 1,
+                    'type' => $prod['type'],
+                    'description' => '-',
+                    'price' => $prod['price'],
+                    'new_product_id' => $prod['new_product_id'],
+                    'level' => $prod['level']
+                ]);
+            }
+
+            $contract = Contract::create([
+                'quotation_id' => $quotation->id,
+                'amount' => $request->get('amount'),
+                'amount_text' => $request->get('amount_text'),
+                'date' => $request->get('date'),
+            ]);
+        }else{
+            $quotation = Quotation::with('contract')->where('id', $request->get('quotation_id'))->get();
+            if($quotation[0]->contract != null){
+                $quotation->contract->update([
+                    'amount' => $request->get('amount'),
+                    'amount_text' => $request->get('amount_text'),
+                    'date' => $request->get('date'),
+                ]);
+            }else{
+                $contract = Contract::create($request->all());
+            }
+        }
+        
+
+       
         $fees = json_decode($request->get('fees'), true);
 
         foreach ($fees as $fee) {
@@ -190,6 +243,23 @@ class OrderController extends Controller
             'user_id' => $request->get('user_id')
         ]);
 
+        $notification = Notification::create([
+            'emisor_id' => $request->get('emisor_id'),
+            'content' => 'generó el contrato de '.$customer->name,
+            'type' => 1
+        ]);
+
+        $usersToNotify = User::role('Seller')->get();
+
+        foreach($usersToNotify as $user){
+            Seen::create([
+                'user_id' => $user->id,
+                'notification_id' => $notification->id,
+                'seen' => 0
+            ]);
+        }
+
+        broadcast(new NewDocument($contract));
 
         return response()->json($contract->id);
     }

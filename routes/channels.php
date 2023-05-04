@@ -35,3 +35,7 @@ Broadcast::channel('updates', function ($id) {
 Broadcast::channel('tasks', function ($id) {
     return true;
 });
+
+Broadcast::channel('documents', function ($id) {
+    return true;
+});

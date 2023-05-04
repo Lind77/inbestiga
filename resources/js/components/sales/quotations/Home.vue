@@ -95,9 +95,6 @@
     </div>
   </div>
   </div> 
-
-
-      
       <calcModal @addCartModal="addCartModal"/>
       <InsertDetail @addCartModal="addCartModal" @addSugestCartModal="addSugestCartModal" :product="selected_product" :products="fixed_products"/>
       <ProductModal :newProduct="newProduct" @insertCarProducts="insertCarProducts"/>
@@ -302,6 +299,7 @@
         fd.append('discount', this.discount)
         fd.append('term', this.term)
         fd.append('products', JSON.stringify(this.carNewProducts))
+        fd.append('emisor_id', this.store.authUser.id)
 
         axios.post('/api/updateQuotation', fd)
         .then((res)=>{
@@ -323,6 +321,7 @@
         fd.append('discount', this.discount)
         fd.append('term', this.term)
         fd.append('products', JSON.stringify(this.carNewProducts))
+        fd.append('emisor_id', this.store.authUser.id)
 
         axios.post('/api/insertQuotation', fd)
         .then((res)=>{

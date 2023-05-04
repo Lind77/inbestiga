@@ -232,7 +232,12 @@
     },
     mounted(){
       this.getNoSeenNotifications()
-
+      if(this.store.authUser.roles[0].name == 'Seller'){
+        Echo.private('documents')
+        .listen('NewDocument',(e)=>{
+          this.updateNotifications()
+        })
+      }
       if(this.store.authUser.roles[0].name == 'Experience'){
         Echo.private('projects')
         .listen('NewProject',(e)=>{

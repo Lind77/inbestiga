@@ -23,7 +23,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with(['project','project.product', 'comunications','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->take(21)->get();
+        $customers = Customer::with(['project','project.product', 'comunications','quotations', 'quotations.order'])->orderBy('updated_at', 'desc')->take(21)->get();
         return response()->json($customers);
     }
 
@@ -273,19 +273,21 @@ class CustomerController extends Controller
     }
     
     public function getAllPreleads(){
-        $customers = Customer::where('status','<=', 3)->with(['project','project.product', 'comunications','quotations', 'quotations.orders'])->orderBy('updated_at', 'desc')->get();
+        $customers = Customer::where('status','<=', 3)->with(['project','project.product', 'comunications','quotations', 'quotations.order'])->orderBy('updated_at', 'desc')->get();
         return response()->json($customers);
     }
 
     public function getAllLeads($id){
 
-            $totalCustomers = collect();
+        $totalCustomers = collect();
+        
+        for($i = 4; $i <= 11; $i++){
+            $customers = Customer::with(['project','project.product', 'comunications' => function($query){
+                $query->orderBy('id', 'desc')->first();
+            },'quotations', 'quotations.order'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
             
-            for($i = 4; $i <= 11; $i++){
-                $customers = Customer::with(['project','project.product', 'comunications','quotations', 'quotations.orders'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
-                
-                $totalCustomers = $totalCustomers->merge($customers);
-            }
+            $totalCustomers = $totalCustomers->merge($customers);
+        }
         
         return response()->json($totalCustomers);
     }

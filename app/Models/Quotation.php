@@ -19,11 +19,11 @@ class Quotation extends Model
         return $this->hasMany("App\Models\Detail");
     }
 
-    public function orders(){
-        return $this->hasMany("App\Models\Order");
+    public function order(){
+        return $this->hasOne("App\Models\Order");
     }
 
-    public function contracts(){
-        return $this->hasMany("App\Models\Contract");
+    public function contract(){
+        return $this->hasOne("App\Models\Contract");
     }
 }

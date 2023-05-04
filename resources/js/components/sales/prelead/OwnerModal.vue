@@ -85,20 +85,26 @@ export default {
             
         },
         assignSeller(){
-            const fd =  new FormData()
-            fd.append('needs', this.needs)
-            fd.append('customer_id', this.customerId)
-            fd.append('seller_selected', this.seller_selected)
-            fd.append('user_id', this.store.authUser.id)
-            axios.post('/api/assignOwner', fd)
-            .then(res =>{
+            if(this.needs != ''){
+                const fd =  new FormData()
+                fd.append('needs', this.needs)
+                fd.append('customer_id', this.customerId)
+                fd.append('seller_selected', this.seller_selected)
+                fd.append('user_id', this.store.authUser.id)
+                axios.post('/api/assignOwner', fd)
+                .then(res =>{
+                    $('#ownerModal').modal('hide')
+                    this.selectedProducts = []
+                    this.$emit('cleanLead', this.customerId)
+                })
+                .catch(err =>{
+                    console.error(err)
+                })
+            }else{
                 $('#ownerModal').modal('hide')
-                this.selectedProducts = []
-                this.$emit('cleanLead', this.customerId)
-            })
-            .catch(err =>{
-                console.error(err)
-            })
+                this.$swal('Para ascender a un cliente es requerido saber lo que necesita')
+            }
+            
 
         },
         getAllSellers(){
