@@ -157,7 +157,7 @@ class OrderController extends Controller
 
     public function generateContract($id){
         $customer = Customer::with(['quotations'=> function($query){
-            $query->orderBy('id', 'desc')->with(['contracts'=> function($query2){
+            $query->orderBy('id', 'desc')->with(['contract'=> function($query2){
                 $query2->orderBy('id', 'desc')->with('fees')->first();
             }])->first();
         }])->find($id);
@@ -165,7 +165,7 @@ class OrderController extends Controller
 		return $pdf->stream('prueba.pdf');
     }
 
-    public function insertContract(Request $request){
+    public function insertOrder(Request $request){
 
         if($request->get('quotation_id') == 'undefined'){
             $quotation = Quotation::create([

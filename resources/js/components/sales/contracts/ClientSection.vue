@@ -56,7 +56,7 @@
             fd.append('address', this.address)  
             axios.post('/api/updateDniCustomer', fd)
             .then((res) =>{
-                this.$emit('updateCustomer')  
+                this.$emit('getCustomer')  
             })
             .catch((err)=>{
                 console.error(err)

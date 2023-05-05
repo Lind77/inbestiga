@@ -179,7 +179,7 @@
                 <p>
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
                 Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un 
-                monto total de S/{{$customer->quotations[0]->contracts[0]->amount}} (<span class="name">{{$customer->quotations[0]->contracts[0]->amount_text}}</span> soles), monto que será abonado en las siguientes fechas:
+                monto total de S/{{$customer->quotations[0]->contract->amount}} (<span class="name">{{$customer->quotations[0]->contract->amount_text}}</span> soles), monto que será abonado en las siguientes fechas:
                 </p>
                 <table>
                     <thead>
@@ -189,7 +189,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($customer->quotations[0]->contracts[0]->fees as $fee)
+                        @foreach ($customer->quotations[0]->contract->fees as $fee)
                         <tr>
                             <td>{{$fee->date}}</td>
                             <td>{{$fee->percentage}}% - S/ {{$fee->amount}}</td>
@@ -247,7 +247,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($customer->quotations[0]->contracts[0]->fees as $fee)
+                        @foreach ($customer->quotations[0]->contract->fees as $fee)
                         <tr>
                             <td>{{$fee->date}}</td>
                             <td>{{$fee->advance}}</td>
@@ -321,7 +321,7 @@
                     presente contrato, EL LOCADOR otorgará a EL CLIENTE una bonificación de S/60.00 (sesenta soles) por cada 
                     mil soles de ingreso con los que la empresa se vea beneficiada.</p>
                     <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
-                    <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($customer->quotations[0]->contracts[0]->date))}}</p>
+                    <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($customer->quotations[0]->contract->date))}}</p>
                 <div class="signatures">
                     <div class="col col-left">
                         <p>__________________________</p>

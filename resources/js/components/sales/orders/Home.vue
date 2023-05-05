@@ -59,26 +59,30 @@
             </div>
           </div>
           </div>
-          <div class="table-responsive text-nowrap">
-            <table class="table">
-              <thead class="table-primary">
-                <tr>
-                  <th>Producto/Servicio</th>
-                  <th>Tipo</th>
-                  <th>Precio</th>
-                </tr>
-              </thead>
-              <tbody class="table-border-bottom-0">
-                <template v-for="(detail, index) in details" :key="index">
-                  <tr v-if="detail.type <= detail_type">
-                    <td>{{ detail.new_product.name }}</td>
-                    <td>{{ detail.type == 1?'Normal':'Sugerido' }}</td>
-                    <td>S./ {{ detail.price }}</td>
-                  </tr>
-                </template>
-              </tbody>
-            </table>
-          </div>
+          
+          <SearchProduct :title="'Productos'" @filterNewProducts="filterNewProducts" :newProductsByType="newProductsByType" @callProductModal="callProductModal" />
+
+          <div class="table-responsive text-nowrap" v-show="carNewProducts.length">
+          <table class="table table-bordered mb-3">
+            <thead class="table-primary">
+              <tr>
+                <th>Producto/Servicio</th>
+                <th>Tipo</th>
+                <th>Total</th>
+                <th>Borrar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(carNewProduct, index) in carNewProducts">
+                <td>{{ carNewProduct.new_product?carNewProduct.new_product.name:carNewProduct.name }}</td>
+                <td>{{ carNewProduct.type == 1?'Normal':'Sugerido' }}</td>
+                <td>S./{{ carNewProduct.price }}</td>
+                <td><a @click="removeSuggestedCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
           <div class="row">
             <div class="col-6">
             <div class="mb-3">
@@ -127,6 +131,7 @@
         </div>
       </div>
     <PaymentModal @addPayment="addPayment"/>
+    <ProductModal :newProduct="newProduct" @insertCarProducts="insertCarProducts"/>
   </div>
 </template>
     <script>
@@ -134,17 +139,19 @@
       import moment from 'moment'
       import List from './List.vue'
       import PaymentModal from './PaymentModal.vue'
+      import SearchProduct from './SearchProducts.vue'
       import { userStore } from '../../../stores/UserStore'
-     /*  import calcModal from './calcModal.vue' */
-     /*  import InsertDetail from './InsertDetail.vue' */
+      import ProductModal from '../quotations/ProductModal.vue'
+     
       export default{
         setup(){
           const store = userStore()
           return { store }
         },
-        components:{List, PaymentModal},
+        components:{List, PaymentModal, SearchProduct, ProductModal},
         data(){
           return{
+            newProductsByType:[],
             customerSelected:{},
             date:null,
             details:[],
@@ -154,10 +161,29 @@
             payments: [],
             idOrder:0,
             quotation: {},
-            detail_type: 1
+            detail_type: 1,
+            newProduct:{},
+            carNewProducts:[]
           }
         },
         methods:{
+          removeSuggestedCart(product){
+        this.carNewProducts.splice(product,1)
+        console.log(product)
+      },
+          insertCarProducts(newProduct){
+        console.log(newProduct)
+        var newProd = {'id' : newProduct.id, 'name' : newProduct.name, 'type' : newProduct.typeDetail, 'price' : newProduct.priceFinal, 'new_product_id': newProduct.id, 'level' : newProduct.level}
+        this.carNewProducts.push(newProd)
+      },
+          filterNewProducts(type){
+        console.log(type)
+        this.newProductsByType = this.newProducts.filter(product => product.type == type)
+      },
+      callProductModal(newProduct){
+        this.newProduct = newProduct
+        $('#productModal').modal('show')
+      },
           toQuotation(){
             this.$router.push({name:'home-quotation', params:{ idUser: this.customerSelected.id }});
           },
@@ -243,20 +269,31 @@
             .then(res => {
               console.log(res.data)
               this.quotation = res.data
-              var dateConverted = moment(res.data.orders[0].updated_at).format('YYYY-MM-DD')
+              var dateConverted = moment(res.data.order.updated_at).format('YYYY-MM-DD')
               this.date = dateConverted
-              this.final_delivery = res.data.orders[0].final_delivery
-              this.observations = res.data.orders[0].observations
+              this.final_delivery = res.data.order.final_delivery
+              this.observations = res.data.order.observations
               this.details = res.data.details
               this.discount = res.data.discount
-              this.payments = res.data.orders[0].payments
+              this.payments = res.data.order.payments
             })
-            .catch(err => { console.error(err.data.message)})
-          }
+            .catch((err) => { 
+              console.error(err)
+            })
+          },
+          getAllNewProducts(){
+        axios.get('/api/getAllNewProducts')
+        .then((res)=>{
+          this.newProducts = res.data
+        })
+        .catch((err)=>{
+          console.error(err)
+        })
+      }
         },
         mounted(){
           this.getUser()
-          this.getAllProducts()
+          this.getAllNewProducts()
           this.getQuotation()
         },
         computed:{

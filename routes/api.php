@@ -95,7 +95,6 @@ Route::post('/updateQuotation',[QuotationController::class, 'updateQuotation']);
 Route::get('/searchQuotations/{search}', [QuotationController::class, 'search']);
 Route::get('/searchQuotationsByDate/{date}', [QuotationController::class, 'searchQuotationsByDate']);
 
-
 Route::get('/getAllProjects',[ProjectController::class, 'index']);
 Route::get('/getAllProjectsAcad',[ProjectController::class, 'getAllProjectsAcad']);
 Route::get('/getProjectById/{id}', [ProjectController::class, 'show']);
@@ -156,6 +155,8 @@ Route::post('/insertComunication', [ComunicationController::class, 'insertComuni
 
 Route::get('/getAllContracts', [ContractController::class, 'index']);
 Route::get('/generateContract/{id}', [OrderController::class, 'generateContract']);
-Route::post('/insertContract',[OrderController::class, 'insertContract']);
+Route::post('/insertOrder',[OrderController::class, 'insertOrder']);
+
+Route::post('/insertContract',[ContractController::class, 'insertContract']);
 
 Route::post('/updatePrices', [PriceController::class, 'updatePrices']);
