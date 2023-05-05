@@ -194,38 +194,37 @@ class OrderController extends Controller
                 ]);
             }
 
-            $contract = Contract::create([
+            $order = Order::create([
                 'quotation_id' => $quotation->id,
-                'amount' => $request->get('amount'),
-                'amount_text' => $request->get('amount_text'),
-                'date' => $request->get('date'),
+                'final_delivery' => $request->get('final_delivery'),
+                'observations' => $request->get('observations'),
+                'suggested' => $request->get('suggested')
             ]);
         }else{
-            $quotation = Quotation::with('contract')->where('id', $request->get('quotation_id'))->get();
-            if($quotation[0]->contract != null){
-                $quotation->contract->update([
-                    'amount' => $request->get('amount'),
-                    'amount_text' => $request->get('amount_text'),
-                    'date' => $request->get('date'),
+            $quotation = Quotation::with('order')->where('id', $request->get('quotation_id'))->first();
+            if($quotation->order != null){
+                $quotation->order->update([
+                    'final_delivery' => $request->get('final_delivery'),
+                    'observations' => $request->get('observations'),
+                    'suggested' => $request->get('suggested')
                 ]);
+                $order = $quotation->order;
             }else{
-                $contract = Contract::create($request->all());
+                $order = Order::create($request->all());
             }
         }
         
-
+        
        
-        $fees = json_decode($request->get('fees'), true);
-
-        foreach ($fees as $fee) {
-           Fee::create([
-                'contract_id' => $contract->id,
-                'date' => $fee['date'],
-                'amount' => $fee['amount'],
-                'advance' => $fee['advance'],
-                'percentage' => $fee['percentage']
-           ]);
-        }
+        $payments = json_decode($request->get('payments'), true);
+    
+            foreach ($payments as $payment) {
+                $payment_registered = Payments::create([
+                    'order_id' => $order->id,
+                    'date' => $payment['date'],
+                    'amount' => $payment['amount']
+                ]);
+            }
 
         $customer = Customer::find($request->get('customer_id'));
 
@@ -244,8 +243,8 @@ class OrderController extends Controller
         ]);
 
         $notification = Notification::create([
-            'emisor_id' => $request->get('emisor_id'),
-            'content' => 'generó el contrato de '.$customer->name,
+            'emisor_id' => $request->get('user_id'),
+            'content' => 'generó la orden de '.$customer->name,
             'type' => 1
         ]);
 
@@ -259,8 +258,8 @@ class OrderController extends Controller
             ]);
         }
 
-        broadcast(new NewDocument($contract));
+        broadcast(new NewDocument($order));
 
-        return response()->json($contract->id);
+        return response()->json($order->id);
     }
 }

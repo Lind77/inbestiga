@@ -269,13 +269,18 @@
             .then(res => {
               console.log(res.data)
               this.quotation = res.data
-              var dateConverted = moment(res.data.order.updated_at).format('YYYY-MM-DD')
-              this.date = dateConverted
-              this.final_delivery = res.data.order.final_delivery
+              //var dateConverted = moment(res.data.order.updated_at).format('YYYY-MM-DD')
+              this.carNewProducts = res.data.details
+              this.date = res.data.date
+              if(this.date.order != null){
+                this.final_delivery = res.data.order.final_delivery
               this.observations = res.data.order.observations
-              this.details = res.data.details
               this.discount = res.data.discount
-              this.payments = res.data.order.payments
+              }
+              /* 
+              this.details = res.data.details
+              
+              this.payments = res.data.order.payments */
             })
             .catch((err) => { 
               console.error(err)
@@ -309,9 +314,9 @@
           totalFinal(){
             var sumMonto = 0
             if(this.detail_type == 1){
-              this.details.forEach(detail =>{
-                  if(detail.type == 1){
-                    sumMonto += parseFloat(detail.price)
+              this.carNewProducts.forEach(product =>{
+                  if(product.type == 1){
+                    sumMonto += parseFloat(product.price)
                   }
               })
               return parseFloat(sumMonto).toFixed(0) - parseFloat(this.discount).toFixed(0)
