@@ -130,6 +130,7 @@ Route::get('/getAllStandByCustomers', [CustomerController::class, 'getAllStandBy
 Route::get('/reactivateCustomer/{id}', [CustomerController::class, 'reactivateCustomer']);
 Route::post('/updateDniCustomer', [CustomerController::class, 'updateDniCustomer']);
 Route::get('/getAllPreleads', [CustomerController::class, 'getAllPreleads']);
+Route::get('/searchPreleads/{search}', [CustomerController::class, 'searchPreleads']);
 Route::get('/getAllLeads/{id}', [CustomerController::class, 'getAllLeads']);
 Route::post('/assignOwner', [CustomerController::class, 'assignOwner']);
 Route::get('/searchCustomers/{search}', [CustomerController::class, 'searchCustomers']);

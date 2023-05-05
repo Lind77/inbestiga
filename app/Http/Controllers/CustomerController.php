@@ -273,8 +273,17 @@ class CustomerController extends Controller
     }
     
     public function getAllPreleads(){
-        $customers = Customer::where('status','<=', 3)->with(['project','project.product', 'comunications','quotations', 'quotations.order'])->orderBy('updated_at', 'desc')->get();
-        return response()->json($customers);
+        $totalCustomers = collect();
+
+        for($i = 1; $i <= 3; $i++){
+            $customers = Customer::with(['project','project.product', 'comunications' => function($query){
+                $query->orderBy('id', 'desc')->first();
+            },'quotations', 'quotations.order'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+            
+            $totalCustomers = $totalCustomers->merge($customers);
+        }
+
+        return response()->json($totalCustomers);
     }
 
     public function getAllLeads($id){
@@ -353,6 +362,11 @@ class CustomerController extends Controller
     }
     
     public function searchCustomers($search){
+        $customers = Customer::with('comunications')->where('name', 'like', '%'.$search.'%')->get();
+        return response()->json($customers);
+    }
+
+    public function searchPreleads($search){
         $customers = Customer::with('comunications')->where('name', 'like', '%'.$search.'%')->get();
         return response()->json($customers);
     }

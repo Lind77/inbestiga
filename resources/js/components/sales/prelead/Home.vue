@@ -1,5 +1,6 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
+      <input v-on:keyup.enter="searchByName" @keyup="cleanPreLeads" v-model="search" type="text" placeholder="Buscar prelead por nombre..." class="form-control w-50 mb-2">
       <div class="row">
           <draggableArea :customers="noAttended" :title="'No Atendido'" :status="1" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel"/>
           <draggableArea :customers="attended" :title="'Atendido'" :status="2" @callModal="callModal" @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel"/>
@@ -45,10 +46,45 @@ export default {
           comunication: null,
           customerId:0,
           customer:{},
-          customer_selected:{}
+          customer_selected:{},
+          search: '',
+          filteredCustomers: []
         }
     },
     methods:{
+      cleanPreLeads(){
+        if(this.search == ''){
+          this.getAllCustomers()
+          this.filteredCustomers = []
+        }
+      },
+      searchByName(){
+        this.noAttended = []
+        this.attended = []
+        this.comunications = [] 
+
+        axios.get('/api/searchPreleads/'+ this.search)
+        .then((res) =>{
+          console.log(res.data)
+          this.filteredCustomers = res.data
+          this.filteredCustomers.forEach(customer =>{
+          if(customer.status == 1){
+            this.noAttended.push(customer)
+          }else if(customer.status == 2){
+            this.attended.push(customer)
+          }else{
+            this.comunications.push(customer)
+          }
+        })
+        })
+        .catch((err) =>{
+          console.error(err)
+        }) 
+       console.log(this.filteredCustomers)
+        
+        
+        
+      },
       callModal(customer){
         $('#funnelModal').modal('hide')
         this.customerId = customer.id
@@ -138,6 +174,7 @@ export default {
           allowOutsideClick: false,
           showConfirmButton: false
           })
+
             axios.get('/api/getAllPreleads')
             .then(res =>{
                 this.customers = res.data
