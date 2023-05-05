@@ -34,7 +34,7 @@
     }
   </script>
   <style scoped>
-    @media (max-width: 1199.98px){
+    @media (max-width: 140px){
       .layout-menu{
         position: relative !important;
         transform: none;

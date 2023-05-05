@@ -1,9 +1,9 @@
 <template>
-   <div class="col">
+   <div class="col-12 col-lg">
     <h5 class="fw-600">{{ title }}</h5>
         <div :id="'draggableArea'+status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent @dragover.prevent>
             <template v-for="(customer, index) in customers" :key="index">
-                        <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom" @showModalUpdateData="showModalUpdateData" @updateStatusSpace="updateStatusSpace" @convertLead = "convertLead" @showModalFunnel="showModalFunnel"/>
+             <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom" @showModalUpdateData="showModalUpdateData" @updateStatusSpace="updateStatusSpace" @convertLead = "convertLead" @showModalFunnel="showModalFunnel"/>
             </template>
         </div>
     </div>

@@ -222,7 +222,11 @@ export default {
   .hide-aside{
     transition: all 0.4s;
     position: fixed !important;
-    transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0) !important;
+  }
+
+  @media (max-width: 768px) {
+   
   }
  
 </style>

@@ -24,7 +24,7 @@
             <div class="modal-body">
             <div class="row">
                 
-                <div class="col-6">
+                <div class="col-12 col-lg-6">
                     <div v-if="customer.quotations && customer.quotations.length == 0 && customer.status > 3" class="alert alert-danger py-1 px-2" role="alert">Este usuario no tiene una cotización hecha en el sistema</div>
                 <div class="card shadow-none bg-transparent border border-primary mb-3">
                     <div class="card-body">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-lg-6">
                     <div class="card shadow-none bg-transparent border border-warning mb-3" v-if="customer.comunications && customer.comunications.length != 0">
                         <div class="card-body">
                             <h5 class="card-title">Comunicación más reciente</h5>
