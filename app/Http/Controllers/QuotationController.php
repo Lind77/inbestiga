@@ -77,7 +77,8 @@ class QuotationController extends Controller
                     'description' => '-',
                     'price' => $prod['price'],
                     'new_product_id' => $prod['new_product_id'],
-                    'level' => $prod['level']
+                    'level' => $prod['level'],
+                    'mode' => $prod['mode']
                 ]);
             }
 
@@ -179,7 +180,7 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        $quotation = Quotation::where('id', $id)->with(['customer', 'details', 'details.product', 'details.new_product','orders'])->get();
+        $quotation = Quotation::where('id', $id)->with(['customer', 'details', 'details.product', 'details.new_product','order'])->get();
 
         return response()->json($quotation);
     }

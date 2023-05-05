@@ -1,104 +1,274 @@
 <template>
 <div class="container-xxl flex-grow-1 container-p-y">
-  <h4 class="fw-bold py-1">Cotización</h4>
-  <div class="col-xl-12">
-    <div v-if="customer.needs" class="alert alert-success alert-dismissible" role="alert">
-      <h5 class="fw-bold text-success">Necesidades del cliente</h5>
-        {{ customer.needs }}
-      </div>
-    <div class="card">
-      <div class="card-header">
-        <h5>Ingrese los datos para generar la cotización.</h5>
-        <div class="alert alert-warning alert-dismissible mb-0" role="alert" v-if="!customer.quotations || !customer.quotations.length">
-          El usuario actual no posee una cotización
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-6">
-            <CustomerCard :customerSelected="customer"/>
-          </div>
-          <div class="col-6">
-            <div class="card shadow-none bg-transparent border border-info mb-3">
-              <div class="card-body">
-                  <div class="mb-0">
-                  <label class="form-label" for="basic-default-company">Fecha <span class="text-danger">*</span></label>
-                  <input type="date" v-model="date" class="form-control" id="basic-default-company" />
+            
+            
+
+            <div class="row invoice-add">
+              <!-- Invoice Add-->
+              <div class="col-lg-9 col-12 mb-lg-0 mb-4">
+                <div class="card invoice-preview-card">
+                  <div class="card-body">
+                    <div class="row p-sm-3 p-0">
+                      <div class="col-md-6 mb-md-0 mb-4">
+                        <div class="d-flex svg-illustration mb-4 gap-2">
+                          <span class="app-brand-logo demo">
+            
+            <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <defs>
+                <path d="M13.7918663,0.358365126 L3.39788168,7.44174259 C0.566865006,9.69408886 -0.379795268,12.4788597 0.557900856,15.7960551 C0.68998853,16.2305145 1.09562888,17.7872135 3.12357076,19.2293357 C3.8146334,19.7207684 5.32369333,20.3834223 7.65075054,21.2172976 L7.59773219,21.2525164 L2.63468769,24.5493413 C0.445452254,26.3002124 0.0884951797,28.5083815 1.56381646,31.1738486 C2.83770406,32.8170431 5.20850219,33.2640127 7.09180128,32.5391577 C8.347334,32.0559211 11.4559176,30.0011079 16.4175519,26.3747182 C18.0338572,24.4997857 18.6973423,22.4544883 18.4080071,20.2388261 C17.963753,17.5346866 16.1776345,15.5799961 13.0496516,14.3747546 L10.9194936,13.4715819 L18.6192054,7.984237 L13.7918663,0.358365126 Z" id="path-1"></path>
+                <path d="M5.47320593,6.00457225 C4.05321814,8.216144 4.36334763,10.0722806 6.40359441,11.5729822 C8.61520715,12.571656 10.0999176,13.2171421 10.8577257,13.5094407 L15.5088241,14.433041 L18.6192054,7.984237 C15.5364148,3.11535317 13.9273018,0.573395879 13.7918663,0.358365126 C13.5790555,0.511491653 10.8061687,2.3935607 5.47320593,6.00457225 Z" id="path-3"></path>
+                <path d="M7.50063644,21.2294429 L12.3234468,23.3159332 C14.1688022,24.7579751 14.397098,26.4880487 13.008334,28.506154 C11.6195701,30.5242593 10.3099883,31.790241 9.07958868,32.3040991 C5.78142938,33.4346997 4.13234973,34 4.13234973,34 C4.13234973,34 2.75489982,33.0538207 2.37032616e-14,31.1614621 C-0.55822714,27.8186216 -0.55822714,26.0572515 -4.05231404e-15,25.8773518 C0.83734071,25.6075023 2.77988457,22.8248993 3.3049379,22.52991 C3.65497346,22.3332504 5.05353963,21.8997614 7.50063644,21.2294429 Z" id="path-4"></path>
+                <path d="M20.6,7.13333333 L25.6,13.8 C26.2627417,14.6836556 26.0836556,15.9372583 25.2,16.6 C24.8538077,16.8596443 24.4327404,17 24,17 L14,17 C12.8954305,17 12,16.1045695 12,15 C12,14.5672596 12.1403557,14.1461923 12.4,13.8 L17.4,7.13333333 C18.0627417,6.24967773 19.3163444,6.07059163 20.2,6.73333333 C20.3516113,6.84704183 20.4862915,6.981722 20.6,7.13333333 Z" id="path-5"></path>
+              </defs>
+              <g id="g-app-brand" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="Brand-Logo" transform="translate(-27.000000, -15.000000)">
+                  <g id="Icon" transform="translate(27.000000, 15.000000)">
+                    <g id="Mask" transform="translate(0.000000, 8.000000)">
+                      <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                      </mask>
+                      <use fill="#696cff" xlink:href="#path-1"></use>
+                      <g id="Path-3" mask="url(#mask-2)">
+                        <use fill="#696cff" xlink:href="#path-3"></use>
+                        <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-3"></use>
+                      </g>
+                      <g id="Path-4" mask="url(#mask-2)">
+                        <use fill="#696cff" xlink:href="#path-4"></use>
+                        <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-4"></use>
+                      </g>
+                    </g>
+                    <g id="Triangle" transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) ">
+                      <use fill="#696cff" xlink:href="#path-5"></use>
+                      <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-5"></use>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+            
+            </span>
+                          <span class="app-brand-text demo text-body fw-bolder">Inbestiga</span>
+                        </div>
+                        <p class="mb-1">Prolongación Cuzco 921 – Huancayo.</p>
+                        <p class="mb-1">Calle Elías Aguirre 180 Piso 03 – Miraflores.</p>
+                        <p class="mb-0">991045555, 947202059</p>
+                      </div>
+                      <div class="col-md-6">
+                        <dl class="row mb-2">
+                          <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
+                            <span class="h4 text-capitalize mb-0 text-nowrap">Cotización #</span>
+                          </dt>
+                          <dd class="col-sm-6 d-flex justify-content-md-end">
+                            <div class="w-px-150">
+                              <input type="text" class="form-control" disabled="" placeholder="3905" value="3905" id="invoiceId">
+                            </div>
+                          </dd>
+                          <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
+                            <span class="fw-normal">Fecha:</span>
+                          </dt>
+                          <dd class="col-sm-6 d-flex justify-content-md-end">
+                            <div class="w-px-150">
+                              <input type="date" class="form-control date-picker flatpickr-input" v-model="date">
+                            </div>
+                          </dd>
+                          <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
+                            <span class="fw-normal">Fecha de validez:</span>
+                          </dt>
+                          <dd class="col-sm-6 d-flex justify-content-md-end">
+                            <div class="w-px-150">
+                              <input type="date" class="form-control date-picker flatpickr-input" v-model="dateValidate">
+                            </div>
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+            
+                    <hr class="my-4 mx-n4">
+            
+                    <div class="row p-sm-3 p-0">
+                      <div class="col-md-6 col-sm-5 col-12 mb-sm-0 mb-4">
+                        <h6 class="pb-2">Cotización para:</h6>
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td class="pe-3">Nombre:</td>
+                              <td>{{ customer.name }}</td>
+                            </tr>
+                            <tr>
+                              <td class="pe-3">Universidad:</td>
+                              <td>{{ customer.university }}</td>
+                            </tr>
+                            <tr>
+                              <td class="pe-3">Carrera:</td>
+                              <td>{{ customer.career }}</td>
+                            </tr>
+                            <tr>
+                              <td class="pe-3">Celular:</td>
+                              <td>{{ customer.cell }}</td>
+                            </tr>
+                            <tr>
+                              <td class="pe-3">Email:</td>
+                              <td>{{ customer.email }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="col-md-6 col-sm-7">
+                       
+                      </div>
+                    </div>
+            
+                    <hr class="mx-n4">
+            
+                    <form class="source-item py-sm-3">
+                      <div class="mb-3" data-repeater-list="group-a">
+                      <div class="repeater-wrapper pt-0 pt-md-4" data-repeater-item="" style="" v-for="(carNewProduct, index) in carNewProducts">
+                          <div class="d-flex border rounded position-relative pe-0">
+                            <div class="row w-100 m-0 p-3">
+                              <div class="col-md-2 col-12 mb-md-0 mb-3 ps-md-0">
+                                <p class="mb-2 repeater-title">Tipo</p>
+                                <div class="col-md">
+                                  <div class="form-check mt-3">
+                                    <input class="form-check-input" type="radio" v-model="carNewProduct.mode" @click="selectMode" value="1" id="defaultRadio1">
+                                    <label class="form-check-label" for="defaultRadio1"> Fragmentado </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" v-model="carNewProduct.mode" @click="selectMode" value="2" id="defaultRadio2"  >
+                                    <label class="form-check-label" for="defaultRadio2"> Paquete </label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-2 col-12 mb-md-0 mb-3 ps-md-0">
+                                <p class="mb-2 repeater-title">Nivel</p>
+                                <select v-model="carNewProduct.level" @change="selectLevel" class="form-select item-details mb-2">
+                                  <option selected="" disabled="">Selecciona el Nivel</option>
+                                  <template v-if="mode == 1">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                  </template>
+                                  <template v-else>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                  </template>
+                                </select>
+                              </div>
+                              <div class="col-md-4 col-12 mb-md-0 mb-3">
+                                <p class="mb-2 repeater-title">Detalle</p>
+                                <input type="text" class="form-control" @keyup="searchNewProduct" v-model="carNewProduct.new_product.name">
+                                <ul class="list-group">
+                                    <li @click="addPrice(carNewProduct, newProduct)" class="list-group-item d-flex justify-content-between align-items-center cursor-pointer" v-for="newProduct in newProductsByName">
+                                    {{ newProduct.name }}
+                                    <span class="badge bg-primary">S./ {{ newProduct.newPriceSelected.price }}</span>
+                                    </li>
+                                </ul>
+                              </div>
+                              <div class="col-md-2 col-12 pe-0">
+                                <p class="mb-2 repeater-title">Precio</p>
+                                <p class="mb-0">S./{{ carNewProduct.price }}</p>
+                              </div>
+                              <div class="col-md-2 col-12 mb-md-0 mb-3">
+                                <p class="mb-2 repeater-title">Modo</p>
+                                <div class="col-md">
+                                  <div class="form-check mt-3">
+                                    <input name="default-radio-2" class="form-check-input" type="radio" v-model="carNewProduct.type" value="2" id="defaultRadio1">
+                                    <label class="form-check-label" for="defaultRadio1"> Sugerido </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input name="default-radio-2" class="form-check-input" type="radio" v-model="carNewProduct.type" value="1" id="defaultRadio2">
+                                    <label class="form-check-label" for="defaultRadio2"> Normal </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="d-flex flex-column align-items-center justify-content-between border-start p-2">
+                              <i class="bx bx-x fs-4 text-muted cursor-pointer" data-repeater-delete="" @click="removeSuggestedCart(index)"></i>
+                            </div>
+                          </div>
+                        </div></div>
+                      <div class="row">
+                        <div class="col-12">
+                          <button type="button" class="btn btn-primary" data-repeater-create="" @click="addDetail">Agregar Detalle</button>
+                        </div>
+                      </div>
+                    </form>
+            
+                    <hr class="my-4 mx-n4">
+            
+                    <div class="row py-sm-3">
+                      <div class="col-md-6 mb-md-0 mb-3">
+                        <div class="d-flex align-items-center mb-3">
+                          <label for="salesperson" class="form-label me-5 fw-semibold">Tiempo de Ejecución<span class="text-danger">*</span>:</label>
+                          <input type="text" class="form-control" id="salesperson" v-model="term">
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                          <label for="salesperson" class="form-label me-5 fw-semibold">Cupón de descuento:</label>
+                          <input type="text" class="form-control" id="salesperson">
+                        </div>
+                      </div>
+                      <div class="col-md-6 d-flex justify-content-end">
+                        <div class="invoice-calculations">
+                          <div class="d-flex justify-content-between mb-2">
+                            <span class="w-px-100">Subtotal:</span>
+                            <span class="fw-semibold">S./ 00.00</span>
+                          </div>
+                          <div class="d-flex justify-content-between mb-2">
+                            <span class="w-px-100">Descuento:</span>
+                            <span class="fw-semibold">S./ 00.00</span>
+                          </div>
+                          <hr>
+                          <div class="d-flex justify-content-between">
+                            <span class="w-px-100">Total:</span>
+                            <span class="fw-semibold">S./ {{ totalProducts }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+            
+                    <hr class="my-4">
+            
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="mb-3">
+                          <label for="note" class="form-label fw-semibold">Nota:</label>
+                          <textarea class="form-control" rows="2" id="note"></textarea>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="mb-0">
-                  <label class="form-label" for="basic-default-company">Validez <span class="text-danger">*</span></label>
-                  <input type="date" v-model="dateValidate" class="form-control" id="basic-default-company" />
-                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <SearchProduct :title="'Productos'" @filterNewProducts="filterNewProducts" :newProductsByType="newProductsByType" @callProductModal="callProductModal" />
-
-        <div class="table-responsive text-nowrap" v-show="carNewProducts.length">
-          <table class="table table-bordered mb-3">
-            <thead class="table-primary">
-              <tr>
-                <th>Producto/Servicio</th>
-                <th>Tipo</th>
-                <th>Total</th>
-                <th>Borrar</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(carNewProduct, index) in carNewProducts">
-                <td>{{ carNewProduct.new_product?carNewProduct.new_product.name:carNewProduct.name }}</td>
-                <td>{{ carNewProduct.type == 1?'Normal':'Sugerido' }}</td>
-                <td>S./{{ carNewProduct.price }}</td>
-                <td><a @click="removeSuggestedCart(index)" class="btn btn-danger text-white"><i class='bx bx-trash'></i></a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="row" v-show="carNewProducts.length">
-          <div class="col-6">
-            <div class="mb-3">
-              <label class="form-label" for="basic-default-company">Descuento</label>
-              <input type="text" class="form-control" v-model="discount">
-            </div>
-          </div>
-        <div class="col-6">
-          <div class="mb-3">
-            <label class="form-label" for="basic-default-company">Tiempo de Ejecucion <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" v-model="term">
-          </div>
-        </div>
-        </div>
-        <div class="footer-quotation" v-show="carNewProducts.length">
-          <div class="row">
-          <div class="col-sm-12 col-lg-6">
-          <div class="mb-3">
-            <h3>TOTAL S./ {{ totalProducts - discount }}</h3>  
-          </div>
-        </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12 col-lg-6">
-            <label class="form-label" for="basic-default-company">Nota</label>
-            <input type="text" class="form-control" v-model="note">
-          </div>
-        </div>
-        <div class="row d-flex justify-content-center ">
-          <button @click="insertQuotation" class="btn btn-primary btn-lg mt-2 text-white w-25">Guardar</button>
-          <router-link v-if="idQuotation != 0" :to="{name:'quotation-file', params:{ id: this.idQuotation }}" target="_blank" class="btn btn-primary btn-lg mt-2 mx-2 text-white w-25" disabled>Imprimir</router-link>
-        </div>
-        </div>
-        
-      </div>
-    </div>
-  </div> 
-      <calcModal @addCartModal="addCartModal"/>
-      <InsertDetail @addCartModal="addCartModal" @addSugestCartModal="addSugestCartModal" :product="selected_product" :products="fixed_products"/>
-      <ProductModal :newProduct="newProduct" @insertCarProducts="insertCarProducts"/>
-</div>
+              <!-- /Invoice Add-->
+            
+              <!-- Invoice Actions -->
+              <div class="col-lg-3 col-12 invoice-actions">
+                <div>
+                  <p class="mb-2">Seleccionar Documento</p>
+                  <select class="form-select mb-4">
+                    <option value="1">Cotización</option>
+                    <option value="2">Contrato</option>
+                    <option value="3">Orden</option>
+                  </select>
+                  
+                </div>
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <button @click="insertQuotation" class="btn btn-primary d-grid w-100 mb-3" >
+                      <span class="d-flex align-items-center justify-content-center text-nowrap"><i class="bx bx-paper-plane bx-xs me-1"></i>Actualizar</span>
+                    </button>
+                    <router-link v-if="idQuotation != 0" :to="{name:'quotation-file', params:{ id: this.idQuotation }}" target="_blank" class="btn btn-primary d-grid w-100 mb-3" disabled><span class="d-flex align-items-center justify-content-center text-nowrap"><i class="bx bx-file bx-xs me-1"></i>Documento</span></router-link>
+                  </div>
+                </div>
+                
+              </div>
+              <!-- /Invoice Actions -->
+            </div>              
+           </div>
 </template>
 <script>
   import moment from 'moment'
@@ -124,6 +294,7 @@
         date:'',
         dateValidate:'',
         newProductsByType:[],
+        newProductsByName:[],
         carNewProducts:[],
         newProduct: {},
         discount:0,
@@ -132,10 +303,37 @@
         fixed_products:[],
         selected_product:{},
         newProducts:[],
-        term:''
+        term:'',
+        mode: 0,
+        level: 0,
+        search: ''
       }
     },
     methods:{
+      addPrice(carNewProduct,newProduct){
+        carNewProduct.price = newProduct.newPriceSelected.price
+        carNewProduct.new_product.name = newProduct.name
+        carNewProduct.new_product_id = newProduct.id
+        this.newProductsByName = []
+      },
+      addDetail(){
+        this.carNewProducts.push({type: '', level: '', title:'', mode:'', price:'', new_product:{name:''}, new_product_id:''})
+      },
+      selectMode(e){
+        this.newProductsByType = this.newProducts.filter(product => product.type == e.target.value)
+        console.log(this.newProductsByType)
+      },
+      searchNewProduct(e){  
+
+        if(e.target.value != ''){
+            this.newProductsByName = this.newProductsByType.filter(product => product.name.toLowerCase().includes(e.target.value))
+            this.newProductsByName.forEach((product)=>{
+                product.newPriceSelected = product.newprices.find(price => price.level == this.level)
+            })
+        }else{
+            this.newProductsByName = []
+        }
+      },
       getUser(){
         axios.get('/api/getCustomer/'+this.$route.params.idUser)
         .then((res)=>{
@@ -166,15 +364,15 @@
         })
       },
       filterNewProducts(type){
-        console.log(type)
+        console.log('modo',type)
         this.newProductsByType = this.newProducts.filter(product => product.type == type)
       },
       callProductModal(newProduct){
         this.newProduct = newProduct
         $('#productModal').modal('show')
       },
-      removeSuggestedCart(product){
-        this.carNewProducts.splice(product,1)
+      removeSuggestedCart(index){
+        this.carNewProducts.splice(index,1)
         console.log(product)
       },
       insertQuotation(){

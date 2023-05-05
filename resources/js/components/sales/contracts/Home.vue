@@ -59,14 +59,14 @@
         </table>
       </div>
 
-            <div class="row">
-                    <div class="col-6">
-                      <div class="mb-3">
-                        <label class="form-label" for="basic-default-company">Descuento</label>
-                        <input type="text" class="form-control" v-model="discount">
-                      </div>
-                    </div>
-                  </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="mb-3">
+            <label class="form-label" for="basic-default-company">Descuento</label>
+            <input type="text" class="form-control" v-model="discount">
+          </div>
+        </div>
+      </div>
                   <div class="row">
         <div class="col-sm-12 col-lg-6">
         <div class="mb-3">
@@ -74,22 +74,23 @@
         </div>
       </div>
       </div>
-            <div class="row">
-              <div class="col-xl">
-                <h5 class="mb-0">Pagos y entregas <span class="badge bg-label-primary me-1 cursor-pointer" @click="openFeesModal()">+</span></h5>
-                <div class="row mt-3">
-                  <div class="col-3" v-for="fee in fees">
-                    <div class="card shadow-none bg-transparent border border-success p-3">
-                      <p class="text-danger cursor-pointer" @click="removeFee(fee.id)"><i class="bx bx-trash"></i></p>
-                      <p>Fecha: {{ fee.date }}</p>
-                      <p>Monto: S./ {{ fee.amount }}</p>
-                      <p>Porcentaje: {{ fee.percentage }} %</p>
-                      <p>Avance: {{ fee.advance }}</p>
-                    </div>
-                  </div>
+        <Payments :totalFinal="totalFinal - discount"/>
+        <!-- <div class="row">
+          <div class="col-xl">
+            <h5 class="mb-0">Pagos y entregas <span class="badge bg-label-primary me-1 cursor-pointer" @click="openFeesModal()">+</span></h5>
+            <div class="row mt-3">
+              <div class="col-3" v-for="fee in fees">
+                <div class="card shadow-none bg-transparent border border-success p-3">
+                  <p class="text-danger cursor-pointer" @click="removeFee(fee.id)"><i class="bx bx-trash"></i></p>
+                  <p>Fecha: {{ fee.date }}</p>
+                  <p>Monto: S./ {{ fee.amount }}</p>
+                  <p>Porcentaje: {{ fee.percentage }} %</p>
+                  <p>Avance: {{ fee.advance }}</p>
                 </div>
               </div>
             </div>
+          </div>
+        </div> -->
             
             <button @click="insertContract" class="btn btn-primary mt-2 text-white">Guardar</button>
             <a v-if="idContract != 0" :href="`../../api/generateContract/${$route.params.idUser}`" target="_blank" class="btn btn-primary mt-2 mx-2 text-white" disabled>PDF</a>
@@ -109,16 +110,14 @@
       import {userStore} from '../../../stores/UserStore'
       import SearchProduct from './SearchProduct.vue'
       import ProductModal from '../quotations/ProductModal.vue'
-      /* import List from './List.vue'
-      import PaymentModal from './PaymentModal.vue' */
-     /*  import calcModal from './calcModal.vue' */
-     /*  import InsertDetail from './InsertDetail.vue' */
+      import Payments from './Payments.vue'
+
       export default{
         setup(){
           const store = userStore()
           return { store }
         },
-        components:{ClientSection, FeesModal, SearchProduct, ProductModal},
+        components:{ClientSection, FeesModal, SearchProduct, ProductModal, Payments},
         data(){
           return{
             customerSelected:{},
