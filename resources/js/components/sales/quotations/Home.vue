@@ -88,7 +88,7 @@
                     <div class="row p-sm-3 p-0">
                       <div class="col-md-6 col-sm-5 col-12 mb-sm-0 mb-4">
                         <h6 class="pb-2">Cotización para:</h6>
-                        <table>
+                        <table v-if="customer">
                           <tbody>
                             <tr>
                               <td class="pe-3">Nombre:</td>
@@ -122,75 +122,10 @@
             
                     <form class="source-item py-sm-3">
                       <div class="mb-3" data-repeater-list="group-a">
-                      <div class="repeater-wrapper pt-0 pt-md-4" data-repeater-item="" style="" v-for="(carNewProduct, index) in carNewProducts">
-                          <div class="d-flex border rounded position-relative pe-0">
-                            <div class="row w-100 m-0 p-3">
-                              <div class="col-md-2 col-12 mb-md-0 mb-3 ps-md-0">
-                                <p class="mb-2 repeater-title">Tipo</p>
-                                <div class="col-md">
-                                  <div class="form-check mt-3">
-                                    <input class="form-check-input" type="radio" v-model="carNewProduct.mode" @click="selectMode" value="1" id="defaultRadio1">
-                                    <label class="form-check-label" for="defaultRadio1"> Fragmentado </label>
-                                  </div>
-                                  <div class="form-check">
-                                    <input class="form-check-input" type="radio" v-model="carNewProduct.mode" @click="selectMode" value="2" id="defaultRadio2"  >
-                                    <label class="form-check-label" for="defaultRadio2"> Paquete </label>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-2 col-12 mb-md-0 mb-3 ps-md-0">
-                                <p class="mb-2 repeater-title">Nivel</p>
-                                <select v-model="carNewProduct.level" @change="selectLevel" class="form-select item-details mb-2">
-                                  <option selected="" disabled="">Selecciona el Nivel</option>
-                                  <template v-if="mode == 1">
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                  </template>
-                                  <template v-else>
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                  </template>
-                                </select>
-                              </div>
-                              <div class="col-md-4 col-12 mb-md-0 mb-3">
-                                <p class="mb-2 repeater-title">Detalle</p>
-                                <input type="text" class="form-control" @keyup="searchNewProduct" v-model="carNewProduct.new_product.name">
-                                <ul class="list-group">
-                                    <li @click="addPrice(carNewProduct, newProduct)" class="list-group-item d-flex justify-content-between align-items-center cursor-pointer" v-for="newProduct in newProductsByName">
-                                    {{ newProduct.name }}
-                                    <span class="badge bg-primary">S./ {{ newProduct.newPriceSelected.price }}</span>
-                                    </li>
-                                </ul>
-                              </div>
-                              <div class="col-md-2 col-12 pe-0">
-                                <p class="mb-2 repeater-title">Precio</p>
-                                <p class="mb-0">S./{{ carNewProduct.price }}</p>
-                              </div>
-                              <div class="col-md-2 col-12 mb-md-0 mb-3">
-                                <p class="mb-2 repeater-title">Modo</p>
-                                <div class="col-md">
-                                  <div class="form-check mt-3">
-                                    <input name="default-radio-2" class="form-check-input" type="radio" v-model="carNewProduct.type" value="2" id="defaultRadio1">
-                                    <label class="form-check-label" for="defaultRadio1"> Sugerido </label>
-                                  </div>
-                                  <div class="form-check">
-                                    <input name="default-radio-2" class="form-check-input" type="radio" v-model="carNewProduct.type" value="1" id="defaultRadio2">
-                                    <label class="form-check-label" for="defaultRadio2"> Normal </label>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-center justify-content-between border-start p-2">
-                              <i class="bx bx-x fs-4 text-muted cursor-pointer" data-repeater-delete="" @click="removeSuggestedCart(index)"></i>
-                            </div>
-                          </div>
-                        </div></div>
+                        <template v-for="carNewProduct in carNewProducts">
+                          <Detail :newProduct="carNewProduct" :newProducts="newProducts"/>
+                        </template>
+                      </div>
                       <div class="row">
                         <div class="col-12">
                           <button type="button" class="btn btn-primary" data-repeater-create="" @click="addDetail">Agregar Detalle</button>
@@ -279,6 +214,7 @@
   import SearchProduct from './searchProduct.vue'
   import ProductModal from './ProductModal.vue'
   import { userStore } from '../../../stores/UserStore'
+  import Detail from './Detail.vue'
   
   export default{
     setup(){
@@ -287,7 +223,7 @@
         store
       }
     },
-    components:{ calcModal, InsertDetail, CustomerCard, DateCard, SearchProduct, ProductModal },
+    components:{ calcModal, InsertDetail, CustomerCard, DateCard, SearchProduct, ProductModal, Detail },
     data(){
       return{
         customer: {},
