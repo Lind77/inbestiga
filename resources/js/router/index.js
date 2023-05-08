@@ -66,6 +66,10 @@ import HomeCollabs from '../components/academic/collabs/Home.vue'
 import HomeAdmin from '../components/admin/Home.vue'
 import MainAdmin from '../components/admin/Main.vue'
 
+//Área Administrativa - Promociones
+
+import PromosAdmin from '../components/admin/promos/Home.vue'
+
 import UsersAdmin from '../components/admin/Users.vue'
 import RolesAdmin from '../components/admin/Roles.vue'
 
@@ -77,6 +81,7 @@ import MainExperience from '../components/experience/Main.vue'
 
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
+
 
 
 
@@ -248,6 +253,11 @@ export const routes = [
                 component: RealTime,
                 name: 'real-time',
                 props: true
+            },
+            {
+                path: 'promos-admin',
+                component: PromosAdmin,
+                name: 'promos-admin',
             }
         ]
     },

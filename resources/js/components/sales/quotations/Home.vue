@@ -56,7 +56,8 @@
                       <div class="col-md-6">
                         <dl class="row mb-2">
                           <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
-                            <span class="h4 text-capitalize mb-0 text-nowrap">Cotización #</span>
+                            <span v-if="typeDocument == 1" class="h4 text-capitalize mb-0 text-nowrap">Cotización #</span>
+                            <span v-else-if="typeDocument == 2" class="h4 text-capitalize mb-0 text-nowrap">Contrato #</span>
                           </dt>
                           <dd class="col-sm-6 d-flex justify-content-md-end">
                             <div class="w-px-150">
@@ -122,8 +123,8 @@
             
                     <form class="source-item py-sm-3">
                       <div class="mb-3" data-repeater-list="group-a">
-                        <template v-for="carNewProduct in carNewProducts">
-                          <Detail :newProduct="carNewProduct" :newProducts="newProducts"/>
+                        <template v-for="(carNewProduct, index) in carNewProducts">
+                          <Detail :newProduct="carNewProduct" :newProducts="newProducts" :index="index" @removeSuggestedCart="removeSuggestedCart"/>
                         </template>
                       </div>
                       <div class="row">
@@ -143,23 +144,23 @@
                         </div>
                         <div class="d-flex align-items-center mb-3">
                           <label for="salesperson" class="form-label me-5 fw-semibold">Cupón de descuento:</label>
-                          <input type="text" class="form-control" id="salesperson">
+                          <input type="text" class="form-control" id="salesperson" v-model="coupon" @keyup="autoDiscount">
                         </div>
                       </div>
                       <div class="col-md-6 d-flex justify-content-end">
                         <div class="invoice-calculations">
                           <div class="d-flex justify-content-between mb-2">
                             <span class="w-px-100">Subtotal:</span>
-                            <span class="fw-semibold">S./ 00.00</span>
+                            <span class="fw-semibold">S./ {{ totalProducts }}</span>
                           </div>
                           <div class="d-flex justify-content-between mb-2">
                             <span class="w-px-100">Descuento:</span>
-                            <span class="fw-semibold">S./ 00.00</span>
+                            <span class="fw-semibold">S./ {{ discount }}</span>
                           </div>
                           <hr>
                           <div class="d-flex justify-content-between">
                             <span class="w-px-100">Total:</span>
-                            <span class="fw-semibold">S./ {{ totalProducts }}</span>
+                            <span class="fw-semibold">S./ {{ totalProducts - discount }}</span>
                           </div>
                         </div>
                       </div>
@@ -184,7 +185,7 @@
               <div class="col-lg-3 col-12 invoice-actions">
                 <div>
                   <p class="mb-2">Seleccionar Documento</p>
-                  <select class="form-select mb-4">
+                  <select class="form-select mb-4" @change="redirect" v-model="typeDocument">
                     <option value="1">Cotización</option>
                     <option value="2">Contrato</option>
                     <option value="3">Orden</option>
@@ -226,6 +227,7 @@
     components:{ calcModal, InsertDetail, CustomerCard, DateCard, SearchProduct, ProductModal, Detail },
     data(){
       return{
+        typeDocument: 1,
         customer: {},
         date:'',
         dateValidate:'',
@@ -242,10 +244,26 @@
         term:'',
         mode: 0,
         level: 0,
-        search: ''
+        search: '',
+        coupon:'',
+        recentCode:''
       }
     },
     methods:{
+      autoDiscount(){
+        if(this.coupon == this.recentCode){
+          this.$swal('Se ha desbloqueado el descuento')
+          this.discount = parseInt(this.totalProducts*.05)
+        }
+      },
+      redirect(){
+      /*   if(this.typeDocument == 2){
+          this.$router.push({name:'home-contracts', params:{ idUser: this.customer.id }})
+        }else{
+          this.$router.push({name:'home-orders', params:{ idUser: this.customer.id }})
+        } */
+        
+      },
       addPrice(carNewProduct,newProduct){
         carNewProduct.price = newProduct.newPriceSelected.price
         carNewProduct.new_product.name = newProduct.name
@@ -384,9 +402,19 @@
         console.log(newProduct)
         var newProd = {'id' : newProduct.id, 'name' : newProduct.name, 'type' : newProduct.typeDetail, 'price' : newProduct.priceFinal, 'new_product_id': newProduct.id, 'level' : newProduct.level}
         this.carNewProducts.push(newProd)
+      },
+      getPromotionCode(){
+        axios.get('/api/getPromotionCode')
+        .then((res)=>{
+          this.recentCode = res.data.code
+        })
+        .catch((err)=>{
+          console.error(err)
+        })
       }
     },
     mounted(){
+      this.getPromotionCode()
       this.getUser()
       this.getAllNewProducts()
     },

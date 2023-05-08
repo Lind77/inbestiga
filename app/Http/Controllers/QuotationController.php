@@ -272,7 +272,8 @@ class QuotationController extends Controller
                 'description' => '-',
                 'price' => $product['price'],
                 'new_product_id' => $product['new_product_id'],
-                'level' => $product['level']
+                'level' => $product['level'],
+                'mode' => $product['mode']
             ]);
         }
 

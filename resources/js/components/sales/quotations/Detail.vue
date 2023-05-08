@@ -87,11 +87,12 @@ export default {
     },
     props:{
         newProduct: Object,
-        newProducts: Array
+        newProducts: Array,
+        index: Number
     },
     methods:{
         removeSuggestedCart(){
-            alert()
+            this.$emit('removeSuggestedCart', this.index)
         },
         selectMode(e){
             this.newProductsByType = this.newProducts.filter(product => product.type == e.target.value)

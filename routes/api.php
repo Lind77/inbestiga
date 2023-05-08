@@ -161,3 +161,6 @@ Route::post('/insertOrder',[OrderController::class, 'insertOrder']);
 Route::post('/insertContract',[ContractController::class, 'insertContract']);
 
 Route::post('/updatePrices', [PriceController::class, 'updatePrices']);
+
+Route::get('/insertCode/{code}',[PriceController::class, 'insertCode']);
+Route::get('/getPromotionCode',[PriceController::class, 'getPromotionCode']);

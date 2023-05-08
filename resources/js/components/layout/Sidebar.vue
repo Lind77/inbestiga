@@ -104,6 +104,12 @@
               <div data-i18n="Form Layouts">Roles</div>
             </div>
           </router-link>
+          <router-link :to="{name:'promos-admin'}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-user"></i>
+              <div data-i18n="Form Layouts">Promociones</div>
+            </div>
+          </router-link>
           <router-link :to="{name:'real-time',params:{ userId: store.authUser.id }}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-user"></i>

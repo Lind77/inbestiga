@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePriceRequest;
 use App\Http\Requests\UpdatePriceRequest;
 use App\Models\Product;
+use App\Models\Promotion;
 use Illuminate\Http\Request;
 
 class PriceController extends Controller
@@ -101,5 +102,20 @@ class PriceController extends Controller
         return response()->json([
             'msg' => 'success'
         ]);
+    }
+
+    public function insertCode($code){
+        $promotion = Promotion::create([
+            'code' => $code
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function getPromotionCode(){
+        $promotion = Promotion::orderBy('id', 'desc')->first();
+
+        return response()->json($promotion);
     }
 }
