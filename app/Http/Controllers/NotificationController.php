@@ -92,7 +92,7 @@ class NotificationController extends Controller
     }
 
     public function getNoSeenNotifications($id){
-        $seens = Seen::where('user_id', $id)->where('seen', 0)->orderBy('id', 'desc')->get();
+        $seens = Seen::where('user_id', $id)->where('seen', 0)->orderBy('id', 'desc')->take(5)->get();
         $notSeenNotifications = [];
 
         foreach($seens as $seen){
