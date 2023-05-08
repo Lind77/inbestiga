@@ -2,16 +2,17 @@
     <div class="repeater-wrapper pt-0 pt-md-4" data-repeater-item="">
         <div class="d-flex border rounded position-relative pe-0">
         <div class="row w-100 m-0 p-3">
+            <h6>Tipo: {{ newProduct.type==1?'Normal':'Sugerido' }}</h6>
             <div class="col-md-2 col-12 mb-md-0 mb-3 ps-md-0">
             <p class="mb-2 repeater-title">Modo</p>
             <div class="col-md">
                 <div class="form-check mt-3">
-                    <input class="form-check-input" type="radio" v-model="newProduct.mode" @click="selectMode" value="1" id="type">
-                    <label class="form-check-label" for="type"> Fragmentado </label>
+                    <input class="form-check-input" type="radio" v-model="newProduct.mode" @click="selectMode" value="1" :id="`type1-${newProduct.id}`">
+                    <label class="form-check-label" :for="`type1-${newProduct.id}`"> Fragmentado </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" v-model="newProduct.mode" @click="selectMode" value="2" id="type">
-                    <label class="form-check-label" for="type"> Paquete </label>
+                    <input class="form-check-input" type="radio" v-model="newProduct.mode" @click="selectMode" value="2" :id="`type-${newProduct.id}`">
+                    <label class="form-check-label" :for="`type-${newProduct.id}`"> Paquete </label>
                 </div>
             </div>
             </div>
@@ -45,26 +46,18 @@
                 </li>
             </ul>
             </div>
+            <div class="col-md-2 col-12 mb-md-0 mb-3" v-if="newProduct.modeProduct == 2">
+            <p class="mb-2 repeater-title">Cantidad</p>
+            <input type="number" @keyup="changeCant" @change="changeCant" class="form-control" v-model="cantProduct" min="1">
+            </div>
             <div class="col-md-2 col-12 pe-0">
             <p class="mb-2 repeater-title">Precio</p>
             <p class="mb-0">S./{{ newProduct.price }}</p>
             </div>
-            <div class="col-md-2 col-12 mb-md-0 mb-3">
-            <p class="mb-2 repeater-title">Tipo</p>
-            <div class="col-md">
-                <div class="form-check mt-3">
-                    <input class="form-check-input" type="radio" v-model="newProduct.type" value="1" id="type">
-                    <label class="form-check-label" for="type"> Normal </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" v-model="newProduct.type" value="2" id="type">
-                    <label class="form-check-label" for="type"> Sugerido </label>
-                </div>
-            </div>
-            </div>
         </div>
         <div class="d-flex flex-column align-items-center justify-content-between border-start p-2">
             <i class="bx bx-x fs-4 text-muted cursor-pointer" data-repeater-delete="" @click="removeSuggestedCart(index)"></i>
+
         </div>
         </div>
     </div>
@@ -82,7 +75,8 @@ export default {
                 price:''
             },
             newProductsByType:[],
-            newProductsByName: []
+            newProductsByName: [],
+            cantProduct: 1
         }
     },
     props:{
@@ -91,6 +85,9 @@ export default {
         index: Number
     },
     methods:{
+        changeCant(){
+            this.newProduct.price = this.newProduct.price * this.cantProduct
+        },
         removeSuggestedCart(){
             this.$emit('removeSuggestedCart', this.index)
         },
@@ -115,6 +112,8 @@ export default {
             this.newProduct.price = newProductByName.newPriceSelected.price
             this.newProduct.new_product.name = newProductByName.name
             this.newProduct.new_product_id = newProductByName.id
+            this.newProduct.modeProduct = newProductByName.mode
+            this.newProduct.type = 1
             this.newProductsByName = []
         }
     },

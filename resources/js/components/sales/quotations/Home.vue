@@ -155,10 +155,18 @@
                 </div>
               </div>
             </div>
-            <hr class="my-4 mx-n4">
-            <div class="row py-sm-3">
-              
-            </div>
+            <template v-if="this.typeDocument == 2">
+              <hr class="my-4 mx-n4">
+              <div class="row py-sm-3">
+                <div class="col-md-6 mb-md-0 mb-3">
+                  
+                </div>
+                <div class="col-md-6 d-flex justify-content-end">
+                
+                </div>
+              </div>
+            </template>
+            
             <hr class="my-4 mx-n4">
             <div class="row">
               <div class="col-12">
@@ -249,7 +257,7 @@
         }
       },
       redirect(){
-      /*   if(this.typeDocument == 2){
+      /*   if(){
           this.$router.push({name:'home-contracts', params:{ idUser: this.customer.id }})
         }else{
           this.$router.push({name:'home-orders', params:{ idUser: this.customer.id }})
@@ -257,13 +265,17 @@
         
       },
       addPrice(carNewProduct,newProduct){
+      if(newProduct.mode == 2){
+        alert('nani')
+      }else{
         carNewProduct.price = newProduct.newPriceSelected.price
         carNewProduct.new_product.name = newProduct.name
         carNewProduct.new_product_id = newProduct.id
         this.newProductsByName = []
+      }
       },
       addDetail(){
-        this.carNewProducts.push({type: '', level: '', title:'', mode:'', price:'', new_product:{name:''}, new_product_id:''})
+        this.carNewProducts.push({type: 1, level: '', title:'', mode:'', price:'', new_product:{name:''}, new_product_id:''})
       },
       selectMode(e){
         this.newProductsByType = this.newProducts.filter(product => product.type == e.target.value)
