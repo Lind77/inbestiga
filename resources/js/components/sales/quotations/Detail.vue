@@ -57,7 +57,24 @@
         </div>
         <div class="d-flex flex-column align-items-center justify-content-between border-start p-2">
             <i class="bx bx-x fs-4 text-muted cursor-pointer" data-repeater-delete="" @click="removeSuggestedCart(index)"></i>
+            <div class="dropdown">
+            <i class="bx bx-cog bx-xs text-muted cursor-pointer more-options-dropdown show" role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="true">
+            </i>
+            <div class="dropdown-menu dropdown-menu-end w-px-300 p-3 show" aria-labelledby="dropdownMenuButton" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 23.2px, 0px);" data-popper-placement="bottom-end">
 
+                <div class="row g-3">
+                <div class="col-12">
+                    <label for="discountInput" class="form-label">Cambiar tipo</label>
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" @change="changeType">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Sugerido</label>
+                        </div>
+                </div>
+                
+                
+                </div>
+            </div>
+            </div>
         </div>
         </div>
     </div>
@@ -86,6 +103,9 @@ export default {
         index: Number
     },
     methods:{
+        changeType(){
+            this.newProduct.type==1?this.newProduct.type=2:this.newProduct.type=1
+        },
         removeSuggestedCart(){
             this.$emit('removeSuggestedCart', this.index)
         },

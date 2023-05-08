@@ -1,21 +1,33 @@
 <template>
-    <h5 class="mb-0">Pagos y entregas</h5>
-    <label for="">Porfavor inserte el número de cuotas a generarse</label>
-    <input @change="calcFees" @keyup="calcFees" type="number" min="1" max="24" v-model="numFees" class="form-control w-25">
+    <div class="col-md-12 mb-md-0 mb-3">
+        <label for="">Porfavor inserte el número de cuotas a generarse</label>
+        <input @change="calcFees" @keyup="calcFees" type="number" min="1" max="24" v-model="numFees" class="form-control">
+    </div>
     <div class="row mt-3">
-        <div class="col-3" v-for="fee in fees">
-            <div class="card shadow-none bg-transparent border border-success p-3 mt-2">
-                <p class="text-danger cursor-pointer" @click="removeFee(fee.id)"><i class="bx bx-trash"></i></p>
-                <p>Fecha: {{ fee.date }}</p>
-                <p>Monto: S./ {{ fee.amount }}</p>
-                <p>Porcentaje: {{ fee.percentage }} %</p>
-                <p>Avance: {{ fee.advance }}</p>
-            </div>
+        <div class="col-md-6 col-xl-4" v-for="(fee, index) in fees">
+        <div class="card bg-primary text-white mb-3">
+        <div class="card-header">Pago {{ index+1 }}</div>
+        <div class="card-body">
+            <p class="card-text">
+                Fecha: {{ fee.date }}
+            </p>
+            <p class="card-text">
+                Monto: S./ {{ fee.amount }}
+            </p>
+            <p class="card-text">
+                Porcentaje: {{ fee.percentage }} %
+            </p>
+            <p class="card-text">
+                Avance: {{ fee.advance }}
+            </p>
         </div>
+        </div>
+  </div>
     </div>
 </template>
 <script>
-import moment from 'moment'
+import moment from "moment"
+
 export default {
     props:{
         totalFinal: Number

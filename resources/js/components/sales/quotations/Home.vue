@@ -158,12 +158,7 @@
             <template v-if="this.typeDocument == 2">
               <hr class="my-4 mx-n4">
               <div class="row py-sm-3">
-                <div class="col-md-6 mb-md-0 mb-3">
-                  
-                </div>
-                <div class="col-md-6 d-flex justify-content-end">
-                
-                </div>
+                <Payments :totalFinal="totalProducts - discount"/>
               </div>
             </template>
             
@@ -216,6 +211,7 @@
   import ProductModal from './ProductModal.vue'
   import { userStore } from '../../../stores/UserStore'
   import Detail from './Detail.vue'
+  import Payments from './Payments.vue'
   
   export default{
     setup(){
@@ -224,7 +220,7 @@
         store
       }
     },
-    components:{ calcModal, InsertDetail, CustomerCard, DateCard, SearchProduct, ProductModal, Detail },
+    components:{ calcModal, InsertDetail, CustomerCard, DateCard, SearchProduct, ProductModal, Detail, Payments },
     data(){
       return{
         typeDocument: 1,

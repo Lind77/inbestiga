@@ -67,7 +67,7 @@
           </div>
         </div>
       </div>
-                  <div class="row">
+      <div class="row">
         <div class="col-sm-12 col-lg-6">
         <div class="mb-3">
           <h3>TOTAL S./ {{ totalFinal - discount }}</h3>  
