@@ -76,7 +76,8 @@ export default {
             },
             newProductsByType:[],
             newProductsByName: [],
-            cantProduct: 1
+            cantProduct: 1,
+            initialPrice: null
         }
     },
     props:{
@@ -85,9 +86,6 @@ export default {
         index: Number
     },
     methods:{
-        changeCant(){
-            this.newProduct.price = this.newProduct.price * this.cantProduct
-        },
         removeSuggestedCart(){
             this.$emit('removeSuggestedCart', this.index)
         },
@@ -110,11 +108,17 @@ export default {
         addPrice(newProductByName){
             console.log(newProductByName)
             this.newProduct.price = newProductByName.newPriceSelected.price
+            this.initialPrice = newProductByName.newPriceSelected.price
             this.newProduct.new_product.name = newProductByName.name
             this.newProduct.new_product_id = newProductByName.id
             this.newProduct.modeProduct = newProductByName.mode
             this.newProduct.type = 1
             this.newProductsByName = []
+        }
+    },
+    watch: {
+        cantProduct: function(newCant, oldCant) {
+            this.newProduct.price = this.initialPrice * newCant;
         }
     },
     mounted(){
