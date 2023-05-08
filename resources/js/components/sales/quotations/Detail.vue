@@ -98,7 +98,9 @@ export default {
             this.newProductsByType = this.newProducts.filter(product => product.type == e.target.value)
             console.log(this.newProductsByType)
         },
-        searchNewProduct(e){  
+        searchNewProduct(e){
+            console.log(this.newProduct.mode)  
+            this.newProductsByType = this.newProducts.filter(product => product.type == this.newProduct.mode)
         if(e.target.value != ''){
             this.newProductsByName = this.newProductsByType.filter(product => product.name.toLowerCase().includes(e.target.value))
             this.newProductsByName.forEach((product)=>{
@@ -115,6 +117,9 @@ export default {
             this.newProduct.new_product_id = newProductByName.id
             this.newProductsByName = []
         }
+    },
+    mounted(){
+        console.log(this.newProduct)
     }
 }
 </script>
