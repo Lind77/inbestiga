@@ -189,8 +189,8 @@
               console.log(this.totalFinal - this.discount, this.sumTotalFees)
               this.$swal('El monto final y el monto de los pagos no coincide')
             }else{
-              let conversorClass = conversor.conversorNumerosALetras
-              let myConverter = new conversorClass()
+                let conversorClass = conversor.conversorNumerosALetras
+                let myConverter = new conversorClass()
 
               const fd =  new FormData()
               fd.append('quotation_id', this.quotation.id)

@@ -105,6 +105,26 @@
                     <td class="pe-3">Email:</td>
                     <td>{{ customer.email }}</td>
                   </tr>
+                  <tr v-if="typeDocument != 1">
+                    <td class="pe-3">DNI:</td>
+                    <td v-if="customer.dni == null">
+                      <input v-model="dni" type="text" class="form-control">
+                    </td>
+                    <td v-else>{{ customer.dni }}</td>
+                  </tr>
+                  <tr v-if="typeDocument != 1">
+                    <td class="pe-3">Dirección:</td>
+                    <td v-if="customer.address == null">
+                      <input v-model="address" type="text" class="form-control">
+                    </td>
+                    <td v-else>{{ customer.address }}</td>
+                  </tr>
+                  <tr v-if="customer.dni == null || customer.address == null">
+                    <td class="pe-3"></td>
+                    <td>
+                      <button class="btn btn-success btn-sm" @click="saveDni">Actualizar Datos</button>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -159,7 +179,7 @@
             <template v-if="ableToPayments">
               <hr class="my-4 mx-n4">
               <div class="row py-sm-3">
-                <Payments :totalFinal="totalProducts - discount"/>
+                <Payments :totalFinal="totalProducts - discount" @generateFees="generateFees"/>
               </div>
             </template>
             
@@ -191,9 +211,12 @@
                 <div class="card mb-4">
                   <div class="card-body">
                     <button @click="insertQuotation" class="btn btn-primary d-grid w-100 mb-3" >
-                      <span class="d-flex align-items-center justify-content-center text-nowrap"><i class="bx bx-paper-plane bx-xs me-1"></i>Actualizar</span>
+                      <span class="d-flex align-items-center justify-content-center text-nowrap"><i class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
                     </button>
-                    <router-link v-if="idQuotation != 0" :to="{name:'quotation-file', params:{ id: this.idQuotation }}" target="_blank" class="btn btn-primary d-grid w-100 mb-3" disabled><span class="d-flex align-items-center justify-content-center text-nowrap"><i class="bx bx-file bx-xs me-1"></i>Documento</span></router-link>
+                    <router-link v-if="idQuotation != 0 && typeDocument == 1" :to="{name:'quotation-file', params:{ id: idQuotation }}" target="_blank" class="btn btn-primary d-grid w-100 mb-3" disabled><span class="d-flex align-items-center justify-content-center text-nowrap"><i class="bx bx-file bx-xs me-1"></i>Cotización</span></router-link>
+
+                    <a v-if="idContract != 0 && typeDocument == 2" :href="`../../api/generateContract/${customer.id}`" target="_blank" class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
+
                   </div>
                 </div>
                 
@@ -204,6 +227,7 @@
 </template>
 <script>
   import moment from 'moment'
+  import conversor from 'conversor-numero-a-letras-es-ar'
   import CustomerCard from './CustomerCard.vue'
   import DateCard from './DateCard.vue'
   import calcModal from './calcModal.vue'
@@ -235,6 +259,7 @@
         discount:0,
         note:'',
         idQuotation:0,
+        idContract:0,
         fixed_products:[],
         selected_product:{},
         newProducts:[],
@@ -243,10 +268,26 @@
         level: 0,
         search: '',
         coupon:'',
-        recentCode:''
+        recentCode:'',
+        fees:[],
+        dni:'',
+        address:''
       }
     },
     methods:{
+      saveDni(){
+            const fd = new FormData()
+            fd.append('id_customer', this.customer.id)
+            fd.append('dni', this.dni)
+            fd.append('address', this.address)  
+            axios.post('/api/updateDniCustomer', fd)
+            .then((res) =>{
+              this.getUser()  
+            })
+            .catch((err)=>{
+                console.error(err)
+            })
+      },
       autoDiscount(){
         if(this.coupon == 'PROMO150'){
           this.$swal('Se ha desbloqueado el descuento')
@@ -328,12 +369,57 @@
       removeSuggestedCart(index){
         this.details.splice(index,1)
       },
+      generateFees(fees){
+        this.fees = fees
+      },
       insertQuotation(){
-        if(this.customer.quotations[0]){
-          this.updateQuotation(this.customer.quotations[0].id)
+        if(this.typeDocument == 1){
+          if(this.customer.quotations[0]){
+            this.updateQuotation(this.customer.quotations[0].id)
+          }else{
+            this.createQuotation()
+          }
+        }else if(this.typeDocument == 2){
+          if(this.customer.quotations[0].contract == null){
+            this.createContract(this.customer.quotations[0].id)
+          }else{
+            this.updateContract()
+          }
         }else{
-          this.createQuotation()
+          if(this.customer.quotations[0].order == null){
+            this.createOrder()
+          }else{
+            this.updateOrder()
+          }
         }
+        
+      },
+      createContract(quotationId){
+              
+              let conversorClass = conversor.conversorNumerosALetras
+              let myConverter = new conversorClass()
+       
+              const fd =  new FormData()
+
+              fd.append('quotation_id', quotationId)
+              fd.append('amount', parseInt(this.totalProducts - this.discount))
+              fd.append('amount_text',myConverter.convertToText(parseInt(this.totalProducts - this.discount)))
+              fd.append('date', this.date)
+              fd.append('fees', JSON.stringify(this.fees))
+              fd.append('customer_id', this.$route.params.idUser)
+              fd.append('user_id', this.store.authUser.id)
+              fd.append('products', JSON.stringify(this.details))
+              fd.append('emisor_id', this.store.authUser.id)
+              axios.post('/api/insertContract', fd)
+              .then(res =>{
+                this.idContract = res.data
+                this.$swal('Contrato generado correctamente')
+              })
+              .catch(err =>{
+                console.log(err)
+              })
+
+
       },
       updateQuotation(quotationId){
         const fd =  new FormData()
@@ -428,7 +514,7 @@
       ableToPayments(){
 
         var detailFound = this.details.find(detail => detail.mode == 2)
-        console.log(detailFound)
+
         if(detailFound){
           if(this.typeDocument == 2 || this.typeDocument == 3){
             return true

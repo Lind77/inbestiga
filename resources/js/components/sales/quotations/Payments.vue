@@ -30,7 +30,8 @@ import moment from "moment"
 
 export default {
     props:{
-        totalFinal: Number
+        totalFinal: Number,
+        payments: Array
     },
     data(){
         return{
@@ -48,7 +49,7 @@ export default {
                     percentage: 100,
                     advance: '-'
                 }
-                this.fees.push(fee)
+                this.fees.push({...fee})
             }else if(this.numFees == 2){
                 this.fees = []
                 var fee = {
@@ -58,7 +59,8 @@ export default {
                     advance: '-'
                 }
                 for (let index = 0; index < this.numFees; index++) {
-                    this.fees.push(fee)
+                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
+                    this.fees.push({...fee})
                 }
             }else if(this.numFees == 3){
                 this.fees = []
@@ -77,6 +79,7 @@ export default {
                         fee.percentage = 30
                         fee.amount = parseInt(this.totalFinal*.3)
                     }
+                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
                     this.fees.push({...fee})
                 }
             }
@@ -89,7 +92,8 @@ export default {
                     advance: '-'
                 }
                 for (let index = 0; index < this.numFees; index++) {
-                    this.fees.push(fee)
+                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
+                    this.fees.push({...fee})
                 }
             }
             else if(this.numFees == 5){
@@ -101,7 +105,8 @@ export default {
                     advance: '-'
                 }
                 for (let index = 0; index < this.numFees; index++) {
-                    this.fees.push(fee)
+                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
+                    this.fees.push({...fee})
                 }
             }else if(this.numFees >= 6 && this.numFees < 12){
                 this.fees = []
@@ -112,7 +117,8 @@ export default {
                     advance: '-'
                 }
                 for (let index = 0; index < this.numFees; index++) {
-                    this.fees.push(fee)
+                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
+                    this.fees.push({...fee})
                 }
             }else if(this.numFees >= 12 && this.numFees < 18){
                 this.fees = []
@@ -123,7 +129,8 @@ export default {
                     advance: '-'
                 }
                 for (let index = 0; index < this.numFees; index++) {
-                    this.fees.push(fee)
+                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
+                    this.fees.push({...fee})
                 }
             }else if(this.numFees >= 18 && this.numFees < 24){
                 this.fees = []
@@ -134,7 +141,8 @@ export default {
                     advance: '-'
                 }
                 for (let index = 0; index < this.numFees; index++) {
-                    this.fees.push(fee)
+                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
+                    this.fees.push({...fee})
                 }
             }
             else if(this.numFees == 24){
@@ -151,7 +159,10 @@ export default {
                     this.fees.push({...fee})
                 }
             }
+            this.$emit('generateFees', this.fees)
         }
+        
+    
     }
 }
 </script>
