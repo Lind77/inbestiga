@@ -9,7 +9,8 @@
         <div class="card-header">Pago {{ index+1 }}</div>
         <div class="card-body">
             <p class="card-text">
-                Fecha: {{ fee.date }}
+                Fecha:
+                <input type="date" class="form-control" v-model="fee.date">
             </p>
             <p class="card-text">
                 Monto: S./ {{ fee.amount }}
@@ -18,7 +19,8 @@
                 Porcentaje: {{ fee.percentage }} %
             </p>
             <p class="card-text">
-                Avance: {{ fee.advance }}
+                Avance:
+                <input type="text" class="form-control" v-model="fee.advance">
             </p>
         </div>
         </div>
@@ -31,41 +33,47 @@ import moment from "moment"
 export default {
     props:{
         totalFinal: Number,
-        payments: Array
+        payments: Array,
+        fees: Array
     },
     data(){
         return{
             numFees: 0,
-            fees:[]
+            newFees:[]
         }
     },
     methods:{
         calcFees(){
+            this.newFees = []
             if(this.numFees == 1){
-                this.fees = []
+                
                 var fee = {
-                    date: moment().format('DD/MM/YYYY'),
+                    date: moment().format('YYYY-MM-DD'),
                     amount: parseInt(this.totalFinal*.9),
                     percentage: 100,
                     advance: '-'
                 }
-                this.fees.push({...fee})
+                this.newFees.push({...fee})
+                this.$emit('addFee', this.newFees)
+                
             }else if(this.numFees == 2){
-                this.fees = []
+                
                 var fee = {
-                    date: moment().format('DD/MM/YYYY'),
+                    date: moment().format('YYYY-MM-DD'),
                     amount: parseInt(this.totalFinal*.95/this.numFees),
                     percentage: 50,
                     advance: '-'
                 }
                 for (let index = 0; index < this.numFees; index++) {
-                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
-                    this.fees.push({...fee})
+                    fee.date = moment().add(index, 'months').format('YYYY-MM-DD')
+                    this.newFees.push({...fee})
+               
                 }
+                this.$emit('addFee', this.newFees)
             }else if(this.numFees == 3){
-                this.fees = []
+                
                 var fee = {
-                    date: moment().format('DD/MM/YYYY'),
+                    date: moment().format('YYYY-MM-DD'),
                     amount: parseInt(this.totalFinal/this.numFees),
                     percentage: 30,
                     advance: '-'
@@ -79,87 +87,100 @@ export default {
                         fee.percentage = 30
                         fee.amount = parseInt(this.totalFinal*.3)
                     }
-                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
-                    this.fees.push({...fee})
+                    fee.date = moment().add(index, 'months').format('YYYY-MM-DD')
+                    this.newFees.push({...fee})
+                
                 }
+                this.$emit('addFee', this.newFees)
             }
             else if(this.numFees == 4){
-                this.fees = []
+                
                 var fee = {
-                    date: moment().format('DD/MM/YYYY'),
+                    date: moment().format('YYYY-MM-DD'),
                     amount: parseInt(this.totalFinal*1.05/this.numFees),
                     percentage: 25,
                     advance: '-'
                 }
                 for (let index = 0; index < this.numFees; index++) {
-                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
-                    this.fees.push({...fee})
+                    fee.date = moment().add(index, 'months').format('YYYY-MM-DD')
+                    this.newFees.push({...fee})
+                
                 }
+                this.$emit('addFee', this.newFees)
             }
             else if(this.numFees == 5){
-                this.fees = []
+                
                 var fee = {
-                    date: moment().format('DD/MM/YYYY'),
+                    date: moment().format('YYYY-MM-DD'),
                     amount: parseInt(this.totalFinal*1.1/this.numFees),
                     percentage: 20,
                     advance: '-'
                 }
                 for (let index = 0; index < this.numFees; index++) {
-                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
-                    this.fees.push({...fee})
+                    fee.date = moment().add(index, 'months').format('YYYY-MM-DD')
+                    this.newFees.push({...fee})
+                
                 }
+                this.$emit('addFee', this.newFees)
             }else if(this.numFees >= 6 && this.numFees < 12){
-                this.fees = []
+                
                 var fee = {
-                    date: moment().format('DD/MM/YYYY'),
+                    date: moment().format('YYYY-MM-DD'),
                     amount: parseInt(this.totalFinal*1.2/this.numFees),
                     percentage: parseFloat(100/this.numFees).toFixed(1),
                     advance: '-'
                 }
                 for (let index = 0; index < this.numFees; index++) {
-                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
-                    this.fees.push({...fee})
-                }
+                    fee.date = moment().add(index, 'months').format('YYYY-MM-DD')
+                    this.newFees.push({...fee})
+                
+            }
+            this.$emit('addFee', this.newFees)
             }else if(this.numFees >= 12 && this.numFees < 18){
-                this.fees = []
+                
                 var fee = {
-                    date: moment().format('DD/MM/YYYY'),
+                    date: moment().format('YYYY-MM-DD'),
                     amount: parseInt(this.totalFinal*1.3/this.numFees),
                     percentage: parseFloat(100/this.numFees).toFixed(1),
                     advance: '-'
                 }
                 for (let index = 0; index < this.numFees; index++) {
-                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
-                    this.fees.push({...fee})
+                    fee.date = moment().add(index, 'months').format('YYYY-MM-DD')
+                    this.newFees.push({...fee})
+                
                 }
+                this.$emit('addFee', this.newFees)
             }else if(this.numFees >= 18 && this.numFees < 24){
-                this.fees = []
+                
                 var fee = {
-                    date: moment().format('DD/MM/YYYY'),
+                    date: moment().format('YYYY-MM-DD'),
                     amount: parseInt(this.totalFinal*1.4/this.numFees),
                     percentage: parseFloat(100/this.numFees).toFixed(1),
                     advance: '-'
                 }
                 for (let index = 0; index < this.numFees; index++) {
-                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
-                    this.fees.push({...fee})
+                    fee.date = moment().add(index, 'months').format('YYYY-MM-DD')
+                    this.newFees.push({...fee})
+                
                 }
+                this.$emit('addFee', this.newFees)
             }
             else if(this.numFees == 24){
-                this.fees = []
+                
                 var fee = {
-                    date: moment().format('DD/MM/YYYY'),
+                    date: moment().format('YYYY-MM-DD'),
                     amount: parseInt(this.totalFinal*1.5/this.numFees),
                     percentage: parseFloat(100/this.numFees).toFixed(1),
                     advance: '-'
                 }
                 console.log(fee)
                 for (let index = 0; index < this.numFees; index++) {
-                    fee.date = moment().add(index, 'months').format('DD/MM/YYYY')
-                    this.fees.push({...fee})
+                    fee.date = moment().add(index, 'months').format('YYYY-MM-DD')
+                    this.newFees.push({...fee})
+                
                 }
+                this.$emit('addFee', this.newFees)
             }
-            this.$emit('generateFees', this.fees)
         }
         
     

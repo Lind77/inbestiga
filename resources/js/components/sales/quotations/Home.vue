@@ -119,7 +119,7 @@
                     </td>
                     <td v-else>{{ customer.address }}</td>
                   </tr>
-                  <tr v-if="customer.dni == null || customer.address == null">
+                  <tr v-if="customer.dni == null || customer.address == null && typeDocument != 1">
                     <td class="pe-3"></td>
                     <td>
                       <button class="btn btn-success btn-sm" @click="saveDni">Actualizar Datos</button>
@@ -176,10 +176,10 @@
                 </div>
               </div>
             </div>
-            <template v-if="ableToPayments">
+            <template v-if="typeDocument != 1">
               <hr class="my-4 mx-n4">
               <div class="row py-sm-3">
-                <Payments :totalFinal="totalProducts - discount" @generateFees="generateFees"/>
+                <Payments :totalFinal="totalProducts - discount" @generateFees="generateFees" :fees="fees" @addFee="addFee"/>
               </div>
             </template>
             
@@ -302,6 +302,10 @@
         } */
         
       },
+      addFee(fees){
+        this.fees = []
+        this.fees = fees
+      },
       addPrice(detail,newProduct){
       if(detail.mode == 2){
         alert('nani')
@@ -338,6 +342,7 @@
             this.idQuotation = this.customer.quotations[0].id
             if(this.customer.quotations[0].contract != null){
               this.idContract = this.customer.quotations[0].contract
+              this.fees = this.customer.quotations[0].contract.fees
             }
 
             this.date = this.customer.quotations[0].date

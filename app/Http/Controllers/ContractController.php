@@ -107,6 +107,8 @@ class ContractController extends Controller
 
         $quotation = $contract->quotation;
 
+        $quotation->details->delete();
+
         $details = $request->get('products');
        
             $arrProds = json_decode($details, true);
@@ -119,7 +121,8 @@ class ContractController extends Controller
                     'description' => '-',
                     'price' => $prod['price'],
                     'new_product_id' => $prod['new_product_id'],
-                    'level' => $prod['level']
+                    'level' => $prod['level'],
+                    'mode' => $prod['mode']
                 ]);
             }
 
