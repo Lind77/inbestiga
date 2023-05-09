@@ -113,10 +113,8 @@ export default {
         },
         selectMode(e){
             this.newProductsByType = this.newProducts.filter(product => product.type == e.target.value)
-            console.log(this.newProductsByType)
         },
         searchNewProduct(e){
-            console.log(this.detail.mode)  
             this.newProductsByType = this.newProducts.filter(product => product.type == this.detail.mode)
         if(e.target.value != ''){
             this.newProductsByName = this.newProductsByType.filter(product => product.name.toLowerCase().includes(e.target.value))

@@ -149,15 +149,25 @@
             
             <div class="row py-sm-3">
               <div class="col-md-6 mb-md-0 mb-3">
-                <div class="d-flex align-items-center mb-3">
+                <div class="d-flex align-items-center mb-3" v-if="typeDocument != 3">
                   <label for="salesperson" class="form-label me-5 fw-semibold">Tiempo de Ejecución<span class="text-danger">*</span>:</label>
-                  <input type="text" class="form-control" id="salesperson" v-model="term">
+                  <input type="text" class="form-control" v-model="term">
+                </div>
+                <div class="d-flex align-items-center mb-3" v-if="typeDocument == 3">
+                  <label for="salesperson" class="form-label me-5 fw-semibold">Entrega Final<span class="text-danger">*</span>:</label>
+                  <input type="text" class="form-control" v-model="finalDelivery">
+                </div>
+                <div class="d-flex align-items-center mb-3" v-if="typeDocument == 3">
+                  <label for="salesperson" class="form-label me-5 fw-semibold">Observaciones<span class="text-danger">*</span>:</label>
+                  <input type="text" class="form-control" v-model="observations">
                 </div>
                 <div class="d-flex align-items-center mb-3">
                   <label for="salesperson" class="form-label me-5 fw-semibold">Cupón de descuento:</label>
-                  <input type="text" class="form-control" id="salesperson" v-model="coupon" @keyup="autoDiscount">
+                  <input type="text" class="form-control" v-model="coupon" @keyup="autoDiscount">
                 </div>
+
               </div>
+
               <div class="col-md-6 d-flex justify-content-end">
                 <div class="invoice-calculations">
                   <div class="d-flex justify-content-between mb-2">
@@ -176,7 +186,7 @@
                 </div>
               </div>
             </div>
-            <template v-if="typeDocument != 1">
+            <template v-if="typeDocument == 2 || ableToPayments">
               <hr class="my-4 mx-n4">
               <div class="row py-sm-3">
                 <Payments :totalFinal="totalProducts - discount" @generateFees="generateFees" :fees="fees" @addFee="addFee"/>
@@ -271,7 +281,9 @@
         recentCode:'',
         fees:[],
         dni:'',
-        address:''
+        address:'',
+        finalDelivery:'',
+        observations:''
       }
     },
     methods:{
@@ -396,12 +408,33 @@
           }
         }else{
           if(this.customer.quotations[0].order == null){
-            this.createOrder()
+            this.createOrder(this.customer.quotations[0].id)
           }else{
             this.updateOrder()
           }
         }
         
+      },
+      createOrder(quotationId){
+        const fd =  new FormData()
+          
+            fd.append('quotation_id', quotationId)
+            fd.append('final_delivery', this.finalDelivery)
+            fd.append('observations', this.observations)
+            fd.append('suggested', 1)
+            //fd.append('payments', JSON.stringify(this.payments))
+            fd.append('discount', this.discount)
+            fd.append('customer_id', this.$route.params.idUser)
+            fd.append('user_id', this.store.authUser.id)
+    
+            axios.post('/api/insertOrder',fd)
+            .then(res =>{
+              this.idOrder = res.data
+              this.$swal('Orden almacenada correctamente')
+            })
+            .catch(err =>{
+              console.error(err)
+            })
       },
       createContract(quotationId){   
         let conversorClass = conversor.conversorNumerosALetras
