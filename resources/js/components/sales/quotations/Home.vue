@@ -53,6 +53,7 @@
                   <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
                     <span v-if="typeDocument == 1" class="h4 text-capitalize mb-0 text-nowrap">Cotización #</span>
                     <span v-else-if="typeDocument == 2" class="h4 text-capitalize mb-0 text-nowrap">Contrato #</span>
+                    <span v-else-if="typeDocument == 3" class="h4 text-capitalize mb-0 text-nowrap">Orden #</span>
                   </dt>
                   <dd class="col-sm-6 d-flex justify-content-md-end">
                     <div class="w-px-150">
@@ -114,8 +115,8 @@
             <hr class="mx-n4">
             <form class="source-item py-sm-3">
               <div class="mb-3" data-repeater-list="group-a">
-                <template v-for="(carNewProduct, index) in carNewProducts">
-                  <Detail :newProduct="carNewProduct" :newProducts="newProducts" :index="index" @removeSuggestedCart="removeSuggestedCart"/>
+                <template v-for="(detail, index) in details">
+                  <Detail :detail="detail" :newProducts="newProducts" :index="index" @removeSuggestedCart="removeSuggestedCart"/>
                 </template>
               </div>
               <div class="row">
@@ -155,7 +156,7 @@
                 </div>
               </div>
             </div>
-            <template v-if="this.typeDocument == 2">
+            <template v-if="ableToPayments">
               <hr class="my-4 mx-n4">
               <div class="row py-sm-3">
                 <Payments :totalFinal="totalProducts - discount"/>
@@ -229,7 +230,7 @@
         dateValidate:'',
         newProductsByType:[],
         newProductsByName:[],
-        carNewProducts:[],
+        details:[],
         newProduct: {},
         discount:0,
         note:'',
@@ -260,18 +261,18 @@
         } */
         
       },
-      addPrice(carNewProduct,newProduct){
-      if(newProduct.mode == 2){
+      addPrice(detail,newProduct){
+      if(detail.mode == 2){
         alert('nani')
       }else{
-        carNewProduct.price = newProduct.newPriceSelected.price
-        carNewProduct.new_product.name = newProduct.name
-        carNewProduct.new_product_id = newProduct.id
+        detail.price = newProduct.newPriceSelected.price
+        detail.new_product.name = newProduct.name
+        detail.new_product_id = newProduct.id
         this.newProductsByName = []
       }
       },
       addDetail(){
-        this.carNewProducts.push({type: 1, level: '', title:'', mode:'', price:'', new_product:{name:''}, new_product_id:''})
+        this.details.push({type: 1, level: '', title:'', mode:'', price:'', new_product:{name:''}, new_product_id:''})
       },
       selectMode(e){
         this.newProductsByType = this.newProducts.filter(product => product.type == e.target.value)
@@ -296,11 +297,10 @@
             this.idQuotation = this.customer.quotations[0].id
             this.date = this.customer.quotations[0].date
             this.dateValidate = this.customer.quotations[0].expiration_date
-            this.discount = this.customer.quotations[0].discount
             this.term = this.customer.quotations[0].term
             this.note = this.customer.quotations[0].note
             this.customer.quotations[0].details.forEach(detail =>{
-            this.carNewProducts.push(detail)
+            this.details.push(detail)
             })
           }
         })
@@ -326,8 +326,7 @@
         $('#productModal').modal('show')
       },
       removeSuggestedCart(index){
-        this.carNewProducts.splice(index,1)
-        console.log(product)
+        this.details.splice(index,1)
       },
       insertQuotation(){
         if(this.customer.quotations[0]){
@@ -345,7 +344,7 @@
         fd.append('amount', this.totalProducts - this.discount)
         fd.append('discount', this.discount)
         fd.append('term', this.term)
-        fd.append('products', JSON.stringify(this.carNewProducts))
+        fd.append('products', JSON.stringify(this.details))
         fd.append('emisor_id', this.store.authUser.id)
 
         axios.post('/api/updateQuotation', fd)
@@ -367,7 +366,7 @@
         fd.append('amount', this.totalProducts - this.discount)
         fd.append('discount', this.discount)
         fd.append('term', this.term)
-        fd.append('products', JSON.stringify(this.carNewProducts))
+        fd.append('products', JSON.stringify(this.details))
         fd.append('emisor_id', this.store.authUser.id)
 
         axios.post('/api/insertQuotation', fd)
@@ -392,7 +391,7 @@
       getNewProducts(){
         axios.get('/api/getNewProductsById/'+this.$route.params.idUser)
         .then((res)=>{
-         this.carNewProducts = res.data
+         this.details = res.data
         })
         .catch((err)=>{
           console.log(err)
@@ -401,7 +400,7 @@
       insertCarProducts(newProduct){
         console.log(newProduct)
         var newProd = {'id' : newProduct.id, 'name' : newProduct.name, 'type' : newProduct.typeDetail, 'price' : newProduct.priceFinal, 'new_product_id': newProduct.id, 'level' : newProduct.level}
-        this.carNewProducts.push(newProd)
+        this.details.push(newProd)
       },
       getPromotionCode(){
         axios.get('/api/getPromotionCode')
@@ -421,10 +420,24 @@
     computed:{
       totalProducts(){
         var total = 0
-        this.carNewProducts.forEach((product)=>{
+        this.details.forEach((product)=>{
             total += parseFloat(product.price)
         })
         return total.toFixed(2)
+      },
+      ableToPayments(){
+
+        var detailFound = this.details.find(detail => detail.mode == 2)
+        console.log(detailFound)
+        if(detailFound){
+          if(this.typeDocument == 2 || this.typeDocument == 3){
+            return true
+          }else{
+            return false
+          }
+        }else{
+          return false
+        }
       }
     }
   }
