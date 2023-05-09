@@ -336,6 +336,10 @@
          this.customer = res.data
           if(this.customer.quotations[0]){
             this.idQuotation = this.customer.quotations[0].id
+            if(this.customer.quotations[0].contract != null){
+              this.idContract = this.customer.quotations[0].contract
+            }
+
             this.date = this.customer.quotations[0].date
             this.dateValidate = this.customer.quotations[0].expiration_date
             this.term = this.customer.quotations[0].term
@@ -383,7 +387,7 @@
           if(this.customer.quotations[0].contract == null){
             this.createContract(this.customer.quotations[0].id)
           }else{
-            this.updateContract()
+            this.updateContract(this.customer.quotations[0].contract.id)
           }
         }else{
           if(this.customer.quotations[0].order == null){
@@ -394,32 +398,56 @@
         }
         
       },
-      createContract(quotationId){
-              
-              let conversorClass = conversor.conversorNumerosALetras
-              let myConverter = new conversorClass()
-       
-              const fd =  new FormData()
+      createContract(quotationId){   
+        let conversorClass = conversor.conversorNumerosALetras
+        let myConverter = new conversorClass()
+  
+        const fd =  new FormData()
 
-              fd.append('quotation_id', quotationId)
-              fd.append('amount', parseInt(this.totalProducts - this.discount))
-              fd.append('amount_text',myConverter.convertToText(parseInt(this.totalProducts - this.discount)))
-              fd.append('date', this.date)
-              fd.append('fees', JSON.stringify(this.fees))
-              fd.append('customer_id', this.$route.params.idUser)
-              fd.append('user_id', this.store.authUser.id)
-              fd.append('products', JSON.stringify(this.details))
-              fd.append('emisor_id', this.store.authUser.id)
-              axios.post('/api/insertContract', fd)
-              .then(res =>{
-                this.idContract = res.data
-                this.$swal('Contrato generado correctamente')
-              })
-              .catch(err =>{
-                console.log(err)
-              })
+        fd.append('quotation_id', quotationId)
+        fd.append('amount', parseInt(this.totalProducts - this.discount))
+        fd.append('amount_text',myConverter.convertToText(parseInt(this.totalProducts - this.discount)))
+        fd.append('date', this.date)
+        fd.append('fees', JSON.stringify(this.fees))
+        fd.append('customer_id', this.$route.params.idUser)
+        fd.append('user_id', this.store.authUser.id)
+        fd.append('products', JSON.stringify(this.details))
+        fd.append('emisor_id', this.store.authUser.id)
+        axios.post('/api/insertContract', fd)
+        .then(res =>{
+          this.idContract = res.data
+          this.$swal('Contrato generado correctamente')
+        })
+        .catch(err =>{
+          console.log(err)
+        })
+      },
+      updateContract(contractId){
+        let conversorClass = conversor.conversorNumerosALetras
+        let myConverter = new conversorClass()
 
+        const fd = new FormData()
 
+        fd.append('contractId', contractId)
+        fd.append('date', this.date)
+        fd.append('amount', parseInt(this.totalProducts - this.discount))
+        fd.append('amount_text',myConverter.convertToText(parseInt(this.totalProducts - this.discount)))
+        fd.append('fees', JSON.stringify(this.fees))
+        fd.append('customer_id', this.$route.params.idUser)
+        fd.append('user_id', this.store.authUser.id)
+        fd.append('products', JSON.stringify(this.details))
+        fd.append('emisor_id', this.store.authUser.id)
+
+        fd.append('products', JSON.stringify(this.details))
+
+        axios.post('/api/updateContract', fd)
+        .then(res =>{
+          this.idContract = res.data
+          this.$swal('Contrato actualizado correctamente')
+        })
+        .catch(err =>{
+          console.log(err)
+        })
       },
       updateQuotation(quotationId){
         const fd =  new FormData()

@@ -95,6 +95,52 @@ class ContractController extends Controller
         //
     }
 
+    public function updateContract(Request $request){
+
+        $contract = Contract::with(['quotation', 'fees'])->find($request->get('contractId'));
+
+        $contract->update([
+            'amount' => $request->get('amount'),
+            'amount_text' => $request->get('amount_text'),
+            'date' => $request->get('date')
+        ]);
+
+        $quotation = $contract->quotation;
+
+        $details = $request->get('products');
+       
+            $arrProds = json_decode($details, true);
+
+            foreach($arrProds as $prod){
+                $detail = Detail::create([
+                    'quotation_id' => $quotation->id,
+                    'product_id' => 1,
+                    'type' => $prod['type'],
+                    'description' => '-',
+                    'price' => $prod['price'],
+                    'new_product_id' => $prod['new_product_id'],
+                    'level' => $prod['level']
+                ]);
+            }
+
+            Fee::where('contract_id', $contract->id)->delete();
+
+            $fees = json_decode($request->get('fees'), true);
+
+            foreach ($fees as $fee) {
+            Fee::create([
+                    'contract_id' => $contract->id,
+                    'date' => $fee['date'],
+                    'amount' => $fee['amount'],
+                    'advance' => $fee['advance'],
+                    'percentage' => $fee['percentage']
+            ]);
+            }
+
+
+        return $contract;
+    }
+
     public function insertContract(Request $request){
 
         if($request->get('quotation_id') == 'undefined'){

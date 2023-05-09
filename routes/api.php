@@ -158,6 +158,7 @@ Route::get('/generateContract/{id}', [OrderController::class, 'generateContract'
 Route::post('/insertOrder',[OrderController::class, 'insertOrder']);
 
 Route::post('/insertContract',[ContractController::class, 'insertContract']);
+Route::post('/updateContract',[ContractController::class, 'updateContract']);
 
 Route::post('/updatePrices', [PriceController::class, 'updatePrices']);
 
