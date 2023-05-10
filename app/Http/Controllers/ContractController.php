@@ -107,7 +107,9 @@ class ContractController extends Controller
 
         $quotation = $contract->quotation;
 
-        $quotation->details->delete();
+        $quotation->details->each(function ($detail) {
+            $detail->delete();
+        });
 
         $details = $request->get('products');
        
