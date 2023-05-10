@@ -23,7 +23,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with(['project','project.product', 'comunications','quotations', 'quotations.order'])->orderBy('updated_at', 'desc')->take(21)->get();
+        $customers = Customer::with(['project','project.product', 'comunications','quotations', 'quotations.order'])->orderBy('updated_at', 'desc')->take(10)->get();
         return response()->json($customers);
     }
 
@@ -365,12 +365,12 @@ class CustomerController extends Controller
     }
     
     public function searchCustomers($search){
-        $customers = Customer::with('comunications')->where('name', 'like', '%'.$search.'%')->get();
+        $customers = Customer::with('comunications')->where('name', 'like', '%'.$search.'%')->orWhere('cell','like','%'.$search.'%')->get();
         return response()->json($customers);
     }
 
     public function searchPreleads($search){
-        $customers = Customer::with('comunications')->where('name', 'like', '%'.$search.'%')->get();
+        $customers = Customer::with('comunications')->where('name', 'like', '%'.$search.'%')->orWhere('cell','like','%'.$search.'%')->where('status','<',3)->get();
         return response()->json($customers);
     }
 
@@ -381,7 +381,10 @@ class CustomerController extends Controller
     }
 
     public function getLeadsByDate($date){
-        $customers = Customer::with('comunications')->get();
+        $customers = Customer::with('comunications')->whereHas('comunications', function ($query) use ($date) {
+            $query->where('next_management', $date);
+        })->get();
+        return response()->json($customers);
     }
 
 }

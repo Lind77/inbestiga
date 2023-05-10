@@ -41,6 +41,7 @@
                 </div>
                 </div>
                 <div class="col-12 col-lg-6">
+                    
                     <div class="card shadow-none bg-transparent border border-warning mb-3" v-if="customer.comunications && customer.comunications.length != 0">
                         <div class="card-body">
                             <h5 class="card-title">Comunicación más reciente</h5>

@@ -5,14 +5,14 @@
         <div class="col-xl-12 col-lg-12">
           <div class="card">
             <h5 class="card-header">Base de datos</h5>
-            <input type="text" name="" id="" placeholder="Buscar..." class="form-control w-50 ms-2 py-2" @keyup="searchCustomer" v-model="search">
+            <input type="text" name="" id="" placeholder="Buscar..." class="form-control w-50 ms-2 py-2" @keyup.enter="searchCustomer" @keyup="cleanSearch" v-model="search">
             <div class="table-responsive text-nowrap">
               <table class="table">
                 <thead>
                   <tr>
                       <th>Nombre</th>
                       <th>Celular</th>
-                      <th>Correo</th>
+                      <th>Fecha de Registro</th>
                       <th>Universidad</th>
                       <th>Carrera</th>
                       <th>Estado</th>
@@ -20,10 +20,10 @@
                   </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                  <tr v-for="customer in customersPag">
+                  <tr v-for="customer in customers">
                     <td><strong>{{customer.name}}</strong><i @click="openAsignOwner(customer.id)" v-show="customer.user_id == null" class='bx bxs-user-x text-danger'></i></td>
                       <td>{{customer.cell}}</td>
-                      <td>{{customer.email}}</td>
+                      <td>{{formatDate(customer.created_at)}}</td>
                       <td>{{customer.university}}</td>
                       <td>{{customer.career}}</td>
                       <td>{{ status[customer.status] }}</td>
@@ -49,6 +49,7 @@
     </div>
 </template>
 <script>
+import moment from "moment"
 import customerModal from './customerModal.vue'
 import OwnerModal from '../prelead/OwnerModal.vue'
   export default{
@@ -64,18 +65,29 @@ import OwnerModal from '../prelead/OwnerModal.vue'
         action: 1,
         search: '',
         status:{
-          0: 'No atendido',
-          1: 'Atendido',
-          2: 'Comunicación establecida',
-          3: 'Lead',
-          4: 'Interesado',
-          5: 'Altamente Interesado',
-          6: 'Cliente',
-          null: 'Stand By'
+          1: 'No atendido',
+          2: 'Atendido',
+          3: 'Comunicación establecida',
+          4: 'Obtención de necesidades específicas',
+          5: 'Con Cotización',
+          6: 'Explicación de Cotización',
+          7: 'Explicación de la Experiencia',
+          8: 'Seguimientos',
+          9: 'Cierre no pagado',
+          10: 'Seguimiento de cierre',
+          11: 'Cliente'
         }
       }
     },
     methods:{
+      cleanSearch(){
+        if(this.search == ''){
+          this.getAllCustomers()
+        }
+      },
+      formatDate(date){
+        return moment(date).format('DD/MM/YYYY')
+      },
       cleanLead(customerId, seller){
         var customerSelected = this.customersPag.find(customer => customer.id == customerId)
         customerSelected.user_id = seller
@@ -84,15 +96,14 @@ import OwnerModal from '../prelead/OwnerModal.vue'
         this.customerId = id
         $('#ownerModal').modal('show')
       },
-      searchCustomer(e){
-        console.log(e.target.value)
-        if(e.target.value != ''){
-          var results = this.customers.filter(customer => customer.name != null && customer.name.toLowerCase().includes(e.target.value))
-        this.customersPag = results
-        }else{
-          this.customersPag  = this.customersChunked[0]
-        }
-        
+      searchCustomer(){
+         axios.get('/api/searchCustomers/'+this.search)
+         .then((res) =>{
+          this.customers = res.data
+         })
+         .catch((err) =>{
+          console.error(err.response)
+         })
       },
       stepPag(i){
         this.customersPag = this.customersChunked[i]
@@ -117,33 +128,11 @@ import OwnerModal from '../prelead/OwnerModal.vue'
         axios.get('/api/getAllCustomers')
         .then(res => {
           this.customers = res.data
-          var i = 0
-          var cant = 10
-          this.customersPag = []
-          this.customersChunked = []
-          this.customers.forEach(customer => {
-            if(this.customers.slice(i, i+cant).length > 0){
-              this.customersChunked.push(this.customers.slice(i, i+cant))
-            }
-            
-            i = i+cant
-          })
-          this.customersPag  = this.customersChunked[0]
         })
-      },
-      getAllUsers(){
-          axios.get('/api/getAllUsers')
-          .then((res)=>{
-            this.allUsers = res.data
-          })
-          .catch((err)=>{
-
-          })
-        },
+      }
     },
     mounted(){
       this.getAllCustomers()
-      this.getAllUsers()
     }
   }
 </script>

@@ -166,7 +166,7 @@ export default{
     callModal(com){
       console.log(com)
       this.comunication = com
-      this.customerId = com.user_id
+      this.customerId = com.quotations[0].customer_id
       $('#funnelModal').modal('hide')
       $('#updateComModal').modal('show')
     }, 
@@ -176,7 +176,7 @@ export default{
         }else{
           axios.get('/api/getLeadsByDate/'+date)
           .then(res =>{
-            console.log(res)
+            this.distributeLeads(res.data)
           })
           this.customers_filtered = this.totalLeads.filter((customer) => customer.comunication && customer.comunication.next_management == date)
           this.distributeLeads(this.customers_filtered)
