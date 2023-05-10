@@ -143,6 +143,7 @@ Route::post('/storeMessage',[ChatController::class, 'store'])->middleware('auth:
 
 Route::get('/getAllOrders', [OrderController::class, 'index']);
 Route::post('/insertOrder',[OrderController::class, 'store']);
+Route::post('/updateOrder',[OrderController::class, 'update']);
 
 Route::get('/getNotifications', [NotificationController::class, 'index']);
 Route::get('/getAllNotifications/{id}', [NotificationController::class, 'getAllNotifications']);

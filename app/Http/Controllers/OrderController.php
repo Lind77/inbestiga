@@ -139,9 +139,40 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateOrderRequest $request, Order $order)
+    public function update(Request $request)
     {
-        //
+        return $request;
+        $order = Order::with(['quotation', 'quotation.details'])->find($request->get('order_id'));
+
+        $order->update([
+            'final_delivery' => $request->get('final_delivery'),
+            'observations' => $request->get('observations')
+        ]);
+
+        $order->quotation->details->each(function ($detail) {
+            $detail->delete();
+        });
+
+        $products = $request->get('products');
+       
+        $arrProds = json_decode($products, true);
+
+            foreach($arrProds as $prod){
+                $detail = Detail::create([
+                    'quotation_id' => $order->quotation->id,
+                    'product_id' => 1,
+                    'type' => $prod['type'],
+                    'description' => '-',
+                    'price' => $prod['price'],
+                    'new_product_id' => $prod['new_product_id'],
+                    'level' => $prod['level'],
+                    'mode' => $prod['mode']
+                ]);
+            }
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     /**

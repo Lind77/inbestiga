@@ -350,7 +350,7 @@
             if(this.customer.quotations[0]){
               this.idQuotation = this.customer.quotations[0].id
               if(this.customer.quotations[0].order != null){
-                this.idOrder = this.customer.quotations[0].order
+                this.idOrder = this.customer.quotations[0].order.id
                 
               }
   
@@ -407,7 +407,7 @@
             if(this.customer.quotations[0].order == null){
               this.createOrder(this.customer.quotations[0].id)
             }else{
-              this.updateOrder()
+              this.updateOrder(this.customer.quotations[0].order.id)
             }
           }
           
@@ -427,9 +427,35 @@
               fd.append('customer_id', this.$route.params.idUser)
               fd.append('user_id', this.store.authUser.id)
       
-              axios.post('/api/insertOrder',fd)
+              axios.post('/api/updateOrder',fd)
               .then(res =>{
                 this.idOrder = res.data
+                this.$swal('Orden actualizada correctamente')
+              })
+              .catch(err =>{
+                console.error(err)
+              })
+          }
+        },
+        updateOrder(orderId){
+          if(this.finalDelivery == null || this.observations == null){
+            this.$swal('Tiene que rellenar los campos de manera obligatoria (entrega final y observaciones)')
+          }else{
+            const fd =  new FormData()
+            
+              fd.append('order_id', orderId)
+              fd.append('final_delivery', this.finalDelivery)
+              fd.append('observations', this.observations)
+              fd.append('suggested', 1)
+              fd.append('products', JSON.stringify(this.details))
+              fd.append('payments', JSON.stringify(this.payments))
+              fd.append('discount', this.discount)
+              fd.append('customer_id', this.$route.params.idUser)
+              fd.append('user_id', this.store.authUser.id)
+      
+              axios.post('/api/updateOrder',fd)
+              .then(res =>{
+                //this.idOrder = res.data
                 this.$swal('Orden almacenada correctamente')
               })
               .catch(err =>{
