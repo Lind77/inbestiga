@@ -196,7 +196,8 @@ class ContractController extends Controller
                     'description' => '-',
                     'price' => $prod['price'],
                     'new_product_id' => $prod['new_product_id'],
-                    'level' => $prod['level']
+                    'level' => $prod['level'],
+                    'mode' => $prod['mode']
                 ]);
             }
             if($quotation->contract != null){

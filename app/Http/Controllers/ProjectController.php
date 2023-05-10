@@ -300,12 +300,14 @@ class ProjectController extends Controller
         $customer = Customer::find($request->get('id_customer'));
 
         $customer->update([
-            'status' => 7
+            'status' => 11
         ]);
 
-        $quotation = Quotation::where('customer_id', $customer->id)->with('orders')->orderBy('id', 'desc')->first();
+        $quotation = Quotation::where('customer_id', $customer->id)->with('order')->orderBy('id', 'desc')->first();
 
-        $lastOrder = $quotation->orders->first();
+        $lastOrder = $quotation->order;
+
+        
 
         $project = Project::create([
             'title' => 'Proyecto '.$customer->name,
@@ -313,7 +315,7 @@ class ProjectController extends Controller
             'deadline' => date('Y-m-d'),
             'product_id' => 1,
             'status' => 0,
-            'order_id' =>  $lastOrder->id
+            'order_id' =>  1
         ]);
 
         $notification = Notification::create([

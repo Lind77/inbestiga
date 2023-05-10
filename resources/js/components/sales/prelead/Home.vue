@@ -12,7 +12,7 @@
       <OwnerModal :customerId="customerId" @convertLead="convertLead" @cleanLead="cleanLead"/>
       <customerModal :customer="customer" :action="2"/>
       <FunnelModal :customer="customer_selected" @updateToLead="updateToLead" @updateStatusSpace="updateStatusSpace" @callModal="callModal" @showModalUpdateData="showModalUpdateData"/>
-      <UpdateCom :comunication="comunication" :customerId="customerId" :action="action"/>
+      <UpdateCom :comunication="comunication" :customerId="customerId" :action="action" @getAllCustomers="getAllCustomers"/>
 </template>
 <script>
 import axios from 'axios'
@@ -113,7 +113,7 @@ export default {
 
           if(newStatus == 3){
             if(customerSelected.name == null || customerSelected.cell == null || customerSelected.career == null || customerSelected.university == null){
-              this.$swal('El usuario carece de información básica necesaria (nombre, número, carrera y universidad de celular)')
+              this.$swal('El usuario carece de información básica necesaria (nombre, número, carrera y universidad)')
             }else{
               var oldStatus = customerSelected.status
 
@@ -174,6 +174,9 @@ export default {
           allowOutsideClick: false,
           showConfirmButton: false
           })
+          this.noAttended = []
+          this.attended = []
+          this.comunications = []
 
             axios.get('/api/getAllPreleads')
             .then(res =>{

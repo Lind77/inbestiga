@@ -119,7 +119,7 @@
                     </td>
                     <td v-else>{{ customer.address }}</td>
                   </tr>
-                  <tr v-if="customer.dni == null || customer.address == null && typeDocument != 1">
+                  <tr v-if="typeDocument != 1">
                     <td class="pe-3"></td>
                     <td>
                       <button class="btn btn-success btn-sm" @click="saveDni">Actualizar Datos</button>

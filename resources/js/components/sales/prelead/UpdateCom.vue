@@ -86,6 +86,7 @@
                 axios.post('/api/insertComunication', fd)
                 .then((res) =>{
                     console.log(res)
+                    this.$emit('getAllCustomers')
                     $('#updateComModal').modal('hide')
                 })
                 .catch((err) =>{
