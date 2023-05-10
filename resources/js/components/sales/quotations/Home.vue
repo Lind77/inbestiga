@@ -208,6 +208,15 @@
                   </select> -->
                   
                 </div>
+                <div class="card bg-success text-white mb-3">
+                  <div class="card-header">
+                    Necesidades del cliente
+                  </div>
+                  <div class="card-body">
+                    {{ customer.needs }}
+                  </div>
+                 
+                </div>
                 <div class="card mb-4">
                   <div class="card-body">
                     <button @click="insertQuotation" class="btn btn-primary d-grid w-100 mb-3" >
