@@ -217,6 +217,9 @@
                   </div> -->
                   <div class="card mb-4">
                     <div class="card-body">
+
+                      <router-link v-if="customer.id" :to="{name:'home-quotation', params:{ idUser: customer.id }}" class="btn btn-secondary d-grid w-100 mb-3">Ver cotización</router-link>
+
                       <button @click="insertQuotation" class="btn btn-primary d-grid w-100 mb-3" >
                         <span class="d-flex align-items-center justify-content-center text-nowrap"><i class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
                       </button>
