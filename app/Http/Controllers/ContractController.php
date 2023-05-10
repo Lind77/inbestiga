@@ -97,7 +97,7 @@ class ContractController extends Controller
 
     public function updateContract(Request $request){
 
-        $contract = Contract::with(['quotation', 'fees'])->find($request->get('contractId'));
+        $contract = Contract::with(['quotation', 'quotation.details', 'fees'])->find($request->get('contractId'));
 
         $contract->update([
             'amount' => $request->get('amount'),
