@@ -44,7 +44,7 @@
                   </span>
                   <span class="app-brand-text demo text-body fw-bolder">Inbestiga</span>
                 </div>
-                <p class="mb-1">Prolongación Cuzco 921 – Huancayo.</p>
+                <p class="mb-1">Prolongación Cuzco 921 – Huancayo</p>
                 <p class="mb-1">Calle Elías Aguirre 180 Piso 03 – Miraflores.</p>
                 <p class="mb-0">991045555, 947202059</p>
               </div>
