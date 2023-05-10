@@ -247,10 +247,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($customer->quotations[0]->contract->fees as $fee)
+                        @foreach ($customer->quotations[0]->contract->deliveries as $delivery)
                         <tr>
-                            <td>{{$fee->date}}</td>
-                            <td>{{$fee->advance}}</td>
+                            <td>{{$delivery->date}}</td>
+                            <td>{{$delivery->advance}}</td>
                         </tr>
                         @endforeach
                     </tbody>

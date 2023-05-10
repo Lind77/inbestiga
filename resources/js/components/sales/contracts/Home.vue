@@ -189,6 +189,18 @@
                 <div class="row py-sm-3">
                   <Payments :totalFinal="totalProducts - discount" :fees="fees" @addFee="addFee"/>
                 </div>
+
+                <hr class="my-4 mx-n4">
+                <div class="row">
+                  <Delivery :deliveries="deliveries"/>
+                  <form class="source-item py-sm-3">
+                    <div class="row">
+                      <div class="col-12">
+                        <button type="button" class="btn btn-primary" data-repeater-create="" @click="addDelivery">Agregar Entrega</button>
+                      </div>
+                    </div>
+                </form>
+                </div>
               
               <hr class="my-4 mx-n4">
               <div class="row">
@@ -217,6 +229,11 @@
                   </div> -->
                   <div class="card mb-4">
                     <div class="card-body">
+                      Generar Adenda
+                    </div>
+                  </div>
+                  <div class="card mb-4">
+                    <div class="card-body">
 
                       <router-link v-if="customer.id" :to="{name:'home-quotation', params:{ idUser: customer.id }}" class="btn btn-secondary d-grid w-100 mb-3">Ver cotización</router-link>
 
@@ -240,7 +257,7 @@
     import { userStore } from '../../../stores/UserStore'
     import Detail from './Detail.vue'
     import Payments from './Payments.vue'
-    
+    import Delivery from './Delivery.vue'
     export default{
       setup(){
         const store = userStore()
@@ -248,7 +265,7 @@
           store
         }
       },
-      components:{ Detail, Payments },
+      components:{ Detail, Payments, Delivery},
       data(){
         return{
           typeDocument: 2,
@@ -276,10 +293,18 @@
           dni:'',
           address:'',
           finalDelivery:'',
-          observations:''
+          observations:'',
+          deliveries:[]
         }
       },
       methods:{
+        addDelivery(){
+          var delivery = {
+            'date':'',
+            'advance':''
+          }
+          this.deliveries.push(delivery)
+        },
         saveDni(){
               const fd = new FormData()
               fd.append('id_customer', this.customer.id)
@@ -448,6 +473,7 @@
           fd.append('amount_text',myConverter.convertToText(parseInt(this.totalProducts - this.discount)))
           fd.append('date', this.date)
           fd.append('fees', JSON.stringify(this.fees))
+          fd.append('deliveries', JSON.stringify(this.deliveries))
           fd.append('customer_id', this.$route.params.idUser)
           fd.append('user_id', this.store.authUser.id)
           fd.append('products', JSON.stringify(this.details))

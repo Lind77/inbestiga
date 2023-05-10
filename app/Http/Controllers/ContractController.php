@@ -8,6 +8,7 @@ use App\Http\Requests\StoreContractRequest;
 use App\Http\Requests\UpdateContractRequest;
 use App\Models\Comission;
 use App\Models\Customer;
+use App\Models\Delivery;
 use App\Models\Detail;
 use App\Models\Fee;
 use App\Models\Notification;
@@ -227,6 +228,16 @@ class ContractController extends Controller
                 'percentage' => $fee['percentage']
            ]);
         }
+
+        $deliveries = json_decode($request->get('deliveries'), true);
+
+        foreach ($deliveries as $delivery) {
+            Delivery::create([
+                 'contract_id' => $contract->id,
+                 'date' => $delivery['date'],
+                 'advance' => $delivery['advance']
+            ]);
+         }
 
         $customer = Customer::find($request->get('customer_id'));
 

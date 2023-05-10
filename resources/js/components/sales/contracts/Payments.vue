@@ -18,10 +18,10 @@
             <p class="card-text">
                 Porcentaje: {{ fee.percentage }} %
             </p>
-            <p class="card-text">
+            <!-- <p class="card-text">
                 Avance:
                 <input type="text" class="form-control" v-model="fee.advance">
-            </p>
+            </p> -->
         </div>
         </div>
   </div>

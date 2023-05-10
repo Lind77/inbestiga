@@ -18,4 +18,8 @@ class Contract extends Model
     public function fees(){
         return $this->hasMany('App\Models\Fee');
     }
+
+    public function deliveries(){
+        return $this->hasMany('App\Models\Delivery');
+    }
 }
