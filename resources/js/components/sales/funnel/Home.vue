@@ -85,14 +85,14 @@ export default{
       }
     },
     verifyChange(customer, status){
-        if(status >=5 && status < 9){
+        /* if(status >=5 && status < 9){
           console.log('verificando estado menor a 9')
           if(customer.quotations.length != 0){
             return true
           }else{
             this.$swal.fire('Este usuario no cuenta con una cotización')
           }
-        }else if(status >= 9){
+        }else */ if(status >= 9){
           console.log('verificando estado mayor a 9', customer.quotations[0].order)
           if(customer.quotations[0].order != null || customer.quotations[0].contract != null){
             return true
