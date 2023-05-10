@@ -51,9 +51,7 @@
               <div class="col-md-6">
                 <dl class="row mb-2">
                   <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
-                    <span v-if="typeDocument == 1" class="h4 text-capitalize mb-0 text-nowrap">Cotización #</span>
-                    <span v-else-if="typeDocument == 2" class="h4 text-capitalize mb-0 text-nowrap">Contrato #</span>
-                    <span v-else-if="typeDocument == 3" class="h4 text-capitalize mb-0 text-nowrap">Orden #</span>
+                    <span class="h4 text-capitalize mb-0 text-nowrap">Cotización</span>
                   </dt>
                   <dd class="col-sm-6 d-flex justify-content-md-end">
                     <div class="w-px-150">
@@ -128,9 +126,7 @@
                 </tbody>
               </table>
             </div>
-            <div class="col-md-6 col-sm-7">
-              
-            </div>
+            <div class="col-md-6 col-sm-7"></div>
           </div>
             <hr class="mx-n4">
             <form class="source-item py-sm-3">
@@ -181,17 +177,11 @@
                   <hr>
                   <div class="d-flex justify-content-between">
                     <span class="w-px-100">Total:</span>
-                    <span class="fw-semibold">S./ {{ totalProducts - discount }}</span>
+                    <span class="fw-semibold">S./ {{ finalPrice }}</span>
                   </div>
                 </div>
               </div>
             </div>
-            <template v-if="typeDocument == 2 || ableToPayments">
-              <hr class="my-4 mx-n4">
-              <div class="row py-sm-3">
-                <Payments :totalFinal="totalProducts - discount" @generateFees="generateFees" :fees="fees" @addFee="addFee"/>
-              </div>
-            </template>
             
             <hr class="my-4 mx-n4">
             <div class="row">
@@ -210,12 +200,12 @@
               <!-- Invoice Actions -->
               <div class="col-lg-3 col-12 invoice-actions">
                 <div>
-                  <p class="mb-2">Seleccionar Documento</p>
+                  <!-- <p class="mb-2">Seleccionar Documento</p>
                   <select class="form-select mb-4" @change="redirect" v-model="typeDocument">
                     <option value="1">Cotización</option>
                     <option value="2">Contrato</option>
                     <option value="3">Orden</option>
-                  </select>
+                  </select> -->
                   
                 </div>
                 <div class="card mb-4">
@@ -301,9 +291,12 @@
             })
       },
       autoDiscount(){
-        if(this.coupon == 'PROMO150'){
+        
+        if(this.coupon == this.recentCode.code){
           this.$swal('Se ha desbloqueado el descuento')
-          this.discount = 300
+          this.discount = ((this.totalProducts*this.recentCode.percent)/100).toFixed(2)
+        }else if(this.coupon == ''){
+          this.discount = 0
         }
       },
       redirect(){
@@ -515,7 +508,7 @@
         fd.append('customer_id', this.customer.id)
         fd.append('date', this.date)
         fd.append('expirationDay', this.dateValidate)
-        fd.append('amount', this.totalProducts - this.discount)
+        fd.append('amount', (this.totalProducts - this.discount).toFixed(2))
         fd.append('discount', this.discount)
         fd.append('term', this.term)
         fd.append('products', JSON.stringify(this.details))
@@ -557,7 +550,7 @@
       getPromotionCode(){
         axios.get('/api/getPromotionCode')
         .then((res)=>{
-          this.recentCode = res.data.code
+          this.recentCode = res.data
         })
         .catch((err)=>{
           console.error(err)
@@ -570,12 +563,15 @@
       this.getAllNewProducts()
     },
     computed:{
+      finalPrice(){
+      return (this.totalProducts - this.discount).toFixed(2)
+      },
       totalProducts(){
         var total = 0
         this.details.forEach((product)=>{
             total += parseFloat(product.price)
         })
-        return total.toFixed(2)
+        return (total).toFixed(2)
       },
       ableToPayments(){
 

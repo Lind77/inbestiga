@@ -119,7 +119,7 @@
                     </tr>
                     <tr>
                       <td class="pe-3"></td>
-                      <td>
+                      <td v-if="customer.address == null || customer.dni == null">
                         <button class="btn btn-success btn-sm" @click="saveDni">Actualizar Datos</button>
                       </td>
                     </tr>
@@ -179,7 +179,7 @@
                     <hr>
                     <div class="d-flex justify-content-between">
                       <span class="w-px-100">Total:</span>
-                      <span class="fw-semibold">S./ {{ totalProducts - discount }}</span>
+                      <span class="fw-semibold">S./ {{ totalFinal }}</span>
                     </div>
                   </div>
                 </div>
@@ -310,6 +310,14 @@
         addFee(fees){
           this.fees = []
           this.fees = fees
+          var numFees = this.fees.length
+          if(numFees == 1){
+            this.discount = ((this.totalProducts) * 0.1).toFixed(2)
+          }else if(numFees == 2){
+            this.discount = ((this.totalProducts) * 0.05).toFixed(2)
+          }else{
+            this.discount = 0
+          }
         },
         addPrice(detail,newProduct){
         if(detail.mode == 2){
@@ -563,6 +571,9 @@
         this.getAllNewProducts()
       },
       computed:{
+        totalFinal(){
+          return parseInt(this.totalProducts - this.discount)
+        },
         totalProducts(){
           var total = 0
           this.details.forEach((product)=>{

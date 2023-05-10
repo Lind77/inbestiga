@@ -41,7 +41,7 @@
             <p class="info-doc-p">COTIZACIÓN N°: 01-EN-VL</p>
             <p class="info-doc-p">FECHA: {{ quotation[0].date}}</p>
             <p class="info-doc-p">VALIDEZ: {{ quotation[0].expiration_date}}</p>
-            <p class="info-doc-p">IMPORTE: S./ {{ quotation[0].amount}}</p>
+            <p class="info-doc-p">IMPORTE: S./ {{ Number(quotation[0].amount).toFixed(2)}}</p>
             <p class="info-doc-p">EJECUCIÓN: {{ quotation[0].term }}</p>
         </div>
     </section>

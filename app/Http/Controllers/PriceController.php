@@ -104,13 +104,14 @@ class PriceController extends Controller
         ]);
     }
 
-    public function insertCode($code){
+    public function insertCode(Request $request){
         $promotion = Promotion::create([
-            'code' => $code
+            'code' => $request->get('code'),
+            'percent' => $request->get('percent'),
+            'quantity' => $request->get('quantity'),
+            'able' => $request->get('able')
         ]);
-        return response()->json([
-            'msg' => 'success'
-        ]);
+        return response()->json($promotion->code);
     }
 
     public function getPromotionCode(){
