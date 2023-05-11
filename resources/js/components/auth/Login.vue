@@ -154,7 +154,7 @@ export default {
             fd.append('password', this.password)
             fd.append('device_name', this.device_name)
 
-            this.axios.post('/api/login', fd)
+           axios.post('/api/login', fd)
             .then(res =>{
                 this.store.setUser(res.data.user)
                 localStorage.setItem('token',res.data.token)

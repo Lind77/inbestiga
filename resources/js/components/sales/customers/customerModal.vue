@@ -48,7 +48,7 @@
                 <input type="text" v-else v-model="career" class="form-control" />
                 </div>
             </div>
-            <div class="row g-2">
+            <div class="row g-2" v-if="action != 2">
                 <div class="col mb-0">
                     <label class="form-label">Estado</label>
                     <select class="form-select" v-model="status">
@@ -60,7 +60,7 @@
                     </select>
                 </div>
             </div>
-            <div class="row g-2">
+            <div class="row g-2" v-if="action != 2">
                 <div class="col mb-0">
                 <label for="emailBasic" class="form-label">Origen</label>
                     <select class="form-select" v-model="origin">

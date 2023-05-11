@@ -10,7 +10,8 @@
     </div>
     <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
     <UpdateCom :customerId="customerId" :comunication="comunication"/>
-    <FunnelModal :customer="customer_selected" @updateStatusSpace="updateStatusSpace" @callModal="callModal"/>
+    <FunnelModal :customer="customer_selected" @updateStatusSpace="updateStatusSpace" @callModal="callModal" @showModalUpdateData="showModalUpdateData"/>
+    <customerModal :customer="customer_selected" :action="2"/>
   </div>
 </template>
 <script>
@@ -21,6 +22,7 @@ import {userStore} from '../../../stores/UserStore'
 import draggableArea from './draggableArea.vue'
 import UpdateCom from '../prelead/UpdateCom.vue'
 import FunnelModal from './FunnelModal.vue'
+import customerModal from '../customers/customerModal.vue'
 import axios from 'axios'
 
 export default{
@@ -30,7 +32,7 @@ export default{
         store
       }
   },
-  components:{ CardCustomer, ProductModal, draggableArea, DatePicker, UpdateCom, FunnelModal },
+  components:{ CardCustomer, ProductModal, draggableArea, DatePicker, UpdateCom, FunnelModal, customerModal },
   data(){
     return{
       customers:[],
@@ -54,6 +56,11 @@ export default{
     }
   },
   methods:{
+    showModalUpdateData(customer){
+      this.customer_selected = customer
+      $('#funnelModal').modal('hide')
+      $('#customerModal').modal('show')
+    },
     updateStatusSpace(leadId, status){
       //$('#funnelModal').modal('hide')
       console.log(status)
