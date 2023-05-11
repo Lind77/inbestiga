@@ -75,7 +75,7 @@ export default{
         }
        
       }else{
-        console.log('checkeando lead', leadId)
+        console.log('checkeando lead', leadId, this.totalLeads)
         var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
         console.log(leadSelected)
         if(leadSelected.user.id == this.store.authUser.id){
