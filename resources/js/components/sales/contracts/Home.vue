@@ -381,8 +381,9 @@
               if(this.customer.quotations[0].contract != null){
                 this.idContract = this.customer.quotations[0].contract
                 this.fees = this.customer.quotations[0].contract.fees
+                this.deliveries = this.customer.quotations[0].contract.deliveries
               }
-  
+              
               this.date = this.customer.quotations[0].date
               this.dateValidate = this.customer.quotations[0].expiration_date
               this.term = this.customer.quotations[0].term
