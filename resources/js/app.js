@@ -32,7 +32,7 @@ function loggedIn(){
 
 //Set the router
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHistory('/public'),
     routes,
     linkActiveClass: 'active'
 })
