@@ -228,7 +228,7 @@ export default{
           console.log(err.response.data)
       })
     },
-    distributeLeads(totalLeads){
+    distributeLeads(leads){
       this.needs = []
       this.quotations = []
       this.explanations = []
@@ -239,7 +239,7 @@ export default{
       this.customers = []
 
 
-      totalLeads.forEach(lead => {
+      leads.forEach(lead => {
             if(lead.status == 4){
               this.needs.push(lead)
             }else if(lead.status == 5){
