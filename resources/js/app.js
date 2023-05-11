@@ -12,7 +12,7 @@ import './bootstrap'
 
 import axios from 'axios'
 
-axios.defaults.baseURL = 'https://sistema.inbestiga.com/'
+axios.defaults.baseURL = import.meta.env.AXIOS_URL
 
 import VueSweetalert2 from 'vue-sweetalert2'
 
@@ -32,7 +32,7 @@ function loggedIn(){
 
 //Set the router
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory('inbestiga'),
     routes,
     linkActiveClass: 'active'
 })
