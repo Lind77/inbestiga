@@ -1,6 +1,6 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dep. de Ventas /</span> Inicio</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Departamento de Ventas /</span> Inicio</h4>
         <h3>{{ store.authUser?store.authUser.name:'' }}, Te damos la bienvenida</h3>
     </div>
 </template>
