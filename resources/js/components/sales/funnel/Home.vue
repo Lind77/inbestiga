@@ -191,7 +191,7 @@ export default{
     callModal(com){
       console.log(com)
       this.comunication = com
-      this.customerId = com.quotations[0].customer_id
+      this.customerId = com.id
       $('#funnelModal').modal('hide')
       $('#updateComModal').modal('show')
     }, 

@@ -224,8 +224,11 @@ class CustomerController extends Controller
                 $comissionData['percent'] = 2;
                 break;
         }
-        if($request->get('status')>= 3){
-            $comission = Comission::create($comissionData);
+
+        $comission = Comission::where('customer_id', $request->get('customer_id'))->where('user_id', $request->get('user_id'))->where('concept', $comissionData['concept'])->first();
+
+        if($request->get('status')>= 3 && $comission){
+            $newComission = Comission::create($comissionData);
         }
         
 
