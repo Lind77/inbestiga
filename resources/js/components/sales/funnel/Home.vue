@@ -49,7 +49,8 @@ export default{
       comunication:{},
       needs: [],
       draggableAreas: [],
-      customerId: 0
+      customerId: 0,
+      leadsFiltered:[]
     }
   },
   methods:{
@@ -75,10 +76,9 @@ export default{
         }
        
       }else{
-        console.log('checkeando lead', leadId, this.totalLeads)
-        var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
+        var leadSelected = this.leadsFiltered.find(customer => customer.id == leadId)
         console.log(leadSelected)
-        if(leadSelected.user.id == this.store.authUser.id){
+        if(leadSelected.user != null && leadSelected.user.id == this.store.authUser.id){
           if(this.verifyChange(leadSelected, status)){
             var firstStatus = leadSelected.status
             leadSelected.status = status
@@ -229,6 +229,10 @@ export default{
       })
     },
     distributeLeads(leads){
+
+      this.leadsFiltered = leads
+
+
       this.needs = []
       this.quotations = []
       this.explanations = []
@@ -239,7 +243,7 @@ export default{
       this.customers = []
 
 
-      leads.forEach(lead => {
+      this.leadsFiltered.forEach(lead => {
             if(lead.status == 4){
               this.needs.push(lead)
             }else if(lead.status == 5){
