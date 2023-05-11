@@ -12,7 +12,7 @@ import './bootstrap'
 
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost/inbestiga/public/'
+axios.defaults.baseURL = 'https://sistema.inbestiga.com/public/'
 
 import VueSweetalert2 from 'vue-sweetalert2'
 
