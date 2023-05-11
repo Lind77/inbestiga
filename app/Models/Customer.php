@@ -22,4 +22,12 @@ class Customer extends Model
     public function comunications(){
         return $this->hasMany("App\Models\Comunication");
     }
+
+    public function origin(){
+        return $this->hasOne("App\Models\Origin");
+    }
+
+    public function user(){
+        return $this->belongsTo('App\Models\User');
+    }
 }

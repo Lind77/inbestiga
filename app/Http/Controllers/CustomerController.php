@@ -294,7 +294,7 @@ class CustomerController extends Controller
         $totalCustomers = collect();
         
         for($i = 4; $i <= 11; $i++){
-            $customers = Customer::with(['project','project.product', 'comunications' => function($query){
+            $customers = Customer::with(['origin','user','project','project.product', 'comunications' => function($query){
                 $query->orderBy('id', 'desc')->first();
             },'quotations', 'quotations.order','quotations.contract'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
             

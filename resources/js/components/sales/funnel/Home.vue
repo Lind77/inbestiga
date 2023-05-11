@@ -76,12 +76,37 @@ export default{
        
       }else{
         var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
+        console.log(leadSelected)
+        if(leadSelected.user.id == this.store.authUser.id){
           if(this.verifyChange(leadSelected, status)){
             var firstStatus = leadSelected.status
             leadSelected.status = status
             this.removeLead(firstStatus, leadId)
             this.addLead(leadSelected, status)
           }
+        }else{
+          this.$swal.fire({
+                title: 'Este lead no te pertenece, tienes la seguridad de actualizarlo?',
+                showDenyButton: true,
+                confirmButtonText: 'Si',
+                denyButtonText: `No`,
+                }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                  if(this.verifyChange(leadSelected, status)){
+                    var firstStatus = leadSelected.status
+                    leadSelected.status = status
+                    this.removeLead(firstStatus, leadId)
+                    this.addLead(leadSelected, status)
+                  }
+                } else if (result.isDenied) {
+                    
+                }
+                })
+        }
+
+        
+          
       }
     },
     verifyChange(customer, status){
