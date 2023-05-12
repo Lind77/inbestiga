@@ -375,7 +375,10 @@ class CustomerController extends Controller
     }
 
     public function searchPreleads($search){
-        $customers = Customer::with('comunications')->where('name', 'like', '%'.$search.'%')->orWhere('cell','like','%'.$search.'%')->where('status','<',3)->get();
+        $customers = Customer::with('comunications')->where(function ($query) use ($search) {
+        $query->where('name', 'like', '%' . $search . '%')
+            ->orWhere('cell', 'like', '%' . $search . '%');
+    })->where('status', '<', 3)->get();
         return response()->json($customers);
     }
 
