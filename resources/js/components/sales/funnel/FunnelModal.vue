@@ -14,6 +14,7 @@
                 <button @click="callModal(customer)" type="button" class="btn btn-icon btn-warning ms-2">
                     <span class="tf-icons bx bx-chat"></span>
                 </button>
+                Dueño: {{ customer.user?customer.user.name:'Sin asignar' }}
             </h5>
             
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

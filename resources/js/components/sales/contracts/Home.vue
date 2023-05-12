@@ -192,7 +192,7 @@
 
                 <hr class="my-4 mx-n4">
                 <div class="row">
-                  <Delivery :deliveries="deliveries"/>
+                  <Delivery :deliveries="deliveries" @removeDelivery="removeDelivery"/>
                   <form class="source-item py-sm-3">
                     <div class="row">
                       <div class="col-12">
@@ -298,6 +298,9 @@
         }
       },
       methods:{
+        removeDelivery(index){
+          this.deliveries.splice(index,1)
+        },
         addDelivery(){
           var delivery = {
             'date':'',
@@ -499,6 +502,7 @@
           fd.append('amount', parseInt(this.totalProducts - this.discount))
           fd.append('amount_text',myConverter.convertToText(parseInt(this.totalProducts - this.discount)))
           fd.append('fees', JSON.stringify(this.fees))
+          fd.append('deliveries', JSON.stringify(this.deliveries))
           fd.append('customer_id', this.$route.params.idUser)
           fd.append('user_id', this.store.authUser.id)
           fd.append('products', JSON.stringify(this.details))

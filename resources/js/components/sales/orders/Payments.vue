@@ -5,7 +5,7 @@
     <div class="row mt-3">
         <div class="col-md-6 col-xl-4" v-for="(payment, index) in payments">
         <div class="card bg-primary text-white mb-3">
-        <div class="card-header d-flex justify-content-between">Pago {{ index+1 }} <i @click="deletePayment(index)" class="bx bx-x"></i></div>
+        <div class="card-header d-flex justify-content-between">Pago {{ index+1 }} <i @click="deletePayment(index)" class="bx bx-x cursor-pointer"></i></div>
         <div class="card-body">
             <p class="card-text">
                 Fecha:
