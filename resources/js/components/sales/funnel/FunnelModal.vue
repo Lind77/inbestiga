@@ -14,7 +14,14 @@
                 <button @click="callModal(customer)" type="button" class="btn btn-icon btn-warning ms-2">
                     <span class="tf-icons bx bx-chat"></span>
                 </button>
-                Dueño: {{ customer.user?customer.user.name:'Sin asignar' }}
+                <div class="">
+                    <h6 @dblclick="editOwner" v-show="!showOptionOwner"  class="cursor-pointer">Dueño: {{ customer.user?customer.user.name:'Sin asignar' }}</h6>
+                    <select v-model="newOwner" v-show="showOptionOwner" @change="updateOwner" id="smallSelect" class="form-select form-select-sm">
+                          <option :value="owner.id" v-for="owner in owners">{{ owner.name }}</option>
+                          
+                        </select>
+                </div>
+                
             </h5>
             
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -68,10 +75,37 @@
 import axios from 'axios'
 
 export default {
+    data(){
+        return{
+            showOptionOwner:false,
+            newOwner:1
+        }
+    },
     props:{
-        customer: Object
+        customer: Object,
+        owners: Array
     },
     methods:{
+        updateOwner(){
+            var newOwner = this.owners.find(owner => owner.id == this.newOwner)
+
+            const fd = new FormData()
+            fd.append('customer_id', this.customer.id)
+            fd.append('user_id', this.newOwner)
+
+            axios.post('/api/updateOwner', fd)
+            .then((res)=>{
+                this.$emit('updateOwner', this.customer, newOwner)
+            })
+            .catch((err)=>{
+                console.error(err)
+            })
+
+            this.showOptionOwner = false
+        },
+        editOwner(){
+            this.showOptionOwner = true
+        },
         standBy(id){
             axios.get('/api/standByCustomer/'+id)
             .then((res)=>{

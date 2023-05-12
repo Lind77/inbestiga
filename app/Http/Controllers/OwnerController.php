@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Owner;
 use App\Http\Requests\StoreOwnerRequest;
 use App\Http\Requests\UpdateOwnerRequest;
+use App\Models\Customer;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class OwnerController extends Controller
 {
@@ -17,7 +19,7 @@ class OwnerController extends Controller
      */
     public function index()
     {
-        $owners = User::role('Acad')->with(['memoir','memoir.team'])->get();
+        $owners = User::role('Seller')->get();
         return response()->json($owners);
     }
 
@@ -92,5 +94,17 @@ class OwnerController extends Controller
         $progress = $task->progress;
 
         return response()->json($progress);
+    }
+
+    public function updateOwner(Request $request){
+        $customer = Customer::find($request->get('customer_id'));
+
+        $customer->update([
+            'user_id' => $request->get('user_id')
+        ]);
+        
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }

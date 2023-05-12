@@ -1,7 +1,7 @@
 <template>
     <div class="cardSpace" draggable="true" @dragover.prevent @drop.stop.prevent @dragstart="drag" :id="`${customer.id}`" @click="showModalFunnel(customer)">
-        <div class="card bg-light p-2 cursor-pointer">
-            <h6 class="mb-0 py-2">{{ customer.name || customer.cell }}</h6>
+        <div :class="`card bg-${bgColor} p-2 cursor-pointer`">
+            <h6 class="mb-0 py-2 text-white">{{ customer.name || customer.cell }}</h6>
         </div>
         <div class="space" :id="'space'+customer.id" @dragover="changeColor(customer.id)" @dragleave="removeColor(customer.id)" @drop="dropSpace($event, customer.id)">
         </div>
@@ -98,11 +98,11 @@ import moment from 'moment'
         computed:{
             bgColor(){
                 if(this.customer.status == 0){
-                    return 'danger'
+                    return 'dark'
                 }else if(this.customer.status == 1){
                     return 'warning'
                 }else if (this.customer.status == 2){
-                    return 'success'
+                    return 'info'
                 }else if (this.customer.status >= 3){
                     return 'success'
                 }

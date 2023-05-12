@@ -10,7 +10,7 @@
     </div>
     <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
     <UpdateCom :customerId="customerId" :comunication="comunication"/>
-    <FunnelModal :customer="customer_selected" @updateStatusSpace="updateStatusSpace" @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers"/>
+    <FunnelModal :customer="customer_selected" :owners="owners" @updateStatusSpace="updateStatusSpace" @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers" @updateOwner="updateOwner"/>
     <customerModal :customer="customer_selected" :action="2"/>
   </div>
 </template>
@@ -52,10 +52,27 @@ export default{
       needs: [],
       draggableAreas: [],
       customerId: 0,
-      leadsFiltered:[]
+      leadsFiltered:[],
+      owners:[]
     }
   },
   methods:{
+    updateOwner(newCustomer, newOwner){
+      let arraysByStatus = {
+        4: this.needs,
+        5: this.quotations,
+        6: this.explanations,
+        7: this.experiences,
+        8: this.tracings,
+        9: this.nopays,
+        10: this.closings,
+        11: this.customers
+      }
+      let arraySelected = arraysByStatus[newCustomer.status]
+
+      var customerSelected = arraySelected.find(customer => customer.id == newCustomer.id)
+      customerSelected.user = newOwner
+    },
     showModalUpdateData(customer){
       this.customer_selected = customer
       $('#funnelModal').modal('hide')
@@ -349,10 +366,20 @@ export default{
       .catch(err =>{
         this.$swal(err.response.data.msg)
       })
+    },
+    getAllOwners(){
+      axios.get('/api/getAllOwners')
+      .then(res =>{
+        this.owners = res.data
+      })
+      .catch(err =>{
+        console.error(err)
+      })
     }
   },
   mounted(){
     this.getAllCustomers()
+    this.getAllOwners()
   }
 }
 </script>

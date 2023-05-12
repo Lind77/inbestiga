@@ -118,6 +118,7 @@ Route::get('/removeQualityActivity/{id}', [ProgressController::class, 'removeQua
 
 Route::get('/getAllOwners', [OwnerController::class, 'index']);
 Route::get('/verifyOwner/{id}', [OwnerController::class, 'verifyOwner']);
+Route::post('/updateOwner', [OwnerController::class, 'updateOwner']);
 
 Route::get('/getAllTeams', [TeamController::class,'index']);
 Route::post('/assignTeam', [TeamController::class, 'assignTeam']);
