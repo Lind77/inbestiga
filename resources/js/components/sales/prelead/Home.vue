@@ -48,10 +48,24 @@ export default {
           customer:{},
           customer_selected:{},
           search: '',
-          filteredCustomers: []
+          filteredCustomers: [],
+          leadsFiltered:[]
         }
     },
     methods:{
+      distributePreLeads(leads){
+        this.leadsFiltered = leads
+
+        this.leadsFiltered.forEach(customer =>{
+          if(customer.status == 1){
+            this.noAttended.push(customer)
+          }else if(customer.status == 2){
+            this.attended.push(customer)
+          }else{
+            this.comunications.push(customer)
+          }
+        })
+      },
       cleanPreLeads(){
         if(this.search == ''){
           this.getAllCustomers()
@@ -66,16 +80,8 @@ export default {
         axios.get('/api/searchPreleads/'+ this.search)
         .then((res) =>{
           console.log(res.data)
-          this.filteredCustomers = res.data
-          this.filteredCustomers.forEach(customer =>{
-          if(customer.status == 1){
-            this.noAttended.push(customer)
-          }else if(customer.status == 2){
-            this.attended.push(customer)
-          }else{
-            this.comunications.push(customer)
-          }
-        })
+          this.distributePreLeads(res.data)
+          
         })
         .catch((err) =>{
           console.error(err)
@@ -110,11 +116,8 @@ export default {
       },
         updateStatusSpace(customer_id, newStatus){
           console.log(customer_id, this.customers)
-          if(newStatus < 4){
-            var customerSelected = this.customers.find(customer => customer.id == customer_id)
-          }else{
-            var customerSelected = this.filteredCustomers.find(customer => customer.id == customer_id)
-          }
+         
+            var customerSelected = this.leadsFiltered.find(customer => customer.id == customer_id)
 
           if(newStatus == 3){
             if(customerSelected.name == null || customerSelected.cell == null || customerSelected.career == null || customerSelected.university == null){
@@ -186,18 +189,7 @@ export default {
             axios.get('/api/getAllPreleads')
             .then(res =>{
                 this.customers = res.data
-                this.customers.forEach(customer =>{
-                  if(customer.status == 0){
-                    this.origin.push(customer)
-                  }
-                  else if(customer.status == 1){
-                    this.noAttended.push(customer)
-                  }else if(customer.status == 2){
-                    this.attended.push(customer)
-                  }else{
-                    this.comunications.push(customer)
-                  }
-                })
+                this.distributePreLeads(res.data)
                 this.$swal().close()
             })
             .catch(err =>{
