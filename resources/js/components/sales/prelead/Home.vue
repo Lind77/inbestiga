@@ -109,6 +109,7 @@ export default {
         $('#ownerModal').modal('show')
       },
         updateStatusSpace(customer_id, newStatus){
+          console.log(customer_id, this.customers)
           var customerSelected = this.customers.find(customer => customer.id == customer_id)
 
           if(newStatus == 3){
