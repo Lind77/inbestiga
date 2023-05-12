@@ -10,7 +10,7 @@
     </div>
     <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
     <UpdateCom :customerId="customerId" :comunication="comunication"/>
-    <FunnelModal :customer="customer_selected" @updateStatusSpace="updateStatusSpace" @callModal="callModal" @showModalUpdateData="showModalUpdateData"/>
+    <FunnelModal :customer="customer_selected" @updateStatusSpace="updateStatusSpace" @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers"/>
     <customerModal :customer="customer_selected" :action="2"/>
   </div>
 </template>

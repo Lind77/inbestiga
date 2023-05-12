@@ -244,7 +244,7 @@ class CustomerController extends Controller
 
         $customer = Customer::find($id);
         $customer->update([
-            'status' => null
+            'status' => 0
         ]);
 
         return response()->json([

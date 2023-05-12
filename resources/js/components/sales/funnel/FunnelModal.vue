@@ -57,7 +57,7 @@
             
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Stand By</button>
+            <button type="button" class="btn btn-label-secondary" @click="standBy(customer.id)">Stand By</button>
             <button type="button" class="btn btn-primary" @click="updateStatusSpace">Ascender</button>
             </div>
         </div>
@@ -65,11 +65,23 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
     props:{
         customer: Object
     },
     methods:{
+        standBy(id){
+            axios.get('/api/standByCustomer/'+id)
+            .then((res)=>{
+                $('#funnelModal').modal('hide')
+                this.$emit('getAllCustomers')
+            })
+            .catch((err)=>{
+                console.error(err)
+            })
+        },
         updateStatusSpace(){    
             var newStatus = parseInt(this.customer.status) + 1
             this.$emit('updateStatusSpace', this.customer.id, newStatus)
