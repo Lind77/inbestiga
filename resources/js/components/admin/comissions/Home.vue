@@ -2,13 +2,13 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold">Comisiones</h4>
         <div class="row">
-            <div class="col-md-4" v-for="comission in comissions">
+            <div class="col-md-4" v-for="owner in owners">
                 <div class="card mt-1">
                     <div class="card-header">
-                        {{ comission.user_id }}
+                        {{ owner.name }}
                     </div>
                     <div class="card-body">
-                        {{ comission.user.name }}
+                        <button class="btn btn-primary mx-2 my-2" v-for="comission in owner.comissions">{{ comission.customer.name }}</button>
                     </div>
                 </div>
             </div>
@@ -19,14 +19,14 @@
 export default {
     data(){
         return{
-            comissions: []
+            owners: []
         }
     },
     methods:{
         getAllComissions(){
             axios.get('/api/getAllComissions')
             .then((res) =>{
-                this.comissions = res.data
+                this.owners = res.data
             })
             .catch((err) =>{
 

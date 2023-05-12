@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comission;
 use App\Http\Requests\StoreComissionRequest;
 use App\Http\Requests\UpdateComissionRequest;
+use App\Models\User;
 
 class ComissionController extends Controller
 {
@@ -85,8 +86,12 @@ class ComissionController extends Controller
     }
 
     public function getAllComissions(){
-        $comissions = Comission::with(['user', 'customer'])->get();
+        $users = User::with(['comissions','comissions.user','comissions.customer'])
+                ->whereHas('roles', function ($q) {
+                    $q->where('name', 'Seller');
+                })
+                ->get();
 
-        return response()->json($comissions);
+        return response()->json($users);
     }
 }

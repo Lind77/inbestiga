@@ -51,4 +51,8 @@ class User extends Authenticatable
     public function notifications(){
         return $this->belongsToMany('App\Models\Notification','seens');
     }
+
+    public function comissions(){
+        return $this->hasMany('App\Models\Comission');
+    }
 }
