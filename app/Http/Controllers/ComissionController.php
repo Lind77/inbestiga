@@ -85,7 +85,7 @@ class ComissionController extends Controller
     }
 
     public function getAllComissions(){
-        $comissions = Comission::all();
+        $comissions = Comission::with(['user', 'customer'])->get();
 
         return response()->json($comissions);
     }

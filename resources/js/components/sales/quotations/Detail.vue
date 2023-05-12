@@ -48,7 +48,7 @@
                 </li>
             </ul>
             </div>
-            <div class="col-md-2 col-12 mb-md-0 mb-3" v-if="detail.modeProduct == 2">
+            <div class="col-md-2 col-12 mb-md-0 mb-3" v-if="detail.modeProduct == 1">
             <p class="mb-2 repeater-title">Cantidad</p>
             <input type="number" @keyup="changeCant" @change="changeCant" class="form-control" v-model="cantProduct" min="1">
             </div>
