@@ -110,7 +110,11 @@ export default {
       },
         updateStatusSpace(customer_id, newStatus){
           console.log(customer_id, this.customers)
-          var customerSelected = this.customers.find(customer => customer.id == customer_id)
+          if(newStatus < 4){
+            var customerSelected = this.customers.find(customer => customer.id == customer_id)
+          }else{
+            var customerSelected = this.filteredCustomers.find(customer => customer.id == customer_id)
+          }
 
           if(newStatus == 3){
             if(customerSelected.name == null || customerSelected.cell == null || customerSelected.career == null || customerSelected.university == null){
