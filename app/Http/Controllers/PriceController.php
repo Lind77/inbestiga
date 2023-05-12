@@ -119,4 +119,9 @@ class PriceController extends Controller
 
         return response()->json($promotion);
     }
+
+    public function getAllPromotionsCode(){
+        $promotions = Promotion::all();
+        return response()->json($promotions);
+    }
 }

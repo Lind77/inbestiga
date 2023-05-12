@@ -159,7 +159,7 @@
                 </div>
                 <div class="d-flex align-items-center mb-3">
                   <label for="salesperson" class="form-label me-5 fw-semibold">Cupón de descuento:</label>
-                  <input type="text" class="form-control" v-model="coupon" @keyup="autoDiscount">
+                  <input type="text" class="form-control" v-model="coupon" @keyup.enter="autoDiscount">
                 </div>
 
               </div>
@@ -277,7 +277,7 @@
         level: 0,
         search: '',
         coupon:'',
-        recentCode:'',
+        recentsCode:[],
         fees:[],
         dni:'',
         address:'',
@@ -301,10 +301,13 @@
       },
       autoDiscount(){
         
-        if(this.coupon == this.recentCode.code){
+       var codeFound =  this.recentsCode.find(code => code.code == this.coupon)
+
+        if(codeFound && this.discount == 0){
           this.$swal('Se ha desbloqueado el descuento')
-          this.discount = ((this.totalProducts*this.recentCode.percent)/100).toFixed(2)
-        }else if(this.coupon == ''){
+          this.discount = ((this.totalProducts*codeFound.percent)/100).toFixed(2)
+        }else{
+          this.$swal('Codigo incorrecto o duplicado')
           this.discount = 0
         }
       },
@@ -556,10 +559,10 @@
         var newProd = {'id' : newProduct.id, 'name' : newProduct.name, 'type' : newProduct.typeDetail, 'price' : newProduct.priceFinal, 'new_product_id': newProduct.id, 'level' : newProduct.level}
         this.details.push(newProd)
       },
-      getPromotionCode(){
-        axios.get('/api/getPromotionCode')
+      getAllPromotionCodes(){
+        axios.get('/api/getAllPromotionsCode')
         .then((res)=>{
-          this.recentCode = res.data
+          this.recentsCode = res.data
         })
         .catch((err)=>{
           console.error(err)
@@ -567,7 +570,7 @@
       }
     },
     mounted(){
-      this.getPromotionCode()
+      this.getAllPromotionCodes()
       this.getUser()
       this.getAllNewProducts()
     },

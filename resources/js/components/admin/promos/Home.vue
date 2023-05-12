@@ -28,7 +28,35 @@
                 </div>
               </div>
             </div>
-        
+            <div class="card">
+              <h5 class="card-header d-flex align-items-center justify-content-between">
+                Codigos de Descuento</h5>
+                <div class="table-responsive text-nowrap">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Código</th>
+                        <th>Porcentaje</th>
+                        <th>Cantidad</th>
+                        <th>Actividad</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                      <tr v-for="code in allCodes">
+                        <td>{{ code.code }}</td>
+                        <td>{{ code.percent }}%</td>
+                        <td>{{ code.quantity }}</td>
+                        <td>
+                          <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" v-model="code.checkbox">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Activo</label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                </div>
     </div>
 </template>
 <script>
@@ -42,7 +70,9 @@ export default {
                 percent:0,
                 quantity: 0,
                 able:1
-            }
+            },
+            allCodes:[],
+            active: false
         }
     },  
     methods:{
@@ -57,6 +87,7 @@ export default {
             .then((res) =>{
                 this.$swal('Codigo insertado')
                 this.getPromotionCode()
+                this.getAllPromotionsCode()
             })
             .catch((err) =>{
                 console.error(err)
@@ -70,10 +101,25 @@ export default {
             .catch((err)=>{
             console.error(err)
             })
+        },
+        getAllPromotionsCode(){
+          axios.get('/api/getAllPromotionsCode')
+          .then((res)=>{
+          this.allCodes = res.data
+          this.allCodes.forEach((code)=>{
+            if(code.able == 1){
+              code.checkbox = true
+            }
+          })
+          })
+          .catch((err)=>{
+          console.error(err)
+          })
         }
     },
     mounted(){
         this.getPromotionCode()
+        this.getAllPromotionsCode()
     }
 }
 </script>

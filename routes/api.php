@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ComissionController;
 use App\Http\Controllers\ComunicationController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TimeController;
 use App\Http\Controllers\UserController;
+use App\Models\Comission;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -165,3 +167,6 @@ Route::post('/updatePrices', [PriceController::class, 'updatePrices']);
 
 Route::post('/insertCode',[PriceController::class, 'insertCode']);
 Route::get('/getPromotionCode',[PriceController::class, 'getPromotionCode']);
+Route::get('/getAllPromotionsCode',[PriceController::class, 'getAllPromotionsCode']);
+
+Route::get('/getAllComissions', [ComissionController::class, 'getAllComissions']);

@@ -70,6 +70,10 @@ import MainAdmin from '../components/admin/Main.vue'
 
 import PromosAdmin from '../components/admin/promos/Home.vue'
 
+//Área Administrativa - Comisiones
+
+import HomeComissions from '../components/admin/comissions/Home.vue'
+
 import UsersAdmin from '../components/admin/Users.vue'
 import RolesAdmin from '../components/admin/Roles.vue'
 
@@ -81,9 +85,6 @@ import MainExperience from '../components/experience/Main.vue'
 
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
-
-
-
 
 
 
@@ -258,6 +259,11 @@ export const routes = [
                 path: 'promos-admin',
                 component: PromosAdmin,
                 name: 'promos-admin',
+            },
+            {
+                path: 'comissions-admin',
+                component: HomeComissions,
+                name: 'comissions-admin'
             }
         ]
     },

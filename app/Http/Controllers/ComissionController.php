@@ -83,4 +83,10 @@ class ComissionController extends Controller
     {
         //
     }
+
+    public function getAllComissions(){
+        $comissions = Comission::all();
+
+        return response()->json($comissions);
+    }
 }
