@@ -78,7 +78,12 @@ export default {
     data(){
         return{
             showOptionOwner:false,
-            newOwner:1
+            newOwner:1,
+            typeComunication:{
+                1: 'LLamar',
+                2: 'Escribir',
+                3: 'Meet'
+            }
         }
     },
     props:{
