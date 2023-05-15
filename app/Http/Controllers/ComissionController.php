@@ -86,7 +86,7 @@ class ComissionController extends Controller
     }
 
     public function getAllComissions(){
-        $users = User::with(['comissions','comissions.user','comissions.customer'])
+        $users = User::with(['customers','customers.comissions'])
                 ->whereHas('roles', function ($q) {
                     $q->where('name', 'Seller');
                 })

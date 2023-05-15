@@ -6,6 +6,7 @@ use App\Models\Comunication;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreComunicationRequest;
 use App\Http\Requests\UpdateComunicationRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ComunicationController extends Controller
@@ -116,5 +117,12 @@ class ComunicationController extends Controller
         return response()->json([
             'msg' => 'success'
         ]);
+    }
+
+    public function getComunicationsByToday($id_user){
+        
+        $comunications = Comunication::with('customer')->where('next_management', date('Y-m-d'))->orderBy('time')->get();
+
+        return response()->json($comunications);
     }
 }

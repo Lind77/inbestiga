@@ -8,7 +8,9 @@
                         {{ owner.name }}
                     </div>
                     <div class="card-body">
-                        <button class="btn btn-primary mx-2 my-2" v-for="comission in owner.comissions">{{ comission.customer.name }}</button>
+                        <template v-if="owner.referal != '-'">
+                            <button class="btn btn-primary mx-2 my-2" v-for="customer in owner.customers">{{ customer.name || customer.cell }}</button>
+                        </template>
                     </div>
                 </div>
             </div>

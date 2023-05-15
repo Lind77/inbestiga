@@ -54,18 +54,10 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+
         //Verificar si hay una orden con el id de cotización
         $order = Order::where('quotation_id',$request->get('quotation_id'))->first();
 
-        if($order){
-
-            $order->update([
-                'final_delivery' => $request->get('final_delivery'),
-                'observations' => $request->get('observations'),
-                'suggested' => $request->get('suggested')
-            ]);
-
-        }else{
 
             $order = Order::create([
                 'quotation_id' => $request->get('quotation_id'),
@@ -83,7 +75,7 @@ class OrderController extends Controller
                     'amount' => $payment['amount']
                 ]);
             }
-        }
+    
 
         $quotation = Quotation::find($request->get('quotation_id'));
 
@@ -101,8 +93,8 @@ class OrderController extends Controller
 
         $comission = Comission::create([
             'customer_id' => $customer->id,
-            'concept' => 'Cotización',
-            'percent' => 5,
+            'concept' => 'Cierre no pagado',
+            'percent' => 15,
             'referal' => $user->name,
             'user_id' => $request->get('user_id')
         ]);
@@ -141,7 +133,7 @@ class OrderController extends Controller
      */
     public function update(Request $request)
     {
-        return $request;
+        
         $order = Order::with(['quotation', 'quotation.details'])->find($request->get('order_id'));
 
         $order->update([

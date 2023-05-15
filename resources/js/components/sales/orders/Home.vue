@@ -427,7 +427,7 @@
               fd.append('customer_id', this.$route.params.idUser)
               fd.append('user_id', this.store.authUser.id)
       
-              axios.post('/api/updateOrder',fd)
+              axios.post('/api/insertOrder',fd)
               .then(res =>{
                 this.idOrder = res.data
                 this.$swal('Orden actualizada correctamente')

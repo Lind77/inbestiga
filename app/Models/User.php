@@ -55,4 +55,8 @@ class User extends Authenticatable
     public function comissions(){
         return $this->hasMany('App\Models\Comission');
     }
+
+    public function customers(){
+        return $this->hasMany('App\Models\Customer');
+    }
 }
