@@ -132,7 +132,7 @@
             <button type="button" id="close-insert-customer" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                 Cerrar
             </button>
-            <button type="button" v-if="action == 1" @click="insertCustomer" class="btn btn-primary">Registrar</button>
+            <button type="button" v-if="action == 1" @click="verifyExistence" class="btn btn-primary">Registrar</button>
             <button type="button" v-else @click="updateCustomer" class="btn btn-primary">Actualizar</button>
             </div>
         </div>
@@ -198,9 +198,31 @@ export default {
             fd.append('cell', this.cell)
             axios.post('/api/verifyCustomer', fd)
             .then((res) => {
-                if(res.data[0]){
+                var coincidences = [];
+
+                res.data.coincidences.forEach((coincidence) => {
+                    coincidences.push(`${coincidence.name}(${coincidence.cell})<br>`);
+                })
+
+
+                if(res.data.msg){
                     $('#customerModal').modal('hide')
-                    this.$swal('Se ha encontrado un usuario con el mismo nombre')
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: res.data.msg,
+                        html: coincidences.join('') + '<br>Tienes la seguridad de continuar?',
+                        showDenyButton: true,
+                        confirmButtonText: 'Registrar',
+                        }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                               this.insertCustomer()
+                            } else if (result.isDenied) {
+                               this.$swal.close()
+                            }
+                        })
+                    //$('#customerModal').modal('hide')
+                    //this.$swal('Se ha encontrado un usuario con el mismo nombre')
                 }else{
                     return true
                 }
@@ -228,7 +250,6 @@ export default {
             .then(res =>{
                 console.log(res)
                 this.$emit('getAllCustomers')
-                document.getElementById('close-insert-customer').click()
             })
             .catch(err =>{
                 $('#customerModal').modal('hide')

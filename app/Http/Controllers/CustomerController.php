@@ -383,9 +383,52 @@ class CustomerController extends Controller
     }
 
     public function verifyCustomer(Request $request){
-        $customer = Customer::where('name', 'like', '%'.$request->get('name'))->get();
 
-        return response()->json($customer);
+       $name = $request->get('name');
+       $cell = $request->get('cell');
+
+        if($name != null){
+            $searchByName = Customer::where('name','like', '%'.$name.'%')->get();
+
+            $cantResName = count($searchByName);
+
+            if($cantResName == 0){
+                $verifiedByName = true;
+            }else{
+                return response()->json([
+                    'msg' => 'Se han encontrado coincidencias con este nombre',
+                    'coincidences' => $searchByName
+                ]);
+            }
+        }else{
+            $verifiedByName = true;
+        }
+
+        
+        if($cell != null){
+            $searchByCell = Customer::where('cell','like', '%'.$cell.'%')->get();
+
+            $cantResCell = count($searchByCell);
+
+            if($cantResCell == 0){
+                $verifiedByCell = true;
+            }else{
+                return response()->json([
+                    'msg' => 'Se han encontrado coincidencias con este celular'
+                ]);
+            }
+        }else{
+            $verifiedByCell = true;
+        }
+
+        if($verifiedByCell && $verifiedByName){
+            $verifiedTotal = true;
+        }else{
+            $verifiedTotal = false;
+        }
+
+
+        return response()->json($verifiedTotal);
     }
 
     public function getLeadsByDate($date){
