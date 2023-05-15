@@ -54,7 +54,7 @@
                                 <p class="card-text">Primera gestión: {{ customer.comunications[0].first_management  }}</p>
                                 <p class="card-text">Última gestión: {{ customer.comunications[0].last_management  }}</p>
                                 <p class="card-text">Siguiente gestión: {{ customer.comunications[0].next_management  }}</p>
-                                <p class="card-text">Tipo: {{ customer.comunications[0].type }}</p>
+                                <p class="card-text">Tipo: {{ typeComunication[customer.comunications[0].type] }}</p>
                                 <p class="card-text">Producto Tentativo: {{ customer.comunications[0].product_tentative  }}</p>
                                 <p class="card-text">Comentario: {{ customer.comunications[0].comment  }}</p>
                         </div>

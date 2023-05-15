@@ -43,7 +43,7 @@
             </div>
             <div class="row g-2">
                 <div class="col mb-0">
-                <label for="emailBasic" class="form-label">Carrera</label>
+                <label for="emailBasic" class="form-label">Carrera o mención</label>
                 <input type="text" v-if="action==2" v-model="customer.career" class="form-control" />
                 <input type="text" v-else v-model="career" class="form-control" />
                 </div>

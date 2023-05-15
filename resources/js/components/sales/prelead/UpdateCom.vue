@@ -6,16 +6,16 @@
                     <h5 class="modal-title" id="exampleModalLabel1">Registrar Comunicación</h5>
                 </div>
                 <div class="modal-body">
-                    <div class="row g-2 mt-2">
+                    <div class="row g-2 mt-2" v-if="comunication.comunications && comunication.comunications.length == 0">
                         <div class="col mb-0">
-                            <label for="emailBasic" class="form-label">Primera Gestión</label>
+                            <label for="emailBasic"  class="form-label">Primera Gestión</label>
                             <input type="date" v-model="first_management" class="form-control" />
                         </div>
                     </div>
                     <div class="row g-2 mt-2">
                         <div class="col mb-0">
                             <label for="emailBasic" class="form-label">Última Gestión</label>
-                            <input type="date" v-model="last_management" class="form-control" />
+                            <input type="date" v-model="last_management" class="form-control" disabled/>
                         </div>
                         <div class="col mb-0">
                         <label for="emailBasic" class="form-label">Próxima Gestión</label>
@@ -59,7 +59,7 @@
         data(){
             return{
                 first_management: '',
-                last_management: '',
+                last_management: new Date().toISOString().slice(0,10),
                 next_management: '',
                 comment: '',
                 product_tentative: '',
