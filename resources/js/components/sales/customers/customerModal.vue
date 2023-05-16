@@ -198,13 +198,14 @@ export default {
             fd.append('cell', this.cell)
             axios.post('/api/verifyCustomer', fd)
             .then((res) => {
+                if(res.data){
+                   this.insertCustomer()
+                }
+                
                 var coincidences = [];
-
                 res.data.coincidences.forEach((coincidence) => {
                     coincidences.push(`${coincidence.name}(${coincidence.cell})<br>`);
                 })
-
-
                 if(res.data.msg){
                     $('#customerModal').modal('hide')
                     this.$swal.fire({
@@ -224,7 +225,7 @@ export default {
                     //$('#customerModal').modal('hide')
                     //this.$swal('Se ha encontrado un usuario con el mismo nombre')
                 }else{
-                    return true
+                    this.insertCustomer()
                 }
                 
             })
