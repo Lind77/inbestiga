@@ -4,6 +4,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel1">Registrar Comunicación</h5>
+                    
                 </div>
                 <div class="modal-body">
                     <div class="row g-2 mt-2" v-if="comunication.comunications && comunication.comunications.length == 0">
@@ -85,8 +86,8 @@
 
                 axios.post('/api/insertComunication', fd)
                 .then((res) =>{
-                    console.log(res)
-                    this.$emit('getAllCustomers')
+                    this.comunication.comunications.unshift(res.data.comunication)
+                    this.$emit('updateComunication', this.comunication)
                     $('#updateComModal').modal('hide')
                 })
                 .catch((err) =>{

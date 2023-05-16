@@ -115,7 +115,8 @@ class ComunicationController extends Controller
         ]);
 
         return response()->json([
-            'msg' => 'success'
+            'msg' => 'success',
+            'comunication' => $comunication
         ]);
     }
 

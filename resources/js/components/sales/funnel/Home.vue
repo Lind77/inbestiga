@@ -57,6 +57,12 @@ export default{
     }
   },
   methods:{
+    updateComunication(customer){
+      var customerSelected = this.leadsFiltered.find(lead => lead.id == customer.id)
+      customerSelected.comunications = []
+      customerSelected.comunications.push(customer.comunications)
+      console.log(customer)
+    },
     updateOwner(newCustomer, newOwner){
       let arraysByStatus = {
         4: this.needs,
