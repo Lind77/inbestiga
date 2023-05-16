@@ -12,6 +12,9 @@
       <div class="offcanvas-body my-auto mx-0 flex-grow-0">
         <div class="card bg-info my-2 text-white" v-for="comission in comissions">
             <div class="card-header">{{ comission.concept }} - {{ comission.percent }}%</div>
+            <div class="card-body">
+              <p>{{ comission.user.name }}</p>
+            </div>
         </div>
        
       </div>

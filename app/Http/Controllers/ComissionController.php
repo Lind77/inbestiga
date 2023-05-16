@@ -86,12 +86,13 @@ class ComissionController extends Controller
     }
 
     public function getAllComissions(){
-        $users = User::with(['customers' => function($query){
-            $query->orderBy('updated_at', 'desc')->get();
-        },'customers.comissions'])
-                ->whereHas('roles', function ($q) {
-                    $q->where('name', 'Seller');
-                })->get();
+        $users = User::with(['customers' => function ($query) {
+            $query->where('status', 11);
+        }, 'customers.comissions','customers.comissions.user'])
+            ->whereHas('roles', function ($q) {
+                $q->where('name', 'Seller');
+            })->get();
+        
 
         return response()->json($users);
     }
