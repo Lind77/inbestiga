@@ -370,7 +370,7 @@ class CustomerController extends Controller
     public function searchCustomers($search){
         $customers = Customer::with(['comunications' => function($query){
             $query->orderBy('id', 'desc')->first();
-        }])->where('name', 'like', '%'.$search.'%')->orWhere('cell','like','%'.$search.'%')->get();
+        },'quotations'])->where('name', 'like', '%'.$search.'%')->orWhere('cell','like','%'.$search.'%')->get();
         return response()->json($customers);
     }
 
@@ -432,7 +432,7 @@ class CustomerController extends Controller
     }
 
     public function getLeadsByDate($date){
-        $customers = Customer::with('comunications')->whereHas('comunications', function ($query) use ($date) {
+        $customers = Customer::with(['comunications','quotations'])->whereHas('comunications', function ($query) use ($date) {
             $query->where('next_management', $date);
         })->get();
         return response()->json($customers);

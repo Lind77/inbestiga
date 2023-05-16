@@ -61,7 +61,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*.95/this.numFees),
+                    amount: parseInt(this.totalFinal*.95)/this.numFees,
                     percentage: 50,
                     advance: '-'
                 }
@@ -75,7 +75,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal/this.numFees),
+                    amount: parseInt(this.totalFinal)/this.numFees,
                     percentage: 30,
                     advance: '-'
                 }
@@ -98,7 +98,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*1.05/this.numFees),
+                    amount: parseInt(this.totalFinal*1.05)/this.numFees,
                     percentage: 25,
                     advance: '-'
                 }
@@ -113,7 +113,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*1.1/this.numFees),
+                    amount: parseInt(this.totalFinal*1.1)/this.numFees,
                     percentage: 20,
                     advance: '-'
                 }
@@ -127,7 +127,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*1.2/this.numFees),
+                    amount: parseInt(this.totalFinal*1.2)/this.numFees,
                     percentage: parseFloat(100/this.numFees).toFixed(1),
                     advance: '-'
                 }
@@ -141,7 +141,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*1.3/this.numFees),
+                    amount: parseInt(this.totalFinal*1.3)/this.numFees,
                     percentage: parseFloat(100/this.numFees).toFixed(1),
                     advance: '-'
                 }
@@ -155,7 +155,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*1.4/this.numFees),
+                    amount: parseInt(this.totalFinal*1.4)/this.numFees,
                     percentage: parseFloat(100/this.numFees).toFixed(1),
                     advance: '-'
                 }
@@ -170,7 +170,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*1.5/this.numFees),
+                    amount: parseInt(this.totalFinal*1.5)/this.numFees,
                     percentage: parseFloat(100/this.numFees).toFixed(1),
                     advance: '-'
                 }

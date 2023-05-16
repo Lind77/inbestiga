@@ -14,21 +14,33 @@
         <div class="row mt-3" v-if="showClients">
             <h5 class="fw-bold">Clientes</h5>
             <div class="col-md-3" v-for="customer in customers">
-                <button class="btn btn-primary w-100 my-2" @click="showComissions(customer.comissions)">{{ customer.name || customer.cell }}</button>
+                <template v-if="customer.comissions != []">
+                    <button class="btn btn-primary w-100 my-2" @click="showComissions(customer)">{{ customer.name || customer.cell }}</button>
+                </template>
             </div>
         </div>
     </div>
+    <Offcanvas :comissions="comissions"/>
 </template>
 <script>
+import Offcanvas from './Offcanvas.vue'
+
 export default {
+    components:{Offcanvas},
     data(){
         return{
             owners: [],
             customers:[],
-            showClients: false
+            showClients: false,
+            comissions:[]
         }
     },
     methods:{
+        showComissions(customer){
+            console.log(customer.comissions)
+            this.comissions = customer.comissions
+            $('#offcanvasComission').offcanvas('show')
+        },
         showCustomers(customers){
             this.showClients =  true
             this.customers = customers

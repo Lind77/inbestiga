@@ -80,7 +80,7 @@ export default {
             showOptionOwner:false,
             newOwner:1,
             typeComunication:{
-                1: 'LLamar',
+                1: 'Llamar',
                 2: 'Escribir',
                 3: 'Meet'
             }
@@ -137,7 +137,7 @@ export default {
         },
         callToOrder(customer){
             $('#funnelModal').modal('hide')
-            console.log(customer.quotations[0])
+            console.log(customer)
             if(customer.quotations[0]){
                 if(customer.quotations[0].amount > 1500){
                     this.$router.push({name:'home-contracts', params:{ idUser: customer.id }})
