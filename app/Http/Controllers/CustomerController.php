@@ -368,7 +368,7 @@ class CustomerController extends Controller
     }
     
     public function searchCustomers($search){
-        $customers = Customer::with(['comunications' => function($query){
+        $customers = Customer::with(['user','comunications' => function($query){
             $query->orderBy('id', 'desc')->first();
         },'quotations'])->where('name', 'like', '%'.$search.'%')->orWhere('cell','like','%'.$search.'%')->get();
         return response()->json($customers);
