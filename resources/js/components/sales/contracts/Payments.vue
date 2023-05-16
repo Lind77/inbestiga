@@ -1,6 +1,5 @@
 <template>
     <div class="col-md-12 mb-md-0 mb-3">
-        {{ totalFinal }}
         <label for="">Porfavor inserte el número de cuotas a generarse</label>
         <input type="number" min="1" max="24" v-model="numFees" class="form-control">
         <button class="btn btn-sm btn-primary" @click="calcFees">Calcular</button>
