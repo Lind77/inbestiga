@@ -176,6 +176,10 @@
                       <span class="w-px-100">Descuento:</span>
                       <span class="fw-semibold">S./ {{ discount }}</span>
                     </div>
+                    <div class="d-flex justify-content-between mb-2">
+                      <span class="w-px-100">Interés:</span>
+                      <span class="fw-semibold">S./ {{ interest }}</span>
+                    </div>
                     <hr>
                     <div class="d-flex justify-content-between">
                       <span class="w-px-100">Total:</span>
@@ -187,7 +191,7 @@
               
                 <hr class="my-4 mx-n4">
                 <div class="row py-sm-3">
-                  <Payments :totalFinal="totalProducts - discount" :fees="fees" @addFee="addFee"/>
+                  <Payments :totalFinal="totalProducts - discount" :fees="fees" @addFee="addFee" @calcDiscount="calcDiscount"/>
                 </div>
 
                 <hr class="my-4 mx-n4">
@@ -268,6 +272,7 @@
       components:{ Detail, Payments, Delivery},
       data(){
         return{
+          interest: 0,
           typeDocument: 2,
           customer: {},
           date:'',
@@ -335,10 +340,7 @@
           } */
           
         },
-        addFee(fees){
-          this.fees = []
-          this.fees = fees
-          var numFees = this.fees.length
+        calcDiscount(numFees){
           if(numFees == 1){
             this.discount = ((this.totalProducts) * 0.1).toFixed(2)
           }else if(numFees == 2){
@@ -346,6 +348,21 @@
           }else{
             this.discount = 0
           }
+        },
+        calcInterest(numFees){
+          if(numFees == 1){
+            this.discount = ((this.totalProducts) * 0.1).toFixed(2)
+          }else if(numFees == 2){
+            this.discount = ((this.totalProducts) * 0.05).toFixed(2)
+          }else{
+            this.discount = 0
+          }
+        },
+        addFee(fees){
+          this.fees = []
+          this.fees = fees
+          var numFees = this.fees.length
+          
         },
         addPrice(detail,newProduct){
         if(detail.mode == 2){

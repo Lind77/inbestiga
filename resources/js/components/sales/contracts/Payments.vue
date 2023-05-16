@@ -1,9 +1,12 @@
 <template>
     <div class="col-md-12 mb-md-0 mb-3">
+        {{ totalFinal }}
         <label for="">Porfavor inserte el número de cuotas a generarse</label>
-        <input @change="calcFees" @keyup="calcFees" type="number" min="1" max="24" v-model="numFees" class="form-control">
+        <input type="number" min="1" max="24" v-model="numFees" class="form-control">
+        <button class="btn btn-sm btn-primary" @click="calcFees">Calcular</button>
     </div>
     <div class="row mt-3">
+        
         <div class="col-md-6 col-xl-4" v-for="(fee, index) in fees">
         <div class="card bg-primary text-white mb-3">
         <div class="card-header">Pago {{ index+1 }}</div>
@@ -44,13 +47,14 @@ export default {
         }
     },
     methods:{
-        calcFees(){
+        calcFees(quantity){
+            quantity = this.totalFinal
             this.newFees = []
             if(this.numFees == 1){
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*.9),
+                    amount: parseInt(quantity*.9),
                     percentage: 100,
                     advance: '-'
                 }
@@ -61,7 +65,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*.95)/this.numFees,
+                    amount: parseInt(quantity)/2,
                     percentage: 50,
                     advance: '-'
                 }
@@ -72,21 +76,21 @@ export default {
                 }
                 this.$emit('addFee', this.newFees)
             }else if(this.numFees == 3){
-                
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal)/this.numFees,
+                    amount: quantity,
                     percentage: 30,
                     advance: '-'
                 }
                 for (let index = 0; index < this.numFees; index++) {
                     
                     if(index == 1){
+                        console.log(quantity)
                         fee.percentage = 40
-                        fee.amount = parseInt(this.totalFinal*.4)
+                        fee.amount = parseInt(quantity*.4)
                     }else{
                         fee.percentage = 30
-                        fee.amount = parseInt(this.totalFinal*.3)
+                        fee.amount = parseInt(quantity*.3)
                     }
                     fee.date = moment().add(index, 'months').format('YYYY-MM-DD')
                     this.newFees.push({...fee})
@@ -98,7 +102,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*1.05)/this.numFees,
+                    amount: parseInt(quantity*1.05)/this.numFees,
                     percentage: 25,
                     advance: '-'
                 }
@@ -113,7 +117,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*1.1)/this.numFees,
+                    amount: parseInt(quantity*1.1)/this.numFees,
                     percentage: 20,
                     advance: '-'
                 }
@@ -127,7 +131,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*1.2)/this.numFees,
+                    amount: parseInt(quantity*1.2)/this.numFees,
                     percentage: parseFloat(100/this.numFees).toFixed(1),
                     advance: '-'
                 }
@@ -141,7 +145,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*1.3)/this.numFees,
+                    amount: parseInt(quantity*1.3)/this.numFees,
                     percentage: parseFloat(100/this.numFees).toFixed(1),
                     advance: '-'
                 }
@@ -155,7 +159,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*1.4)/this.numFees,
+                    amount: parseInt(quantity*1.4)/this.numFees,
                     percentage: parseFloat(100/this.numFees).toFixed(1),
                     advance: '-'
                 }
@@ -170,7 +174,7 @@ export default {
                 
                 var fee = {
                     date: moment().format('YYYY-MM-DD'),
-                    amount: parseInt(this.totalFinal*1.5)/this.numFees,
+                    amount: parseInt(quantity*1.5)/this.numFees,
                     percentage: parseFloat(100/this.numFees).toFixed(1),
                     advance: '-'
                 }
@@ -182,9 +186,11 @@ export default {
                 }
                 this.$emit('addFee', this.newFees)
             }
+        },
+        calcAmounts(){
+            var mountRounded = parseInt(this.totalFinal/this.numFees)
+            alert(mountRounded)
         }
-        
-    
     }
 }
 </script>
