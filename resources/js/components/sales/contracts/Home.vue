@@ -327,9 +327,9 @@
               })
         },
         autoDiscount(){
-          if(this.coupon == 'PROMO150'){
+          if(this.coupon == this.recentCode){
             this.$swal('Se ha desbloqueado el descuento')
-            this.discount = 300
+            this.discount = this.totalProducts*.05
           }
         },
         redirect(){
