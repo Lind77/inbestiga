@@ -20,12 +20,18 @@
               <div data-i18n="Form Layouts">Inicio</div>
             </div>
           </router-link>
-          <router-link :to="{name:'home-product'}" class="menu-item">
+          <router-link :to="{name:'my-leads'}" class="menu-item">
+            <div class="menu-link">
+              <i class="menu-icon tf-icons bx bx-user"></i>
+              <div data-i18n="Form Layouts">Mis Leads</div>
+            </div>
+          </router-link>
+          <!-- <router-link :to="{name:'home-product'}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-package"></i>
               <div data-i18n="Form Layouts">Productos</div>
             </div>
-          </router-link>
+          </router-link> -->
           <!-- <router-link :to="{name:'home-prices'}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-money"></i>

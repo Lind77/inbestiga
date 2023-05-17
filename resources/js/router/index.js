@@ -42,6 +42,10 @@ import HomeDocuments from '../components/sales/documents/Home.vue'
 //Área de Ventas - Precios
 import HomePrices from '../components/sales/prices/Home.vue'
 
+//Área de ventas - MyLeads
+
+import HomeMyLeads from '../components/sales/myleads/Home.vue'
+
 // Área Académica
 import HomeAcad from '../components/academic/Home.vue'
 import MainAcad from '../components/academic/Main.vue'
@@ -225,6 +229,11 @@ export const routes = [
                 path: 'prices',
                 component: HomePrices,
                 name: 'home-prices'
+            },
+            {
+                path: 'my-leads',
+                component: HomeMyLeads,
+                name: 'my-leads'
             }
         ]
     },
