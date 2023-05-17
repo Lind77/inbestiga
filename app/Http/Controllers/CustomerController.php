@@ -445,7 +445,10 @@ class CustomerController extends Controller
         $customers = Customer::where('user_id', $id)->orderBy('updated_at', 'desc')->get();
 
 
-        return response()->json($customersToday);        
+        return response()->json([
+            'customers' => $customers,
+            'customersToday' => $customersToday
+        ]);        
     }
 
 }
