@@ -7,7 +7,7 @@
                     
                 </div>
                 <div class="modal-body">
-                    <div class="row g-2 mt-2" v-if="comunication.comunications && comunication.comunications.length == 0">
+                    <div class="row g-2 mt-2" v-if="comunication && comunication.comunications && comunication.comunications.length == 0">
                         <div class="col mb-0">
                             <label for="emailBasic"  class="form-label">Primera Gestión</label>
                             <input type="date" v-model="first_management" class="form-control" />

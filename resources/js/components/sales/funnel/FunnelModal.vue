@@ -14,12 +14,11 @@
                 <button @click="callModal(customer)" type="button" class="btn btn-icon btn-warning ms-2">
                     <span class="tf-icons bx bx-chat"></span>
                 </button>
-                <div class="">
+                <div v-if="customer.status >= 3">
                     <h6 @dblclick="editOwner" v-show="!showOptionOwner"  class="cursor-pointer">Dueño: {{ customer.user?customer.user.name:'Sin asignar' }}</h6>
-                    <select v-model="newOwner" v-show="showOptionOwner" @change="updateOwner" id="smallSelect" class="form-select form-select-sm">
+                    <select v-model="newOwner" v-show="showOptionOwner" @blur="hideOptionOwner" @change="updateOwner" id="smallSelect" class="form-select form-select-sm">
                           <option :value="owner.id" v-for="owner in owners">{{ owner.name }}</option>
-                          
-                        </select>
+                    </select>
                 </div>
                 
             </h5>
@@ -91,6 +90,9 @@ export default {
         owners: Array
     },
     methods:{
+        hideOptionOwner(){
+            this.showOptionOwner = false
+        },
         updateOwner(){
             var newOwner = this.owners.find(owner => owner.id == this.newOwner)
 

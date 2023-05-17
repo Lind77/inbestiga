@@ -11,7 +11,7 @@
     </div>
       <OwnerModal :customerId="customerId" @convertLead="convertLead" @cleanLead="cleanLead"/>
       <customerModal :customer="customer" :action="2"/>
-      <FunnelModal :customer="customer_selected" @updateToLead="updateToLead" @updateStatusSpace="updateStatusSpace" @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers"/>
+      <FunnelModal :customer="customer_selected" @updateToLead="updateToLead" @updateStatusSpace="updateStatusSpace" @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers" :owners="owners" @updateOwner="updateOwner"/>
       <UpdateCom :comunication="comunication" :customerId="customerId" :action="action" @getAllCustomers="getAllCustomers"/>
 </template>
 <script>
@@ -49,10 +49,20 @@ export default {
           customer_selected:{},
           search: '',
           filteredCustomers: [],
-          leadsFiltered:[]
+          leadsFiltered:[],
+          owners:[]
         }
     },
     methods:{
+      getAllOwners(){
+      axios.get('/api/getAllOwners')
+      .then(res =>{
+        this.owners = res.data
+      })
+      .catch(err =>{
+        console.error(err)
+      })
+    },
       distributePreLeads(leads){
         this.leadsFiltered = leads
 
@@ -220,10 +230,22 @@ export default {
           .catch(err =>{
               console.log(err)
           })
+        },
+        updateOwner(newCustomer, newOwner){
+        let arraysByStatus = {
+          1: this.noAttended,
+          2: this.attended,
+          3: this.comunications
         }
+        let arraySelected = arraysByStatus[newCustomer.status]
+
+        var customerSelected = arraySelected.find(customer => customer.id == newCustomer.id)
+        customerSelected.user = newOwner
+      }
     },
     mounted(){
         this.getAllCustomers()
+        this.getAllOwners()
     }
     }
 </script>
