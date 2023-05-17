@@ -10,7 +10,7 @@
     </div>
     <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers"/>
     <UpdateCom :customerId="customerId" :comunication="comunication"/>
-    <FunnelModal :customer="customer_selected" :owners="owners" @updateStatusSpace="updateStatusSpace" @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers" @updateOwner="updateOwner"/>
+    <FunnelModal :customer="customer_selected" :owners="owners" @updateStatusSpace="updateStatusSpace" @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers" @updateOwner="updateOwner" @updateInterest="updateInterest"/>
     <customerModal :customer="customer_selected" :action="2"/>
   </div>
 </template>
@@ -57,6 +57,10 @@ export default{
     }
   },
   methods:{
+    updateInterest(newCustomer){
+      var customerSelected = this.leadsFiltered.find(lead => lead.id == newCustomer.id)
+      customerSelected.interest = newCustomer.interest
+    },
     updateComunication(customer){
       var customerSelected = this.leadsFiltered.find(lead => lead.id == customer.id)
       customerSelected.comunications = []

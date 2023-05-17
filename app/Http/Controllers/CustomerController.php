@@ -451,4 +451,14 @@ class CustomerController extends Controller
         ]);        
     }
 
+    public function changeInterest($customerId, $interest){
+        $customer = Customer::find($customerId);
+
+        $customer->update([
+            'interest' => $interest
+        ]);
+
+        return response()->json($customer); 
+    }
+
 }

@@ -3,8 +3,10 @@
         <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel3">
-                Información de Lead
+            <h5 class="modal-title w-100" id="exampleModalLabel3">
+                <div class="row">
+                    <div class="col-6">
+                        Información de Lead
                 <button v-show="customer.status > 3" @click="callToQuotation(customer)" type="button" class="btn btn-icon btn-success ms-2">
                         <span class="tf-icons bx bx-file"></span>
                 </button>
@@ -20,6 +22,12 @@
                           <option :value="owner.id" v-for="owner in owners">{{ owner.name }}</option>
                     </select>
                 </div>
+                    </div>
+                    <div class="col-6">
+                        <p @dblclick="changeInterest(customer)"><i :class="`bx ${interest[customer.interest]} display-4 cursor-pointer`"></i></p>
+                    </div>
+                </div>
+                
                 
             </h5>
             
@@ -82,6 +90,12 @@ export default {
                 1: 'Llamar',
                 2: 'Escribir',
                 3: 'Meet'
+            },
+            interest:{
+                null: 'bx-minus-circle',
+                1: 'bx-sad text-danger',
+                2: 'bx-smile text-info',
+                3: 'bx-wink-smile text-success'
             }
         }
     },
@@ -90,6 +104,25 @@ export default {
         owners: Array
     },
     methods:{
+        changeInterest(customer){
+            var customerId = customer.id
+
+            if(customer.interest == null){
+                var newInterest = 1
+            }else if(customer.interest < 3){
+                var newInterest = parseInt(customer.interest) + 1
+            }else{
+                var newInterest = 1
+            }
+            
+            axios.get('/api/changeInterest/'+customerId+'/'+newInterest)
+            .then((res) =>{
+                this.$emit('updateInterest', res.data)
+            })
+            .catch((err) =>{
+                console.log(err)
+            })
+        },
         hideOptionOwner(){
             this.showOptionOwner = false
         },

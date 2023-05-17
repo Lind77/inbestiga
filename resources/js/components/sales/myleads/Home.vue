@@ -5,14 +5,14 @@
             <h6>Recientes</h6>
             <div class="col-md-4" v-for="lead in todayLeads">
                     <div class="card bg-danger my-3">
-                        <div class="card-header text-white">{{ lead.name }}</div>
+                        <div class="card-header text-white">{{ lead.name || lead.cell }}</div>
                     </div>
                 </div>
         </div>
             <div class="row">
                 <div class="col-md-4" v-for="lead in myLeads">
                     <div class="card bg-success my-3">
-                        <div class="card-header text-white">{{ lead.name }}</div>
+                        <div class="card-header text-white">{{ lead.name || lead.cell }}</div>
                     </div>
                 </div>
             </div>

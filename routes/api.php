@@ -140,6 +140,7 @@ Route::get('/searchCustomers/{search}', [CustomerController::class, 'searchCusto
 Route::post('/verifyCustomer', [CustomerController::class, 'verifyCustomer']);
 Route::get('/getLeadsByDate/{date}', [CustomerController::class, 'getLeadsByDate']);
 Route::get('/getAllMyLeads/{id}', [CustomerController::class, 'getAllMyLeads']);
+Route::get('/changeInterest/{id}/{interest}', [CustomerController::class, 'changeInterest']);
 
 Route::get('/getAllMessages', [ChatController::class, 'index']);
 Route::get('/getAllMessagesById/{id}', [ChatController::class, 'getAllMessagesById'])->middleware('auth:sanctum');

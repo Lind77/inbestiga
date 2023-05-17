@@ -104,7 +104,15 @@ import moment from 'moment'
                 }else if (this.customer.status == 2){
                     return 'info'
                 }else if (this.customer.status >= 3){
-                    return 'success'
+                    if(this.customer.interest == 1){
+                        return 'danger'
+                    }else if(this.customer.interest == 2){
+                        return 'info'
+                    }else if(this.customer.interest == 3){
+                        return 'success'
+                    }else{
+                        return 'secondary'
+                    }
                 }
             },
             verifyOrders(){
