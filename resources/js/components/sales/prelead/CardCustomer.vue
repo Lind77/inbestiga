@@ -103,7 +103,10 @@ import moment from 'moment'
                     return 'warning'
                 }else if (this.customer.status == 2){
                     return 'info'
-                }else if (this.customer.status >= 3){
+                }else if(this.customer.status == 3){
+                    return 'success'
+                }
+                else if (this.customer.status > 3){
                     if(this.customer.interest == 1){
                         return 'danger'
                     }else if(this.customer.interest == 2){
