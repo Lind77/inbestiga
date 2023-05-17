@@ -122,7 +122,13 @@ class ComunicationController extends Controller
 
     public function getComunicationsByToday($id_user){
         
-        $comunications = Comunication::with('customer')->where('next_management', date('Y-m-d'))->orderBy('time')->get();
+        $comunications = Comunication::with(['customer', 'customer.user'])
+        ->where('next_management', date('Y-m-d'))
+        ->whereHas('customer.user', function ($query) use ($id_user) {
+            $query->where('id', $id_user);
+        })
+        ->orderBy('time')
+        ->get();
 
         return response()->json($comunications);
     }

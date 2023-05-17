@@ -32,7 +32,7 @@
             <span class="timeline-point timeline-point-primary"></span>
             <div class="timeline-event">
               <div class="timeline-header mb-1">
-                <h6 class="mb-0">{{ comunication.customer.name }}</h6>
+                <h6 class="mb-0">{{ comunication.customer.name }} - {{ comunication.customer.user?comunication.customer.user.name:'' }}</h6>
                 <small class="text-muted">{{ formatTime(comunication.time) }}</small>
               </div>
               <p>{{ comunicationType[comunication.type] }}</p>

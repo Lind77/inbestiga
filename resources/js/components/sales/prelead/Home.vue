@@ -122,6 +122,10 @@ export default {
       },
       convertLead(id){
         this.customerId = id
+
+        
+
+        this.customerSelected =
         $('#ownerModal').modal('show')
       },
         updateStatusSpace(customer_id, newStatus){
