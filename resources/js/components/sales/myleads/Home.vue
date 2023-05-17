@@ -4,7 +4,7 @@
         <div class="row mb-3">
             <h6>Recientes</h6>
             <div class="col-md-4" v-for="lead in todayLeads">
-                    <div class="card bg-success my-3">
+                    <div class="card bg-danger my-3">
                         <div class="card-header text-white">{{ lead.name }}</div>
                     </div>
                 </div>
