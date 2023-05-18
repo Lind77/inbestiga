@@ -80,8 +80,15 @@
 </template>
 <script>
 import axios from 'axios'
+import {userStore} from '../../../stores/UserStore'
 
 export default {
+    setup(){
+      const store = userStore()
+      return{
+        store
+      }
+    },
     data(){
         return{
             showOptionOwner:false,
@@ -167,8 +174,13 @@ export default {
             this.$emit('showModalUpdateData', customer)
         },
         callToQuotation(customer){
-            $('#funnelModal').modal('hide')
-            this.$router.push({name:'home-quotation', params:{ idUser: customer.id }})
+            if(this.store.authUser.id != 22){
+                $('#funnelModal').modal('hide')
+                this.$router.push({name:'home-quotation', params:{ idUser: customer.id }})
+            }else{
+                this.$swal('Nop')
+            }
+           
         },
         callToOrder(customer){
             $('#funnelModal').modal('hide')
