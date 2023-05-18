@@ -7,6 +7,8 @@ use App\Models\Chat;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreChatRequest;
 use App\Http\Requests\UpdateChatRequest;
+use App\Models\Notification;
+use App\Models\Seen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,6 +48,18 @@ class ChatController extends Controller
             'receptor_id' => $request->get('receptor_id'),
             'message' => $request->get('message'),
             'viewed' => 0
+        ]);
+
+        $notification = Notification::create([
+            'emisor_id' => $request->get('user_id'),
+            'content' => Auth::user()->name.' te ha enviado un mensaje',
+            'type' => 1
+        ]);
+
+        $seen = Seen::create([
+            'user_id' => Auth::id(),
+            'notification_id' => $notification->id,
+            'seen' => 0
         ]);
 
         broadcast(new NewMessage($chat));
