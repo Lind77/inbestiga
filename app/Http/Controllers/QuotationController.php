@@ -279,7 +279,7 @@ class QuotationController extends Controller
 
         $customer = $quotation->customer;
 
-        $notification = Notification::create([
+       /*  $notification = Notification::create([
             'emisor_id' => $request->get('emisor_id'),
             'content' => 'generó la cotización de '.$customer->name,
             'type' => 1
@@ -295,7 +295,7 @@ class QuotationController extends Controller
             ]);
         }
 
-        broadcast(new NewDocument($quotation));
+        broadcast(new NewDocument($quotation)); */
 
         return response()->json([
             'msg' => 'success',
