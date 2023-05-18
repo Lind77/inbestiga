@@ -52,12 +52,12 @@ class ChatController extends Controller
 
         $notification = Notification::create([
             'emisor_id' => Auth::id(),
-            'content' => Auth::user()->name.' te ha enviado un mensaje',
+            'content' => ' te ha enviado un mensaje',
             'type' => 1
         ]);
 
         $seen = Seen::create([
-            'user_id' => Auth::id(),
+            'user_id' =>  $request->get('receptor_id'),
             'notification_id' => $notification->id,
             'seen' => 0
         ]);
