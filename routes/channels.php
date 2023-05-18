@@ -39,3 +39,7 @@ Broadcast::channel('tasks', function ($id) {
 Broadcast::channel('documents', function ($id) {
     return true;
 });
+
+Broadcast::channel('leads', function ($id) {
+    return true;
+});

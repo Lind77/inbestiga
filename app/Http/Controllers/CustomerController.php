@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewLead;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
@@ -9,8 +10,10 @@ use App\Models\Comission;
 use App\Models\Comunication;
 use App\Models\Detail;
 use App\Models\NewProduct;
+use App\Models\Notification;
 use App\Models\Origin;
 use App\Models\Quotation;
+use App\Models\Seen;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -315,41 +318,6 @@ class CustomerController extends Controller
             'needs' => $request->get('needs')
         ]);
 
-        /* $quotation = Quotation::create([
-            'customer_id' => $request->get('customer_id'),
-            'date' => date('Y-m-d'),
-            'amount' => 0,
-            'term' => '-'
-        ]); */
-
-        /* $products = json_decode($request->get('products'), true);
-
-        foreach ($products as $product){
-
-            $newProduct = NewProduct::with('newprices')->find($product['id']);
-
-            $levelSearched = $product['level'];
-
-            $priceFounded = 0;
-
-            foreach($newProduct->newprices as $price){
-                if($price->level == $levelSearched){
-                    $priceFounded = $price->price;
-                }
-            }
-           
-            $detail = Detail::create([
-                'quotation_id' => $quotation->id,
-                'product_id' => 1,
-                'new_product_id' => $product['id'],
-                'description' => '-',
-                'type' => 1,
-                'price' => $priceFounded,
-                'level' => $product['level']
-            ]);
-
-        } */
-
         $user = User::find($request->get('user_id'));
         $nameReferal = $user->name;
 
@@ -360,6 +328,20 @@ class CustomerController extends Controller
             'referal' => $nameReferal,
             'user_id' => $request->get('user_id')
         ]);
+
+        $notification = Notification::create([
+            'emisor_id' => $request->get('user_id'),
+            'content' => 'te asignó un nuevo lead '.$customer->name,
+            'type' => 1
+        ]);
+
+        $seen = Seen::create([
+            'user_id' => $request->get('seller_selected'),
+            'notification_id' => $notification->id,
+            'seen' => 0
+        ]);
+
+        broadcast(new NewLead());
 
 
         return response()->json([

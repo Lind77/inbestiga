@@ -178,14 +178,17 @@ export default {
                 $('#funnelModal').modal('hide')
                 this.$router.push({name:'home-quotation', params:{ idUser: customer.id }})
             }else{
+                $('#funnelModal').modal('hide')
                 this.$swal('Nop')
             }
            
         },
         callToOrder(customer){
             $('#funnelModal').modal('hide')
-            console.log(customer)
-            if(customer.quotations[0]){
+            if(this.store.authUser.id == 22){
+                this.$swal('Nop')
+            }else{
+                if(customer.quotations[0]){
                 if(customer.quotations[0].amount > 1500){
                     this.$router.push({name:'home-contracts', params:{ idUser: customer.id }})
                 }else{
@@ -205,6 +208,7 @@ export default {
                     this.$router.push({name:'home-orders', params:{ idUser: customer.id }})
                 }
                 })
+            }
             }
         }
     }

@@ -25,7 +25,7 @@ class QuotationController extends Controller
      */
     public function index()
     {
-        $quotations = Quotation::with(['customer','details','details.product'])->orderBy('id', 'desc')->whereMonth('date', '=', '04')->get();
+        $quotations = Quotation::with(['customer','details','details.product'])->orderBy('id', 'desc')->whereMonth('date', '=', date('m'))->get();
         return response()->json($quotations);
     }
 
@@ -98,23 +98,23 @@ class QuotationController extends Controller
             'user_id' => $request->get('user_id')
         ]);
 
-        $notification = Notification::create([
+       /*  $notification = Notification::create([
             'emisor_id' => $request->get('emisor_id'),
             'content' => 'generó la cotización de '.$customer->name,
             'type' => 1
         ]);
 
-        $usersToNotify = User::role('Seller')->get();
+        $usersToNotify = User::role('Seller')->get(); */
 
-        foreach($usersToNotify as $user){
+      /*   foreach($usersToNotify as $user){
             Seen::create([
                 'user_id' => $user->id,
                 'notification_id' => $notification->id,
                 'seen' => 0
             ]);
-        }
+        } */
 
-        broadcast(new NewDocument($quotation));
+        //broadcast(new NewDocument($quotation));
 
         return response()->json([
             'msg' => 'success',

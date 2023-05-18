@@ -244,7 +244,7 @@ export default {
             fd.append('status', this.status)
             fd.append('referedFrom',this.referedFrom)
             fd.append('channel', this.channel)
-            fd.append('user_id',this.store.authUser.id)
+            fd.append('user_id', 12)
             fd.append('type', this.type)
 
             axios.post('/api/insertCustomer', fd)

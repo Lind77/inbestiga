@@ -1,6 +1,6 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">Mis Leads</h4>
+        <h4 class="fw-bold py-3 mb-4">Mis Leads ({{ myLeads.length }})</h4>
         <div class="row mb-3">
             <h6>Recientes</h6>
             <div class="col-md-4" v-for="lead in todayLeads">
