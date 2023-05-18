@@ -50,6 +50,7 @@
 <script>
 import moment from 'moment';
 import { userStore } from '../../stores/UserStore';
+import axios from 'axios';
 
 export default{
     data(){
@@ -88,6 +89,27 @@ export default{
         verifyComunication(){
             var timeMinutes = moment().format('HH:mm')
             var timeSeconds = timeMinutes+':00'
+
+            var modifiedTime = moment(timeSeconds, 'HH:mm').add(1, 'hour').format('HH:mm')
+
+            var comunicationPlusHourFound = this.comunications.find(comunication => comunication.time == modifiedTime+':00')
+
+            if(comunicationPlusHourFound){
+
+                const fd = new FormData()
+                fd.append('customerName', comunicationPlusHourFound.customer.name)
+                fd.append('owner', comunicationPlusHourFound.customer.user_id)
+
+                axios.post('/api/addNotificationComunication', fd)
+                .then((res) =>{
+                    console.log(res)
+                })
+                .catch((err) =>{
+                    console.error(err)
+                })
+            }
+
+            console.log(comunicationPlusHourFound)
 
             var comunicationFound = this.comunications.find(comunication => comunication.time == timeSeconds)
             

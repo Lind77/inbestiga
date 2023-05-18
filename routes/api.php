@@ -174,3 +174,5 @@ Route::get('/getPromotionCode',[PriceController::class, 'getPromotionCode']);
 Route::get('/getAllPromotionsCode',[PriceController::class, 'getAllPromotionsCode']);
 
 Route::get('/getAllComissions', [ComissionController::class, 'getAllComissions']);
+
+Route::post('/addNotificationComunication', [NotificationController::class, 'addNotificationComunication']);

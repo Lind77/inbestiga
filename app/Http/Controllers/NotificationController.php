@@ -134,4 +134,23 @@ class NotificationController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function addNotificationComunication(Request $request){
+        $notification = Notification::create([
+            'emisor_id' => $request->get('owner'),
+            'content' => 'Tienes una comunicación pendiente con '.$request->get('customerName').' a las 16:00',
+            'type' => 2,
+            'extra' =>  '-'
+        ]);
+
+        Seen::create([
+            'user_id' => $request->get('owner'),
+            'notification_id' => $notification->id,
+            'seen' => 0
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
 }
