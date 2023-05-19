@@ -2,18 +2,13 @@
     <div>
         <nav class="navbar navbar-dark bg-purple">
         <div class="row w-100 px-4 py-3">
-            <div class="col-6 d-flex align-items-center justify-content-center">
-                <img src="https://inbestiga.com/pdf-sys/logo.png" alt="" class="main-logo">
-            </div>
-            <div class="col-6">
-                <p class="header-text">Prol. Cuzco 921 Huancayo.</p>
-                <p class="header-text">Elías Aguirre N° 180 - 3er Piso - Miraflores - Lima</p>
-                <p class="header-text">www.inbestiga.com</p>
-                <p class="header-text">991 045 555</p>
+            <div class="col-12 d-flex align-items-center justify-content-around">
+                <h2 class="fw-bolder text-white mb-0">COTIZACIÓN</h2>
+                <img src="https://inbestiga.com/pdf-sys/logo.png" alt="" class="main-logo mb-3">
             </div>
         </div>
     </nav>
-    <section class="row">
+    <section class="row user_data_layout">
         <div class="col-8 ps-5 pt-4">
             <table class="customer-data">
                 <thead v-if="quotation[0]">
@@ -37,7 +32,7 @@
             </table>
             <!-- <p class="sub-header">Elaboración completa de Tesis: <span class="text-purple"></span></p>  -->
         </div>
-        <div class="col-4 info-doc pt-3" v-if="quotation[0]">
+        <div class="col-4 info-doc py-3" v-if="quotation[0]">
             <p class="info-doc-p">COTIZACIÓN N°: 01-EN-VL</p>
             <p class="info-doc-p">FECHA: {{ quotation[0].date}}</p>
             <p class="info-doc-p">VALIDEZ: {{ quotation[0].expiration_date}}</p>
@@ -45,19 +40,20 @@
             <p class="info-doc-p">EJECUCIÓN: {{ quotation[0].term }}</p>
         </div>
     </section>
-    <section class="d-flex justify-content-center">
+    <section class="px-3">
        
         <table class="main-table mt-3">
-            <thead>
-                <tr>
-                    <th class="text-purple fw-bolder py-3 ps-2">PRODUCTO / SERVICIO</th>
-                    <th class="text-purple fw-bolder py-3 ps-1">DESCRIPCIÓN</th>
-                    <th class="text-purple fw-bolder py-3 ps-1">TOTAL</th>
+            <thead class="mx-5">
+                <tr class="table-header">
+                    <th class="text-white fw-bolder py-3 ps-2">PRODUCTO / SERVICIO</th>
+                    <th class="text-white fw-bolder py-3 ps-1">TIPO</th>
+                    <th class="text-white fw-bolder py-3 ps-1">TOTAL</th>
                 </tr>
             </thead>
+            <div style="height: 10px;"></div>
             <tbody v-if="quotation[0]">
                 <tr v-for="detail in quotation[0].details" class="text-dark">
-                    <th class="table-item fw-normal ps-2" v-if="detail.type == 1 ">{{detail.new_product.name}}
+                    <th class="table-item fw-normal ps-2">{{detail.new_product.name}}
                     <template v-if="detail.new_product.id == 58">
                         <br>
                         - 02 propuestas de tema
@@ -79,83 +75,59 @@
                         - Simulación de sustentación
                     </template>
                     </th>
-                    <th class="table-item fw-normal" v-if="detail.type == 1 " style="white-space: pre;">{{detail.description}}</th>
-                    <th class="table-item fw-normal" v-if="detail.type == 1 ">S./{{detail.price}}</th>
+                    <th class="table-item fw-normal" style="white-space: pre; text-align: center;">{{detail.type==1?'Normal':'Sugerido'}}</th>
+                    <th class="table-item fw-normal" style="text-align: center;">S./{{detail.price}}</th>
                 </tr>
 
-                <tr style=" background-color: #ffffff00;">
-                    <th></th>
-                    <th class="text-purple">TOTAL</th>
-                    <th class="text-purple">S./{{ subTotalProds.toFixed(2) }}</th>
-                </tr>
-                <tr class="sugested-title">
-                    <th class="text-purple sugested py-3 ps-1" colspan="3">PRODUCTO SUGERIDO</th>
-                </tr>
-                <tr v-for="detail in quotation[0].details" class="text-dark">
-                    <th class="table-item fw-normal ps-2" v-if="detail.type == 2 ">{{detail.new_product.name}}
-                        <template v-if="detail.new_product.id == 58">
-                        <br>
-                        - 02 propuestas de tema (Opcional)
-                        <br>
-                        - Plan de tesis o proyecto de investigación
-                        <br>
-                        - Informe final de tesis o Tesis Final
-                        <br>
-                        - Orientación y/o asesoría extraordinaria en cualquier etapa de la tesis.
-                        <br>
-                        - Plantilla de diapositivas
-                        <br>
-                        - Reporte de similitud TURNITIN
-                        <br>
-                        - E-book para la sustentación
-                        <br>
-                        - Balotario de preguntas
-                        <br>
-                        - Simulación de sustentación
-                    </template>
-                    </th>
-                    <th class="table-item fw-normal" v-if="detail.type == 2 " style="white-space: pre;">{{detail.description}}</th>
-                    <th class="table-item fw-normal" v-if="detail.type == 2 ">S./{{detail.price}}</th>
-                </tr>
-
-                <tr style=" background-color: #ffffff00;">
-                    <th></th>
-                    <th class="text-purple">TOTAL</th>
-                    <th class="text-purple">S./ {{subTotalProdsSugest}}</th>
-                </tr>
-                <tr class="sugested-title">
-                    <th class="text-purple sugested py-3 ps-1" colspan="3">PRECIO FINAL</th>
-                </tr>
                
-                <tr style=" background-color: #ffffff00;">
-                    <th></th>
-                    <th class="text-danger">DESCUENTO</th>
-                    <th class="text-danger">S./{{quotation[0].discount}}</th>
+               
+                <tr class="sugested-title mt-3">
+                    <th class="text-white sugested py-3 px-3" colspan="3">PRECIO FINAL</th>
                 </tr>
-                <tr style=" background-color: #ffffff00;">
+                <!-- <tr>
                     <th></th>
-                    <th class="text-purple">TOTAL</th>
-                    <th class="text-purple">S./{{Number(quotation[0].amount).toFixed(2)}}</th>
+                    <th class="text-purple" style=" background-color: red;">DESCUENTO</th>
+                    <th class="text-purple" style=" background-color: red;">S./{{quotation[0].discount}}</th>
                 </tr>
+                <tr >
+                    <th></th>
+                    <th class="text-purple" style=" background-color: red;">TOTAL</th>
+                    <th class="text-purple" style=" background-color: red;">S./{{Number(quotation[0].amount).toFixed(2)}}</th>
+                </tr> -->
             </tbody>
         </table>
+        <div class="discount-total" v-if="quotation[0]">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <p style="background-color: #f1f2f0;">DESCUENTO: S./{{ quotation[0].discount }}</p>
+                    <p style="background-color: #f1f2f0;">TOTAL: S./{{ Number(quotation[0].amount).toFixed(2) }}</p>
+                </div>
+            </div>
+        </div>
     </section>
-    <div class="section ps-4" v-if="quotation[0]">
-        <p>NOTA: {{ quotation[0].note }}</p>
+    <div class="title-note py-2 ms-3 rounded">
+        <p class="text-white mb-0">NOTA:</p>
+    </div>
+    <div class="section-note" v-if="quotation[0]">
+        <p>{{ quotation[0].note }}</p>
     </div>
     <section class="last">
-        <div class="row mt-3">
-            <div class="col-6 ps-5 d-flex justify-content-center align-items-center">
-                <img src="https://inbestiga.com/pdf-sys/pig.png" class="w-25">
-                <p class="ps-3 pig-text">Recuerda que puedes hacer el pago en <span>CUOTAS</span>!</p>
+        <div class="d-flex justify-content-around">
+            <div class="d-flex w-50">
+                <img src="https://inbestiga.com/pdf-sys/circle.png" width="150">
+                <p class="ps-3 pig-text">Recuerda que puedes hacer el pago en CUOTAS!</p>
             </div>
-            <div class="col-6"></div>
+                <img src="https://inbestiga.com/pdf-sys/square.png" width="120" height="70">
+               
         </div>
         <footer class="mt-3">
             <p>Gracias por brindarnos tu confianza. Contáctanos si tienes alguna duda acerca de esta cotización.</p>
         </footer>
     </section>
-    <img src="https://inbestiga.com/pdf-sys/watermark.png" class="watermark">
+   
     </div>
 </template>
 <script>
@@ -213,11 +185,19 @@ export default {
             font-family: 'Montserrat', sans-serif !important;
         }
         .bg-purple{
-            background-color: #6E26F7;
+            background: rgb(0,164,148);
+            background: linear-gradient(90deg, rgba(0,164,148,1) 35%, rgba(87,72,152,1) 100%);
             border-radius: 0px 0px 10px 10px;
         }
         .main-logo{
-            width: 300px;
+            width: 200px;
+        }
+
+        .user_data_layout{
+            background-color: #f1f2f0;
+            padding: 0px 20px 0px 20px;
+            margin: 15px 20px 5px 20px;
+            border-radius: 5px;
         }
         .header-text{
             font-family: 'Montserrat', sans-serif !important;
@@ -229,7 +209,7 @@ export default {
         .name-customer{
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
-            color: #6E26F7;
+            color: #000;
             font-size: 14px;
             text-align: left;
             margin-bottom: 0;
@@ -241,7 +221,7 @@ export default {
         .info-user{
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
-            color: #6E26F7;
+            color: #000;
             font-size: 12px;
             margin-bottom: 0;
             margin-top: 2px;
@@ -255,6 +235,11 @@ export default {
             color: #000;
             padding: 0px 0px 0px 10px;
             display: inline-block;
+        }
+        .main-table{
+            padding-left: 2.5% !important;
+            border-radius: 10px;
+            border-spacing: 10px;
         }
         .main-table tr:nth-child(even) {
             background-color: #6f26f71a;
@@ -281,30 +266,85 @@ export default {
             font-weight: 700;
         }
         .text-purple{
-            color: #6E26F7;
+            color: #000;
         }
         .main-table{
             width: 100%;
+            border-spacing: 10px;
         }
         .main-table thead{
-            background-color: #6f26f71a;
+            background: linear-gradient(90deg, rgba(0,164,148,1) 35%, rgba(87,72,152,1) 100%);
+            border-radius: 10px;
             font-weight: 700;
+        }
+        .table-header th:first-child{
+            border-radius: 10px 0px 0px 10px;
+            padding-left: 15px !important;
+        }
+        .table-header th:nth-child(2){
+            text-align: center;
+            border: none;
+        }
+        .table-header th:nth-child(3){
+            border-radius: 0px 10px 10px 0px;
+            text-align: center;
         }
         .table-item{
             font-weight: 400;
-            border: 1px solid #6E26F7;
+            border-radius: 10px;
+            background-color: #f1f2f0;
+            padding: 15px 10px; 
         }
+        
         .sugested{
             font-weight: 900;
+            border-radius: 10px;
         }
         .sugested-title{
-            background-color: #6f26f71a;
+            background: linear-gradient(90deg, rgba(0,164,148,1) 35%, rgba(87,72,152,1) 100%);
+        }
+
+        .discount-total{
+           
+            font-weight: bold;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+        }
+        .discount-total p{
+            text-align: end;
+            padding-right: 10px;
+            padding-left: -500px;
+            margin-top: 5px;
+        }
+        .title-note{
+            background: linear-gradient(90deg, rgba(0,164,148,1) 35%, rgba(87,72,152,1) 100%);
+            width: 130px;
+            font-weight: bold;
+            padding: 3px 0px 3px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0px 10px 0px 0px;
+        }
+        .section-note{
+            background-color: #f1f2f0;
+            margin: 5px 10px 0px 15px;
+            padding: 5px 5px 2px 5px;
+            border-radius: 10px;
+            width: 95%;
         }
         .pig-text{
             font-weight: 700;
+            font-size: 20px;
+            color: #000;
         }
         .pig-text span{
-            color: #6E26F7;
+            color: #000;
+        }
+        .circle{
+            width: 450px;
+            padding-left: 240px;
         }
         .last{
             position: absolute;
@@ -318,7 +358,7 @@ export default {
             z-index: -1;
         }
         footer{
-            background-color: #6f26f71a;
+            background-color: #f1f2f0;
             color: #000;
             font-size: 15px;
             font-weight: 700;

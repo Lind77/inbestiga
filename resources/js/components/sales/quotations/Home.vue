@@ -581,7 +581,10 @@
       totalProducts(){
         var total = 0
         this.details.forEach((product)=>{
-            total += parseFloat(product.price)
+            if(product.type == 1){
+              total += parseFloat(product.price)
+            }
+
         })
         return (total).toFixed(2)
       },
