@@ -95,7 +95,6 @@ export default{
             var comunicationPlusHourFound = this.comunications.find(comunication => comunication.time == modifiedTime+':00')
 
             if(comunicationPlusHourFound){
-
                 const fd = new FormData()
                 fd.append('customerName', comunicationPlusHourFound.customer.name)
                 fd.append('owner', comunicationPlusHourFound.customer.user_id)

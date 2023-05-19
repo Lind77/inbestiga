@@ -25,7 +25,7 @@ class QuotationController extends Controller
      */
     public function index()
     {
-        $quotations = Quotation::with(['customer','details','details.product'])->orderBy('id', 'desc')->whereMonth('date', '=', date('m'))->get();
+        $quotations = Quotation::with(['customer','details','details.product'])->orderBy('date', 'desc')->whereMonth('date', '=', date('m'))->get();
         return response()->json($quotations);
     }
 
