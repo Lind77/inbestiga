@@ -138,7 +138,7 @@ class NotificationController extends Controller
     public function addNotificationComunication(Request $request){
         $notification = Notification::create([
             'emisor_id' => $request->get('owner'),
-            'content' => 'Tienes una comunicación pendiente con '.$request->get('customerName').' a las 16:00',
+            'content' => 'Tienes una comunicación pendiente con '.$request->get('customerName').' a las '.$request->get('time'),
             'type' => 2,
             'extra' =>  '-'
         ]);

@@ -98,6 +98,7 @@ export default{
                 const fd = new FormData()
                 fd.append('customerName', comunicationPlusHourFound.customer.name)
                 fd.append('owner', comunicationPlusHourFound.customer.user_id)
+                fd.append('time', comunicationPlusHourFound.time)
 
                 axios.post('/api/addNotificationComunication', fd)
                 .then((res) =>{
