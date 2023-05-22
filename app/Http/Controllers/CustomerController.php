@@ -302,7 +302,9 @@ class CustomerController extends Controller
         for($i = 4; $i <= 11; $i++){
             $customers = Customer::with(['origin','user','project','project.product', 'comunications' => function($query){
                 $query->latest('id');
-            },'quotations', 'quotations.order','quotations.contract'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+            },'quotations' => function($secondQuery){
+                $secondQuery->latest('id');
+            }, 'quotations.order','quotations.contract'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
             
             $totalCustomers = $totalCustomers->merge($customers);
         }

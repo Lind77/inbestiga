@@ -245,7 +245,7 @@
                         <span class="d-flex align-items-center justify-content-center text-nowrap"><i class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
                       </button>
   
-                      <a v-if="idContract != 0 && typeDocument == 2" :href="`../../public/api/generateContract/${customer.id}`" target="_blank" class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
+                      <a v-if="idContract != 0 && typeDocument == 2" :href="`../../api/generateContract/${customer.id}`" target="_blank" class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
   
                     </div>
                   </div>

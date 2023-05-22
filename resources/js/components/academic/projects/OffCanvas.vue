@@ -16,7 +16,7 @@
           <div class="progress-bar" role="progressbar" :style="{width: sumTasksPercent + '%' }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
           </div>
         </div>
-        <h5 class="text-danger">Fecha de Culminación: {{ project_selected.deadline }}</h5>
+        <h5 @dblclick="pickDeadline" class="text-danger cursor-pointer">Fecha de Culminación: {{ project_selected.deadline }}</h5>
         <div v-if="project_selected.activities == []">No hay actividades asignadas</div>
         <div v-else>
           <div v-for="activity in project_selected.activities">
@@ -72,6 +72,9 @@ export default{
       }
     },
     methods:{
+        pickDeadline(){
+          $('#offcanvas').offcanvas('hide')
+        },
         colorActivity(activity){
           console.log('called since first modal')
           var activitySelected = this.project_selected.activities.find(el => el.id == activity.id)

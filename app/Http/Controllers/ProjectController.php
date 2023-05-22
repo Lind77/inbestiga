@@ -307,8 +307,6 @@ class ProjectController extends Controller
 
         $lastOrder = $quotation->order;
 
-        
-
         $project = Project::create([
             'title' => 'Proyecto '.$customer->name,
             'customer_id' => $customer->id,
@@ -334,27 +332,29 @@ class ProjectController extends Controller
                 ]);
             }
 
+            $fixedActivitiesEnterprise = FixedActivity::where('type',0)->get();
+
+            foreach($fixedActivitiesEnterprise as $enterpriseActivity) {
+                $defaultActivity = Activity::create([
+                    'project_id' => $project->id,
+                    'title' => $enterpriseActivity->title,
+                    'type' => 0,
+                    'fixed_activity_id' => $enterpriseActivity->id
+                ]);
+    
+                $progressDefaultActivity = Progress::create([
+                    'progressable_id' => $defaultActivity->id,
+                    'progressable_type' => 'App\Models\Activity',
+                    'percentage' => 0.0,
+                    'comment' => 'Sin comentarios'
+                ]);
+            }
+
         broadcast(new NewProject($project));
 /*           
 
         //Traer actividades de Inbestiga por default
-       /*  $fixedActivitiesEnterprise = FixedActivity::where('type',0)->get();
-
-        foreach($fixedActivitiesEnterprise as $enterpriseActivity) {
-            $defaultActivity = Activity::create([
-                'project_id' => $project->id,
-                'title' => $enterpriseActivity->title,
-                'type' => 0,
-                'fixed_activity_id' => $enterpriseActivity->id
-            ]);
-
-            $progressDefaultActivity = Progress::create([
-                'progressable_id' => $defaultActivity->id,
-                'progressable_type' => 'App\Models\Activity',
-                'percentage' => 0.0,
-                'comment' => 'Sin comentarios'
-            ]);
-        }
+       /*  
 
        $details = $lastQuotation->details; */
 

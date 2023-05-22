@@ -237,6 +237,11 @@
         .listen('NewDocument',(e)=>{
           this.updateNotifications()
         })
+
+        Echo.private('leads')
+        .listen('NewDocument',(e)=>{
+          this.updateNotifications()
+        })
       }
       if(this.store.authUser.roles[0].name == 'Experience'){
         Echo.private('projects')
