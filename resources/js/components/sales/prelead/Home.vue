@@ -230,6 +230,7 @@ export default {
           axios.post(`/api/updateCustomerGrade`, fd)
           .then(res =>{
               console.log(res.data)
+              this.$swal('El usuario ha sido actualizado correctamente')
           })
           .catch(err =>{
               console.log(err)

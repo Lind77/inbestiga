@@ -26,11 +26,6 @@ import CardCustomer from '../prelead/CardCustomer.vue'
             customers: Array,
             status: Number
         },
-        watch:{
-            customers(){
-                console.log('ha cambiado el array de customers')
-            }
-        },
         methods:{
             showModalFunnel(customer){
                this.$emit('showModalFunnel', customer)

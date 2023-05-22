@@ -27,8 +27,6 @@
                         <p @dblclick="changeInterest(customer)" v-show="customer.status != 11"><i :class="`bx ${interest[customer.interest]} display-4 cursor-pointer`"></i></p>
                     </div>
                 </div>
-                
-                
             </h5>
             
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

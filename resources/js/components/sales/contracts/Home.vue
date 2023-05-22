@@ -222,427 +222,416 @@
               
                 <!-- Invoice Actions -->
                 <div class="col-lg-3 col-12 invoice-actions">
-                  <!-- <div>
-                    <p class="mb-2">Seleccionar Documento</p>
-                    <select class="form-select mb-4" @change="redirect" v-model="typeDocument">
-                      <option value="1">Cotización</option>
-                      <option value="2">Contrato</option>
-                      <option value="3">Orden</option>
-                    </select>
-                    
-                  </div> -->
                   <div class="card mb-4">
                     <div class="card-body">
                       Generar Adenda
                     </div>
                   </div>
-                  <div class="card mb-4">
-                    <div class="card-body">
+        <div class="card mb-4">
+          <div class="card-body">
+            <router-link v-if="customer.id" :to="{name:'home-quotation', params:{ idUser: customer.id }}" class="btn btn-secondary d-grid w-100 mb-3">Ver cotización</router-link>
 
-                      <router-link v-if="customer.id" :to="{name:'home-quotation', params:{ idUser: customer.id }}" class="btn btn-secondary d-grid w-100 mb-3">Ver cotización</router-link>
+            <button @click="insertQuotation" class="btn btn-primary d-grid w-100 mb-3" >
+              <span class="d-flex align-items-center justify-content-center text-nowrap"><i class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
+            </button>
 
-                      <button @click="insertQuotation" class="btn btn-primary d-grid w-100 mb-3" >
-                        <span class="d-flex align-items-center justify-content-center text-nowrap"><i class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
-                      </button>
-  
-                      <a v-if="idContract != 0 && typeDocument == 2" :href="`https://sistema.inbestiga.com/api/generateContract/${customer.id}`" target="_blank" class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
-  
-                    </div>
-                  </div>
-                  
-                </div>
+            <a v-if="idContract != 0 && typeDocument == 2" :href="`https://sistema.inbestiga.com/api/generateContract/${customer.id}`" target="_blank" class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
+          </div>
+        </div>
+      </div>
                 <!-- /Invoice Actions -->
-              </div>              
-             </div>
-  </template>
-  <script>
-    import moment from 'moment'
-    import conversor from 'conversor-numero-a-letras-es-ar'
-    import { userStore } from '../../../stores/UserStore'
-    import Detail from './Detail.vue'
-    import Payments from './Payments.vue'
-    import Delivery from './Delivery.vue'
-    export default{
-      setup(){
-        const store = userStore()
-        return{
-          store
-        }
+    </div>              
+  </div>
+</template>
+<script>
+import moment from 'moment'
+import conversor from 'conversor-numero-a-letras-es-ar'
+import { userStore } from '../../../stores/UserStore'
+import Detail from './Detail.vue'
+import Payments from './Payments.vue'
+import Delivery from './Delivery.vue'
+
+  export default{
+    setup(){
+      const store = userStore()
+      return{
+        store
+      }
+    },
+    components:{ Detail, Payments, Delivery},
+    data(){
+      return{
+        interest: 0,
+        typeDocument: 2,
+        customer: {},
+        date:'',
+        dateValidate:'',
+        newProductsByType:[],
+        newProductsByName:[],
+        details:[],
+        newProduct: {},
+        discount:0,
+        note:'',
+        idQuotation:0,
+        idContract:0,
+        fixed_products:[],
+        selected_product:{},
+        newProducts:[],
+        term:'',
+        mode: 0,
+        level: 0,
+        search: '',
+        coupon:'',
+        recentCode:'',
+        fees:[],
+        dni:'',
+        address:'',
+        finalDelivery:'',
+        observations:'',
+        deliveries:[]
+      }
+    },
+    methods:{
+      removeDelivery(index){
+        this.deliveries.splice(index,1)
       },
-      components:{ Detail, Payments, Delivery},
-      data(){
-        return{
-          interest: 0,
-          typeDocument: 2,
-          customer: {},
-          date:'',
-          dateValidate:'',
-          newProductsByType:[],
-          newProductsByName:[],
-          details:[],
-          newProduct: {},
-          discount:0,
-          note:'',
-          idQuotation:0,
-          idContract:0,
-          fixed_products:[],
-          selected_product:{},
-          newProducts:[],
-          term:'',
-          mode: 0,
-          level: 0,
-          search: '',
-          coupon:'',
-          recentCode:'',
-          fees:[],
-          dni:'',
-          address:'',
-          finalDelivery:'',
-          observations:'',
-          deliveries:[]
+      addDelivery(){
+        var delivery = {
+          'date':'',
+          'advance':''
         }
+        this.deliveries.push(delivery)
       },
-      methods:{
-        removeDelivery(index){
-          this.deliveries.splice(index,1)
-        },
-        addDelivery(){
-          var delivery = {
-            'date':'',
-            'advance':''
-          }
-          this.deliveries.push(delivery)
-        },
-        saveDni(){
-              const fd = new FormData()
-              fd.append('id_customer', this.customer.id)
-              fd.append('dni', this.dni)
-              fd.append('address', this.address)  
-              axios.post('/api/updateDniCustomer', fd)
-              .then((res) =>{
-                this.getUser()  
-              })
-              .catch((err)=>{
-                  console.error(err)
-              })
-        },
-        autoDiscount(){
-          if(this.coupon == this.recentCode){
-            this.$swal('Se ha desbloqueado el descuento')
-            this.discount = this.totalProducts*.05
-          }
-        },
-        redirect(){
-        /*   if(){
-            this.$router.push({name:'home-contracts', params:{ idUser: this.customer.id }})
-          }else{
-            this.$router.push({name:'home-orders', params:{ idUser: this.customer.id }})
-          } */
-          
-        },
-        calcDiscount(numFees){
-          if(numFees == 1){
-            this.discount = ((this.totalProducts) * 0.1).toFixed(2)
-          }else if(numFees == 2){
-            this.discount = ((this.totalProducts) * 0.05).toFixed(2)
-          }else{
-            this.discount = 0
-          }
-        },
-        calcInterest(numFees){
-          if(numFees == 1){
-            this.discount = ((this.totalProducts) * 0.1).toFixed(2)
-          }else if(numFees == 2){
-            this.discount = ((this.totalProducts) * 0.05).toFixed(2)
-          }else{
-            this.discount = 0
-          }
-        },
-        addFee(fees){
-          this.fees = []
-          this.fees = fees
-          var numFees = this.fees.length
-          
-        },
-        addPrice(detail,newProduct){
-        if(detail.mode == 2){
-          alert('nani')
-        }else{
-          detail.price = newProduct.newPriceSelected.price
-          detail.new_product.name = newProduct.name
-          detail.new_product_id = newProduct.id
-          this.newProductsByName = []
-        }
-        },
-        addDetail(){
-          this.details.push({type: 1, level: '', title:'', mode:'', price:'', new_product:{name:''}, new_product_id:''})
-        },
-        selectMode(e){
-          this.newProductsByType = this.newProducts.filter(product => product.type == e.target.value)
-          console.log(this.newProductsByType)
-        },
-        searchNewProduct(e){  
-  
-          if(e.target.value != ''){
-              this.newProductsByName = this.newProductsByType.filter(product => product.name.toLowerCase().includes(e.target.value))
-              this.newProductsByName.forEach((product)=>{
-                  product.newPriceSelected = product.newprices.find(price => price.level == this.level)
-              })
-          }else{
-              this.newProductsByName = []
-          }
-        },
-        getUser(){
-          axios.get('/api/getCustomer/'+this.$route.params.idUser)
-          .then((res)=>{
-           this.customer = res.data
-            if(this.customer.quotations[0]){
-              this.idQuotation = this.customer.quotations[0].id
-              if(this.customer.quotations[0].contract != null){
-                this.idContract = this.customer.quotations[0].contract
-                this.fees = this.customer.quotations[0].contract.fees
-                this.deliveries = this.customer.quotations[0].contract.deliveries
-              }
-              
-              this.date = this.customer.quotations[0].date
-              this.dateValidate = this.customer.quotations[0].expiration_date
-              this.term = this.customer.quotations[0].term
-              this.note = this.customer.quotations[0].note
-              this.customer.quotations[0].details.forEach(detail =>{
-              this.details.push(detail)
-              })
-            }
-          })
-          .catch((err)=>{
-            console.log(err)
-          })
-        },
-        getAllNewProducts(){
-          axios.get('/api/getAllNewProducts')
-          .then((res)=>{
-            this.newProducts = res.data
-          })
-          .catch((err)=>{
-            console.error(err)
-          })
-        },
-        filterNewProducts(type){
-          console.log('modo',type)
-          this.newProductsByType = this.newProducts.filter(product => product.type == type)
-        },
-        callProductModal(newProduct){
-          this.newProduct = newProduct
-          $('#productModal').modal('show')
-        },
-        removeSuggestedCart(index){
-          this.details.splice(index,1)
-        },
-        generateFees(fees){
-          this.fees = fees
-        },
-        insertQuotation(){
-          if(this.typeDocument == 1){
-            if(this.customer.quotations[0]){
-              this.updateQuotation(this.customer.quotations[0].id)
-            }else{
-              this.createQuotation()
-            }
-          }else if(this.typeDocument == 2){
-            if(this.customer.quotations[0].contract == null){
-              this.createContract(this.customer.quotations[0].id)
-            }else{
-              this.updateContract(this.customer.quotations[0].contract.id)
-            }
-          }else{
-            if(this.customer.quotations[0].order == null){
-              this.createOrder(this.customer.quotations[0].id)
-            }else{
-              this.updateOrder()
-            }
-          }
-          
-        },
-        createOrder(quotationId){
-          const fd =  new FormData()
-            
-              fd.append('quotation_id', quotationId)
-              fd.append('final_delivery', this.finalDelivery)
-              fd.append('observations', this.observations)
-              fd.append('suggested', 1)
-              //fd.append('payments', JSON.stringify(this.payments))
-              fd.append('discount', this.discount)
-              fd.append('customer_id', this.$route.params.idUser)
-              fd.append('user_id', this.store.authUser.id)
-      
-              axios.post('/api/insertOrder',fd)
-              .then(res =>{
-                this.idOrder = res.data
-                this.$swal('Orden almacenada correctamente')
-              })
-              .catch(err =>{
+      saveDni(){
+            const fd = new FormData()
+            fd.append('id_customer', this.customer.id)
+            fd.append('dni', this.dni)
+            fd.append('address', this.address)  
+            axios.post('/api/updateDniCustomer', fd)
+            .then((res) =>{
+              this.getUser()  
+            })
+            .catch((err)=>{
                 console.error(err)
-              })
-        },
-        createContract(quotationId){   
-          let conversorClass = conversor.conversorNumerosALetras
-          let myConverter = new conversorClass()
-    
-          const fd =  new FormData()
-  
-          fd.append('quotation_id', quotationId)
-          fd.append('amount', parseInt(this.totalProducts - this.discount))
-          fd.append('amount_text',myConverter.convertToText(parseInt(this.totalProducts - this.discount)))
-          fd.append('date', this.date)
-          fd.append('fees', JSON.stringify(this.fees))
-          fd.append('deliveries', JSON.stringify(this.deliveries))
-          fd.append('customer_id', this.$route.params.idUser)
-          fd.append('user_id', this.store.authUser.id)
-          fd.append('products', JSON.stringify(this.details))
-          fd.append('emisor_id', this.store.authUser.id)
-          axios.post('/api/insertContract', fd)
-          .then(res =>{
-            this.idContract = res.data
-            this.$swal('Contrato generado correctamente')
-          })
-          .catch(err =>{
-            console.log(err)
-          })
-        },
-        updateContract(contractId){
-          let conversorClass = conversor.conversorNumerosALetras
-          let myConverter = new conversorClass()
-  
-          const fd = new FormData()
-  
-          fd.append('contractId', contractId)
-          fd.append('date', this.date)
-          fd.append('amount', parseInt(this.totalProducts - this.discount))
-          fd.append('amount_text',myConverter.convertToText(parseInt(this.totalProducts - this.discount)))
-          fd.append('fees', JSON.stringify(this.fees))
-          fd.append('deliveries', JSON.stringify(this.deliveries))
-          fd.append('customer_id', this.$route.params.idUser)
-          fd.append('user_id', this.store.authUser.id)
-          fd.append('products', JSON.stringify(this.details))
-          fd.append('emisor_id', this.store.authUser.id)
-  
-          fd.append('products', JSON.stringify(this.details))
-  
-          axios.post('/api/updateContract', fd)
-          .then(res =>{
-            this.idContract = res.data
-            this.$swal('Contrato actualizado correctamente')
-          })
-          .catch(err =>{
-            console.log(err)
-          })
-        },
-        updateQuotation(quotationId){
-          const fd =  new FormData()
-            
-          fd.append('quotation_id',quotationId)
-          fd.append('date', this.date)
-          fd.append('expirationDay', this.dateValidate)
-          fd.append('amount', this.totalProducts - this.discount)
-          fd.append('discount', this.discount)
-          fd.append('term', this.term)
-          fd.append('products', JSON.stringify(this.details))
-          fd.append('emisor_id', this.store.authUser.id)
-  
-          axios.post('/api/updateQuotation', fd)
-          .then((res)=>{
-            this.$swal('Cotización actualizada correctamente')
-            this.idQuotation = res.data.id
-          })
-          .catch((err)=>{
-            console.log(err)
-          })
-        },
-        createQuotation(){
-          const fd =  new FormData()
-  
-          fd.append('user_id', this.store.authUser.id)
-          fd.append('customer_id', this.customer.id)
-          fd.append('date', this.date)
-          fd.append('expirationDay', this.dateValidate)
-          fd.append('amount', this.totalProducts - this.discount)
-          fd.append('discount', this.discount)
-          fd.append('term', this.term)
-          fd.append('products', JSON.stringify(this.details))
-          fd.append('emisor_id', this.store.authUser.id)
-  
-          axios.post('/api/insertQuotation', fd)
-          .then((res)=>{
-            this.$swal('Cotización insertada correctamente')
-            this.idQuotation = res.data.id
-          })
-          .catch((err)=>{
-            console.log(err)
-          })
-        },
-        addCartModal(product){
-          this.car_products.push(JSON.stringify(product))
-          this.filtered_products = []
-          this.searchProduct = ''
-        },
-        addSugestCartModal(product){
-          this.carSugestedProducts.push(JSON.stringify(product))
-          this.filtered_products_sugested = []
-          this.searchSugestedProduct = ''
-        },
-        getNewProducts(){
-          axios.get('/api/getNewProductsById/'+this.$route.params.idUser)
-          .then((res)=>{
-           this.details = res.data
-          })
-          .catch((err)=>{
-            console.log(err)
-          })
-        },
-        insertCarProducts(newProduct){
-          console.log(newProduct)
-          var newProd = {'id' : newProduct.id, 'name' : newProduct.name, 'type' : newProduct.typeDetail, 'price' : newProduct.priceFinal, 'new_product_id': newProduct.id, 'level' : newProduct.level}
-          this.details.push(newProd)
-        },
-        getPromotionCode(){
-          axios.get('/api/getPromotionCode')
-          .then((res)=>{
-            this.recentCode = res.data.code
-          })
-          .catch((err)=>{
-            console.error(err)
-          })
+            })
+      },
+      autoDiscount(){
+        if(this.coupon == this.recentCode){
+          this.$swal('Se ha desbloqueado el descuento')
+          this.discount = this.totalProducts*.05
         }
       },
-      mounted(){
-        this.getPromotionCode()
-        this.getUser()
-        this.getAllNewProducts()
+      redirect(){
+      /*   if(){
+          this.$router.push({name:'home-contracts', params:{ idUser: this.customer.id }})
+        }else{
+          this.$router.push({name:'home-orders', params:{ idUser: this.customer.id }})
+        } */
+        
       },
-      computed:{
-        totalFinal(){
-          return parseInt(this.totalProducts - this.discount)
-        },
-        totalProducts(){
-          var total = 0
-          this.details.forEach((product)=>{
-              total += parseFloat(product.price)
-          })
-          return total.toFixed(2)
-        },
-        ableToPayments(){
-  
-          var detailFound = this.details.find(detail => detail.mode == 2)
-  
-          if(detailFound){
-            if(this.typeDocument == 2 || this.typeDocument == 3){
-              return true
-            }else{
-              return false
+      calcDiscount(numFees){
+        if(numFees == 1){
+          this.discount = ((this.totalProducts) * 0.1).toFixed(2)
+        }else if(numFees == 2){
+          this.discount = ((this.totalProducts) * 0.05).toFixed(2)
+        }else{
+          this.discount = 0
+        }
+      },
+      calcInterest(numFees){
+        if(numFees == 1){
+          this.discount = ((this.totalProducts) * 0.1).toFixed(2)
+        }else if(numFees == 2){
+          this.discount = ((this.totalProducts) * 0.05).toFixed(2)
+        }else{
+          this.discount = 0
+        }
+      },
+      addFee(fees){
+        this.fees = []
+        this.fees = fees
+        var numFees = this.fees.length
+        
+      },
+      addPrice(detail,newProduct){
+      if(detail.mode == 2){
+        alert('nani')
+      }else{
+        detail.price = newProduct.newPriceSelected.price
+        detail.new_product.name = newProduct.name
+        detail.new_product_id = newProduct.id
+        this.newProductsByName = []
+      }
+      },
+      addDetail(){
+        this.details.push({type: 1, level: '', title:'', mode:'', price:'', new_product:{name:''}, new_product_id:''})
+      },
+      selectMode(e){
+        this.newProductsByType = this.newProducts.filter(product => product.type == e.target.value)
+        console.log(this.newProductsByType)
+      },
+      searchNewProduct(e){  
+
+        if(e.target.value != ''){
+            this.newProductsByName = this.newProductsByType.filter(product => product.name.toLowerCase().includes(e.target.value))
+            this.newProductsByName.forEach((product)=>{
+                product.newPriceSelected = product.newprices.find(price => price.level == this.level)
+            })
+        }else{
+            this.newProductsByName = []
+        }
+      },
+      getUser(){
+        axios.get('/api/getCustomer/'+this.$route.params.idUser)
+        .then((res)=>{
+          this.customer = res.data
+          if(this.customer.quotations[0]){
+            this.idQuotation = this.customer.quotations[0].id
+            if(this.customer.quotations[0].contract != null){
+              this.idContract = this.customer.quotations[0].contract
+              this.fees = this.customer.quotations[0].contract.fees
+              this.deliveries = this.customer.quotations[0].contract.deliveries
             }
+            
+            this.date = this.customer.quotations[0].date
+            this.dateValidate = this.customer.quotations[0].expiration_date
+            this.term = this.customer.quotations[0].term
+            this.note = this.customer.quotations[0].note
+            this.customer.quotations[0].details.forEach(detail =>{
+            this.details.push(detail)
+            })
+          }
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+      },
+      getAllNewProducts(){
+        axios.get('/api/getAllNewProducts')
+        .then((res)=>{
+          this.newProducts = res.data
+        })
+        .catch((err)=>{
+          console.error(err)
+        })
+      },
+      filterNewProducts(type){
+        console.log('modo',type)
+        this.newProductsByType = this.newProducts.filter(product => product.type == type)
+      },
+      callProductModal(newProduct){
+        this.newProduct = newProduct
+        $('#productModal').modal('show')
+      },
+      removeSuggestedCart(index){
+        this.details.splice(index,1)
+      },
+      generateFees(fees){
+        this.fees = fees
+      },
+      insertQuotation(){
+        if(this.typeDocument == 1){
+          if(this.customer.quotations[0]){
+            this.updateQuotation(this.customer.quotations[0].id)
+          }else{
+            this.createQuotation()
+          }
+        }else if(this.typeDocument == 2){
+          if(this.customer.quotations[0].contract == null){
+            this.createContract(this.customer.quotations[0].id)
+          }else{
+            this.updateContract(this.customer.quotations[0].contract.id)
+          }
+        }else{
+          if(this.customer.quotations[0].order == null){
+            this.createOrder(this.customer.quotations[0].id)
+          }else{
+            this.updateOrder()
+          }
+        }
+        
+      },
+      createOrder(quotationId){
+        const fd =  new FormData()
+          
+            fd.append('quotation_id', quotationId)
+            fd.append('final_delivery', this.finalDelivery)
+            fd.append('observations', this.observations)
+            fd.append('suggested', 1)
+            //fd.append('payments', JSON.stringify(this.payments))
+            fd.append('discount', this.discount)
+            fd.append('customer_id', this.$route.params.idUser)
+            fd.append('user_id', this.store.authUser.id)
+    
+            axios.post('/api/insertOrder',fd)
+            .then(res =>{
+              this.idOrder = res.data
+              this.$swal('Orden almacenada correctamente')
+            })
+            .catch(err =>{
+              console.error(err)
+            })
+      },
+      createContract(quotationId){   
+        let conversorClass = conversor.conversorNumerosALetras
+        let myConverter = new conversorClass()
+  
+        const fd =  new FormData()
+
+        fd.append('quotation_id', quotationId)
+        fd.append('amount', parseInt(this.totalProducts - this.discount))
+        fd.append('amount_text',myConverter.convertToText(parseInt(this.totalProducts - this.discount)))
+        fd.append('date', this.date)
+        fd.append('fees', JSON.stringify(this.fees))
+        fd.append('deliveries', JSON.stringify(this.deliveries))
+        fd.append('customer_id', this.$route.params.idUser)
+        fd.append('user_id', this.store.authUser.id)
+        fd.append('products', JSON.stringify(this.details))
+        fd.append('emisor_id', this.store.authUser.id)
+        axios.post('/api/insertContract', fd)
+        .then(res =>{
+          this.idContract = res.data
+          this.$swal('Contrato generado correctamente')
+        })
+        .catch(err =>{
+          console.log(err)
+        })
+      },
+      updateContract(contractId){
+        let conversorClass = conversor.conversorNumerosALetras
+        let myConverter = new conversorClass()
+
+        const fd = new FormData()
+
+        fd.append('contractId', contractId)
+        fd.append('date', this.date)
+        fd.append('amount', parseInt(this.totalProducts - this.discount))
+        fd.append('amount_text',myConverter.convertToText(parseInt(this.totalProducts - this.discount)))
+        fd.append('fees', JSON.stringify(this.fees))
+        fd.append('deliveries', JSON.stringify(this.deliveries))
+        fd.append('customer_id', this.$route.params.idUser)
+        fd.append('user_id', this.store.authUser.id)
+        fd.append('products', JSON.stringify(this.details))
+        fd.append('emisor_id', this.store.authUser.id)
+
+        fd.append('products', JSON.stringify(this.details))
+
+        axios.post('/api/updateContract', fd)
+        .then(res =>{
+          this.idContract = res.data
+          this.$swal('Contrato actualizado correctamente')
+        })
+        .catch(err =>{
+          console.log(err)
+        })
+      },
+      updateQuotation(quotationId){
+        const fd =  new FormData()
+          
+        fd.append('quotation_id',quotationId)
+        fd.append('date', this.date)
+        fd.append('expirationDay', this.dateValidate)
+        fd.append('amount', this.totalProducts - this.discount)
+        fd.append('discount', this.discount)
+        fd.append('term', this.term)
+        fd.append('products', JSON.stringify(this.details))
+        fd.append('emisor_id', this.store.authUser.id)
+
+        axios.post('/api/updateQuotation', fd)
+        .then((res)=>{
+          this.$swal('Cotización actualizada correctamente')
+          this.idQuotation = res.data.id
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+      },
+      createQuotation(){
+        const fd =  new FormData()
+
+        fd.append('user_id', this.store.authUser.id)
+        fd.append('customer_id', this.customer.id)
+        fd.append('date', this.date)
+        fd.append('expirationDay', this.dateValidate)
+        fd.append('amount', this.totalProducts - this.discount)
+        fd.append('discount', this.discount)
+        fd.append('term', this.term)
+        fd.append('products', JSON.stringify(this.details))
+        fd.append('emisor_id', this.store.authUser.id)
+
+        axios.post('/api/insertQuotation', fd)
+        .then((res)=>{
+          this.$swal('Cotización insertada correctamente')
+          this.idQuotation = res.data.id
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+      },
+      addCartModal(product){
+        this.car_products.push(JSON.stringify(product))
+        this.filtered_products = []
+        this.searchProduct = ''
+      },
+      addSugestCartModal(product){
+        this.carSugestedProducts.push(JSON.stringify(product))
+        this.filtered_products_sugested = []
+        this.searchSugestedProduct = ''
+      },
+      getNewProducts(){
+        axios.get('/api/getNewProductsById/'+this.$route.params.idUser)
+        .then((res)=>{
+          this.details = res.data
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+      },
+      insertCarProducts(newProduct){
+        console.log(newProduct)
+        var newProd = {'id' : newProduct.id, 'name' : newProduct.name, 'type' : newProduct.typeDetail, 'price' : newProduct.priceFinal, 'new_product_id': newProduct.id, 'level' : newProduct.level}
+        this.details.push(newProd)
+      },
+      getPromotionCode(){
+        axios.get('/api/getPromotionCode')
+        .then((res)=>{
+          this.recentCode = res.data.code
+        })
+        .catch((err)=>{
+          console.error(err)
+        })
+      }
+    },
+    mounted(){
+      this.getPromotionCode()
+      this.getUser()
+      this.getAllNewProducts()
+    },
+    computed:{
+      totalFinal(){
+        return parseInt(this.totalProducts - this.discount)
+      },
+      totalProducts(){
+        var total = 0
+        this.details.forEach((product)=>{
+            total += parseFloat(product.price)
+        })
+        return total.toFixed(2)
+      },
+      ableToPayments(){
+
+        var detailFound = this.details.find(detail => detail.mode == 2)
+
+        if(detailFound){
+          if(this.typeDocument == 2 || this.typeDocument == 3){
+            return true
           }else{
             return false
           }
+        }else{
+          return false
         }
       }
     }
-  </script>
+  }
+</script>
