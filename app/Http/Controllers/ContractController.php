@@ -143,6 +143,17 @@ class ContractController extends Controller
             ]);
             }
 
+            Delivery::where('contract_id', $contract->id)->delete();
+
+            $deliveries = json_decode($request->get('deliveries'), true);
+
+            foreach ($deliveries as $delivery) {
+                Delivery::create([
+                    'contract_id' => $contract->id,
+                    'date' => $delivery['date'],
+                    'advance' => $delivery['advance']
+                ]);
+            }
 
         return $contract;
     }

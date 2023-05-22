@@ -132,7 +132,7 @@
         <div class="row mt-3">
             <div class="col-4 px-2">
                 <p v-for="(payment, index) in order.payments" class="ps-4 h5">
-                    {{index+1+'° Pago'}} {{ payment.date }} S./{{ payment.amount }}
+                    {{index+1+'° Pago'}} {{ formatDatePayment(payment.date) }} S./{{ payment.amount }}
                 </p>
             </div>
             <div class="col-3 signature-box">
@@ -156,6 +156,8 @@
     </div>
 </template>
 <script>
+import moment from "moment"
+
 export default {
     data(){
         return{
@@ -163,6 +165,9 @@ export default {
         }
     },
     methods:{
+        formatDatePayment(date){
+            return moment(date).format('DD/MM/YYYY')
+        },
         getQuotationInfo(){
             axios.get('/api/quotationByOrder/'+ this.$route.params.id)
             .then((res) => {

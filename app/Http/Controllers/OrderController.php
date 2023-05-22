@@ -141,7 +141,7 @@ class OrderController extends Controller
             'observations' => $request->get('observations')
         ]);
 
-        $order->quotation->details->each(function ($detail) {
+        $order->quotation->details->each(function ($detail){
             $detail->delete();
         });
 
@@ -161,6 +161,21 @@ class OrderController extends Controller
                     'mode' => $prod['mode']
                 ]);
             }
+        
+        $order->payments->each(function ($payment){
+                $payment->delete();
+            });
+
+        $payments = json_decode($request->get('payments'), true);
+    
+            foreach ($payments as $payment) {
+                $payment_registered = Payments::create([
+                    'order_id' => $order->id,
+                    'date' => $payment['date'],
+                    'amount' => $payment['amount']
+                ]);
+            }
+        
 
         return response()->json([
             'msg' => 'success'
