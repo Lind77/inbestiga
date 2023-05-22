@@ -24,7 +24,7 @@
                 </div>
                     </div>
                     <div class="col-6">
-                        <p @dblclick="changeInterest(customer)"><i :class="`bx ${interest[customer.interest]} display-4 cursor-pointer`"></i></p>
+                        <p @dblclick="changeInterest(customer)" v-show="customer.status != 11"><i :class="`bx ${interest[customer.interest]} display-4 cursor-pointer`"></i></p>
                     </div>
                 </div>
                 

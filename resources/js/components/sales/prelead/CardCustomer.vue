@@ -106,7 +106,7 @@ import moment from 'moment'
                 }else if(this.customer.status == 3){
                     return 'success'
                 }
-                else if (this.customer.status > 3){
+                else if (this.customer.status > 3 && this.customer.status < 11){
                     if(this.customer.interest == 1){
                         return 'danger'
                     }else if(this.customer.interest == 2){
@@ -116,6 +116,8 @@ import moment from 'moment'
                     }else{
                         return 'secondary'
                     }
+                }else if(this.customer.status == 11){
+                    return 'warning'
                 }
             },
             verifyOrders(){
