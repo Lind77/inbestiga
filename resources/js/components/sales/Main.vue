@@ -8,7 +8,6 @@
                     <div class="card-body">
                         <h5 class="card-title text-primary">{{ store.authUser?store.authUser.name:'' }}, te damos la bienvenida 🎉</h5>
                         <p class="mb-4">Tienes <span class="fw-bold">{{ comunications.length }}</span> comunicaciones pendientes para hoy, te recomendamos revisarlas.</p>
-
                     </div>
                     </div>
                     <div class="col-sm-5 text-center text-sm-left">
@@ -32,11 +31,17 @@
             <span class="timeline-point timeline-point-primary"></span>
             <div class="timeline-event">
               <div class="timeline-header mb-1">
-                <h6 class="mb-0">{{ comunication.customer.name }} - {{ comunication.customer.user?comunication.customer.user.name:'' }}</h6>
+                <h6 class="mb-0">{{ comunication.customer.name }}</h6>
                 <small class="text-muted">{{ formatTime(comunication.time) }}</small>
               </div>
               <p>{{ comunicationType[comunication.type] }}</p>
-              <p class="mb-2">{{ comunication.comment }}</p>
+              <div class="d-flex justify-content-between">
+                <p class="mb-2">{{ comunication.comment }}</p>
+                <button @click="changeAtended(comunication.id)" type="button" :class="`btn btn-icon btn-sm ${atendedColor[comunication.atended]}`">
+                    <span :class="`tf-icon bx ${atendedType[comunication.atended]}`"></span>
+                </button>
+              </div>
+              
             </div>
           </li>
         </ul>
@@ -60,6 +65,16 @@ export default{
                 2: 'Escribir',
                 3: 'Meet'
             },
+            atendedType:{
+                null: 'bx-x',
+                1: 'bx-x',
+                2: 'bx-check'
+            },
+            atendedColor:{
+                null: 'btn-danger',
+                1: 'btn-danger',
+                2: 'btn-success'
+            },
             comunications:[],
             time:'',
             interval:null
@@ -70,10 +85,22 @@ export default{
       return { store }
     },
     methods:{
+        changeAtended(comunicationId){
+            if(confirm('¿Deseas marcar esta comunicación?')){
+                axios.get('/api/updateComunication/'+comunicationId)
+                .then((res)=>{
+                    var comunicationSelected = this.comunications.find(comunication => comunication.id == comunicationId)
+
+                    comunicationSelected.atended = 2
+                })
+                .catch((err)=>{
+                    console.error(err)
+                })
+            }
+        },
         formatTime(time) {
-            const hours = time.split(":")[0]
-            const minutes = time.split(":")[1]
-            return `${hours}:${minutes}`
+            var formatedTime = moment(time, 'HH:mm:ss').format('h:mm a')
+            return formatedTime
         },
         getComunicationsByToday(){
             axios.get('/api/getComunicationsByToday/'+this.store.authUser.id)
@@ -108,8 +135,6 @@ export default{
                     console.error(err)
                 })
             }
-
-            console.log(comunicationPlusHourFound)
 
             var comunicationFound = this.comunications.find(comunication => comunication.time == timeSeconds)
             

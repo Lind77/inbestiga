@@ -21,7 +21,7 @@
                 </thead>
                 <tbody class="table-border-bottom-0">
                   <tr v-for="customer in customers">
-                    <td><strong>{{customer.name}}</strong><i @click="openAsignOwner(customer.id)" v-show="customer.user_id == null" class='bx bxs-user-x text-danger'></i></td>
+                    <td><strong class="cursor-pointer placeholder-glow" @click="redirectFunnel(customer.id)">{{customer.name}}</strong><i @click="openAsignOwner(customer)" v-show="customer.user_id == null" class='bx bxs-user-x text-danger'></i></td>
                       <td>{{customer.cell}}</td>
                       <td>{{formatDate(customer.created_at)}}</td>
                       <td>{{customer.university}}</td>
@@ -53,7 +53,7 @@ import moment from "moment"
 import customerModal from './customerModal.vue'
 import OwnerModal from '../prelead/OwnerModal.vue'
   export default{
-    components:{ customerModal, OwnerModal },
+    components:{ customerModal, OwnerModal},
     data(){
       return{
         customerId:0,
@@ -80,6 +80,9 @@ import OwnerModal from '../prelead/OwnerModal.vue'
       }
     },
     methods:{
+      redirectFunnel(customer){
+        this.$router.push({ name: 'home-funnel' })
+      },
       cleanSearch(){
         if(this.search == ''){
           this.getAllCustomers()

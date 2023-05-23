@@ -132,4 +132,16 @@ class ComunicationController extends Controller
 
         return response()->json($comunications);
     }
+
+    public function updateComunication($comunicationId){
+        $comunication = Comunication::find($comunicationId);
+
+        $comunication->update([
+            'atended' => 2
+        ]);
+
+        return response()->json([
+            'msg' => 'Comunicación actualizada'
+        ]);
+    }
 }

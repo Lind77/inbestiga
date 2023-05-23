@@ -57,6 +57,15 @@ export default{
     }
   },
   methods:{
+    redirect() {
+      alert('redirect desde otro componente')
+      /*   if(){
+          this.$router.push({name:'home-contracts', params:{ idUser: this.customer.id }})
+        }else{
+          this.$router.push({name:'home-orders', params:{ idUser: this.customer.id }})
+        } */
+
+    },
     updateInterest(newCustomer){
       var customerSelected = this.leadsFiltered.find(lead => lead.id == newCustomer.id)
       customerSelected.interest = newCustomer.interest

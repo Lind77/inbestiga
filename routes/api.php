@@ -158,6 +158,7 @@ Route::get('/registerSeen/{id}', [SeenController::class, 'registerSeen']);
 Route::post('/updateComunication', [ComunicationController::class, 'update']);
 Route::post('/insertComunication', [ComunicationController::class, 'insertComunication']);
 Route::get('/getComunicationsByToday/{id}', [ComunicationController::class, 'getComunicationsByToday']);
+Route::get('/updateComunication/{id}', [ComunicationController::class, 'updateComunication']);
 
 Route::get('/getAllContracts', [ContractController::class, 'index']);
 Route::get('/generateContract/{id}', [OrderController::class, 'generateContract']);
