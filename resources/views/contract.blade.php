@@ -59,7 +59,7 @@
                 font-weight: 700;
             }
             .container{
-                padding: 30px 35px 0px 35px;
+                padding: 10px 35px 0px 35px;
             }
             ul{
                 padding-left: 15px;

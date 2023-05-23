@@ -361,7 +361,7 @@
               this.idContract = this.customer.quotations[0].contract
               this.fees = this.customer.quotations[0].contract.fees
             }
-
+            this.discount = this.customer.quotations[0].discount
             this.date = this.customer.quotations[0].date
             this.dateValidate = this.customer.quotations[0].expiration_date
             this.term = this.customer.quotations[0].term
@@ -576,7 +576,7 @@
     },
     computed:{
       finalPrice(){
-      return (this.totalProducts - this.discount).toFixed(2)
+        return (this.totalProducts - this.discount).toFixed(2)
       },
       totalProducts(){
         var total = 0

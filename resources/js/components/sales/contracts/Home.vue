@@ -137,6 +137,8 @@
                 </table>
               </div>
               <div class="col-md-6 col-sm-7">
+                <p>Considerar "Proporcionar la información de la aplicación de instrumentos" <input type="checkbox" class="form-check"></p>
+                <p>Quinto Artículo - Considerar de Entregas <input type="checkbox" class="form-check"></p>
               </div>
             </div>
             <hr class="mx-n4">
@@ -413,7 +415,7 @@ export default {
               this.fees = this.customer.quotations[0].contract.fees
               this.deliveries = this.customer.quotations[0].contract.deliveries
             }
-
+            this.discount = this.customer.quotations[0].discount
             this.date = this.customer.quotations[0].date
             this.dateValidate = this.customer.quotations[0].expiration_date
             this.term = this.customer.quotations[0].term
