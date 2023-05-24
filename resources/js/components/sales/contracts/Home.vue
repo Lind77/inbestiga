@@ -137,8 +137,8 @@
                 </table>
               </div>
               <div class="col-md-6 col-sm-7">
-                <p>Considerar "Proporcionar la información de la aplicación de instrumentos" <input type="checkbox" class="form-check"></p>
-                <p>Quinto Artículo - Considerar de Entregas <input type="checkbox" class="form-check"></p>
+                <p>Considerar "Proporcionar la información de la aplicación de instrumentos" <input type="checkbox" class="form-check-input" v-model="thirdArticle"></p>
+                <p>Quinto Artículo - Considerar de Entregas <input type="checkbox" class="form-check-input" v-model="fifthArticle"></p>
               </div>
             </div>
             <hr class="mx-n4">
@@ -256,7 +256,7 @@
             </button>
 
             <a v-if="idContract != 0 && typeDocument == 2"
-              :href="`https://sistema.inbestiga.com/api/generateContract/${customer.id}`" target="_blank"
+              :href="`../../api/generateContract/${customer.id}`" target="_blank"
               class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
           </div>
         </div>
@@ -310,7 +310,9 @@ export default {
       address: '',
       finalDelivery: '',
       observations: '',
-      deliveries: []
+      deliveries: [],
+      thirdArticle: false,
+      fifthArticle: false
     }
   },
   methods: {
@@ -496,6 +498,11 @@ export default {
         })
     },
     createContract(quotationId) {
+      console.log(this.thirdArticle, this.fifthArticle)
+
+      var thirdArticleValue = this.booleanToNumber(this.thirdArticle)
+      var fifthArticleValue = this.booleanToNumber(this.fifthArticle)
+
       let conversorClass = conversor.conversorNumerosALetras
       let myConverter = new conversorClass()
 
@@ -511,6 +518,8 @@ export default {
       fd.append('user_id', this.store.authUser.id)
       fd.append('products', JSON.stringify(this.details))
       fd.append('emisor_id', this.store.authUser.id)
+      fd.append('third_article', thirdArticleValue)
+      fd.append('fifth_article', fifthArticleValue)
       axios.post('/api/insertContract', fd)
         .then(res => {
           this.idContract = res.data
@@ -520,7 +529,15 @@ export default {
           console.log(err)
         })
     },
-    updateContract(contractId) {
+    booleanToNumber(value){
+      return value ? 1 : 0
+    },
+    updateContract(contractId){
+      console.log(this.thirdArticle, this.fifthArticle)
+
+      var thirdArticleValue = this.booleanToNumber(this.thirdArticle)
+      var fifthArticleValue = this.booleanToNumber(this.fifthArticle)
+
       let conversorClass = conversor.conversorNumerosALetras
       let myConverter = new conversorClass()
 
@@ -536,7 +553,8 @@ export default {
       fd.append('user_id', this.store.authUser.id)
       fd.append('products', JSON.stringify(this.details))
       fd.append('emisor_id', this.store.authUser.id)
-
+      fd.append('third_article', thirdArticleValue)
+      fd.append('fifth_article', fifthArticleValue)
       fd.append('products', JSON.stringify(this.details))
 
       axios.post('/api/updateContract', fd)

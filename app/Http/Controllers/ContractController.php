@@ -103,7 +103,9 @@ class ContractController extends Controller
         $contract->update([
             'amount' => $request->get('amount'),
             'amount_text' => $request->get('amount_text'),
-            'date' => $request->get('date')
+            'date' => $request->get('date'),
+            'third_article' => $request->get('third_article'),
+            'fifth_article' => $request->get('fifth_article')
         ]);
 
         $quotation = $contract->quotation;
@@ -192,6 +194,8 @@ class ContractController extends Controller
                 'amount' => $request->get('amount'),
                 'amount_text' => $request->get('amount_text'),
                 'date' => $request->get('date'),
+                'third_article' => $request->get('third_article'),
+                'fifth_article' => $request->get('fifth_article')
             ]);
         }else{
             $quotation = Quotation::with('contract')->where('id', $request->get('quotation_id'))->first();

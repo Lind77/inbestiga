@@ -9,7 +9,7 @@ class Contract extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['quotation_id', 'date', 'amount','amount_text', 'advance','percentage'];
+    protected $fillable = ['quotation_id', 'date', 'amount','amount_text', 'advance','percentage','third_article','fifth_article'];
 
     public function quotation(){
         return $this->belongsTo('App\Models\Quotation');
