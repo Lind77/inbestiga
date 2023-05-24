@@ -353,7 +353,7 @@
                 this.idOrder = this.customer.quotations[0].order.id
                 
               }
-  
+              this.discount = this.customer.quotations[0].discount
               this.date = this.customer.quotations[0].date
               this.dateValidate = this.customer.quotations[0].expiration_date
               this.term = this.customer.quotations[0].term

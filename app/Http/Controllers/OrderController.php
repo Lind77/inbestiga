@@ -141,6 +141,10 @@ class OrderController extends Controller
             'observations' => $request->get('observations')
         ]);
 
+        $order->quotation->update([
+            'discount' => $request->get('discount')
+        ]);
+
         $order->quotation->details->each(function ($detail){
             $detail->delete();
         });
