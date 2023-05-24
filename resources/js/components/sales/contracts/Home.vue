@@ -256,7 +256,7 @@
             </button>
 
             <a v-if="idContract != 0 && typeDocument == 2"
-              :href="`../../api/generateContract/${customer.id}`" target="_blank"
+              :href="`https://sistema.inbestiga.com/public/api/generateContract/${customer.id}`" target="_blank"
               class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
           </div>
         </div>
