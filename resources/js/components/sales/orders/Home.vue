@@ -300,7 +300,7 @@
         autoDiscount(){
           if(this.coupon == this.recentCode){
             this.$swal('Se ha desbloqueado el descuento')
-            this.discount = this.totalProducts*.5
+            this.discount = this.totalProducts*.05
           }
         },
         redirect(){
