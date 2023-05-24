@@ -351,7 +351,7 @@
               this.idQuotation = this.customer.quotations[0].id
               if(this.customer.quotations[0].order != null){
                 this.idOrder = this.customer.quotations[0].order.id
-                
+                this.payments = this.customer.quotations[0].order.payments
               }
               this.discount = this.customer.quotations[0].discount
               this.date = this.customer.quotations[0].date
