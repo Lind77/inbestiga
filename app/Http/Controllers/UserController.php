@@ -11,22 +11,22 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function getAllUsers(){
+
+    public function index(){
         $users = User::with(['roles','memoir'])->get();
         return response()->json($users);
     }
 
-    public function getRoles(){
-        $roles = Role::all()->pluck('name');
-        return $roles;
+    public function show($id){
+        $user = User::with(['memoir','memoir.team'])->find($id);
+        $progress = Progress::where('owner', '=', $user->name)->with(['progressable','progressable.activity'])->get();
+        return response()->json([
+            'user' => $user,
+            'progress' => $progress
+        ]);
     }
 
-    public function createRol(Request $request){
-        $role = Role::create(['name' => $request->get('name')]);
-        return $role;
-    }
-
-    public function createUser(Request $request){
+    public function store(Request $request){
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
@@ -45,7 +45,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function deleteUser($id){
+    public function destroy($id){
 
         $user = User::find($id);
         $user->delete();
@@ -55,7 +55,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function assignTeamUser(Request $request){
+    public function assignTeam(Request $request){
         $user = User::find($request->get('owner_id'));
         $memoir = $user->memoir;
 
@@ -68,16 +68,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function getUserData($id){
-        $user = User::with(['memoir','memoir.team'])->find($id);
-        $progress = Progress::where('owner', '=', $user->name)->with(['progressable','progressable.activity'])->get();
-        return response()->json([
-            'user' => $user,
-            'progress' => $progress
-        ]);
-    }
-
-    public function getAllSellers(){
+    public function getSellers(){
         $memoirs = Memoir::where('area', 'sales')->with('user')->get();
         return response()->json($memoirs);
     }

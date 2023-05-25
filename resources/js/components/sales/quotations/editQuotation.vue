@@ -201,7 +201,7 @@ export default {
     },
     methods:{
         getQuotation(){
-            axios.get('/api/quotation/'+ this.$route.params.idQuot)
+            axios.get('/api/quotations/'+ this.$route.params.idQuot)
             .then(res =>{
                 this.quotation = res.data[0]
                 this.customerSelected = this.quotation.customer

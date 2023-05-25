@@ -90,43 +90,6 @@
                     </select>
                 </div>
             </div>
-           <!--  <div class="row g-2">
-                <h5 class="mt-3">Comunicación</h5>
-                <div class="col mb-0">
-                <label for="emailBasic" class="form-label">Primera Gestión</label>
-                <input type="date" v-model="first_management" class="form-control">
-                </div>
-                <div class="col mb-0">
-                <label for="emailBasic" class="form-label">Última Gestión</label>
-                <input type="date" v-model="last_management" class="form-control">
-                </div>
-                
-            </div>
-            <div class="row g-2 mt-2">
-                <div class="col mb-0">
-                <label for="emailBasic" class="form-label">Próxima Gestión</label>
-                <input type="datetime-local" v-model="next_management" class="form-control">
-                </div>
-                <div class="col mb-0">
-                <label for="emailBasic" class="form-label">Comentario</label>
-                <input type="text" v-model="comment" class="form-control"/>
-                </div>
-                
-            </div>
-            <div class="row g-2 mt-2">
-                <div class="col mb-0">
-                <label for="emailBasic" class="form-label">Producto Tentativo</label>
-                <input type="text" v-model="product_tentative" class="form-control"/>
-                </div>
-                <div class="col mb-0">
-                <label for="emailBasic" class="form-label">Tipo</label>
-                <select v-model="type" class="form-select">
-                    <option value="1">Llamar</option>
-                    <option value="2">Escribir</option>
-                    <option value="3">Meet</option>
-                </select>
-                </div>
-            </div> -->
             </div>
             <div class="modal-footer">
             <button type="button" id="close-insert-customer" class="btn btn-outline-secondary" data-bs-dismiss="modal">
@@ -174,6 +137,7 @@ export default {
     methods:{
         updateCustomer(){
             const fd = new FormData()
+            fd.append('_method', 'put');
             fd.append('id', this.customer.id)
             fd.append('name',this.customer.name)
             fd.append('cell',this.customer.cell)
@@ -181,7 +145,7 @@ export default {
             fd.append('career',this.customer.career)
             fd.append('email',this.customer.email)
 
-            axios.post('/api/updateCustomer', fd)
+            axios.post(`/api/customers/${this.customer.id}`, fd)
             .then(res =>{
                 console.log(res)
                 this.$emit('getAllCustomers')
@@ -196,7 +160,7 @@ export default {
 
             fd.append('name', this.name)
             fd.append('cell', this.cell)
-            axios.post('/api/verifyCustomer', fd)
+            axios.post('/api/customers/verify', fd)
             .then((res) => {
                 if(res.data){
                    this.insertCustomer()
@@ -247,7 +211,7 @@ export default {
             fd.append('user_id', 12)
             fd.append('type', this.type)
 
-            axios.post('/api/insertCustomer', fd)
+            axios.post('/api/customers', fd)
             .then(res =>{
                 console.log(res)
                 this.$emit('getAllCustomers')
@@ -259,7 +223,7 @@ export default {
             })
         },
         getAllUsers(){
-            axios.get('/api/getAllUsers')
+            axios.get('/api/users')
             .then(res =>{
                 this.users = res.data
             })

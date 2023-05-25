@@ -108,7 +108,7 @@ export default {
 
         },
         getAllSellers(){
-            axios.get('/api/getAllSellers')
+            axios.get('/api/sellers')
             .then(res =>{
                 this.sellers = res.data
             })

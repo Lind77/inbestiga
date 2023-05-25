@@ -39,7 +39,7 @@ export default {
     },
     methods:{
       getAllQuotations(){
-          axios.get('/api/getAllQuotations')
+          axios.get('/api/quotations')
           .then(res =>{
             console.log(res)
             this.quotations = res.data

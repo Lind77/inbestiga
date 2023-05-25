@@ -16,6 +16,7 @@
             class="form-control border-0 shadow-none"
             placeholder="Buscar..."
             aria-label="Buscar..."
+            autocomplete="off"
           />
         </div>
       </div>

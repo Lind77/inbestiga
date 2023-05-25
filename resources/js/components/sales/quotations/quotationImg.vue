@@ -144,7 +144,7 @@ export default {
     },
     methods:{
         getQuotationInfo(){
-            axios.get(`/api/quotation/${this.$route.params.id}`)
+            axios.get(`/api/quotations/${this.$route.params.id}`)
             .then((res) => {
                 this.quotation = res.data 
             })

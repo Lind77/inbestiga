@@ -46,61 +46,8 @@ class CustomerController extends Controller
      * @param  \App\Http\Requests\StoreCustomerRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCustomerRequest $request)
+    public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $customer = Customer::with(['quotations' => function($query){
-            $query->with(['details', 'details.new_product', 'details.new_product.newprices', 'order','order.payments', 'contract','contract.fees','contract.deliveries'])->orderBy('created_at', 'desc')->first();
-        }])->find($id);
-        return response()->json($customer);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Customer $customer)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateCustomerRequest  $request
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateCustomerRequest $request, Customer $customer)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Customer $customer)
-    {
-        //
-    }
-
-    public function insertCustomer(Request $request){
-
         if($request->get('cell') != null){
             $request->validate([
                 'cell' => 'unique:customers|max:12|min:9'
@@ -146,25 +93,46 @@ class CustomerController extends Controller
             'user_id' => $request->get('user_id')
         ]);
 
-        /* $comunication = Comunication::create([
-            'customer_id' => $customer->id,
-            'first_management' => $request->get('first_management'),
-            'last_management' => $request->get('last_management'),
-            'next_management' => $date,
-            'comment' => $request->get('comment'),
-            'product_tentative' => $request->get('product_tentative'),
-            'type' => $request->get('type'),
-            'time' => $hour
-        ]);
- */
         return response()->json([
             'msg' => 'success'
         ]);
     }
 
-    public function updateCustomer(Request $request){
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Customer  $customer
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $customer = Customer::with(['quotations' => function($query){
+            $query->with(['details', 'details.new_product', 'details.new_product.newprices', 'order','order.payments', 'contract','contract.fees','contract.deliveries'])->orderBy('created_at', 'desc')->first();
+        }])->find($id);
+        return response()->json($customer);
+    }
 
-        $customer = Customer::find($request->get('id'));
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Customer  $customer
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Customer $customer)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\UpdateCustomerRequest  $request
+     * @param  \App\Models\Customer  $customer
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $customer = Customer::find($id);
 
         $customer->update([
             'name' => $request->get('name'),
@@ -177,6 +145,17 @@ class CustomerController extends Controller
         return response()->json([
             'msg' => 'success'
         ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Customer  $customer
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Customer $customer)
+    {
+        //
     }
 
     public function updateCustomerGrade(Request $request){

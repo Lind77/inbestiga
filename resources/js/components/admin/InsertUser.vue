@@ -83,7 +83,7 @@ import axios from 'axios'
                 fd.append('rol', this.rol)
                 fd.append('area', this.area)
 
-                axios.post('/api/createUser', fd)
+                axios.post('/api/users', fd)
                 .then(res =>{
                     this.$emit('getAllUsers')
                     $('#userModal').modal('hide')
@@ -93,7 +93,7 @@ import axios from 'axios'
                 })
             },
             getRoles(){
-                axios.get('/api/getRoles')
+                axios.get('/api/roles')
                 .then(res =>{
                     this.roles = res.data
                     console.log(res)

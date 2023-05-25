@@ -25,7 +25,7 @@ class QuotationController extends Controller
      */
     public function index()
     {
-        $quotations = Quotation::with(['customer','details','details.product'])->orderBy('date', 'desc')->whereMonth('date', '=', date('m'))->get();
+        $quotations = Quotation::with(['customer','details','details.product'])->orderBy('date', 'desc')->whereMonth('date', '=', date('m'))->take(10)->get();
         return response()->json($quotations);
     }
 
@@ -217,13 +217,6 @@ class QuotationController extends Controller
     public function destroy(Quotation $quotation)
     {
         //
-    }
-
-    public function newPDF(Request $request){
-
-        $prueba = $request->get('all');
-
-
     }
 
     public function getQuotationByCustomerId($id){

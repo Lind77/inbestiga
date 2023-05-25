@@ -194,7 +194,7 @@ export default {
             })
         },
         getAllUsers(){
-            axios.get('/api/getAllUsers')
+            axios.get('/api/users')
             .then(res => {
                 console.log(res)
                 this.users= res.data.filter(user => user.id != this.store.authUser[0].id)

@@ -40,7 +40,7 @@
       },
       methods:{
         print(id){
-            window.open('./api/generatePDF/'+id)
+            window.open(`./api/quotations/${id}/pdf/`)
         },
         getAllOrders(){
                 axios.get('/api/getAllOrders')

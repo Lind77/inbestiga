@@ -49,10 +49,10 @@
       },
       methods:{
         print(id){
-            window.open('./api/generatePDF/'+id)
+            window.open(`./api/quotations/${id}/pdf/`)
         },
         getAllQuotations(){
-                axios.get('/api/getAllQuotations')
+                axios.get('/api/quotations')
                 .then(res =>{
                   console.log(res)
                   this.quotations = res.data

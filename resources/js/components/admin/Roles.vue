@@ -50,7 +50,7 @@ export default {
     },
     methods:{
         getAllRoles(){
-            axios.get('/api/getRoles')
+            axios.get('/api/roles')
             .then(res =>{
                 this.roles = res.data
             })
@@ -71,7 +71,7 @@ export default {
             })
             .then((result)=>{
                 if(result.isConfirmed){
-                    axios.get(`/api/deleteUser/${id}`)
+                    axios.delete(`/api/users/${id}`)
                     .then(res =>{
                         this.getAllUsers()
                     })

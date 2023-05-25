@@ -113,7 +113,7 @@ export default {
             fd.append('team_id', team_id)
             fd.append('owner_id', owner_id)
 
-            axios.post('/api/assignTeamUser', fd)
+            axios.post('/api/users/assign-team', fd)
             .then(res =>{
                 this.getAllOwners()
             })

@@ -47,7 +47,7 @@ export default {
     },
     methods:{
         getAllUsers(){
-            axios.get('/api/getAllUsers')
+            axios.get('/api/users')
             .then(res =>{
                 this.users = res.data
             })
@@ -68,7 +68,7 @@ export default {
             })
             .then((result)=>{
                 if(result.isConfirmed){
-                    axios.get(`/api/deleteUser/${id}`)
+                    axios.delete(`/api/users/${id}`)
                     .then(res =>{
                         this.getAllUsers()
                     })

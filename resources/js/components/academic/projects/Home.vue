@@ -85,7 +85,7 @@
                 })
         },
         getAllCustomers(){
-                axios.get('/api/getAllCustomers')
+                axios.get('/api/customers')
                 .then(res =>{
                     this.customers = res.data
                 })

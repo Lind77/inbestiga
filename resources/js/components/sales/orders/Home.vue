@@ -548,7 +548,7 @@
           fd.append('products', JSON.stringify(this.details))
           fd.append('emisor_id', this.store.authUser.id)
   
-          axios.post('/api/insertQuotation', fd)
+          axios.post('/api/quotations', fd)
           .then((res)=>{
             this.$swal('Cotización insertada correctamente')
             this.idQuotation = res.data.id

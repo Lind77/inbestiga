@@ -100,7 +100,7 @@ import OwnerModal from '../prelead/OwnerModal.vue'
         $('#ownerModal').modal('show')
       },
       searchCustomer(){
-         axios.get('/api/searchCustomers/'+this.search)
+         axios.get('/api/customers/search/'+this.search)
          .then((res) =>{
           this.customers = res.data
          })
@@ -128,7 +128,7 @@ import OwnerModal from '../prelead/OwnerModal.vue'
         })
       },
       getAllCustomers(){
-        axios.get('/api/getAllCustomers')
+        axios.get('/api/customers')
         .then(res => {
           this.customers = res.data
         })

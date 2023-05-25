@@ -177,7 +177,7 @@ export default {
     },
     methods:{
         getUserData(){
-            axios.get(`/api/getUserData/${this.$route.params.idUser}`)
+            axios.get(`/api/users/${this.$route.params.idUser}`)
             .then(res => {
                 this.user = res.data.user
                 this.progress = res.data.progress

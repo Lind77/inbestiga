@@ -86,7 +86,7 @@ export default {
             document.getElementById('chatConverstion').classList.remove('d-none')
         },
         getAllUsers(){
-            axios.get('/api/getAllUsers')
+            axios.get('/api/users')
             .then(res => {
                 this.users= res.data.filter(user => user.id != this.store.authUser.id)
             })

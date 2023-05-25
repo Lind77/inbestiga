@@ -18,7 +18,7 @@ export default {
             this.$emit('filterDate', e.target.value)
         },
         searchByName(){
-            axios.get('/api/searchCustomers/'+this.search)
+            axios.get('/api/customers/search/'+this.search)
             .then((res) => {
                 this.$emit('distributeLeads', res.data)
             })

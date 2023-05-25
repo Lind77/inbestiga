@@ -48,7 +48,7 @@ import axios from 'axios'
                 const fd = new FormData()
                 fd.append('name', this.name)
 
-                axios.post('/api/createRol', fd)
+                axios.post('/api/roles', fd)
                 .then(res =>{
                     this.$emit('getAllRoles')
                     $('#roleModal').modal('hide')
@@ -58,7 +58,7 @@ import axios from 'axios'
                 })
             },
             getRoles(){
-                axios.get('/api/getRoles')
+                axios.get('/api/roles')
                 .then(res =>{
                     this.roles = res.data
                     console.log(res)

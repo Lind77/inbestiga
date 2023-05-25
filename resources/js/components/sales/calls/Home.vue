@@ -51,7 +51,7 @@ export default{
       $('#ComunicationsModal').modal('show')
     },
     searchCustomer(){
-      axios.get('/api/searchCustomers/'+ this.search)
+      axios.get('/api/customers/search/'+ this.search)
       .then(res => {
         this.customers_filtered = res.data
       })
@@ -69,7 +69,7 @@ export default{
       
     },
     getAllCustomers(){
-      axios.get('/api/getAllCustomers')
+      axios.get('/api/customers')
       .then(res => {
         this.customers = res.data
         this.customers_filtered = this.customers
