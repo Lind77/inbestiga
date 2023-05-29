@@ -32,7 +32,7 @@ function loggedIn(){
 
 //Set the router
 const router = createRouter({
-    history: createWebHistory('inbestiga'),
+    history: createWebHistory('inbestiga/public'),
     routes,
     linkActiveClass: 'active'
 })
