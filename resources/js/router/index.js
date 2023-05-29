@@ -87,6 +87,8 @@ import RealTime from '../components/admin/chat/Chat.vue'
 import HomeExperience from '../components/experience/Home.vue'
 import MainExperience from '../components/experience/Main.vue'
 
+import HomeCalendly from '../components/experience/calendly/Home.vue'
+
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
 
@@ -286,6 +288,11 @@ export const routes = [
                 path: 'home',
                 component:  MainExperience,
                 name: 'main-experience'
+            },
+            {
+                path: 'calendly',
+                component: HomeCalendly,
+                name: 'home-calendly'
             }
         ]
     },

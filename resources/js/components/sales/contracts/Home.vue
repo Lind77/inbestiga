@@ -137,8 +137,10 @@
                 </table>
               </div>
               <div class="col-md-6 col-sm-7">
-                <p>Considerar "Proporcionar la información de la aplicación de instrumentos" <input type="checkbox" class="form-check-input" v-model="thirdArticle"></p>
-                <p>Quinto Artículo - Considerar de Entregas <input type="checkbox" class="form-check-input" v-model="fifthArticle"></p>
+                <p>Considerar "Proporcionar la información de la aplicación de instrumentos" <input type="checkbox"
+                    class="form-check-input" v-model="thirdArticle"></p>
+                <p>Quinto Artículo - Considerar de Entregas <input type="checkbox" class="form-check-input"
+                    v-model="fifthArticle"></p>
               </div>
             </div>
             <hr class="mx-n4">
@@ -242,7 +244,7 @@
       <div class="col-lg-3 col-12 invoice-actions">
         <div class="card mb-4">
           <div class="card-body">
-            <button class="btn btn-primary w-100">Generar Adenda</button>
+            <button class="btn btn-primary w-100" @click="showAdendumModal">Generar Adenda</button>
           </div>
         </div>
         <div class="card mb-4">
@@ -316,6 +318,9 @@ export default {
     }
   },
   methods: {
+    showAdendumModal() {
+      alert('calling modal adendum')
+    },
     removeDelivery(index) {
       this.deliveries.splice(index, 1)
     },
@@ -529,10 +534,10 @@ export default {
           console.log(err)
         })
     },
-    booleanToNumber(value){
+    booleanToNumber(value) {
       return value ? 1 : 0
     },
-    updateContract(contractId){
+    updateContract(contractId) {
       console.log(this.thirdArticle, this.fifthArticle)
 
       var thirdArticleValue = this.booleanToNumber(this.thirdArticle)
