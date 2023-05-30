@@ -90,7 +90,8 @@ Route::post('/customers', [CustomerController::class, 'store']);
 Route::put('/customers/{id}', [CustomerController::class, 'update']);
 Route::post('/customers/verify', [CustomerController::class, 'verifyCustomer']);
 Route::get('/customers/search/{search}', [CustomerController::class, 'searchCustomers']);
-
+Route::get('/customers/comunications/{search}', [CustomerController::class, 'searchCustomersComunications']);
+Route::put('/customers/next-comunication/{id}', [CustomerController::class, 'updateNextComunication']);
 //Preleads
 Route::get('/getAllPreleads', [CustomerController::class, 'getAllPreleads']);
 Route::get('/searchPreleads/{search}', [CustomerController::class, 'searchPreleads']);

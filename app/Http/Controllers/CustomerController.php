@@ -26,7 +26,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with(['project','project.product', 'comunications','quotations', 'quotations.order'])->orderBy('updated_at', 'desc')->take(10)->get();
+        $customers = Customer::with(['project', 'project.product', 'comunications', 'quotations', 'quotations.order'])->orderBy('updated_at', 'desc')->take(10)->get();
         return response()->json($customers);
     }
 
@@ -48,40 +48,40 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->get('cell') != null){
+        if ($request->get('cell') != null) {
             $request->validate([
                 'cell' => 'unique:customers|max:12|min:9'
             ]);
         }
-        
+
 
         $time = strtotime($request->get('next_management'));
         $date = date('Y-m-d', $time);
         $hour = date('H:i:s', $time);
         $customer = Customer::create($request->all());
 
-        if($request->get('referedFrom') != 0){
+        if ($request->get('referedFrom') != 0) {
             $origin = Origin::create([
                 'customer_id' => $customer->id,
                 'type' => $request->get('origin'),
                 'channel' => null,
                 'user_id' => $request->get('referedFrom')
-           ]);
-        }else{
+            ]);
+        } else {
             $origin = Origin::create([
                 'customer_id' => $customer->id,
                 'type' => $request->get('origin'),
                 'channel' => $request->get('channel'),
                 'user_id' => null
-    
-           ]);
+
+            ]);
         }
 
         $referal = User::find($request->get('referedFrom'));
 
-        if(!$referal){
+        if (!$referal) {
             $nameReferal = '-';
-        }else{
+        } else {
             $nameReferal = $referal->name;
         }
 
@@ -106,8 +106,8 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $customer = Customer::with(['quotations' => function($query){
-            $query->with(['details', 'details.new_product', 'details.new_product.newprices', 'order','order.payments', 'contract','contract.fees','contract.deliveries'])->orderBy('created_at', 'desc')->first();
+        $customer = Customer::with(['quotations' => function ($query) {
+            $query->with(['details', 'details.new_product', 'details.new_product.newprices', 'order', 'order.payments', 'contract', 'contract.fees', 'contract.deliveries'])->orderBy('created_at', 'desc')->first();
         }])->find($id);
         return response()->json($customer);
     }
@@ -158,7 +158,8 @@ class CustomerController extends Controller
         //
     }
 
-    public function updateCustomerGrade(Request $request){
+    public function updateCustomerGrade(Request $request)
+    {
         $customer = Customer::find($request->get('customer_id'));
         $user = User::find($request->get('user_id'));
 
@@ -186,7 +187,7 @@ class CustomerController extends Controller
                 $comissionData['percent'] = 5;
                 break;
             case 7:
-                $comissionData['concept'] = 'Explicación de la experiencia';    
+                $comissionData['concept'] = 'Explicación de la experiencia';
                 $comissionData['percent'] = 15;
                 break;
             case 8:
@@ -209,10 +210,10 @@ class CustomerController extends Controller
 
         $comission = Comission::where('customer_id', $request->get('customer_id'))->where('user_id', $request->get('user_id'))->where('concept', $comissionData['concept'])->first();
 
-        if($request->get('status')>= 3 && $comission){
+        if ($request->get('status') >= 3 && $comission) {
             $newComission = Comission::create($comissionData);
         }
-        
+
 
         $customer->update([
             'status' => $request->get('status')
@@ -222,7 +223,8 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function standByCustomer($id){
+    public function standByCustomer($id)
+    {
 
         $customer = Customer::find($id);
         $customer->update([
@@ -234,12 +236,14 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function getAllStandByCustomers(){
-        $customers = Customer::where('status', '=', null)->with(['project','project.product'])->get();
+    public function getAllStandByCustomers()
+    {
+        $customers = Customer::where('status', '=', null)->with(['project', 'project.product'])->get();
         return response()->json($customers);
     }
 
-    public function reactivateCustomer($id){
+    public function reactivateCustomer($id)
+    {
         $customer = Customer::find($id);
         $customer->update([
             'status' => 1
@@ -249,7 +253,8 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function updateDniCustomer(Request $request){
+    public function updateDniCustomer(Request $request)
+    {
 
         $customer = Customer::find($request->get('id_customer'));
         $customer->update([
@@ -259,39 +264,42 @@ class CustomerController extends Controller
 
         return response()->json($customer);
     }
-    
-    public function getAllPreleads(){
+
+    public function getAllPreleads()
+    {
         $totalCustomers = collect();
 
-        for($i = 1; $i <= 3; $i++){
-            $customers = Customer::with(['project','project.product', 'comunications' => function($query){
+        for ($i = 1; $i <= 3; $i++) {
+            $customers = Customer::with(['project', 'project.product', 'comunications' => function ($query) {
                 $query->orderBy('id', 'desc')->first();
-            },'quotations', 'quotations.order','user'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
-            
+            }, 'quotations', 'quotations.order', 'user'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+
             $totalCustomers = $totalCustomers->merge($customers);
         }
 
         return response()->json($totalCustomers);
     }
 
-    public function getAllLeads($id){
+    public function getAllLeads($id)
+    {
 
         $totalCustomers = collect();
-        
-        for($i = 4; $i <= 11; $i++){
-            $customers = Customer::with(['origin','user','project','project.product', 'comunications' => function($query){
+
+        for ($i = 4; $i <= 11; $i++) {
+            $customers = Customer::with(['origin', 'user', 'project', 'project.product', 'comunications' => function ($query) {
                 $query->latest('id');
-            },'quotations' => function($secondQuery){
+            }, 'quotations' => function ($secondQuery) {
                 $secondQuery->latest('id');
-            }, 'quotations.order','quotations.contract'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
-            
+            }, 'quotations.order', 'quotations.contract'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+
             $totalCustomers = $totalCustomers->merge($customers);
         }
-        
+
         return response()->json($totalCustomers);
     }
 
-    public function assignOwner(Request $request){
+    public function assignOwner(Request $request)
+    {
         $customer = Customer::find($request->get('customer_id'));
         $customer->update([
             'user_id' => $request->get('seller_selected'),
@@ -312,7 +320,7 @@ class CustomerController extends Controller
 
         $notification = Notification::create([
             'emisor_id' => $request->get('user_id'),
-            'content' => 'te asignó un nuevo lead '.$customer->name,
+            'content' => 'te asignó un nuevo lead ' . $customer->name,
             'type' => 1
         ]);
 
@@ -329,64 +337,67 @@ class CustomerController extends Controller
             'msg' => 'success'
         ]);
     }
-    
-    public function searchCustomers($search){
-        $customers = Customer::with(['user','comunications' => function($query){
+
+    public function searchCustomers($search)
+    {
+        $customers = Customer::with(['user', 'comunications' => function ($query) {
             $query->orderBy('id', 'desc')->first();
-        },'quotations'])->where('name', 'like', '%'.$search.'%')->orWhere('cell','like','%'.$search.'%')->get();
+        }, 'quotations'])->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%')->get();
         return response()->json($customers);
     }
 
-    public function searchPreleads($search){
+    public function searchPreleads($search)
+    {
         $customers = Customer::with('comunications')->where(function ($query) use ($search) {
-        $query->where('name', 'like', '%' . $search . '%')
-            ->orWhere('cell', 'like', '%' . $search . '%');
-    })->where('status', '<=', 3)->get();
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('cell', 'like', '%' . $search . '%');
+        })->where('status', '<=', 3)->get();
         return response()->json($customers);
     }
 
-    public function verifyCustomer(Request $request){
+    public function verifyCustomer(Request $request)
+    {
 
-       $name = $request->get('name');
-       $cell = $request->get('cell');
+        $name = $request->get('name');
+        $cell = $request->get('cell');
 
-        if($name != null){
-            $searchByName = Customer::where('name','like', '%'.$name.'%')->get();
+        if ($name != null) {
+            $searchByName = Customer::where('name', 'like', '%' . $name . '%')->get();
 
             $cantResName = count($searchByName);
 
-            if($cantResName == 0){
+            if ($cantResName == 0) {
                 $verifiedByName = true;
-            }else{
+            } else {
                 return response()->json([
                     'msg' => 'Se han encontrado coincidencias con este nombre',
                     'coincidences' => $searchByName
                 ]);
             }
-        }else{
+        } else {
             $verifiedByName = true;
         }
 
-        
-        if($cell != null){
-            $searchByCell = Customer::where('cell','like', '%'.$cell.'%')->get();
+
+        if ($cell != null) {
+            $searchByCell = Customer::where('cell', 'like', '%' . $cell . '%')->get();
 
             $cantResCell = count($searchByCell);
 
-            if($cantResCell == 0){
+            if ($cantResCell == 0) {
                 $verifiedByCell = true;
-            }else{
+            } else {
                 return response()->json([
                     'msg' => 'Se han encontrado coincidencias con este celular'
                 ]);
             }
-        }else{
+        } else {
             $verifiedByCell = true;
         }
 
-        if($verifiedByCell && $verifiedByName){
+        if ($verifiedByCell && $verifiedByName) {
             $verifiedTotal = true;
-        }else{
+        } else {
             $verifiedTotal = false;
         }
 
@@ -394,16 +405,18 @@ class CustomerController extends Controller
         return response()->json($verifiedTotal);
     }
 
-    public function getLeadsByDate($date){
-        $customers = Customer::with(['comunications','quotations'])->whereHas('comunications', function ($query) use ($date) {
+    public function getLeadsByDate($date)
+    {
+        $customers = Customer::with(['comunications', 'quotations'])->whereHas('comunications', function ($query) use ($date) {
             $query->where('next_management', $date);
         })->get();
         return response()->json($customers);
     }
 
-    public function getAllMyLeads($id){
+    public function getAllMyLeads($id)
+    {
         $today = date('Y-m-d');
-        $customersToday = Customer::where('user_id', $id)->where('created_at', 'like', '%'.$today.'%')->get();
+        $customersToday = Customer::where('user_id', $id)->where('created_at', 'like', '%' . $today . '%')->get();
 
         $customers = Customer::where('user_id', $id)->orderBy('updated_at', 'desc')->get();
 
@@ -411,17 +424,37 @@ class CustomerController extends Controller
         return response()->json([
             'customers' => $customers,
             'customersToday' => $customersToday
-        ]);        
+        ]);
     }
 
-    public function changeInterest($customerId, $interest){
+    public function changeInterest($customerId, $interest)
+    {
         $customer = Customer::find($customerId);
 
         $customer->update([
             'interest' => $interest
         ]);
 
-        return response()->json($customer); 
+        return response()->json($customer);
     }
 
+    public function searchCustomersComunications($search)
+    {
+        $customers = Customer::with(['user', 'comunications'])->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%')->get();
+        return response()->json($customers);
+    }
+
+    public function updateNextComunication($id, Request $request)
+    {
+        $dateTime = date_create($request->get('newDateTime'));
+        $comunication = Comunication::find($id);
+        $comunication->update([
+            'next_management' => date_format($dateTime, 'Y-m-d'),
+            'time' => date_format($dateTime, 'H:i:s')
+        ]);
+        return response()->json([
+            'msg' => 'Successfully updated',
+            'newComunication' => $comunication
+        ]);
+    }
 }
