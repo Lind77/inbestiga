@@ -381,6 +381,9 @@ export default {
       }
     },
     updateQuotation(quotationId) {
+      if (this.discount == null) {
+        this.discount = 0.0
+      }
       const fd = new FormData()
 
       fd.append('quotation_id', quotationId)
@@ -481,7 +484,6 @@ export default {
       return (total).toFixed(2)
     },
     ableToPayments() {
-
       var detailFound = this.details.find(detail => detail.mode == 2)
 
       if (detailFound) {

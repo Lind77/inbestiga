@@ -209,7 +209,7 @@
 
             <hr class="my-4 mx-n4">
             <div class="row py-sm-3">
-              <Payments :totalFinal="totalProducts - discount" :fees="fees" @addFee="addFee"
+              <Payments :totalFinal="totalProducts + interest - discount" :fees="fees" @addFee="addFee"
                 @calcDiscount="calcDiscount" />
             </div>
 
