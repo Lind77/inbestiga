@@ -15,7 +15,8 @@ class DeliveryController extends Controller
      */
     public function index()
     {
-        //
+        $deliveries = Delivery::with(['contract', 'contract.quotation', 'contract.quotation.customer'])->orderBy('date', 'asc')->get();
+        return response()->json($deliveries);
     }
 
     /**

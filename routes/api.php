@@ -7,6 +7,7 @@ use App\Http\Controllers\ComissionController;
 use App\Http\Controllers\ComunicationController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
 use App\Http\Controllers\NewProductController;
@@ -135,7 +136,6 @@ Route::post('/insertOrder', [OrderController::class, 'store']);
 Route::post('/updateOrder', [OrderController::class, 'update']);
 
 
-
 Route::post('/updateComunication', [ComunicationController::class, 'update']);
 Route::post('/insertComunication', [ComunicationController::class, 'insertComunication']);
 Route::get('/getComunicationsByToday/{id}', [ComunicationController::class, 'getComunicationsByToday']);
@@ -198,3 +198,7 @@ Route::get('/registerSeen/{id}', [SeenController::class, 'registerSeen']);
 Route::post('/updatePrices', [PriceController::class, 'updatePrices']);
 
 Route::get('/getAllComissions', [ComissionController::class, 'getAllComissions']);
+
+Route::get('/profiles', [CustomerController::class, 'getProfiles']);
+
+Route::get('/deliveries', [DeliveryController::class, 'index']);

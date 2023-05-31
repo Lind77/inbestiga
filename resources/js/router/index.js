@@ -87,7 +87,12 @@ import RealTime from '../components/admin/chat/Chat.vue'
 import HomeExperience from '../components/experience/Home.vue'
 import MainExperience from '../components/experience/Main.vue'
 
+//Area de Experiencia - Calendly
 import HomeCalendly from '../components/experience/calendly/Home.vue'
+//Area de Experiencia - Profiles
+import HomeProfiles from '../components/experience/profiles/Home.vue'
+//Area de Experiencia - Deliveries
+import HomeDeliveries from '../components/experience/deliveries/Home.vue'
 
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
@@ -293,6 +298,16 @@ export const routes = [
                 path: 'calendly',
                 component: HomeCalendly,
                 name: 'home-calendly'
+            },
+            {
+                path: 'profiles',
+                component: HomeProfiles,
+                name: 'home-profiles'
+            },
+            {
+                path: 'deliveries',
+                component: HomeDeliveries,
+                name: 'home-deliveries'
             }
         ]
     },

@@ -407,7 +407,7 @@ class CustomerController extends Controller
 
     public function getLeadsByDate($date)
     {
-        $customers = Customer::with(['comunications', 'quotations'])->whereHas('comunications', function ($query) use ($date) {
+        $customers = Customer::with(['comunications', 'quotations', 'user'])->whereHas('comunications', function ($query) use ($date) {
             $query->where('next_management', $date);
         })->get();
         return response()->json($customers);
@@ -456,5 +456,13 @@ class CustomerController extends Controller
             'msg' => 'Successfully updated',
             'newComunication' => $comunication
         ]);
+    }
+
+    public function getProfiles()
+    {
+        $customers = Customer::where('status', 11)->with(['comunications', 'quotations' => function ($query) {
+            $query->latest('id');
+        }, 'quotations.order', 'quotations.contract'])->get();
+        return response()->json($customers);
     }
 }

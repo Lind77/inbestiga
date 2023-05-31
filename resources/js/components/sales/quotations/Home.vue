@@ -273,8 +273,8 @@ export default {
         })
     },
     autoDiscount() {
-
-      var codeFound = this.recentsCode.find(code => code.code == this.coupon)
+      this.$swal('Nop')
+      /* var codeFound = this.recentsCode.find(code => code.code == this.coupon)
 
       if (codeFound && this.discount == 0) {
         this.$swal('Se ha desbloqueado el descuento')
@@ -282,7 +282,7 @@ export default {
       } else {
         this.$swal('Codigo incorrecto o duplicado')
         this.discount = 0
-      }
+      } */
     },
     redirect() {
       /*   if(){
