@@ -4,8 +4,6 @@
         <div class="app-email card">
             <div class="border-0">
                 <div class="row g-0">
-
-
                     <!-- Emails List -->
                     <div class="col app-emails-list">
                         <div class="card shadow-none border-0">
@@ -73,10 +71,11 @@
                                     </div>
                                     <div
                                         class="email-pagination d-sm-flex d-none align-items-center flex-wrap justify-content-between justify-sm-content-end">
-                                        <span class="d-sm-block d-none mx-3 text-muted">1-10 of 653</span>
-                                        <i
-                                            class="email-prev bx bx-chevron-left scaleX-n1-rtl cursor-pointer text-muted me-4 fs-4"></i>
-                                        <i class="email-next bx bx-chevron-right scaleX-n1-rtl cursor-pointer fs-4"></i>
+                                        <span class="d-sm-block d-none mx-3 text-muted">{{ date }}</span>
+                                        <i @click="minusDay"
+                                            class="email-prev bx bx-chevron-left scaleX-n1-rtl cursor-pointer me-4 fs-4"></i>
+                                        <i @click="addDay"
+                                            class="email-next bx bx-chevron-right scaleX-n1-rtl cursor-pointer fs-4"></i>
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +105,8 @@
                                                 <span
                                                     class="email-list-item-label badge badge-dot bg-danger d-none d-md-inline-block me-2"
                                                     data-label="private"></span>
-                                                <small class="email-list-item-time text-muted">08:40 AM</small>
+                                                <small class="email-list-item-time text-muted">{{ formatDate(delivery.date)
+                                                }}</small>
 
                                             </div>
                                         </div>
@@ -124,19 +124,45 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
+import moment from 'moment';
+
 export default {
     data() {
         return {
-            deliveries: []
+            deliveries: [],
+            date: moment().format('DD/MM/YYYY')
         }
     },
     methods: {
+        addDay() {
+            var newDate = moment(this.date, 'DD/MM/YYYY').add(1, 'days').format('DD/MM/YYYY')
+            this.date = newDate
+        },
+        minusDay() {
+            var newDate = moment(this.date, 'DD/MM/YYYY').subtract(1, 'days').format('DD/MM/YYYY')
+            this.date = newDate
+        },
+        formatDate(date) {
+            return moment(date).format('DD/MM/YYYY')
+        },
         getAllDeliveries() {
             axios.get('/api/deliveries')
                 .then((result) => {
                     this.deliveries = result.data
                 }).catch((err) => {
-
+                    console.error(err)
+                });
+        }
+    },
+    watch: {
+        date(newDate, oldDate) {
+            var dateFormatted = moment(newDate, 'DD/MM/YYYY').format('YYYY-MM-DD')
+            axios.get(`/api/deliveries-date/${dateFormatted}`)
+                .then((result) => {
+                    this.deliveries = result.data
+                }).catch((err) => {
+                    console.error(err)
                 });
         }
     },
