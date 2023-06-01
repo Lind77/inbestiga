@@ -7,6 +7,7 @@ use App\Http\Controllers\ComissionController;
 use App\Http\Controllers\ComunicationController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
 use App\Http\Controllers\NewProductController;
@@ -90,7 +91,8 @@ Route::post('/customers', [CustomerController::class, 'store']);
 Route::put('/customers/{id}', [CustomerController::class, 'update']);
 Route::post('/customers/verify', [CustomerController::class, 'verifyCustomer']);
 Route::get('/customers/search/{search}', [CustomerController::class, 'searchCustomers']);
-
+Route::get('/customers/comunications/{search}', [CustomerController::class, 'searchCustomersComunications']);
+Route::put('/customers/next-comunication/{id}', [CustomerController::class, 'updateNextComunication']);
 //Preleads
 Route::get('/getAllPreleads', [CustomerController::class, 'getAllPreleads']);
 Route::get('/searchPreleads/{search}', [CustomerController::class, 'searchPreleads']);
@@ -132,7 +134,6 @@ Route::get('/changeInterest/{id}/{interest}', [CustomerController::class, 'chang
 Route::get('/getAllOrders', [OrderController::class, 'index']);
 Route::post('/insertOrder', [OrderController::class, 'store']);
 Route::post('/updateOrder', [OrderController::class, 'update']);
-
 
 
 Route::post('/updateComunication', [ComunicationController::class, 'update']);
@@ -197,3 +198,8 @@ Route::get('/registerSeen/{id}', [SeenController::class, 'registerSeen']);
 Route::post('/updatePrices', [PriceController::class, 'updatePrices']);
 
 Route::get('/getAllComissions', [ComissionController::class, 'getAllComissions']);
+
+Route::get('/profiles', [CustomerController::class, 'getProfiles']);
+
+Route::get('/deliveries', [DeliveryController::class, 'index']);
+Route::get('/deliveries-date/{date}', [DeliveryController::class, 'getDeliveriesByDate']);
