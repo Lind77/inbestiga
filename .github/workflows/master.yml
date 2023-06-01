@@ -1,12 +1,13 @@
 on:
-  push:
+  pull_request:
     branches:
-      - master
-name: 🚀 Deploy website on push
+      - dev
+name: 🚀 Deploy website on pull request jairpl.com
 jobs:
   web-deploy:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v3
@@ -14,7 +15,7 @@ jobs:
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          server: www.inbestiga.com
-          username: ${{ secrets.ftp_inbestiga_username }}
-          password: ${{ secrets.ftp_inbestiga_password }}
-          server-dir: /sistema.inbestiga.com/
+          server: www.jairpl.com
+          username: ${{ secrets.ftp_jairpl_username }}
+          password: ${{ secrets.ftp_jairpl_password }}
+          server-dir: /test
