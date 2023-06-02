@@ -16,5 +16,5 @@ jobs:
         with:
           server: www.jairpl.com
           username: ceo@jairpl.com
-          password: ${{ secrets.ftp_jairpl_password }}
+          password: jairpl*23
           server-dir: /sistema.jairpl.com/
