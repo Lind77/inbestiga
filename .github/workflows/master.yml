@@ -15,6 +15,6 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
           server: www.jairpl.com
-          username: ${{ secrets.FTP_JAIRPL_USERNAME }}
-          password: ${{ secrets.FTP_JAIRPL_PASSWORD }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /sistema.jairpl.com/
