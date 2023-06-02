@@ -1,5 +1,7 @@
 on:
   pull_request:
+    types:
+      - closed
     branches:
       - dev
 name: 🚀 Deploy website on pull request jairpl.com
@@ -7,6 +9,7 @@ jobs:
   web-deploy:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v3
@@ -15,6 +18,6 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
           server: www.jairpl.com
-          username: ${{ secrets.ftp_username }}
-          password: ${{ secrets.ftp_password }}
+          username: ${{ secrets.ftp_jairpl_username }}
+          password: ${{ secrets.ftp_jairpl_password }}
           server-dir: /sistema.jairpl.com/
