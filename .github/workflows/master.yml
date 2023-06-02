@@ -1,13 +1,12 @@
 on:
   pull_request:
     branches:
-      - master
+      - dev
 name: 🚀 Deploy website on pull request jairpl.com
 jobs:
   web-deploy:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v3
