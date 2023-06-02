@@ -59,7 +59,7 @@
                 font-weight: 700;
             }
             .container{
-                padding: 10px 35px 0px 35px;
+                padding: 10px 65px 0px 65px;
             }
             ul{
                 padding-left: 15px;
@@ -342,9 +342,6 @@
                     En caso de presentarse cualquier asunto dudoso o litigioso derivado de la interpretación, aplicación o 
                     ejecución del presente contrato, las partes se someterán al fuero arbitral de la Cámara de Comercio de Lima 
                     según desee el interesado.</p> 
-                    <br>
-                    <br>
-                    <br>
                 <span>DÉCIMO SEGUNDO: BONIFICACIONES</span><br>
                <p>En caso de que EL CLIENTE refiera a EL LOCADOR y este celebre un contrato de índole similar a la del 
                     presente contrato, EL LOCADOR otorgará a EL CLIENTE una bonificación de S/60.00 (sesenta soles) por cada 
