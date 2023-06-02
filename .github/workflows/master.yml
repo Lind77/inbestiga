@@ -14,7 +14,7 @@ jobs:
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          server: www.jairpl.com
+          server: www.inbestiga.com
           username: ${{ secrets.ftp_jairpl_username }}
           password: ${{ secrets.ftp_jairpl_password }}
-          server-dir: /sistema.jairpl.com/
+          server-dir: /sistema.inbestiga.com/
