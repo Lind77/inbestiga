@@ -1,15 +1,12 @@
 on:
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
-      - dev
+      - main
 name: 🚀 Deploy website on pull request jairpl.com
 jobs:
   web-deploy:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v3
