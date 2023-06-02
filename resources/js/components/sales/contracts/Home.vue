@@ -423,7 +423,7 @@ export default {
               this.deliveries = this.customer.quotations[0].contract.deliveries
             }
             this.discount = this.customer.quotations[0].discount
-            this.date = this.customer.quotations[0].date
+            this.date = this.customer.quotations[0].contract.date
             this.dateValidate = this.customer.quotations[0].expiration_date
             this.term = this.customer.quotations[0].term
             this.note = this.customer.quotations[0].note
