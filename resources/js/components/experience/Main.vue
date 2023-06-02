@@ -1,7 +1,7 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Experiencia del Inbestigador /</span> Inicio</h4>
-        <h3>Te damos la bienvenida 123, {{ store.authUser?store.authUser.name:'' }}</h3>
+        <h3>Te damos la bienvenida123456789, {{ store.authUser?store.authUser.name:'' }}</h3>
     </div>
 </template>
 <script>
