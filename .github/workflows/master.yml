@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - master
+      - diegolandia
 name: 🚀 Deploy website on pull request jairpl.com
 jobs:
   web-deploy:
