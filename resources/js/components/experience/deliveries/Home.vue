@@ -1,6 +1,7 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold">Entregas</h4>
+        <h4 class="fw-bold">Entregas <span class="badge bg-label-primary me-1 cursor-pointer"
+                @click="openDeliveryModal">+</span></h4>
         <div class="app-email card">
             <div class="border-0">
                 <div class="row g-0">
@@ -19,8 +20,9 @@
                                                     <i class="bx bx-search fs-4 text-muted"></i>
                                                 </span>
                                                 <input type="text" class="form-control email-search-input border-0 py-0"
-                                                    placeholder="Buscar entrega" aria-label="Search..."
-                                                    aria-describedby="email-search">
+                                                    placeholder="Buscar entrega" @keyup="cleanDeliveries"
+                                                    @keyup.enter="searchDeliveries" aria-describedby="email-search"
+                                                    v-model="search">
                                             </div>
                                         </div>
                                     </div>
@@ -84,8 +86,7 @@
                             <div class="email-list pt-0 ps ps--active-y">
                                 <ul class="list-unstyled m-0">
                                     <li class="email-list-item email-marked-read py-3 px-5" data-starred="true"
-                                        data-bs-toggle="sidebar" data-target="#app-email-view"
-                                        v-for="delivery in deliveries">
+                                        data-bs-toggle="sidebar" data-target="#app-email-view" v-for="task in tasks">
                                         <div class="d-flex align-items-center">
                                             <div class="form-check">
                                                 <input class="email-list-item-input form-check-input" type="checkbox"
@@ -95,19 +96,26 @@
 
                                             <div class="email-list-item-content ms-2 ms-sm-0 me-2">
                                                 <span class="email-list-item-username me-2 h6">{{
-                                                    delivery.contract.quotation.customer.name
+                                                    task.customerName
                                                 }}</span>
                                                 <span class="email-list-item-subject d-xl-inline-block d-block"> {{
-                                                    delivery.advance
+                                                    task.advance
                                                 }}</span>
                                             </div>
                                             <div class="email-list-item-meta ms-auto d-flex align-items-center">
                                                 <span
                                                     class="email-list-item-label badge badge-dot bg-danger d-none d-md-inline-block me-2"
-                                                    data-label="private"></span>
-                                                <small class="email-list-item-time text-muted">{{ formatDate(delivery.date)
-                                                }}</small>
-
+                                                    data-label="private" v-if="task.type == 1"></span>
+                                                <span
+                                                    class="email-list-item-label badge badge-dot bg-primary d-none d-md-inline-block me-2"
+                                                    data-label="private" v-else></span>
+                                                <small class="email-list-item-time text-muted">{{
+                                                    formatDate(task.deliveryDate)
+                                                }}</small> -
+                                                <small class="email-list-item-time text-muted"
+                                                    v-if="task.deliveryDateAcad">{{
+                                                        formatDate(task.deliveryDateAcad)
+                                                    }}</small>
                                             </div>
                                         </div>
                                     </li>
@@ -122,19 +130,44 @@
             </div>
         </div>
     </div>
+    <DeliveryModal :action="1" />
 </template>
 <script>
 import axios from 'axios';
 import moment from 'moment';
+import DeliveryModal from './DeliveryModal.vue'
 
 export default {
+    components: { DeliveryModal },
     data() {
         return {
             deliveries: [],
-            date: moment().format('DD/MM/YYYY')
+            payments: [],
+            date: moment().format('DD/MM/YYYY'),
+            search: '',
+            tasks: []
         }
     },
     methods: {
+        openDeliveryModal() {
+            $('#deliveryModal').modal('show')
+        },
+        searchDeliveries() {
+            if (this.search != '') {
+                axios.get('/api/deliveries-search/' + this.search)
+                    .then((result) => {
+                        console.log(result.data)
+                        this.deliveries = result.data.deliveries
+                    }).catch((err) => {
+                        console.error(err)
+                    });
+            }
+        },
+        cleanDeliveries() {
+            if (this.search == '') {
+                this.getAllDeliveries()
+            }
+        },
         addDay() {
             var newDate = moment(this.date, 'DD/MM/YYYY').add(1, 'days').format('DD/MM/YYYY')
             this.date = newDate
@@ -150,6 +183,26 @@ export default {
             axios.get('/api/deliveries')
                 .then((result) => {
                     this.deliveries = result.data
+
+                    var task = {
+                        customerName: '',
+                        advance: '',
+                        deliveryDate: '',
+                        type: '',
+                        deliveryDateAcad: ''
+                    }
+
+                    this.deliveries.forEach((delivery) => {
+                        task.customerName = delivery.contract.quotation.customer.name
+                        task.advance = delivery.advance
+                        task.deliveryDate = delivery.date
+                        task.type = 1
+                        if (delivery.academic_date != null) {
+                            task.deliveryDateAcad = delivery.academic_date
+                        }
+                        this.tasks.push({ ...task })
+                    })
+
                 }).catch((err) => {
                     console.error(err)
                 });
@@ -157,10 +210,39 @@ export default {
     },
     watch: {
         date(newDate, oldDate) {
+            this.tasks = []
             var dateFormatted = moment(newDate, 'DD/MM/YYYY').format('YYYY-MM-DD')
             axios.get(`/api/deliveries-date/${dateFormatted}`)
                 .then((result) => {
-                    this.deliveries = result.data
+                    this.deliveries = result.data.deliveries
+                    this.payments = result.data.payments
+
+                    var task = {
+                        customerName: '',
+                        advance: '',
+                        deliveryDate: '',
+                        type: '',
+                        deliveryDateAcad: ''
+                    }
+
+                    this.deliveries.forEach((delivery) => {
+                        task.customerName = delivery.contract.quotation.customer.name
+                        task.advance = delivery.advance
+                        task.deliveryDate = delivery.date
+                        task.type = 1
+                        if (delivery.academic_date != null) {
+                            task.deliveryDateAcad = delivery.academic_date
+                        }
+                        this.tasks.push({ ...task })
+                    })
+                    this.payments.forEach((payment) => {
+                        task.customerName = payment.order.quotation.customer.name
+                        task.advance = 'Entrega de Orden'
+                        task.deliveryDate = payment.date
+                        task.type = 2
+                        this.tasks.push({ ...task })
+                    })
+
                 }).catch((err) => {
                     console.error(err)
                 });

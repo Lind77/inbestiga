@@ -202,4 +202,8 @@ Route::get('/getAllComissions', [ComissionController::class, 'getAllComissions']
 Route::get('/profiles', [CustomerController::class, 'getProfiles']);
 
 Route::get('/deliveries', [DeliveryController::class, 'index']);
+Route::post('/delivery', [DeliveryController::class, 'store']);
 Route::get('/deliveries-date/{date}', [DeliveryController::class, 'getDeliveriesByDate']);
+Route::get('/deliveries-search/{search}', [DeliveryController::class, 'search']);
+
+Route::get('/contract/{search}', [ContractController::class, 'searchContract']);
