@@ -7,10 +7,14 @@
                     <div class="card-body">
                         <div class="d-flex align-items-start justify-content-between">
                             <div class="content-left">
-                                <span class="max-width: 500px">{{ profile.name }}</span>
+                                <span class="max-width: 500px" :title="profile.university">{{
+                                    profile.university.length > 15 ? profile.university.substring(0, 15) + '...' :
+                                    profile.university }}</span>
                                 <div class="d-flex align-items-end mt-2">
-                                    <h4 class="mb-0 me-2">S./ {{ profile.quotations[0].amount }}</h4>
-                                    <small class="text-success">(+29%)</small>
+                                    <h4 class="mb-0 me-2" :title="profile.name">{{
+                                        profile.name.length > 15 ? profile.name.substring(0, 15) + '...' : profile.name }}
+                                    </h4>
+                                    <!-- <small class="text-success">(+29%)</small> -->
                                 </div>
                                 <small>{{ profile.career }}</small>
                             </div>
