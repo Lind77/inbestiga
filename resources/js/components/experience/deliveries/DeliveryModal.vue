@@ -10,16 +10,21 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col mb-3">
-                            <label for="nameBasic" class="form-label">Nombre de Cliente</label>
-                            <input type="text" v-if="action == 2" v-model="customer.name" class="form-control" />
-                            <input type="text" v-else v-model="name" class="form-control" @keyup.enter="searchContract" />
+                        <div class="input-group">
+                            <input v-model="name" type="text" class="form-control" placeholder="Nombre del cliente"
+                                aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <button class="btn btn-outline-primary" type="button" id="button-addon2"
+                                @click="searchContract"><i class='bx bx-search'></i></button>
                         </div>
-
                     </div>
-                    <div class="row" v-if="result.date">
-                        <div class="alert alert-success py-1 px-2" role="alert">Se encontró el contrato más reciente, del
-                            día {{ result.date }}, se le asignará la nueva entrega a este.</div>
+                    <div class="row mt-2">
+                        <div class="col-6" v-for="result in results">
+                            <button :class="`btn btn-sm ${result.type == 1 ? 'btn-success' : 'btn-info'}  w-100`"
+                                @click="selectDocument(result)">{{ result.name }} - {{
+                                    result.date }}</button>
+                        </div>
+                    </div>
+                    <div class="row" v-show="showFields">
                         <div class="col-12 mb-3">
                             <label for="nameBasic" class="form-label">Fecha</label>
                             <input type="date" v-model="date" class="form-control" />
@@ -39,7 +44,7 @@
                         data-bs-dismiss="modal">
                         Cerrar
                     </button>
-                    <button type="button" @click="insertDelivery" class="btn btn-primary">Registrar</button>
+                    <button type="button" @click="insert" class="btn btn-primary">Registrar</button>
                 </div>
             </div>
         </div>
@@ -48,6 +53,7 @@
 <script>
 import axios from 'axios'
 import { userStore } from '../../../stores/UserStore'
+import moment from 'moment'
 
 export default {
     setup() {
@@ -79,15 +85,35 @@ export default {
             referedFrom: 0,
             channel: 0,
             status: 0,
-            result: {}
+            contracts: [],
+            orders: [],
+            results: [],
+            showFields: false,
+            resultId: 0,
+            resultType: 0
         }
     },
     methods: {
+        selectDocument(result) {
+            this.showFields = true
+            this.resultId = result.id
+            this.resultType = result.type
+        },
+        formatOrderDate(date) {
+            return moment(date).format('DD/MM/YYYY');
+        },
+        insert() {
+            if (this.resultType == 1) {
+                this.insertDelivery()
+            } else {
+                this.insertPayment()
+            }
+        },
         insertDelivery() {
 
             const fd = new FormData()
 
-            fd.append('contract_id', this.result.id)
+            fd.append('contract_id', this.resultId)
             fd.append('date', this.date)
             fd.append('advance', this.advance)
             fd.append('dateAcad', this.dateAcad)
@@ -95,14 +121,56 @@ export default {
             axios.post('/api/delivery', fd)
                 .then((result) => {
                     $('#deliveryModal').modal('hide')
+                    this.$emit('updateDate', this.date)
+                }).catch((err) => {
+                    console.error(err)
+                });
+        },
+        insertPayment() {
+            const fd = new FormData()
+
+            fd.append('order_id', this.resultId)
+            fd.append('date', this.date)
+
+            axios.post('/api/payment', fd)
+                .then((result) => {
+                    $('#deliveryModal').modal('hide')
+                    this.$emit('updateDate', this.date)
                 }).catch((err) => {
                     console.error(err)
                 });
         },
         searchContract() {
+            this.results = []
             axios.get('/api/contract/' + this.name)
                 .then((result) => {
-                    this.result = result.data.contract;
+                    this.contracts = result.data.contracts;
+                    this.orders = result.data.orders;
+
+                    var result = {
+                        id: 0,
+                        name: '',
+                        date: '',
+                        type: 0
+                    }
+
+                    this.contracts.forEach((contract) => {
+                        result.id = contract.id
+                        result.name = contract.quotation.customer.name
+                        result.date = this.formatOrderDate(contract.date)
+                        result.type = 1
+                        this.results.push({ ...result })
+                    })
+
+                    this.orders.forEach((order) => {
+                        result.id = order.id
+                        result.name = order.quotation.customer.name
+                        result.date = this.formatOrderDate(order.created_at)
+                        result.type = 2
+                        this.results.push({ ...result })
+                    })
+
+
                 }).catch((err) => {
                     console.error(err);
                 });

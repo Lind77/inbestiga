@@ -130,7 +130,7 @@
             </div>
         </div>
     </div>
-    <DeliveryModal :action="1" />
+    <DeliveryModal :action="1" @updateDate="updateDate" />
 </template>
 <script>
 import axios from 'axios';
@@ -149,6 +149,9 @@ export default {
         }
     },
     methods: {
+        updateDate(date) {
+            this.date = moment(date).format('DD/MM/YYYY')
+        },
         openDeliveryModal() {
             $('#deliveryModal').modal('show')
         },
@@ -182,7 +185,8 @@ export default {
         getAllDeliveries() {
             axios.get('/api/deliveries')
                 .then((result) => {
-                    this.deliveries = result.data
+                    this.deliveries = result.data.deliveries
+                    this.payments = result.data.payments
 
                     var task = {
                         customerName: '',
@@ -203,6 +207,15 @@ export default {
                         this.tasks.push({ ...task })
                     })
 
+                    this.payments.forEach((payment) => {
+                        task.customerName = payment.order.quotation.customer.name
+                        task.advance = 'Entrega de Orden'
+                        task.deliveryDate = payment.date
+                        task.type = 2
+                        this.tasks.push({ ...task })
+                    })
+
+
                 }).catch((err) => {
                     console.error(err)
                 });
@@ -211,6 +224,11 @@ export default {
     watch: {
         date(newDate, oldDate) {
             this.tasks = []
+            this.$swal({
+                title: 'Cargando ...',
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
             var dateFormatted = moment(newDate, 'DD/MM/YYYY').format('YYYY-MM-DD')
             axios.get(`/api/deliveries-date/${dateFormatted}`)
                 .then((result) => {
@@ -242,7 +260,7 @@ export default {
                         task.type = 2
                         this.tasks.push({ ...task })
                     })
-
+                    this.$swal.close()
                 }).catch((err) => {
                     console.error(err)
                 });

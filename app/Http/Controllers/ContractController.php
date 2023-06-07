@@ -295,9 +295,9 @@ class ContractController extends Controller
     }
     public function searchContract($search)
     {
-        $contract = Contract::with(['quotation', 'quotation.customer'])->whereHas('quotation.customer', function ($query) use ($search) {
+        $contracts = Contract::with(['quotation', 'quotation.customer'])->whereHas('quotation.customer', function ($query) use ($search) {
             $query->where('name', 'like', '%' . $search . '%');
-        })->latest()->first();
+        })->get();
 
         $orders = Order::with(['quotation', 'quotation.customer'])->whereHas('quotation.customer', function ($query) use ($search) {
             $query->where('name', 'like', '%' . $search . '%');
@@ -305,7 +305,7 @@ class ContractController extends Controller
 
 
         return response()->json([
-            'contract' => $contract,
+            'contracts' => $contracts,
             'orders' => $orders
         ]);
     }

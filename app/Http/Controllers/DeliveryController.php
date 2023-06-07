@@ -18,7 +18,12 @@ class DeliveryController extends Controller
     public function index()
     {
         $deliveries = Delivery::with(['contract', 'contract.quotation', 'contract.quotation.customer'])->where('date', date('Y-m-d'))->get();
-        return response()->json($deliveries);
+        $payments = Payments::with(['order', 'order.quotation', 'order.quotation.customer'])->where('date', date('Y-m-d'))->get();
+
+        return response()->json([
+            'deliveries' => $deliveries,
+            'payments' => $payments
+        ]);
     }
 
     /**
