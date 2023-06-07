@@ -16,7 +16,9 @@
                                     </h4>
                                     <!-- <small class="text-success">(+29%)</small> -->
                                 </div>
-                                <small>{{ profile.career }}</small>
+                                <small :title="profile.career">{{ profile.career.length > 20 ? profile.career.substring(0,
+                                    20) + '...' :
+                                    profile.career }}</small>
                             </div>
                             <span class="badge bg-label-primary rounded p-2">
                                 <i class="bx bx-user bx-sm"></i>

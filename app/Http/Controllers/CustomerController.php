@@ -50,7 +50,7 @@ class CustomerController extends Controller
     {
         if ($request->get('cell') != null) {
             $request->validate([
-                'cell' => 'unique:customers|max:12|min:9'
+                'cell' => 'unique:customers|max:11|min:11'
             ]);
         }
 
