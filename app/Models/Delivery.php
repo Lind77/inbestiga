@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Delivery extends Model
 {
     use HasFactory;
-    protected $fillable = ['contract_id', 'date', 'advance'];
+    protected $fillable = ['contract_id', 'date', 'advance', 'type', 'academic_date'];
 
     public function contract()
     {

@@ -6,6 +6,7 @@ use App\Models\Payments;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePaymentsRequest;
 use App\Http\Requests\UpdatePaymentsRequest;
+use Illuminate\Http\Request;
 
 class PaymentsController extends Controller
 {
@@ -35,9 +36,17 @@ class PaymentsController extends Controller
      * @param  \App\Http\Requests\StorePaymentsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePaymentsRequest $request)
+    public function store(Request $request)
     {
-        //
+        $payment = Payments::create([
+            'order_id' => $request->get('order_id'),
+            'date' => $request->get('date'),
+            'amount' => 0,
+        ]);
+
+        return response()->json([
+            'success' => true
+        ]);
     }
 
     /**
