@@ -3,7 +3,7 @@
         <h4 class="fw-bold">Comunicaciones</h4>
         <div class="row">
             <div class="col-4">
-                <div class="card bg-info text-white mb-1" @click="showTable(comunication)"
+                <div class="card bg-info text-white mb-1 cursor-pointer" @click="showTable(comunication)"
                     v-for="(comunication, index) in comunications">
                     <div class="card-header">{{ comunication.customer.name }}</div>
                     <div class="card-body">
@@ -21,10 +21,11 @@
                 </div>
             </div>
             <div class="col-4">
-                <div class="card bg-success text-white mb-1"
+                <div class="card bg-success text-white mb-1" v-if="comunicationSelected.customer"
                     v-for="comunication in comunicationSelected.customer.comunications">
                     <div class="card-body">
-                        <p>{{ comunication }}</p>
+                        <p>{{ comunication.created_at }}</p>
+                        <p>{{ comunication.comment }}</p>
                     </div>
                 </div>
             </div>
