@@ -117,21 +117,20 @@
                 </div>
             </div>
         </section>
-        <div class="title-note py-2 ms-3 rounded">
+        <div class="title-note py-2 ms-3 rounded" v-if="quotation[0] && quotation[0].note">
             <p class="text-white mb-0">NOTA:</p>
         </div>
         <div class="section-note" v-if="quotation[0]">
             <p>{{ quotation[0].note }}</p>
         </div>
         <section class="last">
-            <!-- <div class="d-flex justify-content-around">
-            <div class="d-flex w-50">
-                <img src="https://inbestiga.com/pdf-sys/circle.png" width="150">
-                <p class="ps-3 pig-text">Recuerda que puedes hacer el pago en CUOTAS!</p>
-            </div>
+            <div class="d-flex justify-content-around">
+                <div class="d-flex w-50">
+                    <img src="https://inbestiga.com/pdf-sys/circle.png" width="150">
+                    <p class="ps-3 pig-text">Recuerda que puedes hacer el pago en CUOTAS!</p>
+                </div>
                 <img src="https://inbestiga.com/pdf-sys/square.png" width="120" height="70">
-               
-        </div> -->
+            </div>
             <footer class="mt-3">
                 <p>Gracias por brindarnos tu confianza. Contáctanos si tienes alguna duda acerca de esta cotización.</p>
             </footer>
@@ -389,8 +388,7 @@ th {
 }
 
 .last {
-    position: absolute;
-    bottom: 0;
+    margin-top: 20px;
 }
 
 .watermark {
@@ -409,4 +407,5 @@ footer {
     padding: 15px 28px 15px 28px;
     text-align: center;
     width: 100%;
-}</style>
+}
+</style>
