@@ -160,6 +160,9 @@ class CustomerController extends Controller
 
     public function updateCustomerGrade(Request $request)
     {
+
+
+
         $customer = Customer::find($request->get('customer_id'));
         $user = User::find($request->get('user_id'));
 
@@ -214,12 +217,17 @@ class CustomerController extends Controller
             $newComission = Comission::create($comissionData);
         }
 
+        $oldStatus = intval($request->get('status')) - 1;
+
+        $eleventhCustomer = Customer::where('status', $oldStatus)->orderBy('updated_at', 'desc')->offset(10)->first();
+
 
         $customer->update([
             'status' => $request->get('status')
         ]);
         return response()->json([
-            'msg' => 'success'
+            'msg' => 'success',
+            'eleventhCustomer' => $eleventhCustomer
         ]);
     }
 
