@@ -99,7 +99,8 @@ class ComunicationController extends Controller
         //
     }
 
-    public function insertComunication(Request $request){
+    public function insertComunication(Request $request)
+    {
 
         $dateTime = date_create($request->get('next_management'));
 
@@ -120,20 +121,22 @@ class ComunicationController extends Controller
         ]);
     }
 
-    public function getComunicationsByToday($id_user){
-        
+    public function getComunicationsByToday($id_user)
+    {
+
         $comunications = Comunication::with(['customer', 'customer.user'])
-        ->where('next_management', date('Y-m-d'))
-        ->whereHas('customer.user', function ($query) use ($id_user) {
-            $query->where('id', $id_user);
-        })
-        ->orderBy('time')
-        ->get();
+            ->where('next_management', date('Y-m-d'))
+            ->whereHas('customer.user', function ($query) use ($id_user) {
+                $query->where('id', $id_user);
+            })
+            ->orderBy('time')
+            ->get();
 
         return response()->json($comunications);
     }
 
-    public function updateComunication($comunicationId){
+    public function updateComunication($comunicationId)
+    {
         $comunication = Comunication::find($comunicationId);
 
         $comunication->update([
@@ -143,5 +146,17 @@ class ComunicationController extends Controller
         return response()->json([
             'msg' => 'Comunicación actualizada'
         ]);
+    }
+
+    public function comunicationsClient()
+    {
+        $comunications = Comunication::with(['customer', 'customer.comunications' => function ($secondQuery) {
+            $secondQuery->orderBy('id', 'desc');
+        }])->where('next_management', date('Y-m-d'))->whereHas('customer', function ($query) {
+            $query->where('status', 11);
+        })->get();
+
+
+        return response()->json($comunications);
     }
 }
