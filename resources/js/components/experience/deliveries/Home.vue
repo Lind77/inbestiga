@@ -85,40 +85,9 @@
                             <!-- Email List: Items -->
                             <div class="email-list pt-0 ps ps--active-y">
                                 <ul class="list-unstyled m-0">
-                                    <li class="email-list-item email-marked-read py-3 px-5" data-starred="true"
-                                        data-bs-toggle="sidebar" data-target="#app-email-view" v-for="task in tasks">
-                                        <div class="d-flex align-items-center">
-                                            <div class="form-check">
-                                                <input class="email-list-item-input form-check-input" type="checkbox"
-                                                    id="email-1">
-                                                <label class="form-check-label" for="email-1"></label>
-                                            </div>
-
-                                            <div class="email-list-item-content ms-2 ms-sm-0 me-2">
-                                                <span class="email-list-item-username me-2 h6">{{
-                                                    task.customerName
-                                                }}</span>
-                                                <span class="email-list-item-subject d-xl-inline-block d-block"> {{
-                                                    task.advance
-                                                }}</span>
-                                            </div>
-                                            <div class="email-list-item-meta ms-auto d-flex align-items-center">
-                                                <span
-                                                    class="email-list-item-label badge badge-dot bg-danger d-none d-md-inline-block me-2"
-                                                    data-label="private" v-if="task.type == 1"></span>
-                                                <span
-                                                    class="email-list-item-label badge badge-dot bg-primary d-none d-md-inline-block me-2"
-                                                    data-label="private" v-else></span>
-                                                <small class="email-list-item-time text-muted">{{
-                                                    formatDate(task.deliveryDate)
-                                                }}</small> -
-                                                <small class="email-list-item-time text-muted"
-                                                    v-if="task.deliveryDateAcad">{{
-                                                        formatDate(task.deliveryDateAcad)
-                                                    }}</small>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    <template v-for="task in tasks">
+                                        <Task :task="task" @updateDelivery="updateDelivery" />
+                                    </template>
                                 </ul>
 
                             </div>
@@ -136,19 +105,45 @@
 import axios from 'axios';
 import moment from 'moment';
 import DeliveryModal from './DeliveryModal.vue'
+import Task from './Task.vue'
 
 export default {
-    components: { DeliveryModal },
+    components: { DeliveryModal, Task },
     data() {
         return {
             deliveries: [],
             payments: [],
             date: moment().format('DD/MM/YYYY'),
             search: '',
-            tasks: []
+            tasks: [],
+            showNewDate: false
         }
     },
     methods: {
+        updateDelivery(delivery) {
+            console.log('update new delivery from bd')
+            var task = {
+                id: '',
+                customerName: '',
+                advance: '',
+                deliveryDate: '',
+                type: '',
+                deliveryDateAcad: ''
+            }
+
+            task.id = delivery.id
+            task.customerName = delivery.contract.quotation.customer.name
+            task.advance = delivery.advance
+            task.deliveryDate = delivery.date
+            task.type = 1
+            if (delivery.academic_date != null) {
+                task.deliveryDateAcad = delivery.academic_date
+            }
+            var taskSelectedIndex = this.tasks.findIndex(task => task.id == delivery.id && task.type == 1)
+            this.tasks.splice(taskSelectedIndex, 1)
+            this.tasks.push({ ...task })
+
+        },
         updateDate(date) {
             this.date = moment(date).format('DD/MM/YYYY')
         },
@@ -189,6 +184,7 @@ export default {
                     this.payments = result.data.payments
 
                     var task = {
+                        id: '',
                         customerName: '',
                         advance: '',
                         deliveryDate: '',
@@ -197,17 +193,22 @@ export default {
                     }
 
                     this.deliveries.forEach((delivery) => {
+                        task.id = delivery.id
                         task.customerName = delivery.contract.quotation.customer.name
                         task.advance = delivery.advance
                         task.deliveryDate = delivery.date
                         task.type = 1
+                        console.log(delivery.academic_date == null)
                         if (delivery.academic_date != null) {
                             task.deliveryDateAcad = delivery.academic_date
+                        } else {
+                            task.deliveryDateAcad = null
                         }
                         this.tasks.push({ ...task })
                     })
 
                     this.payments.forEach((payment) => {
+                        task.id = payment.id
                         task.customerName = payment.order.quotation.customer.name
                         task.advance = 'Entrega de Orden'
                         task.deliveryDate = payment.date
