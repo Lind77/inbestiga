@@ -82,9 +82,16 @@ class DeliveryController extends Controller
      * @param  \App\Models\Delivery  $delivery
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDeliveryRequest $request, Delivery $delivery)
+    public function update(Request $request, $id)
     {
-        //
+        $delivery = Delivery::with(['contract', 'contract.quotation', 'contract.quotation.customer'])->find($id);
+        $delivery->update([
+            'academic_date' => $request->get('academicDate')
+        ]);
+        return response()->json([
+            'msg' => 'success',
+            'delivery' => $delivery
+        ]);
     }
 
     /**
