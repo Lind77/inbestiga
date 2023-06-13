@@ -3,7 +3,8 @@
         data-target="#app-email-view">
         <div class="d-flex align-items-center">
             <div class="form-check">
-                <input class="email-list-item-input form-check-input" type="checkbox" id="email-1">
+                <input class="email-list-item-input form-check-input" type="checkbox" id="email-1" @click="checkTask"
+                    v-model="check">
                 <label class="form-check-label" for="email-1"></label>
             </div>
 
@@ -41,26 +42,52 @@ export default {
     data() {
         return {
             showDateAcad: false,
-            academicDate: ''
+            academicDate: '',
+            check: false
         }
     },
     props: {
         task: Object
     },
     methods: {
-        hideDates(task) {
-            const fd = new FormData()
-            fd.append('_method', 'put')
-            fd.append('deliveryId', task.id)
-            fd.append('academicDate', this.academicDate)
-            axios.post('/api/delivery/' + task.id, fd)
-                .then((result) => {
-                    this.$emit('updateDelivery', result.data.delivery)
-                    this.showDateAcad = false
-                }).catch((err) => {
-                    console.error(err)
-                });
+        checkTask() {
+            if (this.check == true) {
+                alert('uncheck')
+            } else {
+                if (this.task.type == 1) {
+                    axios.get('/api/check-delivery/' + this.task.id)
+                        .then((result) => {
+                            console.log(result);
+                        }).catch((err) => {
+                            console.error(err);
+                        });
+                } else {
+                    axios.get('/api/check-payment/' + this.task.id)
+                        .then((result) => {
+                            console.log(result);
+                        }).catch((err) => {
+                            console.error(err);
+                        });
+                }
+            }
 
+        },
+        hideDates(task) {
+            if (this.academicDate != '') {
+                const fd = new FormData()
+                fd.append('_method', 'put')
+                fd.append('deliveryId', task.id)
+                fd.append('academicDate', this.academicDate)
+                axios.post('/api/delivery/' + task.id, fd)
+                    .then((result) => {
+                        this.$emit('updateDelivery', result.data.delivery)
+                        this.showDateAcad = false
+                    }).catch((err) => {
+                        console.error(err)
+                    });
+            } else {
+                this.showDateAcad = false
+            }
         },
         editDates() {
             this.showDateAcad = true

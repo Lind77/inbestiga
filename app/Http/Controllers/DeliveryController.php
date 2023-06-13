@@ -125,4 +125,15 @@ class DeliveryController extends Controller
 
         return response()->json($deliveries);
     }
+
+    public function checkDelivery($id)
+    {
+        $delivery = Delivery::find($id);
+        $delivery->update([
+            'type' => 1
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
 }
