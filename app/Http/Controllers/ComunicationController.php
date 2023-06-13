@@ -152,7 +152,7 @@ class ComunicationController extends Controller
     {
         $comunications = Comunication::with(['customer', 'customer.comunications' => function ($secondQuery) {
             $secondQuery->orderBy('id', 'desc');
-        }])->where('next_management', date('Y-m-d'))->whereHas('customer', function ($query) {
+        }])->whereHas('customer', function ($query) {
             $query->where('status', 11);
         })->get();
 
