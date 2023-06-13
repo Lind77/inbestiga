@@ -473,4 +473,10 @@ class CustomerController extends Controller
         }, 'quotations.order', 'quotations.contract'])->get();
         return response()->json($customers);
     }
+
+    public function searchCustomersByDate($date)
+    {
+        $customers = Customer::with(['user', 'comunications'])->where('created_at', 'like', '%' . $date . '%')->get();
+        return response()->json($customers);
+    }
 }
