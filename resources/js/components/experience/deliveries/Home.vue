@@ -237,6 +237,7 @@ export default {
                     this.payments = result.data.payments
 
                     var task = {
+                        id: '',
                         customerName: '',
                         advance: '',
                         deliveryDate: '',
@@ -245,6 +246,7 @@ export default {
                     }
 
                     this.deliveries.forEach((delivery) => {
+                        task.id = delivery.id
                         task.customerName = delivery.contract.quotation.customer.name
                         task.advance = delivery.advance
                         task.deliveryDate = delivery.date
@@ -255,6 +257,7 @@ export default {
                         this.tasks.push({ ...task })
                     })
                     this.payments.forEach((payment) => {
+                        task.id = payment.id
                         task.customerName = payment.order.quotation.customer.name
                         task.advance = 'Entrega de Orden'
                         task.deliveryDate = payment.date
