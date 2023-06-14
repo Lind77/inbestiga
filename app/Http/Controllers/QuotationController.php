@@ -49,16 +49,19 @@ class QuotationController extends Controller
     public function store(Request $request)
     {
 
+        if ($request->get('coupon') != '') {
+            $coupon = $request->get('coupon');
 
-        $coupon = $request->get('coupon');
+            $promotion = Promotion::where('code', $coupon)->first();
 
-        $promotion = Promotion::where('code', $coupon)->first();
+
+
+            if ($promotion->quantity == $promotion->limit) {
+                $discount = $request->get('discount');
+            }
+        }
 
         $discount = 0;
-
-        if ($promotion->quantity == $promotion->limit) {
-            $discount = $request->get('discount');
-        }
 
         $quotation = Quotation::create([
             'customer_id' => $request->get('customer_id'),
