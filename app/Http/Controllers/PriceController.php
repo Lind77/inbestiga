@@ -88,12 +88,13 @@ class PriceController extends Controller
         //
     }
 
-    public function updatePrices(Request $request){
+    public function updatePrices(Request $request)
+    {
         $product = Product::find($request->get('productId'));
         $prices = $request->get('prices');
         $pricesArray = json_decode($prices, true);
 
-        foreach ($pricesArray as $price){
+        foreach ($pricesArray as $price) {
             Price::find($price['id'])->update([
                 'price' => $price['price']
             ]);
@@ -104,24 +105,33 @@ class PriceController extends Controller
         ]);
     }
 
-    public function insertCode(Request $request){
+    public function insertCode(Request $request)
+    {
+        $request->validate([
+            'code' => 'unique:promotions'
+        ]);
+
         $promotion = Promotion::create([
             'code' => $request->get('code'),
             'percent' => $request->get('percent'),
             'quantity' => $request->get('quantity'),
-            'able' => $request->get('able')
+            'able' => $request->get('able'),
+            'limit' => $request->get('limit'),
+            'discounted' => 0
         ]);
         return response()->json($promotion->code);
     }
 
-    public function getPromotionCode(){
+    public function getPromotionCode()
+    {
         $promotion = Promotion::orderBy('id', 'desc')->first();
 
         return response()->json($promotion);
     }
 
-    public function getAllPromotionsCode(){
-        $promotions = Promotion::all();
+    public function getAllPromotionsCode()
+    {
+        $promotions = Promotion::where('able', 1)->get();
         return response()->json($promotions);
     }
 }

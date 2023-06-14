@@ -9,5 +9,5 @@ class Promotion extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code','percent','quantity','able'];
+    protected $fillable = ['code', 'percent', 'quantity', 'able', 'discounted', 'limit'];
 }

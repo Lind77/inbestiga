@@ -273,16 +273,18 @@ export default {
         })
     },
     autoDiscount() {
-      this.$swal('Nop')
-      /* var codeFound = this.recentsCode.find(code => code.code == this.coupon)
+      var codeFound = this.recentsCode.find(code => code.code == this.coupon)
 
-      if (codeFound && this.discount == 0) {
-        this.$swal('Se ha desbloqueado el descuento')
+      if (codeFound && codeFound.percent == 0 && this.discount == 0) {
+        this.$swal('Se ha desbloqueado el descuento por cantidad')
+        this.discount = ((this.totalProducts - codeFound.quantity) / 100).toFixed(2)
+      } else if (codeFound && codeFound.quantity == 0 && this.discount == 0) {
+        this.$swal('Se ha desbloqueado el descuento por porcentaje')
         this.discount = ((this.totalProducts * codeFound.percent) / 100).toFixed(2)
       } else {
         this.$swal('Codigo incorrecto o duplicado')
         this.discount = 0
-      } */
+      }
     },
     redirect() {
       /*   if(){
@@ -394,6 +396,7 @@ export default {
       fd.append('term', this.term)
       fd.append('products', JSON.stringify(this.details))
       fd.append('emisor_id', this.store.authUser.id)
+      fd.append('coupon', this.coupon)
 
       axios.post('/api/updateQuotation', fd)
         .then((res) => {
@@ -419,6 +422,7 @@ export default {
         fd.append('term', this.term)
         fd.append('products', JSON.stringify(this.details))
         fd.append('emisor_id', this.store.authUser.id)
+        fd.append('coupon', this.coupon)
 
         axios.post('/api/quotations', fd)
           .then((res) => {
