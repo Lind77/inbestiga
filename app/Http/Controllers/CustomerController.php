@@ -476,7 +476,7 @@ class CustomerController extends Controller
 
     public function searchCustomersByDate($date)
     {
-        $customers = Customer::with(['user', 'comunications'])->where('status', '<=', 3)->where('created_at', 'like', '%' . $date . '%')->get();
+        $customers = Customer::with(['user', 'comunications'])->where('status', '>', 0)->where('status', '<=', 3)->where('created_at', 'like', '%' . $date . '%')->get();
         return response()->json($customers);
     }
 }
