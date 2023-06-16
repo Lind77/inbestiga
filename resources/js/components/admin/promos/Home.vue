@@ -8,10 +8,6 @@
             <p class="mb-2 repeater-title">Codigo</p>
             <input type="text" class="form-control" v-model="promotion.code">
           </div>
-          <div class="col-md-2 col-12 mb-md-0 mb-3 ps-md-0">
-            <p class="mb-2 repeater-title">Límite</p>
-            <input type="text" class="form-control" v-model="promotion.limit">
-          </div>
           <div class="col-md-2 col-12 mb-md-0 mb-3">
             <p class="mb-2 repeater-title">Porcentaje</p>
             <input type="number" class="form-control" v-model="promotion.percent">
@@ -19,6 +15,10 @@
           <div class="col-md-2 col-12 mb-md-0 mb-3">
             <p class="mb-2 repeater-title">Monto:</p>
             <input type="number" class="form-control" v-model="promotion.quantity">
+          </div>
+          <div class="col-md-2 col-12 mb-md-0 mb-3 ps-md-0">
+            <p class="mb-2 repeater-title">Límite</p>
+            <input type="text" class="form-control" v-model="promotion.limit">
           </div>
           <div class="col-md-1 col-12 mb-md-0 mb-3">
             <button class="btn btn-primary btn-sm mt-4" @click="insertCode">Actualizar</button>
@@ -42,6 +42,7 @@
               <th>Cantidad</th>
               <th>Límite</th>
               <th>Actividad</th>
+              <th>Opciones</th>
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
@@ -56,6 +57,9 @@
                   <label class="form-check-label" for="flexSwitchCheckDefault">Activo</label>
                 </div>
               </td>
+              <td><button type="button" class="btn btn-icon btn-danger" @click="deletePromotion(code.id)">
+                  <span class="tf-icons bx bx-trash"></span>
+                </button></td>
             </tr>
           </tbody>
         </table>
@@ -64,6 +68,8 @@
   </div>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
@@ -81,6 +87,14 @@ export default {
     }
   },
   methods: {
+    deletePromotion(codeId) {
+      axios.delete('/api/promotions/' + codeId)
+        .then((result) => {
+          this.getAllPromotionsCode()
+        }).catch((err) => {
+          console.error(err)
+        });
+    },
     insertCode() {
       const fd = new FormData()
       fd.append('code', this.promotion.code)

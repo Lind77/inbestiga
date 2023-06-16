@@ -19,6 +19,7 @@ use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SeenController;
@@ -154,6 +155,7 @@ Route::post('/updateContract', [ContractController::class, 'updateContract']);
 Route::post('/insertCode', [PriceController::class, 'insertCode']);
 Route::get('/getPromotionCode', [PriceController::class, 'getPromotionCode']);
 Route::get('/getAllPromotionsCode', [PriceController::class, 'getAllPromotionsCode']);
+Route::delete('/promotions/{id}', [PromotionController::class, 'destroy']);
 
 Route::post('/addNotificationComunication', [NotificationController::class, 'addNotificationComunication']);
 //Academic Department

@@ -79,8 +79,13 @@ class PromotionController extends Controller
      * @param  \App\Models\Promotion  $promotion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Promotion $promotion)
+    public function destroy($id)
     {
-        //
+        $promotion = Promotion::find($id);
+
+        $promotion->delete();
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }
