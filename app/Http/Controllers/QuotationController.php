@@ -48,20 +48,23 @@ class QuotationController extends Controller
      */
     public function store(Request $request)
     {
+        $discount = 0;
 
         if ($request->get('coupon') != '') {
             $coupon = $request->get('coupon');
 
             $promotion = Promotion::where('code', $coupon)->first();
-
-
-
-            if ($promotion->quantity == $promotion->limit) {
+            if ($promotion->limit < $promotion->discounted + 1) {
+                $discount = 0;
+                return response()->json('No se realizó el descuento', 402);
+            } else {
                 $discount = $request->get('discount');
+                $promotion->update([
+                    'discounted' => $promotion->discounted + 1
+                ]);
             }
         }
 
-        $discount = 0;
 
         $quotation = Quotation::create([
             'customer_id' => $request->get('customer_id'),
@@ -260,14 +263,29 @@ class QuotationController extends Controller
 
     public function updateQuotation(Request $request)
     {
+        $discount = 0;
 
+        if ($request->get('coupon') != '') {
+            $coupon = $request->get('coupon');
+
+            $promotion = Promotion::where('code', $coupon)->first();
+            if ($promotion->limit < $promotion->discounted + 1) {
+                $discount = 0;
+                return response()->json('No se realizó el descuento', 402);
+            } else {
+                $discount = $request->get('discount');
+                $promotion->update([
+                    'discounted' => $promotion->discounted + 1
+                ]);
+            }
+        }
         $quotation = Quotation::with('customer')->find($request->get('quotation_id'));
 
         $quotation->update([
             'date' => $request->get('date'),
             'amount' => $request->get('amount'),
             'expiration_date' => $request->get('expirationDay'),
-            'discount' => $request->get('discount'),
+            'discount' => $discount,
             'term' => $request->get('term')
         ]);
 
