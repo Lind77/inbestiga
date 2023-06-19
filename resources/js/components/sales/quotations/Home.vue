@@ -61,7 +61,7 @@
               <div class="col-md-6">
                 <dl class="row mb-2">
                   <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
-                    <span class="h4 text-capitalize mb-0 text-nowrap">Cotización</span>
+                    <span class="h4 text-capitalize mb-0 text-nowrap">Cotización #</span>
                   </dt>
                   <dd class="col-sm-6 d-flex justify-content-md-end">
                     <div class="w-px-150">

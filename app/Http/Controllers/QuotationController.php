@@ -54,7 +54,9 @@ class QuotationController extends Controller
             $coupon = $request->get('coupon');
 
             $promotion = Promotion::where('code', $coupon)->first();
-            if ($promotion->limit < $promotion->discounted + 1) {
+            if ($promotion->limit == 0) {
+                $discount = $request->get('discount');
+            } else if ($promotion->limit < $promotion->discounted + 1) {
                 $discount = 0;
                 return response()->json('No se realizó el descuento', 402);
             } else {
@@ -269,7 +271,9 @@ class QuotationController extends Controller
             $coupon = $request->get('coupon');
 
             $promotion = Promotion::where('code', $coupon)->first();
-            if ($promotion->limit < $promotion->discounted + 1) {
+            if ($promotion->limit == 0) {
+                $discount = $request->get('discount');
+            } else if ($promotion->limit < $promotion->discounted + 1) {
                 $discount = 0;
                 return response()->json('No se realizó el descuento', 402);
             } else {
