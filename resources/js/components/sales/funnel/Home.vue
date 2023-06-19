@@ -110,9 +110,12 @@ export default {
       $('#funnelModal').modal('show')
     },
     updateStatusSpaces(leadId, status) {
+
       if (status == 5) {
+        $('#funnelModal').modal('hide')
         this.$router.push({ name: 'home-quotation', params: { idUser: leadId } });
       } else if (status == 9) {
+        $('#funnelModal').modal('hide')
         var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
 
         if (leadSelected.quotations[0].amount < 1500) {
