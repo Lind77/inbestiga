@@ -96,6 +96,7 @@ Route::get('/customers/search/{search}', [CustomerController::class, 'searchCust
 Route::get('/customers/comunications/{search}', [CustomerController::class, 'searchCustomersComunications']);
 Route::put('/customers/next-comunication/{id}', [CustomerController::class, 'updateNextComunication']);
 Route::get('/customers/search-by-date/{date}', [CustomerController::class, 'searchCustomersByDate']);
+Route::get('/customer-by-id/{id}', [CustomerController::class, 'searchCustomersById']);
 //Preleads
 Route::get('/getAllPreleads', [CustomerController::class, 'getAllPreleads']);
 Route::get('/searchPreleads/{search}', [CustomerController::class, 'searchPreleads']);

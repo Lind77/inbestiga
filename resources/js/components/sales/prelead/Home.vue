@@ -263,11 +263,29 @@ export default {
 
       var customerSelected = arraySelected.find(customer => customer.id == newCustomer.id)
       customerSelected.user = newOwner
+    },
+    loadCustomerById(userId) {
+      var customerSelected = this.customers.find(lead => lead.id == userId)
+      if (customerSelected) {
+        this.customer_selected = customerSelected
+        $('#funnelModal').modal('show')
+      } else {
+        axios.get('/api/customer-by-id/' + userId)
+          .then((result) => {
+            this.customer_selected = result.data
+            $('#funnelModal').modal('show')
+          }).catch((err) => {
+            console.error(err)
+          });
+      }
     }
   },
   mounted() {
     this.getAllCustomers()
     this.getAllOwners()
+    if (this.$route.params.userId) {
+      this.loadCustomerById(this.$route.params.userId)
+    }
   }
 }
 </script>
@@ -291,4 +309,5 @@ export default {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(67, 89, 113, .7);
-}</style>
+}
+</style>

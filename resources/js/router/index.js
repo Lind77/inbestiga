@@ -198,13 +198,15 @@ export const routes = [
                 name: 'home-client'
             },
             {
-                path: 'prelead',
+                path: 'prelead/:userId?',
+                props:true,
                 component: HomePreLead,
                 name: 'home-pre-lead'
             },
             {
-                path: 'funnels',
+                path: 'funnels/:userId?',
                 component: HomeFunnel,
+                props:true,
                 name: 'home-funnel'
             },
             {
