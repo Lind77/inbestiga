@@ -100,7 +100,7 @@ class ContractController extends Controller
     public function updateContract(Request $request)
     {
 
-        $contract = Contract::with(['quotation', 'quotation.details', 'fees'])->find($request->get('contractId'));
+        $contract = Contract::with(['quotation', 'quotation.details', 'quotation.customer', 'fees'])->find($request->get('contractId'));
 
         $contract->update([
             'amount' => $request->get('amount'),
@@ -115,6 +115,10 @@ class ContractController extends Controller
         $quotation->details->each(function ($detail) {
             $detail->delete();
         });
+
+        $quotation->customer->update([
+            'status' => 9
+        ]);
 
         $details = $request->get('products');
 
