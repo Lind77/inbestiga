@@ -155,7 +155,8 @@ class ContractController extends Controller
             Delivery::create([
                 'contract_id' => $contract->id,
                 'date' => $delivery['date'],
-                'advance' => $delivery['advance']
+                'advance' => $delivery['advance'],
+                'type' => 0
             ]);
         }
 
@@ -253,7 +254,8 @@ class ContractController extends Controller
             Delivery::create([
                 'contract_id' => $contract->id,
                 'date' => $delivery['date'],
-                'advance' => $delivery['advance']
+                'advance' => $delivery['advance'],
+                'type' => 0
             ]);
         }
 

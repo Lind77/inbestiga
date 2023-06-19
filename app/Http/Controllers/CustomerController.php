@@ -479,4 +479,10 @@ class CustomerController extends Controller
         $customers = Customer::with(['user', 'comunications'])->where('status', '>', 0)->where('status', '<=', 3)->where('created_at', 'like', '%' . $date . '%')->get();
         return response()->json($customers);
     }
+
+    public function searchCustomersById($id)
+    {
+        $customer = Customer::with(['user', 'comunications'])->find($id);
+        return response()->json($customer);
+    }
 }

@@ -26,7 +26,7 @@
               </thead>
               <tbody class="table-border-bottom-0">
                 <tr v-for="customer in customers">
-                  <td><strong class="cursor-pointer placeholder-glow" @click="redirectFunnel(customer.id)">{{
+                  <td><strong class="cursor-pointer placeholder-glow" @click="redirectFunnel(customer)">{{
                     customer.name }}</strong><i @click="openAsignOwner(customer)" v-show="customer.user_id == null"
                       class='bx bxs-user-x text-danger'></i></td>
                   <td>{{ customer.cell }}</td>
@@ -91,7 +91,12 @@ export default {
   },
   methods: {
     redirectFunnel(customer) {
-      this.$router.push({ name: 'home-funnel' })
+      if (customer.status > 3) {
+        this.$router.push({ name: 'home-funnel', params: { userId: customer.id } })
+      } else {
+        this.$router.push({ name: 'home-pre-lead', params: { userId: customer.id } })
+      }
+
     },
     cleanSearch() {
       if (this.search == '') {
