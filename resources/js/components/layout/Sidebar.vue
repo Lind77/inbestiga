@@ -139,12 +139,12 @@
           <div data-i18n="Form Layouts">Inicio</div>
         </div>
       </router-link>
-      <!-- <router-link :to="{ name: 'home-calendly' }" class="menu-item">
+      <router-link :to="{ name: 'home-calendly' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-calendar"></i>
           <div data-i18n="Form Layouts">Calendly</div>
         </div>
-      </router-link> -->
+      </router-link>
       <router-link :to="{ name: 'home-deliveries' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-package"></i>
