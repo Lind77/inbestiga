@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('addendums', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('paymentable_id');
-            $table->string('paymentable_type');
+            $table->unsignedBigInteger('addendumable_id');
+            $table->string('addendumable_type');
             $table->double('amount')->nullable();
             $table->date('date')->nullable();
             $table->text('content')->nullable();

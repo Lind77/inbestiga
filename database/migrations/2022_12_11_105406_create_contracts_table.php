@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('contracts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('quotation_id');
+            $table->unsignedBigInteger('quotation_id')->nullable();
             $table->foreign('quotation_id')->references('id')->on('quotations')->onDelete('cascade');
             $table->double('amount')->nullable();
             $table->text('amount_text')->nullable();

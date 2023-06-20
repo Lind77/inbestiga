@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('quotation_id')->references('id')->on('quotations')->onDelete('cascade');
             $table->unsignedBigInteger('product_id')->nullable();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->tinyInteger('type')->nullable();
             $table->double('price')->nullable();
             $table->tinyInteger('level')->nullable();

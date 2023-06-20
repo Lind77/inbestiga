@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('projectlable_id');
+            $table->unsignedBigInteger('projectable_id');
             $table->string('projectable_type');
             $table->string('title', 255);
             $table->unsignedBigInteger('team_id')->nullable();

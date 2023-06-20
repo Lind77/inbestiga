@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('project_id')->nullable();;
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->date('date')->nullable();
             $table->date('academic_date')->nullable();

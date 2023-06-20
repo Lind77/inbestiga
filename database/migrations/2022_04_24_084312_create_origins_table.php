@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('origins', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->tinyInteger('type')->nullable();
             $table->tinyInteger('channel')->nullable();
