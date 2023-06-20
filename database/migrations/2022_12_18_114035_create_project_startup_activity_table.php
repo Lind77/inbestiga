@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('activities', function (Blueprint $table) {
+        Schema::create('project_startup_activity', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('project_id')->nullable();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->string('title', 255);
-            $table->tinyInteger('type')->nullable();
-            $table->double('progress')->default(0.0);
+            $table->unsignedBigInteger('startup_activity_id')->nullable();
+            $table->foreign('startup_activity_id')->references('id')->on('startup_activities')->onDelete('cascade');
+            $table->tinyInteger('status')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activities');
+        Schema::dropIfExists('project_startup_activity');
     }
 };

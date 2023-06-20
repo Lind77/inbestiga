@@ -23,6 +23,8 @@ return new class extends Migration
             $table->text('comment')->nullable();
             $table->text('product_tentative')->nullable();
             $table->tinyInteger('type')->nullable();
+            $table->tinyInteger('attended')->nullable();
+            $table->time('time')->nullable();
             $table->timestamps();
         });
     }

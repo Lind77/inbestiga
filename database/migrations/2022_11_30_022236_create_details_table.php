@@ -15,11 +15,15 @@ return new class extends Migration
     {
         Schema::create('details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('quotation_id');
+            $table->unsignedBigInteger('quotation_id')->nullable();
             $table->foreign('quotation_id')->references('id')->on('quotations')->onDelete('cascade');
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_id')->nullable();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->text('description');
+            $table->tinyInteger('type')->nullable();
+            $table->double('price')->nullable();
+            $table->tinyInteger('level')->nullable();
+            $table->tinyInteger('mode')->nullable();
             $table->timestamps();
         });
     }

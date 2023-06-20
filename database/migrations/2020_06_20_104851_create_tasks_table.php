@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('activities', function (Blueprint $table) {
-            $table->unsignedBigInteger('fixed_activity_id')->nullable();
-            $table->foreign('fixed_activity_id')->references('id')->on('fixed_activities')->onDelete('cascade');
+        Schema::create('tasks', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('activity_id');
+            $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
+            $table->string('title', 255);
+            $table->timestamps();
         });
     }
 
@@ -26,8 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('activities', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('tasks');
     }
 };

@@ -17,9 +17,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('quotation_id');
             $table->foreign('quotation_id')->references('id')->on('quotations')->onDelete('cascade');
-            $table->double('amount');
-            $table->text('amount_text');
-            $table->text('date');
+            $table->double('amount')->nullable();
+            $table->text('amount_text')->nullable();
+            $table->date('date')->nullable();
+            $table->tinyInteger('third_Article')->nullable();
+            $table->tinyInteger('fifth_article')->nullable();
             $table->timestamps();
         });
     }

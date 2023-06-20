@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('quotations', function (Blueprint $table) {
-            $table->date('expiration_date')->nullable();
-            $table->double('discount')->nullable();
+        Schema::create('levels', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -26,8 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('quotations', function (Blueprint $table) {
-            
-        });
+        Schema::dropIfExists('levels');
     }
 };

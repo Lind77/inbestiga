@@ -13,8 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('details', function (Blueprint $table) {
-            $table->tinyInteger('level')->nullable();
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->string('name',500);
+            $table->string('description',500)->nullable();
+            $table->tinyInteger('type')->nullable();
+            $table->tinyInteger('mode')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('details', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('products');
     }
 };

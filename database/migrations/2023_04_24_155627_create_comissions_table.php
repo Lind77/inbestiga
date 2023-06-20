@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-            $table->text('concept');
-            $table->integer('percent');
-            $table->text('referal');
-            $table->unsignedBigInteger('user_id');
+            $table->text('concept')->nullable();
+            $table->integer('percent')->nullable();
+            $table->text('referal')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

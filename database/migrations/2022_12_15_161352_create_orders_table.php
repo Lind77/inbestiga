@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('quotation_id');
+            $table->unsignedBigInteger('quotation_id')->nullable();
             $table->foreign('quotation_id')->references('id')->on('quotations')->onDelete('cascade');
             $table->text('final_delivery')->nullable();
             $table->text('observations')->nullable();
+            $table->tinyInteger('suggested')->nullable();
             $table->timestamps();
         });
     }

@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('times', function (Blueprint $table) {
+        Schema::create('levelables', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->tinyInteger('level');
-            $table->double('min_time')->nullable();
+            $table->unsignedBigInteger('levelable_id');
+            $table->string('levelable_type');
+            $table->unsignedBigInteger('level_id')->nullable();
+            $table->foreign('level_id')->references('id')->on('levels')->onDelete('set null');
             $table->double('max_time')->nullable();
+            $table->double('min_time')->nullable();
+            $table->double('price')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('times');
+        Schema::dropIfExists('levelables');
     }
 };

@@ -17,10 +17,15 @@ return new class extends Migration
             $table->id();
             $table->string('name',255)->nullable();
             $table->string('cell',20)->nullable();
+            $table->string('dni')->nullable();
+            $table->string('address')->nullable();
             $table->string('university',500)->nullable();
             $table->string('career',500)->nullable();
-            $table->tinyInteger('status')->nullable();
+            $table->string('needs')->nullable();
             $table->string('email', 250)->nullable();
+            $table->string('interest')->nullable();
+            $table->tinyInteger('status')->nullable();
+            $table->tinyInteger('attitude')->nullable();   
             $table->timestamps();
         });
     }

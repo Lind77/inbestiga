@@ -13,8 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('quotations', function (Blueprint $table) {
-            $table->text('note')->nullable();
+        Schema::create('startup_activities', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('quotations', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('startup_activities');
     }
 };
