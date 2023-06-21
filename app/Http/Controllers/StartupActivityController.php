@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Promotion;
-use App\Http\Requests\StorePromotionRequest;
-use App\Http\Requests\UpdatePromotionRequest;
+use App\Models\StartupActivity;
+use App\Http\Requests\StoreStartupActivityRequest;
+use App\Http\Requests\UpdateStartupActivityRequest;
 
-class PromotionController extends Controller
+class StartupActivityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +31,10 @@ class PromotionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorePromotionRequest  $request
+     * @param  \App\Http\Requests\StoreStartupActivityRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePromotionRequest $request)
+    public function store(StoreStartupActivityRequest $request)
     {
         //
     }
@@ -42,10 +42,10 @@ class PromotionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Promotion  $promotion
+     * @param  \App\Models\StartupActivity  $startupActivity
      * @return \Illuminate\Http\Response
      */
-    public function show(Promotion $promotion)
+    public function show(StartupActivity $startupActivity)
     {
         //
     }
@@ -53,10 +53,10 @@ class PromotionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Promotion  $promotion
+     * @param  \App\Models\StartupActivity  $startupActivity
      * @return \Illuminate\Http\Response
      */
-    public function edit(Promotion $promotion)
+    public function edit(StartupActivity $startupActivity)
     {
         //
     }
@@ -64,11 +64,11 @@ class PromotionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatePromotionRequest  $request
-     * @param  \App\Models\Promotion  $promotion
+     * @param  \App\Http\Requests\UpdateStartupActivityRequest  $request
+     * @param  \App\Models\StartupActivity  $startupActivity
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePromotionRequest $request, Promotion $promotion)
+    public function update(UpdateStartupActivityRequest $request, StartupActivity $startupActivity)
     {
         //
     }
@@ -76,16 +76,11 @@ class PromotionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Promotion  $promotion
+     * @param  \App\Models\StartupActivity  $startupActivity
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(StartupActivity $startupActivity)
     {
-        $promotion = Promotion::find($id);
-
-        $promotion->delete();
-        return response()->json([
-            'msg' => 'success'
-        ]);
+        //
     }
 }

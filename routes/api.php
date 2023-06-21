@@ -14,10 +14,12 @@ use App\Http\Controllers\NewProductController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SeenController;
@@ -93,6 +95,8 @@ Route::post('/customers/verify', [CustomerController::class, 'verifyCustomer']);
 Route::get('/customers/search/{search}', [CustomerController::class, 'searchCustomers']);
 Route::get('/customers/comunications/{search}', [CustomerController::class, 'searchCustomersComunications']);
 Route::put('/customers/next-comunication/{id}', [CustomerController::class, 'updateNextComunication']);
+Route::get('/customers/search-by-date/{date}', [CustomerController::class, 'searchCustomersByDate']);
+Route::get('/customer-by-id/{id}', [CustomerController::class, 'searchCustomersById']);
 //Preleads
 Route::get('/getAllPreleads', [CustomerController::class, 'getAllPreleads']);
 Route::get('/searchPreleads/{search}', [CustomerController::class, 'searchPreleads']);
@@ -140,6 +144,7 @@ Route::post('/updateComunication', [ComunicationController::class, 'update']);
 Route::post('/insertComunication', [ComunicationController::class, 'insertComunication']);
 Route::get('/getComunicationsByToday/{id}', [ComunicationController::class, 'getComunicationsByToday']);
 Route::get('/updateComunication/{id}', [ComunicationController::class, 'updateComunication']);
+Route::get('/comunications', [ComunicationController::class, 'comunicationsClient']);
 
 Route::get('/getAllContracts', [ContractController::class, 'index']);
 Route::get('/generateContract/{id}', [OrderController::class, 'generateContract']);
@@ -151,6 +156,7 @@ Route::post('/updateContract', [ContractController::class, 'updateContract']);
 Route::post('/insertCode', [PriceController::class, 'insertCode']);
 Route::get('/getPromotionCode', [PriceController::class, 'getPromotionCode']);
 Route::get('/getAllPromotionsCode', [PriceController::class, 'getAllPromotionsCode']);
+Route::delete('/promotions/{id}', [PromotionController::class, 'destroy']);
 
 Route::post('/addNotificationComunication', [NotificationController::class, 'addNotificationComunication']);
 //Academic Department
@@ -202,4 +208,12 @@ Route::get('/getAllComissions', [ComissionController::class, 'getAllComissions']
 Route::get('/profiles', [CustomerController::class, 'getProfiles']);
 
 Route::get('/deliveries', [DeliveryController::class, 'index']);
+Route::post('/delivery', [DeliveryController::class, 'store']);
 Route::get('/deliveries-date/{date}', [DeliveryController::class, 'getDeliveriesByDate']);
+Route::get('/deliveries-search/{search}', [DeliveryController::class, 'search']);
+Route::put('/delivery/{id}', [DeliveryController::class, 'update']);
+Route::get('/check-delivery/{id}', [DeliveryController::class, 'checkDelivery']);
+
+Route::get('/contract/{search}', [ContractController::class, 'searchContract']);
+
+Route::post('/payment', [PaymentsController::class, 'store']);

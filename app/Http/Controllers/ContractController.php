@@ -12,6 +12,7 @@ use App\Models\Delivery;
 use App\Models\Detail;
 use App\Models\Fee;
 use App\Models\Notification;
+use App\Models\Order;
 use App\Models\Quotation;
 use App\Models\Seen;
 use App\Models\User;
@@ -26,7 +27,7 @@ class ContractController extends Controller
      */
     public function index()
     {
-        $contracts = Contract::with(['quotation','quotation.customer'])->get();
+        $contracts = Contract::with(['quotation', 'quotation.customer'])->get();
         return response()->json($contracts);
     }
 
@@ -96,9 +97,10 @@ class ContractController extends Controller
         //
     }
 
-    public function updateContract(Request $request){
+    public function updateContract(Request $request)
+    {
 
-        $contract = Contract::with(['quotation', 'quotation.details', 'fees'])->find($request->get('contractId'));
+        $contract = Contract::with(['quotation', 'quotation.details', 'quotation.customer', 'fees'])->find($request->get('contractId'));
 
         $contract->update([
             'amount' => $request->get('amount'),
@@ -114,55 +116,61 @@ class ContractController extends Controller
             $detail->delete();
         });
 
+        $quotation->customer->update([
+            'status' => 9
+        ]);
+
         $details = $request->get('products');
-       
-            $arrProds = json_decode($details, true);
 
-            foreach($arrProds as $prod){
-                $detail = Detail::create([
-                    'quotation_id' => $quotation->id,
-                    'product_id' => 1,
-                    'type' => $prod['type'],
-                    'description' => '-',
-                    'price' => $prod['price'],
-                    'new_product_id' => $prod['new_product_id'],
-                    'level' => $prod['level'],
-                    'mode' => $prod['mode']
-                ]);
-            }
+        $arrProds = json_decode($details, true);
 
-            Fee::where('contract_id', $contract->id)->delete();
-
-            $fees = json_decode($request->get('fees'), true);
-
-            foreach ($fees as $fee) {
-            Fee::create([
-                    'contract_id' => $contract->id,
-                    'date' => $fee['date'],
-                    'amount' => $fee['amount'],
-                    'advance' => $fee['advance'],
-                    'percentage' => $fee['percentage']
+        foreach ($arrProds as $prod) {
+            $detail = Detail::create([
+                'quotation_id' => $quotation->id,
+                'product_id' => 1,
+                'type' => $prod['type'],
+                'description' => '-',
+                'price' => $prod['price'],
+                'new_product_id' => $prod['new_product_id'],
+                'level' => $prod['level'],
+                'mode' => $prod['mode']
             ]);
-            }
+        }
 
-            Delivery::where('contract_id', $contract->id)->delete();
+        Fee::where('contract_id', $contract->id)->delete();
 
-            $deliveries = json_decode($request->get('deliveries'), true);
+        $fees = json_decode($request->get('fees'), true);
 
-            foreach ($deliveries as $delivery) {
-                Delivery::create([
-                    'contract_id' => $contract->id,
-                    'date' => $delivery['date'],
-                    'advance' => $delivery['advance']
-                ]);
-            }
+        foreach ($fees as $fee) {
+            Fee::create([
+                'contract_id' => $contract->id,
+                'date' => $fee['date'],
+                'amount' => $fee['amount'],
+                'advance' => $fee['advance'],
+                'percentage' => $fee['percentage']
+            ]);
+        }
+
+        Delivery::where('contract_id', $contract->id)->delete();
+
+        $deliveries = json_decode($request->get('deliveries'), true);
+
+        foreach ($deliveries as $delivery) {
+            Delivery::create([
+                'contract_id' => $contract->id,
+                'date' => $delivery['date'],
+                'advance' => $delivery['advance'],
+                'type' => 0
+            ]);
+        }
 
         return $contract;
     }
 
-    public function insertContract(Request $request){
+    public function insertContract(Request $request)
+    {
 
-        if($request->get('quotation_id') == 'undefined'){
+        if ($request->get('quotation_id') == 'undefined') {
             $quotation = Quotation::create([
                 'customer_id' => $request->get('customer_id'),
                 'date' => $request->get('date'),
@@ -174,10 +182,10 @@ class ContractController extends Controller
             ]);
 
             $products = $request->get('products');
-       
+
             $arrProds = json_decode($products, true);
 
-            foreach($arrProds as $prod){
+            foreach ($arrProds as $prod) {
                 $detail = Detail::create([
                     'quotation_id' => $quotation->id,
                     'product_id' => 1,
@@ -197,16 +205,16 @@ class ContractController extends Controller
                 'third_article' => $request->get('third_article'),
                 'fifth_article' => $request->get('fifth_article')
             ]);
-        }else{
+        } else {
             $quotation = Quotation::with('contract')->where('id', $request->get('quotation_id'))->first();
 
             $products = $request->get('products');
 
             Detail::where('quotation_id', $quotation->id)->delete();
-       
+
             $arrProds = json_decode($products, true);
 
-            foreach($arrProds as $prod){
+            foreach ($arrProds as $prod) {
                 $detail = Detail::create([
                     'quotation_id' => $quotation->id,
                     'product_id' => 1,
@@ -218,41 +226,42 @@ class ContractController extends Controller
                     'mode' => $prod['mode']
                 ]);
             }
-            if($quotation->contract != null){
+            if ($quotation->contract != null) {
                 $quotation->contract->update([
                     'amount' => $request->get('amount'),
                     'amount_text' => $request->get('amount_text'),
                     'date' => $request->get('date'),
                 ]);
                 $contract = $quotation->contract;
-            }else{
+            } else {
                 $contract = Contract::create($request->all());
             }
         }
-        
+
         Fee::where('contract_id', $contract->id)->delete();
-       
+
         $fees = json_decode($request->get('fees'), true);
 
         foreach ($fees as $fee) {
-           Fee::create([
+            Fee::create([
                 'contract_id' => $contract->id,
                 'date' => $fee['date'],
                 'amount' => $fee['amount'],
                 'advance' => $fee['advance'],
                 'percentage' => $fee['percentage']
-           ]);
+            ]);
         }
 
         $deliveries = json_decode($request->get('deliveries'), true);
 
         foreach ($deliveries as $delivery) {
             Delivery::create([
-                 'contract_id' => $contract->id,
-                 'date' => $delivery['date'],
-                 'advance' => $delivery['advance']
+                'contract_id' => $contract->id,
+                'date' => $delivery['date'],
+                'advance' => $delivery['advance'],
+                'type' => 0
             ]);
-         }
+        }
 
         $customer = Customer::find($request->get('customer_id'));
 
@@ -272,13 +281,13 @@ class ContractController extends Controller
 
         $notification = Notification::create([
             'emisor_id' => $request->get('emisor_id'),
-            'content' => 'generó el contrato de '.$customer->name,
+            'content' => 'generó el contrato de ' . $customer->name,
             'type' => 1
         ]);
 
         $usersToNotify = User::role('Seller')->get();
 
-        foreach($usersToNotify as $user){
+        foreach ($usersToNotify as $user) {
             Seen::create([
                 'user_id' => $user->id,
                 'notification_id' => $notification->id,
@@ -289,6 +298,21 @@ class ContractController extends Controller
         broadcast(new NewDocument($contract));
 
         return response()->json($contract->id);
+    }
+    public function searchContract($search)
+    {
+        $contracts = Contract::with(['quotation', 'quotation.customer'])->whereHas('quotation.customer', function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        })->get();
 
+        $orders = Order::with(['quotation', 'quotation.customer'])->whereHas('quotation.customer', function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        })->get();
+
+
+        return response()->json([
+            'contracts' => $contracts,
+            'orders' => $orders
+        ]);
     }
 }

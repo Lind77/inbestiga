@@ -50,7 +50,7 @@ class CustomerController extends Controller
     {
         if ($request->get('cell') != null) {
             $request->validate([
-                'cell' => 'unique:customers|max:12|min:9'
+                'cell' => 'unique:customers|max:11|min:11'
             ]);
         }
 
@@ -160,6 +160,9 @@ class CustomerController extends Controller
 
     public function updateCustomerGrade(Request $request)
     {
+
+
+
         $customer = Customer::find($request->get('customer_id'));
         $user = User::find($request->get('user_id'));
 
@@ -214,12 +217,17 @@ class CustomerController extends Controller
             $newComission = Comission::create($comissionData);
         }
 
+        $oldStatus = intval($request->get('status')) - 1;
+
+        $eleventhCustomer = Customer::where('status', $oldStatus)->orderBy('updated_at', 'desc')->offset(10)->first();
+
 
         $customer->update([
             'status' => $request->get('status')
         ]);
         return response()->json([
-            'msg' => 'success'
+            'msg' => 'success',
+            'eleventhCustomer' => $eleventhCustomer
         ]);
     }
 
@@ -464,5 +472,17 @@ class CustomerController extends Controller
             $query->latest('id');
         }, 'quotations.order', 'quotations.contract'])->get();
         return response()->json($customers);
+    }
+
+    public function searchCustomersByDate($date)
+    {
+        $customers = Customer::with(['user', 'comunications'])->where('status', '>', 0)->where('status', '<=', 3)->where('created_at', 'like', '%' . $date . '%')->get();
+        return response()->json($customers);
+    }
+
+    public function searchCustomersById($id)
+    {
+        $customer = Customer::with(['user', 'comunications'])->find($id);
+        return response()->json($customer);
     }
 }

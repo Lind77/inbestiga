@@ -151,7 +151,7 @@
           <div data-i18n="Form Layouts">Entregas</div>
         </div>
       </router-link>
-      <router-link :to="{ name: 'home-calendly' }" class="menu-item">
+      <router-link :to="{ name: 'experience-comunications' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-message"></i>
           <div data-i18n="Form Layouts">Comunicaciones</div>
@@ -161,6 +161,12 @@
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-user"></i>
           <div data-i18n="Form Layouts">Perfiles</div>
+        </div>
+      </router-link>
+      <router-link :to="{ name: 'home-project' }" class="menu-item">
+        <div class="menu-link">
+          <i class="menu-icon tf-icons bx bx-user"></i>
+          <div data-i18n="Form Layouts">Proyectos</div>
         </div>
       </router-link>
       <router-link :to="{ name: 'real-time', params: { userId: store.authUser.id } }" class="menu-item">

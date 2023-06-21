@@ -5,9 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Promotion extends Model
+class StartupActivity extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['code', 'percent', 'quantity', 'able', 'discounted', 'limit'];
 }

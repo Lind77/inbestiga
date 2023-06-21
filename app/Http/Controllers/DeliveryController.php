@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Delivery;
 use App\Http\Requests\StoreDeliveryRequest;
 use App\Http\Requests\UpdateDeliveryRequest;
+use App\Models\Payments;
+use Illuminate\Http\Request;
 
 class DeliveryController extends Controller
 {
@@ -16,7 +18,12 @@ class DeliveryController extends Controller
     public function index()
     {
         $deliveries = Delivery::with(['contract', 'contract.quotation', 'contract.quotation.customer'])->where('date', date('Y-m-d'))->get();
-        return response()->json($deliveries);
+        $payments = Payments::with(['order', 'order.quotation', 'order.quotation.customer'])->where('date', date('Y-m-d'))->get();
+
+        return response()->json([
+            'deliveries' => $deliveries,
+            'payments' => $payments
+        ]);
     }
 
     /**
@@ -35,9 +42,15 @@ class DeliveryController extends Controller
      * @param  \App\Http\Requests\StoreDeliveryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDeliveryRequest $request)
+    public function store(Request $request)
     {
-        //
+        $delivery = Delivery::create([
+            'contract_id' => $request->get('contract_id'),
+            'date' => $request->get('date'),
+            'advance' => $request->get('advance'),
+            'type' => 1,
+            'academic_date' => $request->get('dateAcad')
+        ]);
     }
 
     /**
@@ -69,9 +82,16 @@ class DeliveryController extends Controller
      * @param  \App\Models\Delivery  $delivery
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDeliveryRequest $request, Delivery $delivery)
+    public function update(Request $request, $id)
     {
-        //
+        $delivery = Delivery::with(['contract', 'contract.quotation', 'contract.quotation.customer'])->find($id);
+        $delivery->update([
+            'academic_date' => $request->get('academicDate')
+        ]);
+        return response()->json([
+            'msg' => 'success',
+            'delivery' => $delivery
+        ]);
     }
 
     /**
@@ -88,6 +108,32 @@ class DeliveryController extends Controller
     public function getDeliveriesByDate($date)
     {
         $deliveries = Delivery::with(['contract', 'contract.quotation', 'contract.quotation.customer'])->where('date', $date)->get();
+        $payments = Payments::with(['order', 'order.quotation', 'order.quotation.customer'])->where('date', $date)->get();
+
+        return response()->json([
+            'deliveries' => $deliveries,
+            'payments' => $payments
+        ]);
+    }
+
+    public function search($search)
+    {
+        $deliveries = Delivery::with(['contract', 'contract.quotation', 'contract.quotation.customer'])
+            ->whereHas('contract.quotation.customer', function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })->get();
+
         return response()->json($deliveries);
+    }
+
+    public function checkDelivery($id)
+    {
+        $delivery = Delivery::find($id);
+        $delivery->update([
+            'type' => 1
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }

@@ -61,11 +61,11 @@
               <div class="col-md-6">
                 <dl class="row mb-2">
                   <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
-                    <span class="h4 text-capitalize mb-0 text-nowrap">Cotización</span>
+                    <span class="h4 text-capitalize mb-0 text-nowrap">Cotización #</span>
                   </dt>
                   <dd class="col-sm-6 d-flex justify-content-md-end">
                     <div class="w-px-150">
-                      <input v-if="idQuotation" type="text" class="form-control" v-model="idQuotation" disabled>
+                      <input type="text" class="form-control" v-model="quotation.id" disabled>
                     </div>
                   </dd>
                   <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
@@ -73,7 +73,7 @@
                   </dt>
                   <dd class="col-sm-6 d-flex justify-content-md-end">
                     <div class="w-px-150">
-                      <input type="date" class="form-control date-picker flatpickr-input" v-model="date">
+                      <input type="date" class="form-control date-picker flatpickr-input" v-model="quotation.date">
                     </div>
                   </dd>
                   <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
@@ -81,7 +81,8 @@
                   </dt>
                   <dd class="col-sm-6 d-flex justify-content-md-end">
                     <div class="w-px-150">
-                      <input type="date" class="form-control date-picker flatpickr-input" v-model="dateValidate">
+                      <input type="date" class="form-control date-picker flatpickr-input"
+                        v-model="quotation.expiration_date">
                     </div>
                   </dd>
                 </dl>
@@ -120,17 +121,17 @@
             </div>
             <hr class="mx-n4">
             <form class="source-item py-sm-3">
-              <div class="mb-3" data-repeater-list="group-a">
-                <template v-for="(detail, index) in details">
-                  <Detail :detail="detail" :newProducts="newProducts" :index="index"
-                    @removeSuggestedCart="removeSuggestedCart" />
-                </template>
-              </div>
               <div class="row">
                 <div class="col-12">
                   <button type="button" class="btn btn-primary" data-repeater-create="" @click="addDetail">Agregar
                     Detalle</button>
                 </div>
+              </div>
+              <div class="mb-3" data-repeater-list="group-a">
+                <template v-for="(detail, index) in details">
+                  <Detail :detail="detail" :newProducts="newProducts" :index="index"
+                    @removeSuggestedCart="removeSuggestedCart" />
+                </template>
               </div>
             </form>
             <hr class="my-4 mx-n4">
@@ -139,7 +140,7 @@
                 <div class="d-flex align-items-center mb-3">
                   <label for="salesperson" class="form-label me-5 fw-semibold">Tiempo de Ejecución<span
                       class="text-danger">*</span>:</label>
-                  <input type="text" class="form-control" v-model="term">
+                  <input type="text" class="form-control" v-model="quotation.term">
                 </div>
                 <div class="d-flex align-items-center mb-3">
                   <label for="salesperson" class="form-label me-5 fw-semibold">Cupón de descuento:</label>
@@ -154,7 +155,7 @@
                   </div>
                   <div class="d-flex justify-content-between mb-2">
                     <span class="w-px-100">Descuento:</span>
-                    <span class="fw-semibold">S./ {{ discount }}</span>
+                    <span class="fw-semibold">S./ {{ quotation.discount }}</span>
                   </div>
                   <hr>
                   <div class="d-flex justify-content-between">
@@ -169,7 +170,7 @@
               <div class="col-12">
                 <div class="mb-3">
                   <label for="note" class="form-label fw-semibold">Nota:</label>
-                  <textarea class="form-control" rows="2" id="note"></textarea>
+                  <textarea class="form-control" rows="2" id="note" v-model="quotation.note"></textarea>
                 </div>
               </div>
             </div>
@@ -194,7 +195,7 @@
               <span class="d-flex align-items-center justify-content-center text-nowrap"><i
                   class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
             </button>
-            <router-link v-if="idQuotation != 0" :to="{ name: 'quotation-file', params: { id: idQuotation } }"
+            <router-link v-if="quotation.id != 0" :to="{ name: 'quotation-file', params: { id: quotation.id } }"
               target="_blank" class="btn btn-primary d-grid w-100 mb-3" disabled>
               <span class="d-flex align-items-center justify-content-center text-nowrap">
                 <i class="bx bx-file bx-xs me-1"></i>Cotización
@@ -219,6 +220,7 @@ import ProductModal from './ProductModal.vue'
 import { userStore } from '../../../stores/UserStore'
 import Detail from './Detail.vue'
 import Payments from './Payments.vue'
+import axios from 'axios'
 
 export default {
   setup() {
@@ -230,115 +232,39 @@ export default {
   components: { calcModal, InsertDetail, CustomerCard, DateCard, SearchProduct, ProductModal, Detail, Payments },
   data() {
     return {
-      typeDocument: 1,
-      customer: {},
-      date: '',
-      dateValidate: '',
-      newProductsByType: [],
-      newProductsByName: [],
+      quotation: {
+        id: 0,
+        customer_id: 0,
+        date: '',
+        amount: 0,
+        term: '',
+        expiration_date: '',
+        discount: 0,
+        note: ''
+      },
+      customer: {
+        name: '',
+        cell: '',
+        university: '',
+        career: '',
+        status: 0,
+        email: '',
+        needs: ''
+      },
       details: [],
-      newProduct: {},
       discount: 0,
-      note: '',
-      idQuotation: 0,
-      idContract: 0,
-      fixed_products: [],
-      selected_product: {},
       newProducts: [],
-      term: '',
-      mode: 0,
-      level: 0,
-      search: '',
       coupon: '',
-      recentsCode: [],
-      fees: [],
-      dni: '',
-      address: '',
-      finalDelivery: '',
-      observations: ''
+      recentsCode: []
     }
   },
   methods: {
-    saveDni() {
-      const fd = new FormData()
-      fd.append('id_customer', this.customer.id)
-      fd.append('dni', this.dni)
-      fd.append('address', this.address)
-      axios.post('/api/updateDniCustomer', fd)
-        .then((res) => {
-          this.getUser()
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    },
-    autoDiscount() {
-      this.$swal('Nop')
-      /* var codeFound = this.recentsCode.find(code => code.code == this.coupon)
-
-      if (codeFound && this.discount == 0) {
-        this.$swal('Se ha desbloqueado el descuento')
-        this.discount = ((this.totalProducts * codeFound.percent) / 100).toFixed(2)
-      } else {
-        this.$swal('Codigo incorrecto o duplicado')
-        this.discount = 0
-      } */
-    },
-    redirect() {
-      /*   if(){
-          this.$router.push({name:'home-contracts', params:{ idUser: this.customer.id }})
-        }else{
-          this.$router.push({name:'home-orders', params:{ idUser: this.customer.id }})
-        } */
-
-    },
-    addFee(fees) {
-      this.fees = []
-      this.fees = fees
-    },
-    addPrice(detail, newProduct) {
-      if (detail.mode == 2) {
-        alert('nani')
-      } else {
-        detail.price = newProduct.newPriceSelected.price
-        detail.new_product.name = newProduct.name
-        detail.new_product_id = newProduct.id
-        this.newProductsByName = []
-      }
-    },
-    addDetail() {
-      this.details.push({ type: 1, level: '', title: '', mode: '', price: '', new_product: { name: '' }, new_product_id: '' })
-    },
-    selectMode(e) {
-      this.newProductsByType = this.newProducts.filter(product => product.type == e.target.value)
-      console.log(this.newProductsByType)
-    },
-    searchNewProduct(e) {
-
-      if (e.target.value != '') {
-        this.newProductsByName = this.newProductsByType.filter(product => product.name.toLowerCase().includes(e.target.value))
-        this.newProductsByName.forEach((product) => {
-          product.newPriceSelected = product.newprices.find(price => price.level == this.level)
-        })
-      } else {
-        this.newProductsByName = []
-      }
-    },
     getUser() {
       axios.get('/api/getCustomer/' + this.$route.params.idUser)
         .then((res) => {
           this.customer = res.data
           if (this.customer.quotations[0]) {
-            this.idQuotation = this.customer.quotations[0].id
-            if (this.customer.quotations[0].contract != null) {
-              this.idContract = this.customer.quotations[0].contract
-              this.fees = this.customer.quotations[0].contract.fees
-            }
-            this.discount = this.customer.quotations[0].discount
-            this.date = this.customer.quotations[0].date
-            this.dateValidate = this.customer.quotations[0].expiration_date
-            this.term = this.customer.quotations[0].term
-            this.note = this.customer.quotations[0].note
+            this.quotation = this.customer.quotations[0]
             this.customer.quotations[0].details.forEach(detail => {
               this.details.push(detail)
             })
@@ -347,6 +273,25 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    autoDiscount() {
+
+      axios.get('/api/promotions/')
+
+      var codeFound = this.recentsCode.find(code => code.code == this.coupon)
+      if (codeFound && codeFound.percent == 0 && this.quotation.discount == 0) {
+        this.$swal('Se ha desbloqueado el descuento por cantidad')
+        this.quotation.discount = ((this.totalProducts - codeFound.quantity) / 100).toFixed(2)
+      } else if (codeFound && codeFound.quantity == 0 && this.quotation.discount == 0) {
+        this.$swal('Se ha desbloqueado el descuento por porcentaje')
+        this.quotation.discount = ((this.totalProducts * codeFound.percent) / 100).toFixed(2)
+      } else {
+        this.$swal('Codigo incorrecto o duplicado')
+        this.quotation.discount = 0
+      }
+    },
+    addDetail() {
+      this.details.push({ type: 1, level: '', title: '', mode: '', price: '', new_product: { name: '' }, new_product_id: '' })
     },
     getAllNewProducts() {
       axios.get('/api/getAllNewProducts')
@@ -357,43 +302,31 @@ export default {
           console.error(err)
         })
     },
-    filterNewProducts(type) {
-      console.log('modo', type)
-      this.newProductsByType = this.newProducts.filter(product => product.type == type)
-    },
-    callProductModal(newProduct) {
-      this.newProduct = newProduct
-      $('#productModal').modal('show')
-    },
     removeSuggestedCart(index) {
       this.details.splice(index, 1)
     },
-    generateFees(fees) {
-      this.fees = fees
-    },
     insertQuotation() {
-      if (this.typeDocument == 1) {
-        if (this.customer.quotations[0]) {
-          this.updateQuotation(this.customer.quotations[0].id)
-        } else {
-          this.createQuotation()
-        }
+      if (this.customer.quotations[0]) {
+        this.updateQuotation(this.customer.quotations[0].id)
+      } else {
+        this.createQuotation()
       }
     },
     updateQuotation(quotationId) {
-      if (this.discount == null) {
-        this.discount = 0.0
+      if (this.quotation.discount == null) {
+        this.quotation.discount = 0.0
       }
       const fd = new FormData()
 
       fd.append('quotation_id', quotationId)
-      fd.append('date', this.date)
-      fd.append('expirationDay', this.dateValidate)
-      fd.append('amount', this.totalProducts - this.discount)
-      fd.append('discount', this.discount)
-      fd.append('term', this.term)
+      fd.append('date', this.quotation.date)
+      fd.append('expirationDay', this.quotation.expiration_date)
+      fd.append('amount', this.totalProducts - this.quotation.discount)
+      fd.append('discount', this.quotation.discount)
+      fd.append('term', this.quotation.term)
       fd.append('products', JSON.stringify(this.details))
       fd.append('emisor_id', this.store.authUser.id)
+      fd.append('coupon', this.coupon)
 
       axios.post('/api/updateQuotation', fd)
         .then((res) => {
@@ -401,58 +334,38 @@ export default {
           this.idQuotation = res.data.id
         })
         .catch((err) => {
+          console.log(err);
+          this.$swal(err.response.data)
           console.log(err)
         })
     },
     createQuotation() {
-      if (this.date == '' || this.dateValidate == '') {
-        this.$swal('Porfavor no deje en blanco los campos de fecha y fecha de validez')
+      if (this.quotation.date == '' || this.quotation.expiration_date == '' || this.quotation.term == '') {
+        this.$swal('Porfavor no deje en blanco los campos de fecha, tiempo de ejecución y fecha de validez')
       } else {
         const fd = new FormData()
 
         fd.append('user_id', this.store.authUser.id)
         fd.append('customer_id', this.customer.id)
-        fd.append('date', this.date)
-        fd.append('expirationDay', this.dateValidate)
-        fd.append('amount', (this.totalProducts - this.discount).toFixed(2))
-        fd.append('discount', this.discount)
-        fd.append('term', this.term)
+        fd.append('date', this.quotation.date)
+        fd.append('expirationDay', this.quotation.expiration_date)
+        fd.append('amount', (this.totalProducts - this.quotation.discount).toFixed(2))
+        fd.append('discount', this.quotation.discount)
+        fd.append('term', this.quotation.term)
         fd.append('products', JSON.stringify(this.details))
         fd.append('emisor_id', this.store.authUser.id)
+        fd.append('coupon', this.coupon)
 
         axios.post('/api/quotations', fd)
           .then((res) => {
             this.$swal('Cotización insertada correctamente')
-            this.idQuotation = res.data.id
+            this.quotation.id = res.data.id
           })
           .catch((err) => {
+            this.$swal(err.response.data)
             console.log(err)
           })
       }
-    },
-    addCartModal(product) {
-      this.car_products.push(JSON.stringify(product))
-      this.filtered_products = []
-      this.searchProduct = ''
-    },
-    addSugestCartModal(product) {
-      this.carSugestedProducts.push(JSON.stringify(product))
-      this.filtered_products_sugested = []
-      this.searchSugestedProduct = ''
-    },
-    getNewProducts() {
-      axios.get('/api/getNewProductsById/' + this.$route.params.idUser)
-        .then((res) => {
-          this.details = res.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    insertCarProducts(newProduct) {
-      console.log(newProduct)
-      var newProd = { 'id': newProduct.id, 'name': newProduct.name, 'type': newProduct.typeDetail, 'price': newProduct.priceFinal, 'new_product_id': newProduct.id, 'level': newProduct.level }
-      this.details.push(newProd)
     },
     getAllPromotionCodes() {
       axios.get('/api/getAllPromotionsCode')
@@ -471,7 +384,7 @@ export default {
   },
   computed: {
     finalPrice() {
-      return (this.totalProducts - this.discount).toFixed(2)
+      return (this.totalProducts - this.quotation.discount).toFixed(2)
     },
     totalProducts() {
       var total = 0
@@ -482,19 +395,6 @@ export default {
 
       })
       return (total).toFixed(2)
-    },
-    ableToPayments() {
-      var detailFound = this.details.find(detail => detail.mode == 2)
-
-      if (detailFound) {
-        if (this.typeDocument == 2 || this.typeDocument == 3) {
-          return true
-        } else {
-          return false
-        }
-      } else {
-        return false
-      }
     }
   }
 }

@@ -1,5 +1,5 @@
 on:
-  pull_request:
+  push:
     branches:
       - dev
 name: 🚀 Deploy website on pull request jairpl.com
@@ -14,7 +14,7 @@ jobs:
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          server: www.jairpl.com
+          server: www.inbestiga.com
           username: ${{ secrets.ftp_jairpl_username }}
           password: ${{ secrets.ftp_jairpl_password }}
-          server-dir: /test
+          server-dir: /sistema.inbestiga.com/

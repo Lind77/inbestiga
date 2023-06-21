@@ -93,7 +93,8 @@ import HomeCalendly from '../components/experience/calendly/Home.vue'
 import HomeProfiles from '../components/experience/profiles/Home.vue'
 //Area de Experiencia - Deliveries
 import HomeDeliveries from '../components/experience/deliveries/Home.vue'
-
+//Area de Experiencia - Comunications
+import HomeComunications from '../components/experience/comunication/Home.vue'
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
 
@@ -197,13 +198,15 @@ export const routes = [
                 name: 'home-client'
             },
             {
-                path: 'prelead',
+                path: 'prelead/:userId?',
+                props:true,
                 component: HomePreLead,
                 name: 'home-pre-lead'
             },
             {
-                path: 'funnels',
+                path: 'funnels/:userId?',
                 component: HomeFunnel,
+                props:true,
                 name: 'home-funnel'
             },
             {
@@ -308,6 +311,11 @@ export const routes = [
                 path: 'deliveries',
                 component: HomeDeliveries,
                 name: 'home-deliveries'
+            },
+            {
+                path: 'comunications',
+                component: HomeComunications,
+                name: 'experience-comunications'
             }
         ]
     },
