@@ -129,48 +129,48 @@
 </template>
 <script>
 import { userStore } from '../../stores/UserStore'
-export default {  
-    data(){
-        return{
-            email: '',
-            password: '',
-            device_name:'browser',
-            errors:{}
-        }
-    },
-    setup(){
-      const store = userStore()
-      return { store }
-    },
-    methods:{
-        login(){
-          this.$swal({
-          title: 'Cargando ...',
-          allowOutsideClick: false,
-          showConfirmButton: false
-          })
-            const fd = new FormData()
-            fd.append('email', this.email)
-            fd.append('password', this.password)
-            fd.append('device_name', this.device_name)
-
-           axios.post('/api/login', fd)
-            .then(res =>{
-                this.store.setUser(res.data.user)
-                localStorage.setItem('token',res.data.token)
-                this.$router.push({path:`${res.data.memoir.area}/home`})
-                this.$swal().close()
-            }).catch((err) => {
-                this.$swal({
-                  icon: 'error',
-                  title: 'Credenciales incorrectas'
-                })
-                console.error(err)
-                if(err.response){
-                  this.errors = err.response.data.errors
-                }
-            });
-        }
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+      device_name: 'browser',
+      errors: {}
     }
+  },
+  setup() {
+    const store = userStore()
+    return { store }
+  },
+  methods: {
+    login() {
+      this.$swal({
+        title: 'Cargando ...',
+        allowOutsideClick: false,
+        showConfirmButton: false
+      })
+      const fd = new FormData()
+      fd.append('email', this.email)
+      fd.append('password', this.password)
+      fd.append('device_name', this.device_name)
+
+      axios.post('/api/login', fd)
+        .then(res => {
+          this.store.setUser(res.data.user)
+          localStorage.setItem('token', res.data.token)
+          this.$router.push({ path: `${res.data.area.name}/home` })
+          this.$swal().close()
+        }).catch((err) => {
+          this.$swal({
+            icon: 'error',
+            title: 'Credenciales incorrectas'
+          })
+          console.error(err)
+          if (err.response) {
+            this.errors = err.response.data.errors
+          }
+        });
+    }
+  }
 }
 </script>
