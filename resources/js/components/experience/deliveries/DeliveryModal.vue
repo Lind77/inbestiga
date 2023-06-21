@@ -146,6 +146,7 @@ export default {
         },
         searchContract() {
             this.results = []
+            this.noResults = false
             axios.get('/api/contract/' + this.name)
                 .then((result) => {
                     this.contracts = result.data.contracts;
