@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->unsignedBigInteger('area_id')->nullable();
-            $table->foreign('area_id')->references('id')->on('areas')->onDelete('set null');
+            $table->unsignedBigInteger('subarea_id')->nullable();
+            $table->foreign('subarea_id')->references('id')->on('subareas')->onDelete('set null');
             $table->unsignedBigInteger('team_id')->nullable();
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('set null');
             $table->rememberToken();

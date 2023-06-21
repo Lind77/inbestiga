@@ -10,8 +10,8 @@ class Area extends Model
     use HasFactory;
     protected $fillable = ['name'];
 
-      //Realcion uno a muchos Area-User
-      public function users(){
-        return $this->hasMany('App\Models\User');
+      //Realcion uno a muchos Area-Subarea
+      public function subareas(){
+        return $this->hasMany('App\Models\Subarea');
         }
 }
