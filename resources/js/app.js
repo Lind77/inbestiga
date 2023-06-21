@@ -32,7 +32,7 @@ function loggedIn(){
 
 //Set the router
 const router = createRouter({
-    history: createWebHistory('inbestiga'),
+    history: createWebHistory(import.meta.env.VITE_ROOT_VUE),
     routes,
     linkActiveClass: 'active'
 })
