@@ -13,16 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('quotations', function (Blueprint $table) {
+        Schema::create('comunications', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-            $table->date('date')->nullable();
-            $table->double('amount')->nullable();
-            $table->text('term')->nullable();
-            $table->date('expiration_date')->nullable();
-            $table->double('discount')->nullable();
-            $table->text('note')->nullable();
+            $table->date('first_management')->nullable();
+            $table->date('last_management')->nullable();
+            $table->date('next_management')->nullable();
+            $table->text('comment')->nullable();
+            $table->text('product_tentative')->nullable();
+            $table->tinyInteger('type')->nullable();
+            $table->tinyInteger('attended')->nullable();
+            $table->time('time')->nullable();
             $table->timestamps();
         });
     }
@@ -34,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quotations');
+        Schema::dropIfExists('comunications');
     }
 };

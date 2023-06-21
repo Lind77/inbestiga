@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('addendums', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('addendumable_id');
-            $table->string('addendumable_type');
-            $table->double('amount')->nullable();
+            $table->unsignedBigInteger('paymentable_id');
+            $table->string('paymentable_type');
             $table->date('date')->nullable();
-            $table->text('content')->nullable();
+            $table->double('amount')->nullable();
+            $table->text('advance')->nullable();
+            $table->text('percentage')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('addendums');
+        Schema::dropIfExists('payments');
     }
 };

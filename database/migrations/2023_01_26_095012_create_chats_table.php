@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('emisor_id');
+            $table->unsignedBigInteger('emisor_id')->nullable();;
             $table->foreign('emisor_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('receptor_id');
+            $table->unsignedBigInteger('receptor_id')->nullable();;
             $table->foreign('receptor_id')->references('id')->on('users')->onDelete('cascade');
             $table->text('message');
             $table->tinyInteger('viewed')->nullable();

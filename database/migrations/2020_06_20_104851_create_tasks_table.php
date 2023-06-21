@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('addendums', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('addendumable_id');
-            $table->string('addendumable_type');
-            $table->double('amount')->nullable();
-            $table->date('date')->nullable();
-            $table->text('content')->nullable();
+            $table->unsignedBigInteger('activity_id')->nullable();
+            $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
+            $table->string('title', 255);
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('addendums');
+        Schema::dropIfExists('tasks');
     }
 };

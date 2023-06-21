@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('addendums', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('addendumable_id');
-            $table->string('addendumable_type');
-            $table->double('amount')->nullable();
-            $table->date('date')->nullable();
-            $table->text('content')->nullable();
+            $table->unsignedBigInteger('quotation_id')->nullable();
+            $table->foreign('quotation_id')->references('id')->on('quotations')->onDelete('cascade');
+            $table->text('final_delivery')->nullable();
+            $table->text('observations')->nullable();
+            $table->tinyInteger('suggested')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('addendums');
+        Schema::dropIfExists('orders');
     }
 };
