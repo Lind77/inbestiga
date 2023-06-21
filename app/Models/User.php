@@ -48,9 +48,9 @@ class User extends Authenticatable
     public function team(){
         return $this->belongsTo('App\Models\Team');
     }
-    //Realcion inversa uno a mucho Area-User
-    public function area(){
-        return $this->belongsTo('App\Models\Area');
+    //Realcion inversa uno a mucho Subarea-User
+    public function subarea(){
+        return $this->belongsTo('App\Models\Subarea');
     }
     //realcion muchos a muchos user-notifications
     public function notifications(){
