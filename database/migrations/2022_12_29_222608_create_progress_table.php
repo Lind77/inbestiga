@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('progressable_id');
             $table->string('progressable_type');
-            $table->string('owner',255)->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->double('percentage')->default(0.0);
             $table->timestamp('start_time')->useCurrent();
             $table->timestamp('end_time')->useCurrent();

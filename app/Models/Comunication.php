@@ -9,8 +9,9 @@ class Comunication extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['customer_id', 'first_management', 'last_management', 'next_management', 'comment', 'product_tentative', 'type','time','atended'];
+    protected $fillable = ['customer_id', 'first_management', 'last_management', 'next_management', 'comment', 'product_tentative', 'type','time','attended'];
 
+   //Relacion inversa uno a muchos Customer-comunications
     public function customer(){
         return $this->belongsTo("App\Models\Customer");
     }
