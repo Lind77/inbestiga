@@ -110,7 +110,7 @@ Route::put('/customers/next-comunication/{id}', [CustomerController::class, 'upd
 Route::get('/customers/search-by-date/{date}', [CustomerController::class, 'searchCustomersByDate']);
 Route::get('/customer-by-id/{id}', [CustomerController::class, 'searchCustomersById']);
 //Preleads
-Route::get('/getAllPreleads', [CustomerController::class, 'getAllPreleads']);
+Route::get('/preleads', [CustomerController::class, 'getAllPreleads']);
 Route::get('/searchPreleads/{search}', [CustomerController::class, 'searchPreleads']);
 
 Route::get('/quotations', [QuotationController::class, 'index']);
@@ -138,7 +138,7 @@ Route::get('/reactivateCustomer/{id}', [CustomerController::class, 'reactivateCu
 Route::post('/updateDniCustomer', [CustomerController::class, 'updateDniCustomer']);
 
 
-Route::get('/getAllLeads/{id}', [CustomerController::class, 'getAllLeads']);
+Route::get('/leads', [CustomerController::class, 'getAllLeads']);
 Route::post('/assignOwner', [CustomerController::class, 'assignOwner']);
 
 

@@ -71,7 +71,7 @@ class UserController extends Controller
 
     public function getSellers()
     {
-        $memoirs = Memoir::where('area', 'sales')->with('user')->get();
-        return response()->json($memoirs);
+        $users = User::where('subarea_id', 2)->get();
+        return response()->json($users);
     }
 }
