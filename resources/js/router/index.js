@@ -81,6 +81,7 @@ import HomeComissions from '../components/admin/comissions/Home.vue'
 import UsersAdmin from '../components/admin/Users.vue'
 import RolesAdmin from '../components/admin/Roles.vue'
 import AreasAdmin from '../components/admin/areas/Areas.vue'
+import SubareasAdmin from '../components/admin/subareas/Home.vue'
 
 import RealTime from '../components/admin/chat/Chat.vue'
 
@@ -268,6 +269,11 @@ export const routes = [
                 path: 'areas-admin',
                 component:  AreasAdmin,
                 name: 'areas-admin'
+            },
+            {
+                path: 'subareas-admin',
+                component: SubareasAdmin,
+                name: 'subareas-admin'
             },
             {
                 path: 'roles-admin',
