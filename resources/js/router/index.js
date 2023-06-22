@@ -78,8 +78,8 @@ import PromosAdmin from '../components/admin/promos/Home.vue'
 
 import HomeComissions from '../components/admin/comissions/Home.vue'
 
-import UsersAdmin from '../components/admin/Users.vue'
-import RolesAdmin from '../components/admin/Roles.vue'
+import UsersAdmin from '../components/admin/users/Users.vue'
+import RolesAdmin from '../components/admin/roles/Roles.vue'
 import AreasAdmin from '../components/admin/areas/Areas.vue'
 import SubareasAdmin from '../components/admin/subareas/Home.vue'
 
