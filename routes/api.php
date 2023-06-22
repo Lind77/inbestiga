@@ -24,6 +24,7 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SeenController;
+use App\Http\Controllers\SubareaController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TimeController;
@@ -68,6 +69,9 @@ Route::get('/areas/{id}', [AreaController::class, 'show']);
 Route::post('/areas', [AreaController::class, 'store']);
 Route::delete('/areas/{id}', [AreaController::class, 'destroy']);
 
+Route::get('/subareas', [SubareaController::class, 'index']);
+Route::post('/subareas', [SubareaController::class, 'store']);
+Route::delete('/subareas/{id}', [SubareaController::class, 'destroy']);
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{id}', [UserController::class, 'show']);

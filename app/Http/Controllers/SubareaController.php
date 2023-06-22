@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Subarea;
 use Illuminate\Http\Request;
 
 class SubareaController extends Controller
@@ -13,7 +14,8 @@ class SubareaController extends Controller
      */
     public function index()
     {
-        //
+        $subareas = Subarea::with(['area', 'roles'])->get();
+        return response()->json($subareas);
     }
 
     /**
@@ -34,7 +36,10 @@ class SubareaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $subarea = Subarea::create($request->all());
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     /**
@@ -79,6 +84,10 @@ class SubareaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $subarea = Subarea::find($id);
+        $subarea->delete();
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }
