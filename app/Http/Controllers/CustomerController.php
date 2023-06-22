@@ -26,7 +26,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with(['project', 'project.product', 'comunications', 'quotations', 'quotations.order'])->orderBy('updated_at', 'desc')->take(10)->get();
+        $customers = Customer::with(['comunications', 'quotations', 'quotations.order'])->orderBy('updated_at', 'desc')->take(10)->get();
         return response()->json($customers);
     }
 
@@ -58,7 +58,15 @@ class CustomerController extends Controller
         $time = strtotime($request->get('next_management'));
         $date = date('Y-m-d', $time);
         $hour = date('H:i:s', $time);
-        $customer = Customer::create($request->all());
+
+        $customer = Customer::create([
+            'name' => $request->get('name'),
+            'cell' => $request->get('cell'),
+            'email' => $request->get('email'),
+            'university' => $request->get('university'),
+            'career' => $request->get('career'),
+            'status' => $request->get('status')
+        ]);
 
         if ($request->get('referedFrom') != 0) {
             $origin = Origin::create([
@@ -84,6 +92,7 @@ class CustomerController extends Controller
         } else {
             $nameReferal = $referal->name;
         }
+
 
         $comission = Comission::create([
             'customer_id' => $customer->id,
@@ -161,60 +170,70 @@ class CustomerController extends Controller
     public function updateCustomerGrade(Request $request)
     {
 
-
-
+        $status = $request->get('status');
         $customer = Customer::find($request->get('customer_id'));
-        $user = User::find($request->get('user_id'));
 
-        $comissionData = [
-            'customer_id' => $customer->id,
-            'referal' => $user->name,
-            'user_id' => $request->get('user_id')
-        ];
+        if ($status < 3) {
+            $customer->update([
+                'status' => $request->get('status')
+            ]);
+        } else if ($status >= 3) {
+            $customer->update([
+                'status' => $request->get('status')
+            ]);
 
-        switch ($request->get('status')) {
-            case 3:
-                $comissionData['concept'] = 'Obtención de datos';
-                $comissionData['percent'] = 2;
-                break;
-            case 4:
-                $comissionData['concept'] = 'Obtención de necesidades específicas';
-                $comissionData['percent'] = 8;
-                break;
-            case 5:
-                $comissionData['concept'] = 'Cotización';
-                $comissionData['percent'] = 5;
-                break;
-            case 6:
-                $comissionData['concept'] = 'Explicación de la cotización';
-                $comissionData['percent'] = 5;
-                break;
-            case 7:
-                $comissionData['concept'] = 'Explicación de la experiencia';
-                $comissionData['percent'] = 15;
-                break;
-            case 8:
-                $comissionData['concept'] = 'Seguimientos';
-                $comissionData['percent'] = 15;
-                break;
-            case 9:
-                $comissionData['concept'] = 'Cierre no pagado';
-                $comissionData['percent'] = 15;
-                break;
-            case 10:
-                $comissionData['concept'] = 'Seguimiento de cierre';
-                $comissionData['percent'] = 10;
-                break;
-            case 11:
-                $comissionData['concept'] = 'Gestión Documental';
-                $comissionData['percent'] = 2;
-                break;
-        }
+            $user = User::find($request->get('user_id'));
 
-        $comission = Comission::where('customer_id', $request->get('customer_id'))->where('user_id', $request->get('user_id'))->where('concept', $comissionData['concept'])->first();
+            $comissionData = [
+                'customer_id' => $customer->id,
+                'referal' => $user->name,
+                'user_id' => $request->get('user_id')
+            ];
 
-        if ($request->get('status') >= 3 && $comission) {
-            $newComission = Comission::create($comissionData);
+            switch ($request->get('status')) {
+                case 3:
+                    $comissionData['concept'] = 'Obtención de datos';
+                    $comissionData['percent'] = 2;
+                    break;
+                case 4:
+                    $comissionData['concept'] = 'Obtención de necesidades específicas';
+                    $comissionData['percent'] = 8;
+                    break;
+                case 5:
+                    $comissionData['concept'] = 'Cotización';
+                    $comissionData['percent'] = 5;
+                    break;
+                case 6:
+                    $comissionData['concept'] = 'Explicación de la cotización';
+                    $comissionData['percent'] = 5;
+                    break;
+                case 7:
+                    $comissionData['concept'] = 'Explicación de la experiencia';
+                    $comissionData['percent'] = 15;
+                    break;
+                case 8:
+                    $comissionData['concept'] = 'Seguimientos';
+                    $comissionData['percent'] = 15;
+                    break;
+                case 9:
+                    $comissionData['concept'] = 'Cierre no pagado';
+                    $comissionData['percent'] = 15;
+                    break;
+                case 10:
+                    $comissionData['concept'] = 'Seguimiento de cierre';
+                    $comissionData['percent'] = 10;
+                    break;
+                case 11:
+                    $comissionData['concept'] = 'Gestión Documental';
+                    $comissionData['percent'] = 2;
+                    break;
+            }
+
+            $comission = Comission::where('customer_id', $request->get('customer_id'))->where('user_id', $request->get('user_id'))->where('concept', $comissionData['concept'])->first();
+
+            if (!$comission) {
+                $newComission = Comission::create($comissionData);
+            }
         }
 
         $oldStatus = intval($request->get('status')) - 1;
@@ -278,7 +297,7 @@ class CustomerController extends Controller
         $totalCustomers = collect();
 
         for ($i = 1; $i <= 3; $i++) {
-            $customers = Customer::with(['project', 'project.product', 'comunications' => function ($query) {
+            $customers = Customer::with(['comunications' => function ($query) {
                 $query->orderBy('id', 'desc')->first();
             }, 'quotations', 'quotations.order', 'user'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
 
@@ -288,13 +307,13 @@ class CustomerController extends Controller
         return response()->json($totalCustomers);
     }
 
-    public function getAllLeads($id)
+    public function getAllLeads()
     {
 
         $totalCustomers = collect();
 
         for ($i = 4; $i <= 11; $i++) {
-            $customers = Customer::with(['origin', 'user', 'project', 'project.product', 'comunications' => function ($query) {
+            $customers = Customer::with(['origin', 'user', 'comunications' => function ($query) {
                 $query->latest('id');
             }, 'quotations' => function ($secondQuery) {
                 $secondQuery->latest('id');

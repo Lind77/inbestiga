@@ -4,8 +4,7 @@
         @click="openCustomerModal(1)">+</span></h4>
     <div class="row">
       <div class="col-xl-12 col-lg-12">
-        <div class="card">
-          <h5 class="card-header">Base de datos</h5>
+        <div class="card pt-2">
           <div class="row ms-2">
             <input type="text" name="" id="" placeholder="Buscar..." class="form-control w-50 py-2"
               @keyup.enter="searchCustomer" @keyup="cleanSearch" v-model="search">
