@@ -39,4 +39,9 @@ class Project extends Model
     public function quality_indicators(){
         return $this->morphToMany('App\Models\Quality_indicator','quality_indicable');
     }
+    //Relacion morfeable uno a muchos project,deliveris,assigned_activities,assigned_task)
+     public function observations(){
+        return $this->morphMany('App\Models\Observation','observable');
+    }
+
 }
