@@ -3,7 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\Area;
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ComissionController;
 use App\Http\Controllers\ComunicationController;
 use App\Http\Controllers\ContractController;
@@ -63,7 +63,7 @@ Route::get('/roles', [RoleController::class, 'index']);
 Route::post('/roles', [RoleController::class, 'store']);
 
 // administracion de area y subarea
-Route::get('/areas',[AreaController::class,'index']);
+Route::get('/areas', [AreaController::class, 'index']);
 Route::get('/areas/{id}', [AreaController::class, 'show']);
 Route::post('/areas', [AreaController::class, 'store']);
 Route::delete('/areas/{id}', [AreaController::class, 'destroy']);
