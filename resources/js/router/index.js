@@ -79,8 +79,8 @@ import PromosAdmin from '../components/admin/promos/Home.vue'
 import HomeComissions from '../components/admin/comissions/Home.vue'
 
 import UsersAdmin from '../components/admin/Users.vue'
-import AreasAdmin from '../components/admin/Areas.vue'
 import RolesAdmin from '../components/admin/Roles.vue'
+import AreasAdmin from '../components/admin/areas/Areas.vue'
 
 import RealTime from '../components/admin/chat/Chat.vue'
 

@@ -36,7 +36,12 @@ class AreaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $area = Area::create([
+            'name' => $request->get('name')
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     /**
