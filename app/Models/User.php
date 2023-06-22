@@ -19,7 +19,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name','email','password','area_id','team_id'];
+    protected $fillable = ['name', 'email', 'password', 'subarea_id', 'team_id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -43,33 +43,40 @@ class User extends Authenticatable
 
 
 
-    
+
     //Realcion inversa uno a mucho Team-User
-    public function team(){
+    public function team()
+    {
         return $this->belongsTo('App\Models\Team');
     }
     //Realcion inversa uno a mucho Subarea-User
-    public function subarea(){
+    public function subarea()
+    {
         return $this->belongsTo('App\Models\Subarea');
     }
     //realcion muchos a muchos user-notifications
-    public function notifications(){
-        return $this->belongsToMany('App\Models\Notification','seens');
+    public function notifications()
+    {
+        return $this->belongsToMany('App\Models\Notification', 'seens');
     }
     //relacion uno a muchos user-comissions
-    public function comissions(){
+    public function comissions()
+    {
         return $this->hasMany('App\Models\Comission');
     }
     //Relacion uno muchos user-Customers
-    public function customers(){
+    public function customers()
+    {
         return $this->hasMany('App\Models\Customer');
     }
-      //Relacion uno a muchos User-Project
-      public function projects(){
+    //Relacion uno a muchos User-Project
+    public function projects()
+    {
         return $this->hasMany('App\Models\Project');
-        }
+    }
     //Relacion uno a muchos UsER-Progress
-    public function progress(){
+    public function progress()
+    {
         return $this->hasMany('App\Models\Progress');
     }
 }

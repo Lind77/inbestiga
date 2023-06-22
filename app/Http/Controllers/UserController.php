@@ -33,15 +33,11 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
-            'password' => bcrypt($request->get('password'))
+            'password' => bcrypt($request->get('password')),
+            'subarea_id' => $request->get('subarea_id')
         ]);
 
         $user->assignRole($request->get('rol'));
-
-        $memoir = Memoir::create([
-            'user_id' => $user->id,
-            'area' => $request->get('area')
-        ]);
 
         return response()->json([
             'msg' => 'success'
