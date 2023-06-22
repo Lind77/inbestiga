@@ -20,7 +20,7 @@
                     <tbody class="table-border-bottom-0">
                         <tr v-for="user in users">
                             <td>{{ user.name }}</td>
-                            <td>{{ user.area.name }}</td>
+                            <td>{{ user.subarea.area.name }}</td>
                             <td>{{ user.roles[0].name }}</td>
                             <td><span v-if="user.id != 1" @click="deleteUser(user.id)"
                                     class="badge bg-label-danger me-1 cursor-pointer"><i class='bx bx-trash'></i></span>

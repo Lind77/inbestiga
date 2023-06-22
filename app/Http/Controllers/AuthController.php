@@ -29,7 +29,7 @@ class AuthController extends Controller
         return response()->json([
             'user' => $user,
             'token' =>  $user->createToken($request->device_name)->plainTextToken,
-            'area' => $user->area
+            'area' => $user->subarea->area
         ]);
     }
     public function logout(Request $request)
