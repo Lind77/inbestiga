@@ -85,6 +85,8 @@
                                     - Balotario de preguntas
                                     <br>
                                     - Simulación de sustentación
+                                    <br>
+                                    - Levantamiento de observaciones
                                 </template>
                             </th>
                             <th class="table-item fw-normal" v-if="detail.type == 1" style="white-space: pre;">
