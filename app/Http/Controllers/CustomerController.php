@@ -116,7 +116,7 @@ class CustomerController extends Controller
     public function show($id)
     {
         $customer = Customer::with(['quotations' => function ($query) {
-            $query->with(['details', 'details.new_product', 'details.new_product.newprices', 'order', 'order.payments', 'contract', 'contract.fees', 'contract.deliveries'])->orderBy('created_at', 'desc')->first();
+            $query->with(['details', 'details.product', 'order', 'order.payments', 'contract', 'contract.payments'])->orderBy('created_at', 'desc')->first();
         }])->find($id);
         return response()->json($customer);
     }

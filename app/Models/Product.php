@@ -13,16 +13,18 @@ class Product extends Model
 
 
     //Realcion uno a mucho Product-Activity
-    public function Activities(){
+    public function Activities()
+    {
         return $this->hasMany('App\Models\Activity');
     }
     //Realcion polimorficaa muchos a muchos (P-A-T-LEVELS)
-    public function levels(){
-        return $this->morphToMany('App\Models\Level','levelable');
+    public function levels()
+    {
+        return $this->morphToMany('App\Models\Level', 'levelable')->withPivot('price');
     }
     //  Relación uno  a uno product-detail
-       public function detail(){
+    public function detail()
+    {
         return $this->hasOne('App\Models\Detail');
     }
- 
 }

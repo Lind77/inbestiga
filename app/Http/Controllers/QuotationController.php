@@ -93,11 +93,10 @@ class QuotationController extends Controller
         foreach ($arrProds as $prod) {
             $detail = Detail::create([
                 'quotation_id' => $quotation->id,
-                'product_id' => 1,
+                'product_id' => $prod['product_id'],
                 'type' => $prod['type'],
                 'description' => '-',
                 'price' => $prod['price'],
-                'new_product_id' => $prod['new_product_id'],
                 'level' => $prod['level'],
                 'mode' => $prod['mode']
             ]);
@@ -202,7 +201,7 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        $quotation = Quotation::where('id', $id)->with(['customer', 'details', 'details.product', 'details.new_product', 'order'])->get();
+        $quotation = Quotation::where('id', $id)->with(['customer', 'details', 'details.product', 'order'])->get();
 
         return response()->json($quotation);
     }
@@ -258,7 +257,7 @@ class QuotationController extends Controller
 
     public function getQuotationByOrder($id)
     {
-        $order = Order::where('id', $id)->with(['quotation', 'quotation.customer', 'quotation.details', 'quotation.details.new_product', 'quotation.details.product', 'payments'])->first();
+        $order = Order::where('id', $id)->with(['quotation', 'quotation.customer', 'quotation.details', 'quotation.details.product', 'quotation.details.product', 'payments'])->first();
 
         return response()->json($order);
     }
@@ -301,11 +300,10 @@ class QuotationController extends Controller
         foreach ($products as $product) {
             $detail = Detail::create([
                 'quotation_id' => $quotation->id,
-                'product_id' => 1,
+                'product_id' => $product['product_id'],
                 'type' => $product['type'],
                 'description' => '-',
                 'price' => $product['price'],
-                'new_product_id' => $product['new_product_id'],
                 'level' => $product['level'],
                 'mode' => $product['mode']
             ]);
