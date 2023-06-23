@@ -9,17 +9,22 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'amount', 'term', 'type'];
+    protected $fillable = ['name', 'description', 'type', 'mode'];
 
-    public function fixedActivities(){
-        return $this->hasMany('App\Models\FixedActivity');
+
+    //Realcion uno a mucho Product-Activity
+    public function Activities()
+    {
+        return $this->hasMany('App\Models\Activity');
     }
-
-    public function prices(){
-        return $this->hasMany('App\Models\Price');
+    //Realcion polimorficaa muchos a muchos (P-A-T-LEVELS)
+    public function levels()
+    {
+        return $this->morphToMany('App\Models\Level', 'levelable')->withPivot('price');
     }
-
-    public function times(){
-        return $this->hasMany('App\Models\Time');
+    //  Relación uno  a uno product-detail
+    public function detail()
+    {
+        return $this->hasOne('App\Models\Detail');
     }
 }

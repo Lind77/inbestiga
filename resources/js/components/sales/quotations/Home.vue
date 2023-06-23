@@ -291,7 +291,7 @@ export default {
       }
     },
     addDetail() {
-      this.details.push({ type: 1, level: '', title: '', mode: '', price: '', new_product: { name: '' }, new_product_id: '' })
+      this.details.push({ type: 1, level: '', title: '', mode: '', price: '', product: { name: '' }, product_id: '' })
     },
     getAllNewProducts() {
       axios.get('/api/getAllNewProducts')

@@ -9,25 +9,19 @@ class Activity extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['project_id', 'title', 'type', 'fixed_activity_id', 'progress'];
+    protected $fillable = ['product_id', 'title', 'type'];
 
-    public function tasks(){
-        return $this->hasMany("App\Models\Task");
+
+    //Realcion inversa uno a mucho Product-Activity
+    public function product(){
+        return $this->belongsTo('App\Models\product');
     }
-
-    public function progresses(){
-        return $this->morphMany('App\Models\Progress', 'progressable');
+    //Realcion uno a mucho Activity-Task
+     public function tasks(){
+        return $this->hasMany('App\Models\Task');
     }
-
-    public function projects(){
-        return $this->belongsToMany("App\Models\Project");
-    }
-
-    public function products(){
-        return $this->belongsToMany("App\Models\Product");
-    }
-
-    public function fixed_activity(){
-        return $this->belongsTo("App\Models\FixedActivity");
+    //Realcion polimorficaa muchos a muchos (P-A-T-LEVELS)
+     public function levels(){
+        return $this->morphToMany('App\Models\Level','levelable');
     }
 }

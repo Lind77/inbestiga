@@ -12,40 +12,40 @@ use Spatie\Permission\Models\Role;
 class UserController extends Controller
 {
 
-    public function index(){
-        $users = User::with(['roles','memoir'])->get();
+    public function index()
+    {
+        $users = User::with(['roles', 'subarea', 'subarea.area'])->get();
         return response()->json($users);
     }
 
-    public function show($id){
-        $user = User::with(['memoir','memoir.team'])->find($id);
-        $progress = Progress::where('owner', '=', $user->name)->with(['progressable','progressable.activity'])->get();
+    public function show($id)
+    {
+        $user = User::with(['memoir', 'memoir.team'])->find($id);
+        $progress = Progress::where('owner', '=', $user->name)->with(['progressable', 'progressable.activity'])->get();
         return response()->json([
             'user' => $user,
             'progress' => $progress
         ]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
-            'password' => bcrypt($request->get('password'))
+            'password' => bcrypt($request->get('password')),
+            'subarea_id' => $request->get('subarea_id')
         ]);
 
         $user->assignRole($request->get('rol'));
 
-        $memoir = Memoir::create([
-            'user_id' => $user->id,
-            'area' => $request->get('area')
-        ]);
-        
         return response()->json([
             'msg' => 'success'
         ]);
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
 
         $user = User::find($id);
         $user->delete();
@@ -55,7 +55,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function assignTeam(Request $request){
+    public function assignTeam(Request $request)
+    {
         $user = User::find($request->get('owner_id'));
         $memoir = $user->memoir;
 
@@ -68,8 +69,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function getSellers(){
-        $memoirs = Memoir::where('area', 'sales')->with('user')->get();
-        return response()->json($memoirs);
+    public function getSellers()
+    {
+        $users = User::where('subarea_id', 2)->get();
+        return response()->json($users);
     }
 }

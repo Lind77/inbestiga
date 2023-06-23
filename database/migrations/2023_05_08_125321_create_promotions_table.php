@@ -16,6 +16,11 @@ return new class extends Migration
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
             $table->text('code');
+            $table->integer('percent')->nullable();
+            $table->double('quantity')->nullable();
+            $table->tinyInteger('able')->nullable();
+            $table->integer('discounted')->nullable();
+            $table->integer('limit')->nullable();
             $table->timestamps();
         });
     }

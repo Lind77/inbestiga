@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ComissionController;
 use App\Http\Controllers\ComunicationController;
 use App\Http\Controllers\ContractController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SeenController;
+use App\Http\Controllers\SubareaController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TimeController;
@@ -61,6 +63,16 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 Route::get('/roles', [RoleController::class, 'index']);
 Route::post('/roles', [RoleController::class, 'store']);
 
+// administracion de area y subarea
+Route::get('/areas', [AreaController::class, 'index']);
+Route::get('/areas/{id}', [AreaController::class, 'show']);
+Route::post('/areas', [AreaController::class, 'store']);
+Route::delete('/areas/{id}', [AreaController::class, 'destroy']);
+
+Route::get('/subareas', [SubareaController::class, 'index']);
+Route::post('/subareas', [SubareaController::class, 'store']);
+Route::delete('/subareas/{id}', [SubareaController::class, 'destroy']);
+
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{id}', [UserController::class, 'show']);
 Route::post('/users', [UserController::class, 'store']);
@@ -98,7 +110,7 @@ Route::put('/customers/next-comunication/{id}', [CustomerController::class, 'upd
 Route::get('/customers/search-by-date/{date}', [CustomerController::class, 'searchCustomersByDate']);
 Route::get('/customer-by-id/{id}', [CustomerController::class, 'searchCustomersById']);
 //Preleads
-Route::get('/getAllPreleads', [CustomerController::class, 'getAllPreleads']);
+Route::get('/preleads', [CustomerController::class, 'getAllPreleads']);
 Route::get('/searchPreleads/{search}', [CustomerController::class, 'searchPreleads']);
 
 Route::get('/quotations', [QuotationController::class, 'index']);
@@ -126,7 +138,7 @@ Route::get('/reactivateCustomer/{id}', [CustomerController::class, 'reactivateCu
 Route::post('/updateDniCustomer', [CustomerController::class, 'updateDniCustomer']);
 
 
-Route::get('/getAllLeads/{id}', [CustomerController::class, 'getAllLeads']);
+Route::get('/leads', [CustomerController::class, 'getAllLeads']);
 Route::post('/assignOwner', [CustomerController::class, 'assignOwner']);
 
 

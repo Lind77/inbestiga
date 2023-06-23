@@ -105,6 +105,18 @@
           <div data-i18n="Form Layouts">Usuarios</div>
         </div>
       </router-link>
+      <router-link :to="{ name: 'areas-admin' }" class="menu-item">
+        <div class="menu-link">
+          <i class="menu-icon tf-icons bx bx-user"></i>
+          <div data-i18n="Form Layouts">Areas</div>
+        </div>
+      </router-link>
+      <router-link :to="{ name: 'subareas-admin' }" class="menu-item">
+        <div class="menu-link">
+          <i class="menu-icon tf-icons bx bx-user"></i>
+          <div data-i18n="Form Layouts">Sub-Areas</div>
+        </div>
+      </router-link>
       <router-link :to="{ name: 'roles-admin' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-user"></i>
