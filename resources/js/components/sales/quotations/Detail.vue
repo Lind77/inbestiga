@@ -40,8 +40,8 @@
                 </div>
                 <div class="col-md-4 col-12 mb-md-0 mb-3">
                     <p class="mb-2 repeater-title">Detalle</p>
-                    <input v-if="detail.new_product != null" type="text" class="form-control" @keyup="searchNewProduct"
-                        v-model="detail.new_product.name">
+                    <input v-if="detail.product != null" type="text" class="form-control" @keyup="searchNewProduct"
+                        v-model="detail.product.name">
 
                     <input v-else type="text" class="form-control" @keyup="searchNewProduct">
                     <ul class="list-group">
@@ -49,7 +49,7 @@
                             class="list-group-item d-flex justify-content-between align-items-center cursor-pointer"
                             v-for="newProductByName in newProductsByName">
                             {{ newProductByName.name }}
-                            <span class="badge bg-primary">S./ {{ newProductByName.newPriceSelected.price }}</span>
+                            <span class="badge bg-primary">S./ {{ newProductByName.newPriceSelected.pivot.price }}</span>
                         </li>
                     </ul>
                 </div>
@@ -99,7 +99,7 @@ export default {
             carNewProduct: {
                 mode: '',
                 level: '',
-                new_product: {
+                product: {
                     name: ''
                 },
                 price: ''
@@ -130,7 +130,7 @@ export default {
             if (e.target.value != '') {
                 this.newProductsByName = this.newProductsByType.filter(product => product.name.toLowerCase().includes(e.target.value))
                 this.newProductsByName.forEach((product) => {
-                    product.newPriceSelected = product.newprices.find(price => price.level == this.detail.level)
+                    product.newPriceSelected = product.levels.find(level => level.name == this.detail.level)
                 })
             } else {
                 this.newProductsByName = []
@@ -138,13 +138,14 @@ export default {
         },
         addPrice(newProductByName) {
             console.log(newProductByName)
-            this.detail.price = newProductByName.newPriceSelected.price
-            this.initialPrice = newProductByName.newPriceSelected.price
+            console.log(this.detail);
+            this.detail.price = newProductByName.newPriceSelected.pivot.price
+            this.initialPrice = newProductByName.newPriceSelected.pivot.price
             if (this.detail.new_product == null) {
                 this.detail.new_product = {}
             }
-            this.detail.new_product.name = newProductByName.name
-            this.detail.new_product_id = newProductByName.id
+            this.detail.product.name = newProductByName.name
+            this.detail.product_id = newProductByName.id
             this.detail.modeProduct = newProductByName.mode
             this.detail.type = 1
             this.newProductsByName = []
