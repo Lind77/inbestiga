@@ -158,11 +158,10 @@ class OrderController extends Controller
         foreach ($arrProds as $prod) {
             $detail = Detail::create([
                 'quotation_id' => $order->quotation->id,
-                'product_id' => 1,
+                'product_id' => $prod['product_id'],
                 'type' => $prod['type'],
                 'description' => '-',
                 'price' => $prod['price'],
-                'new_product_id' => $prod['new_product_id'],
                 'level' => $prod['level'],
                 'mode' => $prod['mode']
             ]);
