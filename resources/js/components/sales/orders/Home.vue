@@ -371,6 +371,8 @@ export default {
             if (this.customer.quotations[0].order != null) {
               this.idOrder = this.customer.quotations[0].order.id
               this.payments = this.customer.quotations[0].order.payments
+              this.finalDelivery = this.customer.quotations[0].order.final_delivery
+              this.observations = this.customer.quotations[0].order.observations
             }
             this.discount = this.customer.quotations[0].discount
             this.date = this.customer.quotations[0].date
