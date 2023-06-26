@@ -25,4 +25,8 @@ class Delivery extends Model
      public function progress(){
         return $this->morphMany('App\Models\Progress','progressable');
     }
+    //Relacion morfeable uno a muchos project,deliveris,assigned_activities,assigned_task)
+    public function observations(){
+        return $this->morphMany('App\Models\Observation','observable');
+    }
 }
