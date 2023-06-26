@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('addendums', function (Blueprint $table) {
             $table->id();
-            $table->double('amount');
-            $table->date('payment_date');
-            $table->text('deliverable');
-            $table->date('delivery_date');
+            $table->unsignedBigInteger('addendumable_id');
+            $table->string('addendumable_type');
+            $table->double('amount')->nullable();
+            $table->date('date')->nullable();
+            $table->text('content')->nullable();
             $table->timestamps();
         });
     }

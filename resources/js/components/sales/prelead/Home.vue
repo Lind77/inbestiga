@@ -13,15 +13,15 @@
         @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @convertLead="convertLead"
         @cleanLead="cleanLead" @showModalFunnel="showModalFunnel" />
     </div>
-    <ProductModal :customer="customerSelected" @getAllCustomers="getAllCustomers" />
+    <ProductModal :customer="customerSelected" @getAllPreleads="getAllPreleads" />
     <!-- <UpdateCom :comunication="comunication"/>   -->
   </div>
   <OwnerModal :customerId="customerId" @convertLead="convertLead" @cleanLead="cleanLead" />
   <customerModal :customer="customer" :action="2" />
   <FunnelModal :customer="customer_selected" @updateToLead="updateToLead" @updateStatusSpace="updateStatusSpace"
-    @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers" :owners="owners"
+    @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllPreleads="getAllPreleads" :owners="owners"
     @updateOwner="updateOwner" />
-  <UpdateCom :comunication="comunication" :customerId="customerId" :action="action" @getAllCustomers="getAllCustomers" />
+  <UpdateCom :comunication="comunication" :customerId="customerId" :action="action" @getAllPreleads="getAllPreleads" />
 </template>
 <script>
 import axios from 'axios'
@@ -199,7 +199,7 @@ export default {
       this.customer = customer
       $('#customerModal').modal('show')
     },
-    getAllCustomers() {
+    getAllPreleads() {
       this.$swal({
         title: 'Cargando ...',
         allowOutsideClick: false,
@@ -209,7 +209,7 @@ export default {
       this.attended = []
       this.comunications = []
 
-      axios.get('/api/getAllPreleads')
+      axios.get('/api/preleads')
         .then(res => {
           this.customers = res.data
           this.distributePreLeads(res.data)
@@ -281,7 +281,7 @@ export default {
     }
   },
   mounted() {
-    this.getAllCustomers()
+    this.getAllPreleads()
     this.getAllOwners()
     if (this.$route.params.userId) {
       this.loadCustomerById(this.$route.params.userId)

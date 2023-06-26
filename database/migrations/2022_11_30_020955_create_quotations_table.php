@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('quotations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-            $table->date('date');
-            $table->double('amount');
-            $table->text('term');
+            $table->date('date')->nullable();
+            $table->double('amount')->nullable();
+            $table->text('term')->nullable();
+            $table->date('expiration_date')->nullable();
+            $table->double('discount')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

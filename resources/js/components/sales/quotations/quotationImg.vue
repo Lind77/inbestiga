@@ -65,10 +65,10 @@
                     </thead>
                     <tbody v-if="quotation[0]">
                         <tr v-for="detail in quotation[0].details" class="text-dark">
-                            <th class="table-item fw-normal ps-2" v-if="detail.type == 1">{{ detail.product.title }}
-                                <template v-if="detail.product_id == 34">
+                        <th class="table-item fw-normal ps-2" v-if="detail.type == 1">{{ detail.product.name }}
+                                <template v-if="detail.product_id == 58">
                                     <br>
-                                    - 02 propuestas de tema (opcional)
+                                    - 02 propuestas de tema
                                     <br>
                                     - Plan de tesis o proyecto de investigación
                                     <br>

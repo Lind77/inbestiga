@@ -9,7 +9,14 @@ class Team extends Model
 {
     use HasFactory;
 
-    public function memoirs(){
-        return $this->hasMany('App\Models\Memoir');
+    protected $fillable = ['name'];
+    //Realcion uno a muchos Team-User
+    public function users(){
+    return $this->hasMany('App\Models\User');
     }
+
+    //Relacion uno a muchos Team-project
+    public function projects(){
+        return $this->hasMany('App\Models\Project');
+        }
 }

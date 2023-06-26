@@ -9,20 +9,18 @@ class Customer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'cell', 'university', 'career', 'status', 'email', 'dni','user_id','origin', 'address', 'time', 'needs','interest'];
+    protected $fillable = ['name', 'cell','dni','address','university', 'career', 'status', 'email','user_id','origin', 'time', 'needs','interest','attitude'];
 
+   
+   //Relacion uno a muchos Customer-Quotations
     public function quotations(){
         return $this->hasMany("App\Models\Quotation");
     }
-
-    public function project(){
-        return $this->hasOne("App\Models\Project");
-    }
-
+    //Relacion uno a muchos custoemr-comunications
     public function comunications(){
         return $this->hasMany("App\Models\Comunication");
     }
-
+    //Relacion uno a muchos custoemr-origins
     public function origin(){
         return $this->hasOne("App\Models\Origin");
     }
@@ -30,7 +28,7 @@ class Customer extends Model
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
-
+    //Realcion muchos a muchos user-customer-comissions
     public function comissions(){
         return $this->hasMany("App\Models\Comission");
     }
