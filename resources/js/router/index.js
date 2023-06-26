@@ -78,6 +78,9 @@ import PromosAdmin from '../components/admin/promos/Home.vue'
 
 import HomeComissions from '../components/admin/comissions/Home.vue'
 
+//Área Administrativa - Permisos
+import HomePermissions from '../components/admin/permissions/Home.vue'
+
 import UsersAdmin from '../components/admin/users/Users.vue'
 import RolesAdmin from '../components/admin/roles/Roles.vue'
 import AreasAdmin from '../components/admin/areas/Areas.vue'
@@ -281,6 +284,11 @@ export const routes = [
                 name: 'roles-admin'
             },
             {
+                path: 'permissions-admin',
+                component: HomePermissions,
+                name: 'permissions-admin'
+            },
+            {
                 path: 'real-time/:userId',
                 component: RealTime,
                 name: 'real-time',
@@ -310,8 +318,9 @@ export const routes = [
                 name: 'main-experience'
             },
             {
-                path: 'calendly',
+                path: 'calendly/:code?',
                 component: HomeCalendly,
+                props: true,
                 name: 'home-calendly'
             },
             {
