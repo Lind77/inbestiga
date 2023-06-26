@@ -18,6 +18,9 @@
                         </div>
                     </div>
                     <div class="row mt-2">
+                        <div class="alert alert-warning" role="alert" v-show="noResults">No se han encontrado contratos ni
+                            ordenes que
+                            coincidan con el nombre de este usuario.</div>
                         <div class="col-6" v-for="result in results">
                             <button :class="`btn btn-sm ${result.type == 1 ? 'btn-success' : 'btn-info'}  w-100`"
                                 @click="selectDocument(result)">{{ result.name }} - {{
@@ -66,6 +69,7 @@ export default {
     },
     data() {
         return {
+            noResults: false,
             date: '',
             advance: '',
             dateAcad: '',
@@ -142,11 +146,14 @@ export default {
         },
         searchContract() {
             this.results = []
+            this.noResults = false
             axios.get('/api/contract/' + this.name)
                 .then((result) => {
                     this.contracts = result.data.contracts;
                     this.orders = result.data.orders;
-
+                    if (this.contracts.length == 0 && this.orders.length == 0) {
+                        this.noResults = true
+                    }
                     var result = {
                         id: 0,
                         name: '',
