@@ -1,8 +1,6 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold">Calendly</h4>
-        <button class="btn btn-primary" @click="login">Login</button>
-        <button class="btn btn-primary ms-2" @click="consult">Consultar</button>
         <div class="card text-start mt-2" v-for="item in collection">
 
             <div class="card-header"></div>
@@ -33,21 +31,26 @@ export default {
                 },
                 data: {
                     grant_type: 'authorization_code',
-                    code: 'hWowJLXaTTUKNtyK1NZ0leD08WOks5ALW91vpcQMccQ',
+                    code: this.$route.query.code,
                     redirect_uri: 'http://localhost/inbestiga/experience/calendly'
                 }
             };
-            axios.request(options).then(function (response) {
-                console.log(response.data);
-            }).catch(function (error) {
-                console.error(error);
-            });
+            axios.request(options)
+                .then((result) => {
+                    console.log(result.data);
+                    this.consultEvents(result.data.access_token)
+                }).catch((err) => {
+                    console.error(err);
+                });
         },
-        consult() {
+        consultEvents(token) {
             const options = {
                 method: 'GET',
                 url: 'https://api.calendly.com/scheduled_events',
-                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + token
+                },
                 params: {
                     user: 'https://api.calendly.com/users/e28cabfc-357b-4003-9b01-984cb4590c73'
                 }
@@ -63,6 +66,13 @@ export default {
                 });
         },
 
+    },
+    mounted() {
+        if (!this.$route.query.code) {
+            window.location.href = 'https://auth.calendly.com/oauth/authorize?client_id=-YNvCOQqVnBK9puAQFjOMNSa_AGBGHvmuSk2zMKX-oI&response_type=code&redirect_uri=http://localhost/inbestiga/experience/calendly'
+        } else {
+            this.login()
+        }
     }
 }
 </script>

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->double('amount')->nullable();
             $table->text('amount_text')->nullable();
             $table->date('date')->nullable();
-            $table->tinyInteger('third_Article')->nullable();
+            $table->tinyInteger('third_article')->nullable();
             $table->tinyInteger('fifth_article')->nullable();
             $table->timestamps();
         });

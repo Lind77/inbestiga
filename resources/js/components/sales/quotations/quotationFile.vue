@@ -61,10 +61,10 @@
                 <div style="height: 10px;"></div>
                 <tbody v-if="quotation[0]">
                     <tr v-for="detail in quotation[0].details" class="text-dark">
-                        <th class="table-item fw-normal ps-2">{{ detail.new_product.name }}
-                            <template v-if="detail.new_product.id == 58">
+                        <th class="table-item fw-normal ps-2">{{ detail.product.name }}
+                            <template v-if="detail.product.id == 58">
                                 <br>
-                                - 02 propuestas de tema
+                                - 02 propuestas de tema (opcional)
                                 <br>
                                 - Plan de tesis o proyecto de investigación
                                 <br>
@@ -81,6 +81,8 @@
                                 - Balotario de preguntas
                                 <br>
                                 - Simulación de sustentación
+                                <br>
+                                - Levantamiento de observaciones
                             </template>
                         </th>
                         <th class="table-item fw-normal" style="white-space: pre; text-align: center;">

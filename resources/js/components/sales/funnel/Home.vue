@@ -70,8 +70,10 @@ export default {
 
     },
     updateInterest(newCustomer) {
+      console.log(newCustomer);
       var customerSelected = this.leadsFiltered.find(lead => lead.id == newCustomer.id)
       customerSelected.interest = newCustomer.interest
+      this.customer_selected.interest = newCustomer.interest
     },
     updateComunication(customer) {
       var customerSelected = this.leadsFiltered.find(lead => lead.id == customer.id)
@@ -264,7 +266,7 @@ export default {
         allowOutsideClick: false,
         showConfirmButton: false
       })
-      axios.get('/api/getAllLeads/' + this.store.authUser.id)
+      axios.get('/api/leads')
         .then(res => {
           this.totalLeads = res.data
 
