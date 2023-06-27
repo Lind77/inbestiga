@@ -414,12 +414,13 @@ export default {
     getUser() {
       axios.get('/api/getCustomer/' + this.$route.params.idUser)
         .then((res) => {
+          console.log(res.data);
           this.customer = res.data
           if (this.customer.quotations[0]) {
             this.idQuotation = this.customer.quotations[0].id
             if (this.customer.quotations[0].contract != null) {
               this.idContract = this.customer.quotations[0].contract
-              this.fees = this.customer.quotations[0].contract.fees
+              this.fees = this.customer.quotations[0].contract.payments
               this.deliveries = this.customer.quotations[0].contract.deliveries
             }
             this.discount = this.customer.quotations[0].discount
