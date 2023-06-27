@@ -10,7 +10,7 @@
 
             <div class="email-list-item-content ms-2 ms-sm-0 me-2">
                 <span class="email-list-item-username me-2 h6">{{
-                    task.customerName
+                    task.deliverable.quotation.customer.name
                 }}</span>
                 <span class="email-list-item-subject d-xl-inline-block d-block"> {{
                     task.advance
@@ -23,11 +23,11 @@
                 <span class="email-list-item-label badge badge-dot bg-primary d-none d-md-inline-block me-2"
                     data-label="private" v-else></span>
                 <small class="email-list-item-time text-muted">{{
-                    formatDate(task.deliveryDate)
+                    formatDate(task.date)
                 }}</small>
-                <small class="email-list-item-time text-muted" v-if="task.deliveryDateAcad">
+                <small class="email-list-item-time text-muted" v-if="task.academic_date">
                     - {{
-                        formatDate(task.deliveryDateAcad)
+                        formatDate(task.academic_date)
                     }}</small>
                 <input v-if="showDateAcad" type="date" class="form-control form-control-sm" @blur="hideDates(task)"
                     v-model="academicDate">

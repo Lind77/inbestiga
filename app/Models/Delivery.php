@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Delivery extends Model
 {
     use HasFactory;
-    protected $fillable = ['project_id', 'date', 'academic_date', 'advance', 'progress', 'type', 'status'];
+    protected $fillable = ['deliverable_id', 'deliverable_type', 'date', 'academic_date', 'advance', 'progress', 'type', 'status'];
     //Relacion inversa uno amuchos Project-Delivery
     public function project()
     {
