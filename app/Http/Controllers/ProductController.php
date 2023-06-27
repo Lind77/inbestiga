@@ -21,9 +21,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('id','asc')
-                            ->where('id', '!=', 1)
-                            ->with(['fixedActivities','fixedActivities.fixedTasks','prices','times'])->get();
+        $products = Product::orderBy('id', 'asc')
+            ->where('id', '!=', 1)
+            ->get();
         return response()->json($products);
     }
 
@@ -57,14 +57,14 @@ class ProductController extends Controller
 
         $prices = json_decode($request->get('prices'));
 
-        foreach ($prices as $key=>$price) {
+        foreach ($prices as $key => $price) {
             $price = Price::create([
                 'product_id' => $product->id,
-                'level' => $key+1,
+                'level' => $key + 1,
                 'price' => $price
             ]);
         }
-        
+
 
         return response()->json([
             'msg' => 'success'
@@ -116,13 +116,14 @@ class ProductController extends Controller
         //
     }
 
-    public function assignProduct(Request $request){
+    public function assignProduct(Request $request)
+    {
 
         $customer = Customer::find($request->get('customer_id'));
 
 
         $project = Project::create([
-            'title' => 'Prospecto '.$customer->name,
+            'title' => 'Prospecto ' . $customer->name,
             'customer_id' => $request->get('customer_id'),
             'deadline' => date('Y-m-d'),
             'product_id' => $request->get('product_id')
@@ -137,14 +138,16 @@ class ProductController extends Controller
         ]);
     }
 
-    public function getAllProductsWithPrices(){
+    public function getAllProductsWithPrices()
+    {
         $newProducts = NewProduct::with('newprices')->get();
         $products = Product::where('id', '!=', 1)->with('prices')->get();
 
         return response()->json($newProducts);
     }
 
-    public function insertNewProduct(Request $request){
+    public function insertNewProduct(Request $request)
+    {
         $new_product = NewProduct::create([
             'name' => $request->get('name'),
             'type' => $request->get('type'),
@@ -153,7 +156,7 @@ class ProductController extends Controller
 
         $prices = json_decode($request->get('prices'));
 
-        foreach ($prices as $key=>$price) {
+        foreach ($prices as $key => $price) {
             $price = NewPrice::create([
                 'new_product_id' => $new_product->id,
                 'level' => $key,
@@ -164,5 +167,5 @@ class ProductController extends Controller
         return response()->json([
             'msg' => 'success'
         ]);
-    }   
+    }
 }
