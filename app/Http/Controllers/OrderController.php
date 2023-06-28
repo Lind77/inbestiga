@@ -13,6 +13,7 @@ use App\Models\Customer;
 use App\Models\Detail;
 use App\Models\Fee;
 use App\Models\Notification;
+use App\Models\Payment;
 use App\Models\Payments;
 use App\Models\Quotation;
 use App\Models\Seen;
@@ -31,7 +32,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with(['quotation','quotation.customer'])->get();
+        $orders = Order::with(['quotation', 'quotation.customer'])->get();
 
         return response()->json($orders);
     }
@@ -56,26 +57,27 @@ class OrderController extends Controller
     {
 
         //Verificar si hay una orden con el id de cotización
-        $order = Order::where('quotation_id',$request->get('quotation_id'))->first();
+        $order = Order::where('quotation_id', $request->get('quotation_id'))->first();
 
 
-            $order = Order::create([
-                'quotation_id' => $request->get('quotation_id'),
-                'final_delivery' => $request->get('final_delivery'),
-                'observations' => $request->get('observations'),
-                'suggested' => $request->get('suggested')
+        $order = Order::create([
+            'quotation_id' => $request->get('quotation_id'),
+            'final_delivery' => $request->get('final_delivery'),
+            'observations' => $request->get('observations'),
+            'suggested' => $request->get('suggested')
+        ]);
+
+        $payments = json_decode($request->get('payments'), true);
+
+        foreach ($payments as $payment) {
+            $payment_registered = Payment::create([
+                'paymentable_id' => $order->id,
+                'paymentable_type' => 'App\Models\Order',
+                'date' => $payment['date'],
+                'amount' => $payment['amount']
             ]);
-    
-            $payments = json_decode($request->get('payments'), true);
-    
-            foreach ($payments as $payment) {
-                $payment_registered = Payments::create([
-                    'order_id' => $order->id,
-                    'date' => $payment['date'],
-                    'amount' => $payment['amount']
-                ]);
-            }
-    
+        }
+
 
         $quotation = Quotation::find($request->get('quotation_id'));
 
@@ -133,7 +135,7 @@ class OrderController extends Controller
      */
     public function update(Request $request)
     {
-        
+
         $order = Order::with(['quotation', 'quotation.details'])->find($request->get('order_id'));
 
         $order->update([
@@ -145,41 +147,41 @@ class OrderController extends Controller
             'discount' => $request->get('discount')
         ]);
 
-        $order->quotation->details->each(function ($detail){
+        $order->quotation->details->each(function ($detail) {
             $detail->delete();
         });
 
         $products = $request->get('products');
-       
+
         $arrProds = json_decode($products, true);
 
-            foreach($arrProds as $prod){
-                $detail = Detail::create([
-                    'quotation_id' => $order->quotation->id,
-                    'product_id' => 1,
-                    'type' => $prod['type'],
-                    'description' => '-',
-                    'price' => $prod['price'],
-                    'new_product_id' => $prod['new_product_id'],
-                    'level' => $prod['level'],
-                    'mode' => $prod['mode']
-                ]);
-            }
-        
-        $order->payments->each(function ($payment){
-                $payment->delete();
-            });
+        foreach ($arrProds as $prod) {
+            $detail = Detail::create([
+                'quotation_id' => $order->quotation->id,
+                'product_id' => $prod['product_id'],
+                'type' => $prod['type'],
+                'description' => '-',
+                'price' => $prod['price'],
+                'level' => $prod['level'],
+                'mode' => $prod['mode']
+            ]);
+        }
+
+        $order->payments->each(function ($payment) {
+            $payment->delete();
+        });
 
         $payments = json_decode($request->get('payments'), true);
-    
-            foreach ($payments as $payment) {
-                $payment_registered = Payments::create([
-                    'order_id' => $order->id,
-                    'date' => $payment['date'],
-                    'amount' => $payment['amount']
-                ]);
-            }
-        
+
+        foreach ($payments as $payment) {
+            $payment_registered = Payment::create([
+                'paymentable_id' => $order->id,
+                'paymentable_type' => 'App\Models\Order',
+                'date' => $payment['date'],
+                'amount' => $payment['amount']
+            ]);
+        }
+
 
         return response()->json([
             'msg' => 'success'
@@ -197,19 +199,21 @@ class OrderController extends Controller
         //
     }
 
-    public function generateContract($id){
-        $customer = Customer::with(['quotations'=> function($query){
-            $query->orderBy('id', 'desc')->with(['contract'=> function($query2){
-                $query2->orderBy('id', 'desc')->with(['fees','deliveries'])->first();
+    public function generateContract($id)
+    {
+        $customer = Customer::with(['quotations' => function ($query) {
+            $query->orderBy('id', 'desc')->with(['contract' => function ($query2) {
+                $query2->orderBy('id', 'desc')->with(['fees', 'deliveries'])->first();
             }])->first();
         }])->find($id);
-		$pdf = PDF::loadView('contract', compact('customer'));
-		return $pdf->stream('prueba.pdf');
+        $pdf = PDF::loadView('contract', compact('customer'));
+        return $pdf->stream('prueba.pdf');
     }
 
-    public function insertOrder(Request $request){
+    public function insertOrder(Request $request)
+    {
 
-        if($request->get('quotation_id') == 'undefined'){
+        if ($request->get('quotation_id') == 'undefined') {
             $quotation = Quotation::create([
                 'customer_id' => $request->get('customer_id'),
                 'date' => $request->get('date'),
@@ -221,10 +225,10 @@ class OrderController extends Controller
             ]);
 
             $products = $request->get('products');
-       
+
             $arrProds = json_decode($products, true);
 
-            foreach($arrProds as $prod){
+            foreach ($arrProds as $prod) {
                 $detail = Detail::create([
                     'quotation_id' => $quotation->id,
                     'product_id' => 1,
@@ -242,31 +246,32 @@ class OrderController extends Controller
                 'observations' => $request->get('observations'),
                 'suggested' => $request->get('suggested')
             ]);
-        }else{
+        } else {
             $quotation = Quotation::with('order')->where('id', $request->get('quotation_id'))->first();
-            if($quotation->order != null){
+            if ($quotation->order != null) {
                 $quotation->order->update([
                     'final_delivery' => $request->get('final_delivery'),
                     'observations' => $request->get('observations'),
                     'suggested' => $request->get('suggested')
                 ]);
                 $order = $quotation->order;
-            }else{
+            } else {
                 $order = Order::create($request->all());
             }
         }
-        
-        
-       
+
+
+
         $payments = json_decode($request->get('payments'), true);
-    
-            foreach ($payments as $payment) {
-                $payment_registered = Payments::create([
-                    'order_id' => $order->id,
-                    'date' => $payment['date'],
-                    'amount' => $payment['amount']
-                ]);
-            }
+
+        foreach ($payments as $payment) {
+            $payment_registered = Payment::create([
+                'paymentable_id' => $order->id,
+                'paymentable_type' => 'App\Models\Order',
+                'date' => $payment['date'],
+                'amount' => $payment['amount']
+            ]);
+        }
 
         $customer = Customer::find($request->get('customer_id'));
 
@@ -286,13 +291,13 @@ class OrderController extends Controller
 
         $notification = Notification::create([
             'emisor_id' => $request->get('user_id'),
-            'content' => 'generó la orden de '.$customer->name,
+            'content' => 'generó la orden de ' . $customer->name,
             'type' => 1
         ]);
 
         $usersToNotify = User::role('Seller')->get();
 
-        foreach($usersToNotify as $user){
+        foreach ($usersToNotify as $user) {
             Seen::create([
                 'user_id' => $user->id,
                 'notification_id' => $notification->id,
