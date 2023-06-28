@@ -297,9 +297,7 @@ class CustomerController extends Controller
         $totalCustomers = collect();
 
         for ($i = 1; $i <= 3; $i++) {
-            $customers = Customer::with(['comunications' => function ($query) {
-                $query->orderBy('id', 'desc')->first();
-            }, 'quotations', 'quotations.order', 'user'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+            $customers = Customer::with(['comunications', 'quotations', 'quotations.order', 'user'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
 
             $totalCustomers = $totalCustomers->merge($customers);
         }
