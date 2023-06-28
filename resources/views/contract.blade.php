@@ -212,7 +212,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($customer->quotations[0]->contract->fees as $fee)
+                        @foreach ($customer->quotations[0]->contract->payments as $fee)
                         <tr>
                             <td>{{$fee->date ? date('d/m/Y',strtotime($fee->date)) : 'Bajo coordinación con gerencia o tesista'}}</td>
                             <td>{{$fee->percentage}}% - S/ {{$fee->amount}}</td>

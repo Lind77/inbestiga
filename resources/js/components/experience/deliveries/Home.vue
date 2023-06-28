@@ -85,7 +85,7 @@
                             <!-- Email List: Items -->
                             <div class="email-list pt-0 ps ps--active-y">
                                 <ul class="list-unstyled m-0">
-                                    <template v-for="task in tasks">
+                                    <template v-for="task in deliveries">
                                         <Task :task="task" @updateDelivery="updateDelivery" />
                                     </template>
                                 </ul>
@@ -183,40 +183,6 @@ export default {
                     this.deliveries = result.data.deliveries
                     this.payments = result.data.payments
 
-                    var task = {
-                        id: '',
-                        customerName: '',
-                        advance: '',
-                        deliveryDate: '',
-                        type: '',
-                        deliveryDateAcad: ''
-                    }
-
-                    this.deliveries.forEach((delivery) => {
-                        task.id = delivery.id
-                        task.customerName = delivery.contract.quotation.customer.name
-                        task.advance = delivery.advance
-                        task.deliveryDate = delivery.date
-                        task.type = 1
-                        console.log(delivery.academic_date == null)
-                        if (delivery.academic_date != null) {
-                            task.deliveryDateAcad = delivery.academic_date
-                        } else {
-                            task.deliveryDateAcad = null
-                        }
-                        this.tasks.push({ ...task })
-                    })
-
-                    this.payments.forEach((payment) => {
-                        task.id = payment.id
-                        task.customerName = payment.order.quotation.customer.name
-                        task.advance = 'Entrega de Orden'
-                        task.deliveryDate = payment.date
-                        task.type = 2
-                        this.tasks.push({ ...task })
-                    })
-
-
                 }).catch((err) => {
                     console.error(err)
                 });
@@ -236,34 +202,7 @@ export default {
                     this.deliveries = result.data.deliveries
                     this.payments = result.data.payments
 
-                    var task = {
-                        id: '',
-                        customerName: '',
-                        advance: '',
-                        deliveryDate: '',
-                        type: '',
-                        deliveryDateAcad: ''
-                    }
 
-                    this.deliveries.forEach((delivery) => {
-                        task.id = delivery.id
-                        task.customerName = delivery.contract.quotation.customer.name
-                        task.advance = delivery.advance
-                        task.deliveryDate = delivery.date
-                        task.type = 1
-                        if (delivery.academic_date != null) {
-                            task.deliveryDateAcad = delivery.academic_date
-                        }
-                        this.tasks.push({ ...task })
-                    })
-                    this.payments.forEach((payment) => {
-                        task.id = payment.id
-                        task.customerName = payment.order.quotation.customer.name
-                        task.advance = 'Entrega de Orden'
-                        task.deliveryDate = payment.date
-                        task.type = 2
-                        this.tasks.push({ ...task })
-                    })
                     this.$swal.close()
                 }).catch((err) => {
                     console.error(err)
