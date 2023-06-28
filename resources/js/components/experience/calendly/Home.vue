@@ -40,18 +40,18 @@ export default {
                 data: {
                     grant_type: 'authorization_code',
                     code: this.$route.query.code,
-                    redirect_uri: 'http://localhost/inbestiga/experience/calendly'
+                    redirect_uri: 'https://sistema.inbestiga.com/inbestiga/experience/calendly'
                 }
             };
             axios.request(options)
                 .then((result) => {
                     console.log(result.data);
-                    this.consultEvents(result.data.access_token)
+                    this.consultEvents(result.data.access_token, result.data.owner)
                 }).catch((err) => {
                     console.error(err);
                 });
         },
-        consultEvents(token) {
+        consultEvents(token, owner) {
             const options = {
                 method: 'GET',
                 url: 'https://api.calendly.com/scheduled_events',
@@ -60,7 +60,7 @@ export default {
                     Authorization: 'Bearer ' + token
                 },
                 params: {
-                    user: 'https://api.calendly.com/users/e28cabfc-357b-4003-9b01-984cb4590c73'
+                    user: owner
                 }
             };
             this.user = {}
@@ -77,7 +77,7 @@ export default {
     },
     mounted() {
         if (!this.$route.query.code) {
-            window.location.href = 'https://auth.calendly.com/oauth/authorize?client_id=-YNvCOQqVnBK9puAQFjOMNSa_AGBGHvmuSk2zMKX-oI&response_type=code&redirect_uri=http://localhost/inbestiga/experience/calendly'
+            window.location.href = 'https://auth.calendly.com/oauth/authorize?client_id=-YNvCOQqVnBK9puAQFjOMNSa_AGBGHvmuSk2zMKX-oI&response_type=code&redirect_uri=https://sistema.inbestiga.com/inbestiga/experience/calendly'
         } else {
             this.login()
         }
