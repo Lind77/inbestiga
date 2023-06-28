@@ -152,14 +152,28 @@ export default {
             this.showOptionOwner = true
         },
         standBy(id){
-            axios.get('/api/standByCustomer/'+id)
-            .then((res)=>{
-                $('#funnelModal').modal('hide')
-                this.$emit('getAllCustomers')
+           $('#funnelModal').modal('hide')
+           this.$swal({
+                title: '¿Deseas pasar este cliente a StandBy?',
+                icon: 'question',
+                confirmButtonText: 'Si',
+                showCancelButton: true,
+                cancelButtonText: 'No'
             })
-            .catch((err)=>{
-                console.error(err)
-            })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        axios.get('/api/standByCustomer/'+id)
+                            .then((res)=>{
+                                $('#funnelModal').modal('hide')
+                                this.$emit('getAllCustomers')
+                             })
+                            .catch(err => {
+                                console.log(err)
+                            })
+                    } else {
+                        this.$swal.close()
+                    }
+                })
         },
         updateStatusSpace(){    
             var newStatus = parseInt(this.customer.status) + 1
