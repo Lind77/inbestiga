@@ -21,13 +21,39 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12 col-lg-6 order-4 order-lg-3" data-v-d514b8ac="">
-        <div class="card" data-v-d514b8ac="">
-          <div class="card-header d-flex align-items-center justify-content-between" data-v-d514b8ac="">
-            <h5 class="card-title m-0 me-2" data-v-d514b8ac="">Notas</h5>
+      <div class="col-md-12 col-lg-6 order-4 order-lg-3">
+        <div class="card">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="card-title m-0 me-2">Notas</h5>
           </div>
-          <div class="card-body" data-v-d514b8ac=""><!-- Activity Timeline -->
-            <ul class="timeline" data-v-d514b8ac=""></ul><!-- /Activity Timeline -->
+          <div class="card-body"><!-- Activity Timeline -->
+            <div class="card bg-info text-white mb-3">
+              <div class="card-header">Nota</div>
+              <div class="card-body">
+                <h5 class="card-title text-white">Success card title</h5>
+                <p class="card-text">
+                  Some quick example text to build on the card title and make up.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-6 order-4 order-lg-3">
+        <div class="card">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="card-title m-0 me-2">Entregas para hoy</h5>
+          </div>
+          <div class="card-body"><!-- Activity Timeline -->
+            <div class="card bg-success text-white mb-3">
+              <div class="card-header">Entrega de Contrato</div>
+              <div class="card-body">
+                <h5 class="card-title text-white">Success card title</h5>
+                <p class="card-text">
+                  Some quick example text to build on the card title and make up.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

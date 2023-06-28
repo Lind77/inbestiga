@@ -76,11 +76,11 @@ export default {
 
     },
     mounted() {
-        if (!this.$route.query.code) {
+        /* if (!this.$route.query.code) {
             window.location.href = 'https://auth.calendly.com/oauth/authorize?client_id=-YNvCOQqVnBK9puAQFjOMNSa_AGBGHvmuSk2zMKX-oI&response_type=code&redirect_uri=https://sistema.inbestiga.com/inbestiga/experience/calendly'
         } else {
             this.login()
-        }
+        } */
     }
 }
 </script>
