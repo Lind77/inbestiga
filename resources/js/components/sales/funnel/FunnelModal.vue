@@ -62,7 +62,7 @@
                         <div class="col-12 col-lg-6">
 
                             <div class="card shadow-none bg-transparent border border-warning mb-3"
-                                v-if="customer.comunications && customer.comunications.length != 0">
+                                v-if="customer.lastManagement">
                                 <div class="card-body">
                                     <h5 class="card-title">Comunicación más reciente</h5>
                                     <p class="card-text">Primera gestión: {{ customer.lastManagement.first_management }}</p>

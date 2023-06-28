@@ -34,33 +34,34 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::orderBy('updated_at')->with(['customer','activities','activities.progresses', 'team', 'product'])->get();
+        $projects = Project::orderBy('updated_at')->with(['customer', 'activities', 'activities.progresses', 'team', 'product'])->get();
 
-        foreach($projects as $project){
-            foreach($project->activities as $activity){
-                if($activity->progresses[0]->percentage == 100){
+        foreach ($projects as $project) {
+            foreach ($project->activities as $activity) {
+                if ($activity->progresses[0]->percentage == 100) {
                     $activity->isCompleted = true;
-                }else{
+                } else {
                     $activity->isCompleted = false;
                 }
             }
         }
-    
+
         return $projects;
     }
 
-    public function getAllProjectsAcad(){
-        $projects = Project::with(['customer','team', 'product', 'activities.tasks','activities.progresses'])->get();                            
-        $numActivities = 0;
+    public function getAllProjectsAcad()
+    {
+        $projects = Project::with('team')->get();
+        /* $numActivities = 0;
         $numTasks = 0;
         $numTasksCompleted = 0;
-    
-        foreach($projects as $project){
-            foreach($project->activities as $activity){
+
+        foreach ($projects as $project) {
+            foreach ($project->activities as $activity) {
                 $numActivities++;
-                foreach($activity->tasks as $task){
+                foreach ($activity->tasks as $task) {
                     $numTasks++;
-                    if($task->status == 2){
+                    if ($task->status == 2) {
                         $numTasksCompleted++;
                     }
                 }
@@ -68,7 +69,7 @@ class ProjectController extends Controller
             $project->numActivities = $numActivities;
             $project->numTasks = $numTasks;
             $project->numTasksCompleted = $numTasksCompleted;
-        }
+        } */
 
         return response()->json($projects);
     }
@@ -91,20 +92,20 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-       $project =  Project::create([
-        'title' => $request->get('title'),
-        'customer_id' => $request->get('customer_id'),
-        'team_id' => null,
-        'deadline' => $request->get('deadline'),
-        'status' => 0,
-        'product_id' => $request->get('product_id'),
-        'level' => $request->get('level')
-       ]);
+        $project =  Project::create([
+            'title' => $request->get('title'),
+            'customer_id' => $request->get('customer_id'),
+            'team_id' => null,
+            'deadline' => $request->get('deadline'),
+            'status' => 0,
+            'product_id' => $request->get('product_id'),
+            'level' => $request->get('level')
+        ]);
 
         //Traer actividades de Inbestiga por default
-        $fixedActivitiesEnterprise = FixedActivity::where('type',0)->get();
+        $fixedActivitiesEnterprise = FixedActivity::where('type', 0)->get();
 
-        foreach($fixedActivitiesEnterprise as $enterpriseActivity) {
+        foreach ($fixedActivitiesEnterprise as $enterpriseActivity) {
             $defaultActivity = Activity::create([
                 'project_id' => $project->id,
                 'title' => $enterpriseActivity->title,
@@ -120,9 +121,9 @@ class ProjectController extends Controller
             ]);
         }
 
-       
+
         return response()->json([
-        'msg' => 'success'
+            'msg' => 'success'
         ]);
     }
 
@@ -143,29 +144,28 @@ class ProjectController extends Controller
         $total_mintime = 0;
         $total_maxtime = 0;
 
-       
 
-        foreach($projectDetails as $detail){
-            if($detail->product_id == 34){
+
+        foreach ($projectDetails as $detail) {
+            if ($detail->product_id == 34) {
                 $times = Time::where('product_id', '<', 34)->get();
-                foreach($times as $time){
+                foreach ($times as $time) {
                     $total_mintime = $total_mintime + $time->min_time;
                     $total_maxtime = $total_mintime + $time->max_time;
                 }
-            }else{
+            } else {
                 $price = Price::where('product_id', $detail->product_id)->where('price', $detail->price)->first();
                 $time = Time::where('product_id', $detail->product_id)->where('level', $price->level)->get();
-                    $total_mintime = $total_mintime + $time->min_time;
-                    $total_maxtime = $total_mintime + $time->max_time;
+                $total_mintime = $total_mintime + $time->min_time;
+                $total_maxtime = $total_mintime + $time->max_time;
             }
-           
         }
 
-        
 
-        $total_time = $total_maxtime + $total_mintime/2;
 
-        $project = Project::where('id',$id)->with(['customer','activities','activities.progresses', 'activities.tasks', 'activities.tasks.progress', 'activities.tasks.fixed_task', 'activities.tasks.fixed_task.fixed_activity','activities.tasks.fixed_task.fixed_activity.product','team', 'product'])->get();
+        $total_time = $total_maxtime + $total_mintime / 2;
+
+        $project = Project::where('id', $id)->with(['customer', 'activities', 'activities.progresses', 'activities.tasks', 'activities.tasks.progress', 'activities.tasks.fixed_task', 'activities.tasks.fixed_task.fixed_activity', 'activities.tasks.fixed_task.fixed_activity.product', 'team', 'product'])->get();
         return response()->json([
             'project' => $project,
             'total_time' => $total_time
@@ -210,10 +210,10 @@ class ProjectController extends Controller
         return response()->json([
             'msg' => 'success'
         ]);
-
     }
 
-    public function changeStatus(Request $request){
+    public function changeStatus(Request $request)
+    {
         $project = Project::find($request->get('project_id'));
         $project->update([
             'status' => $request->get('status')
@@ -224,10 +224,10 @@ class ProjectController extends Controller
             'content' => 'envió un nuevo proyecto a Dirección Académica',
             'type' => 1
         ]);
-        
+
         $usersToNotify = User::role('AdminAcad')->get();
 
-        foreach($usersToNotify as $user){
+        foreach ($usersToNotify as $user) {
             Seen::create([
                 'user_id' => $user->id,
                 'notification_id' => $notification->id,
@@ -241,8 +241,9 @@ class ProjectController extends Controller
             'msg' => 'success'
         ]);
     }
-    
-    public function updateQuality($id){
+
+    public function updateQuality($id)
+    {
         $project = Project::find($id);
 
         $project->update([
@@ -251,7 +252,7 @@ class ProjectController extends Controller
 
         $fixedActivitiesEnterprise = FixedActivity::where('product_id', 1)->where('type', 2)->get();
 
-        foreach($fixedActivitiesEnterprise as $enterpriseActivity) {
+        foreach ($fixedActivitiesEnterprise as $enterpriseActivity) {
             $defaultActivity = Activity::create([
                 'project_id' => $project->id,
                 'title' => $enterpriseActivity->title,
@@ -267,23 +268,24 @@ class ProjectController extends Controller
             ]);
         }
 
-        
+
         return response()->json([
             'msg' => 'success'
         ]);
     }
 
-    public function getMyProjects($id){
+    public function getMyProjects($id)
+    {
         $user = User::find($id);
         $projects = Project::where('team_id', $user->memoir->team_id)->with(['customer', 'activities', 'activities.tasks', 'activities.tasks.progress', 'order', 'order.quotation', 'order.quotation.details', 'order.quotation.details.product'])->get();
         $numTasks = 0;
         $numTasksCompleted = 0;
-        foreach($projects as $project){
+        foreach ($projects as $project) {
             $project->num_activities = count($project->activities);
-            foreach($project->activities as $activity){
+            foreach ($project->activities as $activity) {
                 $numTasks += count($activity->tasks);
-                foreach($activity->tasks as $task){
-                    if($task->status == 2){
+                foreach ($activity->tasks as $task) {
+                    if ($task->status == 2) {
                         $numTasksCompleted++;
                     }
                 }
@@ -295,7 +297,8 @@ class ProjectController extends Controller
         return response()->json($projects);
     }
 
-    public function setProject(Request $request){
+    public function setProject(Request $request)
+    {
 
         $customer = Customer::find($request->get('id_customer'));
 
@@ -308,7 +311,7 @@ class ProjectController extends Controller
         $lastOrder = $quotation->order;
 
         $project = Project::create([
-            'title' => 'Proyecto '.$customer->name,
+            'title' => 'Proyecto ' . $customer->name,
             'customer_id' => $customer->id,
             'deadline' => date('Y-m-d'),
             'product_id' => 1,
@@ -318,48 +321,48 @@ class ProjectController extends Controller
 
         $notification = Notification::create([
             'emisor_id' => $request->get('emisor_id'),
-            'content' => 'asignó el '.$project->title,
+            'content' => 'asignó el ' . $project->title,
             'type' => 1
         ]);
 
         $usersToNotify = User::role('Experience')->get();
 
-            foreach($usersToNotify as $user){
-                Seen::create([
-                    'user_id' => $user->id,
-                    'notification_id' => $notification->id,
-                    'seen' => 0
-                ]);
-            }
+        foreach ($usersToNotify as $user) {
+            Seen::create([
+                'user_id' => $user->id,
+                'notification_id' => $notification->id,
+                'seen' => 0
+            ]);
+        }
 
-            $fixedActivitiesEnterprise = FixedActivity::where('type',0)->get();
+        $fixedActivitiesEnterprise = FixedActivity::where('type', 0)->get();
 
-            foreach($fixedActivitiesEnterprise as $enterpriseActivity) {
-                $defaultActivity = Activity::create([
-                    'project_id' => $project->id,
-                    'title' => $enterpriseActivity->title,
-                    'type' => 0,
-                    'fixed_activity_id' => $enterpriseActivity->id
-                ]);
-    
-                $progressDefaultActivity = Progress::create([
-                    'progressable_id' => $defaultActivity->id,
-                    'progressable_type' => 'App\Models\Activity',
-                    'percentage' => 0.0,
-                    'comment' => 'Sin comentarios'
-                ]);
-            }
+        foreach ($fixedActivitiesEnterprise as $enterpriseActivity) {
+            $defaultActivity = Activity::create([
+                'project_id' => $project->id,
+                'title' => $enterpriseActivity->title,
+                'type' => 0,
+                'fixed_activity_id' => $enterpriseActivity->id
+            ]);
+
+            $progressDefaultActivity = Progress::create([
+                'progressable_id' => $defaultActivity->id,
+                'progressable_type' => 'App\Models\Activity',
+                'percentage' => 0.0,
+                'comment' => 'Sin comentarios'
+            ]);
+        }
 
         broadcast(new NewProject($project));
-/*           
+        /*           
 
         //Traer actividades de Inbestiga por default
        /*  
 
        $details = $lastQuotation->details; */
 
-       //Prodcutos de la tesis
-      /*  $thesisProducts = Product::where('id','<',34)->where('id','!=', 1)->where('id','!=',25)->with('fixedActivities')->get();
+        //Prodcutos de la tesis
+        /*  $thesisProducts = Product::where('id','<',34)->where('id','!=', 1)->where('id','!=',25)->with('fixedActivities')->get();
 
        foreach($details as $detail){
             if($detail->product_id == 34){
