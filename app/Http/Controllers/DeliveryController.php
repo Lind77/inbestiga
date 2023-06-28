@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Delivery;
 use App\Http\Requests\StoreDeliveryRequest;
 use App\Http\Requests\UpdateDeliveryRequest;
-use App\Models\Payments;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
 class DeliveryController extends Controller
@@ -17,8 +17,8 @@ class DeliveryController extends Controller
      */
     public function index()
     {
-        $deliveries = Delivery::with(['contract', 'contract.quotation', 'contract.quotation.customer'])->where('date', date('Y-m-d'))->get();
-        $payments = Payments::with(['order', 'order.quotation', 'order.quotation.customer'])->where('date', date('Y-m-d'))->get();
+        $deliveries = Delivery::with(['deliverable', 'deliverable.quotation', 'deliverable.quotation.customer'])->where('date', date('Y-m-d'))->get();
+        $payments = Payment::with(['order', 'order.quotation', 'order.quotation.customer'])->where('date', date('Y-m-d'))->get();
 
         return response()->json([
             'deliveries' => $deliveries,
@@ -107,8 +107,8 @@ class DeliveryController extends Controller
 
     public function getDeliveriesByDate($date)
     {
-        $deliveries = Delivery::with(['contract', 'contract.quotation', 'contract.quotation.customer'])->where('date', $date)->get();
-        $payments = Payments::with(['order', 'order.quotation', 'order.quotation.customer'])->where('date', $date)->get();
+        $deliveries = Delivery::with(['deliverable', 'deliverable.quotation', 'deliverable.quotation.customer'])->where('date', $date)->get();
+        $payments = Payment::where('date', $date)->get();
 
         return response()->json([
             'deliveries' => $deliveries,
@@ -118,8 +118,8 @@ class DeliveryController extends Controller
 
     public function search($search)
     {
-        $deliveries = Delivery::with(['contract', 'contract.quotation', 'contract.quotation.customer'])
-            ->whereHas('contract.quotation.customer', function ($query) use ($search) {
+        $deliveries = Delivery::with(['deliverable', 'deliverable.quotation', 'deliverable.quotation.customer'])
+            ->whereHas('deliverable.quotation.customer', function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%');
             })->get();
 

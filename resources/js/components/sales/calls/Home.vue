@@ -52,13 +52,15 @@ export default {
       $('#ComunicationsModal').modal('show')
     },
     searchCustomer() {
-      axios.get('/api/customers/comunications/' + this.search)
-        .then(res => {
-          this.customers_filtered = res.data
-        })
-        .catch(err => {
-          console.error(err)
-        })
+      if (this.search != '') {
+        axios.get('/api/customers/comunications/' + this.search)
+          .then(res => {
+            this.customers_filtered = res.data
+          })
+          .catch(err => {
+            console.error(err)
+          })
+      }
     },
     filterDate(e) {
       console.log(e.target.value == '')

@@ -6,12 +6,14 @@
             <div class="card-header"></div>
             <div class="card-body">
                 <h4 class="card-title">{{ item.name }}</h4>
-                <p class="card-text">{{ item.start_time }} - {{ item.end_time }}</p>
+                <p class="card-text">{{ formatDate(item.start_time) }}</p>
+                <p class="card-text">{{ formatTime(item.start_time) }} - {{ formatTime(item.end_time) }}</p>
             </div>
         </div>
     </div>
 </template>
 <script>
+import moment from "moment"
 export default {
     data() {
         return {
@@ -20,6 +22,12 @@ export default {
         }
     },
     methods: {
+        formatDate(time) {
+            return moment(time).format('DD/MM/YYYY')
+        },
+        formatTime(time) {
+            return moment(time).format('hh:mm a')
+        },
         login() {
             const authHeader = 'LVlOdkNPUXFWbkJLOXB1QVFGak9NTlNhX0FHQkdIdm11U2syek1LWC1vSTpQMGt2eFEzX2xYY1pLRlhEXzhRVDNzaHR6Nk5nNV8zdnV1UmdHMHFSbDZv';
             const options = {
