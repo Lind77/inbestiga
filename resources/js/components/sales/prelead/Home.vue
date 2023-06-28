@@ -212,6 +212,16 @@ export default {
       axios.get('/api/preleads')
         .then(res => {
           this.customers = res.data
+          this.customers.forEach(customer => {
+            if (customer.comunications) {
+              const ids = customer.comunications.map(comunication => {
+                return comunication.id;
+              });
+              const max = Math.max(...ids);
+              customer.lastManagement = customer.comunications.find(element => element.id === max);
+            }
+          })
+
           this.distributePreLeads(res.data)
           this.$swal().close()
         })
