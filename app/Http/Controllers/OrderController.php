@@ -203,7 +203,7 @@ class OrderController extends Controller
     {
         $customer = Customer::with(['quotations' => function ($query) {
             $query->orderBy('id', 'desc')->with(['contract' => function ($query2) {
-                $query2->orderBy('id', 'desc')->with(['fees', 'deliveries'])->first();
+                $query2->orderBy('id', 'desc')->with(['payments', 'deliveries'])->first();
             }])->first();
         }])->find($id);
         $pdf = PDF::loadView('contract', compact('customer'));
