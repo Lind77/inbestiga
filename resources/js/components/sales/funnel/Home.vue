@@ -269,7 +269,15 @@ export default {
       axios.get('/api/leads')
         .then(res => {
           this.totalLeads = res.data
-
+          this.totalLeads.forEach(customer => {
+            if (customer.comunications) {
+              const ids = customer.comunications.map(comunication => {
+                return comunication.id;
+              });
+              const max = Math.max(...ids);
+              customer.lastManagement = customer.comunications.find(element => element.id === max);
+            }
+          })
           this.distributeLeads(this.totalLeads)
 
           this.customers_filtered = this.totalLeads
