@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-md-4 col-12 mb-3 mb-md-0">
                     <div class="list-group">
-                        <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" :href="`#list-home${comunication.id}`" v-for="comunication in comunications">{{ comunication.first_management }}</a>
+                        <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" :href="`#list-home${comunication.id}`" v-for="comunication in comunications">{{ comunication.last_management }}</a>
                     </div>
                     </div>
                         <div class="col-md-8 col-12">
