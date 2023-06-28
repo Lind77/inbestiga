@@ -13,6 +13,7 @@ use App\Models\Detail;
 use App\Models\Fee;
 use App\Models\Notification;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Quotation;
 use App\Models\Seen;
 use App\Models\User;
@@ -100,7 +101,7 @@ class ContractController extends Controller
     public function updateContract(Request $request)
     {
 
-        $contract = Contract::with(['quotation', 'quotation.details', 'quotation.customer', 'fees'])->find($request->get('contractId'));
+        $contract = Contract::with(['quotation', 'quotation.details', 'quotation.customer'])->find($request->get('contractId'));
 
         $contract->update([
             'amount' => $request->get('amount'),
@@ -127,23 +128,25 @@ class ContractController extends Controller
         foreach ($arrProds as $prod) {
             $detail = Detail::create([
                 'quotation_id' => $quotation->id,
-                'product_id' => 1,
+                'product_id' => $prod['product_id'],
                 'type' => $prod['type'],
                 'description' => '-',
                 'price' => $prod['price'],
-                'new_product_id' => $prod['new_product_id'],
                 'level' => $prod['level'],
                 'mode' => $prod['mode']
             ]);
         }
 
-        Fee::where('contract_id', $contract->id)->delete();
+        //Payments
+
+        $contract->payments->each->delete();
 
         $fees = json_decode($request->get('fees'), true);
 
         foreach ($fees as $fee) {
-            Fee::create([
-                'contract_id' => $contract->id,
+            Payment::create([
+                'paymentable_id' => $contract->id,
+                'paymentable_type' => 'App\Models\Contract',
                 'date' => $fee['date'],
                 'amount' => $fee['amount'],
                 'advance' => $fee['advance'],
@@ -151,13 +154,14 @@ class ContractController extends Controller
             ]);
         }
 
-        Delivery::where('contract_id', $contract->id)->delete();
+        $contract->deliveries->each->delete();
 
         $deliveries = json_decode($request->get('deliveries'), true);
 
         foreach ($deliveries as $delivery) {
             Delivery::create([
-                'contract_id' => $contract->id,
+                'deliverable_id' => $contract->id,
+                'deliverable_type' => 'App\Models\Contract',
                 'date' => $delivery['date'],
                 'advance' => $delivery['advance'],
                 'type' => 0
