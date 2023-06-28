@@ -20,7 +20,7 @@
                                     20) + '...' :
                                     profile.career }}</small>
                             </div>
-                            <span class="badge bg-label-primary rounded p-2">
+                            <span @dblclick="changeEmotion(profile)" class="badge bg-label-primary rounded p-2">
                                 <i class="bx bx-user bx-sm"></i>
                             </span>
                         </div>
@@ -38,6 +38,9 @@ export default {
         }
     },
     methods: {
+        changeEmotion(profile) {
+            console.log(profile);
+        },
         getProfiles() {
             axios.get('/api/profiles')
                 .then((result) => {
