@@ -99,7 +99,7 @@
             </div>
         </div>
     </div>
-    <DeliveryModal :action="1" @updateDate="updateDate" />
+    <DeliveryModal :action="1" @updateDate="getAllDeliveries" />
 </template>
 <script>
 import axios from 'axios';
@@ -181,8 +181,6 @@ export default {
             axios.get('/api/deliveries')
                 .then((result) => {
                     this.deliveries = result.data.deliveries
-                    this.payments = result.data.payments
-
                 }).catch((err) => {
                     console.error(err)
                 });

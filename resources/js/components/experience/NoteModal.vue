@@ -54,13 +54,17 @@
 </template>
 <script>
 import axios from 'axios'
-import { userStore } from '../../../stores/UserStore'
+import { userStore } from '../../stores/UserStore'
 import moment from 'moment'
 
 export default {
     setup() {
         const store = userStore()
         return { store }
+    },
+    props: {
+        action: Number,
+        customer: Object
     },
     data() {
         return {
@@ -109,11 +113,12 @@ export default {
             fd.append('date', this.date)
             fd.append('advance', this.advance)
             fd.append('dateAcad', this.dateAcad)
+            fd.append('status', 3)
 
             axios.post('/api/delivery', fd)
                 .then((result) => {
                     $('#deliveryModal').modal('hide')
-                    this.$emit('updateDate', this.date)
+                    this.$emit('getAllDeliveries')
                 }).catch((err) => {
                     console.error(err)
                 });
