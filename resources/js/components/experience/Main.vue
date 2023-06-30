@@ -8,8 +8,8 @@
               <div class="card-body" data-v-d514b8ac="">
                 <h5 class="card-title text-primary" data-v-d514b8ac="">{{ store.authUser ? store.authUser.name : '' }}, te
                   damos la bienvenida 🎉</h5>
-                <p class="mb-4" data-v-d514b8ac="">Tienes <span class="fw-bold" data-v-d514b8ac="">0</span> notas
-                  pendientes para hoy, te recomendamos revisarlas.</p>
+                <p class="mb-4" data-v-d514b8ac="">Hay <span class="fw-bold" data-v-d514b8ac="">{{ deliveries.length
+                }}</span> entregas para hoy, te recomendamos revisarlas.</p>
               </div>
             </div>
             <div class="col-sm-5 text-center text-sm-left" data-v-d514b8ac="">
@@ -21,28 +21,81 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12 col-lg-6 order-4 order-lg-3" data-v-d514b8ac="">
-        <div class="card" data-v-d514b8ac="">
-          <div class="card-header d-flex align-items-center justify-content-between" data-v-d514b8ac="">
-            <h5 class="card-title m-0 me-2" data-v-d514b8ac="">Notas</h5>
+      <div class="col-md-12 col-lg-6 order-4 order-lg-3">
+        <div class="card">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="card-title m-0 me-2">Notas <span @click="showModalNote"
+                class="badge bg-label-primary me-1 cursor-pointer">+</span></h5>
           </div>
-          <div class="card-body" data-v-d514b8ac=""><!-- Activity Timeline -->
-            <ul class="timeline" data-v-d514b8ac=""></ul><!-- /Activity Timeline -->
+          <div class="card-body"><!-- Activity Timeline -->
+            <div class="card bg-info text-white mb-3" v-for="note in notes">
+              <div class="card-header">Nota</div>
+              <div class="card-body">
+                <h5 class="card-title text-white">{{ note.deliverable.quotation.customer.name }}</h5>
+                <p class="card-text">
+                  {{ note.advance }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-6 order-4 order-lg-3">
+        <div class="card">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="card-title m-0 me-2">Entregas para hoy</h5>
+          </div>
+          <div class="card-body"><!-- Activity Timeline -->
+            <div class="card bg-success text-white mb-3" v-for="delivery in deliveries">
+              <div class="card-header">Entrega de {{ delivery.type == 1 ? 'Contrato' : 'Orden' }}</div>
+              <div class="card-body">
+                <h5 class="card-title text-white">{{ delivery.deliverable.quotation.customer.name }}</h5>
+                <p class="card-text">
+                  {{ delivery.advance }}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <NoteModal @getAllDeliveries="getAllDeliveries" />
 </template>
 <script>
-import { userStore } from '../../stores/UserStore';
+import { userStore } from '../../stores/UserStore'
+import NoteModal from '../experience/NoteModal.vue'
 
 export default {
+  components: { NoteModal },
   setup() {
     const store = userStore()
     return {
       store
     }
+  },
+  data() {
+    return {
+      deliveries: [],
+      notes: []
+    }
+  },
+  methods: {
+    showModalNote() {
+      $('#deliveryModal').modal('show')
+    },
+    getAllDeliveries() {
+      axios.get('/api/deliveries')
+        .then((result) => {
+          this.deliveries = result.data.deliveries.filter(delivery => delivery.status != 3)
+          this.notes = result.data.deliveries.filter(delivery => delivery.status == 3)
+        }).catch((err) => {
+          console.error(err)
+        });
+    }
+  },
+  mounted() {
+    this.getAllDeliveries()
   }
 }
 </script>
