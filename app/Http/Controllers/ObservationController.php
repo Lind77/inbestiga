@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Observation;
 use App\Http\Requests\StoreObservationRequest;
 use App\Http\Requests\UpdateObservationRequest;
+use App\Models\Delivery;
+use Illuminate\Http\Request;
 
 class ObservationController extends Controller
 {
@@ -34,9 +36,24 @@ class ObservationController extends Controller
      * @param  \App\Http\Requests\StoreObservationRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreObservationRequest $request)
+    public function store(Request $request)
     {
-        //
+        $delivery = Delivery::find($request->get('delivery_id'));
+
+        $delivery->update([
+            'date' => $request->get('date')
+        ]);
+
+        $observation = Observation::create([
+            'observable_id' => $delivery->id,
+            'observable_type' => 'App\Models\Delivery',
+            'content' => $request->get('content'),
+            'status' => 0
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     /**

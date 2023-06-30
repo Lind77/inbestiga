@@ -13,6 +13,7 @@ use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
 use App\Http\Controllers\NewProductController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ObservationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PaymentsController;
@@ -225,6 +226,8 @@ Route::get('/deliveries-date/{date}', [DeliveryController::class, 'getDeliveries
 Route::get('/deliveries-search/{search}', [DeliveryController::class, 'search']);
 Route::put('/delivery/{id}', [DeliveryController::class, 'update']);
 Route::get('/check-delivery/{id}', [DeliveryController::class, 'checkDelivery']);
+
+Route::post('/observation', [ObservationController::class, 'store']);
 
 Route::get('/contract/{search}', [ContractController::class, 'searchContract']);
 
