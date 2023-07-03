@@ -188,7 +188,7 @@
       <router-link :to="{ name: 'home-calendly' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-calendar"></i>
-          <div data-i18n="Form Layouts">Calendly</div>
+          <div data-i18n="Form Layouts">Calendario</div>
         </div>
       </router-link>
       <router-link :to="{ name: 'home-deliveries' }" class="menu-item">
