@@ -31,6 +31,8 @@
                     }}</small>
                 <input v-if="showDateAcad" type="date" class="form-control form-control-sm" @blur="hideDates(task)"
                     v-model="academicDate">
+                <span @click="openModalUpdateDelivery(task)" class="badge bg-label-primary me-1 ms-1 cursor-pointer"><i
+                        class='bx bx-edit-alt'></i></span>
             </div>
         </div>
     </li>
@@ -50,6 +52,9 @@ export default {
         task: Object
     },
     methods: {
+        openModalUpdateDelivery(task) {
+            this.$emit('showUpdateModal', task)
+        },
         checkTask() {
             if (this.check == true) {
                 alert('uncheck')

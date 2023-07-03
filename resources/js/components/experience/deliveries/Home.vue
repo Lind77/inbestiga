@@ -86,7 +86,8 @@
                             <div class="email-list pt-0 ps ps--active-y">
                                 <ul class="list-unstyled m-0">
                                     <template v-for="task in deliveries">
-                                        <Task :task="task" @updateDelivery="updateDelivery" />
+                                        <Task :task="task" @updateDelivery="updateDelivery"
+                                            @showUpdateModal="showUpdateModal" />
                                     </template>
                                 </ul>
 
@@ -99,16 +100,18 @@
             </div>
         </div>
     </div>
-    <DeliveryModal :action="1" @updateDate="updateDate" />
+    <DeliveryModal :action="1" @updateDate="getAllDeliveries" />
+    <UpdateModal :action="1" :delivery="deliverySelected" @updateDate="getAllDeliveries" />
 </template>
 <script>
 import axios from 'axios';
 import moment from 'moment';
 import DeliveryModal from './DeliveryModal.vue'
 import Task from './Task.vue'
+import UpdateModal from './UpdateModal.vue';
 
 export default {
-    components: { DeliveryModal, Task },
+    components: { DeliveryModal, Task, UpdateModal },
     data() {
         return {
             deliveries: [],
@@ -116,10 +119,15 @@ export default {
             date: moment().format('DD/MM/YYYY'),
             search: '',
             tasks: [],
-            showNewDate: false
+            showNewDate: false,
+            deliverySelected: {}
         }
     },
     methods: {
+        showUpdateModal(task) {
+            this.deliverySelected = task
+            $('#updateModal').modal('show');
+        },
         updateDelivery(delivery) {
             console.log('update new delivery from bd')
             var task = {
@@ -181,8 +189,6 @@ export default {
             axios.get('/api/deliveries')
                 .then((result) => {
                     this.deliveries = result.data.deliveries
-                    this.payments = result.data.payments
-
                 }).catch((err) => {
                     console.error(err)
                 });
