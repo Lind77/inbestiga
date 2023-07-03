@@ -14,10 +14,10 @@
         "vite": "^3.0.0"
     },
     "dependencies": {
-        "@fullcalendar/core": "^6.1.1",
-        "@fullcalendar/daygrid": "^6.1.1",
+        "@fullcalendar/core": "^6.1.8",
+        "@fullcalendar/daygrid": "^6.1.8",
         "@fullcalendar/interaction": "^6.1.1",
-        "@fullcalendar/vue3": "^6.1.2",
+        "@fullcalendar/vue3": "^6.1.8",
         "@vitejs/plugin-vue": "^3.2.0",
         "apexcharts": "^3.36.3",
         "conversor-numero-a-letras-es-ar": "^1.0.3",
