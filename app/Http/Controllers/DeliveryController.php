@@ -18,11 +18,8 @@ class DeliveryController extends Controller
     public function index()
     {
         $deliveries = Delivery::with(['deliverable', 'deliverable.quotation', 'deliverable.quotation.customer'])->where('date', date('Y-m-d'))->get();
-        $payments = Payment::with(['order', 'order.quotation', 'order.quotation.customer'])->where('date', date('Y-m-d'))->get();
-
         return response()->json([
-            'deliveries' => $deliveries,
-            'payments' => $payments
+            'deliveries' => $deliveries
         ]);
     }
 
@@ -44,12 +41,31 @@ class DeliveryController extends Controller
      */
     public function store(Request $request)
     {
-        $delivery = Delivery::create([
-            'contract_id' => $request->get('contract_id'),
-            'date' => $request->get('date'),
-            'advance' => $request->get('advance'),
-            'type' => 1,
-            'academic_date' => $request->get('dateAcad')
+
+        if ($request->get('type') == 1) {
+            $delivery = Delivery::create([
+                'deliverable_id' => $request->get('deliverable_id'),
+                'deliverable_type' => 'App\Models\Contract',
+                'date' => $request->get('date'),
+                'advance' => $request->get('advance'),
+                'type' => $request->get('type'),
+                'academic_date' => $request->get('dateAcad'),
+                'status' => $request->get('status'),
+            ]);
+        } else {
+            $delivery = Delivery::create([
+                'deliverable_id' => $request->get('deliverable_id'),
+                'deliverable_type' => 'App\Models\Order',
+                'date' => $request->get('date'),
+                'advance' => $request->get('advance'),
+                'type' => $request->get('type'),
+                'academic_date' => $request->get('dateAcad'),
+                'status' => $request->get('status'),
+            ]);
+        }
+
+        return response()->json([
+            'msg' => 'success'
         ]);
     }
 
