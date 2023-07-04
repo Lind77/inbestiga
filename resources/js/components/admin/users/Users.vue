@@ -22,8 +22,13 @@
                             <td>{{ user.name }}</td>
                             <td>{{ user.subarea.area.name }}</td>
                             <td>{{ user.roles[0].name }}</td>
-                            <td><span v-if="user.id != 1" @click="deleteUser(user.id)"
-                                    class="badge bg-label-danger me-1 cursor-pointer"><i class='bx bx-trash'></i></span>
+                            <td>
+                                <span v-if="user.id != 1" @click="deleteUser(user.id)"
+                                    class="badge bg-label-danger me-1 cursor-pointer"><i class='bx bx-trash'></i>
+                                </span>
+                                <span v-if="user.id != 1" class="badge bg-label-primary me-1 cursor-pointer"
+                                    @click="showPermissionModal(user)"><i class='bx bx-dialpad-alt'></i>
+                                </span>
                             </td>
                         </tr>
                     </tbody>
@@ -31,13 +36,14 @@
             </div>
         </div>
         <InsertUser @getAllUsers="getAllUsers" />
+        <PermissionsModal :user="userSelected" />
     </div>
 </template>
 <script>
 import InsertUser from './InsertUser.vue'
-
+import PermissionsModal from './PermissionsModal.vue'
 export default {
-    components: { InsertUser },
+    components: { InsertUser, PermissionsModal },
     data() {
         return {
             users: [],
@@ -46,10 +52,15 @@ export default {
                 'sales': 'Ventas',
                 'acad': 'Académico',
                 'experience': 'Experiencia del Inbestigador'
-            }
+            },
+            userSelected: {}
         }
     },
     methods: {
+        showPermissionModal(user) {
+            $('#modalPermission').modal('show');
+            this.userSelected = user
+        },
         getAllUsers() {
             axios.get('/api/users')
                 .then(res => {

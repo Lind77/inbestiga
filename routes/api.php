@@ -62,6 +62,7 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 //Administrative Departement
 
 Route::get('/roles', [RoleController::class, 'index']);
+Route::get('/roles-all', [RoleController::class, 'getAllRoles']);
 Route::post('/roles', [RoleController::class, 'store']);
 
 // administracion de area y subarea
@@ -232,3 +233,8 @@ Route::post('/observation', [ObservationController::class, 'store']);
 Route::get('/contract/{search}', [ContractController::class, 'searchContract']);
 
 Route::post('/payment', [PaymentsController::class, 'store']);
+
+Route::post('/permissions', [UserController::class, 'createPermission']);
+Route::get('/permissions', [UserController::class, 'getPermissions']);
+Route::post('/permission-sync', [UserController::class, 'syncPermission']);
+Route::post('/permission-sync-user', [UserController::class, 'syncPermissionUser']);
