@@ -1,27 +1,80 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold">Permisos</h4>
+        <h4 class="fw-bold">Lista de Permisos</h4>
         <div class="row">
-            <div class="col-md-4" v-for="user in users">
-                <div class="card text-start mt-2">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ user.name }}</h4>
-                        <p class="card-text">Permisos</p>
+            <div class="card">
+                <div class="card-header">
+                    <div class="row d-flex justify-content-end">
+                        <button class="btn btn-primary w-25" @click="showModalPermission">Agregar</button>
                     </div>
+                </div>
+                <div class="table-responsive text-nowrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Asignado a</th>
+                                <th>Fecha de Creación</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            <tr v-for="permission in permissions">
+                                <td>{{ permission.name }}</td>
+                                <td><span v-for="rol in permission.roles" class="badge bg-label-primary me-1">{{ rol.name
+                                }}</span>
+                                </td>
+                                <td>
+                                    {{ permission.created_at }}
+                                </td>
+                                <td>
+                                    <span class="text-nowrap">
+                                        <button class="btn btn-sm btn-icon me-2" @click="modalRoles(permission)">
+                                            <i class="bx bx-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon delete-record"><i class="bx bx-trash"></i>
+                                        </button>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-
     </div>
+    <PermissionModal />
+    <RoleModal :permission="permissionSelected" />
 </template>
 <script>
+import PermissionModal from './PermissionModal.vue'
+import RoleModal from './RoleModal.vue';
+
 export default {
+    components: { PermissionModal, RoleModal },
     data() {
         return {
-            users: []
+            users: [],
+            permissions: [],
+            permissionSelected: {}
         }
     },
     methods: {
+        modalRoles(permission) {
+            $('#modalRole').modal('show')
+            this.permissionSelected = permission
+        },
+        getPermissions() {
+            axios.get('/api/permissions')
+                .then((result) => {
+                    this.permissions = result.data
+                }).catch((err) => {
+                    console.log(err);
+                });
+        },
+        showModalPermission() {
+            $('#modalPermission').modal('show')
+        },
         getAllUsers() {
             axios.get('/api/users')
                 .then(res => {
@@ -30,10 +83,11 @@ export default {
                 .catch(err => {
                     console.log(err)
                 })
-        },
+        }
     },
     mounted() {
         this.getAllUsers()
+        this.getPermissions()
     }
 }
 </script>
