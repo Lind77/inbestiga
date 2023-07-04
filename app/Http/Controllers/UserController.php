@@ -7,6 +7,7 @@ use App\Models\Memoir;
 use App\Models\Progress;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -73,5 +74,41 @@ class UserController extends Controller
     {
         $users = User::where('subarea_id', 2)->get();
         return response()->json($users);
+    }
+
+    public function createPermission(Request $request)
+    {
+        $permission = Permission::create([
+            'name' => $request->get('name')
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function getPermissions()
+    {
+        $permissions = Permission::with('roles')->get();
+        return response()->json($permissions);
+    }
+
+    public function syncPermission(Request $request)
+    {
+        $permission = Permission::find($request->get('permission_id'));
+        $roles = json_decode($request->get('roles'), true);
+        $permission->syncRoles($roles);
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function syncPermissionUser(Request $request)
+    {
+        $user = User::find($request->get('user_id'));
+        $permissions = json_decode($request->get('permissions'), true);
+        $user->givePermissionTo($permissions);
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }

@@ -26,7 +26,7 @@
                     <thead>
                         <tr>
                             <th>
-                                <h2 class="name-customer">Fecha: </h2>
+                                <h2 class="name-customer">Nombre: </h2>
                             </th>
                             <th><span class="name">{{ order.quotation.customer.name }}</span></th>
                         </tr>
@@ -391,4 +391,5 @@ footer {
 footer .top-secret {
     font-size: 6px;
     text-align: start;
-}</style>
+}
+</style>
