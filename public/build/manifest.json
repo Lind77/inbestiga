@@ -13,14 +13,14 @@
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app.72b13e0a.css"
+      "assets/app.1e87eef3.css"
     ],
     "assets": [
       "assets/tone-alert.1a21ca07.mp3"
     ]
   },
   "resources/js/app.css": {
-    "file": "assets/app.72b13e0a.css",
+    "file": "assets/app.1e87eef3.css",
     "src": "resources/js/app.css"
   }
 }

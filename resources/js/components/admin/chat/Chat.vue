@@ -1,29 +1,25 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold">Chat</h4>
-        <div class="card vh-100">
+        <div class="card chat-card">
             <div class="row">
-                <div class="d-none d-lg-block col-xs-12 col-lg-4" id="listSection">
+                <div class="d-none d-lg-block col-xs-12 col-lg-4 pe-0" id="listSection">
                     <div class="chat-history-header border-bottom">
                         <div class="d-flex justify-content-between align-items-center p-3">
                             <div class="d-flex overflow-hidden align-items-center">
                                 <i @click="hideList" class="bx bx-menu bx-sm cursor-pointer d-lg-none d-block me-2"
                                     data-bs-toggle="sidebar" data-overlay="" data-target="#app-chat-contacts"></i>
                                 <div class="flex-shrink-0 avatar me-2">
-                                    <span class="avatar-initial rounded-circle bg-primary" v-if="store.authUser">{{
-                                        store.authUser.name[0] }}</span>
+                                    <span class="avatar-initial rounded-circle bg-primary" v-if="store.user">{{
+                                        store.user.name[0] }}</span>
                                 </div>
-                                <!-- <div class="input-group input-group-merge rounded-pill ms-1">
-                            <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search fs-4"></i></span>
-                            <input type="text" class="form-control chat-search-input" placeholder="Search..." aria-label="Search..." aria-describedby="basic-addon-search31">
-                        </div> -->
                             </div>
 
                         </div>
                     </div>
                     <ContactList :users="users" @listConversations="listConversations" @hideList="hideList" />
                 </div>
-                <div class="col-xs-8 col-sm-12 col-lg-8 app-chat-history" id="chatConverstion">
+                <div class="col-xs-8 col-sm-12 col-lg-8 app-chat-history ps-0" id="chatConverstion">
                     <div class="chat-history-wrapper">
                         <div class="chat-history-header border-bottom">
                             <div class="d-flex justify-content-between align-items-center p-3">
@@ -41,16 +37,12 @@
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center">
-                                    <!-- <i class="bx bx-phone-call cursor-pointer d-sm-block d-none me-3 fs-4"></i>
-                <i class="bx bx-video cursor-pointer d-sm-block d-none me-3 fs-4"></i>
-                <i class="bx bx-search cursor-pointer d-sm-block d-none me-3 fs-4"></i> -->
                                 </div>
                             </div>
                         </div>
 
                         <Conversation :selected_messages="selected_messages" :user_selected="user_selected" />
 
-                        <!-- Chat message form -->
                         <SendMessage @message="setNewMessage" :user_selected="user_selected" />
                     </div>
                 </div>
@@ -141,6 +133,10 @@ export default {
 }
 </script>
 <style scoped>
+.chat-card {
+    height: 70vh;
+}
+
 .hidden {
     display: block;
 }
