@@ -49,7 +49,7 @@
                             class="list-group-item d-flex justify-content-between align-items-center cursor-pointer"
                             v-for="newProductByName in newProductsByName">
                             {{ newProductByName.name }}
-                            <span class="badge bg-primary">S./ {{ newProductByName.newPriceSelected.price }}</span>
+                            <span class="badge bg-primary">S./ {{ newProductByName.newPriceSelected.pivot.price }}</span>
                         </li>
                     </ul>
                 </div>
@@ -124,13 +124,15 @@ export default {
         },
         selectMode(e) {
             this.newProductsByType = this.newProducts.filter(product => product.type == e.target.value)
+            console.log('mode selected', this.newProductsByType);
         },
         searchNewProduct(e) {
             this.newProductsByType = this.newProducts.filter(product => product.type == this.detail.mode)
             if (e.target.value != '') {
                 this.newProductsByName = this.newProductsByType.filter(product => product.name.toLowerCase().includes(e.target.value))
+                console.log('searching', this.newProductsByName);
                 this.newProductsByName.forEach((product) => {
-                    product.newPriceSelected = product.newprices.find(price => price.level == this.detail.level)
+                    product.newPriceSelected = product.levels.find(level => level.name == this.detail.level)
                 })
             } else {
                 this.newProductsByName = []
@@ -138,13 +140,13 @@ export default {
         },
         addPrice(newProductByName) {
             console.log(newProductByName)
-            this.detail.price = newProductByName.newPriceSelected.price
-            this.initialPrice = newProductByName.newPriceSelected.price
+            this.detail.price = newProductByName.newPriceSelected.pivot.price
+            this.initialPrice = newProductByName.newPriceSelected.pivot.price
             if (this.detail.new_product == null) {
                 this.detail.new_product = {}
             }
-            this.detail.new_product.name = newProductByName.name
-            this.detail.new_product_id = newProductByName.id
+            this.detail.product.name = newProductByName.name
+            this.detail.product_id = newProductByName.id
             this.detail.modeProduct = newProductByName.mode
             this.detail.type = 1
             this.newProductsByName = []

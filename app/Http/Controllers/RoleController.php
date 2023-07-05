@@ -84,4 +84,10 @@ class RoleController extends Controller
     {
         //
     }
+
+    public function getAllRoles()
+    {
+        $roles = Role::all();
+        return $roles;
+    }
 }
