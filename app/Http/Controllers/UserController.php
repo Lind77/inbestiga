@@ -15,13 +15,13 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::with(['roles', 'subarea', 'subarea.area'])->get();
+        $users = User::with(['roles', 'subarea', 'subarea.area', 'permissions'])->get();
         return response()->json($users);
     }
 
     public function show($id)
     {
-        $user = User::with(['memoir', 'memoir.team'])->find($id);
+        $user = User::with(['roles', 'permissions'])->find($id);
         $progress = Progress::where('owner', '=', $user->name)->with(['progressable', 'progressable.activity'])->get();
         return response()->json([
             'user' => $user,
