@@ -83,7 +83,9 @@
         </div>
       </router-link>
 
-      <!-- <router-link :to="{name:'home-calendar'}" class="menu-item">
+      <!--
+        {{ user.permissions }} 
+        <router-link :to="{name:'home-calendar'}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-calendar-event"></i>
               <div data-i18n="Form Layouts">Calendario</div>
@@ -267,7 +269,8 @@ export default {
     hidden: {
       type: Boolean,
       default: true
-    }
+    },
+    user: Object
   },
   data() {
     return {
