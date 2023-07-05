@@ -5,7 +5,7 @@
                 <div class="modal-body">
                     <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
                     <div class="text-center mb-4">
-                        <h3>Gestionar Permisos</h3>
+                        <h3>Gestionar Permisos - {{ user.name }}</h3>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-flush-spacing">
@@ -80,6 +80,18 @@ export default {
                 }).catch((err) => {
                     console.error(err);
                 });
+        }
+    },
+    watch: {
+        user() {
+            console.log(this.user.permissions);
+            if (this.user.permissions.length == 0) {
+                this.selectedPermissions = []
+            } else {
+                this.user.permissions.forEach(permission => {
+                    this.selectedPermissions.push(permission.name);
+                });
+            }
         }
     },
     mounted() {
