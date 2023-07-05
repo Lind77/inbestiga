@@ -56,7 +56,7 @@ Route::get('/migrate', function () {
     dd('migrated!');
 });
 
-Route::post('login', [AuthController::class, 'login']);
+Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 //Administrative Departement
