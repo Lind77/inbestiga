@@ -156,8 +156,8 @@ export default {
 
       axios.post('/api/login', fd)
         .then(res => {
-          this.store.setUser(res.data.user)
           localStorage.setItem('token', res.data.token)
+          this.store.setUser(res.data.user)
           this.$router.push({ path: `${res.data.area.name}/home` })
           this.$swal().close()
         }).catch((err) => {
