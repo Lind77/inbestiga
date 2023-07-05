@@ -13,6 +13,7 @@ use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
 use App\Http\Controllers\NewProductController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ObservationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PaymentsController;
@@ -61,6 +62,7 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 //Administrative Departement
 
 Route::get('/roles', [RoleController::class, 'index']);
+Route::get('/roles-all', [RoleController::class, 'getAllRoles']);
 Route::post('/roles', [RoleController::class, 'store']);
 
 // administracion de area y subarea
@@ -226,6 +228,13 @@ Route::get('/deliveries-search/{search}', [DeliveryController::class, 'search'])
 Route::put('/delivery/{id}', [DeliveryController::class, 'update']);
 Route::get('/check-delivery/{id}', [DeliveryController::class, 'checkDelivery']);
 
+Route::post('/observation', [ObservationController::class, 'store']);
+
 Route::get('/contract/{search}', [ContractController::class, 'searchContract']);
 
 Route::post('/payment', [PaymentsController::class, 'store']);
+
+Route::post('/permissions', [UserController::class, 'createPermission']);
+Route::get('/permissions', [UserController::class, 'getPermissions']);
+Route::post('/permission-sync', [UserController::class, 'syncPermission']);
+Route::post('/permission-sync-user', [UserController::class, 'syncPermissionUser']);

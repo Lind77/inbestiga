@@ -1,43 +1,20 @@
 <template>
-    <div class="modal fade" id="deliveryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Insertar Entrega</h5>
+                    <h5 class="modal-title" id="exampleModalLabel1">Actualizar Fecha de Entrega</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="input-group">
-                            <input v-model="name" type="text" class="form-control" placeholder="Nombre del cliente"
-                                aria-label="Recipient's username" aria-describedby="button-addon2"
-                                @keyup.enter="searchContract">
-                            <button class="btn btn-outline-primary" type="button" id="button-addon2"
-                                @click="searchContract"><i class='bx bx-search'></i></button>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="alert alert-warning" role="alert" v-show="noResults">No se han encontrado contratos ni
-                            ordenes que
-                            coincidan con el nombre de este usuario.</div>
-                        <div class="col-6 mb-2" v-for="result in results">
-                            <button :class="`btn btn-sm ${result.type == 1 ? 'btn-success' : 'btn-info'}  w-100`"
-                                @click="selectDocument(result)">{{ result.name }} - {{
-                                    result.date }}</button>
-                        </div>
-                    </div>
-                    <div class="row" v-show="showFields">
                         <div class="col-12 mb-3">
-                            <label for="nameBasic" class="form-label">Fecha</label>
+                            <label for="nameBasic" class="form-label">Nueva fecha de entrega</label>
                             <input type="date" v-model="date" class="form-control" />
                         </div>
                         <div class="col-12 mb-3">
-                            <label for="nameBasic" class="form-label">Avance</label>
-                            <input type="text" v-model="advance" class="form-control" />
-                        </div>
-                        <div class="col-12 mb-3">
-                            <label for="nameBasic" class="form-label">Fecha Académica</label>
-                            <input type="date" v-model="dateAcad" class="form-control" />
+                            <label for="nameBasic" class="form-label">Razón de actualización</label>
+                            <textarea v-model="content" class="form-control" name="" id="" cols="30" rows="4"></textarea>
                         </div>
                     </div>
                 </div>
@@ -46,7 +23,7 @@
                         data-bs-dismiss="modal">
                         Cerrar
                     </button>
-                    <button type="button" @click="insertDelivery" class="btn btn-primary">Registrar</button>
+                    <button type="button" @click="updateDelivery" class="btn btn-primary">Actualizar</button>
                 </div>
             </div>
         </div>
@@ -61,6 +38,9 @@ export default {
     setup() {
         const store = userStore()
         return { store }
+    },
+    props: {
+        delivery: Object
     },
     data() {
         return {
@@ -93,6 +73,21 @@ export default {
         }
     },
     methods: {
+        updateDelivery() {
+            const fd = new FormData()
+            fd.append('delivery_id', this.delivery.id)
+            fd.append('date', this.date)
+            fd.append('content', this.content)
+
+            axios.post('/api/observation', fd)
+                .then((result) => {
+                    console.log(result);
+                    $('#updateModal').modal('hide');
+                    this.$emit('updateDate')
+                }).catch((err) => {
+                    console.log(err);
+                });
+        },
         selectDocument(result) {
             this.showFields = true
             this.resultId = result.id

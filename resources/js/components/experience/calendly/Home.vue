@@ -1,86 +1,68 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold">Calendly</h4>
-        <div class="card text-start mt-2" v-for="item in collection">
-
+        <h4 class="fw-bold">Calendario</h4>
+        <div class="card">
             <div class="card-header"></div>
             <div class="card-body">
-                <h4 class="card-title">{{ item.name }}</h4>
-                <p class="card-text">{{ formatDate(item.start_time) }}</p>
-                <p class="card-text">{{ formatTime(item.start_time) }} - {{ formatTime(item.end_time) }}</p>
+                <FullCalendar :options="calendarOptions" />
             </div>
         </div>
     </div>
+    <AddEvent :info="info" @addEvent="addEvent" />
+    <OffCanvasEvent :info="infoEvent" />
 </template>
 <script>
 import moment from "moment"
+import FullCalendar from '@fullcalendar/vue3'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction'
+import esLocale from '@fullcalendar/core/locales/es'
+import AddEvent from './AddEvent.vue'
+import OffCanvasEvent from './OffCanvas.vue'
+
 export default {
+    components: { FullCalendar, AddEvent, OffCanvasEvent },
     data() {
         return {
             user: {},
-            collection: []
+            collection: [],
+            calendarOptions: {
+                plugins: [dayGridPlugin, interactionPlugin],
+                editable: true,
+                initialView: 'dayGridMonth',
+                locale: esLocale,
+                hiddenDays: [0],
+                events: [],
+                eventClick: this.eventClick,
+                dateClick: this.handleDateClick,
+                eventColor: '#696cff'
+            },
+            info: {},
+            infoEvent: {}
         }
     },
     methods: {
+        addEvent(evt) {
+            this.calendarOptions.events.push(evt);
+            $('#eventModal').modal('hide')
+        },
+        handleDateClick(arg) {
+            this.info = arg
+            $('#eventModal').modal('show')
+        },
+        eventClick(info) {
+            this.infoEvent = info
+            $('#offcanvasEvent').offcanvas('show')
+        },
         formatDate(time) {
             return moment(time).format('DD/MM/YYYY')
         },
         formatTime(time) {
             return moment(time).format('hh:mm a')
-        },
-        login() {
-            const authHeader = 'LVlOdkNPUXFWbkJLOXB1QVFGak9NTlNhX0FHQkdIdm11U2syek1LWC1vSTpQMGt2eFEzX2xYY1pLRlhEXzhRVDNzaHR6Nk5nNV8zdnV1UmdHMHFSbDZv';
-            const options = {
-                method: 'POST',
-                url: 'https://auth.calendly.com/oauth/token',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    Authorization: `Basic ${authHeader}`
-                },
-                data: {
-                    grant_type: 'authorization_code',
-                    code: this.$route.query.code,
-                    redirect_uri: 'https://sistema.inbestiga.com/inbestiga/experience/calendly'
-                }
-            };
-            axios.request(options)
-                .then((result) => {
-                    console.log(result.data);
-                    this.consultEvents(result.data.access_token, result.data.owner)
-                }).catch((err) => {
-                    console.error(err);
-                });
-        },
-        consultEvents(token, owner) {
-            const options = {
-                method: 'GET',
-                url: 'https://api.calendly.com/scheduled_events',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + token
-                },
-                params: {
-                    user: owner
-                }
-            };
-            this.user = {}
-            axios.request(options)
-                .then((response) => {
-                    console.log(response.data);
-                    this.user = response.data
-                    this.collection = response.data.collection
-                }).catch((error) => {
-                    console.error(error);
-                });
-        },
-
+        }
     },
     mounted() {
-        if (!this.$route.query.code) {
-            window.location.href = 'https://auth.calendly.com/oauth/authorize?client_id=-YNvCOQqVnBK9puAQFjOMNSa_AGBGHvmuSk2zMKX-oI&response_type=code&redirect_uri=https://sistema.inbestiga.com/inbestiga/experience/calendly'
-        } else {
-            this.login()
-        }
+
     }
 }
 </script>

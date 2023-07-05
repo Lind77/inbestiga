@@ -83,7 +83,9 @@
         </div>
       </router-link>
 
-      <!-- <router-link :to="{name:'home-calendar'}" class="menu-item">
+      <!--
+        {{ user.permissions }} 
+        <router-link :to="{name:'home-calendar'}" class="menu-item">
             <div class="menu-link">
               <i class="menu-icon tf-icons bx bx-calendar-event"></i>
               <div data-i18n="Form Layouts">Calendario</div>
@@ -117,46 +119,24 @@
           <div data-i18n="Form Layouts">Sub-Areas</div>
         </div>
       </router-link>
-      <router-link :to="{ name: 'roles-admin' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Form Layouts">Roles</div>
-        </div>
-      </router-link>
       <li :class="`menu-item ${toggle}`" @click="showToggle">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
-          <i class="menu-icon tf-icons bx bx-food-menu"></i>
-          <div data-i18n="Invoice">Invoice</div>
+          <i class="menu-icon tf-icons bx bx-check-shield"></i>
+          <div data-i18n="Invoice">Roles y Permisos</div>
         </a>
         <ul class="menu-sub">
           <li class="menu-item">
-            <a href="app-invoice-list.html" class="menu-link">
-              <div data-i18n="List">List</div>
-            </a>
+            <router-link :to="{ name: 'roles-admin' }" class="menu-link">
+              <div data-i18n="List">Roles</div>
+            </router-link>
           </li>
           <li class="menu-item">
-            <a href="app-invoice-preview.html" class="menu-link">
-              <div data-i18n="Preview">Preview</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="app-invoice-edit.html" class="menu-link">
-              <div data-i18n="Edit">Edit</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="app-invoice-add.html" class="menu-link">
-              <div data-i18n="Add">Add</div>
-            </a>
+            <router-link :to="{ name: 'permissions-admin' }" class="menu-link">
+              <div data-i18n="Preview">Permisos</div>
+            </router-link>
           </li>
         </ul>
       </li>
-      <router-link :to="{ name: 'permissions-admin' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Form Layouts">Permisos</div>
-        </div>
-      </router-link>
       <router-link :to="{ name: 'promos-admin' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-user"></i>
@@ -188,7 +168,7 @@
       <router-link :to="{ name: 'home-calendly' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-calendar"></i>
-          <div data-i18n="Form Layouts">Calendly</div>
+          <div data-i18n="Form Layouts">Calendario</div>
         </div>
       </router-link>
       <router-link :to="{ name: 'home-deliveries' }" class="menu-item">
@@ -251,7 +231,6 @@
           <div data-i18n="Form Layouts">Inbestigadores</div>
         </div>
       </router-link>
-
       <router-link :to="{ name: 'home-teams' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-group"></i>
@@ -290,7 +269,8 @@ export default {
     hidden: {
       type: Boolean,
       default: true
-    }
+    },
+    user: Object
   },
   data() {
     return {
@@ -326,6 +306,4 @@ aside {
   position: fixed !important;
   transform: translate3d(-100%, 0, 0) !important;
 }
-
-@media (max-width: 768px) {}
 </style>

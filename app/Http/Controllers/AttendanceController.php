@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
+use App\Models\Attendance;
+use App\Http\Requests\StoreAttendanceRequest;
+use App\Http\Requests\UpdateAttendanceRequest;
 
-class RoleController extends Controller
+class AttendanceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all()->pluck('name');
-        return $roles;
+        //
     }
 
     /**
@@ -31,22 +31,21 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreAttendanceRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAttendanceRequest $request)
     {
-        $role = Role::create($request->all());
-        return $role;
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Attendance $attendance)
     {
         //
     }
@@ -54,10 +53,10 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Attendance $attendance)
     {
         //
     }
@@ -65,11 +64,11 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateAttendanceRequest  $request
+     * @param  \App\Models\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateAttendanceRequest $request, Attendance $attendance)
     {
         //
     }
@@ -77,17 +76,11 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Attendance $attendance)
     {
         //
-    }
-
-    public function getAllRoles()
-    {
-        $roles = Role::all();
-        return $roles;
     }
 }
