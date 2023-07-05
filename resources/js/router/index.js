@@ -318,9 +318,8 @@ export const routes = [
                 name: 'main-experience'
             },
             {
-                path: 'calendly/:code?',
+                path: 'calendly',
                 component: HomeCalendly,
-                props: true,
                 name: 'home-calendly'
             },
             {
