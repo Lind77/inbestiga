@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="col-4">
-                <div class="card bg-warning text-white" v-if="comunicationSelected.customer">
+                <div class="card-info text-white" v-if="comunicationSelected.customer">
                     <div class="card-body">
                         <p>Nombre: {{ comunicationSelected.customer.name }}</p>
                         <p>Carrera: {{ comunicationSelected.customer.career }}</p>
@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="col-4">
-                <div class="card bg-success text-white mb-1" v-if="comunicationSelected.customer"
+                <div class="card-info text-white mb-1" v-if="comunicationSelected.customer"
                     v-for="comunication in comunicationSelected.customer.comunications">
                     <div class="card-body">
                         <p>{{ comunication.created_at }}</p>
@@ -65,3 +65,8 @@ export default {
     }
 }
 </script>
+<style>
+.card-info {
+    background: #07E878;
+}
+</style>
