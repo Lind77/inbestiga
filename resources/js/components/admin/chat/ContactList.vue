@@ -56,7 +56,11 @@ export default {
 </script>
 <style scoped>
 .chat-history-body {
-    height: 50%;
-    overflow: auto;
+    overflow-y: scroll;
+    height: 60vh;
+}
+
+.list-unstyled {
+    height: 10%;
 }
 </style>
