@@ -29,7 +29,7 @@ class Project extends Model
     }
     //Relacion muchos a muchos project_startupactivity
     public function startup_activities(){
-        return $this->belongsToMany("App\Models\Startup_activity")->with_pivot('project_startup_activity');
+        return $this->belongsToMany("App\Models\Startup_activity",'project_startup_activity');
     }
     //relacion uno a muchos morfeable morfeable(project,delivery,assigned_task,assigned_activity)
     public function progress(){
