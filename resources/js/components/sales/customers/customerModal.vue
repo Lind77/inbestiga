@@ -129,7 +129,7 @@ export default {
             users: [],
             referedFrom: 0,
             channel: 0,
-            status: 0
+            status: 1
         }
     },
     methods: {
