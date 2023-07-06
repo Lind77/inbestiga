@@ -45,19 +45,26 @@ class User extends Authenticatable
 
 
     //Realcion inversa uno a mucho Team-User
-    public function team()
-    {
+    public function team(){
         return $this->belongsTo('App\Models\Team');
     }
+    //Realcion uno a muchos User-Schedule
+    public function schedules(){
+        return $this->hasMany('App\Models\Schedule');
+    }
     //Realcion inversa uno a mucho Subarea-User
-    public function subarea()
-    {
+    public function subarea(){
         return $this->belongsTo('App\Models\Subarea');
     }
     //realcion muchos a muchos user-notifications
     public function notifications()
     {
         return $this->belongsToMany('App\Models\Notification', 'seens');
+    }
+    //realcion muchos a muchos user-meetings
+    public function meetings()
+    {
+        return $this->belongsToMany('App\Models\Meeting', 'meeting_user');
     }
     //relacion uno a muchos user-comissions
     public function comissions()
