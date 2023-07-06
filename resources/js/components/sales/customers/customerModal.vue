@@ -129,7 +129,7 @@ export default {
             users: [],
             referedFrom: 0,
             channel: 0,
-            status: 0
+            status: 1
         }
     },
     methods: {
@@ -203,7 +203,7 @@ export default {
             fd.append('career', this.career)
             fd.append('email', this.email)
             fd.append('origin', this.origin)
-            fd.append('status', 1)
+            fd.append('status', this.status)
             fd.append('referedFrom', this.referedFrom)
             fd.append('channel', this.channel)
             fd.append('user_id', 12)
