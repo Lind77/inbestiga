@@ -11,6 +11,6 @@ class Startup_activity extends Model
     protected $fillable = ['name']; 
     //Relacion muchos a muchos project_startupactivity
     public function projects(){
-        return $this->belongsToMany("App\Models\Project")->with_pivot('project_startup_activity');
+        return $this->belongsToMany('App\Models\Project','project_startup_activity');
     }
 }
