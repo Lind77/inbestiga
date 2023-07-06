@@ -9,8 +9,8 @@
             </div>
 
             <div class="email-list-item-content ms-2 ms-sm-0 me-2">
-                <span class="email-list-item-username me-2 h6">{{
-                    task.deliverable.quotation.customer.name
+                <span class="email-list-item-username me-2 h6" v-for="customer in task.deliverable.quotation.customers">{{
+                    customer.name
                 }}</span>
                 <span class="email-list-item-subject d-xl-inline-block d-block"> {{
                     task.advance

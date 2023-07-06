@@ -12,10 +12,10 @@
         </thead>
         <tbody class="table-border-bottom-0">
           <tr v-for="contract in contracts">
-            <td><strong>{{ contract.quotation.customer.name }}</strong></td>
+            <td><strong v-for="customer in contract.quotation.customers">{{ customer.name }}</strong></td>
             <td>{{ contract.date ? contract.date : '' }}</td>
             <td>
-              <a :href="`../public/api/generateContract/${contract.quotation.customer.id}`" target="_blank"
+              <a :href="`../public/api/generateContract/${contract.quotation.id}`" target="_blank"
                 class="btn btn-sm btn-primary mx-2 text-white" disabled><i class='bx bx-printer'></i></a>
             </td>
           </tr>

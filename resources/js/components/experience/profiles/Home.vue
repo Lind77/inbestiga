@@ -12,30 +12,40 @@
                                     customer.university }}</span>
                                 <div class="d-flex align-items-end mt-2">
                                     <h4 class="mb-0 me-2" :title="customer.name">{{
-                                        customer.name.length > 15 ? customer.name.substring(0, 15) + '...' : customer.name }}
+                                        customer.name.length > 15 ? customer.name.substring(0, 15) + '...' : customer.name
+                                    }}
                                     </h4>
                                     <!-- <small class="text-success">(+29%)</small> -->
                                 </div>
-                                <small :title="customer.career">{{ customer.career.length > 20 ? customer.career.substring(0,
-                                    20) + '...' :
+                                <small :title="customer.career">{{ customer.career.length > 20 ?
+                                    customer.career.substring(0,
+                                        20) + '...' :
                                     customer.career }}</small>
                             </div>
-                            <button @click="showCustomerModal(customer)" class="btn btn-info btn-sm ms-2">
-                                <i class="bx bx-user bx-sm"></i>
-                            </button>
+                            <div class="d-flex flex-column">
+                                <button @click="showCustomerModal(customer)" class="btn btn-info btn-sm ms-2">
+                                    <i class="bx bx-user bx-sm"></i>
+                                </button>
+                                <button @click="showComunicationsModal(customer)" class="btn btn-warning btn-sm ms-2 mt-1">
+                                    <i class="bx bx-chat bx-sm"></i>
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <CustomerprofileModal :customer="customer_selected"/>
+        <CustomerprofileModal :customer="customer_selected" />
+        <ComunicationsModal :comunications="comunicationsSelected" />
     </div>
 </template>
 <script>
 import CustomerprofileModal from './CustomerprofileModal.vue'
+import ComunicationsModal from './ComunicationsModal.vue'
 export default {
-    components:{
-        CustomerprofileModal
+    components: {
+        CustomerprofileModal, ComunicationsModal
     },
     data() {
         return {
@@ -43,12 +53,17 @@ export default {
             action: 1,
             customers: [],
             customer_selected: {},
+            comunicationsSelected: []
         }
     },
     methods: {
+        showComunicationsModal(customer) {
+            this.comunicationsSelected = customer.comunications
+            $('#ComunicationsModal').modal('show')
+        },
         showCustomerModal(customer) {
-        this.customer_selected = customer
-        $('#CustomerprofileModal').modal('show')
+            this.customer_selected = customer
+            $('#CustomerprofileModal').modal('show')
         },
         getAllCustomers() {
             axios.get('/api/profiles')
