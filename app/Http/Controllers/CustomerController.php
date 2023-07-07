@@ -115,9 +115,7 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $customer = Customer::with(['quotations' => function ($query) {
-            $query->with(['details', 'details.product', 'order', 'order.payments', 'contract', 'contract.payments', 'contract.deliveries'])->orderBy('created_at', 'desc')->first();
-        }])->find($id);
+        $customer = Customer::with('quotations')->find($id);
         return response()->json($customer);
     }
 
@@ -315,7 +313,7 @@ class CustomerController extends Controller
                 $query->latest('id');
             }, 'quotations' => function ($secondQuery) {
                 $secondQuery->latest('id');
-            }, 'quotations.order', 'quotations.contract'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+            }, 'quotations.order', 'quotations.contract', 'quotations.details', 'quotations.details.product'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
 
             $totalCustomers = $totalCustomers->merge($customers);
         }

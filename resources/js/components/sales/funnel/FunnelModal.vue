@@ -7,10 +7,6 @@
                         <div class="row">
                             <div class="col-6">
                                 Información de Lead
-                                <button v-show="customer.status > 3" @click="callToQuotation(customer)" type="button"
-                                    class="btn btn-icon btn-success ms-2">
-                                    <span class="tf-icons bx bx-file"></span>
-                                </button>
                                 <button v-show="customer.status > 3" @click="callToOrder(customer)" type="button"
                                     class="btn btn-icon btn-info ms-2">
                                     <span class="tf-icons bx bx-pen"></span>
@@ -56,6 +52,18 @@
                                     <p class="card-text">Email: {{ customer.email }}</p>
                                     <p class="card-text">Universidad: {{ customer.university }}</p>
                                     <p class="card-text">Carrera: {{ customer.career }}</p>
+                                </div>
+                            </div>
+                            <div class="card shadow-none bg-transparent border border-success mb-3"
+                                v-for="quotation in customer.quotations">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ quotation.date }}
+                                        <p class="h6" v-for="detail in quotation.details">{{ detail.product.name }}</p>
+                                        <button type="button" class="btn btn-success ms-2"
+                                            @click="callToQuotation(quotation.id)">
+                                            Ir a Cotización
+                                        </button>
+                                    </h5>
                                 </div>
                             </div>
                         </div>
@@ -196,10 +204,10 @@ export default {
         showModalUpdateData(customer) {
             this.$emit('showModalUpdateData', customer)
         },
-        callToQuotation(customer) {
+        callToQuotation(quotationId) {
             if (this.store.authUser.id != 22) {
                 $('#funnelModal').modal('hide')
-                this.$router.push({ name: 'home-quotation', params: { idUser: customer.id } })
+                this.$router.push({ name: 'home-quotation', params: { idQuotation: quotationId } })
             } else {
                 $('#funnelModal').modal('hide')
                 this.$swal('Nop')

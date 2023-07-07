@@ -180,7 +180,7 @@ export const routes = [
                 name: 'home-product'
             },
             {
-                path: 'quotations/:idUser',
+                path: 'quotations/:idQuotation',
                 component: HomeQuotation,
                 props: true,
                 name: 'home-quotation'

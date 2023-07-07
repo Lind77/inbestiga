@@ -77,14 +77,6 @@ class QuotationController extends Controller
             'term' => $request->get('term'),
             'note' => $request->get('note')
         ]);
-        /* $customer = Customer::create([
-            'name' => $request->get('name'),
-            'cell' => $request->get('cell'),
-            'university' => $request->get('university'),
-            'career' => $request->get('career'),
-            'grade' => $request->get('grade'),
-        ]); */
-
 
         $products = $request->get('products');
 
@@ -103,6 +95,8 @@ class QuotationController extends Controller
         }
 
         $customer = Customer::find($request->get('customer_id'));
+
+        $quotation->customers()->attach($customer->id);
 
         $customerToUpdate = Customer::find($request->get('customer_id'))->update([
             'status' => 5
@@ -349,5 +343,19 @@ class QuotationController extends Controller
     {
         $quotations = Quotation::with('customer')->where('date', $date)->get();
         return response()->json($quotations);
+    }
+
+    public function getQuotationsFunnel()
+    {
+
+        $totalQuotations = collect();
+
+        for ($i = 5; $i < 11; $i++) {
+            $quotations = Quotation::with('customers')->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+
+            $totalQuotations = $totalQuotations->merge($quotations);
+        }
+
+        return response()->json($totalQuotations);
     }
 }

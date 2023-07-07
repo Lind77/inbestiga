@@ -5,7 +5,11 @@
         <DatePicker @filterDate="filterDate" @distributeLeads="distributeLeads" @getAllCustomers="getAllCustomers" />
       </div>
       <template v-for="area in draggableAreas">
-        <draggableArea :customers="area.customers" :title="area.title" :status="area.status"
+        <DraggableArea :customers="area.customers" :title="area.title" :status="area.status"
+          @updateStatusSpace="updateStatusSpace" @showModalFunnel="showModalFunnel" @callModal="callModal" />
+      </template>
+      <template v-for="areaQuotation in draggableQuotations">
+        <DraggableArea :customers="areaQuotation.customers" :title="areaQuotation.title" :status="areaQuotation.status"
           @updateStatusSpace="updateStatusSpace" @showModalFunnel="showModalFunnel" @callModal="callModal" />
       </template>
     </div>
@@ -22,7 +26,7 @@ import DatePicker from './DatePicker.vue'
 import CardCustomer from '../prelead/CardCustomer.vue'
 import ProductModal from './ProductModal.vue'
 import { userStore } from '../../../stores/UserStore'
-import draggableArea from './draggableArea.vue'
+import DraggableArea from './DraggableArea.vue'
 import UpdateCom from '../prelead/UpdateCom.vue'
 import FunnelModal from './FunnelModal.vue'
 import customerModal from '../customers/customerModal.vue'
@@ -35,7 +39,7 @@ export default {
       store
     }
   },
-  components: { CardCustomer, ProductModal, draggableArea, DatePicker, UpdateCom, FunnelModal, customerModal },
+  components: { CardCustomer, ProductModal, DraggableArea, DatePicker, UpdateCom, FunnelModal, customerModal },
   data() {
     return {
       customers: [],
@@ -54,9 +58,11 @@ export default {
       comunication: {},
       needs: [],
       draggableAreas: [],
+      draggableQuotations: [],
       customerId: 0,
       leadsFiltered: [],
-      owners: []
+      owners: [],
+      totalQuotations: []
     }
   },
   methods: {
@@ -294,75 +300,27 @@ export default {
 
 
       this.needs = []
-      this.quotations = []
-      this.explanations = []
-      this.experiences = []
-      this.tracings = []
-      this.nopays = []
-      this.closings = []
       this.customers = []
 
 
       this.leadsFiltered.forEach(lead => {
         if (lead.status == 4) {
           this.needs.push(lead)
-        } else if (lead.status == 5) {
-          this.quotations.push(lead)
-        } else if (lead.status == 6) {
-          this.explanations.push(lead)
-        } else if (lead.status == 7) {
-          this.experiences.push(lead)
-        } else if (lead.status == 8) {
-          this.tracings.push(lead)
-        } else if (lead.status == 9) {
-          this.nopays.push(lead)
-        } else if (lead.status == 10) {
-          this.closings.push(lead)
-        } else if (lead.status == 11) {
+        } /* else if (lead.status == 11) {
           this.customers.push(lead)
-        }
+        } */
       });
       this.draggableAreas = [
         {
           customers: this.needs,
           title: 'Obtención de necesidades específicas',
           status: 4
-        },
-        {
-          customers: this.quotations,
-          title: 'Con Cotización',
-          status: 5
-        },
-        {
-          customers: this.explanations,
-          title: 'Explicación de Cotización',
-          status: 6
-        },
-        {
-          customers: this.experiences,
-          title: 'Explicación de la Experiencia',
-          status: 7
-        },
-        {
-          customers: this.tracings,
-          title: 'Seguimientos',
-          status: 8
-        },
-        {
-          customers: this.nopays,
-          title: 'Cierre no pagado',
-          status: 9
-        },
-        {
-          customers: this.closings,
-          title: 'Seguimiento de cierre',
-          status: 10
-        },
-        {
+        }
+        /* {
           customers: this.customers,
           title: 'Cliente',
           status: 11
-        }
+        } */
       ]
     },
     selectCustomer(customer) {
@@ -412,6 +370,65 @@ export default {
           console.error(err)
         })
     },
+    getAllQuotations() {
+      axios.get('/api/quotations-funnel')
+        .then(res => {
+          this.totalQuotations = res.data
+
+          this.totalQuotations.forEach(quotation => {
+            if (quotation.status == 5) {
+              this.quotations.push(quotation)
+            } else if (quotation.status == 6) {
+              this.explanations.push(quotation)
+            } else if (quotation.status == 7) {
+              this.experiences.push(quotation)
+            } else if (quotation.status == 8) {
+              this.tracings.push(quotation)
+            } else if (quotation.status == 9) {
+              this.nopays.push(quotation)
+            } else if (quotation.status == 10) {
+              this.closings.push(quotation)
+            }
+          })
+
+          this.draggableQuotations = [
+            {
+              customers: this.quotations,
+              title: 'Con Cotización',
+              status: 5
+            },
+            {
+              customers: this.explanations,
+              title: 'Explicación de Cotización',
+              status: 6
+            },
+            {
+              customers: this.experiences,
+              title: 'Explicación de la Experiencia',
+              status: 7
+            },
+            {
+              customers: this.tracings,
+              title: 'Seguimientos',
+              status: 8
+            },
+            {
+              customers: this.nopays,
+              title: 'Cierre no pagado',
+              status: 9
+            },
+            {
+              customers: this.closings,
+              title: 'Seguimiento de cierre',
+              status: 10
+            },
+          ]
+
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
     loadCustomerById(userId) {
       console.log(userId);
       var customerSelected = this.totalLeads.find(lead => lead.id == userId)
@@ -432,6 +449,7 @@ export default {
   },
   mounted() {
     this.getAllCustomers()
+    this.getAllQuotations()
     this.getAllOwners()
     if (this.$route.params.userId) {
       this.loadCustomerById(this.$route.params.userId)

@@ -22,7 +22,7 @@
               <router-link :to="{ name: 'quotation-file', params: { id: quotation.id } }" target="_blank"
                 class="btn btn-sm btn-success text-white mx-1"><i class='bx bx-printer'></i>
               </router-link>
-              <router-link :to="{ name: 'home-quotation', params: { idUser: quotation.customer_id } }"
+              <router-link :to="{ name: 'home-quotation', params: { idQuotation: quotation.id } }"
                 class="btn btn-sm btn-success text-white"><i class='bx bx-edit'></i></router-link>
             </td>
           </tr>
