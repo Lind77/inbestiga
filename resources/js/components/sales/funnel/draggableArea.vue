@@ -4,9 +4,17 @@
         <div :id="'draggableArea' + status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent
             @dragover.prevent>
             <template v-for="(customer, index) in customers" :key="index">
-                <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom"
-                    @showModalUpdateData="showModalUpdateData" @updateStatusSpace="updateStatusSpace"
-                    @convertLead="convertLead" @showModalFunnel="showModalFunnel" />
+                <template v-if="customer.customers">
+                    <CardCustomer :customer="customer" :customers="customer.customers" :status="status"
+                        @showModalUpdateCom="showModalUpdateCom" @showModalUpdateData="showModalUpdateData"
+                        @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
+                        @showModalFunnel="showModalFunnel" />
+                </template>
+                <template v-else>
+                    <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom"
+                        @showModalUpdateData="showModalUpdateData" @updateStatusSpace="updateStatusSpace"
+                        @convertLead="convertLead" @showModalFunnel="showModalFunnel" />
+                </template>
             </template>
         </div>
     </div>
@@ -26,7 +34,7 @@ export default {
     props: {
         title: String,
         bg: String,
-        customers: Array,
+        customers: Object,
         status: Number
     },
     methods: {
@@ -130,4 +138,5 @@ export default {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(67, 89, 113, .7);
-}</style>
+}
+</style>

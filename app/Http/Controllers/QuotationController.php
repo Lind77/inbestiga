@@ -344,4 +344,18 @@ class QuotationController extends Controller
         $quotations = Quotation::with('customer')->where('date', $date)->get();
         return response()->json($quotations);
     }
+
+    public function getQuotationsFunnel()
+    {
+
+        $totalQuotations = collect();
+
+        for ($i = 5; $i < 11; $i++) {
+            $quotations = Quotation::with('customers')->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+
+            $totalQuotations = $totalQuotations->merge($quotations);
+        }
+
+        return response()->json($totalQuotations);
+    }
 }

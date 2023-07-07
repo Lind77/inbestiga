@@ -191,7 +191,7 @@
         </div>
         <div class="card mb-4">
           <div class="card-body">
-            <button @click="insertQuotation" class="btn btn-primary d-grid w-100 mb-3">
+            <button @click="createQuotation" class="btn btn-primary d-grid w-100 mb-3">
               <span class="d-flex align-items-center justify-content-center text-nowrap"><i
                   class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
             </button>
