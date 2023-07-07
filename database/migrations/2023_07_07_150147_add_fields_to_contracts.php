@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('contracts', function (Blueprint $table) {
-            //
+            $table->tinyInteger('status')->nullable(); 
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('contracts', function (Blueprint $table) {
-            //
+            $table->dropDown('status'); 
         });
     }
 };
