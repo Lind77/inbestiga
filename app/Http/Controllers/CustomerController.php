@@ -313,7 +313,7 @@ class CustomerController extends Controller
                 $query->latest('id');
             }, 'quotations' => function ($secondQuery) {
                 $secondQuery->latest('id');
-            }, 'quotations.order', 'quotations.contract'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+            }, 'quotations.order', 'quotations.contract', 'quotations.details', 'quotations.details.product'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
 
             $totalCustomers = $totalCustomers->merge($customers);
         }

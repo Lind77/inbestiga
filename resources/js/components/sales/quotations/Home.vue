@@ -90,9 +90,9 @@
             </div>
             <hr class="my-4 mx-n4">
             <div class="row p-sm-3 p-0">
-              <div class="col-md-6 col-sm-5 col-12 mb-sm-0 mb-4">
-                <h6 class="pb-2">Cotización para:</h6>
-                <table v-if="customer">
+              <h6 class="pb-2">Cotización para:</h6>
+              <div class="col-md-6 col-sm-5 col-12 mb-sm-0 mb-4" v-for="customer in customers">
+                <table>
                   <tbody>
                     <tr>
                       <td class="pe-3">Nombre:</td>
@@ -186,7 +186,7 @@
             Necesidades del cliente
           </div>
           <div class="card-body">
-            {{ customer.needs }}
+            <p v-for="customer in customers">{{ customer.needs }}</p>
           </div>
         </div>
         <div class="card mb-4">
@@ -210,7 +210,6 @@
 </template>
 <script>
 import moment from 'moment'
-import conversor from 'conversor-numero-a-letras-es-ar'
 import CustomerCard from './CustomerCard.vue'
 import DateCard from './DateCard.vue'
 import calcModal from './calcModal.vue'
@@ -251,6 +250,7 @@ export default {
         email: '',
         needs: ''
       },
+      customers: [],
       details: [],
       discount: 0,
       newProducts: [],
@@ -259,6 +259,24 @@ export default {
     }
   },
   methods: {
+    getQuotation() {
+      axios.get('/api/quotations/' + this.$route.params.idQuotation)
+        .then((res) => {
+          console.log(res);
+          this.quotation = res.data[0]
+          this.customers = this.quotation.customers
+          this.details = this.quotation.details
+          /* if (this.customer.quotations[0]) {
+            this.quotation = this.customer.quotations[0]
+            this.customer.quotations[0].details.forEach(detail => {
+              this.details.push(detail)
+            })
+          } */
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     getUser() {
       axios.get('/api/getCustomer/' + this.$route.params.idUser)
         .then((res) => {
@@ -379,7 +397,7 @@ export default {
   },
   mounted() {
     this.getAllPromotionCodes()
-    this.getUser()
+    this.getQuotation()
     this.getAllNewProducts()
   },
   computed: {
