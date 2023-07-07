@@ -11,6 +11,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
+use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\NewProductController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ObservationController;
@@ -238,3 +239,5 @@ Route::post('/permissions', [UserController::class, 'createPermission']);
 Route::get('/permissions', [UserController::class, 'getPermissions']);
 Route::post('/permission-sync', [UserController::class, 'syncPermission']);
 Route::post('/permission-sync-user', [UserController::class, 'syncPermissionUser']);
+
+Route::post('/meetings', [MeetingController::class, 'store']);
