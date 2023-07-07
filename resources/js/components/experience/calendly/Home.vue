@@ -19,9 +19,14 @@ import interactionPlugin from '@fullcalendar/interaction'
 import esLocale from '@fullcalendar/core/locales/es'
 import AddEvent from './AddEvent.vue'
 import OffCanvasEvent from './OffCanvas.vue'
+import { userStore } from "../../../stores/UserStore"
 
 export default {
     components: { FullCalendar, AddEvent, OffCanvasEvent },
+    setup() {
+        const store = userStore()
+        return { store }
+    },
     data() {
         return {
             user: {},
@@ -43,8 +48,21 @@ export default {
     },
     methods: {
         addEvent(evt) {
-            this.calendarOptions.events.push(evt);
-            $('#eventModal').modal('hide')
+            console.log(evt);
+            const fd = new FormData()
+            fd.append('title', evt.title)
+            fd.append('date', evt.date)
+            fd.append('link', evt.link)
+            fd.append('comment', evt.comment)
+
+            axios.post('/api/meetings', fd)
+                .then((result) => {
+                    this.calendarOptions.events.push(evt);
+                    $('#eventModal').modal('hide')
+                }).catch((err) => {
+                    this.$swal('Error')
+                });
+
         },
         handleDateClick(arg) {
             this.info = arg
