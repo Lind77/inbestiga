@@ -21,8 +21,14 @@
                     </div>
                     <div class="row">
                         <div class="col mb-3">
+                            <label for="nameSmall" class="form-label">Comentario</label>
+                            <textarea v-model="comment" cols="3" rows="3" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
                             <label for="nameSmall" class="form-label">Link de Meet (Opcional)</label>
-                            <input type="text" name="" id="" class="form-control">
+                            <input type="text" v-model="link" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -40,7 +46,9 @@
 export default {
     data() {
         return {
-            title: ''
+            title: '',
+            comment: '',
+            link: ''
         }
     },
     props: {
@@ -51,7 +59,9 @@ export default {
 
             var newEvt = {
                 title: this.title,
-                date: this.info.dateStr
+                date: this.info.dateStr,
+                comment: this.comment,
+                link: this.link
             }
 
             this.$emit('addEvent', newEvt)

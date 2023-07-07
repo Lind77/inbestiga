@@ -12,9 +12,9 @@ class Customer extends Model
     protected $fillable = ['name', 'cell','dni','address','university', 'career', 'status', 'email','user_id','origin', 'time', 'needs','interest','attitude'];
 
    
-   //Relacion uno a muchos Customer-Quotations
+   //Relacion muchos a muchos Customer-Quotations
     public function quotations(){
-        return $this->hasMany("App\Models\Quotation");
+        return $this->belongsToMany("App\Models\Quotation",'customer_quotation');
     }
     //Relacion uno a muchos custoemr-comunications
     public function comunications(){

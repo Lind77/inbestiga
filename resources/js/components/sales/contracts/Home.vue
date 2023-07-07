@@ -422,9 +422,9 @@ export default {
               this.idContract = this.customer.quotations[0].contract
               this.fees = this.customer.quotations[0].contract.payments
               this.deliveries = this.customer.quotations[0].contract.deliveries
+              this.date = this.customer.quotations[0].contract.date
             }
             this.discount = this.customer.quotations[0].discount
-            this.date = this.customer.quotations[0].contract.date
             this.dateValidate = this.customer.quotations[0].expiration_date
             this.term = this.customer.quotations[0].term
             this.note = this.customer.quotations[0].note

@@ -177,12 +177,12 @@
           <div data-i18n="Form Layouts">Entregas</div>
         </div>
       </router-link>
-      <router-link :to="{ name: 'experience-comunications' }" class="menu-item">
+      <!-- <router-link :to="{ name: 'experience-comunications' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-message"></i>
           <div data-i18n="Form Layouts">Comunicaciones</div>
         </div>
-      </router-link>
+      </router-link> -->
       <router-link :to="{ name: 'home-profiles' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-user"></i>
@@ -279,13 +279,28 @@ export default {
     }
   },
   methods: {
+    hideToggle() {
+      console.log('out');
+      this.toggle = ''
+    },
     showToggle() {
-      if (this.toggle == '') {
+      console.log(this.$route.name);
+      if (this.toggle == '' || this.$route.name == 'permissions-admin' || this.$route.name == 'roles-admin') {
         this.toggle = 'open'
-      } else {
+      }
+      else {
         this.toggle = ''
       }
 
+    }
+  },
+  watch: {
+    '$route.name': {
+      handler: function (name) {
+        if (this.$route.name != 'permissions-admin' || this.$route.name != 'roles-admin') {
+          this.toggle = ''
+        }
+      },
     }
   },
   mounted() {

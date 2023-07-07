@@ -16,25 +16,26 @@
                             <th>
                                 <h2 class="name-customer">COTIZACIÓN DE: </h2>
                             </th>
-                            <th><span class="name">{{ quotation[0].customer.name }}</span></th>
+                            <th><span class="name" v-for="customer in quotation[0].customers">{{ customer.name }}</span>
+                            </th>
                         </tr>
                         <tr>
                             <th>
                                 <h2 class="info-user">Teléfono: </h2>
                             </th>
-                            <th><span>{{ quotation[0].customer.cell }}</span></th>
+                            <th><span>{{ quotation[0].customers[0].cell }}</span></th>
                         </tr>
                         <tr>
                             <th>
                                 <h2 class="info-user">Carrera o mención: </h2>
                             </th>
-                            <th><span>{{ quotation[0].customer.career }}</span></th>
+                            <th><span>{{ quotation[0].customers[0].career }}</span></th>
                         </tr>
                         <tr>
                             <th>
                                 <h2 class="info-user">Universidad: </h2>
                             </th>
-                            <th><span>{{ quotation[0].customer.university }}</span></th>
+                            <th><span>{{ quotation[0].customers[0].university }}</span></th>
                         </tr>
                     </thead>
                 </table>

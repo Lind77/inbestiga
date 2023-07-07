@@ -26,7 +26,7 @@ class QuotationController extends Controller
      */
     public function index()
     {
-        $quotations = Quotation::with(['customer', 'details', 'details.product'])->orderBy('date', 'desc')->whereMonth('date', '=', date('m'))->take(10)->get();
+        $quotations = Quotation::with(['customers', 'details', 'details.product'])->orderBy('date', 'desc')->take(10)->get();
         return response()->json($quotations);
     }
 
@@ -201,7 +201,7 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        $quotation = Quotation::where('id', $id)->with(['customer', 'details', 'details.product', 'order'])->get();
+        $quotation = Quotation::where('id', $id)->with(['customers', 'details', 'details.product', 'order'])->get();
 
         return response()->json($quotation);
     }
@@ -282,7 +282,7 @@ class QuotationController extends Controller
                 ]);
             }
         }
-        $quotation = Quotation::with('customer')->find($request->get('quotation_id'));
+        $quotation = Quotation::with('customers')->find($request->get('quotation_id'));
 
         $quotation->update([
             'date' => $request->get('date'),
@@ -309,7 +309,7 @@ class QuotationController extends Controller
             ]);
         }
 
-        $customer = $quotation->customer;
+        //$customer = $quotation->customer;
 
         /*  $notification = Notification::create([
             'emisor_id' => $request->get('emisor_id'),
