@@ -72,8 +72,8 @@ export default {
             console.log('dragarea', data)
             this.$emit('updateStatusSpace', data, this.status)
         },
-        updateStatusSpace(leadId) {
-            this.$emit('updateStatusSpace', leadId, this.status)
+        updateStatusSpace(quotationId) {
+            this.$emit('updateStatusSpace', quotationId, this.status)
             /* const index = this.customers.findIndex(c => c.id == id)
             this.customers[index].status = status
             axios.get(`/api/updateCustomerGrade/${id}/${status}`)

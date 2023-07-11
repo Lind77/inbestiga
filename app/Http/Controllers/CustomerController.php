@@ -115,7 +115,7 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $customer = Customer::with('quotations')->find($id);
+        $customer = Customer::with(['quotations', 'quotations.details'])->find($id);
         return response()->json($customer);
     }
 
@@ -364,7 +364,10 @@ class CustomerController extends Controller
     public function searchCustomers($search)
     {
         $customers = Customer::with(['user', 'comunications', 'quotations'])->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%')->get();
-        return response()->json($customers);
+        return response()->json([
+            'customers' => $customers,
+            'quotations' => $customers->map->only(['quotations'])
+        ]);
     }
 
     public function searchPreleads($search)

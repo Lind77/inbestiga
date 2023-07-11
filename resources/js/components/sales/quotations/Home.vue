@@ -5,7 +5,7 @@
       <div class="col-lg-9 col-12 mb-lg-0 mb-4">
         <div class="card invoice-preview-card">
           <div class="card-body">
-            <div class="row p-sm-3 p-0">
+            <div class="row p-sm-1 p-0">
               <div class="col-md-6 mb-md-0 mb-4">
                 <div class="d-flex svg-illustration mb-4 gap-2">
                   <span class="app-brand-logo demo">
@@ -52,22 +52,12 @@
                       </g>
                     </svg>
                   </span>
-                  <span class="app-brand-text demo text-body fw-bolder">Inbestiga</span>
+                  <span class="h3 mt-2 demo text-body fw-bolder">Nueva Cotización</span>
                 </div>
-                <p class="mb-1">Prolongación Cuzco 921 – Huancayo.</p>
-                <p class="mb-1">Calle Elías Aguirre 180 Piso 03 – Miraflores.</p>
-                <p class="mb-0">991045555, 947202059</p>
               </div>
               <div class="col-md-6">
                 <dl class="row mb-2">
-                  <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
-                    <span class="h4 text-capitalize mb-0 text-nowrap">Cotización #</span>
-                  </dt>
-                  <dd class="col-sm-6 d-flex justify-content-md-end">
-                    <div class="w-px-150">
-                      <input type="text" class="form-control" v-model="quotation.id" disabled>
-                    </div>
-                  </dd>
+
                   <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
                     <span class="fw-normal">Fecha:</span>
                   </dt>
@@ -90,32 +80,52 @@
             </div>
             <hr class="my-4 mx-n4">
             <div class="row p-sm-3 p-0">
-              <h6 class="pb-2">Cotización para:</h6>
-              <div class="col-md-6 col-sm-5 col-12 mb-sm-0 mb-4" v-for="customer in customers">
-                <table>
-                  <tbody>
-                    <tr>
-                      <td class="pe-3">Nombre:</td>
-                      <td>{{ customer.name }}</td>
-                    </tr>
-                    <tr>
-                      <td class="pe-3">Universidad:</td>
-                      <td>{{ customer.university }}</td>
-                    </tr>
-                    <tr>
-                      <td class="pe-3">Carrera:</td>
-                      <td>{{ customer.career }}</td>
-                    </tr>
-                    <tr>
-                      <td class="pe-3">Celular:</td>
-                      <td>{{ customer.cell }}</td>
-                    </tr>
-                    <tr>
-                      <td class="pe-3">Email:</td>
-                      <td>{{ customer.email }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="d-flex justify-content-between align-items-center">
+                <h6 class="pb-2">Cotización para:</h6>
+                <div class="">
+                  <button class="btn btn-primary" @click="showSearchBar">+</button>
+                  <input type="text" v-show="showBar" v-model="search" class="form-control" @keyup="searchCustomer">
+                  <table>
+                    <ul class="list-group" v-for="customerFound in customersFound">
+                      <li class="list-group-item d-flex justify-content-between align-items-center cursor-pointer"
+                        @click="addCustomer(customerFound)">{{ customerFound.name }}</li>
+                    </ul>
+                  </table>
+                </div>
+
+              </div>
+
+              <div class="col-md-4 col-sm-5 col-12 mb-sm-0 mb-4" v-for="customer in customers">
+                <div class="card shadow-none bg-transparent border border-primary mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ customer.name }}
+                      <i @click="deleteCustomer(customer.id)" class='text-danger bx bx-trash'></i>
+                    </h5>
+
+                    <p class="card-text">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>{{ customer.university }}</td>
+                        </tr>
+                        <tr>
+
+                          <td>{{ customer.career }}</td>
+                        </tr>
+                        <tr>
+
+                          <td>{{ customer.cell }}</td>
+                        </tr>
+                        <tr>
+
+                          <td>{{ customer.email }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    </p>
+                  </div>
+                </div>
+
               </div>
               <div class="col-md-6 col-sm-7"></div>
             </div>
@@ -195,8 +205,9 @@
               <span class="d-flex align-items-center justify-content-center text-nowrap"><i
                   class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
             </button>
-            <router-link v-if="quotation.id != 0" :to="{ name: 'quotation-file', params: { id: quotation.id } }"
-              target="_blank" class="btn btn-primary d-grid w-100 mb-3" disabled>
+            <router-link v-if="quotationIdGenerated != 0"
+              :to="{ name: 'quotation-file', params: { id: quotationIdGenerated } }" target="_blank"
+              class="btn btn-primary d-grid w-100 mb-3" disabled>
               <span class="d-flex align-items-center justify-content-center text-nowrap">
                 <i class="bx bx-file bx-xs me-1"></i>Cotización
               </span>
@@ -231,6 +242,7 @@ export default {
   components: { calcModal, InsertDetail, CustomerCard, DateCard, SearchProduct, ProductModal, Detail, Payments },
   data() {
     return {
+      showBar: false,
       quotation: {
         id: 0,
         customer_id: 0,
@@ -241,6 +253,8 @@ export default {
         discount: 0,
         note: ''
       },
+      search: '',
+      customersFound: [],
       customer: {
         name: '',
         cell: '',
@@ -255,10 +269,37 @@ export default {
       discount: 0,
       newProducts: [],
       coupon: '',
-      recentsCode: []
+      recentsCode: [],
+      quotationIdGenerated: 0
     }
   },
   methods: {
+    deleteCustomer(customerId) {
+      var customerSelected = this.customers.findIndex(customer => customer.id == customerId);
+      this.customers.splice(customerSelected, 1)
+    },
+    showSearchBar() {
+      this.showBar = !this.showBar
+    },
+    addCustomer(customer) {
+      this.customers.push(customer);
+      this.customersFound = [];
+      this.search = ''
+    },
+    searchCustomer() {
+      if (this.search.length == 3) {
+        axios.get('/api/customers/search/' + this.search)
+          .then((result) => {
+            this.customersFound = result.data.customers
+          }).catch((err) => {
+            console.error(err)
+          });
+      } else if (this.search.length > 3) {
+        this.customersFound = this.customersFound.filter(customer => customer.name.toLowerCase().includes(this.search))
+      } else if (this.search.length == 0) {
+        this.customersFound = []
+      }
+    },
     getQuotation() {
       axios.get('/api/quotations/' + this.$route.params.idQuotation)
         .then((res) => {
@@ -278,14 +319,12 @@ export default {
         })
     },
     getUser() {
-      axios.get('/api/getCustomer/' + this.$route.params.idUser)
+      axios.get('/api/getCustomer/' + this.$route.params.idCustomer)
         .then((res) => {
           this.customer = res.data
+          this.customers.push(this.customer)
           if (this.customer.quotations[0]) {
             this.quotation = this.customer.quotations[0]
-            this.customer.quotations[0].details.forEach(detail => {
-              this.details.push(detail)
-            })
           }
         })
         .catch((err) => {
@@ -364,6 +403,7 @@ export default {
         const fd = new FormData()
 
         fd.append('user_id', this.store.authUser.id)
+        fd.append('customers', JSON.stringify(this.customers))
         fd.append('customer_id', this.customer.id)
         fd.append('date', this.quotation.date)
         fd.append('expirationDay', this.quotation.expiration_date)
@@ -377,7 +417,7 @@ export default {
         axios.post('/api/quotations', fd)
           .then((res) => {
             this.$swal('Cotización insertada correctamente')
-            this.quotation.id = res.data.id
+            this.quotationIdGenerated = res.data.id
           })
           .catch((err) => {
             this.$swal(err.response.data)
@@ -397,7 +437,7 @@ export default {
   },
   mounted() {
     this.getAllPromotionCodes()
-    this.getQuotation()
+    this.getUser()
     this.getAllNewProducts()
   },
   computed: {

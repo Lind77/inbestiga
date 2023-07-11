@@ -13,12 +13,12 @@
           @updateStatusSpace="updateStatusSpace" @showModalFunnel="showModalFunnel" @callModal="callModal" />
       </template>
     </div>
-    <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers" />
+    <ProductModal :customer="customersSelected" @getAllCustomers="getAllCustomers" />
     <UpdateCom :customerId="customerId" :comunication="comunication" />
-    <FunnelModal :customer="customer_selected" :owners="owners" @updateStatusSpace="updateStatusSpace"
+    <FunnelModal :customers="customersSelected" :owners="owners" @updateStatusSpace="updateStatusSpace"
       @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers"
       @updateOwner="updateOwner" @updateInterest="updateInterest" />
-    <customerModal :customer="customer_selected" :action="2" />
+    <!--  <customerModal :customers="customersSelected[0]" :action="2" /> -->
   </div>
 </template>
 <script>
@@ -54,7 +54,7 @@ export default {
       orders: [],
       totalLeads: [],
       customers_filtered: [],
-      customer_selected: {},
+      customersSelected: [],
       comunication: {},
       needs: [],
       draggableAreas: [],
@@ -108,20 +108,20 @@ export default {
       $('#funnelModal').modal('hide')
       $('#customerModal').modal('show')
     },
-    updateStatusSpace(leadId, status) {
+    updateStatusSpace(quotationId, status) {
       //$('#funnelModal').modal('hide')
       console.log(status)
-      this.updateStatusSpaces(leadId, status)
+      this.updateStatusSpaces(quotationId, status)
     },
     showModalFunnel(customer) {
-      this.customer_selected = customer
+      console.log(customer.customers);
+      this.customersSelected = customer.customers
       $('#funnelModal').modal('show')
     },
-    updateStatusSpaces(leadId, status) {
-
+    updateStatusSpaces(quotationId, status) {
       if (status == 5) {
         $('#funnelModal').modal('hide')
-        this.$router.push({ name: 'home-quotation', params: { idUser: leadId } });
+        this.$router.push({ name: 'home-quotation', params: { idCustomer: leadId } });
       } else if (status == 9) {
         $('#funnelModal').modal('hide')
         var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
@@ -133,14 +133,15 @@ export default {
         }
 
       } else {
-        var leadSelected = this.leadsFiltered.find(customer => customer.id == leadId)
-        console.log(leadSelected)
-        if (leadSelected.user != null && leadSelected.user.id == this.store.authUser.id) {
-          if (this.verifyChange(leadSelected, status)) {
-            var firstStatus = leadSelected.status
-            leadSelected.status = status
-            this.removeLead(firstStatus, leadId)
-            this.addLead(leadSelected, status)
+        console.log(quotationId);
+        var quotSelected = this.totalQuotations.find(quotation => quotation.id == quotationId)
+        console.log(quotSelected)
+        if (quotSelected.customers[0].user_id == this.store.authUser.id) {
+          if (this.verifyChange(quotSelected, status)) {
+            var firstStatus = quotSelected.status
+            quotSelected.status = status
+            this.removeLead(firstStatus, quotationId)
+            this.addLead(quotSelected, status)
           }
         } else {
           this.$swal.fire({
@@ -167,7 +168,7 @@ export default {
 
       }
     },
-    verifyChange(customer, status) {
+    verifyChange(quotation, status) {
         /* if(status >=5 && status < 9){
           console.log('verificando estado menor a 9')
           if(customer.quotations.length != 0){
@@ -176,8 +177,8 @@ export default {
             this.$swal.fire('Este usuario no cuenta con una cotización')
           }
         }else */ if (status >= 9) {
-        console.log('verificando estado mayor a 9', customer.quotations[0].order)
-        if (customer.quotations[0].order != null || customer.quotations[0].contract != null) {
+        console.log('verificando estado mayor a 9', quotation.customers[0].quotations[0].order)
+        if (quotation.customers[0].quotations[0].order != null || quotation.customers[0].quotations[0].contract != null) {
           return true
         } else {
           this.$swal.fire('Este usuario no cuenta con una orden o contrato')
@@ -186,8 +187,8 @@ export default {
         return true
       }
     },
-    removeLead(firstStatus, leadId) {
-      console.log(firstStatus, leadId)
+    removeLead(firstStatus, quotationId) {
+      console.log(firstStatus, quotationId)
       let arraysByStatus = {
         4: this.needs,
         5: this.quotations,
@@ -200,10 +201,10 @@ export default {
       }
       let arraySelected = arraysByStatus[firstStatus]
 
-      let index = arraySelected.findIndex(el => el.id == leadId)
+      let index = arraySelected.findIndex(el => el.id == quotationId)
       arraySelected.splice(index, 1)
     },
-    addLead(lead, status) {
+    addLead(quotation, status) {
       let arraysByStatus = {
         4: this.needs,
         5: this.quotations,
@@ -216,19 +217,19 @@ export default {
       }
       let array = arraysByStatus[status]
 
-      array = array.unshift(lead)
-      this.updateInBd(lead.id, status)
+      array = array.unshift(quotation)
+      this.updateInBd(quotation.id, status)
       //this.updateStatusSpace(lead.id, status)
       if (status == 11) {
-        this.setProject(lead.id)
+        this.setProject(quotation.id)
       }
     },
     updateInBd(id, status) {
       const fd = new FormData()
-      fd.append('customer_id', id)
+      fd.append('quotation_id', id)
       fd.append('status', status)
       fd.append('user_id', this.store.authUser.id)
-      axios.post('/api/updateCustomerGrade', fd)
+      axios.post('/api/update-quotation-status', fd)
         .then(res => {
           console.log(res.data)
         })

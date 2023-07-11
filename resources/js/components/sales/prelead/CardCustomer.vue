@@ -39,6 +39,7 @@ export default {
     },
     methods: {
         showModalFunnel(customer) {
+            console.log(customer);
             this.$emit('showModalFunnel', customer)
         },
         removeColor(index) {
@@ -48,8 +49,8 @@ export default {
             document.getElementById('space' + index).classList.add('space-show')
         },
         dropSpace(e, index) {
-            var leadId = e.dataTransfer.getData('leadId')
-            this.$emit('updateStatusSpace', leadId)
+            var quotationId = e.dataTransfer.getData('quotationId')
+            this.$emit('updateStatusSpace', quotationId)
             document.getElementById('space' + index).classList.remove('space-show')
         },
         showModalUpdateCom() {
@@ -79,17 +80,8 @@ export default {
             return
         },
         drag(e) {
-            e.dataTransfer.setData('leadId', this.customer.id)
-            if (this.customer.quotations.length != 0) {
-                e.dataTransfer.setData('quot', this.customer.quotations[0].id)
-                if (this.orders != 0) {
-                    e.dataTransfer.setData('order', this.orders[0].id)
-                } else {
-                    e.dataTransfer.setData('order', null)
-                }
-            } else {
-                e.dataTransfer.setData('quot', null)
-            }
+            console.log(this.customer.customers[0])
+            e.dataTransfer.setData('quotationId', this.customer.id)
         },
         rejectDrop(id) {
             e.preventDefault()
