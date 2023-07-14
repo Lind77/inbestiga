@@ -32,10 +32,10 @@ export default {
         }
     },
     props: {
-        customers: Array,
         customer: Object,
         status: Number,
-        visible: Boolean
+        visible: Boolean,
+        quotation: Object
     },
     methods: {
         showModalFunnel(customer) {
@@ -49,8 +49,20 @@ export default {
             document.getElementById('space' + index).classList.add('space-show')
         },
         dropSpace(e, index) {
-            var quotationId = e.dataTransfer.getData('quotationId')
-            this.$emit('updateStatusSpace', quotationId)
+            var typeCard = e.dataTransfer.getData('type')
+            console.log(typeCard);
+            if (typeCard == 1) {
+                console.log('tipo 1');
+                var customerId = e.dataTransfer.getData('customerId')
+                this.$emit('transformLead', customerId)
+            } else {
+                console.log('tipo 2');
+                var quotationId = e.dataTransfer.getData('quotationId')
+                console.log(quotationId);
+                this.$emit('updateStatusSpace', quotationId)
+            }
+            console.log('dropeando en el espacio');
+
             document.getElementById('space' + index).classList.remove('space-show')
         },
         showModalUpdateCom() {
@@ -80,16 +92,20 @@ export default {
             return
         },
         drag(e) {
-            console.log(this.customer.customers[0])
-            e.dataTransfer.setData('quotationId', this.customer.id)
+            console.log(this.customer);
+            if (this.customer.customers) {
+                e.dataTransfer.setData('quotationId', this.customer.id)
+                e.dataTransfer.setData('type', 2)
+            } else {
+                e.dataTransfer.setData('customerId', this.customer.id)
+                e.dataTransfer.setData('type', 1)
+            }
         },
         rejectDrop(id) {
             e.preventDefault()
         },
         convertLead(id) {
-
             this.$emit('convertLead', id)
-            /*  */
         },
         openProductModal(customer) {
             console.log('asignando customer')

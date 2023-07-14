@@ -6,11 +6,13 @@
       </div>
       <template v-for="area in draggableAreas">
         <DraggableArea :customers="area.customers" :title="area.title" :status="area.status"
-          @updateStatusSpace="updateStatusSpace" @showModalFunnel="showModalFunnel" @callModal="callModal" />
+          @convertCustomerQuotation="convertCustomerQuotation" @showModalFunnel="showModalFunnel"
+          @callModal="callModal" />
       </template>
       <template v-for="areaQuotation in draggableQuotations">
-        <DraggableArea :customers="areaQuotation.customers" :title="areaQuotation.title" :status="areaQuotation.status"
-          @updateStatusSpace="updateStatusSpace" @showModalFunnel="showModalFunnel" @callModal="callModal" />
+        <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
+          :customer="areaQuotation.customer" :customers="areaQuotation.quotations" :title="areaQuotation.title"
+          :status="areaQuotation.status" @showModalFunnel="showModalFunnel" @callModal="callModal" />
       </template>
     </div>
     <ProductModal :customer="customersSelected" @getAllCustomers="getAllCustomers" />
@@ -66,6 +68,9 @@ export default {
     }
   },
   methods: {
+    transformQuotation(leadId) {
+      this.$router.push({ name: 'home-quotation', params: { idCustomer: leadId } });
+    },
     redirect() {
       alert('redirect desde otro componente')
       /*   if(){
@@ -103,6 +108,9 @@ export default {
       var customerSelected = arraySelected.find(customer => customer.id == newCustomer.id)
       customerSelected.user = newOwner
     },
+    convertCustomerQuotation(leadId) {
+      console.log(leadId);
+    },
     showModalUpdateData(customer) {
       this.customer_selected = customer
       $('#funnelModal').modal('hide')
@@ -110,7 +118,7 @@ export default {
     },
     updateStatusSpace(quotationId, status) {
       //$('#funnelModal').modal('hide')
-      console.log(status)
+      console.log(quotationId, status)
       this.updateStatusSpaces(quotationId, status)
     },
     showModalFunnel(customer) {
@@ -119,10 +127,8 @@ export default {
       $('#funnelModal').modal('show')
     },
     updateStatusSpaces(quotationId, status) {
-      if (status == 5) {
-        $('#funnelModal').modal('hide')
-        this.$router.push({ name: 'home-quotation', params: { idCustomer: leadId } });
-      } else if (status == 9) {
+      console.log(quotationId);
+      if (status == 9) {
         $('#funnelModal').modal('hide')
         var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
 
@@ -394,37 +400,38 @@ export default {
 
           this.draggableQuotations = [
             {
-              customers: this.quotations,
+              quotations: this.quotations,
               title: 'Con Cotización',
               status: 5
             },
             {
-              customers: this.explanations,
+              quotations: this.explanations,
               title: 'Explicación de Cotización',
               status: 6
             },
             {
-              customers: this.experiences,
+              quotations: this.experiences,
               title: 'Explicación de la Experiencia',
               status: 7
             },
             {
-              customers: this.tracings,
+              quotations: this.tracings,
               title: 'Seguimientos',
               status: 8
             },
             {
-              customers: this.nopays,
+              quotations: this.nopays,
               title: 'Cierre no pagado',
               status: 9
             },
             {
-              customers: this.closings,
+              quotations: this.closings,
               title: 'Seguimiento de cierre',
               status: 10
             },
           ]
 
+          console.log(this.draggableQuotations);
         })
         .catch(err => {
           console.error(err)
