@@ -180,10 +180,16 @@ export const routes = [
                 name: 'home-product'
             },
             {
-                path: 'quotations/:idUser',
+                path: 'create-quotations/:idCustomer',
                 component: HomeQuotation,
                 props: true,
                 name: 'home-quotation'
+            },
+            {
+                path: 'edit-quotation/:idQuotation',
+                component: EditQuotation,
+                props: true,
+                name: 'edit-quotation'
             },
             {
                 path: 'orders/:idUser',
@@ -228,12 +234,6 @@ export const routes = [
                 path: 'list-quotations',
                 component: ListQuotation,
                 name: 'list-quotations'
-            },
-            {
-                path: 'edit-quotation/:idQuot',
-                component: EditQuotation,
-                props: true,
-                name: 'edit-quotation'
             },
             {
                 path: 'documents',

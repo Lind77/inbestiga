@@ -313,7 +313,7 @@ class CustomerController extends Controller
                 $query->latest('id');
             }, 'quotations' => function ($secondQuery) {
                 $secondQuery->latest('id');
-            }, 'quotations.order', 'quotations.contract'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+            }, 'quotations.order', 'quotations.contract', 'quotations.details', 'quotations.details.product'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
 
             $totalCustomers = $totalCustomers->merge($customers);
         }
@@ -364,7 +364,10 @@ class CustomerController extends Controller
     public function searchCustomers($search)
     {
         $customers = Customer::with(['user', 'comunications', 'quotations'])->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%')->get();
-        return response()->json($customers);
+        return response()->json([
+            'customers' => $customers,
+            'quotations' => $customers->map->only(['quotations'])
+        ]);
     }
 
     public function searchPreleads($search)
