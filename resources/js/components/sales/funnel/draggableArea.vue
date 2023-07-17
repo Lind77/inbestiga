@@ -12,8 +12,9 @@
                 </template>
                 <template v-else>
                     <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom"
-                        @showModalUpdateData="showModalUpdateData" @updateStatusSpace="updateStatusSpace"
-                        @convertLead="convertLead" @showModalFunnel="showModalFunnel" />
+                        @showModalUpdateData="showModalUpdateData" @updateStatusPrelead="updateStatusPrelead"
+                        @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
+                        @showModalFunnel="showModalFunnel" />
                 </template>
             </template>
         </div>
@@ -39,6 +40,10 @@ export default {
         quotations: Array
     },
     methods: {
+        updateStatusPrelead(customerId) {
+            console.log(customerId, this.status);
+            this.$emit('updateStatusPrelead', customerId, this.status)
+        },
         transformLead(customerId) {
             console.log('transform in dragarea', customerId);
             this.$router.push({ name: 'home-quotation', params: { idCustomer: customerId } });

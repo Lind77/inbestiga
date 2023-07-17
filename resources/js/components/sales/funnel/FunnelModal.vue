@@ -5,11 +5,13 @@
                 <div class="modal-header">
                     <h5 class="modal-title w-100" id="exampleModalLabel3">
                         <div class="row">
-                            <div class="col-6">
-                                <button @click="toQuotation(customers[0].pivot.quotation_id)" type="button"
+                            <div class="col-6" v-if="customers && customers[0]">
+                                <button v-bind:disabled="customers[0].status < 5"
+                                    @click="toQuotation(customers[0].pivot.quotation_id)" type="button"
                                     class="btn btn-icon btn-success ms-2" style=""><span
                                         class="tf-icons bx bx-file"></span></button>
-                                <button @click="callToOrder()" type="button" class="btn btn-icon btn-info ms-2">
+                                <button v-bind:disabled="customers[0].status < 8" @click="toOrder(customers[0].id)"
+                                    type="button" class="btn btn-icon btn-info ms-2">
                                     <span class="tf-icons bx bx-pen"></span>
                                 </button>
                                 <button @click="callModal()" type="button" class="btn btn-icon btn-warning ms-2">
@@ -20,13 +22,18 @@
                                 <!-- <p><i :class="`bx ${interest[customer.interest]} display-4 cursor-pointer`"></i></p> -->
                             </div>
                             <div class="col-3">
-                                <div class="alert alert-info d-flex" role="alert" v-if="customers && customers[0]">
+                                <div @dblclick="editOwner" class="alert alert-info d-flex" role="alert"
+                                    v-if="customers && customers[0]">
                                     <div class="d-flex flex-column ps-1">
                                         <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
-                                            customers[0].user.name }}
+                                            customers[0].user ? customers[0].user.name : 'Sin dueño' }}
                                         </h6>
                                     </div>
                                 </div>
+                                <select v-model="newOwner" v-show="showOptionOwner" @blur="hideOptionOwner"
+                                    @change="updateOwner" id="smallSelect" class="form-select form-select-sm">
+                                    <option :value="owner.id" v-for="owner in owners">{{ owner.name }}</option>
+                                </select>
                             </div>
                         </div>
                         <!-- <div class="row">
@@ -35,12 +42,9 @@
                                 
                                 
                                 <div v-if="customer.status >= 3">
-                                    <h6 @dblclick="editOwner" v-show="!showOptionOwner" class="cursor-pointer">Dueño: {{
+                                    <h6  v-show="!showOptionOwner" class="cursor-pointer">Dueño: {{
                                         customer.user ? customer.user.name : 'Sin asignar' }}</h6>
-                                    <select v-model="newOwner" v-show="showOptionOwner" @blur="hideOptionOwner"
-                                        @change="updateOwner" id="smallSelect" class="form-select form-select-sm">
-                                        <option :value="owner.id" v-for="owner in owners">{{ owner.name }}</option>
-                                    </select>
+                                    
                                 </div>
                             </div>
                             <div class="col-6">
@@ -169,6 +173,12 @@ export default {
             $('#funnelModal').modal('hide')
             this.$router.push({ name: 'edit-quotation', params: { idQuotation: quotationId } })
         },
+        toOrder(customerId) {
+            $('#funnelModal').modal('hide')
+            this.$router.push({ name: 'home-orders', params: { idUser: customerId } })
+            /* $('#funnelModal').modal('hide')
+            this.$router.push({ name: 'edit-quotation', params: { idQuotation: quotationId } }) */
+        },
         changeInterest(customer) {
             var customerId = customer.id
 
@@ -195,12 +205,12 @@ export default {
             var newOwner = this.owners.find(owner => owner.id == this.newOwner)
 
             const fd = new FormData()
-            fd.append('customer_id', this.customer.id)
+            fd.append('customer_id', this.customers[0].id)
             fd.append('user_id', this.newOwner)
 
             axios.post('/api/updateOwner', fd)
                 .then((res) => {
-                    this.$emit('updateOwner', this.customer, newOwner)
+                    this.$emit('updateOwner', this.customers[0], newOwner)
                 })
                 .catch((err) => {
                     console.error(err)
@@ -236,8 +246,8 @@ export default {
                 })
         },
         updateStatusSpace() {
-            var newStatus = parseInt(this.customer.status) + 1
-            this.$emit('updateStatusSpace', this.customer.id, newStatus)
+            var newStatus = parseInt(this.customers[0].status) + 1
+            this.$emit('updateStatusSpace', this.customers[0].id, newStatus)
         },
         callModal(customer) {
             this.$emit('callModal', customer)
@@ -256,6 +266,7 @@ export default {
 
         },
         callToOrder(customer) {
+            console.log(customer);
             $('#funnelModal').modal('hide')
             if (this.store.authUser.id == 22) {
                 this.$swal('Nop')

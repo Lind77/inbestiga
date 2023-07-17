@@ -4,24 +4,26 @@
       placeholder="Buscar prelead por nombre..." class="form-control w-50 mb-2">
     <div class="row">
       <draggableArea :customers="noAttended" :title="'No Atendido'" :status="1" @callModal="callModal"
-        @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData"
-        @showModalFunnel="showModalFunnel" />
+        @updateStatusPrelead="updateStatusPrelead" @updateStatusSpace="updateStatusSpace"
+        @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel" />
       <draggableArea :customers="attended" :title="'Atendido'" :status="2" @callModal="callModal"
-        @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData"
-        @showModalFunnel="showModalFunnel" />
+        @updateStatusPrelead="updateStatusPrelead" @updateStatusSpace="updateStatusSpace"
+        @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel" />
       <draggableArea :customers="comunications" :title="'Comunicación Establecida'" :status="3" @callModal="callModal"
-        @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @convertLead="convertLead"
-        @cleanLead="cleanLead" @showModalFunnel="showModalFunnel" />
+        @updateStatusPrelead="updateStatusPrelead" @updateStatusSpace="updateStatusSpace"
+        @showModalUpdateData="showModalUpdateData" @convertLead="convertLead" @cleanLead="cleanLead"
+        @showModalFunnel="showModalFunnel" />
       <draggableArea :customers="needs" :title="'Obtención de necesidades específicas'" :status="4" @callModal="callModal"
-        @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @convertLead="convertLead"
-        @cleanLead="cleanLead" @showModalFunnel="showModalFunnel" />
+        @updateStatusPrelead="updateStatusPrelead" @updateStatusSpace="updateStatusSpace"
+        @showModalUpdateData="showModalUpdateData" @convertLead="convertLead" @cleanLead="cleanLead"
+        @showModalFunnel="showModalFunnel" />
     </div>
     <ProductModal :customer="customerSelected" @getAllPreleads="getAllPreleads" />
     <!-- <UpdateCom :comunication="comunication"/>   -->
   </div>
   <OwnerModal :customerId="customerId" @convertLead="convertLead" @cleanLead="cleanLead" />
   <customerModal :customer="customer" :action="2" />
-  <FunnelModal :customer="customer_selected" @updateToLead="updateToLead" @updateStatusSpace="updateStatusSpace"
+  <FunnelModal :customers="customerSelected" @updateToLead="updateToLead" @updateStatusSpace="updateStatusSpace"
     @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllPreleads="getAllPreleads" :owners="owners"
     @updateOwner="updateOwner" />
   <UpdateCom :comunication="comunication" :customerId="customerId" :action="action" @getAllPreleads="getAllPreleads" />
@@ -55,7 +57,7 @@ export default {
       origin: [],
       needs: [],
       status: 0,
-      customerSelected: null,
+      customerSelected: [],
       comunication: null,
       customerId: 0,
       customer: {},
@@ -63,10 +65,15 @@ export default {
       search: '',
       filteredCustomers: [],
       leadsFiltered: [],
-      owners: []
+      owners: [],
     }
   },
   methods: {
+    updateStatusPrelead(customerId, newStatus) {
+      var preleadSelected = this.customers.find(customer => customer.id == customerId)
+      this.updateStatusSpace(customerId, newStatus)
+      console.log(preleadSelected);
+    },
     getAllOwners() {
       axios.get('/api/getAllOwners')
         .then(res => {
@@ -128,6 +135,8 @@ export default {
       alert('pasando a lead')
     },
     showModalFunnel(customer) {
+      this.customerSelected = []
+      this.customerSelected.push(customer)
       this.customer_selected = customer
       $('#funnelModal').modal('show')
     },
@@ -249,14 +258,15 @@ export default {
       fd.append('customer_id', id)
       fd.append('status', status)
       fd.append('user_id', this.store.authUser.id)
-      axios.post(`/api/updateCustomerGrade`, fd)
+      axios.post(`/api/update-customer-status`, fd)
         .then(res => {
           var newCustomer = res.data.eleventhCustomer
           let arraysByStatus = {
             0: this.origin,
             1: this.noAttended,
             2: this.attended,
-            3: this.comunications
+            3: this.comunications,
+            4: this.needs
           }
           arraysByStatus[newCustomer.status].push(newCustomer)
           console.log(res.data)
@@ -270,7 +280,8 @@ export default {
       let arraysByStatus = {
         1: this.noAttended,
         2: this.attended,
-        3: this.comunications
+        3: this.comunications,
+        4: this.needs
       }
       let arraySelected = arraysByStatus[newCustomer.status]
 

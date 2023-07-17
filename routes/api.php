@@ -135,6 +135,7 @@ Route::post('/updateOwner', [OwnerController::class, 'updateOwner']);
 Route::get('/getCustomer/{id}', [CustomerController::class, 'show']);
 
 Route::post('/update-quotation-status', [QuotationController::class, 'updateCustomerGrade']);
+Route::post('/update-customer-status', [QuotationController::class, 'updateCustomerStatus']);
 
 Route::get('/standByCustomer/{id}', [CustomerController::class, 'standByCustomer']);
 Route::get('/getAllStandByCustomers', [CustomerController::class, 'getAllStandByCustomers']);
