@@ -11,6 +11,10 @@ class Meeting extends Model
     protected $fillable = ['title', 'date', 'link', 'comment'];
     //realcion muchos a muchos user-meetings
     public function users(){
-        return $this->belongsToMany('App\Models\User', 'meeting_user');
+        return $this->belongsToMany('App\Models\User', 'meeting_user','user_id','meeting_id');
+    }
+    //Relacion muchos a muchos customer_meetings
+    public function customers(){
+        return $this->belongsToMany('App\Models\Cusomer','meeting_user','customer_id','meeting_id');
     }
 }

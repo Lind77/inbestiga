@@ -64,7 +64,7 @@ class User extends Authenticatable
     //realcion muchos a muchos user-meetings
     public function meetings()
     {
-        return $this->belongsToMany('App\Models\Meeting', 'meeting_user');
+        return $this->belongsToMany('App\Models\Meeting', 'meeting_user','user_id','meeting_id');
     }
     //relacion uno a muchos user-comissions
     public function comissions()
