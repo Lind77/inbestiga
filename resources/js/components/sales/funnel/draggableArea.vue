@@ -7,7 +7,7 @@
                 <template v-if="customer.customers">
                     <CardCustomer :customer="customer" :customers="customer.customers" :status="status"
                         @showModalUpdateCom="showModalUpdateCom" @showModalUpdateData="showModalUpdateData"
-                        @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
+                        @transformLead="transformLead" @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
                         @showModalFunnel="showModalFunnel" />
                 </template>
                 <template v-else>
@@ -35,9 +35,14 @@ export default {
         title: String,
         bg: String,
         customers: Object,
-        status: Number
+        status: Number,
+        quotations: Array
     },
     methods: {
+        transformLead(customerId) {
+            console.log('transform in dragarea', customerId);
+            this.$router.push({ name: 'home-quotation', params: { idCustomer: customerId } });
+        },
         showModalFunnel(customer) {
             this.$emit('showModalFunnel', customer)
         },
@@ -66,14 +71,17 @@ export default {
             e.preventDefault()
 
             var quotation = e.dataTransfer.getData("quot")
-            var order = e.dataTransfer.getData("order")
-            var data = e.dataTransfer.getData("leadId")
+            var customer = e.dataTransfer.getData("customerId")
+            if (this.status == 5) {
 
-            console.log('dragarea', data)
-            this.$emit('updateStatusSpace', data, this.status)
+                this.$emit('transformQuotation', customer)
+            } else {
+                this.$emit('updateStatusSpace', customer, this.status)
+            }
         },
-        updateStatusSpace(leadId) {
-            this.$emit('updateStatusSpace', leadId, this.status)
+        updateStatusSpace(quotationId) {
+            console.log('calling in draggablearea', quotationId)
+            this.$emit('updateStatusSpace', quotationId, this.status)
             /* const index = this.customers.findIndex(c => c.id == id)
             this.customers[index].status = status
             axios.get(`/api/updateCustomerGrade/${id}/${status}`)

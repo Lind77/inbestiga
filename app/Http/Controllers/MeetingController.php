@@ -9,7 +9,7 @@ class MeetingController extends Controller
 {
     public function index()
     {
-        $meetings = Meeting::where();
+        $meetings = Meeting::all();
         return response()->json($meetings);
     }
 

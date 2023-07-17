@@ -6,14 +6,34 @@
                     <h5 class="modal-title w-100" id="exampleModalLabel3">
                         <div class="row">
                             <div class="col-6">
-                                Información de Lead
-                                <button v-show="customer.status > 3" @click="callToOrder(customer)" type="button"
-                                    class="btn btn-icon btn-info ms-2">
+                                <button @click="toQuotation(customers[0].pivot.quotation_id)" type="button"
+                                    class="btn btn-icon btn-success ms-2" style=""><span
+                                        class="tf-icons bx bx-file"></span></button>
+                                <button @click="callToOrder()" type="button" class="btn btn-icon btn-info ms-2">
                                     <span class="tf-icons bx bx-pen"></span>
                                 </button>
-                                <button @click="callModal(customer)" type="button" class="btn btn-icon btn-warning ms-2">
+                                <button @click="callModal()" type="button" class="btn btn-icon btn-warning ms-2">
                                     <span class="tf-icons bx bx-chat"></span>
                                 </button>
+                            </div>
+                            <div class="col-3">
+                                <!-- <p><i :class="`bx ${interest[customer.interest]} display-4 cursor-pointer`"></i></p> -->
+                            </div>
+                            <div class="col-3">
+                                <div class="alert alert-info d-flex" role="alert" v-if="customers && customers[0]">
+                                    <div class="d-flex flex-column ps-1">
+                                        <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
+                                            customers[0].user.name }}
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-6">
+                                Información de Lead
+                                
+                                
                                 <div v-if="customer.status >= 3">
                                     <h6 @dblclick="editOwner" v-show="!showOptionOwner" class="cursor-pointer">Dueño: {{
                                         customer.user ? customer.user.name : 'Sin asignar' }}</h6>
@@ -24,23 +44,33 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <p @dblclick="changeInterest(customer)" v-show="customer.status != 11"><i
-                                        :class="`bx ${interest[customer.interest]} display-4 cursor-pointer`"></i></p>
+                                
                             </div>
-                        </div>
+                        </div> -->
                     </h5>
 
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
                 </div>
-                <div class="modal-body">
+                <div class="modal-body py-0">
                     <div class="row">
-
-                        <div class="col-12 col-lg-6">
-                            <div v-if="customer.quotations && customer.quotations.length == 0 && customer.status > 3"
+                        <div class="col-12 col-lg-6" v-for="customer in customers">
+                            <div class="alert alert-primary d-flex" role="alert">
+                                <span class="badge badge-center rounded-pill bg-primary border-label-primary p-3 me-2"><i
+                                        class="bx bx-user fs-6"></i></span>
+                                <div class="d-flex flex-column ps-1">
+                                    <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
+                                        customer.name }}
+                                    </h6>
+                                    <span>{{ customer.cell }}</span>
+                                    <span> {{ customer.university }}</span>
+                                    <span>{{ customer.career }}</span>
+                                </div>
+                            </div>
+                            <!--  <div v-if="customer.quotations && customer.quotations.length == 0 && customer.status > 3"
                                 class="alert alert-danger py-1 px-2" role="alert">Este usuario no tiene una cotización hecha
-                                en el sistema</div>
-                            <div class="card shadow-none bg-transparent border border-primary mb-3">
+                                en el sistema</div> -->
+                            <!-- <div class="card shadow-none bg-transparent border border-primary mb-3"
+                                v-for="customer in customers">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ customer.name }}
                                         <button type="button" class="btn btn-icon btn-primary ms-2"
@@ -53,8 +83,8 @@
                                     <p class="card-text">Universidad: {{ customer.university }}</p>
                                     <p class="card-text">Carrera: {{ customer.career }}</p>
                                 </div>
-                            </div>
-                            <div class="card shadow-none bg-transparent border border-success mb-3"
+                            </div> -->
+                            <!-- <div class="card shadow-none bg-transparent border border-success mb-3"
                                 v-for="quotation in customer.quotations">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ quotation.date }}
@@ -65,25 +95,32 @@
                                         </button>
                                     </h5>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
-                        <div class="col-12 col-lg-6">
-
-                            <div class="card shadow-none bg-transparent border border-warning mb-3"
-                                v-if="customer.lastManagement">
-                                <div class="card-body">
-                                    <h5 class="card-title">Comunicación más reciente</h5>
-                                    <p class="card-text">Primera gestión: {{ customer.lastManagement.first_management }}</p>
-                                    <p class="card-text">Última gestión: {{ customer.lastManagement.last_management }}</p>
-                                    <p class="card-text">Siguiente gestión: {{ customer.lastManagement.next_management }}
-                                    </p>
-                                    <p class="card-text">Tipo: {{ typeComunication[customer.lastManagement.type] }}</p>
-                                    <p class="card-text">Producto Tentativo: {{ customer.lastManagement.product_tentative }}
-                                    </p>
-                                    <p class="card-text">Comentario: {{ customer.lastManagement.comment }}</p>
+                        <template v-for="customer in customers">
+                            <div class="col-12" v-for="comunication in customer.comunications">
+                                <div class="alert alert-warning d-flex" role="alert">
+                                    <span
+                                        class="badge badge-center rounded-pill bg-warning border-label-warning p-3 me-2"><i
+                                            class="bx bx-envelope fs-6"></i></span>
+                                    <div class="d-flex flex-column ps-1">
+                                        <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
+                                            comunication.last_management }}
+                                        </h6>
+                                        <span>{{ comunication.comment }}</span>
+                                        <span>Siguiente comunicación: {{ comunication.next_management }} {{
+                                            comunication.time }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </template>
+
+                        <!-- <div class="col-12 col-lg-6" v-if="customers">
+
+                            
+                            </div>
+                        </div> -->
+
                     </div>
 
                 </div>
@@ -124,10 +161,14 @@ export default {
         }
     },
     props: {
-        customer: Object,
+        customers: Array,
         owners: Array
     },
     methods: {
+        toQuotation(quotationId) {
+            $('#funnelModal').modal('hide')
+            this.$router.push({ name: 'edit-quotation', params: { idQuotation: quotationId } })
+        },
         changeInterest(customer) {
             var customerId = customer.id
 

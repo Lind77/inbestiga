@@ -9,21 +9,30 @@ class Quotation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['customer_id', 'date', 'amount','expiration_date','discount','term', 'note'];
+    protected $fillable = ['customer_id', 'date', 'amount', 'expiration_date', 'discount', 'term', 'note', 'status', 'attitude', 'interest'];
     //Relacion inersa muchos a muhos customer-quotation
-    public function customers(){
-        return $this->belongsToMany("App\Models\Customer",'customer_quotation');
+    public function customers()
+    {
+        return $this->belongsToMany("App\Models\Customer", 'customer_quotation');
     }
     //Relación uno a muchos Quotation-Details
-    public function details(){
+    public function details()
+    {
         return $this->hasMany("App\Models\Detail");
     }
     // Relacion uno a uno Quotation-Order
-    public function order(){
+    public function order()
+    {
         return $this->hasOne("App\Models\Order");
     }
     // Relacion uno a uno Quotation-Contract
-    public function contract(){
+    public function contract()
+    {
         return $this->hasOne("App\Models\Contract");
+    }
+    //Realcion muchos a muchos user-customer-comissions
+    public function comissions()
+    {
+        return $this->hasMany("App\Models\Comission");
     }
 }

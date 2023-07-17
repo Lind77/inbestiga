@@ -126,6 +126,7 @@ Route::post('/updateQuotation', [QuotationController::class, 'updateQuotation'])
 Route::get('/searchQuotations/{search}', [QuotationController::class, 'search']);
 Route::get('/searchQuotationsByDate/{date}', [QuotationController::class, 'searchQuotationsByDate']);
 
+
 Route::get('/getAllOwners', [OwnerController::class, 'index']);
 Route::get('/verifyOwner/{id}', [OwnerController::class, 'verifyOwner']);
 Route::post('/updateOwner', [OwnerController::class, 'updateOwner']);
@@ -133,7 +134,7 @@ Route::post('/updateOwner', [OwnerController::class, 'updateOwner']);
 
 Route::get('/getCustomer/{id}', [CustomerController::class, 'show']);
 
-Route::post('/updateCustomerGrade', [CustomerController::class, 'updateCustomerGrade']);
+Route::post('/update-quotation-status', [QuotationController::class, 'updateCustomerGrade']);
 
 Route::get('/standByCustomer/{id}', [CustomerController::class, 'standByCustomer']);
 Route::get('/getAllStandByCustomers', [CustomerController::class, 'getAllStandByCustomers']);
@@ -240,6 +241,7 @@ Route::get('/permissions', [UserController::class, 'getPermissions']);
 Route::post('/permission-sync', [UserController::class, 'syncPermission']);
 Route::post('/permission-sync-user', [UserController::class, 'syncPermissionUser']);
 
+Route::get('/meetings', [MeetingController::class, 'index']);
 Route::post('/meetings', [MeetingController::class, 'store']);
 
 Route::get('/quotations-funnel', [QuotationController::class, 'getQuotationsFunnel']);

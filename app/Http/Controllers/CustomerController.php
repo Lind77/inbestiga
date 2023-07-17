@@ -115,7 +115,7 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $customer = Customer::with('quotations')->find($id);
+        $customer = Customer::with(['quotations', 'quotations.details'])->find($id);
         return response()->json($customer);
     }
 
@@ -294,7 +294,7 @@ class CustomerController extends Controller
     {
         $totalCustomers = collect();
 
-        for ($i = 1; $i <= 3; $i++) {
+        for ($i = 1; $i <= 4; $i++) {
             $customers = Customer::with(['comunications', 'quotations', 'quotations.order', 'user'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
 
             $totalCustomers = $totalCustomers->merge($customers);
@@ -308,7 +308,7 @@ class CustomerController extends Controller
 
         $totalCustomers = collect();
 
-        for ($i = 4; $i <= 11; $i++) {
+        for ($i = 5; $i <= 11; $i++) {
             $customers = Customer::with(['origin', 'user', 'comunications' => function ($query) {
                 $query->latest('id');
             }, 'quotations' => function ($secondQuery) {
@@ -364,7 +364,10 @@ class CustomerController extends Controller
     public function searchCustomers($search)
     {
         $customers = Customer::with(['user', 'comunications', 'quotations'])->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%')->get();
-        return response()->json($customers);
+        return response()->json([
+            'customers' => $customers,
+            'quotations' => $customers->map->only(['quotations'])
+        ]);
     }
 
     public function searchPreleads($search)

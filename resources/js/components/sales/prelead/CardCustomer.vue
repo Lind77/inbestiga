@@ -32,13 +32,14 @@ export default {
         }
     },
     props: {
-        customers: Array,
         customer: Object,
         status: Number,
-        visible: Boolean
+        visible: Boolean,
+        quotation: Object
     },
     methods: {
         showModalFunnel(customer) {
+            console.log(customer);
             this.$emit('showModalFunnel', customer)
         },
         removeColor(index) {
@@ -48,8 +49,20 @@ export default {
             document.getElementById('space' + index).classList.add('space-show')
         },
         dropSpace(e, index) {
-            var leadId = e.dataTransfer.getData('leadId')
-            this.$emit('updateStatusSpace', leadId)
+            var typeCard = e.dataTransfer.getData('type')
+            console.log(typeCard);
+            if (typeCard == 1) {
+                console.log('tipo 1');
+                var customerId = e.dataTransfer.getData('customerId')
+                this.$emit('transformLead', customerId)
+            } else {
+                console.log('tipo 2');
+                var quotationId = e.dataTransfer.getData('quotationId')
+                console.log(quotationId);
+                this.$emit('updateStatusSpace', quotationId)
+            }
+            console.log('dropeando en el espacio');
+
             document.getElementById('space' + index).classList.remove('space-show')
         },
         showModalUpdateCom() {
@@ -79,25 +92,20 @@ export default {
             return
         },
         drag(e) {
-            e.dataTransfer.setData('leadId', this.customer.id)
-            if (this.customer.quotations.length != 0) {
-                e.dataTransfer.setData('quot', this.customer.quotations[0].id)
-                if (this.orders != 0) {
-                    e.dataTransfer.setData('order', this.orders[0].id)
-                } else {
-                    e.dataTransfer.setData('order', null)
-                }
+            console.log(this.customer);
+            if (this.customer.customers) {
+                e.dataTransfer.setData('quotationId', this.customer.id)
+                e.dataTransfer.setData('type', 2)
             } else {
-                e.dataTransfer.setData('quot', null)
+                e.dataTransfer.setData('customerId', this.customer.id)
+                e.dataTransfer.setData('type', 1)
             }
         },
         rejectDrop(id) {
             e.preventDefault()
         },
         convertLead(id) {
-
             this.$emit('convertLead', id)
-            /*  */
         },
         openProductModal(customer) {
             console.log('asignando customer')

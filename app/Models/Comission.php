@@ -9,13 +9,15 @@ class Comission extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['customer_id', 'concept', 'percent', 'referal', 'user_id'];
+    protected $fillable = ['quotation_id', 'concept', 'percent', 'referal', 'user_id'];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('App\Models\User');
     }
 
-    public function customer(){
-        return $this->belongsTo('App\Models\Customer');
+    public function quotation()
+    {
+        return $this->belongsTo('App\Models\Quotation');
     }
 }
