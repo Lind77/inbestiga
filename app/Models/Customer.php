@@ -27,9 +27,14 @@ class Customer extends Model
     {
         return $this->hasOne("App\Models\Origin");
     }
-
+    //Relacion uno a muchos user -customer
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+    //realcion muchos a muchos user-meetings
+    public function meetings()
+    {
+        return $this->belongsToMany('App\Models\Meeting', 'meeting_user','customer_id','meeting_id');
     }
 }
