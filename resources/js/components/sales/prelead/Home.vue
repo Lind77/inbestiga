@@ -12,6 +12,9 @@
       <draggableArea :customers="comunications" :title="'Comunicación Establecida'" :status="3" @callModal="callModal"
         @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @convertLead="convertLead"
         @cleanLead="cleanLead" @showModalFunnel="showModalFunnel" />
+      <draggableArea :customers="needs" :title="'Obtención de necesidades específicas'" :status="4" @callModal="callModal"
+        @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @convertLead="convertLead"
+        @cleanLead="cleanLead" @showModalFunnel="showModalFunnel" />
     </div>
     <ProductModal :customer="customerSelected" @getAllPreleads="getAllPreleads" />
     <!-- <UpdateCom :comunication="comunication"/>   -->
@@ -50,6 +53,7 @@ export default {
       noAttended: [],
       comunications: [],
       origin: [],
+      needs: [],
       status: 0,
       customerSelected: null,
       comunication: null,
@@ -80,8 +84,10 @@ export default {
           this.noAttended.push(customer)
         } else if (customer.status == 2) {
           this.attended.push(customer)
-        } else {
+        } else if (customer.status == 3) {
           this.comunications.push(customer)
+        } else {
+          this.needs.push(customer)
         }
       })
     },
@@ -190,10 +196,6 @@ export default {
       }
 
     },
-    callModal2(com) {
-      this.comunication = com
-      $('#updateComModal').modal('show')
-    },
     showModalUpdateData(customer) {
       $('#funnelModal').modal('hide')
       this.customer = customer
@@ -208,6 +210,7 @@ export default {
       this.noAttended = []
       this.attended = []
       this.comunications = []
+      this.needs = []
 
       axios.get('/api/preleads')
         .then(res => {

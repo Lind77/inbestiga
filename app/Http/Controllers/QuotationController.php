@@ -352,7 +352,9 @@ class QuotationController extends Controller
         $totalQuotations = collect();
 
         for ($i = 5; $i < 11; $i++) {
-            $quotations = Quotation::with('customers')->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+            $quotations = Quotation::with(['customers', 'customers.comunications' => function ($query) {
+                $query->orderBy('id', 'desc')->first();
+            }, 'customers.user'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
 
             $totalQuotations = $totalQuotations->merge($quotations);
         }

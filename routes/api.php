@@ -241,6 +241,7 @@ Route::get('/permissions', [UserController::class, 'getPermissions']);
 Route::post('/permission-sync', [UserController::class, 'syncPermission']);
 Route::post('/permission-sync-user', [UserController::class, 'syncPermissionUser']);
 
+Route::get('/meetings', [MeetingController::class, 'index']);
 Route::post('/meetings', [MeetingController::class, 'store']);
 
 Route::get('/quotations-funnel', [QuotationController::class, 'getQuotationsFunnel']);

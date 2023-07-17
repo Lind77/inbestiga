@@ -197,9 +197,9 @@
                 </div>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <button @click="createQuotation" class="btn btn-primary d-grid w-100 mb-3">
+                        <button @click="updateQuotation(quotation.id)" class="btn btn-primary d-grid w-100 mb-3">
                             <span class="d-flex align-items-center justify-content-center text-nowrap"><i
-                                    class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
+                                    class="bx bx-paper-plane bx-xs me-1"></i>Actualizar</span>
                         </button>
                         <router-link v-if="quotation.id != 0" :to="{ name: 'quotation-file', params: { id: quotation.id } }"
                             target="_blank" class="btn btn-primary d-grid w-100 mb-3" disabled>

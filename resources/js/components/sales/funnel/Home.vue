@@ -122,7 +122,7 @@ export default {
       this.updateStatusSpaces(quotationId, status)
     },
     showModalFunnel(customer) {
-      console.log(customer.customers);
+      console.log(customer);
       this.customersSelected = customer.customers
       $('#funnelModal').modal('show')
     },
@@ -281,6 +281,7 @@ export default {
       })
       axios.get('/api/leads')
         .then(res => {
+          console.log(res.data)
           this.totalLeads = res.data
           this.distributeLeads(this.totalLeads)
 
@@ -318,11 +319,11 @@ export default {
         } */
       });
       this.draggableAreas = [
-        {
+        /* {
           customers: this.needs,
           title: 'Obtención de necesidades específicas',
           status: 4
-        }
+        } */
         /* {
           customers: this.customers,
           title: 'Cliente',
@@ -380,6 +381,7 @@ export default {
     getAllQuotations() {
       axios.get('/api/quotations-funnel')
         .then(res => {
+          console.log(res.data);
           this.totalQuotations = res.data
 
           this.totalQuotations.forEach(quotation => {
