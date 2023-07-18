@@ -94,6 +94,8 @@ import MainExperience from '../components/experience/Main.vue'
 
 //Area de Experiencia - Calendly
 import HomeCalendly from '../components/experience/calendly/Home.vue'
+//Area de Experiencia - Horarios
+import HomeSchedule from '../components/experience/schedules/Home.vue'
 //Area de Experiencia - Profiles
 import HomeProfiles from '../components/experience/profiles/Home.vue'
 //Area de Experiencia - Deliveries
@@ -316,6 +318,11 @@ export const routes = [
                 path: 'home',
                 component:  MainExperience,
                 name: 'main-experience'
+            },
+            {
+                path:'schedule',
+                component: HomeSchedule,
+                name: 'home-schedule'
             },
             {
                 path: 'calendly',

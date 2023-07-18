@@ -165,6 +165,12 @@
           <div data-i18n="Form Layouts">Inicio</div>
         </div>
       </router-link>
+      <router-link :to="{ name: 'home-schedule' }" class="menu-item">
+        <div class="menu-link">
+          <i class="menu-icon tf-icons bx bx-time"></i>
+          <div data-i18n="Form Layouts">Horarios</div>
+        </div>
+      </router-link>
       <router-link :to="{ name: 'home-calendly' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-calendar"></i>
@@ -191,13 +197,13 @@
       </router-link>
       <router-link :to="{ name: 'home-project' }" class="menu-item">
         <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
+          <i class="menu-icon tf-icons bx bx-folder-open"></i>
           <div data-i18n="Form Layouts">Proyectos</div>
         </div>
       </router-link>
       <router-link :to="{ name: 'real-time', params: { userId: store.authUser.id } }" class="menu-item">
         <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
+          <i class="menu-icon tf-icons bx bx-support"></i>
           <div data-i18n="Form Layouts">Chat</div>
           <span v-if="messages != 0" class="badge bg-danger rounded-pill badge-notifications ms-1">{{ messages }}</span>
         </div>
