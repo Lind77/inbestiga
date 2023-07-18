@@ -28,7 +28,8 @@ export default {
                 3: 'Meet'
             },
             statusCard: 0,
-            orders: []
+            orders: [],
+            customers: []
         }
     },
     props: {
@@ -49,6 +50,10 @@ export default {
             document.getElementById('space' + index).classList.add('space-show')
         },
         dropSpace(e, index) {
+            if (this.status <= 3) {
+                var customerId = e.dataTransfer.getData('customerId')
+                this.$emit('updateStatusPrelead', customerId)
+            }
             var typeCard = e.dataTransfer.getData('type')
             console.log(typeCard);
             if (typeCard == 1) {

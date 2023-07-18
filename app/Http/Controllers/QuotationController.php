@@ -430,9 +430,19 @@ class QuotationController extends Controller
         $oldStatus = intval($request->get('status')) - 1;
 
         /* $eleventhCustomer = Customer::where('status', $oldStatus)->orderBy('updated_at', 'desc')->offset(10)->first(); */
-
-
         $quotation->customers->each->update([
+            'status' => $request->get('status')
+        ]);
+        return response()->json([
+            'msg' => 'success',
+            /* 'eleventhCustomer' => $eleventhCustomer */
+        ]);
+    }
+
+    public function updateCustomerStatus(Request $request)
+    {
+        $customer = Customer::find($request->get('customer_id'));
+        $customer->update([
             'status' => $request->get('status')
         ]);
         return response()->json([
