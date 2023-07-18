@@ -4,22 +4,17 @@
       <div class="row">
         <DatePicker @filterDate="filterDate" @distributeLeads="distributeLeads" @getAllCustomers="getAllCustomers" />
       </div>
-      <template v-for="area in draggableAreas">
-        <DraggableArea :customers="area.customers" :title="area.title" :status="area.status"
-          @convertCustomerQuotation="convertCustomerQuotation" @showModalFunnel="showModalFunnel"
-          @callModal="callModal" />
-      </template>
       <template v-for="areaQuotation in draggableQuotations">
         <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
-          :customer="areaQuotation.customer" :customers="areaQuotation.quotations" :title="areaQuotation.title"
+          :customer="areaQuotation.customer" :quotations="areaQuotation.quotations" :title="areaQuotation.title"
           :status="areaQuotation.status" @showModalFunnel="showModalFunnel" @callModal="callModal" />
       </template>
     </div>
     <ProductModal :customer="customersSelected" @getAllCustomers="getAllCustomers" />
     <UpdateCom :customerId="customerId" :comunication="comunication" />
-    <FunnelModal :customers="customersSelected" :owners="owners" @updateStatusSpace="updateStatusSpace"
-      @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers"
-      @updateOwner="updateOwner" @updateInterest="updateInterest" />
+    <FunnelModal :quotation="quotation" :owners="owners" @updateStatusSpace="updateStatusSpace" @callModal="callModal"
+      @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers" @updateOwner="updateOwner"
+      @updateInterest="updateInterest" />
     <!--  <customerModal :customers="customersSelected[0]" :action="2" /> -->
   </div>
 </template>
@@ -64,7 +59,8 @@ export default {
       customerId: 0,
       leadsFiltered: [],
       owners: [],
-      totalQuotations: []
+      totalQuotations: [],
+      quotation: {}
     }
   },
   methods: {
@@ -80,11 +76,25 @@ export default {
         } */
 
     },
-    updateInterest(newCustomer) {
-      console.log(newCustomer);
-      var customerSelected = this.leadsFiltered.find(lead => lead.id == newCustomer.id)
-      customerSelected.interest = newCustomer.interest
-      this.customer_selected.interest = newCustomer.interest
+    updateInterest(newQuotation) {
+      console.log(newQuotation);
+      let arraysByStatus = {
+        5: this.quotations,
+        6: this.explanations,
+        7: this.experiences,
+        8: this.tracings,
+        9: this.nopays,
+        10: this.closings,
+        11: this.customers
+      }
+
+      var arraySelected = arraysByStatus[newQuotation.status];
+      var quotationSelected = arraySelected.find(quotation => quotation.id == newQuotation.id)
+      quotationSelected.interest = newQuotation.interest
+      //var customerSelected = this.leadsFiltered.find(lead => lead.id == newCustomer.id)
+      //this.customerSelected[0].interest = newCustomer.interest
+
+      //this.customer_selected.interest = newCustomer.interest
     },
     updateComunication(customer) {
       var customerSelected = this.leadsFiltered.find(lead => lead.id == customer.id)
@@ -121,9 +131,10 @@ export default {
       console.log(quotationId, status)
       this.updateStatusSpaces(quotationId, status)
     },
-    showModalFunnel(customer) {
-      console.log(customer);
-      this.customersSelected = customer.customers
+    showModalFunnel(quotation) {
+      /* console.log(customers);
+      this.customersSelected = customers */
+      this.quotation = quotation
       $('#funnelModal').modal('show')
     },
     updateStatusSpaces(quotationId, status) {

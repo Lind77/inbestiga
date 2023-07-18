@@ -1,13 +1,11 @@
 <template>
     <div class="cardSpace" draggable="true" @dragover.prevent @drop.stop.prevent @dragstart="drag" :id="`${customer.id}`"
-        @click="showModalFunnel">
+        @click="showModalFunnel(quotation)">
         <div :class="`card bg-${bgColor} p-2 cursor-pointer`">
             <template v-if="quotation">
-                <h6 class="mb-0 py-2 text-white" v-for="customer in quotation.customers">{{ customer.name || customer.cell }}
+                <h6 class="mb-0 py-2 text-white" v-for="customer in quotation.customers">{{ customer.name || customer.cell
+                }}
                 </h6>
-            </template>
-            <template v-else>
-                <h6 class="mb-0 py-2 text-white">{{ customer.name || customer.cell }}</h6>
             </template>
         </div>
         <div class="space" :id="'space' + customer.id" @dragover="changeColor(customer.id)"
@@ -38,14 +36,8 @@ export default {
         quotation: Object
     },
     methods: {
-        showModalFunnel() {
-            console.log(this.customer, this.quotation);
-            if (this.quotation) {
-                this.$emit('showModalFunnel', this.quotation)
-            } else {
-                this.$emit('showModalFunnel', this.customer)
-            }
-
+        showModalFunnel(quotation) {
+            this.$emit('showModalFunnel', quotation)
         },
         removeColor(index) {
             document.getElementById('space' + index).classList.remove('space-show')
@@ -127,15 +119,13 @@ export default {
             if (this.customer.status == 0) {
                 return 'dark'
             } else if (this.customer.status == 1 || this.customer.attitude == 1) {
-                return 'secondary'
-            } else if (this.customer.status == 2 || this.customer.attitude == 2) {
                 return 'warning'
-            } else if (this.customer.status == 3 || this.customer.attitude == 3) {
+            } else if (this.customer.status == 2 || this.customer.attitude == 2) {
                 return 'info'
-            } else if (this.customer.status == 4) {
+            } else if (this.customer.status == 3 || this.customer.attitude == 3) {
                 return 'success'
             }
-            /* else if (this.quotation.status > 3 && this.quotation.status < 11) {
+            else if (this.quotation.status > 4 && this.quotation.status < 11) {
                 if (this.quotation.interest == 1) {
                     return 'danger'
                 } else if (this.quotation.interest == 2) {
@@ -147,7 +137,7 @@ export default {
                 }
             } else if (this.customer.status == 11) {
                 return 'warning'
-            } */
+            }
         },
         verifyOrders() {
             return this.customer.quotations.some(quotation => {
