@@ -25,6 +25,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SeenController;
 use App\Http\Controllers\SubareaController;
 use App\Http\Controllers\TaskController;
@@ -76,6 +77,13 @@ Route::get('/subareas', [SubareaController::class, 'index']);
 Route::post('/subareas', [SubareaController::class, 'store']);
 Route::delete('/subareas/{id}', [SubareaController::class, 'destroy']);
 
+//Administración de horarios de los usuarios
+Route::get('/schedules', [ScheduleControllerr::class, 'index']);
+Route::get('/schedules/{id}', [ScheduleControllerr::class, 'show']);
+Route::post('/schedules', [ScheduleControllerr::class, 'store']);
+Route::delete('/schedule/{id}', [ScheduleControllerr::class, 'destroy']);
+
+//Administración de usuarios
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{id}', [UserController::class, 'show']);
 Route::post('/users', [UserController::class, 'store']);
