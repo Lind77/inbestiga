@@ -3,7 +3,8 @@
         @click="showModalFunnel">
         <div :class="`card bg-${bgColor} p-2 cursor-pointer`">
             <template v-if="quotation">
-                <h6 class="mb-0 py-2 text-white" v-for="customer in quotation.customers">{{ customer.name || customer.cell }}
+                <h6 class="mb-0 py-2 text-white" v-for="customer in quotation.customers">{{ customer.name || customer.cell
+                }}
                 </h6>
             </template>
             <template v-else>
@@ -43,7 +44,7 @@ export default {
             if (this.quotation) {
                 this.$emit('showModalFunnel', this.quotation)
             } else {
-                this.$emit('showModalFunnel', this.customer)
+                this.$emit('showModalFunnelCustomer', this.customer)
             }
 
         },

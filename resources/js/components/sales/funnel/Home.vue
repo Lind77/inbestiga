@@ -2,12 +2,13 @@
   <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
       <div class="row">
-        <DatePicker @filterDate="filterDate" @distributeLeads="distributeLeads" @getAllCustomers="getAllCustomers" />
+        <DatePicker @filterDate="filterDate" @distributeQuotations="distributeQuotations"
+          @getAllQuotations="getAllQuotations" />
       </div>
       <template v-for="areaQuotation in draggableQuotations">
         <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
           :customer="areaQuotation.customer" :quotations="areaQuotation.quotations" :title="areaQuotation.title"
-          :status="areaQuotation.status" @showModalFunnel="showModalFunnel" @callModal="callModal" />
+          :status="areaQuotation.status" @callModal="callModal" @showModalQuotationFunnel="showModalQuotationFunnel" />
       </template>
     </div>
     <ProductModal :customer="customersSelected" @getAllCustomers="getAllCustomers" />
@@ -64,6 +65,11 @@ export default {
     }
   },
   methods: {
+    showModalQuotationFunnel(quotation) {
+      this.quotation = quotation
+      $('#funnelModal').modal('show')
+      console.log('Im in home funnel', quotation);
+    },
     transformQuotation(leadId) {
       this.$router.push({ name: 'home-quotation', params: { idCustomer: leadId } });
     },
@@ -292,7 +298,7 @@ export default {
       })
       axios.get('/api/leads')
         .then(res => {
-          console.log(res.data)
+
           this.totalLeads = res.data
           this.distributeLeads(this.totalLeads)
 
@@ -392,63 +398,70 @@ export default {
     getAllQuotations() {
       axios.get('/api/quotations-funnel')
         .then(res => {
-          console.log(res.data);
           this.totalQuotations = res.data
+          this.distributeQuotations(this.totalQuotations)
 
-          this.totalQuotations.forEach(quotation => {
-            if (quotation.status == 5) {
-              this.quotations.push(quotation)
-            } else if (quotation.status == 6) {
-              this.explanations.push(quotation)
-            } else if (quotation.status == 7) {
-              this.experiences.push(quotation)
-            } else if (quotation.status == 8) {
-              this.tracings.push(quotation)
-            } else if (quotation.status == 9) {
-              this.nopays.push(quotation)
-            } else if (quotation.status == 10) {
-              this.closings.push(quotation)
-            }
-          })
-
-          this.draggableQuotations = [
-            {
-              quotations: this.quotations,
-              title: 'Con Cotización',
-              status: 5
-            },
-            {
-              quotations: this.explanations,
-              title: 'Explicación de Cotización',
-              status: 6
-            },
-            {
-              quotations: this.experiences,
-              title: 'Explicación de la Experiencia',
-              status: 7
-            },
-            {
-              quotations: this.tracings,
-              title: 'Seguimientos',
-              status: 8
-            },
-            {
-              quotations: this.nopays,
-              title: 'Cierre no pagado',
-              status: 9
-            },
-            {
-              quotations: this.closings,
-              title: 'Seguimiento de cierre',
-              status: 10
-            },
-          ]
-
-          console.log(this.draggableQuotations);
         })
         .catch(err => {
           console.error(err)
         })
+    },
+    distributeQuotations(quotations) {
+      this.quotations = []
+      this.explanations = []
+      this.experiences = []
+      this.tracings = []
+      this.nopays = []
+      this.closings = []
+
+      quotations.forEach(quotation => {
+        if (quotation.status == 5) {
+          this.quotations.push(quotation)
+        } else if (quotation.status == 6) {
+          this.explanations.push(quotation)
+        } else if (quotation.status == 7) {
+          this.experiences.push(quotation)
+        } else if (quotation.status == 8) {
+          this.tracings.push(quotation)
+        } else if (quotation.status == 9) {
+          this.nopays.push(quotation)
+        } else if (quotation.status == 10) {
+          this.closings.push(quotation)
+        }
+      })
+
+      this.draggableQuotations = [
+        {
+          quotations: this.quotations,
+          title: 'Con Cotización',
+          status: 5
+        },
+        {
+          quotations: this.explanations,
+          title: 'Explicación de Cotización',
+          status: 6
+        },
+        {
+          quotations: this.experiences,
+          title: 'Explicación de la Experiencia',
+          status: 7
+        },
+        {
+          quotations: this.tracings,
+          title: 'Seguimientos',
+          status: 8
+        },
+        {
+          quotations: this.nopays,
+          title: 'Cierre no pagado',
+          status: 9
+        },
+        {
+          quotations: this.closings,
+          title: 'Seguimiento de cierre',
+          status: 10
+        }
+      ]
     },
     loadCustomerById(userId) {
       console.log(userId);

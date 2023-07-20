@@ -246,3 +246,4 @@ Route::get('/meetings', [MeetingController::class, 'index']);
 Route::post('/meetings', [MeetingController::class, 'store']);
 
 Route::get('/quotations-funnel', [QuotationController::class, 'getQuotationsFunnel']);
+Route::get('/quotations/search/{search}', [QuotationController::class, 'searchQuotations']);

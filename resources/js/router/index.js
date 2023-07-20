@@ -20,7 +20,7 @@ import OrderFile from '../components/sales/orders/File.vue'
 
 //Área de Ventas - Contratos
 import HomeContracts from '../components/sales/contracts/Home.vue'
-
+import EditContracts from '../components/sales/contracts/EditContract.vue'
 //Área de Ventas - Clientes
 import HomeClient from '../components/sales/customers/Home.vue'
 
@@ -198,10 +198,16 @@ export const routes = [
                 name: 'home-orders'
             },
             {
-                path: 'contracts/:idUser',
+                path: 'create-contracts/:idQuotation',
                 component: HomeContracts,
                 props: true,
-                name: 'home-contracts'
+                name: 'create-contracts'
+            },
+            {
+                path: 'edit-contracts/:idContract',
+                component: EditContracts,
+                props: true,
+                name: 'edit-contracts'
             },
             {
                 path: 'customers',

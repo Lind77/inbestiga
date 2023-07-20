@@ -8,7 +8,7 @@
                     <CardQuotation :customer="customer" :quotation="quotation" :customers="customer.customers"
                         :status="status" @showModalUpdateCom="showModalUpdateCom" @showModalUpdateData="showModalUpdateData"
                         @transformLead="transformLead" @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
-                        @showModalFunnel="showModalFunnel" />
+                        @showModalQuotationFunnel="showModalQuotationFunnel" />
                 </template>
             </template>
             <template v-else>
@@ -16,7 +16,7 @@
                     <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom"
                         @showModalUpdateData="showModalUpdateData" @updateStatusPrelead="updateStatusPrelead"
                         @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
-                        @showModalFunnel="showModalFunnel" />
+                        @showModalFunnelCustomer="showModalFunnelCustomer" />
                 </template>
             </template>
         </div>
@@ -51,8 +51,11 @@ export default {
             console.log('transform in dragarea', customerId);
             this.$router.push({ name: 'home-quotation', params: { idCustomer: customerId } });
         },
-        showModalFunnel(customer) {
-            this.$emit('showModalFunnel', customer)
+        showModalFunnelCustomer(customer) {
+            this.$emit('showModalFunnelCustomer', customer)
+        },
+        showModalQuotationFunnel(quotation) {
+            this.$emit('showModalQuotationFunnel', quotation)
         },
         cleanLead(id) {
             var leadSelected = this.customers.find(customer => customer.id == id)

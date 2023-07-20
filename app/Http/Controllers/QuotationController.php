@@ -197,7 +197,7 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        $quotation = Quotation::where('id', $id)->with(['customers', 'details', 'details.product', 'order'])->get();
+        $quotation = Quotation::where('id', $id)->with(['customers', 'details', 'details.product', 'order'])->first();
 
         return response()->json($quotation);
     }
@@ -449,5 +449,14 @@ class QuotationController extends Controller
             'msg' => 'success',
             /* 'eleventhCustomer' => $eleventhCustomer */
         ]);
+    }
+
+    public function searchQuotations($search)
+    {
+        $quotations = Quotation::with(['customers', 'customers.comunications', 'customers.user'])->whereHas('customers', function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%');
+        })->get();
+
+        return response()->json($quotations);
     }
 }

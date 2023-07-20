@@ -5,8 +5,9 @@
     <div class="row">
       <template v-for="preleadArea in preleadAreas">
         <draggableArea :customers="preleadArea.customers" :title="preleadArea.title" :status="preleadArea.status"
-          @callModal="callModal" @updateStatusPrelead="updateStatusPrelead" @updateStatusSpace="updateStatusSpace"
-          @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel" />
+          @updateStatusPrelead="updateStatusPrelead" @updateStatusSpace="updateStatusSpace"
+          @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel"
+          @showModalFunnelCustomer="showModalFunnelCustomer" />
       </template>
     </div>
     <ProductModal :customer="customerSelected" @getAllPreleads="getAllPreleads" />
@@ -15,9 +16,10 @@
   <OwnerModal :customerId="customerId" @convertLead="convertLead" @cleanLead="cleanLead" />
   <customerModal :customer="customer" :action="2" />
   <FunnelModal :customer="customer" @updateToLead="updateToLead" @updateStatusSpace="updateStatusSpace"
-    @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllPreleads="getAllPreleads" :owners="owners"
-    @updateOwner="updateOwner" />
-  <UpdateCom :comunication="comunication" :customerId="customerId" :action="action" @getAllPreleads="getAllPreleads" />
+    @callModalComunication="callModalComunication" @showModalUpdateData="showModalUpdateData"
+    @getAllPreleads="getAllPreleads" :owners="owners" @updateOwner="updateOwner" />
+  <UpdateCom :customer="customerToComunication" :comunication="comunication" :customerId="customerId" :action="action"
+    @getAllPreleads="getAllPreleads" />
 </template>
 <script>
 import axios from 'axios'
@@ -31,6 +33,7 @@ import customerModal from '../customers/customerModal.vue'
 import FunnelModal from '../funnel/FunnelModal.vue'
 
 export default {
+  inheritAttrs: false,
   setup() {
     const store = userStore()
     return {
@@ -58,10 +61,16 @@ export default {
       filteredCustomers: [],
       leadsFiltered: [],
       owners: [],
-      quotation: {}
+      quotation: {},
+      customerToComunication: {}
     }
   },
   methods: {
+    showModalFunnelCustomer(customer) {
+      this.customer = customer;
+      $('#funnelModal').modal('show');
+      console.log('Im in home preleads', customer);
+    },
     updateStatusPrelead(customerId, newStatus) {
       console.log(newStatus);
       var preleadSelected = this.customers.find(customer => customer.id == customerId)
@@ -144,9 +153,10 @@ export default {
 
 
     },
-    callModal(customer) {
+    callModalComunication(customer) {
+      console.log(customer)
       $('#funnelModal').modal('hide')
-      this.customerId = customer.id
+      this.customerToComunication = customer
       if (customer.comunication == null) {
         this.action = 1
       }

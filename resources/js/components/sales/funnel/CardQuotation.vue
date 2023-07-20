@@ -37,7 +37,8 @@ export default {
     },
     methods: {
         showModalFunnel(quotation) {
-            this.$emit('showModalFunnel', quotation)
+            console.log(quotation);
+            this.$emit('showModalQuotationFunnel', quotation)
         },
         removeColor(index) {
             document.getElementById('space' + index).classList.remove('space-show')

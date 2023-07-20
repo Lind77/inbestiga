@@ -1,8 +1,9 @@
 <template>
     <div class="modal fade" id="funnelModal" tabindex="-1" aria-modal="true" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content pt-3">
-                <div class="modal-header" v-if="quotation">
+            <div class="modal-content">
+
+                <div class="modal-header">
                     <h5 class="modal-title w-100" id="exampleModalLabel3">
                         <div class="row">
                             <div class="col-6">
@@ -10,16 +11,16 @@
                                     @click="toQuotation(quotation.customers[0].pivot.quotation_id)" type="button"
                                     class="btn btn-icon btn-success ms-2" style=""><span
                                         class="tf-icons bx bx-file"></span></button>
-                                <button v-if="quotation" v-bind:disabled="quotation.status < 8"
-                                    @click="toOrder(quotation.customers[0].id)" type="button"
-                                    class="btn btn-icon btn-info ms-2">
+                                <button v-if="quotation" v-bind:disabled="quotation.status < 8" @click="toOrder(quotation)"
+                                    type="button" class="btn btn-icon btn-info ms-2">
                                     <span class="tf-icons bx bx-pen"></span>
                                 </button>
-                                <button @click="callModal()" type="button" class="btn btn-icon btn-warning ms-2">
+                                <button v-if="customer" @click="callModalUpdateComunication(customer)" type="button"
+                                    class="btn btn-icon btn-warning">
                                     <span class="tf-icons bx bx-chat"></span>
                                 </button>
                             </div>
-                            <div class="col-3">
+                            <div class="col-3" v-if="quotation">
                                 <p class="h2 cursor-pointer emoji" @dblclick="changeInterest(quotation)">{{
                                     interest[quotation.interest] }}
                                 </p>
@@ -59,10 +60,24 @@
                                 </div>
                             </div>
                         </template>
-                        <template v-else>
-                            {{ customer }}
+                        <template v-else-if="customer">
+                            <div class="col-12 col-lg-6">
+                                <div class="alert alert-primary d-flex" role="alert">
+                                    <span
+                                        class="badge badge-center rounded-pill bg-primary border-label-primary p-3 me-2"><i
+                                            class="bx bx-user fs-6"></i></span>
+                                    <div class="d-flex flex-column ps-1">
+                                        <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
+                                            customer.name }}
+                                        </h6>
+                                        <span>{{ customer.cell }}</span>
+                                        <span> {{ customer.university }}</span>
+                                        <span>{{ customer.career }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </template>
-                        <!-- <template v-for="customer in quotation.customers">
+                        <template v-if="customer">
                             <div class="col-12" v-for="comunication in customer.comunications">
                                 <div class="alert alert-warning d-flex" role="alert">
                                     <span
@@ -78,7 +93,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </template> -->
+                        </template>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -123,13 +138,22 @@ export default {
         quotation: Object
     },
     methods: {
+        callModalUpdateComunication(customerId) {
+            $('#funnelModal').modal('hide')
+            this.$emit('callModalComunication', customerId)
+        },
         toQuotation(quotationId) {
             $('#funnelModal').modal('hide')
             this.$router.push({ name: 'edit-quotation', params: { idQuotation: quotationId } })
         },
-        toOrder(customerId) {
+        toOrder(quotation) {
             $('#funnelModal').modal('hide')
-            this.$router.push({ name: 'home-orders', params: { idUser: customerId } })
+            if (quotation.amount <= 1500) {
+                this.$router.push({ name: 'home-orders', params: { idUser: quotation.customers[0].id } })
+            } else {
+                this.$router.push({ name: 'create-contracts', params: { idQuotation: quotation.id } })
+            }
+
             /* $('#funnelModal').modal('hide')
             this.$router.push({ name: 'edit-quotation', params: { idQuotation: quotationId } }) */
         },
@@ -203,11 +227,13 @@ export default {
                 })
         },
         updateStatusSpace() {
+
+            if (parseInt(this.customer.status) + 1 == 5) {
+                $('#funnelModal').modal('hide')
+                this.$router.push({ name: 'home-quotation', params: { idCustomer: this.customer.id } })
+            }
             var newStatus = parseInt(this.customers[0].status) + 1
             this.$emit('updateStatusSpace', this.customers[0].id, newStatus)
-        },
-        callModal(customer) {
-            this.$emit('callModal', customer)
         },
         showModalUpdateData(customer) {
             this.$emit('showModalUpdateData', customer)
