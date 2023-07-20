@@ -61,10 +61,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Models\Notification', 'seens');
     }
-    //realcion muchos a muchos user-meetings
+    //realcion polimorfica muchos a muchos user-meetings
     public function meetings()
     {
-        return $this->belongsToMany('App\Models\Meeting', 'meeting_user','user_id','meeting_id');
+        return $this->morphToMany('App\Models\Meeting', 'meetingable');
     }
     //relacion uno a muchos user-comissions
     public function comissions()

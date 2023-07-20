@@ -77,7 +77,7 @@ Route::get('/subareas', [SubareaController::class, 'index']);
 Route::post('/subareas', [SubareaController::class, 'store']);
 Route::delete('/subareas/{id}', [SubareaController::class, 'destroy']);
 
-//Administración de horarios de los usuarios
+//Administración de horarios de atención de los usuarios
 Route::get('/schedules', [ScheduleControllerr::class, 'index']);
 Route::get('/schedules/{id}', [ScheduleControllerr::class, 'show']);
 Route::post('/schedules', [ScheduleControllerr::class, 'store']);

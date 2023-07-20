@@ -9,12 +9,12 @@ class Meeting extends Model
 {
     use HasFactory;
     protected $fillable = ['title', 'date', 'link', 'comment'];
-    //realcion muchos a muchos user-meetings
-    public function users(){
-        return $this->belongsToMany('App\Models\User', 'meeting_user','user_id','meeting_id');
-    }
-    //Relacion muchos a muchos customer_meetings
-    public function customers(){
-        return $this->belongsToMany('App\Models\Cusomer','meeting_user','customer_id','meeting_id');
-    }
+   //relacion polimorfica muchos a muchos 
+   public function users(){
+    return $this->morphedByMany('App\Models\User','meetingable');
+   }
+      //relacion polimorfica muchos a muchos 
+      public function customers(){
+        return $this->morphedByMany('App\Models\Customer','meetingable');
+       }
 }
