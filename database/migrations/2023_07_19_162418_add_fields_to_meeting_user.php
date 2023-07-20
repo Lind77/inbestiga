@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('schedules', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
+        Schema::table('meeting_user', function (Blueprint $table) {
+            $table->unsignedBigInteger('meetingable_id')->nullable();
+            $table->string('meetingable_type');
         });
     }
 
@@ -27,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('schedules', function (Blueprint $table) {
+        Schema::table('meeting_user', function (Blueprint $table) {
             //
         });
     }
