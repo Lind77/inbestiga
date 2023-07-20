@@ -453,15 +453,15 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function changeInterest($customerId, $interest)
+    public function changeInterest($quotationId, $interest)
     {
-        $customer = Customer::find($customerId);
+        $quotation = Quotation::find($quotationId);
 
-        $customer->update([
+        $quotation->update([
             'interest' => $interest
         ]);
 
-        return response()->json($customer);
+        return response()->json($quotation);
     }
 
     public function searchCustomersComunications($search)

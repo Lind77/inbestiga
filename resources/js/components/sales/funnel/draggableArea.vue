@@ -3,18 +3,20 @@
         <h5 class="fw-600">{{ title }}</h5>
         <div :id="'draggableArea' + status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent
             @dragover.prevent>
-            <template v-for="(customer, index) in customers" :key="index">
-                <template v-if="customer.customers">
-                    <CardCustomer :customer="customer" :customers="customer.customers" :status="status"
-                        @showModalUpdateCom="showModalUpdateCom" @showModalUpdateData="showModalUpdateData"
+            <template v-if="quotations">
+                <template v-for="(quotation, index) in quotations" :key="index">
+                    <CardQuotation :customer="customer" :quotation="quotation" :customers="customer.customers"
+                        :status="status" @showModalUpdateCom="showModalUpdateCom" @showModalUpdateData="showModalUpdateData"
                         @transformLead="transformLead" @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
-                        @showModalFunnel="showModalFunnel" />
+                        @showModalQuotationFunnel="showModalQuotationFunnel" />
                 </template>
-                <template v-else>
+            </template>
+            <template v-else>
+                <template v-for="customer in customers">
                     <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom"
                         @showModalUpdateData="showModalUpdateData" @updateStatusPrelead="updateStatusPrelead"
                         @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
-                        @showModalFunnel="showModalFunnel" />
+                        @showModalFunnelCustomer="showModalFunnelCustomer" />
                 </template>
             </template>
         </div>
@@ -23,8 +25,9 @@
 <script>
 import UpdateCom from '../prelead/UpdateCom.vue'
 import CardCustomer from '../prelead/CardCustomer.vue'
+import CardQuotation from './CardQuotation.vue'
 export default {
-    components: { CardCustomer, UpdateCom },
+    components: { CardCustomer, UpdateCom, CardQuotation },
     data() {
         return {
             visible: false,
@@ -48,8 +51,11 @@ export default {
             console.log('transform in dragarea', customerId);
             this.$router.push({ name: 'home-quotation', params: { idCustomer: customerId } });
         },
-        showModalFunnel(customer) {
-            this.$emit('showModalFunnel', customer)
+        showModalFunnelCustomer(customer) {
+            this.$emit('showModalFunnelCustomer', customer)
+        },
+        showModalQuotationFunnel(quotation) {
+            this.$emit('showModalQuotationFunnel', quotation)
         },
         cleanLead(id) {
             var leadSelected = this.customers.find(customer => customer.id == id)

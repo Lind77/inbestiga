@@ -2,24 +2,20 @@
   <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
       <div class="row">
-        <DatePicker @filterDate="filterDate" @distributeLeads="distributeLeads" @getAllCustomers="getAllCustomers" />
+        <DatePicker @filterDate="filterDate" @distributeQuotations="distributeQuotations"
+          @getAllQuotations="getAllQuotations" />
       </div>
-      <template v-for="area in draggableAreas">
-        <DraggableArea :customers="area.customers" :title="area.title" :status="area.status"
-          @convertCustomerQuotation="convertCustomerQuotation" @showModalFunnel="showModalFunnel"
-          @callModal="callModal" />
-      </template>
       <template v-for="areaQuotation in draggableQuotations">
         <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
-          :customer="areaQuotation.customer" :customers="areaQuotation.quotations" :title="areaQuotation.title"
-          :status="areaQuotation.status" @showModalFunnel="showModalFunnel" @callModal="callModal" />
+          :customer="areaQuotation.customer" :quotations="areaQuotation.quotations" :title="areaQuotation.title"
+          :status="areaQuotation.status" @callModal="callModal" @showModalQuotationFunnel="showModalQuotationFunnel" />
       </template>
     </div>
     <ProductModal :customer="customersSelected" @getAllCustomers="getAllCustomers" />
     <UpdateCom :customerId="customerId" :comunication="comunication" />
-    <FunnelModal :customers="customersSelected" :owners="owners" @updateStatusSpace="updateStatusSpace"
-      @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers"
-      @updateOwner="updateOwner" @updateInterest="updateInterest" />
+    <FunnelModal :quotation="quotation" :owners="owners" @updateStatusSpace="updateStatusSpace" @callModal="callModal"
+      @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers" @updateOwner="updateOwner"
+      @updateInterest="updateInterest" />
     <!--  <customerModal :customers="customersSelected[0]" :action="2" /> -->
   </div>
 </template>
@@ -64,10 +60,16 @@ export default {
       customerId: 0,
       leadsFiltered: [],
       owners: [],
-      totalQuotations: []
+      totalQuotations: [],
+      quotation: {}
     }
   },
   methods: {
+    showModalQuotationFunnel(quotation) {
+      this.quotation = quotation
+      $('#funnelModal').modal('show')
+      console.log('Im in home funnel', quotation);
+    },
     transformQuotation(leadId) {
       this.$router.push({ name: 'home-quotation', params: { idCustomer: leadId } });
     },
@@ -80,11 +82,25 @@ export default {
         } */
 
     },
-    updateInterest(newCustomer) {
-      console.log(newCustomer);
-      var customerSelected = this.leadsFiltered.find(lead => lead.id == newCustomer.id)
-      customerSelected.interest = newCustomer.interest
-      this.customer_selected.interest = newCustomer.interest
+    updateInterest(newQuotation) {
+      console.log(newQuotation);
+      let arraysByStatus = {
+        5: this.quotations,
+        6: this.explanations,
+        7: this.experiences,
+        8: this.tracings,
+        9: this.nopays,
+        10: this.closings,
+        11: this.customers
+      }
+
+      var arraySelected = arraysByStatus[newQuotation.status];
+      var quotationSelected = arraySelected.find(quotation => quotation.id == newQuotation.id)
+      quotationSelected.interest = newQuotation.interest
+      //var customerSelected = this.leadsFiltered.find(lead => lead.id == newCustomer.id)
+      //this.customerSelected[0].interest = newCustomer.interest
+
+      //this.customer_selected.interest = newCustomer.interest
     },
     updateComunication(customer) {
       var customerSelected = this.leadsFiltered.find(lead => lead.id == customer.id)
@@ -121,9 +137,10 @@ export default {
       console.log(quotationId, status)
       this.updateStatusSpaces(quotationId, status)
     },
-    showModalFunnel(customer) {
-      console.log(customer);
-      this.customersSelected = customer.customers
+    showModalFunnel(quotation) {
+      /* console.log(customers);
+      this.customersSelected = customers */
+      this.quotation = quotation
       $('#funnelModal').modal('show')
     },
     updateStatusSpaces(quotationId, status) {
@@ -281,7 +298,7 @@ export default {
       })
       axios.get('/api/leads')
         .then(res => {
-          console.log(res.data)
+
           this.totalLeads = res.data
           this.distributeLeads(this.totalLeads)
 
@@ -381,63 +398,70 @@ export default {
     getAllQuotations() {
       axios.get('/api/quotations-funnel')
         .then(res => {
-          console.log(res.data);
           this.totalQuotations = res.data
+          this.distributeQuotations(this.totalQuotations)
 
-          this.totalQuotations.forEach(quotation => {
-            if (quotation.status == 5) {
-              this.quotations.push(quotation)
-            } else if (quotation.status == 6) {
-              this.explanations.push(quotation)
-            } else if (quotation.status == 7) {
-              this.experiences.push(quotation)
-            } else if (quotation.status == 8) {
-              this.tracings.push(quotation)
-            } else if (quotation.status == 9) {
-              this.nopays.push(quotation)
-            } else if (quotation.status == 10) {
-              this.closings.push(quotation)
-            }
-          })
-
-          this.draggableQuotations = [
-            {
-              quotations: this.quotations,
-              title: 'Con Cotización',
-              status: 5
-            },
-            {
-              quotations: this.explanations,
-              title: 'Explicación de Cotización',
-              status: 6
-            },
-            {
-              quotations: this.experiences,
-              title: 'Explicación de la Experiencia',
-              status: 7
-            },
-            {
-              quotations: this.tracings,
-              title: 'Seguimientos',
-              status: 8
-            },
-            {
-              quotations: this.nopays,
-              title: 'Cierre no pagado',
-              status: 9
-            },
-            {
-              quotations: this.closings,
-              title: 'Seguimiento de cierre',
-              status: 10
-            },
-          ]
-
-          console.log(this.draggableQuotations);
         })
         .catch(err => {
           console.error(err)
         })
+    },
+    distributeQuotations(quotations) {
+      this.quotations = []
+      this.explanations = []
+      this.experiences = []
+      this.tracings = []
+      this.nopays = []
+      this.closings = []
+
+      quotations.forEach(quotation => {
+        if (quotation.status == 5) {
+          this.quotations.push(quotation)
+        } else if (quotation.status == 6) {
+          this.explanations.push(quotation)
+        } else if (quotation.status == 7) {
+          this.experiences.push(quotation)
+        } else if (quotation.status == 8) {
+          this.tracings.push(quotation)
+        } else if (quotation.status == 9) {
+          this.nopays.push(quotation)
+        } else if (quotation.status == 10) {
+          this.closings.push(quotation)
+        }
+      })
+
+      this.draggableQuotations = [
+        {
+          quotations: this.quotations,
+          title: 'Con Cotización',
+          status: 5
+        },
+        {
+          quotations: this.explanations,
+          title: 'Explicación de Cotización',
+          status: 6
+        },
+        {
+          quotations: this.experiences,
+          title: 'Explicación de la Experiencia',
+          status: 7
+        },
+        {
+          quotations: this.tracings,
+          title: 'Seguimientos',
+          status: 8
+        },
+        {
+          quotations: this.nopays,
+          title: 'Cierre no pagado',
+          status: 9
+        },
+        {
+          quotations: this.closings,
+          title: 'Seguimiento de cierre',
+          status: 10
+        }
+      ]
     },
     loadCustomerById(userId) {
       console.log(userId);

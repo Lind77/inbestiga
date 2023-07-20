@@ -299,7 +299,86 @@ class ContractController extends Controller
 
     public function insertContract(Request $request)
     {
-        if ($request->get('quotation_id') == 'undefined') {
+        $contract = Contract::create([
+            'quotation_id' => $request->get('quotation_id'),
+            'amount' => $request->get('amount'),
+            'amount_text' => $request->get('amount_text'),
+            'date' => $request->get('date'),
+            'third_article' => $request->get('third_article'),
+            'fifth_article' => $request->get('fifth_article')
+        ]);
+
+        $fees = json_decode($request->get('fees'), true);
+
+        foreach ($fees as $fee) {
+            Payment::create([
+                'paymentable_id' => $contract->id,
+                'paymentable_type' => 'App\Models\Contract',
+                'date' => $fee['date'],
+                'amount' => $fee['amount'],
+                'advance' => $fee['advance'],
+                'percentage' => $fee['percentage']
+            ]);
+        }
+
+        $deliveries = json_decode($request->get('deliveries'), true);
+
+        foreach ($deliveries as $delivery) {
+            Delivery::create([
+                'deliverable_id' => $contract->id,
+                'deliverable_type' => 'App\Models\Contract',
+                'date' => $delivery['date'],
+                'advance' => $delivery['advance'],
+                'type' => 0
+            ]);
+        }
+
+        $customers = json_decode($request->get('customers'), true);
+
+        foreach ($customers as $customer) {
+            $customer = Customer::find($customer['id']);
+            $customer->update([
+                'status' => 9
+            ]);
+        }
+
+        $user = User::find($request->get('user_id'));
+
+        /* $comission = Comission::create([
+            'quotation_id' => $request->get('quotation_id'),
+            'concept' => 'Cotización',
+            'percent' => 5,
+            'referal' => $user->name,
+            'user_id' => $request->get('user_id')
+        ]); */
+
+        $notification = Notification::create([
+            'emisor_id' => $request->get('emisor_id'),
+            'content' => 'generó el contrato de ' . $customer->name,
+            'type' => 1
+        ]);
+
+        $usersToNotify = User::role('Seller')->get();
+
+        foreach ($usersToNotify as $user) {
+            Seen::create([
+                'user_id' => $user->id,
+                'notification_id' => $notification->id,
+                'seen' => 0
+            ]);
+        }
+
+        broadcast(new NewDocument($contract));
+
+        return response()->json($contract->id);
+    }
+
+    private function verifyQuotation($quotationId)
+    {
+        $quotation = Quotation::find($quotationId);
+
+        return $quotation;
+        /* if ($request->get('quotation_id') == 'undefined') {
             $quotation = Quotation::create([
                 'customer_id' => $request->get('customer_id'),
                 'date' => $request->get('date'),
@@ -326,14 +405,7 @@ class ContractController extends Controller
                 ]);
             }
 
-            $contract = Contract::create([
-                'quotation_id' => $quotation->id,
-                'amount' => $request->get('amount'),
-                'amount_text' => $request->get('amount_text'),
-                'date' => $request->get('date'),
-                'third_article' => $request->get('third_article'),
-                'fifth_article' => $request->get('fifth_article')
-            ]);
+            
         } else {
             $quotation = Quotation::with('contract')->where('id', $request->get('quotation_id'))->first();
 
@@ -364,69 +436,9 @@ class ContractController extends Controller
             } else {
                 $contract = Contract::create($request->all());
             }
-        }
-
-        $fees = json_decode($request->get('fees'), true);
-
-        foreach ($fees as $fee) {
-            Payment::create([
-                'paymentable_id' => $contract->id,
-                'paymentable_type' => 'App\Models\Contract',
-                'date' => $fee['date'],
-                'amount' => $fee['amount'],
-                'advance' => $fee['advance'],
-                'percentage' => $fee['percentage']
-            ]);
-        }
-
-        $deliveries = json_decode($request->get('deliveries'), true);
-
-        foreach ($deliveries as $delivery) {
-            Delivery::create([
-                'deliverable_id' => $contract->id,
-                'deliverable_type' => 'App\Models\Contract',
-                'date' => $delivery['date'],
-                'advance' => $delivery['advance'],
-                'type' => 0
-            ]);
-        }
-
-        $customer = Customer::find($request->get('customer_id'));
-
-        $customer->update([
-            'status' => 9
-        ]);
-
-        $user = User::find($request->get('user_id'));
-
-        $comission = Comission::create([
-            'customer_id' => $customer->id,
-            'concept' => 'Cotización',
-            'percent' => 5,
-            'referal' => $user->name,
-            'user_id' => $request->get('user_id')
-        ]);
-
-        $notification = Notification::create([
-            'emisor_id' => $request->get('emisor_id'),
-            'content' => 'generó el contrato de ' . $customer->name,
-            'type' => 1
-        ]);
-
-        $usersToNotify = User::role('Seller')->get();
-
-        foreach ($usersToNotify as $user) {
-            Seen::create([
-                'user_id' => $user->id,
-                'notification_id' => $notification->id,
-                'seen' => 0
-            ]);
-        }
-
-        broadcast(new NewDocument($contract));
-
-        return response()->json($contract->id);
+        } */
     }
+
     public function searchContract($search)
     {
         $contracts = Contract::with(['quotation', 'quotation.customers'])->whereHas('quotation.customers', function ($query) use ($search) {
