@@ -37,7 +37,8 @@
                                 <span class="timeline-point timeline-point-primary"></span>
                                 <div class="timeline-event">
                                     <div class="timeline-header mb-1">
-                                        <h6 class="mb-0">{{ comunication.customer.name }}</h6>
+                                        <h6 class="mb-0">{{ comunication.customer.name }} - {{ comunication.customer.cell }}
+                                        </h6>
                                         <small v-show="!showDatePicker" class="text-muted cursor-pointer"
                                             @dblclick="editDateTime">{{
                                                 formatTime(comunication.time, comunication.next_management) }}</small>
@@ -141,7 +142,8 @@ export default {
         },
         formatTime(time, date) {
             var dateAndTime = date + ' ' + time
-            var formatedTime = moment(dateAndTime, 'HH:mm:ss').format('DD/MM/YYYY h:mm a')
+            console.log(dateAndTime);
+            var formatedTime = moment(time, 'HH:mm:ss').format('DD/MM/YYYY hh:mm a')
             return formatedTime
         },
         getComunicationsByToday() {
@@ -181,7 +183,8 @@ export default {
             var comunicationFound = this.comunications.find(comunication => comunication.time == timeSeconds)
 
             if (comunicationFound && this.store.authUser.roles[0].name == 'Seller') {
-                this.$swal('Usted tiene una comuniación pendiente en estos momentos con ' + comunicationFound.customer.name)
+                var nameAndCell = comunicationFound.customer.name + comunicationFound.customer.cell
+                this.$swal('Usted tiene una comuniación pendiente en estos momentos con ' + nameAndCell)
             }
 
         }

@@ -243,6 +243,8 @@ class ContractController extends Controller
             $detail->delete();
         });
 
+
+
         $quotation->customers->each->update([
             'status' => 9
         ]);
@@ -306,6 +308,10 @@ class ContractController extends Controller
             'date' => $request->get('date'),
             'third_article' => $request->get('third_article'),
             'fifth_article' => $request->get('fifth_article')
+        ]);
+
+        $contract->quotation->update([
+            'status' => 9
         ]);
 
         $fees = json_decode($request->get('fees'), true);
