@@ -81,9 +81,14 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Project');
     }
-    //Relacion uno a muchos UsER-Progress
+    //Relacion uno a muchos User-Progress
     public function progress()
     {
         return $this->hasMany('App\Models\Progress');
+    }
+    //relacion uno a muchos user-comissions
+    public function attendances()
+    {
+        return $this->hasMany('App\Models\Attendance');
     }
 }
