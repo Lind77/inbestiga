@@ -167,7 +167,7 @@ Route::get('/changeInterest/{id}/{interest}', [CustomerController::class, 'chang
 
 
 Route::get('/getAllOrders', [OrderController::class, 'index']);
-Route::post('/insertOrder', [OrderController::class, 'store']);
+Route::post('/order', [OrderController::class, 'store']);
 Route::post('/updateOrder', [OrderController::class, 'update']);
 
 

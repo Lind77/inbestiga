@@ -16,6 +16,7 @@ import QuotationImg from '../components/sales/quotations/quotationImg.vue'
 
 //Área de Ventas - Ordenes
 import HomeOrders from '../components/sales/orders/Home.vue'
+import CreateOrder from '../components/sales/orders/Create.vue'
 import OrderFile from '../components/sales/orders/File.vue'
 
 //Área de Ventas - Contratos
@@ -200,6 +201,12 @@ export const routes = [
                 component: HomeOrders,
                 props: true,
                 name: 'home-orders'
+            },
+            {
+                path: 'create-orders/:idQuotation',
+                component: CreateOrder,
+                props: true,
+                name: 'create-orders'
             },
             {
                 path: 'create-contracts/:idQuotation',

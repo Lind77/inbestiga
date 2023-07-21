@@ -12,10 +12,11 @@
       </template>
     </div>
     <ProductModal :customer="customersSelected" @getAllCustomers="getAllCustomers" />
-    <UpdateCom :customerId="customerId" :comunication="comunication" />
+    <UpdateCom :customerId="customerId" :customer="customerToComunication" :comunication="comunication"
+      @getAllQuotations="getAllQuotations" />
     <FunnelModal :quotation="quotation" :owners="owners" @updateStatusSpace="updateStatusSpace" @callModal="callModal"
       @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers" @updateOwner="updateOwner"
-      @updateInterest="updateInterest" />
+      @updateInterest="updateInterest" @callModalComunication="callModalComunication" />
     <!--  <customerModal :customers="customersSelected[0]" :action="2" /> -->
   </div>
 </template>
@@ -61,10 +62,19 @@ export default {
       leadsFiltered: [],
       owners: [],
       totalQuotations: [],
-      quotation: {}
+      quotation: {},
+      customerToComunication: {}
     }
   },
   methods: {
+    callModalComunication(customer) {
+      console.log(customer);
+      this.customerToComunication = customer
+      if (customer.comunication == null) {
+        this.action = 1
+      }
+      $('#updateComModal').modal('show')
+    },
     showModalQuotationFunnel(quotation) {
       this.quotation = quotation
       $('#funnelModal').modal('show')

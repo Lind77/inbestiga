@@ -55,10 +55,8 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-
         //Verificar si hay una orden con el id de cotización
         $order = Order::where('quotation_id', $request->get('quotation_id'))->first();
-
 
         $order = Order::create([
             'quotation_id' => $request->get('quotation_id'),
@@ -249,7 +247,7 @@ class OrderController extends Controller
                 'suggested' => $request->get('suggested')
             ]);
         } else {
-            $quotation = Quotation::with('order')->where('id', $request->get('quotation_id'))->first();
+            $quotation = Quotation::with(['order', 'customers'])->where('id', $request->get('quotation_id'))->first();
             if ($quotation->order != null) {
                 $quotation->order->update([
                     'final_delivery' => $request->get('final_delivery'),
@@ -262,8 +260,6 @@ class OrderController extends Controller
             }
         }
 
-
-
         $payments = json_decode($request->get('payments'), true);
 
         foreach ($payments as $payment) {
@@ -275,23 +271,21 @@ class OrderController extends Controller
             ]);
         }
 
-        $customer = Customer::find($request->get('customer_id'));
-
-        $customer->update([
+        $quotation->customers->each->update([
             'status' => 9
         ]);
 
         $user = User::find($request->get('user_id'));
 
-        $comission = Comission::create([
+        /*  $comission = Comission::create([
             'customer_id' => $customer->id,
             'concept' => 'Cotización',
             'percent' => 5,
             'referal' => $user->name,
             'user_id' => $request->get('user_id')
-        ]);
+        ]); */
 
-        $notification = Notification::create([
+        /*  $notification = Notification::create([
             'emisor_id' => $request->get('user_id'),
             'content' => 'generó la orden de ' . $customer->name,
             'type' => 1
@@ -305,7 +299,7 @@ class OrderController extends Controller
                 'notification_id' => $notification->id,
                 'seen' => 0
             ]);
-        }
+        } */
 
         broadcast(new NewDocument($order));
 

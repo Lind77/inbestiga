@@ -253,7 +253,7 @@ class QuotationController extends Controller
 
     public function getQuotationByOrder($id)
     {
-        $order = Order::where('id', $id)->with(['quotation', 'quotation.customer', 'quotation.details', 'quotation.details.product', 'quotation.details.product', 'payments'])->first();
+        $order = Order::where('id', $id)->with(['quotation', 'quotation.customers', 'quotation.details', 'quotation.details.product', 'quotation.details.product', 'payments'])->first();
 
         return response()->json($order);
     }

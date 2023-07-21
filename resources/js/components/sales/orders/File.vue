@@ -28,7 +28,7 @@
                             <th>
                                 <h2 class="name-customer">Nombre: </h2>
                             </th>
-                            <th><span class="name">{{ order.quotation.customer.name }}</span></th>
+                            <th><span class="name">{{ order.quotation.customers[0].name }}</span></th>
                         </tr>
                         <tr>
                             <th>
@@ -47,13 +47,13 @@
                             <th>
                                 <h2 class="info-user">Teléfono: </h2>
                             </th>
-                            <th><span>{{ order.quotation.customer.cell }}</span></th>
+                            <th><span>{{ order.quotation.customers[0].cell }}</span></th>
                         </tr>
                         <tr>
                             <th>
                                 <h2 class="info-user">N° DNI: </h2>
                             </th>
-                            <th><span>{{ order.quotation.customer.dni }}</span></th>
+                            <th><span>{{ order.quotation.customers[0].dni }}</span></th>
                         </tr>
                     </thead>
                 </table>
@@ -65,13 +65,13 @@
                             <th>
                                 <h2 class="info-user">Universidad: </h2>
                             </th>
-                            <th><span>{{ order.quotation.customer.university }}</span></th>
+                            <th><span>{{ order.quotation.customers[0].university }}</span></th>
                         </tr>
                         <tr>
                             <th>
                                 <h2 class="info-user">Carrera o mención: </h2>
                             </th>
-                            <th><span>{{ order.quotation.customer.career }}</span></th>
+                            <th><span>{{ order.quotation.customers[0].career }}</span></th>
                         </tr>
                     </thead>
                 </table>
@@ -87,7 +87,7 @@
                         <th class="text-purple fw-bolder py-3 ps-1">OBSERVACIONES</th>
                     </tr>
                 </thead>
-                <tbody v-if="order.quotation">
+                <tbody v-if="order && order.quotation">
                     <tr class="text-dark" v-for="(detail, index) in order.quotation.details" :key="index">
                         <td class="table-item ps-2" width="30%" v-if="detail.type <= order.suggested">
                             <template v-if="detail.type <= order.suggested">

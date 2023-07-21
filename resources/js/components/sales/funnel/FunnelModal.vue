@@ -12,10 +12,10 @@
                                     class="btn btn-icon btn-success ms-2" style=""><span
                                         class="tf-icons bx bx-file"></span></button>
                                 <button v-if="quotation" v-bind:disabled="quotation.status < 8" @click="toOrder(quotation)"
-                                    type="button" class="btn btn-icon btn-info ms-2">
+                                    type="button" class="btn btn-icon btn-info mx-2">
                                     <span class="tf-icons bx bx-pen"></span>
                                 </button>
-                                <button v-if="customer" @click="callModalUpdateComunication(customer)" type="button"
+                                <button v-if="customer || quotation" @click="callModalUpdateComunication" type="button"
                                     class="btn btn-icon btn-warning">
                                     <span class="tf-icons bx bx-chat"></span>
                                 </button>
@@ -94,6 +94,28 @@
                                 </div>
                             </div>
                         </template>
+                        <template v-if="quotation">
+                            <template v-for="customer in quotation.customers">
+                                <template v-for="comunication in customer.comunications">
+                                    <div class="col-12">
+                                        <div class="alert alert-warning d-flex" role="alert">
+                                            <span
+                                                class="badge badge-center rounded-pill bg-warning border-label-warning p-3 me-2"><i
+                                                    class="bx bx-envelope fs-6"></i></span>
+                                            <div class="d-flex flex-column ps-1">
+                                                <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
+                                                    comunication.last_management }}
+                                                </h6>
+                                                <span>{{ comunication.comment }}</span>
+                                                <span>Siguiente comunicación: {{ comunication.next_management }} {{
+                                                    comunication.time }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+
+                            </template>
+                        </template>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -138,9 +160,15 @@ export default {
         quotation: Object
     },
     methods: {
-        callModalUpdateComunication(customerId) {
+        callModalUpdateComunication() {
             $('#funnelModal').modal('hide')
-            this.$emit('callModalComunication', customerId)
+            if (this.customer) {
+                this.$emit('callModalComunication', this.customer)
+            } else if (this.quotation) {
+                console.log(this.quotation);
+                this.$emit('callModalComunication', this.quotation.customers[0])
+            }
+
         },
         toQuotation(quotationId) {
             $('#funnelModal').modal('hide')
@@ -149,7 +177,7 @@ export default {
         toOrder(quotation) {
             $('#funnelModal').modal('hide')
             if (quotation.amount <= 1500) {
-                this.$router.push({ name: 'home-orders', params: { idUser: quotation.customers[0].id } })
+                this.$router.push({ name: 'create-orders', params: { idQuotation: quotation.id } })
             } else {
                 this.$router.push({ name: 'create-contracts', params: { idQuotation: quotation.id } })
             }

@@ -91,6 +91,7 @@ export default {
                 axios.post('/api/insertComunication', fd)
                     .then((res) => {
                         this.$emit('getAllPreleads')
+                        this.$emit('getAllQuotations')
                         $('#updateComModal').modal('hide')
                     })
                     .catch((err) => {

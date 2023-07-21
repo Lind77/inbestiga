@@ -63,34 +63,19 @@
                   <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
                     <span class="h4 text-capitalize mb-0 text-nowrap">Orden de Servicio</span>
                   </dt>
-                  <dd class="col-sm-6 d-flex justify-content-md-end">
-                    <div class="w-px-150">
-                      <input v-if="idQuotation" type="text" class="form-control" v-model="idQuotation" disabled>
-                    </div>
-                  </dd>
-                  <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
-                    <span class="fw-normal">Fecha:</span>
-                  </dt>
-                  <dd class="col-sm-6 d-flex justify-content-md-end">
-                    <div class="w-px-150">
-                      <input type="date" class="form-control date-picker flatpickr-input" v-model="date">
-                    </div>
-                  </dd>
-                  <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
-                    <span class="fw-normal">Fecha de validez:</span>
-                  </dt>
-                  <dd class="col-sm-6 d-flex justify-content-md-end">
-                    <div class="w-px-150">
-                      <input type="date" class="form-control date-picker flatpickr-input" v-model="dateValidate">
-                    </div>
-                  </dd>
+
+
                 </dl>
               </div>
             </div>
             <hr class="my-4 mx-n4">
             <div class="row p-sm-3 p-0">
-              <div class="col-md-6 col-sm-5 col-12 mb-sm-0 mb-4">
-                <h6 class="pb-2">Cotización para:</h6>
+              <div class="col-12 col-lg-6" v-for="customer in quotation.customers">
+                <ClientSection :customer="customer" @getQuotation="getQuotation" />
+              </div>
+              <!-- <div class="col-md-6 col-sm-5 col-12 mb-sm-0 mb-4">
+                
+                
                 <table v-if="customer">
                   <tbody>
                     <tr>
@@ -135,7 +120,7 @@
                     </tr>
                   </tbody>
                 </table>
-              </div>
+              </div> -->
               <div class="col-md-6 col-sm-7">
 
               </div>
@@ -236,17 +221,16 @@
             <router-link v-if="customer.id" :to="{ name: 'home-quotation', params: { idUser: customer.id } }"
               class="btn btn-secondary d-grid w-100 mb-3">Ver cotización</router-link>
 
-            <button @click="insertQuotation" class="btn btn-primary d-grid w-100 mb-3">
+            <button @click="createOrder(idQuotation)" class="btn btn-primary d-grid w-100 mb-3">
               <span class="d-flex align-items-center justify-content-center text-nowrap"><i
                   class="bx bx-paper-plane bx-xs me-1"></i>Almacenar</span>
             </button>
-
+            {{ idOrder }}
             <a v-if="idContract != 0 && typeDocument == 2" :href="`../../api/generateContract/${customer.id}`"
               target="_blank" class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
 
             <router-link v-if="idOrder != 0" target="_blank" :to="{ name: 'order-file', params: { id: idOrder } }"
               class="btn btn-secondary d-grid w-100 mb-3">Orden</router-link>
-
           </div>
         </div>
 
@@ -261,6 +245,7 @@ import conversor from 'conversor-numero-a-letras-es-ar'
 import { userStore } from '../../../stores/UserStore'
 import Detail from './Detail.vue'
 import Payments from './Payments.vue'
+import ClientSection from './ClientSection.vue'
 
 export default {
   setup() {
@@ -269,10 +254,17 @@ export default {
       store
     }
   },
-  components: { Detail, Payments },
+  components: { Detail, Payments, ClientSection },
   data() {
     return {
-      typeDocument: 3,
+      order: {
+        id: 0,
+        quotation_id: 0,
+        final_delvery: '',
+        observations: '',
+        suggested: 0,
+        status: 0
+      },
       customer: {},
       date: '',
       dateValidate: '',
@@ -369,7 +361,7 @@ export default {
           if (this.customer.quotations[0]) {
             this.idQuotation = this.customer.quotations[0].id
             if (this.customer.quotations[0].order != null) {
-              this.idOrder = this.customer.quotations[0].order.id
+              //this.idOrder = this.customer.quotations[0].order.id
               this.payments = this.customer.quotations[0].order.payments
               this.finalDelivery = this.customer.quotations[0].order.final_delivery
               this.observations = this.customer.quotations[0].order.observations
@@ -450,8 +442,9 @@ export default {
 
         axios.post('/api/insertOrder', fd)
           .then(res => {
+            console.log(res.data);
             this.idOrder = res.data
-            this.$swal('Orden actualizada correctamente')
+            this.$swal('Orden registrada correctamente')
           })
           .catch(err => {
             console.error(err)
