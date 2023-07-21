@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ComissionController;
 use App\Http\Controllers\ComunicationController;
 use App\Http\Controllers\ContractController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SeenController;
 use App\Http\Controllers\SubareaController;
 use App\Http\Controllers\TaskController;
@@ -76,6 +78,18 @@ Route::get('/subareas', [SubareaController::class, 'index']);
 Route::post('/subareas', [SubareaController::class, 'store']);
 Route::delete('/subareas/{id}', [SubareaController::class, 'destroy']);
 
+//Administración de horarios de atención de los usuarios
+Route::get('/schedules', [ScheduleController::class, 'index']);
+Route::get('/schedules/{id}', [ScheduleController::class, 'show']);
+Route::post('/schedules', [ScheduleController::class, 'store']);
+Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']);
+//Administración de asistencias
+Route::get('/attendances', [AttendanceController::class, 'index']);
+Route::get('/attendancess/{id}', [AttendanceController::class, 'show']);
+Route::post('/attendances', [AttendanceController::class, 'store']);
+Route::delete('/attendances/{id}', [AttendanceController::class, 'destroy']);
+
+//Administración de usuarios
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{id}', [UserController::class, 'show']);
 Route::post('/users', [UserController::class, 'store']);
@@ -126,6 +140,7 @@ Route::post('/updateQuotation', [QuotationController::class, 'updateQuotation'])
 Route::get('/searchQuotations/{search}', [QuotationController::class, 'search']);
 Route::get('/searchQuotationsByDate/{date}', [QuotationController::class, 'searchQuotationsByDate']);
 
+
 Route::get('/getAllOwners', [OwnerController::class, 'index']);
 Route::get('/verifyOwner/{id}', [OwnerController::class, 'verifyOwner']);
 Route::post('/updateOwner', [OwnerController::class, 'updateOwner']);
@@ -133,7 +148,8 @@ Route::post('/updateOwner', [OwnerController::class, 'updateOwner']);
 
 Route::get('/getCustomer/{id}', [CustomerController::class, 'show']);
 
-Route::post('/updateCustomerGrade', [CustomerController::class, 'updateCustomerGrade']);
+Route::post('/update-quotation-status', [QuotationController::class, 'updateCustomerGrade']);
+Route::post('/update-customer-status', [QuotationController::class, 'updateCustomerStatus']);
 
 Route::get('/standByCustomer/{id}', [CustomerController::class, 'standByCustomer']);
 Route::get('/getAllStandByCustomers', [CustomerController::class, 'getAllStandByCustomers']);
@@ -151,7 +167,7 @@ Route::get('/changeInterest/{id}/{interest}', [CustomerController::class, 'chang
 
 
 Route::get('/getAllOrders', [OrderController::class, 'index']);
-Route::post('/insertOrder', [OrderController::class, 'store']);
+Route::post('/order', [OrderController::class, 'store']);
 Route::post('/updateOrder', [OrderController::class, 'update']);
 
 
@@ -241,4 +257,8 @@ Route::get('/permissions', [UserController::class, 'getPermissions']);
 Route::post('/permission-sync', [UserController::class, 'syncPermission']);
 Route::post('/permission-sync-user', [UserController::class, 'syncPermissionUser']);
 
+Route::get('/meetings', [MeetingController::class, 'index']);
 Route::post('/meetings', [MeetingController::class, 'store']);
+
+Route::get('/quotations-funnel', [QuotationController::class, 'getQuotationsFunnel']);
+Route::get('/quotations/search/{search}', [QuotationController::class, 'searchQuotations']);

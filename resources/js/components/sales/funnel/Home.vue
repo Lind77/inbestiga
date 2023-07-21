@@ -2,19 +2,22 @@
   <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
       <div class="row">
-        <DatePicker @filterDate="filterDate" @distributeLeads="distributeLeads" @getAllCustomers="getAllCustomers" />
+        <DatePicker @filterDate="filterDate" @distributeQuotations="distributeQuotations"
+          @getAllQuotations="getAllQuotations" />
       </div>
-      <template v-for="area in draggableAreas">
-        <draggableArea :customers="area.customers" :title="area.title" :status="area.status"
-          @updateStatusSpace="updateStatusSpace" @showModalFunnel="showModalFunnel" @callModal="callModal" />
+      <template v-for="areaQuotation in draggableQuotations">
+        <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
+          :customer="areaQuotation.customer" :quotations="areaQuotation.quotations" :title="areaQuotation.title"
+          :status="areaQuotation.status" @callModal="callModal" @showModalQuotationFunnel="showModalQuotationFunnel" />
       </template>
     </div>
-    <ProductModal :customer="customer_selected" @getAllCustomers="getAllCustomers" />
-    <UpdateCom :customerId="customerId" :comunication="comunication" />
-    <FunnelModal :customer="customer_selected" :owners="owners" @updateStatusSpace="updateStatusSpace"
-      @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers"
-      @updateOwner="updateOwner" @updateInterest="updateInterest" />
-    <customerModal :customer="customer_selected" :action="2" />
+    <ProductModal :customer="customersSelected" @getAllCustomers="getAllCustomers" />
+    <UpdateCom :customerId="customerId" :customer="customerToComunication" :comunication="comunication"
+      @getAllQuotations="getAllQuotations" />
+    <FunnelModal :quotation="quotation" :owners="owners" @updateStatusSpace="updateStatusSpace" @callModal="callModal"
+      @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers" @updateOwner="updateOwner"
+      @updateInterest="updateInterest" @callModalComunication="callModalComunication" />
+    <!--  <customerModal :customers="customersSelected[0]" :action="2" /> -->
   </div>
 </template>
 <script>
@@ -22,7 +25,7 @@ import DatePicker from './DatePicker.vue'
 import CardCustomer from '../prelead/CardCustomer.vue'
 import ProductModal from './ProductModal.vue'
 import { userStore } from '../../../stores/UserStore'
-import draggableArea from './draggableArea.vue'
+import DraggableArea from './DraggableArea.vue'
 import UpdateCom from '../prelead/UpdateCom.vue'
 import FunnelModal from './FunnelModal.vue'
 import customerModal from '../customers/customerModal.vue'
@@ -35,7 +38,7 @@ export default {
       store
     }
   },
-  components: { CardCustomer, ProductModal, draggableArea, DatePicker, UpdateCom, FunnelModal, customerModal },
+  components: { CardCustomer, ProductModal, DraggableArea, DatePicker, UpdateCom, FunnelModal, customerModal },
   data() {
     return {
       customers: [],
@@ -50,16 +53,36 @@ export default {
       orders: [],
       totalLeads: [],
       customers_filtered: [],
-      customer_selected: {},
+      customersSelected: [],
       comunication: {},
       needs: [],
       draggableAreas: [],
+      draggableQuotations: [],
       customerId: 0,
       leadsFiltered: [],
-      owners: []
+      owners: [],
+      totalQuotations: [],
+      quotation: {},
+      customerToComunication: {}
     }
   },
   methods: {
+    callModalComunication(customer) {
+      console.log(customer);
+      this.customerToComunication = customer
+      if (customer.comunication == null) {
+        this.action = 1
+      }
+      $('#updateComModal').modal('show')
+    },
+    showModalQuotationFunnel(quotation) {
+      this.quotation = quotation
+      $('#funnelModal').modal('show')
+      console.log('Im in home funnel', quotation);
+    },
+    transformQuotation(leadId) {
+      this.$router.push({ name: 'home-quotation', params: { idCustomer: leadId } });
+    },
     redirect() {
       alert('redirect desde otro componente')
       /*   if(){
@@ -69,11 +92,25 @@ export default {
         } */
 
     },
-    updateInterest(newCustomer) {
-      console.log(newCustomer);
-      var customerSelected = this.leadsFiltered.find(lead => lead.id == newCustomer.id)
-      customerSelected.interest = newCustomer.interest
-      this.customer_selected.interest = newCustomer.interest
+    updateInterest(newQuotation) {
+      console.log(newQuotation);
+      let arraysByStatus = {
+        5: this.quotations,
+        6: this.explanations,
+        7: this.experiences,
+        8: this.tracings,
+        9: this.nopays,
+        10: this.closings,
+        11: this.customers
+      }
+
+      var arraySelected = arraysByStatus[newQuotation.status];
+      var quotationSelected = arraySelected.find(quotation => quotation.id == newQuotation.id)
+      quotationSelected.interest = newQuotation.interest
+      //var customerSelected = this.leadsFiltered.find(lead => lead.id == newCustomer.id)
+      //this.customerSelected[0].interest = newCustomer.interest
+
+      //this.customer_selected.interest = newCustomer.interest
     },
     updateComunication(customer) {
       var customerSelected = this.leadsFiltered.find(lead => lead.id == customer.id)
@@ -97,26 +134,28 @@ export default {
       var customerSelected = arraySelected.find(customer => customer.id == newCustomer.id)
       customerSelected.user = newOwner
     },
+    convertCustomerQuotation(leadId) {
+      console.log(leadId);
+    },
     showModalUpdateData(customer) {
       this.customer_selected = customer
       $('#funnelModal').modal('hide')
       $('#customerModal').modal('show')
     },
-    updateStatusSpace(leadId, status) {
+    updateStatusSpace(quotationId, status) {
       //$('#funnelModal').modal('hide')
-      console.log(status)
-      this.updateStatusSpaces(leadId, status)
+      console.log(quotationId, status)
+      this.updateStatusSpaces(quotationId, status)
     },
-    showModalFunnel(customer) {
-      this.customer_selected = customer
+    showModalFunnel(quotation) {
+      /* console.log(customers);
+      this.customersSelected = customers */
+      this.quotation = quotation
       $('#funnelModal').modal('show')
     },
-    updateStatusSpaces(leadId, status) {
-
-      if (status == 5) {
-        $('#funnelModal').modal('hide')
-        this.$router.push({ name: 'home-quotation', params: { idUser: leadId } });
-      } else if (status == 9) {
+    updateStatusSpaces(quotationId, status) {
+      console.log(quotationId);
+      if (status == 9) {
         $('#funnelModal').modal('hide')
         var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
 
@@ -127,14 +166,15 @@ export default {
         }
 
       } else {
-        var leadSelected = this.leadsFiltered.find(customer => customer.id == leadId)
-        console.log(leadSelected)
-        if (leadSelected.user != null && leadSelected.user.id == this.store.authUser.id) {
-          if (this.verifyChange(leadSelected, status)) {
-            var firstStatus = leadSelected.status
-            leadSelected.status = status
-            this.removeLead(firstStatus, leadId)
-            this.addLead(leadSelected, status)
+        console.log(quotationId);
+        var quotSelected = this.totalQuotations.find(quotation => quotation.id == quotationId)
+        console.log(quotSelected)
+        if (quotSelected.customers[0].user_id == this.store.authUser.id) {
+          if (this.verifyChange(quotSelected, status)) {
+            var firstStatus = quotSelected.status
+            quotSelected.status = status
+            this.removeLead(firstStatus, quotationId)
+            this.addLead(quotSelected, status)
           }
         } else {
           this.$swal.fire({
@@ -161,27 +201,28 @@ export default {
 
       }
     },
-    verifyChange(customer, status) {
-        /* if(status >=5 && status < 9){
-          console.log('verificando estado menor a 9')
-          if(customer.quotations.length != 0){
-            return true
-          }else{
-            this.$swal.fire('Este usuario no cuenta con una cotización')
-          }
-        }else */ if (status >= 9) {
-        console.log('verificando estado mayor a 9', customer.quotations[0].order)
-        if (customer.quotations[0].order != null || customer.quotations[0].contract != null) {
+    verifyChange(quotation, status) {
+      /* if(status >=5 && status < 9){
+        console.log('verificando estado menor a 9')
+        if(customer.quotations.length != 0){
           return true
-        } else {
-          this.$swal.fire('Este usuario no cuenta con una orden o contrato')
+        }else{
+          this.$swal.fire('Este usuario no cuenta con una cotización')
         }
-      } else {
+      }else  if (status >= 9) {
+      console.log('verificando estado mayor a 9', quotation.customers[0].quotations[0].order)
+      if (quotation.customers[0].quotations[0].order != null || quotation.customers[0].quotations[0].contract != null) {
         return true
+      } else {
+        this.$swal.fire('Este usuario no cuenta con una orden o contrato')
       }
+    } else {
+      return true
+    }*/
+      return true;
     },
-    removeLead(firstStatus, leadId) {
-      console.log(firstStatus, leadId)
+    removeLead(firstStatus, quotationId) {
+      console.log(firstStatus, quotationId)
       let arraysByStatus = {
         4: this.needs,
         5: this.quotations,
@@ -194,10 +235,10 @@ export default {
       }
       let arraySelected = arraysByStatus[firstStatus]
 
-      let index = arraySelected.findIndex(el => el.id == leadId)
+      let index = arraySelected.findIndex(el => el.id == quotationId)
       arraySelected.splice(index, 1)
     },
-    addLead(lead, status) {
+    addLead(quotation, status) {
       let arraysByStatus = {
         4: this.needs,
         5: this.quotations,
@@ -210,19 +251,19 @@ export default {
       }
       let array = arraysByStatus[status]
 
-      array = array.unshift(lead)
-      this.updateInBd(lead.id, status)
+      array = array.unshift(quotation)
+      this.updateInBd(quotation.id, status)
       //this.updateStatusSpace(lead.id, status)
       if (status == 11) {
-        this.setProject(lead.id)
+        this.setProject(quotation.id)
       }
     },
     updateInBd(id, status) {
       const fd = new FormData()
-      fd.append('customer_id', id)
+      fd.append('quotation_id', id)
       fd.append('status', status)
       fd.append('user_id', this.store.authUser.id)
-      axios.post('/api/updateCustomerGrade', fd)
+      axios.post('/api/update-quotation-status', fd)
         .then(res => {
           console.log(res.data)
         })
@@ -268,6 +309,7 @@ export default {
       })
       axios.get('/api/leads')
         .then(res => {
+
           this.totalLeads = res.data
           this.distributeLeads(this.totalLeads)
 
@@ -294,75 +336,27 @@ export default {
 
 
       this.needs = []
-      this.quotations = []
-      this.explanations = []
-      this.experiences = []
-      this.tracings = []
-      this.nopays = []
-      this.closings = []
       this.customers = []
 
 
       this.leadsFiltered.forEach(lead => {
         if (lead.status == 4) {
           this.needs.push(lead)
-        } else if (lead.status == 5) {
-          this.quotations.push(lead)
-        } else if (lead.status == 6) {
-          this.explanations.push(lead)
-        } else if (lead.status == 7) {
-          this.experiences.push(lead)
-        } else if (lead.status == 8) {
-          this.tracings.push(lead)
-        } else if (lead.status == 9) {
-          this.nopays.push(lead)
-        } else if (lead.status == 10) {
-          this.closings.push(lead)
-        } else if (lead.status == 11) {
+        } /* else if (lead.status == 11) {
           this.customers.push(lead)
-        }
+        } */
       });
       this.draggableAreas = [
-        {
+        /* {
           customers: this.needs,
           title: 'Obtención de necesidades específicas',
           status: 4
-        },
-        {
-          customers: this.quotations,
-          title: 'Con Cotización',
-          status: 5
-        },
-        {
-          customers: this.explanations,
-          title: 'Explicación de Cotización',
-          status: 6
-        },
-        {
-          customers: this.experiences,
-          title: 'Explicación de la Experiencia',
-          status: 7
-        },
-        {
-          customers: this.tracings,
-          title: 'Seguimientos',
-          status: 8
-        },
-        {
-          customers: this.nopays,
-          title: 'Cierre no pagado',
-          status: 9
-        },
-        {
-          customers: this.closings,
-          title: 'Seguimiento de cierre',
-          status: 10
-        },
-        {
+        } */
+        /* {
           customers: this.customers,
           title: 'Cliente',
           status: 11
-        }
+        } */
       ]
     },
     selectCustomer(customer) {
@@ -389,10 +383,10 @@ export default {
           console.log(err)
         })
     },
-    setProject(id) {
-      console.log(id)
+    setProject(quotationId) {
+      console.log(quotationId)
       const fd = new FormData()
-      fd.append('id_customer', id)
+      fd.append('quotationId', quotationId)
       fd.append('emisor_id', this.store.authUser.id)
       axios.post('/api/setProject', fd)
         .then(res => {
@@ -411,6 +405,74 @@ export default {
         .catch(err => {
           console.error(err)
         })
+    },
+    getAllQuotations() {
+      axios.get('/api/quotations-funnel')
+        .then(res => {
+          this.totalQuotations = res.data
+          this.distributeQuotations(this.totalQuotations)
+
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
+    distributeQuotations(quotations) {
+      this.quotations = []
+      this.explanations = []
+      this.experiences = []
+      this.tracings = []
+      this.nopays = []
+      this.closings = []
+
+      quotations.forEach(quotation => {
+        if (quotation.status == 5) {
+          this.quotations.push(quotation)
+        } else if (quotation.status == 6) {
+          this.explanations.push(quotation)
+        } else if (quotation.status == 7) {
+          this.experiences.push(quotation)
+        } else if (quotation.status == 8) {
+          this.tracings.push(quotation)
+        } else if (quotation.status == 9) {
+          this.nopays.push(quotation)
+        } else if (quotation.status == 10) {
+          this.closings.push(quotation)
+        }
+      })
+
+      this.draggableQuotations = [
+        {
+          quotations: this.quotations,
+          title: 'Con Cotización',
+          status: 5
+        },
+        {
+          quotations: this.explanations,
+          title: 'Explicación de Cotización',
+          status: 6
+        },
+        {
+          quotations: this.experiences,
+          title: 'Explicación de la Experiencia',
+          status: 7
+        },
+        {
+          quotations: this.tracings,
+          title: 'Seguimientos',
+          status: 8
+        },
+        {
+          quotations: this.nopays,
+          title: 'Cierre no pagado',
+          status: 9
+        },
+        {
+          quotations: this.closings,
+          title: 'Seguimiento de cierre',
+          status: 10
+        }
+      ]
     },
     loadCustomerById(userId) {
       console.log(userId);
@@ -432,6 +494,7 @@ export default {
   },
   mounted() {
     this.getAllCustomers()
+    this.getAllQuotations()
     this.getAllOwners()
     if (this.$route.params.userId) {
       this.loadCustomerById(this.$route.params.userId)

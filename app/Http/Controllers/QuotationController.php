@@ -75,7 +75,8 @@ class QuotationController extends Controller
             'expiration_date' => $request->get('expirationDay'),
             'discount' => $discount,
             'term' => $request->get('term'),
-            'note' => $request->get('note')
+            'note' => $request->get('note'),
+            'status' => 5
         ]);
 
         $products = $request->get('products');
@@ -94,18 +95,19 @@ class QuotationController extends Controller
             ]);
         }
 
-        $customer = Customer::find($request->get('customer_id'));
+        $customers = json_decode($request->get('customers'), true);
 
-        $quotation->customers()->attach($customer->id);
-
-        $customerToUpdate = Customer::find($request->get('customer_id'))->update([
-            'status' => 5
-        ]);
+        foreach ($customers as $customer) {
+            $quotation->customers()->attach($customer['id']);
+            $customer = Customer::find($customer['id'])->update([
+                'status' => 5
+            ]);
+        }
 
         $user = User::find($request->get('user_id'));
 
         $comission = Comission::create([
-            'customer_id' => $customer->id,
+            'customer_id' => null,
             'concept' => 'Cotización',
             'percent' => 5,
             'referal' => $user->name,
@@ -195,7 +197,7 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        $quotation = Quotation::where('id', $id)->with(['customers', 'details', 'details.product', 'order'])->get();
+        $quotation = Quotation::where('id', $id)->with(['customers', 'details', 'details.product', 'order'])->first();
 
         return response()->json($quotation);
     }
@@ -251,7 +253,7 @@ class QuotationController extends Controller
 
     public function getQuotationByOrder($id)
     {
-        $order = Order::where('id', $id)->with(['quotation', 'quotation.customer', 'quotation.details', 'quotation.details.product', 'quotation.details.product', 'payments'])->first();
+        $order = Order::where('id', $id)->with(['quotation', 'quotation.customers', 'quotation.details', 'quotation.details.product', 'quotation.details.product', 'payments'])->first();
 
         return response()->json($order);
     }
@@ -342,6 +344,119 @@ class QuotationController extends Controller
     public function searchQuotationsByDate($date)
     {
         $quotations = Quotation::with('customer')->where('date', $date)->get();
+        return response()->json($quotations);
+    }
+
+    public function getQuotationsFunnel()
+    {
+        $totalQuotations = collect();
+
+        for ($i = 5; $i < 11; $i++) {
+            $quotations = Quotation::with(['customers', 'customers.comunications' => function ($query) {
+                $query->orderBy('id', 'desc')->first();
+            }, 'customers.user'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+
+            $totalQuotations = $totalQuotations->merge($quotations);
+        }
+
+        return response()->json($totalQuotations);
+    }
+
+    public function updateCustomerGrade(Request $request)
+    {
+        $status = $request->get('status');
+        $quotation = Quotation::find($request->get('quotation_id'));
+
+
+        if ($status >= 3) {
+            $quotation->update([
+                'status' => $request->get('status')
+            ]);
+
+            $user = User::find($request->get('user_id'));
+
+            $comissionData = [
+                'quotation_id' => $quotation->id,
+                'referal' => $user->name,
+                'user_id' => $request->get('user_id')
+            ];
+
+            switch ($request->get('status')) {
+                    /*  case 3:
+                    $comissionData['concept'] = 'Obtención de datos';
+                    $comissionData['percent'] = 2;
+                    break; */
+                case 4:
+                    $comissionData['concept'] = 'Obtención de necesidades específicas';
+                    $comissionData['percent'] = 8;
+                    break;
+                case 5:
+                    $comissionData['concept'] = 'Cotización';
+                    $comissionData['percent'] = 5;
+                    break;
+                case 6:
+                    $comissionData['concept'] = 'Explicación de la cotización';
+                    $comissionData['percent'] = 5;
+                    break;
+                case 7:
+                    $comissionData['concept'] = 'Explicación de la experiencia';
+                    $comissionData['percent'] = 15;
+                    break;
+                case 8:
+                    $comissionData['concept'] = 'Seguimientos';
+                    $comissionData['percent'] = 15;
+                    break;
+                case 9:
+                    $comissionData['concept'] = 'Cierre no pagado';
+                    $comissionData['percent'] = 15;
+                    break;
+                case 10:
+                    $comissionData['concept'] = 'Seguimiento de cierre';
+                    $comissionData['percent'] = 10;
+                    break;
+                case 11:
+                    $comissionData['concept'] = 'Gestión Documental';
+                    $comissionData['percent'] = 2;
+                    break;
+            }
+
+            $comission = Comission::where('quotation_id', $request->get('quotation_id'))->where('user_id', $request->get('user_id'))->where('concept', $comissionData['concept'])->first();
+
+            if (!$comission) {
+                $newComission = Comission::create($comissionData);
+            }
+        }
+
+        $oldStatus = intval($request->get('status')) - 1;
+
+        /* $eleventhCustomer = Customer::where('status', $oldStatus)->orderBy('updated_at', 'desc')->offset(10)->first(); */
+        $quotation->customers->each->update([
+            'status' => $request->get('status')
+        ]);
+        return response()->json([
+            'msg' => 'success',
+            /* 'eleventhCustomer' => $eleventhCustomer */
+        ]);
+    }
+
+    public function updateCustomerStatus(Request $request)
+    {
+        $customer = Customer::find($request->get('customer_id'));
+        $customer->update([
+            'status' => $request->get('status')
+        ]);
+        return response()->json([
+            'msg' => 'success',
+            /* 'eleventhCustomer' => $eleventhCustomer */
+        ]);
+    }
+
+    public function searchQuotations($search)
+    {
+        $quotations = Quotation::with(['customers', 'customers.comunications', 'customers.user'])->whereHas('customers', function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%');
+        })->get();
+
         return response()->json($quotations);
     }
 }

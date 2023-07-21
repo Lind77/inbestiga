@@ -9,27 +9,31 @@ class Customer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'cell','dni','address','university', 'career', 'status', 'email','user_id','origin', 'time', 'needs','interest','attitude'];
+    protected $fillable = ['name', 'cell', 'dni', 'address', 'university', 'career', 'status', 'email', 'user_id', 'origin', 'time', 'needs', 'interest', 'attitude'];
 
-   
-   //Relacion muchos a muchos Customer-Quotations
-    public function quotations(){
-        return $this->belongsToMany("App\Models\Quotation",'customer_quotation');
+
+    //Relacion muchos a muchos Customer-Quotations
+    public function quotations()
+    {
+        return $this->belongsToMany("App\Models\Quotation", 'customer_quotation');
     }
     //Relacion uno a muchos custoemr-comunications
-    public function comunications(){
+    public function comunications()
+    {
         return $this->hasMany("App\Models\Comunication");
     }
     //Relacion uno a muchos custoemr-origins
-    public function origin(){
+    public function origin()
+    {
         return $this->hasOne("App\Models\Origin");
     }
-
+    //Relacion uno a muchos user -customer
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
-    //Realcion muchos a muchos user-customer-comissions
-    public function comissions(){
-        return $this->hasMany("App\Models\Comission");
+    //realcion polimorfica muchos a muchos user-meetings
+    public function meetings()
+    {
+        return $this->morphToMany('App\Models\Meeting', 'meetingable');
     }
 }

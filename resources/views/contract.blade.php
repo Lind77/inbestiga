@@ -11,7 +11,9 @@
                 margin-left: 0px;
                 margin-right: 0px;
             }
-            
+            .page-break {
+                page-break-after: always;
+            }
             header {
                 position: fixed;
                 top: -170px;
@@ -113,6 +115,10 @@
                 margin: 0px;
                 padding: 0px;
             }
+            .second-client{
+                padding-top: 200px;
+                text-align: center;
+            }
         </style>
     </head>
     <body>
@@ -137,8 +143,15 @@
                         INBESTIGA SOCIEDAD ANÓNIMA CERRADA, empresa identificada con RUC No. 20609545535, 
                         con domicilio para estos efectos en Calle Elías Aguirre 180º, distrito de Miraflores y provincia de Lima; a quien en adelante se le denominará como “EL LOCADOR”.</li>
                         Y, de la otra parte:
-                    <li>
-                        <span class="name">{{$customer->name}}</span>, identificado con DNI No. {{$customer->dni}}, con domicilio para estos efectos en {{$customer->address}}; a quien en adelante se le denominará como “EL CLIENTE”.
+                        
+                    <li>@if(count($contract->quotation->customers) > 1)
+                        @foreach($contract->quotation->customers as $customer)
+                        <span class="name">{{$customer->name}}</span>, identificado con DNI No. {{$customer->dni}}, con domicilio para estos efectos en {{$customer->address}} {{$loop->last?'':'y'}}
+                        @endforeach
+                        ; a quienes en adelante se les denominará como “EL CLIENTE”.
+                        @else
+                        <span class="name">{{$contract->quotation->customers[0]->name}}</span>, identificado con DNI No. {{$contract->quotation->customers[0]->dni}}, con domicilio para estos efectos en {{$contract->quotation->customers[0]->address}} ; a quien en adelante se le denominará como “EL CLIENTE”.
+                        @endif
                     </li>
                 </ul>
                 <p>
@@ -147,8 +160,7 @@
                 </p>
                 <p>
                     <span>PRIMERO: OBJETO DEL CONTRATO.</span><br>
-                EL CONTRATO se celebra con el objeto de que EL LOCADOR entregue a favor de EL CLIENTE un producto 
-                académico según los parámetros de EL CONTRATO.
+                EL CONTRATO se celebra con el objeto de que EL LOCADOR entregue a favor de EL CLIENTE un producto académico según los parámetros del contrato y la observancia del reglamento de la {{$contract->quotation->customers[0]->university}} y la carrera o mención de {{$contract->quotation->customers[0]->career}} - N{{$contract->quotation->details[0]->level}}.
                 </p>
                 <p>
                     <span>SEGUNDO: OBLIGACIONES DEL LOCADOR.</span><br>
@@ -174,7 +186,7 @@
                     <span>TERCERO: OBLIGACIONES DEL CLIENTE.</span><br>
                     EL CLIENTE se compromete a cumplir con lo siguiente:
                     <ul>
-                        @if($customer->quotations[0]->contract->third_article == 1)
+                        @if($contract->third_article == 1)
                         <li>
                             Proporcionar la información de aplicación de instrumentos.
                         </li>
@@ -199,10 +211,10 @@
                         </li>
                     </ul>
                 </p>
+                <div class="page-break"></div>
                 <p>
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
-                Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un 
-                monto total de S/{{$customer->quotations[0]->contract->amount}} (<span class="name">{{$customer->quotations[0]->contract->amount_text}}</span> soles), monto que será abonado en las siguientes fechas:
+                Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un monto total de S/{{$contract->amount}} (<span class="name">{{$contract->amount_text}}</span> soles), monto que será abonado en las siguientes fechas:
                 </p>
                 <table class="date-table">
                     <thead>
@@ -212,7 +224,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($customer->quotations[0]->contract->payments as $fee)
+                        @foreach ($contract->payments as $fee)
                         <tr>
                             <td>{{$fee->date ? date('d/m/Y',strtotime($fee->date)) : 'Bajo coordinación con gerencia o tesista'}}</td>
                             <td>{{$fee->percentage}}% - S/ {{$fee->amount}}</td>
@@ -270,7 +282,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($customer->quotations[0]->contract->deliveries as $delivery)
+                        @foreach ($contract->deliveries as $delivery)
                         <tr>
                             <td>{{$delivery->date ? date('d/m/Y',strtotime($delivery->date)) : 'Bajo coordinación con gerencia o tesista'}}</td>
                             <td>{{$delivery->advance}}</td>
@@ -278,17 +290,17 @@
                         @endforeach
                     </tbody>
                 </table>
-                @if($customer->quotations[0]->contract->fifth_article == 1)
-                <p>Además, EL LOCADOR se compromete con entregar a favor de EL CLIENTE los siguientes beneficios adicionales:
-                </p>
-                <ul>
-                    <li>Asesoría de preparación metodológica y temática sobre la investigación para la sustentación.</li>
-                    <li>Ebook / guía de sustentación escrita.</li>
-                    <li>Balotario de preguntas de sustentación.</li>
-                    <li>Plantilla de diapositivas en Power Point para la sustentación</li>
-                    <li>Reporte de Turnitin.</li>
-                </ul>
-                @endif
+                 @if($contract->fifth_article == 1)
+                    <p>Además, EL LOCADOR se compromete con entregar a favor de EL CLIENTE los siguientes beneficios adicionales:
+                    </p>
+                    <ul>
+                        <li>Asesoría de preparación metodológica y temática sobre la investigación para la sustentación.</li>
+                        <li>Ebook / guía de sustentación escrita.</li>
+                        <li>Balotario de preguntas de sustentación.</li>
+                        <li>Plantilla de diapositivas en Power Point para la sustentación</li>
+                        <li>Reporte de Turnitin.</li>
+                    </ul>
+                    @endif
                 <span>SEXTO: SOBRE LA RESOLUCIÓN DEL CONTRATO</span><br>
                 <p>Si existe un acuerdo de LAS PARTES para la resolución del contrato, este podrá ser resuelto sin consecuencias jurídicas que perjudiquen a las mismas.
                 En caso de que EL LOCADOR incumpla sus obligaciones sin que exista una justificación suficiente que haya 
@@ -300,7 +312,7 @@
                 conllevará a devolución de los pagos abonados hasta el momento de aprobación o denegación de la 
                 solicitud; pagos utilizados para la cobertura de gastos operativos, logísticos, administrativos y de 
                 mercadotecnia. </p>
-                <br>
+                <div class="page-break"></div>
                 <span class="seven-article">SÉPTIMO: MORA INDEMNIZATORIA Y PENALIDADES.</span><br>
                 <p>
                     7.1. Sobre los pagos<br>
@@ -347,7 +359,7 @@
                     presente contrato, EL LOCADOR otorgará a EL CLIENTE una bonificación de S/60.00 (sesenta soles) por cada 
                     mil soles de ingreso con los que la empresa se vea beneficiada.</p>
                     <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
-                    <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($customer->quotations[0]->contract->date))}}</p>
+                   {{--  <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($customer->quotations[0]->contract->date))}}</p> --}}
                 <div class="signatures">
                     <div class="col col-left">
                         <img src="https://inbestiga.com/pdf-sys/firmaBere.jpg" width="200">
@@ -361,8 +373,16 @@
                         <div class="client">
                         <p>__________________________</p>
                         <p>EL CLIENTE</p>
+                        {{$contract->quotation->customers[0]->name}}
                         </div>
                     </div>
+                    @if($contract->quotation->customers[1])
+                    <div class="client second-client">
+                        __________________________<br>
+                        EL CLIENTE <br>
+                        {{$contract->quotation->customers[1]->name}}
+                    </div>
+                    @endif
                 </div>
             </div>
         </main>

@@ -2,82 +2,121 @@
     <div class="modal fade" id="funnelModal" tabindex="-1" aria-modal="true" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
+
                 <div class="modal-header">
                     <h5 class="modal-title w-100" id="exampleModalLabel3">
                         <div class="row">
                             <div class="col-6">
-                                Información de Lead
-                                <button v-show="customer.status > 3" @click="callToQuotation(customer)" type="button"
-                                    class="btn btn-icon btn-success ms-2">
-                                    <span class="tf-icons bx bx-file"></span>
-                                </button>
-                                <button v-show="customer.status > 3" @click="callToOrder(customer)" type="button"
-                                    class="btn btn-icon btn-info ms-2">
+                                <button v-if="quotation" v-bind:disabled="quotation.status < 5"
+                                    @click="toQuotation(quotation.customers[0].pivot.quotation_id)" type="button"
+                                    class="btn btn-icon btn-success ms-2" style=""><span
+                                        class="tf-icons bx bx-file"></span></button>
+                                <button v-if="quotation" v-bind:disabled="quotation.status < 8" @click="toOrder(quotation)"
+                                    type="button" class="btn btn-icon btn-info mx-2">
                                     <span class="tf-icons bx bx-pen"></span>
                                 </button>
-                                <button @click="callModal(customer)" type="button" class="btn btn-icon btn-warning ms-2">
+                                <button v-if="customer || quotation" @click="callModalUpdateComunication" type="button"
+                                    class="btn btn-icon btn-warning">
                                     <span class="tf-icons bx bx-chat"></span>
                                 </button>
-                                <div v-if="customer.status >= 3">
-                                    <h6 @dblclick="editOwner" v-show="!showOptionOwner" class="cursor-pointer">Dueño: {{
-                                        customer.user ? customer.user.name : 'Sin asignar' }}</h6>
-                                    <select v-model="newOwner" v-show="showOptionOwner" @blur="hideOptionOwner"
-                                        @change="updateOwner" id="smallSelect" class="form-select form-select-sm">
-                                        <option :value="owner.id" v-for="owner in owners">{{ owner.name }}</option>
-                                    </select>
-                                </div>
                             </div>
-                            <div class="col-6">
-                                <p @dblclick="changeInterest(customer)" v-show="customer.status != 11"><i
-                                        :class="`bx ${interest[customer.interest]} display-4 cursor-pointer`"></i></p>
+                            <div class="col-3" v-if="quotation">
+                                <p class="h2 cursor-pointer emoji" @dblclick="changeInterest(quotation)">{{
+                                    interest[quotation.interest] }}
+                                </p>
+                            </div>
+                            <div class="col-3" v-if="quotation && quotation.customers">
+                                <div @dblclick="editOwner" class="alert alert-info d-flex" role="alert">
+                                    <div class="d-flex flex-column ps-1">
+                                        <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
+                                            quotation.customers[0].user ? quotation.customers[0].user.name : 'Sin dueño' }}
+                                        </h6>
+                                    </div>
+                                </div>
+                                <select v-model="newOwner" v-show="showOptionOwner" @blur="hideOptionOwner"
+                                    @change="updateOwner" id="smallSelect" class="form-select form-select-sm">
+                                    <option :value="owner.id" v-for="owner in owners">{{ owner.name }}</option>
+                                </select>
                             </div>
                         </div>
                     </h5>
-
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
                 </div>
-                <div class="modal-body">
+                <div class="modal-body py-0">
                     <div class="row">
-
-                        <div class="col-12 col-lg-6">
-                            <div v-if="customer.quotations && customer.quotations.length == 0 && customer.status > 3"
-                                class="alert alert-danger py-1 px-2" role="alert">Este usuario no tiene una cotización hecha
-                                en el sistema</div>
-                            <div class="card shadow-none bg-transparent border border-primary mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ customer.name }}
-                                        <button type="button" class="btn btn-icon btn-primary ms-2"
-                                            @click="showModalUpdateData(customer)">
-                                            <span class="tf-icons bx bx-user"></span>
-                                        </button>
-                                    </h5>
-                                    <p class="card-text">Celular: {{ customer.cell }}</p>
-                                    <p class="card-text">Email: {{ customer.email }}</p>
-                                    <p class="card-text">Universidad: {{ customer.university }}</p>
-                                    <p class="card-text">Carrera: {{ customer.career }}</p>
+                        <template v-if="quotation && quotation.customers">
+                            <div class="col-12 col-lg-6" v-for="customer in quotation.customers">
+                                <div class="alert alert-primary d-flex" role="alert">
+                                    <span
+                                        class="badge badge-center rounded-pill bg-primary border-label-primary p-3 me-2"><i
+                                            class="bx bx-user fs-6"></i></span>
+                                    <div class="d-flex flex-column ps-1">
+                                        <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
+                                            customer.name }}
+                                        </h6>
+                                        <span>{{ customer.cell }}</span>
+                                        <span> {{ customer.university }}</span>
+                                        <span>{{ customer.career }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-lg-6">
-
-                            <div class="card shadow-none bg-transparent border border-warning mb-3"
-                                v-if="customer.lastManagement">
-                                <div class="card-body">
-                                    <h5 class="card-title">Comunicación más reciente</h5>
-                                    <p class="card-text">Primera gestión: {{ customer.lastManagement.first_management }}</p>
-                                    <p class="card-text">Última gestión: {{ customer.lastManagement.last_management }}</p>
-                                    <p class="card-text">Siguiente gestión: {{ customer.lastManagement.next_management }}
-                                    </p>
-                                    <p class="card-text">Tipo: {{ typeComunication[customer.lastManagement.type] }}</p>
-                                    <p class="card-text">Producto Tentativo: {{ customer.lastManagement.product_tentative }}
-                                    </p>
-                                    <p class="card-text">Comentario: {{ customer.lastManagement.comment }}</p>
+                        </template>
+                        <template v-else-if="customer">
+                            <div class="col-12 col-lg-6">
+                                <div class="alert alert-primary d-flex" role="alert">
+                                    <span
+                                        class="badge badge-center rounded-pill bg-primary border-label-primary p-3 me-2"><i
+                                            class="bx bx-user fs-6"></i></span>
+                                    <div class="d-flex flex-column ps-1">
+                                        <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
+                                            customer.name }}
+                                        </h6>
+                                        <span>{{ customer.cell }}</span>
+                                        <span> {{ customer.university }}</span>
+                                        <span>{{ customer.career }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </template>
+                        <template v-if="customer">
+                            <div class="col-12" v-for="comunication in customer.comunications">
+                                <div class="alert alert-warning d-flex" role="alert">
+                                    <span
+                                        class="badge badge-center rounded-pill bg-warning border-label-warning p-3 me-2"><i
+                                            class="bx bx-envelope fs-6"></i></span>
+                                    <div class="d-flex flex-column ps-1">
+                                        <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
+                                            comunication.last_management }}
+                                        </h6>
+                                        <span>{{ comunication.comment }}</span>
+                                        <span>Siguiente comunicación: {{ comunication.next_management }} {{
+                                            comunication.time }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <template v-if="quotation">
+                            <template v-for="customer in quotation.customers">
+                                <template v-for="comunication in customer.comunications">
+                                    <div class="col-12">
+                                        <div class="alert alert-warning d-flex" role="alert">
+                                            <span
+                                                class="badge badge-center rounded-pill bg-warning border-label-warning p-3 me-2"><i
+                                                    class="bx bx-envelope fs-6"></i></span>
+                                            <div class="d-flex flex-column ps-1">
+                                                <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
+                                                    comunication.last_management }}
+                                                </h6>
+                                                <span>{{ comunication.comment }}</span>
+                                                <span>Siguiente comunicación: {{ comunication.next_management }} {{
+                                                    comunication.time }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+
+                            </template>
+                        </template>
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-label-secondary" @click="standBy(customer.id)">Stand By</button>
@@ -108,35 +147,64 @@ export default {
                 3: 'Meet'
             },
             interest: {
-                null: 'bx-minus-circle',
-                1: 'bx-sad text-danger',
-                2: 'bx-smile text-info',
-                3: 'bx-wink-smile text-success'
+                null: '😶',
+                1: '😒',
+                2: '😐',
+                3: '😄'
             }
         }
     },
     props: {
         customer: Object,
-        owners: Array
+        owners: Array,
+        quotation: Object
     },
     methods: {
-        changeInterest(customer) {
-            var customerId = customer.id
+        callModalUpdateComunication() {
+            $('#funnelModal').modal('hide')
+            if (this.customer) {
+                this.$emit('callModalComunication', this.customer)
+            } else if (this.quotation) {
+                console.log(this.quotation);
+                this.$emit('callModalComunication', this.quotation.customers[0])
+            }
 
-            if (customer.interest == null) {
+        },
+        toQuotation(quotationId) {
+            $('#funnelModal').modal('hide')
+            this.$router.push({ name: 'edit-quotation', params: { idQuotation: quotationId } })
+        },
+        toOrder(quotation) {
+            $('#funnelModal').modal('hide')
+            if (quotation.amount <= 1500) {
+                this.$router.push({ name: 'create-orders', params: { idQuotation: quotation.id } })
+            } else {
+                this.$router.push({ name: 'create-contracts', params: { idQuotation: quotation.id } })
+            }
+
+            /* $('#funnelModal').modal('hide')
+            this.$router.push({ name: 'edit-quotation', params: { idQuotation: quotationId } }) */
+        },
+        changeInterest(quotation) {
+
+            console.log(quotation);
+
+            var quotationId = quotation.id
+
+            if (quotation.interest == null) {
                 var newInterest = 1
-            } else if (customer.interest < 3) {
-                var newInterest = parseInt(customer.interest) + 1
+            } else if (quotation.interest < 3) {
+                var newInterest = parseInt(quotation.interest) + 1
             } else {
                 var newInterest = 1
             }
 
-            axios.get('/api/changeInterest/' + customerId + '/' + newInterest)
+            axios.get('/api/changeInterest/' + quotationId + '/' + newInterest)
                 .then((res) => {
                     this.$emit('updateInterest', res.data)
                 })
                 .catch((err) => {
-                    console.log(err)
+                    console.error(err)
                 })
         },
         hideOptionOwner() {
@@ -146,12 +214,12 @@ export default {
             var newOwner = this.owners.find(owner => owner.id == this.newOwner)
 
             const fd = new FormData()
-            fd.append('customer_id', this.customer.id)
+            fd.append('customer_id', this.customers[0].id)
             fd.append('user_id', this.newOwner)
 
             axios.post('/api/updateOwner', fd)
                 .then((res) => {
-                    this.$emit('updateOwner', this.customer, newOwner)
+                    this.$emit('updateOwner', this.customers[0], newOwner)
                 })
                 .catch((err) => {
                     console.error(err)
@@ -175,8 +243,7 @@ export default {
                     if (result.isConfirmed) {
                         axios.get('/api/standByCustomer/' + id)
                             .then((res) => {
-                                $('#funnelModal').modal('hide')
-                                this.$emit('getAllCustomers')
+                                this.$emit('getAllPreleads')
                             })
                             .catch(err => {
                                 console.log(err)
@@ -187,19 +254,30 @@ export default {
                 })
         },
         updateStatusSpace() {
-            var newStatus = parseInt(this.customer.status) + 1
-            this.$emit('updateStatusSpace', this.customer.id, newStatus)
-        },
-        callModal(customer) {
-            this.$emit('callModal', customer)
+            if (this.quotation) {
+                var newStatus = parseInt(this.quotation.status) + 1
+                if (newStatus == 11) {
+                    this.$emit('updateStatusSpace', this.quotation.id, 11)
+                    $('#funnelModal').modal('hide')
+                    this.$swal('Felicidades!, ha conseguido un nuevo proyecto para Inbestiga!!')
+                }
+            } else {
+                if (parseInt(this.customer.status) + 1 == 5) {
+                    $('#funnelModal').modal('hide')
+                    this.$router.push({ name: 'home-quotation', params: { idCustomer: this.customer.id } })
+                }
+                var newStatus = parseInt(this.customers[0].status) + 1
+                this.$emit('updateStatusSpace', this.customers[0].id, newStatus)
+            }
+
         },
         showModalUpdateData(customer) {
             this.$emit('showModalUpdateData', customer)
         },
-        callToQuotation(customer) {
+        callToQuotation(quotationId) {
             if (this.store.authUser.id != 22) {
                 $('#funnelModal').modal('hide')
-                this.$router.push({ name: 'home-quotation', params: { idUser: customer.id } })
+                this.$router.push({ name: 'home-quotation', params: { idQuotation: quotationId } })
             } else {
                 $('#funnelModal').modal('hide')
                 this.$swal('Nop')
@@ -207,6 +285,7 @@ export default {
 
         },
         callToOrder(customer) {
+            console.log(customer);
             $('#funnelModal').modal('hide')
             if (this.store.authUser.id == 22) {
                 this.$swal('Nop')

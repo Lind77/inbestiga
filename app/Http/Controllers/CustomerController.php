@@ -294,8 +294,10 @@ class CustomerController extends Controller
     {
         $totalCustomers = collect();
 
-        for ($i = 1; $i <= 3; $i++) {
-            $customers = Customer::with(['comunications', 'quotations', 'quotations.order', 'user'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+        for ($i = 1; $i <= 4; $i++) {
+            $customers = Customer::with(['comunications' => function ($query) {
+                $query->orderBy('id', 'desc')->first();
+            }, 'quotations', 'quotations.order', 'user'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
 
             $totalCustomers = $totalCustomers->merge($customers);
         }
@@ -308,12 +310,12 @@ class CustomerController extends Controller
 
         $totalCustomers = collect();
 
-        for ($i = 4; $i <= 11; $i++) {
+        for ($i = 5; $i <= 11; $i++) {
             $customers = Customer::with(['origin', 'user', 'comunications' => function ($query) {
                 $query->latest('id');
             }, 'quotations' => function ($secondQuery) {
                 $secondQuery->latest('id');
-            }, 'quotations.order', 'quotations.contract'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+            }, 'quotations.order', 'quotations.contract', 'quotations.details', 'quotations.details.product'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
 
             $totalCustomers = $totalCustomers->merge($customers);
         }
@@ -364,7 +366,10 @@ class CustomerController extends Controller
     public function searchCustomers($search)
     {
         $customers = Customer::with(['user', 'comunications', 'quotations'])->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%')->get();
-        return response()->json($customers);
+        return response()->json([
+            'customers' => $customers,
+            'quotations' => $customers->map->only(['quotations'])
+        ]);
     }
 
     public function searchPreleads($search)
@@ -448,15 +453,15 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function changeInterest($customerId, $interest)
+    public function changeInterest($quotationId, $interest)
     {
-        $customer = Customer::find($customerId);
+        $quotation = Quotation::find($quotationId);
 
-        $customer->update([
+        $quotation->update([
             'interest' => $interest
         ]);
 
-        return response()->json($customer);
+        return response()->json($quotation);
     }
 
     public function searchCustomersComunications($search)

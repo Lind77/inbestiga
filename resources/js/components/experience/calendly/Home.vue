@@ -47,6 +47,16 @@ export default {
         }
     },
     methods: {
+        getEvents() {
+            axios.get('/api/meetings')
+                .then((result) => {
+                    result.data.forEach(evt => {
+                        this.calendarOptions.events.push(evt);
+                    });
+                }).catch((err) => {
+                    console.error(err);
+                });
+        },
         addEvent(evt) {
             console.log(evt);
             const fd = new FormData()
@@ -80,7 +90,7 @@ export default {
         }
     },
     mounted() {
-
+        this.getEvents()
     }
 }
 </script>

@@ -3,38 +3,37 @@
     <input v-on:keyup.enter="searchByName" @keyup="cleanPreLeads" v-model="search" type="text"
       placeholder="Buscar prelead por nombre..." class="form-control w-50 mb-2">
     <div class="row">
-      <draggableArea :customers="noAttended" :title="'No Atendido'" :status="1" @callModal="callModal"
-        @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData"
-        @showModalFunnel="showModalFunnel" />
-      <draggableArea :customers="attended" :title="'Atendido'" :status="2" @callModal="callModal"
-        @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData"
-        @showModalFunnel="showModalFunnel" />
-      <draggableArea :customers="comunications" :title="'Comunicación Establecida'" :status="3" @callModal="callModal"
-        @updateStatusSpace="updateStatusSpace" @showModalUpdateData="showModalUpdateData" @convertLead="convertLead"
-        @cleanLead="cleanLead" @showModalFunnel="showModalFunnel" />
+      <template v-for="preleadArea in preleadAreas">
+        <draggableArea :customers="preleadArea.customers" :title="preleadArea.title" :status="preleadArea.status"
+          @updateStatusPrelead="updateStatusPrelead" @updateStatusSpace="updateStatusSpace"
+          @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel"
+          @showModalFunnelCustomer="showModalFunnelCustomer" />
+      </template>
     </div>
     <ProductModal :customer="customerSelected" @getAllPreleads="getAllPreleads" />
     <!-- <UpdateCom :comunication="comunication"/>   -->
   </div>
   <OwnerModal :customerId="customerId" @convertLead="convertLead" @cleanLead="cleanLead" />
   <customerModal :customer="customer" :action="2" />
-  <FunnelModal :customer="customer_selected" @updateToLead="updateToLead" @updateStatusSpace="updateStatusSpace"
-    @callModal="callModal" @showModalUpdateData="showModalUpdateData" @getAllPreleads="getAllPreleads" :owners="owners"
-    @updateOwner="updateOwner" />
-  <UpdateCom :comunication="comunication" :customerId="customerId" :action="action" @getAllPreleads="getAllPreleads" />
+  <FunnelModal :customer="customer" @updateToLead="updateToLead" @updateStatusSpace="updateStatusSpace"
+    @callModalComunication="callModalComunication" @showModalUpdateData="showModalUpdateData"
+    @getAllPreleads="getAllPreleads" :owners="owners" @updateOwner="updateOwner" />
+  <UpdateCom :customer="customerToComunication" :comunication="comunication" :customerId="customerId" :action="action"
+    @getAllPreleads="getAllPreleads" />
 </template>
 <script>
 import axios from 'axios'
 import { userStore } from '../../../stores/UserStore'
 import CardCustomer from './CardCustomer.vue'
 import ProductModal from '../funnel/ProductModal.vue'
-import draggableArea from '../funnel/draggableArea.vue'
+import draggableArea from '../funnel/DraggableArea.vue'
 import UpdateCom from '../prelead/UpdateCom.vue'
 import OwnerModal from './OwnerModal.vue'
 import customerModal from '../customers/customerModal.vue'
 import FunnelModal from '../funnel/FunnelModal.vue'
 
 export default {
+  inheritAttrs: false,
   setup() {
     const store = userStore()
     return {
@@ -44,14 +43,16 @@ export default {
   components: { CardCustomer, ProductModal, draggableArea, UpdateCom, OwnerModal, customerModal, FunnelModal },
   data() {
     return {
-      action: 0,
-      customers: [],
       attended: [],
       noAttended: [],
       comunications: [],
+      needs: [],
+      preleadAreas: [],
+      action: 0,
+      customers: [],
       origin: [],
       status: 0,
-      customerSelected: null,
+      customerSelected: [],
       comunication: null,
       customerId: 0,
       customer: {},
@@ -59,10 +60,27 @@ export default {
       search: '',
       filteredCustomers: [],
       leadsFiltered: [],
-      owners: []
+      owners: [],
+      quotation: {},
+      customerToComunication: {}
     }
   },
   methods: {
+    showModalFunnelCustomer(customer) {
+      this.customer = customer;
+      $('#funnelModal').modal('show');
+      console.log('Im in home preleads', customer);
+    },
+    updateStatusPrelead(customerId, newStatus) {
+      console.log(newStatus);
+      var preleadSelected = this.customers.find(customer => customer.id == customerId)
+      if (newStatus < 5) {
+        this.updateStatusSpace(customerId, newStatus)
+        console.log(preleadSelected);
+      } else {
+        alert('transformando en quot')
+      }
+    },
     getAllOwners() {
       axios.get('/api/getAllOwners')
         .then(res => {
@@ -80,10 +98,35 @@ export default {
           this.noAttended.push(customer)
         } else if (customer.status == 2) {
           this.attended.push(customer)
-        } else {
+        } else if (customer.status == 3) {
           this.comunications.push(customer)
+        } else {
+          this.needs.push(customer)
         }
       })
+
+      this.preleadAreas = [
+        {
+          title: 'No Atendido',
+          status: 1,
+          customers: this.noAttended
+        },
+        {
+          title: 'Atendido',
+          status: 2,
+          customers: this.attended
+        },
+        {
+          title: 'Comunicación Establecida',
+          status: 3,
+          customers: this.comunications
+        },
+        {
+          title: 'Obtención de necesidades específicas',
+          status: 4,
+          customers: this.needs
+        }
+      ]
     },
     cleanPreLeads() {
       if (this.search == '') {
@@ -110,9 +153,10 @@ export default {
 
 
     },
-    callModal(customer) {
+    callModalComunication(customer) {
+      console.log(customer)
       $('#funnelModal').modal('hide')
-      this.customerId = customer.id
+      this.customerToComunication = customer
       if (customer.comunication == null) {
         this.action = 1
       }
@@ -122,20 +166,21 @@ export default {
       alert('pasando a lead')
     },
     showModalFunnel(customer) {
+      this.customerSelected = []
+      this.customerSelected.push(customer)
       this.customer_selected = customer
       $('#funnelModal').modal('show')
     },
     cleanLead(id) {
+      var preleadSelected = this.comunications.find(comunication => comunication.id == id)
       var index = this.comunications.findIndex(lead => lead.id == id)
       this.comunications.splice(index, 1)
+      preleadSelected.status = 4
+      this.needs.unshift({ ...preleadSelected })
     },
     convertLead(id) {
-      this.customerId = id
-
-
-
-      this.customerSelected =
-        $('#ownerModal').modal('show')
+      this.customerId = parseInt(id)
+      $('#ownerModal').modal('show')
     },
     updateStatusSpace(customer_id, newStatus) {
       console.log(customer_id, this.customers)
@@ -154,7 +199,8 @@ export default {
             0: this.origin,
             1: this.noAttended,
             2: this.attended,
-            3: this.comunications
+            3: this.comunications,
+            4: this.needs
           }
 
           let index = arraysByStatus[oldStatus].findIndex(el => el.id == customerSelected.id)
@@ -169,7 +215,9 @@ export default {
         $('#funnelModal').modal('hide')
         this.convertLead(customer_id)
       } else {
-        var oldStatus = customerSelected.status
+        $('#funnelModal').modal('hide')
+        this.$router.push({ name: 'home-quotation', params: { idCustomer: customer_id } });
+        /* var oldStatus = customerSelected.status
 
         console.log(oldStatus)
 
@@ -177,22 +225,22 @@ export default {
           0: this.origin,
           1: this.noAttended,
           2: this.attended,
-          3: this.comunications
+          3: this.comunications,
+          4: this.needs
         }
 
         let index = arraysByStatus[oldStatus].findIndex(el => el.id == customerSelected.id)
 
         arraysByStatus[oldStatus].splice(index, 1)
         customerSelected.status = newStatus
-        arraysByStatus[newStatus].unshift({ ...customerSelected })
+        if (newStatus < 5) {
+          arraysByStatus[newStatus].unshift({ ...customerSelected })
+        }
 
-        this.updateStatus(customer_id, newStatus)
+
+        this.updateStatus(customer_id, newStatus) */
       }
 
-    },
-    callModal2(com) {
-      this.comunication = com
-      $('#updateComModal').modal('show')
     },
     showModalUpdateData(customer) {
       $('#funnelModal').modal('hide')
@@ -208,6 +256,7 @@ export default {
       this.noAttended = []
       this.attended = []
       this.comunications = []
+      this.needs = []
 
       axios.get('/api/preleads')
         .then(res => {
@@ -246,17 +295,20 @@ export default {
       fd.append('customer_id', id)
       fd.append('status', status)
       fd.append('user_id', this.store.authUser.id)
-      axios.post(`/api/updateCustomerGrade`, fd)
+      axios.post(`/api/update-customer-status`, fd)
         .then(res => {
           var newCustomer = res.data.eleventhCustomer
-          let arraysByStatus = {
-            0: this.origin,
-            1: this.noAttended,
-            2: this.attended,
-            3: this.comunications
+          if (newCustomer) {
+            let arraysByStatus = {
+              0: this.origin,
+              1: this.noAttended,
+              2: this.attended,
+              3: this.comunications,
+              4: this.needs
+            }
+            arraysByStatus[newCustomer.status].push(newCustomer)
           }
-          arraysByStatus[newCustomer.status].push(newCustomer)
-          console.log(res.data)
+          $('#funnelModal').modal('hide')
           this.$swal('El usuario ha sido actualizado correctamente')
         })
         .catch(err => {
@@ -267,7 +319,8 @@ export default {
       let arraysByStatus = {
         1: this.noAttended,
         2: this.attended,
-        3: this.comunications
+        3: this.comunications,
+        4: this.needs
       }
       let arraySelected = arraysByStatus[newCustomer.status]
 

@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->time('admission_time')->nullable();
             $table->time('departure_time')->nullable();
+            $table->string('day')->nullable();
+            $table->string('week')->nullable();
             $table->tinyInteger('type')->nullable();
-            $table->tinyInteger('day')->nullable();
-            $table->tinyInteger('week')->nullable();
             $table->timestamps();
         });
     }

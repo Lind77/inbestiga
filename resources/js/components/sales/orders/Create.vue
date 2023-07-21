@@ -58,46 +58,28 @@
                                     </span>
                                     <span class="app-brand-text demo text-body fw-bolder">Inbestiga</span>
                                 </div>
-                                <p class="mb-1">Prolongación Cuzco 921 – Huancayo.</p>
+                                <p class="mb-1">Prolongación Cuzco 921 – Huancayo</p>
                                 <p class="mb-1">Calle Elías Aguirre 180 Piso 03 – Miraflores.</p>
                                 <p class="mb-0">991045555, 947202059</p>
                             </div>
                             <div class="col-md-6">
                                 <dl class="row mb-2">
                                     <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
-                                        <span class="h4 text-capitalize mb-0 text-nowrap">Cotización #</span>
+                                        <span class="h4 text-capitalize mb-0 text-nowrap">Orden de Servicio</span>
                                     </dt>
-                                    <dd class="col-sm-6 d-flex justify-content-md-end">
-                                        <div class="w-px-150">
-                                            <input type="text" class="form-control" v-model="quotation.id" disabled>
-                                        </div>
-                                    </dd>
-                                    <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
-                                        <span class="fw-normal">Fecha:</span>
-                                    </dt>
-                                    <dd class="col-sm-6 d-flex justify-content-md-end">
-                                        <div class="w-px-150">
-                                            <input type="date" class="form-control date-picker flatpickr-input"
-                                                v-model="quotation.date">
-                                        </div>
-                                    </dd>
-                                    <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
-                                        <span class="fw-normal">Fecha de validez:</span>
-                                    </dt>
-                                    <dd class="col-sm-6 d-flex justify-content-md-end">
-                                        <div class="w-px-150">
-                                            <input type="date" class="form-control date-picker flatpickr-input"
-                                                v-model="quotation.expiration_date">
-                                        </div>
-                                    </dd>
+
+
                                 </dl>
                             </div>
                         </div>
                         <hr class="my-4 mx-n4">
                         <div class="row p-sm-3 p-0">
-                            <h6 class="pb-2">Cotización para:</h6>
-                            <div class="col-md-6 col-sm-5 col-12 mb-sm-0 mb-4" v-for="customer in customers">
-                                <table>
+                            <div class="col-12 col-lg-6" v-for="customer in quotation.customers">
+                                <ClientSection :customer="customer" @getQuotation="getQuotation" />
+                            </div>
+                            <!-- <div class="col-md-6 col-sm-5 col-12 mb-sm-0 mb-4">
+                                <h6 class="pb-2">Order para:</h6>
+                                <table v-for="customer in quotation.customers">
                                     <tbody>
                                         <tr>
                                             <td class="pe-3">Nombre:</td>
@@ -119,13 +101,41 @@
                                             <td class="pe-3">Email:</td>
                                             <td>{{ customer.email }}</td>
                                         </tr>
+                                        <tr>
+                                            <td class="pe-3">DNI:</td>
+                                            <td v-if="customer.dni == null">
+                                                <input v-model="dni" type="text" class="form-control">
+                                            </td>
+                                            <td v-else>{{ customer.dni }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pe-3">Dirección:</td>
+                                            <td v-if="customer.address == null">
+                                                <input v-model="address" type="text" class="form-control">
+                                            </td>
+                                            <td v-else>{{ customer.address }}</td>
+                                        </tr>
+                                        <tr v-if="customer.address == null || customer.dni == null">
+                                            <td class="pe-3"></td>
+                                            <td>
+                                                <button class="btn btn-success btn-sm" @click="saveDni">Actualizar
+                                                    Datos</button>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-md-6 col-sm-7"></div>
+                            <div class="col-md-6 col-sm-7">
+
+                            </div> -->
                         </div>
                         <hr class="mx-n4">
                         <form class="source-item py-sm-3">
+                            <div class="mb-3" data-repeater-list="group-a">
+                                <template v-for="(detail, index) in quotation.details">
+                                    <Detail :detail="detail" :index="index" />
+                                </template>
+                            </div>
                             <div class="row">
                                 <div class="col-12">
                                     <button type="button" class="btn btn-primary" data-repeater-create=""
@@ -133,50 +143,58 @@
                                         Detalle</button>
                                 </div>
                             </div>
-                            <div class="mb-3" data-repeater-list="group-a">
-                                <template v-for="(detail, index) in details">
-                                    <Detail :detail="detail" :newProducts="newProducts" :index="index"
-                                        @removeSuggestedCart="removeSuggestedCart" />
-                                </template>
-                            </div>
                         </form>
                         <hr class="my-4 mx-n4">
+
                         <div class="row py-sm-3">
                             <div class="col-md-6 mb-md-0 mb-3">
                                 <div class="d-flex align-items-center mb-3">
-                                    <label for="salesperson" class="form-label me-5 fw-semibold">Tiempo de Ejecución<span
+                                    <label for="salesperson" class="form-label me-5 fw-semibold">Entrega Final<span
                                             class="text-danger">*</span>:</label>
-                                    <input type="text" class="form-control" v-model="quotation.term">
+                                    <input type="text" class="form-control" v-model="order.final_delivery">
                                 </div>
                                 <div class="d-flex align-items-center mb-3">
-                                    <label for="salesperson" class="form-label me-5 fw-semibold">Cupón de descuento:</label>
-                                    <input type="text" class="form-control" v-model="coupon" @keyup.enter="autoDiscount">
+                                    <label for="salesperson" class="form-label me-5 fw-semibold">Observaciones<span
+                                            class="text-danger">*</span>:</label>
+                                    <input type="text" class="form-control" v-model="order.observations">
                                 </div>
+                                <!-- <div class="d-flex align-items-center mb-3">
+                                    <label for="salesperson" class="form-label me-5 fw-semibold">Cupón de descuento:</label>
+                                    <input type="text" class="form-control" v-model="coupon" @keyup="autoDiscount">
+                                </div> -->
+
                             </div>
+
                             <div class="col-md-6 d-flex justify-content-end">
                                 <div class="invoice-calculations">
                                     <div class="d-flex justify-content-between mb-2">
                                         <span class="w-px-100">Subtotal:</span>
-                                        <span class="fw-semibold">S./ {{ totalProducts }}</span>
+                                        <span class="fw-semibold">S./ {{ subtotal }}</span>
                                     </div>
                                     <div class="d-flex justify-content-between mb-2">
                                         <span class="w-px-100">Descuento:</span>
-                                        <span class="fw-semibold">S./ {{ quotation.discount }}</span>
+                                        <span class="fw-semibold">S./ {{ discount }}</span>
                                     </div>
                                     <hr>
                                     <div class="d-flex justify-content-between">
                                         <span class="w-px-100">Total:</span>
-                                        <span class="fw-semibold">S./ {{ finalPrice }}</span>
+                                        <span class="fw-semibold">S./ {{ total }}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <hr class="my-4 mx-n4">
+                        <div class="row py-sm-3">
+                            <Payments :totalFinal="total" :payments="order.payments" @addFee="addFee" />
+                        </div>
+
                         <hr class="my-4 mx-n4">
                         <div class="row">
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label for="note" class="form-label fw-semibold">Nota:</label>
-                                    <textarea class="form-control" rows="2" id="note" v-model="quotation.note"></textarea>
+                                    <textarea class="form-control" rows="2" id="note"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -187,45 +205,35 @@
 
             <!-- Invoice Actions -->
             <div class="col-lg-3 col-12 invoice-actions">
-                <div class="card bg-success text-white mb-3">
-                    <div class="card-header">
-                        Necesidades del cliente
-                    </div>
-                    <div class="card-body">
-                        <p v-for="customer in customers">{{ customer.needs }}</p>
-                    </div>
-                </div>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <button @click="updateQuotation(quotation.id)" class="btn btn-primary d-grid w-100 mb-3">
+
+                        <!--  <router-link v-if="quotation && quotation.customers"
+                            :to="{ name: 'home-quotation', params: { idUser: quotation.customers[0].id } }"
+                            class="btn btn-secondary d-grid w-100 mb-3">Ver cotización</router-link> -->
+
+                        <button @click="createOrder" class="btn btn-primary d-grid w-100 mb-3">
                             <span class="d-flex align-items-center justify-content-center text-nowrap"><i
-                                    class="bx bx-paper-plane bx-xs me-1"></i>Actualizar</span>
+                                    class="bx bx-paper-plane bx-xs me-1"></i>Almacenar</span>
                         </button>
-                        <router-link v-if="quotation.id != 0" :to="{ name: 'quotation-file', params: { id: quotation.id } }"
-                            target="_blank" class="btn btn-primary d-grid w-100 mb-3" disabled>
-                            <span class="d-flex align-items-center justify-content-center text-nowrap">
-                                <i class="bx bx-file bx-xs me-1"></i>Cotización
-                            </span>
-                        </router-link>
+
+                        <router-link v-if="newOrderId != 0" target="_blank"
+                            :to="{ name: 'order-file', params: { id: newOrderId } }"
+                            class="btn btn-success d-grid w-100 mb-3">Orden</router-link>
                     </div>
                 </div>
+
             </div>
             <!-- /Invoice Actions -->
         </div>
     </div>
 </template>
 <script>
-import moment from 'moment'
-import CustomerCard from './CustomerCard.vue'
-import DateCard from './DateCard.vue'
-import calcModal from './calcModal.vue'
-import InsertDetail from './InsertDetail.vue'
-import SearchProduct from './searchProduct.vue'
-import ProductModal from './ProductModal.vue'
-import { userStore } from '../../../stores/UserStore'
+import axios from 'axios';
 import Detail from './Detail.vue'
 import Payments from './Payments.vue'
-import axios from 'axios'
+import ClientSection from './ClientSection.vue';
+import { userStore } from '../../../stores/UserStore';
 
 export default {
     setup() {
@@ -234,191 +242,79 @@ export default {
             store
         }
     },
-    components: { calcModal, InsertDetail, CustomerCard, DateCard, SearchProduct, ProductModal, Detail, Payments },
+    components: { Detail, Payments, ClientSection },
     data() {
         return {
-            quotation: {
+            order: {
                 id: 0,
-                customer_id: 0,
-                date: '',
-                amount: 0,
-                term: '',
-                expiration_date: '',
-                discount: 0,
-                note: ''
-            },
-            customer: {
-                name: '',
-                cell: '',
-                university: '',
-                career: '',
+                quotation_id: 0,
+                final_delivery: '',
+                observations: '',
+                suggested: 0,
                 status: 0,
-                email: '',
-                needs: ''
+                payments: []
             },
-            customers: [],
-            details: [],
-            discount: 0,
-            newProducts: [],
+            quotation: {
+                customers: [],
+                details: []
+            },
             coupon: '',
-            recentsCode: []
+            discount: 0,
+            newOrderId: 0
         }
     },
     methods: {
         getQuotation() {
             axios.get('/api/quotations/' + this.$route.params.idQuotation)
-                .then((res) => {
-                    console.log(res);
-                    this.quotation = res.data[0]
-                    this.customers = this.quotation.customers
-                    this.details = this.quotation.details
-                    /* if (this.customer.quotations[0]) {
-                      this.quotation = this.customer.quotations[0]
-                      this.customer.quotations[0].details.forEach(detail => {
-                        this.details.push(detail)
-                      })
-                    } */
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        },
-        getUser() {
-            axios.get('/api/getCustomer/' + this.$route.params.idUser)
-                .then((res) => {
-                    this.customer = res.data
-                    if (this.customer.quotations[0]) {
-                        this.quotation = this.customer.quotations[0]
-                        this.customer.quotations[0].details.forEach(detail => {
-                            this.details.push(detail)
-                        })
-                    }
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        },
-        autoDiscount() {
-
-            axios.get('/api/promotions/')
-
-            var codeFound = this.recentsCode.find(code => code.code == this.coupon)
-            if (codeFound && codeFound.percent == 0 && this.quotation.discount == 0) {
-                this.$swal('Se ha desbloqueado el descuento por cantidad')
-                this.quotation.discount = ((this.totalProducts - codeFound.quantity) / 100).toFixed(2)
-            } else if (codeFound && codeFound.quantity == 0 && this.quotation.discount == 0) {
-                this.$swal('Se ha desbloqueado el descuento por porcentaje')
-                this.quotation.discount = ((this.totalProducts * codeFound.percent) / 100).toFixed(2)
-            } else {
-                this.$swal('Codigo incorrecto o duplicado')
-                this.quotation.discount = 0
-            }
-        },
-        addDetail() {
-            this.details.push({ type: 1, level: '', title: '', mode: '', price: '', product: { name: '' }, product_id: '' })
-        },
-        getAllNewProducts() {
-            axios.get('/api/getAllNewProducts')
-                .then((res) => {
-                    this.newProducts = res.data
-                })
-                .catch((err) => {
+                .then((result) => {
+                    this.quotation = result.data
+                }).catch((err) => {
                     console.error(err)
-                })
+                });
         },
-        removeSuggestedCart(index) {
-            this.details.splice(index, 1)
+        addFee(fees) {
+            this.fees = []
+            this.fees = fees
         },
-        insertQuotation() {
-            if (this.customer.quotations[0]) {
-                this.updateQuotation(this.customer.quotations[0].id)
-            } else {
-                this.createQuotation()
-            }
-        },
-        updateQuotation(quotationId) {
-            if (this.quotation.discount == null) {
-                this.quotation.discount = 0.0
-            }
-            const fd = new FormData()
-
-            fd.append('quotation_id', quotationId)
-            fd.append('date', this.quotation.date)
-            fd.append('expirationDay', this.quotation.expiration_date)
-            fd.append('amount', this.totalProducts - this.quotation.discount)
-            fd.append('discount', this.quotation.discount)
-            fd.append('term', this.quotation.term)
-            fd.append('products', JSON.stringify(this.details))
-            fd.append('emisor_id', this.store.authUser.id)
-            fd.append('coupon', this.coupon)
-
-            axios.post('/api/updateQuotation', fd)
-                .then((res) => {
-                    this.$swal('Cotización actualizada correctamente')
-                    this.idQuotation = res.data.id
-                })
-                .catch((err) => {
-                    console.log(err);
-                    this.$swal(err.response.data)
-                    console.log(err)
-                })
-        },
-        createQuotation() {
-            if (this.quotation.date == '' || this.quotation.expiration_date == '' || this.quotation.term == '') {
-                this.$swal('Porfavor no deje en blanco los campos de fecha, tiempo de ejecución y fecha de validez')
+        createOrder() {
+            if (this.order.final_delivery == null || this.order.observations == null) {
+                this.$swal('Tiene que rellenar los campos de manera obligatoria (entrega final y observaciones)')
             } else {
                 const fd = new FormData()
 
+                fd.append('quotation_id', this.quotation.id)
+                fd.append('final_delivery', this.order.final_delivery)
+                fd.append('observations', this.order.observations)
+                fd.append('suggested', 1)
+                fd.append('payments', JSON.stringify(this.order.payments))
+                fd.append('discount', this.discount)
                 fd.append('user_id', this.store.authUser.id)
-                fd.append('customer_id', this.customer.id)
-                fd.append('date', this.quotation.date)
-                fd.append('expirationDay', this.quotation.expiration_date)
-                fd.append('amount', (this.totalProducts - this.quotation.discount).toFixed(2))
-                fd.append('discount', this.quotation.discount)
-                fd.append('term', this.quotation.term)
-                fd.append('products', JSON.stringify(this.details))
-                fd.append('emisor_id', this.store.authUser.id)
-                fd.append('coupon', this.coupon)
 
-                axios.post('/api/quotations', fd)
-                    .then((res) => {
-                        this.$swal('Cotización insertada correctamente')
-                        this.quotation.id = res.data.id
+                axios.post('/api/order', fd)
+                    .then(res => {
+                        console.log(res.data);
+                        this.newOrderId = res.data
+                        this.$swal('Orden registrada correctamente')
                     })
-                    .catch((err) => {
-                        this.$swal(err.response.data)
-                        console.log(err)
+                    .catch(err => {
+                        console.error(err)
                     })
             }
-        },
-        getAllPromotionCodes() {
-            axios.get('/api/getAllPromotionsCode')
-                .then((res) => {
-                    this.recentsCode = res.data
-                })
-                .catch((err) => {
-                    console.error(err)
-                })
         }
     },
     mounted() {
-        this.getAllPromotionCodes()
         this.getQuotation()
-        this.getAllNewProducts()
     },
     computed: {
-        finalPrice() {
-            return (this.totalProducts - this.quotation.discount).toFixed(2)
+        subtotal() {
+            var subtotal = 0;
+            this.quotation.details.forEach((detail) => {
+                subtotal += detail.price
+            });
+            return subtotal
         },
-        totalProducts() {
-            var total = 0
-            this.details.forEach((product) => {
-                if (product.type == 1) {
-                    total += parseFloat(product.price)
-                }
-
-            })
-            return (total).toFixed(2)
+        total() {
+            return (this.subtotal - this.discount).toFixed(2)
         }
     }
 }

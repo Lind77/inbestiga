@@ -6,7 +6,7 @@
         <div class="card invoice-preview-card">
           <div class="card-body">
             <div class="row p-sm-3 p-0">
-              <div class="col-md-6 mb-md-0 mb-4">
+              <div class="col-md-6 mb-md-0">
                 <div class="d-flex svg-illustration mb-4 gap-2">
                   <span class="app-brand-logo demo">
                     <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -52,45 +52,24 @@
                       </g>
                     </svg>
                   </span>
-                  <span class="app-brand-text demo text-body fw-bolder">Inbestiga</span>
+                  <span class="app-brand-text demo text-body fw-bolder">Contrato</span>
                 </div>
-                <p class="mb-1">Prolongación Cuzco 921 – Huancayo.</p>
+                <!-- <p class="mb-1">Prolongación Cuzco 921 – Huancayo.</p>
                 <p class="mb-1">Calle Elías Aguirre 180 Piso 03 – Miraflores.</p>
-                <p class="mb-0">991045555, 947202059</p>
+                <p class="mb-0">991045555, 947202059</p> -->
               </div>
-              <div class="col-md-6">
-                <dl class="row mb-2">
-                  <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
-                    <span class="h4 text-capitalize mb-0 text-nowrap">Contrato</span>
-                  </dt>
-                  <dd class="col-sm-6 d-flex justify-content-md-end">
-                    <div class="w-px-150">
-                      <input v-if="idQuotation" type="text" class="form-control" v-model="idQuotation" disabled>
-                    </div>
-                  </dd>
-                  <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
-                    <span class="fw-normal">Fecha:</span>
-                  </dt>
-                  <dd class="col-sm-6 d-flex justify-content-md-end">
-                    <div class="w-px-150">
-                      <input type="date" class="form-control date-picker flatpickr-input" v-model="date">
-                    </div>
-                  </dd>
-                  <dt class="col-sm-6 mb-2 mb-sm-0 text-md-end">
-                    <span class="fw-normal">Fecha de validez:</span>
-                  </dt>
-                  <dd class="col-sm-6 d-flex justify-content-md-end">
-                    <div class="w-px-150">
-                      <input type="date" class="form-control date-picker flatpickr-input" v-model="dateValidate">
-                    </div>
-                  </dd>
-                </dl>
+              <div class="col-md-6 mb-md-0">
+                <span class="fw-normal">Fecha de Contrato:</span>
+                <input type="date" class="form-control w-50 date-picker flatpickr-input" v-model="date">
               </div>
+
             </div>
-            <hr class="my-4 mx-n4">
+            <hr class="my-3 mx-n4">
             <div class="row p-sm-3 p-0">
-              <div class="col-md-6 col-sm-5 col-12 mb-sm-0 mb-4">
-                <h6 class="pb-2">Cotización para:</h6>
+              <div class="col-12 col-lg-6" v-for="customer in quotation.customers">
+                <ClientSection :customer="customer" @getQuotation="getQuotation" />
+              </div>
+              <!-- <div  class="col-md-6 col-sm-5 col-12 mb-sm-0 mb-4">
                 <table v-if="customer">
                   <tbody>
                     <tr>
@@ -135,13 +114,7 @@
                     </tr>
                   </tbody>
                 </table>
-              </div>
-              <div class="col-md-6 col-sm-7">
-                <p>Considerar "Proporcionar la información de la aplicación de instrumentos" <input type="checkbox"
-                    class="form-check-input" v-model="thirdArticle"></p>
-                <p>Quinto Artículo - Considerar de Entregas <input type="checkbox" class="form-check-input"
-                    v-model="fifthArticle"></p>
-              </div>
+              </div> -->
             </div>
             <hr class="mx-n4">
             <form class="source-item py-sm-3">
@@ -249,16 +222,22 @@
         </div>
         <div class="card mb-4">
           <div class="card-body">
+            <div class="col-12">
+              <p>Considerar "Proporcionar la información de la aplicación de instrumentos" <input type="checkbox"
+                  class="form-check-input" v-model="thirdArticle"></p>
+              <p>Quinto Artículo - Considerar de Entregas <input type="checkbox" class="form-check-input"
+                  v-model="fifthArticle"></p>
+            </div>
             <router-link v-if="customer.id" :to="{ name: 'home-quotation', params: { idUser: customer.id } }"
               class="btn btn-secondary d-grid w-100 mb-3">Ver cotización</router-link>
 
-            <button @click="insertQuotation" class="btn btn-primary d-grid w-100 mb-3">
+            <button @click="createContract" class="btn btn-primary d-grid w-100 mb-3">
               <span class="d-flex align-items-center justify-content-center text-nowrap"><i
                   class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
             </button>
 
             <a v-if="idContract != 0 && typeDocument == 2"
-              :href="`https://sistema.inbestiga.com/public/api/generateContract/${customer.id}`" target="_blank"
+              :href="`http://localhost/inbestiga/public/api/generateContract/${idContract}`" target="_blank"
               class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
           </div>
         </div>
@@ -274,6 +253,8 @@ import { userStore } from '../../../stores/UserStore'
 import Detail from './Detail.vue'
 import Payments from './Payments.vue'
 import Delivery from './Delivery.vue'
+import ClientSection from './ClientSection.vue'
+import axios from 'axios'
 
 export default {
   setup() {
@@ -282,7 +263,7 @@ export default {
       store
     }
   },
-  components: { Detail, Payments, Delivery },
+  components: { Detail, Payments, Delivery, ClientSection },
   data() {
     return {
       interest: 0,
@@ -314,10 +295,20 @@ export default {
       observations: '',
       deliveries: [],
       thirdArticle: false,
-      fifthArticle: false
+      fifthArticle: false,
+      quotation: {}
     }
   },
   methods: {
+    getQuotation() {
+      axios.get('/api/quotations/' + this.$route.params.idQuotation)
+        .then((result) => {
+          this.quotation = result.data
+          this.details = this.quotation.details
+        }).catch((err) => {
+
+        });
+    },
     showAdendumModal() {
       alert('calling modal adendum')
     },
@@ -504,8 +495,6 @@ export default {
         })
     },
     createContract(quotationId) {
-      console.log(this.thirdArticle, this.fifthArticle)
-
       var thirdArticleValue = this.booleanToNumber(this.thirdArticle)
       var fifthArticleValue = this.booleanToNumber(this.fifthArticle)
 
@@ -514,13 +503,13 @@ export default {
 
       const fd = new FormData()
 
-      fd.append('quotation_id', quotationId)
+      fd.append('quotation_id', this.quotation.id)
       fd.append('amount', parseInt(this.totalProducts - this.discount))
       fd.append('amount_text', myConverter.convertToText(parseInt(this.totalProducts - this.discount)))
       fd.append('date', this.date)
       fd.append('fees', JSON.stringify(this.fees))
       fd.append('deliveries', JSON.stringify(this.deliveries))
-      fd.append('customer_id', this.$route.params.idUser)
+      fd.append('customers', JSON.stringify(this.quotation.customers))
       fd.append('user_id', this.store.authUser.id)
       fd.append('products', JSON.stringify(this.details))
       fd.append('emisor_id', this.store.authUser.id)
@@ -650,9 +639,10 @@ export default {
     }
   },
   mounted() {
-    this.getPromotionCode()
+    this.getQuotation()
+    /* this.getPromotionCode()
     this.getUser()
-    this.getAllNewProducts()
+    this.getAllNewProducts() */
   },
   computed: {
     totalFinal() {
