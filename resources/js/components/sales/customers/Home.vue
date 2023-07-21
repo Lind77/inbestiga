@@ -35,7 +35,7 @@
                   <td>{{ status[customer.status] }}</td>
                   <td>
                     <!-- <router-link class="btn btn-success btn-sm" :to="{name:'home-quotation', params:{ idUser: customer.id }}">Generar Cotización</router-link> -->
-                    <button v-if="customer.status == null" @click="reactivateCustomer(customer.id)"
+                    <button v-if="customer.status == 0" @click="reactivateCustomer(customer.id)"
                       class="btn btn-success btn-sm me-1">
                       <i class='bx bx-recycle'></i>
                     </button>
@@ -74,6 +74,7 @@ export default {
       action: 1,
       search: '',
       status: {
+        0: 'Stand by',
         1: 'No atendido',
         2: 'Atendido',
         3: 'Comunicación establecida',
@@ -145,11 +146,28 @@ export default {
       $('#customerModal').modal('show')
     },
     reactivateCustomer(id) {
-      axios.get('/api/reactivateCustomer/' + id)
-        .then(res => {
-          this.customers = res.data
-          this.getAllCustomers()
+      this.$swal({
+        title: '¿Deseas sacar este cliente a StandBy?',
+        icon: 'question',
+        confirmButtonText: 'Si',
+        showCancelButton: true,
+        cancelButtonText: 'No'
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            axios.get('/api/reactivateCustomer/' + id)
+              .then(res => {
+                this.customers = res.data
+                this.getAllCustomers()
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          } else {
+            this.$swal.close()
+          }
         })
+
     },
     getAllCustomers() {
       axios.get('/api/customers')

@@ -215,8 +215,7 @@ export default {
                     if (result.isConfirmed) {
                         axios.get('/api/standByCustomer/' + id)
                             .then((res) => {
-                                $('#funnelModal').modal('hide')
-                                this.$emit('getAllCustomers')
+                                this.$emit('getAllPreleads')
                             })
                             .catch(err => {
                                 console.log(err)
@@ -227,13 +226,22 @@ export default {
                 })
         },
         updateStatusSpace() {
-
-            if (parseInt(this.customer.status) + 1 == 5) {
-                $('#funnelModal').modal('hide')
-                this.$router.push({ name: 'home-quotation', params: { idCustomer: this.customer.id } })
+            if (this.quotation) {
+                var newStatus = parseInt(this.quotation.status) + 1
+                if (newStatus == 11) {
+                    this.$emit('updateStatusSpace', this.quotation.id, 11)
+                    $('#funnelModal').modal('hide')
+                    this.$swal('Felicidades!, ha conseguido un nuevo proyecto para Inbestiga!!')
+                }
+            } else {
+                if (parseInt(this.customer.status) + 1 == 5) {
+                    $('#funnelModal').modal('hide')
+                    this.$router.push({ name: 'home-quotation', params: { idCustomer: this.customer.id } })
+                }
+                var newStatus = parseInt(this.customers[0].status) + 1
+                this.$emit('updateStatusSpace', this.customers[0].id, newStatus)
             }
-            var newStatus = parseInt(this.customers[0].status) + 1
-            this.$emit('updateStatusSpace', this.customers[0].id, newStatus)
+
         },
         showModalUpdateData(customer) {
             this.$emit('showModalUpdateData', customer)
