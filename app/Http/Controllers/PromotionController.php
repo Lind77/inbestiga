@@ -88,4 +88,10 @@ class PromotionController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function discount($code)
+    {
+        $promotion = Promotion::where('code', $code)->first();
+        return response()->json($promotion);
+    }
 }

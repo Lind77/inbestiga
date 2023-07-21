@@ -123,14 +123,24 @@ class ComunicationController extends Controller
 
     public function getComunicationsByToday($id_user)
     {
+        if ($id_user == 22) {
+            $comunications = Comunication::with(['customer', 'customer.user'])
+                ->where('next_management', date('Y-m-d'))
+                ->whereHas('customer', function ($query) {
+                    $query->where('user_id', null);
+                })
+                ->orderBy('time')
+                ->get();
+        } else {
+            $comunications = Comunication::with(['customer', 'customer.user'])
+                ->where('next_management', date('Y-m-d'))
+                ->whereHas('customer.user', function ($query) use ($id_user) {
+                    $query->where('id', $id_user);
+                })
+                ->orderBy('time')
+                ->get();
+        }
 
-        $comunications = Comunication::with(['customer', 'customer.user'])
-            ->where('next_management', date('Y-m-d'))
-            ->whereHas('customer.user', function ($query) use ($id_user) {
-                $query->where('id', $id_user);
-            })
-            ->orderBy('time')
-            ->get();
 
         return response()->json($comunications);
     }
