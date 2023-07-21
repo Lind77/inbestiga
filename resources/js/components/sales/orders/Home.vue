@@ -194,7 +194,7 @@
                   <hr>
                   <div class="d-flex justify-content-between">
                     <span class="w-px-100">Total:</span>
-                    <span class="fw-semibold">S./ {{ totalProducts - discount }}</span>
+                    <span class="fw-semibold">S./ {{ (totalProducts - discount).toFixed(2) }}</span>
                   </div>
                 </div>
               </div>

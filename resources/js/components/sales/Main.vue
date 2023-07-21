@@ -183,7 +183,7 @@ export default {
             var comunicationFound = this.comunications.find(comunication => comunication.time == timeSeconds)
 
             if (comunicationFound && this.store.authUser.roles[0].name == 'Seller') {
-                var nameAndCell = comunicationFound.customer.name + comunicationFound.customer.cell
+                var nameAndCell = comunicationFound.customer.name + ' - ' + comunicationFound.customer.cell
                 this.$swal('Usted tiene una comuniación pendiente en estos momentos con ' + nameAndCell)
             }
 

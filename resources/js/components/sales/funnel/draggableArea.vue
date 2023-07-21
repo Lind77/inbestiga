@@ -83,11 +83,17 @@ export default {
 
             var quotation = e.dataTransfer.getData("quot")
             var customer = e.dataTransfer.getData("customerId")
+            var quotationId = e.dataTransfer.getData("quotationId")
             if (this.status == 5) {
 
                 this.$emit('transformQuotation', customer)
             } else {
-                this.$emit('updateStatusSpace', customer, this.status)
+                if (customer) {
+                    this.$emit('updateStatusSpace', customer, this.status)
+                } else {
+                    this.$emit('updateStatusSpace', quotationId, this.status)
+                }
+
             }
         },
         updateStatusSpace(quotationId) {

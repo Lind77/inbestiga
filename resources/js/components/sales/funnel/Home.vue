@@ -192,23 +192,24 @@ export default {
       }
     },
     verifyChange(quotation, status) {
-        /* if(status >=5 && status < 9){
-          console.log('verificando estado menor a 9')
-          if(customer.quotations.length != 0){
-            return true
-          }else{
-            this.$swal.fire('Este usuario no cuenta con una cotización')
-          }
-        }else */ if (status >= 9) {
-        console.log('verificando estado mayor a 9', quotation.customers[0].quotations[0].order)
-        if (quotation.customers[0].quotations[0].order != null || quotation.customers[0].quotations[0].contract != null) {
+      /* if(status >=5 && status < 9){
+        console.log('verificando estado menor a 9')
+        if(customer.quotations.length != 0){
           return true
-        } else {
-          this.$swal.fire('Este usuario no cuenta con una orden o contrato')
+        }else{
+          this.$swal.fire('Este usuario no cuenta con una cotización')
         }
-      } else {
+      }else  if (status >= 9) {
+      console.log('verificando estado mayor a 9', quotation.customers[0].quotations[0].order)
+      if (quotation.customers[0].quotations[0].order != null || quotation.customers[0].quotations[0].contract != null) {
         return true
+      } else {
+        this.$swal.fire('Este usuario no cuenta con una orden o contrato')
       }
+    } else {
+      return true
+    }*/
+      return true;
     },
     removeLead(firstStatus, quotationId) {
       console.log(firstStatus, quotationId)
@@ -372,10 +373,10 @@ export default {
           console.log(err)
         })
     },
-    setProject(id) {
-      console.log(id)
+    setProject(quotationId) {
+      console.log(quotationId)
       const fd = new FormData()
-      fd.append('id_customer', id)
+      fd.append('quotationId', quotationId)
       fd.append('emisor_id', this.store.authUser.id)
       axios.post('/api/setProject', fd)
         .then(res => {

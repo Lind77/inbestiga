@@ -300,24 +300,33 @@ class ProjectController extends Controller
     public function setProject(Request $request)
     {
 
-        $customer = Customer::find($request->get('id_customer'));
+        $quotation = Quotation::with(['customers', 'contract', 'order'])->find($request->get('quotationId'));
 
-        $customer->update([
+        $quotation->customers->each->update([
             'status' => 11
         ]);
 
-        $quotation = Quotation::where('customer_id', $customer->id)->with('order')->orderBy('id', 'desc')->first();
+        if ($quotation->contract) {
+            $project = Project::create([
+                'projectable_id' => $quotation->contract->id,
+                'projectable_type' => 'App\Models\Contract',
+                'title' => 'Proyecto ' . $quotation->id,
+                'user_id' => $request->get('emisor_id'),
+                'deadline' => date('Y-m-d'),
+                'status' => 0,
+            ]);
+        } else {
+            $project = Project::create([
+                'projectable_id' => $quotation->order->id,
+                'projectable_type' => 'App\Models\Order',
+                'title' => 'Proyecto ' . $quotation->id,
+                'user_id' => $request->get('emisor_id'),
+                'deadline' => date('Y-m-d'),
+                'status' => 0,
+            ]);
+        }
 
-        $lastOrder = $quotation->order;
 
-        $project = Project::create([
-            'title' => 'Proyecto ' . $customer->name,
-            'customer_id' => $customer->id,
-            'deadline' => date('Y-m-d'),
-            'product_id' => 1,
-            'status' => 0,
-            'order_id' =>  1
-        ]);
 
         $notification = Notification::create([
             'emisor_id' => $request->get('emisor_id'),
@@ -335,7 +344,7 @@ class ProjectController extends Controller
             ]);
         }
 
-        $fixedActivitiesEnterprise = FixedActivity::where('type', 0)->get();
+        /*  $fixedActivitiesEnterprise = FixedActivity::where('type', 0)->get();
 
         foreach ($fixedActivitiesEnterprise as $enterpriseActivity) {
             $defaultActivity = Activity::create([
@@ -352,7 +361,7 @@ class ProjectController extends Controller
                 'comment' => 'Sin comentarios'
             ]);
         }
-
+ */
         broadcast(new NewProject($project));
         /*           
 

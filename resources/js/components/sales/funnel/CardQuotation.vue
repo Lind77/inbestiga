@@ -94,9 +94,9 @@ export default {
             return
         },
         drag(e) {
-            console.log(this.customer);
-            if (this.customer.customers) {
-                e.dataTransfer.setData('quotationId', this.customer.id)
+            console.log(this.quotation);
+            if (this.quotation.customers) {
+                e.dataTransfer.setData('quotationId', this.quotation.id)
                 e.dataTransfer.setData('type', 2)
             } else {
                 e.dataTransfer.setData('customerId', this.customer.id)
