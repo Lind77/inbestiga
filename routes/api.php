@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ComissionController;
 use App\Http\Controllers\ComunicationController;
 use App\Http\Controllers\ContractController;
@@ -78,10 +79,15 @@ Route::post('/subareas', [SubareaController::class, 'store']);
 Route::delete('/subareas/{id}', [SubareaController::class, 'destroy']);
 
 //Administración de horarios de atención de los usuarios
-Route::get('/schedules', [ScheduleControllerr::class, 'index']);
-Route::get('/schedules/{id}', [ScheduleControllerr::class, 'show']);
-Route::post('/schedules', [ScheduleControllerr::class, 'store']);
-Route::delete('/schedule/{id}', [ScheduleControllerr::class, 'destroy']);
+Route::get('/schedules', [ScheduleController::class, 'index']);
+Route::get('/schedules/{id}', [ScheduleController::class, 'show']);
+Route::post('/schedules', [ScheduleController::class, 'store']);
+Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']);
+//Administración de asistencias
+Route::get('/attendances', [AttendanceController::class, 'index']);
+Route::get('/attendancess/{id}', [AttendanceController::class, 'show']);
+Route::post('/attendances', [AttendanceController::class, 'store']);
+Route::delete('/attendances/{id}', [AttendanceController::class, 'destroy']);
 
 //Administración de usuarios
 Route::get('/users', [UserController::class, 'index']);
