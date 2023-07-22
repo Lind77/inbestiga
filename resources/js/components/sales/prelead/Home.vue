@@ -214,7 +214,7 @@ export default {
       } else if (newStatus == 4) {
         $('#funnelModal').modal('hide')
         this.convertLead(customer_id)
-      } else {
+      } else if (newStatus == 5) {
         $('#funnelModal').modal('hide')
         this.$router.push({ name: 'home-quotation', params: { idCustomer: customer_id } });
         /* var oldStatus = customerSelected.status
@@ -239,6 +239,26 @@ export default {
 
 
         this.updateStatus(customer_id, newStatus) */
+      } else {
+        var oldStatus = customerSelected.status
+
+        console.log(oldStatus)
+
+        let arraysByStatus = {
+          0: this.origin,
+          1: this.noAttended,
+          2: this.attended,
+          3: this.comunications,
+          4: this.needs
+        }
+
+        let index = arraysByStatus[oldStatus].findIndex(el => el.id == customerSelected.id)
+
+        arraysByStatus[oldStatus].splice(index, 1)
+        customerSelected.status = newStatus
+        arraysByStatus[newStatus].unshift({ ...customerSelected })
+
+        this.updateStatus(customer_id, newStatus)
       }
 
     },
