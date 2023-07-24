@@ -1,5 +1,5 @@
 <template>
-    <div class="cardSpace" draggable="true" @dragover.prevent @drop.stop.prevent @dragstart="drag" :id="`${customer.id}`"
+    <div class="cardSpace" draggable="true" @dragover.prevent @drop.stop.prevent @dragstart="drag" :id="`${quotation.id}`"
         @click="showModalFunnel(quotation)">
         <div :class="`card bg-${bgColor} p-2 cursor-pointer`">
             <template v-if="quotation">
@@ -8,8 +8,8 @@
                 </h6>
             </template>
         </div>
-        <div class="space" :id="'space' + customer.id" @dragover="changeColor(customer.id)"
-            @dragleave="removeColor(customer.id)" @drop="dropSpace($event, customer.id)">
+        <div class="space" :id="'space' + quotation.id" @dragover="changeColor(quotation.id)"
+            @dragleave="removeColor(quotation.id)" @drop="dropSpace($event, quotation.id)">
         </div>
     </div>
 </template>
