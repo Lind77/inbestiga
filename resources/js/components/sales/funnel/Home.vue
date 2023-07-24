@@ -16,7 +16,8 @@
       @getAllQuotations="getAllQuotations" />
     <FunnelModal :quotation="quotation" :owners="owners" @updateStatusSpace="updateStatusSpace" @callModal="callModal"
       @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers" @updateOwner="updateOwner"
-      @updateInterest="updateInterest" @callModalComunication="callModalComunication" />
+      @updateOwnerQuotation="updateOwnerQuotation" @updateInterest="updateInterest"
+      @callModalComunication="callModalComunication" />
     <!--  <customerModal :customers="customersSelected[0]" :action="2" /> -->
   </div>
 </template>
@@ -119,6 +120,7 @@ export default {
       console.log(customer)
     },
     updateOwner(newCustomer, newOwner) {
+      console.log(newCustomer, newOwner);
       let arraysByStatus = {
         4: this.needs,
         5: this.quotations,
@@ -131,8 +133,35 @@ export default {
       }
       let arraySelected = arraysByStatus[newCustomer.status]
 
-      var customerSelected = arraySelected.find(customer => customer.id == newCustomer.id)
-      customerSelected.user = newOwner
+      if (newCustomer.status > 4) {
+        var customerSelected = arraySelected.find(quotation => quotation.customers[0].id == newCustomer.id)
+        console.log(customerSelected);
+        //customerSelected.user = newOwner
+      } else {
+        var customerSelected = arraySelected.find(customer => customer.id == newCustomer.id)
+        customerSelected.user = newOwner
+      }
+    },
+    updateOwnerQuotation(newQuotation, newOwner) {
+      let arraysByStatus = {
+        4: this.needs,
+        5: this.quotations,
+        6: this.explanations,
+        7: this.experiences,
+        8: this.tracings,
+        9: this.nopays,
+        10: this.closings,
+        11: this.customers
+      }
+
+      let arraySelected = arraysByStatus[newQuotation.status]
+      var quotationSelected = arraySelected.find(quotation => quotation.id == newQuotation.id)
+
+
+      console.log(quotationSelected);
+      quotationSelected.customers.forEach(customer => {
+        customer.user = newOwner
+      });
     },
     convertCustomerQuotation(leadId) {
       console.log(leadId);
@@ -418,6 +447,9 @@ export default {
         })
     },
     distributeQuotations(quotations) {
+
+      this.totalQuotations = quotations
+
       this.quotations = []
       this.explanations = []
       this.experiences = []
