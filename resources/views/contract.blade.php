@@ -377,7 +377,7 @@
                         {{$contract->quotation->customers[0]->name}}
                         </div>
                     </div>
-                    @if($contract->quotation->customers[1])
+                    @if(count($contract->quotation->customers)>1)
                     <div class="client second-client">
                         __________________________<br>
                         EL CLIENTE <br>
