@@ -182,6 +182,7 @@
                     </li>
                 </ul>
                 </p>
+                <div class="page-break"></div>
                 <p>
                     <span>TERCERO: OBLIGACIONES DEL CLIENTE.</span><br>
                     EL CLIENTE se compromete a cumplir con lo siguiente:
@@ -211,7 +212,7 @@
                         </li>
                     </ul>
                 </p>
-                <div class="page-break"></div>
+                
                 <p>
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
                 Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un monto total de S/{{$contract->amount}} (<span class="name">{{$contract->amount_text}}</span> soles), monto que será abonado en las siguientes fechas:
@@ -382,6 +383,8 @@
                         EL CLIENTE <br>
                         {{$contract->quotation->customers[1]->name}}
                     </div>
+                    @else
+                    <div></div>
                     @endif
                 </div>
             </div>
