@@ -154,7 +154,7 @@ export default {
       $('#funnelModal').modal('show')
     },
     updateStatusSpaces(quotationId, status) {
-      console.log(quotationId);
+      console.log(quotationId, status);
       if (status == 9) {
         $('#funnelModal').modal('hide')
         var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
@@ -185,11 +185,11 @@ export default {
           }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-              if (this.verifyChange(leadSelected, status)) {
-                var firstStatus = leadSelected.status
-                leadSelected.status = status
-                this.removeLead(firstStatus, leadId)
-                this.addLead(leadSelected, status)
+              if (this.verifyChange(quotSelected, status)) {
+                var firstStatus = quotSelected.status
+                quotSelected.status = status
+                this.removeLead(firstStatus, quotationId)
+                this.addLead(quotSelected, status)
               }
             } else if (result.isDenied) {
 
