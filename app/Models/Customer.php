@@ -27,9 +27,13 @@ class Customer extends Model
     {
         return $this->hasOne("App\Models\Origin");
     }
-
-    public function user()
-    {
+    //Relacion uno a muchos user -customer
+    public function user(){
         return $this->belongsTo('App\Models\User');
+    }
+    //realcion polimorfica muchos a muchos user-meetings
+    public function meetings()
+    {
+        return $this->morphToMany('App\Models\Meeting', 'meetingable');
     }
 }

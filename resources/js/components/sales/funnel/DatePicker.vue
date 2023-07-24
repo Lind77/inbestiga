@@ -19,9 +19,10 @@ export default {
             this.$emit('filterDate', e.target.value)
         },
         searchByName() {
-            axios.get('/api/customers/search/' + this.search)
+            axios.get('/api/quotations/search/' + this.search)
                 .then((res) => {
-                    this.$emit('distributeLeads', res.data)
+                    console.log('respuesta de busqueda', res);
+                    this.$emit('distributeQuotations', res.data)
                 })
                 .catch((err) => {
                     console.error(err)
@@ -29,7 +30,7 @@ export default {
         },
         cleanLeads() {
             if (this.search == '') {
-                this.$emit('getAllCustomers')
+                this.$emit('getAllQuotations')
             }
         }
     }

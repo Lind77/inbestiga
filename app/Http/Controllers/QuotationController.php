@@ -197,7 +197,7 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        $quotation = Quotation::where('id', $id)->with(['customers', 'details', 'details.product', 'order'])->get();
+        $quotation = Quotation::where('id', $id)->with(['customers', 'details', 'details.product', 'order'])->first();
 
         return response()->json($quotation);
     }
@@ -253,7 +253,7 @@ class QuotationController extends Controller
 
     public function getQuotationByOrder($id)
     {
-        $order = Order::where('id', $id)->with(['quotation', 'quotation.customer', 'quotation.details', 'quotation.details.product', 'quotation.details.product', 'payments'])->first();
+        $order = Order::where('id', $id)->with(['quotation', 'quotation.customers', 'quotation.details', 'quotation.details.product', 'quotation.details.product', 'payments'])->first();
 
         return response()->json($order);
     }
@@ -352,7 +352,9 @@ class QuotationController extends Controller
         $totalQuotations = collect();
 
         for ($i = 5; $i < 11; $i++) {
-            $quotations = Quotation::with('customers')->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+            $quotations = Quotation::with(['customers', 'customers.comunications' => function ($query) {
+                $query->orderBy('id', 'desc')->first();
+            }, 'customers.user'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
 
             $totalQuotations = $totalQuotations->merge($quotations);
         }
@@ -428,8 +430,6 @@ class QuotationController extends Controller
         $oldStatus = intval($request->get('status')) - 1;
 
         /* $eleventhCustomer = Customer::where('status', $oldStatus)->orderBy('updated_at', 'desc')->offset(10)->first(); */
-
-
         $quotation->customers->each->update([
             'status' => $request->get('status')
         ]);
@@ -437,5 +437,26 @@ class QuotationController extends Controller
             'msg' => 'success',
             /* 'eleventhCustomer' => $eleventhCustomer */
         ]);
+    }
+
+    public function updateCustomerStatus(Request $request)
+    {
+        $customer = Customer::find($request->get('customer_id'));
+        $customer->update([
+            'status' => $request->get('status')
+        ]);
+        return response()->json([
+            'msg' => 'success',
+            /* 'eleventhCustomer' => $eleventhCustomer */
+        ]);
+    }
+
+    public function searchQuotations($search)
+    {
+        $quotations = Quotation::with(['customers', 'customers.comunications', 'customers.user'])->whereHas('customers', function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%');
+        })->get();
+
+        return response()->json($quotations);
     }
 }

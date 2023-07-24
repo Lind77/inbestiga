@@ -3,7 +3,8 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Registrar Comunicación</h5>
+                    <h5 v-if="customer" class="modal-title" id="exampleModalLabel1">Registrar Comunicación de {{
+                        customer.name }}</h5>
 
                 </div>
                 <div class="modal-body">
@@ -72,13 +73,14 @@ export default {
     props: {
         action: Number,
         comunication: Object,
-        customerId: Number
+        customerId: Number,
+        customer: Object
     },
     methods: {
         insertComunication() {
             if (this.comment.length <= 140) {
                 const fd = new FormData()
-                fd.append('customer_id', this.customerId)
+                fd.append('customer_id', this.customer.id)
                 fd.append('first_management', this.first_management)
                 fd.append('last_management', this.last_management)
                 fd.append('next_management', this.next_management)
@@ -89,6 +91,7 @@ export default {
                 axios.post('/api/insertComunication', fd)
                     .then((res) => {
                         this.$emit('getAllPreleads')
+                        this.$emit('getAllQuotations')
                         $('#updateComModal').modal('hide')
                     })
                     .catch((err) => {

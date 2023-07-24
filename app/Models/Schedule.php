@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Schedule extends Model
 {
     use HasFactory;
-    protected $fillable = ['admission_time', 'departure_time', 'type', 'day', 'week'];
+    protected $fillable = ['admission_time', 'departure_time', 'type', 'day', 'week','user_id'];
     //Realcion  inversa uno a muchos User-Schedule
     public function user(){
         return $this->belongsTo('App\Models\User');

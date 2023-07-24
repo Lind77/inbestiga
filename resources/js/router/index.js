@@ -16,11 +16,12 @@ import QuotationImg from '../components/sales/quotations/quotationImg.vue'
 
 //Área de Ventas - Ordenes
 import HomeOrders from '../components/sales/orders/Home.vue'
+import CreateOrder from '../components/sales/orders/Create.vue'
 import OrderFile from '../components/sales/orders/File.vue'
 
 //Área de Ventas - Contratos
 import HomeContracts from '../components/sales/contracts/Home.vue'
-
+import EditContracts from '../components/sales/contracts/EditContract.vue'
 //Área de Ventas - Clientes
 import HomeClient from '../components/sales/customers/Home.vue'
 
@@ -94,6 +95,10 @@ import MainExperience from '../components/experience/Main.vue'
 
 //Area de Experiencia - Calendly
 import HomeCalendly from '../components/experience/calendly/Home.vue'
+//Area de Experiencia - Horarios
+import HomeSchedule from '../components/experience/schedules/Home.vue'
+//Area de Experiencia - Asistencias
+import HomeAttendance from '../components/experience/attendances/Home.vue'
 //Area de Experiencia - Profiles
 import HomeProfiles from '../components/experience/profiles/Home.vue'
 //Area de Experiencia - Deliveries
@@ -198,10 +203,22 @@ export const routes = [
                 name: 'home-orders'
             },
             {
-                path: 'contracts/:idUser',
+                path: 'create-orders/:idQuotation',
+                component: CreateOrder,
+                props: true,
+                name: 'create-orders'
+            },
+            {
+                path: 'create-contracts/:idQuotation',
                 component: HomeContracts,
                 props: true,
-                name: 'home-contracts'
+                name: 'create-contracts'
+            },
+            {
+                path: 'edit-contracts/:idContract',
+                component: EditContracts,
+                props: true,
+                name: 'edit-contracts'
             },
             {
                 path: 'customers',
@@ -316,6 +333,16 @@ export const routes = [
                 path: 'home',
                 component:  MainExperience,
                 name: 'main-experience'
+            },
+            {
+                path:'schedule',
+                component: HomeSchedule,
+                name: 'home-schedule'
+            },
+            {
+                path:'attendance',
+                component: HomeAttendance,
+                name:'home-attendance'
             },
             {
                 path: 'calendly',

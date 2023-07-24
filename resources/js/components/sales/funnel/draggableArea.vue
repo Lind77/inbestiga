@@ -3,17 +3,20 @@
         <h5 class="fw-600">{{ title }}</h5>
         <div :id="'draggableArea' + status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent
             @dragover.prevent>
-            <template v-for="(customer, index) in customers" :key="index">
-                <template v-if="customer.customers">
-                    <CardCustomer :customer="customer" :customers="customer.customers" :status="status"
-                        @showModalUpdateCom="showModalUpdateCom" @showModalUpdateData="showModalUpdateData"
-                        @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
-                        @showModalFunnel="showModalFunnel" />
+            <template v-if="quotations">
+                <template v-for="(quotation, index) in quotations" :key="index">
+                    <CardQuotation :customer="customer" :quotation="quotation" :customers="customer.customers"
+                        :status="status" @showModalUpdateCom="showModalUpdateCom" @showModalUpdateData="showModalUpdateData"
+                        @transformLead="transformLead" @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
+                        @showModalQuotationFunnel="showModalQuotationFunnel" />
                 </template>
-                <template v-else>
+            </template>
+            <template v-else>
+                <template v-for="customer in customers">
                     <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom"
-                        @showModalUpdateData="showModalUpdateData" @updateStatusSpace="updateStatusSpace"
-                        @convertLead="convertLead" @showModalFunnel="showModalFunnel" />
+                        @showModalUpdateData="showModalUpdateData" @updateStatusPrelead="updateStatusPrelead"
+                        @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
+                        @showModalFunnelCustomer="showModalFunnelCustomer" />
                 </template>
             </template>
         </div>
@@ -22,8 +25,9 @@
 <script>
 import UpdateCom from '../prelead/UpdateCom.vue'
 import CardCustomer from '../prelead/CardCustomer.vue'
+import CardQuotation from './CardQuotation.vue'
 export default {
-    components: { CardCustomer, UpdateCom },
+    components: { CardCustomer, UpdateCom, CardQuotation },
     data() {
         return {
             visible: false,
@@ -35,11 +39,23 @@ export default {
         title: String,
         bg: String,
         customers: Object,
-        status: Number
+        status: Number,
+        quotations: Array
     },
     methods: {
-        showModalFunnel(customer) {
-            this.$emit('showModalFunnel', customer)
+        updateStatusPrelead(customerId) {
+            console.log(customerId, this.status);
+            this.$emit('updateStatusPrelead', customerId, this.status)
+        },
+        transformLead(customerId) {
+            console.log('transform in dragarea', customerId);
+            this.$router.push({ name: 'home-quotation', params: { idCustomer: customerId } });
+        },
+        showModalFunnelCustomer(customer) {
+            this.$emit('showModalFunnelCustomer', customer)
+        },
+        showModalQuotationFunnel(quotation) {
+            this.$emit('showModalQuotationFunnel', quotation)
         },
         cleanLead(id) {
             var leadSelected = this.customers.find(customer => customer.id == id)
@@ -66,13 +82,22 @@ export default {
             e.preventDefault()
 
             var quotation = e.dataTransfer.getData("quot")
-            var order = e.dataTransfer.getData("order")
-            var data = e.dataTransfer.getData("leadId")
+            var customer = e.dataTransfer.getData("customerId")
+            var quotationId = e.dataTransfer.getData("quotationId")
+            if (this.status == 5) {
 
-            console.log('dragarea', data)
-            this.$emit('updateStatusSpace', data, this.status)
+                this.$emit('transformQuotation', customer)
+            } else {
+                if (customer) {
+                    this.$emit('updateStatusSpace', customer, this.status)
+                } else {
+                    this.$emit('updateStatusSpace', quotationId, this.status)
+                }
+
+            }
         },
         updateStatusSpace(quotationId) {
+            console.log('calling in draggablearea', quotationId)
             this.$emit('updateStatusSpace', quotationId, this.status)
             /* const index = this.customers.findIndex(c => c.id == id)
             this.customers[index].status = status
