@@ -273,6 +273,7 @@
                     <li> Efectivo: Estrictamente abonado en las oficinas de la empresa.</li>
                     <li> Depósito o transferencia bancaria: </li>
                 </ul>
+                <div class="page-break"></div>
                 <span>QUINTO: ENTREGAS Y FORMA DE ENTREGAS.</span><br>
                 <p>Las entregas que EL LOCADOR otorgará a favor de EL CLIENTE serán cargadas al correo y/o grupo de WhatsApp creado en los siguientes términos: </p>
                 <table class="delivery-table">
@@ -313,7 +314,7 @@
                 conllevará a devolución de los pagos abonados hasta el momento de aprobación o denegación de la 
                 solicitud; pagos utilizados para la cobertura de gastos operativos, logísticos, administrativos y de 
                 mercadotecnia. </p>
-                <div class="page-break"></div>
+                
                 <span class="seven-article">SÉPTIMO: MORA INDEMNIZATORIA Y PENALIDADES.</span><br>
                 <p>
                     7.1. Sobre los pagos<br>
