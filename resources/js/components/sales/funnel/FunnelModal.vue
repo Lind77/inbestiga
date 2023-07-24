@@ -221,21 +221,41 @@ export default {
             this.showOptionOwner = false
         },
         updateOwner() {
-            var newOwner = this.owners.find(owner => owner.id == this.newOwner)
 
-            const fd = new FormData()
-            fd.append('customer_id', this.customers[0].id)
-            fd.append('user_id', this.newOwner)
+            if (this.quotation) {
+                var newOwner = this.owners.find(owner => owner.id == this.newOwner)
+                this.quotation.customers.forEach(customer => {
+                    const fd = new FormData()
+                    fd.append('customer_id', customer.id)
+                    fd.append('user_id', this.newOwner)
 
-            axios.post('/api/updateOwner', fd)
-                .then((res) => {
-                    this.$emit('updateOwner', this.customers[0], newOwner)
-                })
-                .catch((err) => {
-                    console.error(err)
-                })
+                    axios.post('/api/updateOwner', fd)
+                        .then((res) => {
+                            this.$emit('updateOwnerQuotation', this.quotation, newOwner)
+                        })
+                        .catch((err) => {
+                            console.error(err)
+                        })
+                });
 
-            this.showOptionOwner = false
+            } else {
+                var newOwner = this.owners.find(owner => owner.id == this.newOwner)
+
+                const fd = new FormData()
+                fd.append('customer_id', this.customers[0].id)
+                fd.append('user_id', this.newOwner)
+
+                axios.post('/api/updateOwner', fd)
+                    .then((res) => {
+                        this.$emit('updateOwner', this.customers[0], newOwner)
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                    })
+
+                this.showOptionOwner = false
+            }
+
         },
         editOwner() {
             this.showOptionOwner = true
