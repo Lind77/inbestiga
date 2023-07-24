@@ -36,16 +36,21 @@
                 </div>
             </div>
         </div>
-        <CustomerprofileModal :customer="customer_selected" />
-        <ComunicationsModal :comunications="comunicationsSelected" />
     </div>
+    <CustomerprofileModal :customer="customer_selected" />
+    <ComunicationsModal :comunications="comunicationsSelected" @showComunicationUpdate="showComunicationUpdate" />
+    <UpdateComunicationModal :customer="customer_selected" @showComunicationUpdate="showComunicationUpdate"
+        @getAllCustomers="getAllCustomers" />
 </template>
 <script>
 import CustomerprofileModal from './CustomerprofileModal.vue'
 import ComunicationsModal from './ComunicationsModal.vue'
+import UpdateComunicationModal from './UpdateComunicationModal.vue'
 export default {
     components: {
-        CustomerprofileModal, ComunicationsModal
+        CustomerprofileModal,
+        ComunicationsModal,
+        UpdateComunicationModal
     },
     data() {
         return {
@@ -57,6 +62,13 @@ export default {
         }
     },
     methods: {
+        showComunicationUpdate(customerId) {
+            var customerSelected = this.customers.find(customer => customer.id == customerId)
+
+            this.customer_selected = customerSelected
+
+            $('#updateComModal').modal('show')
+        },
         showComunicationsModal(customer) {
             this.comunicationsSelected = customer.comunications
             $('#ComunicationsModal').modal('show')
