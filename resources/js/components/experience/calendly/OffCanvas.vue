@@ -4,16 +4,24 @@
             <h3 id="offcanvasEndLabel" class="offcanvas-title">Evento {{ info.event.title }}</h3>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body my-auto mx-0 flex-grow-0">
-            <p class="text-primary h5"> (Equipo)</p>
-            <h5 @dblclick="pickDeadline" class="text-danger cursor-pointer">Fecha de Culminación:</h5>
+
+        <div class="offcanvas-body mx-0 flex-grow-0">
+            <h5 @dblclick="pickDeadline">Comentario: {{ info.event.extendedProps.comment }}</h5>
+            <p class="text-danger cursor-pointer">Fecha: {{ formatDate(info.event.start) }}</p>
         </div>
     </div>
 </template>
 <script>
+import moment from "moment"
+
 export default {
     props: {
         info: Object
+    },
+    methods: {
+        formatDate(date) {
+            return moment(date).format('DD/MM/YYYY')
+        }
     }
 }
 </script>
