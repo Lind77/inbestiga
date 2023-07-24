@@ -269,8 +269,8 @@ export default {
             axios.get('/api/quotations/' + this.$route.params.idQuotation)
                 .then((res) => {
                     console.log(res);
-                    this.quotation = res.data[0]
-                    this.customers = this.quotation.customers
+                    this.quotation = res.data
+                    this.customers = res.data.customers
                     this.details = this.quotation.details
                     /* if (this.customer.quotations[0]) {
                       this.quotation = this.customer.quotations[0]
