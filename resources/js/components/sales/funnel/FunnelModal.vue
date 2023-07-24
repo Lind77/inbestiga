@@ -25,11 +25,21 @@
                                     interest[quotation.interest] }}
                                 </p>
                             </div>
-                            <div class="col-3" v-if="quotation && quotation.customers">
+                            <div class="col-3" v-else-if="customer">
+                                <p class="h2 cursor-pointer emoji">{{
+                                    interest[customer.interest] }}
+                                </p>
+                            </div>
+                            <div class="col-3">
                                 <div @dblclick="editOwner" class="alert alert-info d-flex" role="alert">
                                     <div class="d-flex flex-column ps-1">
-                                        <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
-                                            quotation.customers[0].user ? quotation.customers[0].user.name : 'Sin dueño' }}
+                                        <h6 class="alert-heading d-flex align-items-center fw-bold mb-1"
+                                            v-if="quotation && quotation.customers">{{
+                                                quotation.customers[0].user ? quotation.customers[0].user.name : 'Sin dueño' }}
+                                        </h6>
+                                        <h6 class="alert-heading d-flex align-items-center fw-bold mb-1"
+                                            v-else-if="customer">{{
+                                                customer.user ? customer.user.name : 'Sin dueño' }}
                                         </h6>
                                     </div>
                                 </div>
@@ -211,21 +221,41 @@ export default {
             this.showOptionOwner = false
         },
         updateOwner() {
-            var newOwner = this.owners.find(owner => owner.id == this.newOwner)
 
-            const fd = new FormData()
-            fd.append('customer_id', this.customers[0].id)
-            fd.append('user_id', this.newOwner)
+            if (this.quotation) {
+                var newOwner = this.owners.find(owner => owner.id == this.newOwner)
+                this.quotation.customers.forEach(customer => {
+                    const fd = new FormData()
+                    fd.append('customer_id', customer.id)
+                    fd.append('user_id', this.newOwner)
 
-            axios.post('/api/updateOwner', fd)
-                .then((res) => {
-                    this.$emit('updateOwner', this.customers[0], newOwner)
-                })
-                .catch((err) => {
-                    console.error(err)
-                })
+                    axios.post('/api/updateOwner', fd)
+                        .then((res) => {
+                            this.$emit('updateOwnerQuotation', this.quotation, newOwner)
+                        })
+                        .catch((err) => {
+                            console.error(err)
+                        })
+                });
 
-            this.showOptionOwner = false
+            } else {
+                var newOwner = this.owners.find(owner => owner.id == this.newOwner)
+
+                const fd = new FormData()
+                fd.append('customer_id', this.customers[0].id)
+                fd.append('user_id', this.newOwner)
+
+                axios.post('/api/updateOwner', fd)
+                    .then((res) => {
+                        this.$emit('updateOwner', this.customers[0], newOwner)
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                    })
+
+                this.showOptionOwner = false
+            }
+
         },
         editOwner() {
             this.showOptionOwner = true
@@ -260,6 +290,8 @@ export default {
                     this.$emit('updateStatusSpace', this.quotation.id, 11)
                     $('#funnelModal').modal('hide')
                     this.$swal('Felicidades!, ha conseguido un nuevo proyecto para Inbestiga!!')
+                } else {
+                    this.$emit('updateStatusSpace', this.quotation.id, newStatus)
                 }
             } else {
                 if (parseInt(this.customer.status) + 1 == 5) {

@@ -135,9 +135,11 @@ export default {
       }
     },
     searchByName() {
+      console.log('nani');
       this.noAttended = []
       this.attended = []
       this.comunications = []
+      this.needs = []
 
       axios.get('/api/searchPreleads/' + this.search)
         .then((res) => {
