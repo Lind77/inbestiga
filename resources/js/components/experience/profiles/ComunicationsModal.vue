@@ -3,7 +3,11 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Comunicaciones</h5>
+                    <h5 class="modal-title" id="exampleModalLabel1">Comunicaciones
+                        <button @click="callModalUpdateComunication" type="button" class="btn btn-icon btn-warning">
+                            <span class="tf-icons bx bx-chat"></span>
+                        </button>
+                    </h5>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -48,6 +52,12 @@ export default {
                 2: 'Escribir',
                 3: 'Meet'
             }
+        }
+    },
+    methods: {
+        callModalUpdateComunication() {
+            $('#ComunicationsModal').modal('hide')
+            this.$emit('showComunicationUpdate', this.comunications[0].customer_id)
         }
     }
 }

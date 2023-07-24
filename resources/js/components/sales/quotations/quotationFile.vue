@@ -17,14 +17,21 @@
                             <th>
                                 <h2 class="name-customer">COTIZACIÓN DE: </h2>
                             </th>
-                            <th><span class="name">{{ quotation.customers[0].name }}</span>
+                            <th>
+                                <template v-for="customer in quotation.customers">
+                                    <span class="name">{{ customer.name }}</span>
+                                </template>
                             </th>
                         </tr>
                         <tr>
                             <th>
                                 <h2 class="info-user">Teléfono: </h2>
                             </th>
-                            <th><span>{{ quotation.customers[0].cell }}</span></th>
+                            <th>
+                                <template v-for="customer in quotation.customers">
+                                    <span>{{ customer.cell }}</span>
+                                </template>
+                            </th>
                         </tr>
                         <tr>
                             <th>

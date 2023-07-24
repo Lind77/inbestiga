@@ -156,7 +156,7 @@ export default {
 
                     this.contracts.forEach((contract) => {
                         result.id = contract.id
-                        result.name = contract.quotation.customer.name
+                        result.name = contract.quotation.customers[0].name
                         result.date = this.formatOrderDate(contract.date)
                         result.type = 1
                         this.results.push({ ...result })
@@ -164,7 +164,7 @@ export default {
 
                     this.orders.forEach((order) => {
                         result.id = order.id
-                        result.name = order.quotation.customer.name
+                        result.name = order.quotation.customers[0].name
                         result.date = this.formatOrderDate(order.created_at)
                         result.type = 2
                         this.results.push({ ...result })
