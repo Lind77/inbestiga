@@ -263,11 +263,12 @@ export default {
                 }
             } else {
                 if (parseInt(this.customer.status) + 1 == 5) {
+                    console.log('entrando al if')
                     $('#funnelModal').modal('hide')
                     this.$router.push({ name: 'home-quotation', params: { idCustomer: this.customer.id } })
                 }
-                var newStatus = parseInt(this.customers[0].status) + 1
-                this.$emit('updateStatusSpace', this.customers[0].id, newStatus)
+                var newStatus = parseInt(this.customer.status) + 1
+                this.$emit('updateStatusSpace', this.customer.id, newStatus)
             }
 
         },
