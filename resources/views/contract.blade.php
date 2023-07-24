@@ -274,7 +274,7 @@
                     <li> Depósito o transferencia bancaria: </li>
                 </ul>
                 <div class="page-break"></div>
-                <span>QUINTO: ENTREGAS Y FORMA DE ENTREGAS.</span><br>
+                <span>QUINTO: ENTREGAS Y FORMA DE ENTREGAS.</span>
                 <p>Las entregas que EL LOCADOR otorgará a favor de EL CLIENTE serán cargadas al correo y/o grupo de WhatsApp creado en los siguientes términos: </p>
                 <table class="delivery-table">
                     <thead>
@@ -303,7 +303,8 @@
                         <li>Reporte de Turnitin.</li>
                     </ul>
                     @endif
-                <span>SEXTO: SOBRE LA RESOLUCIÓN DEL CONTRATO</span><br>
+                    <br>
+                <span>SEXTO: SOBRE LA RESOLUCIÓN DEL CONTRATO</span>
                 <p>Si existe un acuerdo de LAS PARTES para la resolución del contrato, este podrá ser resuelto sin consecuencias jurídicas que perjudiquen a las mismas.
                 En caso de que EL LOCADOR incumpla sus obligaciones sin que exista una justificación suficiente que haya 
                 escapado a su voluntad, este deberá reintegrar a EL CLIENTE, el total de los pagos abonados por este 
@@ -315,7 +316,7 @@
                 solicitud; pagos utilizados para la cobertura de gastos operativos, logísticos, administrativos y de 
                 mercadotecnia. </p>
                 
-                <span class="seven-article">SÉPTIMO: MORA INDEMNIZATORIA Y PENALIDADES.</span><br>
+                <span class="seven-article">SÉPTIMO: MORA INDEMNIZATORIA Y PENALIDADES.</span>
                 <p>
                     7.1. Sobre los pagos<br>
                     EL CLIENTE tendrá una prórroga de hasta 2 días calendario para abonar los montos descritos en la cláusula 
@@ -335,7 +336,7 @@
                     razonable con la entrega, EL CLIENTE tendrá la posibilidad de exigir un reembolso de S/15.00 (quince soles) 
                     diarios por cada día de retraso en la entrega del producto académico correspondiente.
                 </p>
-                <span>OCTAVO: CONFIDENCIALIDAD </span><br>
+                <span>OCTAVO: CONFIDENCIALIDAD </span>
                 <p>EL LOCADOR se compromete a mantener en reserva todos los datos de EL CLIENTE, incluso después de que las demás obligaciones de EL CONTRATO se hayan extinguido; a excepción de aquellos casos que la ley exija lo contrario.</p>
                 <span>NOVENO: GARANTÍA DEL SERVICIO</span><br>
                 <p>EL CONTRATO no tiene una cláusula de prescripción de obligaciones por parte de EL LOCADOR  que se rija 
