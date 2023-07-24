@@ -8,45 +8,46 @@
                 </div>
             </div>
         </nav>
+        <!-- {{ quotation }} -->
         <section class="row user_data_layout">
             <div class="col-8 ps-5 pt-4">
                 <table class="customer-data">
-                    <thead v-if="quotation[0]">
+                    <thead v-if="quotation && quotation.customers">
                         <tr>
                             <th>
                                 <h2 class="name-customer">COTIZACIÓN DE: </h2>
                             </th>
-                            <th><span class="name" v-for="customer in quotation[0].customers">{{ customer.name }}</span>
+                            <th><span class="name">{{ quotation.customers[0].name }}</span>
                             </th>
                         </tr>
                         <tr>
                             <th>
                                 <h2 class="info-user">Teléfono: </h2>
                             </th>
-                            <th><span>{{ quotation[0].customers[0].cell }}</span></th>
+                            <th><span>{{ quotation.customers[0].cell }}</span></th>
                         </tr>
                         <tr>
                             <th>
                                 <h2 class="info-user">Carrera o mención: </h2>
                             </th>
-                            <th><span>{{ quotation[0].customers[0].career }}</span></th>
+                            <th><span>{{ quotation.customers[0].career }}</span></th>
                         </tr>
                         <tr>
                             <th>
                                 <h2 class="info-user">Universidad: </h2>
                             </th>
-                            <th><span>{{ quotation[0].customers[0].university }}</span></th>
+                            <th><span>{{ quotation.customers[0].university }}</span></th>
                         </tr>
                     </thead>
                 </table>
                 <!-- <p class="sub-header">Elaboración completa de Tesis: <span class="text-purple"></span></p>  -->
             </div>
-            <div class="col-4 info-doc py-3" v-if="quotation[0]">
+            <div class="col-4 info-doc py-3" v-if="quotation">
                 <p class="info-doc-p">COTIZACIÓN N°: 01-EN-VL</p>
-                <p class="info-doc-p">FECHA: {{ quotation[0].date }}</p>
-                <p class="info-doc-p">VALIDEZ: {{ quotation[0].expiration_date }}</p>
-                <p class="info-doc-p">IMPORTE: S./ {{ Number(quotation[0].amount).toFixed(2) }}</p>
-                <p class="info-doc-p">EJECUCIÓN: {{ quotation[0].term }}</p>
+                <p class="info-doc-p">FECHA: {{ quotation.date }}</p>
+                <p class="info-doc-p">VALIDEZ: {{ quotation.expiration_date }}</p>
+                <p class="info-doc-p">IMPORTE: S./ {{ Number(quotation.amount).toFixed(2) }}</p>
+                <p class="info-doc-p">EJECUCIÓN: {{ quotation.term }}</p>
             </div>
         </section>
         <section class="px-3">
@@ -60,8 +61,8 @@
                     </tr>
                 </thead>
                 <div style="height: 10px;"></div>
-                <tbody v-if="quotation[0]">
-                    <tr v-for="detail in quotation[0].details" class="text-dark">
+                <tbody v-if="quotation">
+                    <tr v-for="detail in quotation.details" class="text-dark">
                         <th class="table-item fw-normal ps-2">{{ detail.product.name }}
                             <template v-if="detail.product.id == 58">
                                 <br>
@@ -90,42 +91,40 @@
                             {{ detail.type == 1 ? 'Normal' : 'Sugerido' }}</th>
                         <th class="table-item fw-normal" style="text-align: center;">S./{{ detail.price }}</th>
                     </tr>
-
-
-
                     <tr class="sugested-title mt-3">
                         <th class="text-white sugested py-3 px-3" colspan="3">PRECIO FINAL</th>
                     </tr>
                     <!-- <tr>
-                    <th></th>
-                    <th class="text-purple" style=" background-color: red;">DESCUENTO</th>
-                    <th class="text-purple" style=" background-color: red;">S./{{quotation[0].discount}}</th>
-                </tr>
-                <tr >
-                    <th></th>
-                    <th class="text-purple" style=" background-color: red;">TOTAL</th>
-                    <th class="text-purple" style=" background-color: red;">S./{{Number(quotation[0].amount).toFixed(2)}}</th>
-                </tr> -->
+                        <th></th>
+                        <th class="text-purple">DESCUENTO</th>
+                        <th class="text-purple">S./{{ quotation.discount }}</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th class="text-purple">TOTAL</th>
+                        <th class="text-purple">
+                            S./{{ Number(quotation.amount).toFixed(2) }}</th>
+                    </tr> -->
                 </tbody>
             </table>
-            <div class="discount-total" v-if="quotation[0]">
+            <div class="discount-total" v-if="quotation">
                 <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-3"></div>
                     <div class="col-md-3"></div>
                     <div class="col-md-3">
-                        <p style="background-color: #f1f2f0;">DESCUENTO: S./{{ quotation[0].discount }}</p>
-                        <p style="background-color: #f1f2f0;">TOTAL: S./{{ Number(quotation[0].amount).toFixed(2) }}</p>
+                        <p style="background-color: #f1f2f0;">DESCUENTO: S./{{ quotation.discount }}</p>
+                        <p style="background-color: #f1f2f0;">TOTAL: S./{{ Number(quotation.amount).toFixed(2) }}</p>
                     </div>
                 </div>
             </div>
         </section>
-        <div class="title-note py-2 ms-3 rounded" v-if="quotation[0] && quotation[0].note">
+        <!-- <div class="title-note py-2 ms-3 rounded" v-if="quotation[0] && quotation[0].note">
             <p class="text-white mb-0">NOTA:</p>
         </div>
         <div class="section-note" v-if="quotation[0]">
             <p>{{ quotation[0].note }}</p>
-        </div>
+        </div> -->
         <section class="last">
             <div class="d-flex justify-content-around">
                 <div class="d-flex w-50">
