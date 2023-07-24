@@ -335,7 +335,11 @@ export default {
 
       axios.get('/api/promotions/' + this.coupon)
         .then((result) => {
-          if (result.data.percent == 0) {
+          console.log(result)
+          if (Object.keys(result.data).length == 0) {
+            this.$swal('Código Incorrecto')
+          }
+          else if (result.data.percent == 0) {
             this.$swal('Se ha desbloqueado el descuento por cantidad')
             this.quotation.discount = result.data.quantity
           } else {
