@@ -7,8 +7,9 @@
         <div class="offcanvas-body mx-0 flex-grow-0" v-if="info.event">
             <h5 @dblclick="pickDeadline">Comentario: {{ info.event.extendedProps.comment }}</h5>
             <p class="text-danger cursor-pointer">Fecha: {{ formatDate(info.event.start) }}</p>
-            <button v-if="info.event.extendedProps.link" class="btn btn-primary"
-                :href="info.event.extendedProps.link">Reunión Meet</button>
+            <a target="_blank" v-if="info.event.extendedProps.link" class="btn btn-primary"
+                :href="info.event.extendedProps.link">Reunión
+                Meet</a>
         </div>
     </div>
 </template>
