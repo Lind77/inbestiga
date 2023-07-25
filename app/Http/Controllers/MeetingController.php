@@ -22,7 +22,7 @@ class MeetingController extends Controller
             'comment' => $request->get('comment')
         ]);
 
-        $meeting->users->attach($meeting->id);
+        $meeting->users()->attach($meeting->id);
 
         return response()->json([
             'msg' => 'success'
