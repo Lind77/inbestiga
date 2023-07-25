@@ -61,7 +61,10 @@ export default {
                 title: this.title,
                 date: this.info.dateStr,
                 comment: this.comment,
-                link: this.link
+                link: this.link,
+                backgroundColor: '#e7e7ff',
+                borderColor: '#e7e7ff',
+                textColor: '#ff3e1d'
             }
 
             this.$emit('addEvent', newEvt)
