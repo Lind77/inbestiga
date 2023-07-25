@@ -28,4 +28,16 @@ class MeetingController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function destroy($id)
+    {
+
+        $meeting = Meeting::find($id);
+
+        $meeting->delete();
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
 }

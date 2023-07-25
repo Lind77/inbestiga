@@ -4,12 +4,36 @@
         <div class="card">
             <div class="card-header"></div>
             <div class="card-body">
-                <FullCalendar :options="calendarOptions" />
+                <div class="row">
+                    <div class="col-2">
+                        <small class="text-small text-muted text-uppercase align-middle">Filtros</small>
+                        <div class="app-calendar-events-filter mt-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input input-filter" type="checkbox" id="select-business"
+                                    v-model="ableMeetings" @change="filterEvents(1)" data-value="business">
+                                <label class="form-check-label" for="select-business">Reuniones</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input input-filter bg-warning border-warning" type="checkbox"
+                                    v-model="ableDeliveries" @change="filterEvents(2)" id="select-personal"
+                                    data-value="personal">
+                                <label class="form-check-label" for="select-personal">Entregas</label>
+                            </div>
+
+                            <!-- <p v-for="delivery in deliveries">{{ delivery.date }}</p> -->
+
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <FullCalendar :options="calendarOptions" />
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
     <AddEvent :info="info" @addEvent="addEvent" />
-    <OffCanvasEvent :info="infoEvent" />
+    <OffCanvasEvent :info="infoEvent" @getEvents="getEvents" @getDeliveries="getDeliveries" />
 </template>
 <script>
 import moment from "moment"
@@ -40,21 +64,66 @@ export default {
                 events: [],
                 eventClick: this.eventClick,
                 dateClick: this.handleDateClick,
-                eventColor: '#696cff'
+                eventBackgroundColor: '#e7e7ff',
+                eventBorderColor: '#e7e7ff',
+                eventTextColor: '#696cff'
             },
             info: {},
-            infoEvent: {}
+            infoEvent: {},
+            deliveries: [],
+            ableMeetings: true,
+            ableDeliveries: true
         }
     },
     methods: {
+        filterEvents(type) {
+            if (type == 1) {
+                if (this.ableMeetings) {
+                    this.getEvents()
+                } else {
+                    this.calendarOptions.events = this.calendarOptions.events.filter(event => event.type != type)
+                }
+            } else if (type == 2) {
+                if (this.ableDeliveries) {
+                    this.getDeliveries()
+                } else {
+                    this.calendarOptions.events = this.calendarOptions.events.filter(event => event.type != type)
+                }
+            }
+            console.log(type, this.ableDeliveries)
+
+        },
         getEvents() {
+            this.calendarOptions.events = []
             axios.get('/api/meetings')
                 .then((result) => {
                     result.data.forEach(evt => {
+                        evt.type = 1
                         this.calendarOptions.events.push(evt);
                     });
                 }).catch((err) => {
                     console.error(err);
+                });
+        },
+        getDeliveries() {
+            axios.get('/api/deliveries-month')
+                .then((result) => {
+                    this.deliveries = result.data.deliveries
+                    this.deliveries.forEach(delivery => {
+                        var newEvt = {
+                            title: 'Entrega ' + delivery.deliverable.quotation.customers[0].name,
+                            date: delivery.date,
+                            comment: delivery.advance,
+                            link: '',
+                            backgroundColor: '#fff2d6',
+                            borderColor: '#fff2d6',
+                            textColor: '#ffab00',
+                            type: 2
+                        }
+                        this.calendarOptions.events.push({ ...newEvt })
+                    });
+                }).catch((err) => {
+
                 });
         },
         addEvent(evt) {
@@ -91,7 +160,16 @@ export default {
     },
     mounted() {
         this.getEvents()
+        this.getDeliveries()
     }
 }
 </script>
-<style></style>
+<style>
+.form-check-danger {
+    background-color: #ff3e1d;
+}
+
+.fc-daygrid-event-harness {
+    padding: 2px 0px;
+}
+</style>
