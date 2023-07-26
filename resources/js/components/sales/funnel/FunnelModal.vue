@@ -56,7 +56,7 @@
                         <template v-if="quotation && quotation.customers">
                             <div class="col-12 col-lg-6" v-for="customer in quotation.customers">
                                 <div class="alert alert-primary d-flex" role="alert">
-                                    <span
+                                    <span @click="showModalUpdateData(customer)"
                                         class="badge badge-center rounded-pill bg-primary border-label-primary p-3 me-2"><i
                                             class="bx bx-user fs-6"></i></span>
                                     <div class="d-flex flex-column ps-1">
