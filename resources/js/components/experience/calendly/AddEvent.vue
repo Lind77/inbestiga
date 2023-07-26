@@ -64,7 +64,7 @@ export default {
                 link: this.link,
                 backgroundColor: '#e7e7ff',
                 borderColor: '#e7e7ff',
-                textColor: '#ff3e1d'
+                textColor: '#696cff'
             }
 
             this.$emit('addEvent', newEvt)
