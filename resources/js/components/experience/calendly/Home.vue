@@ -19,7 +19,6 @@
                                     data-value="personal">
                                 <label class="form-check-label" for="select-personal">Entregas</label>
                             </div>
-
                             <!-- <p v-for="delivery in deliveries">{{ delivery.date }}</p> -->
 
                         </div>
@@ -44,6 +43,7 @@ import esLocale from '@fullcalendar/core/locales/es'
 import AddEvent from './AddEvent.vue'
 import OffCanvasEvent from './OffCanvas.vue'
 import { userStore } from "../../../stores/UserStore"
+import { Fragment } from "vue"
 
 export default {
     components: { FullCalendar, AddEvent, OffCanvasEvent },
@@ -63,6 +63,7 @@ export default {
                 hiddenDays: [0],
                 events: [],
                 eventClick: this.eventClick,
+                eventDrop: this.eventDrop,
                 dateClick: this.handleDateClick,
                 eventBackgroundColor: '#e7e7ff',
                 eventBorderColor: '#e7e7ff',
@@ -150,6 +151,22 @@ export default {
         eventClick(info) {
             this.infoEvent = info
             $('#offcanvasEvent').offcanvas('show')
+        },
+        eventDrop(info) {
+            console.log(info.event)
+            if (info.event.extendedProps.type == '1') {
+                const fd = new FormData()
+                fd.append('_method', 'put');
+                fd.append('date', info.event.startStr)
+
+                axios.post('/api/meetings/' + info.event.id, fd)
+                    .then((result) => {
+                        this.$swal('Fecha editada correctamente')
+                    }).catch((err) => {
+                        this.$swal('Error')
+                    });
+            }
+
         },
         formatDate(time) {
             return moment(time).format('DD/MM/YYYY')
