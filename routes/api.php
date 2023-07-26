@@ -264,3 +264,5 @@ Route::delete('/meetings/{id}', [MeetingController::class, 'destroy']);
 
 Route::get('/quotations-funnel', [QuotationController::class, 'getQuotationsFunnel']);
 Route::get('/quotations/search/{search}', [QuotationController::class, 'searchQuotations']);
+
+Route::post('/attendance', [AttendanceController::class, 'store']);
