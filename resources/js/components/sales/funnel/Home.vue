@@ -18,7 +18,7 @@
       @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers" @updateOwner="updateOwner"
       @updateOwnerQuotation="updateOwnerQuotation" @updateInterest="updateInterest"
       @callModalComunication="callModalComunication" />
-    <!--  <customerModal :customers="customersSelected[0]" :action="2" /> -->
+    <customerModal :customer="customer_selected" :action="2" />
   </div>
 </template>
 <script>
@@ -64,7 +64,8 @@ export default {
       owners: [],
       totalQuotations: [],
       quotation: {},
-      customerToComunication: {}
+      customerToComunication: {},
+      customer_selected: {}
     }
   },
   methods: {
@@ -167,6 +168,7 @@ export default {
       console.log(leadId);
     },
     showModalUpdateData(customer) {
+      console.log(customer);
       this.customer_selected = customer
       $('#funnelModal').modal('hide')
       $('#customerModal').modal('show')
