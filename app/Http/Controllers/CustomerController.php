@@ -377,7 +377,7 @@ class CustomerController extends Controller
         $customers = Customer::with('comunications')->where(function ($query) use ($search) {
             $query->where('name', 'like', '%' . $search . '%')
                 ->orWhere('cell', 'like', '%' . $search . '%');
-        })->where('status', '<=', 3)->get();
+        })->where('status', '<=', 4)->get();
         return response()->json($customers);
     }
 
