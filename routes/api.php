@@ -260,6 +260,7 @@ Route::post('/permission-sync-user', [UserController::class, 'syncPermissionUser
 
 Route::get('/meetings', [MeetingController::class, 'index']);
 Route::post('/meetings', [MeetingController::class, 'store']);
+Route::put('/meetings/{id}', [MeetingController::class, 'update']);
 Route::delete('/meetings/{id}', [MeetingController::class, 'destroy']);
 
 Route::get('/quotations-funnel', [QuotationController::class, 'getQuotationsFunnel']);

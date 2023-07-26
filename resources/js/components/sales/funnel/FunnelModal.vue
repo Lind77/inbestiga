@@ -242,12 +242,12 @@ export default {
                 var newOwner = this.owners.find(owner => owner.id == this.newOwner)
 
                 const fd = new FormData()
-                fd.append('customer_id', this.customers[0].id)
+                fd.append('customer_id', this.customer.id)
                 fd.append('user_id', this.newOwner)
 
                 axios.post('/api/updateOwner', fd)
                     .then((res) => {
-                        this.$emit('updateOwner', this.customers[0], newOwner)
+                        this.$emit('updateOwner', this.customer, newOwner)
                     })
                     .catch((err) => {
                         console.error(err)
