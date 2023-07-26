@@ -127,7 +127,7 @@ export default {
     searchCustomer() {
       axios.get('/api/customers/search/' + this.search)
         .then((res) => {
-          this.customers = res.data
+          this.customers = res.data.customers
         })
         .catch((err) => {
           console.error(err.response)

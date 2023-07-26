@@ -152,4 +152,12 @@ class DeliveryController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function deliveriesMonth()
+    {
+        $deliveries = Delivery::with(['deliverable', 'deliverable.quotation', 'deliverable.quotation.customers'])->where('date', 'like', '%-' . date('m') . '-%')->get();
+        return response()->json([
+            'deliveries' => $deliveries
+        ]);
+    }
 }

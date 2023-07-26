@@ -22,7 +22,19 @@ class MeetingController extends Controller
             'comment' => $request->get('comment')
         ]);
 
-        $meeting->users->attach($meeting->id);
+        $meeting->users()->attach($meeting->id);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function destroy($id)
+    {
+
+        $meeting = Meeting::find($id);
+
+        $meeting->delete();
 
         return response()->json([
             'msg' => 'success'

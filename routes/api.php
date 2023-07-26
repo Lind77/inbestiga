@@ -240,6 +240,7 @@ Route::get('/getAllComissions', [ComissionController::class, 'getAllComissions']
 Route::get('/profiles', [CustomerController::class, 'getProfiles']);
 
 Route::get('/deliveries', [DeliveryController::class, 'index']);
+Route::get('/deliveries-month', [DeliveryController::class, 'deliveriesMonth']);
 Route::post('/delivery', [DeliveryController::class, 'store']);
 Route::get('/deliveries-date/{date}', [DeliveryController::class, 'getDeliveriesByDate']);
 Route::get('/deliveries-search/{search}', [DeliveryController::class, 'search']);
@@ -259,6 +260,7 @@ Route::post('/permission-sync-user', [UserController::class, 'syncPermissionUser
 
 Route::get('/meetings', [MeetingController::class, 'index']);
 Route::post('/meetings', [MeetingController::class, 'store']);
+Route::delete('/meetings/{id}', [MeetingController::class, 'destroy']);
 
 Route::get('/quotations-funnel', [QuotationController::class, 'getQuotationsFunnel']);
 Route::get('/quotations/search/{search}', [QuotationController::class, 'searchQuotations']);
