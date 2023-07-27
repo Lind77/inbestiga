@@ -40,4 +40,15 @@ class MeetingController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function update($id, Request $request)
+    {
+        $meeting = Meeting::find($id);
+        $meeting->update([
+            'date' => $request->get('date')
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
 }

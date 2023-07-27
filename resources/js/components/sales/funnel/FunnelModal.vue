@@ -56,7 +56,7 @@
                         <template v-if="quotation && quotation.customers">
                             <div class="col-12 col-lg-6" v-for="customer in quotation.customers">
                                 <div class="alert alert-primary d-flex" role="alert">
-                                    <span
+                                    <span @click="showModalUpdateData(customer)"
                                         class="badge badge-center rounded-pill bg-primary border-label-primary p-3 me-2"><i
                                             class="bx bx-user fs-6"></i></span>
                                     <div class="d-flex flex-column ps-1">
@@ -242,12 +242,12 @@ export default {
                 var newOwner = this.owners.find(owner => owner.id == this.newOwner)
 
                 const fd = new FormData()
-                fd.append('customer_id', this.customers[0].id)
+                fd.append('customer_id', this.customer.id)
                 fd.append('user_id', this.newOwner)
 
                 axios.post('/api/updateOwner', fd)
                     .then((res) => {
-                        this.$emit('updateOwner', this.customers[0], newOwner)
+                        this.$emit('updateOwner', this.customer, newOwner)
                     })
                     .catch((err) => {
                         console.error(err)

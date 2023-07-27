@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Http\Requests\StoreAttendanceRequest;
 use App\Http\Requests\UpdateAttendanceRequest;
+use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
@@ -17,7 +18,6 @@ class AttendanceController extends Controller
     {
         $attendances  = Attendance::all();
         return response()->json($attendances);
-        
     }
 
     /**
@@ -36,9 +36,39 @@ class AttendanceController extends Controller
      * @param  \App\Http\Requests\StoreAttendanceRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAttendanceRequest $request)
+    public function store(Request $request)
     {
-        //
+        $attendancesJson = json_decode($request->get('attendances'), true);
+        $attendances = $attendancesJson['data'];
+
+        foreach ($attendances as $attendance) {
+
+            if ($attendance['weekday'] == 'Lunes') {
+                $newWeekDay = 1;
+            } else if ($attendance['weekday'] == 'Martes') {
+                $newWeekDay = 2;
+            } else if ($attendance['weekday'] == 'Miércoles') {
+                $newWeekDay = 3;
+            } else if ($attendance['weekday'] == 'Jueves') {
+                $newWeekDay = 4;
+            } else if ($attendance['weekday'] == 'Viernes') {
+                $newWeekDay = 5;
+            } else if ($attendance['weekday'] == 'Sábado') {
+                $newWeekDay = 6;
+            }
+
+            $newAttendance = Attendance::create([
+                'user_id' => $attendance['emp_code'],
+                'date' => $attendance['att_date'],
+                'first_punch' => $attendance['first_punch'],
+                'last_punch' => $attendance['last_punch'],
+                'weekday' => $newWeekDay
+            ]);
+        }
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     /**
