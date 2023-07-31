@@ -267,3 +267,5 @@ Route::get('/quotations-funnel', [QuotationController::class, 'getQuotationsFunn
 Route::get('/quotations/search/{search}', [QuotationController::class, 'searchQuotations']);
 
 Route::post('/attendance', [AttendanceController::class, 'store']);
+
+Route::post('/schedules', [ScheduleController::class, 'store']);

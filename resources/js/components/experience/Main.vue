@@ -49,7 +49,7 @@
             <div class="card bg-success text-white mb-3" v-for="delivery in deliveries">
               <div class="card-header">Entrega de {{ delivery.type == 1 ? 'Contrato' : 'Orden' }}</div>
               <div class="card-body">
-                <h5 class="card-title text-white">{{ delivery.deliverable.quotation.customer.name }}</h5>
+                <h5 class="card-title text-white">{{ delivery.deliverable.quotation.customers[0].name }}</h5>
                 <p class="card-text">
                   {{ delivery.advance }}
                 </p>

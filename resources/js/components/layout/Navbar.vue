@@ -79,7 +79,7 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" @click="toProfile(store.authUser.id)">
                 <div class="d-flex">
                   <!-- <div class="flex-shrink-0 me-3">
                     <div class="avatar avatar-online">
@@ -149,6 +149,9 @@ export default {
     }
   },
   methods: {
+    toProfile(id){
+      this.$router.push({name:'profile', params:{ idUser: id }})
+    },
     clearCantNotifications() {
       this.cantNotifications = 0
       if (this.notifications.length > 0) {

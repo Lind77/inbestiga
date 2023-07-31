@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Comission;
 use App\Models\Contract;
 use App\Models\Customer;
+use App\Models\Delivery;
 use App\Models\Detail;
 use App\Models\Fee;
 use App\Models\Notification;
@@ -73,6 +74,14 @@ class OrderController extends Controller
                 'paymentable_type' => 'App\Models\Order',
                 'date' => $payment['date'],
                 'amount' => $payment['amount']
+            ]);
+
+            Delivery::create([
+                'deliverable_id' => $order->id,
+                'deliverable_type' => 'App\Models\Order',
+                'date' => $payment['date'],
+                'advance' => 'Entrega de Orden',
+                'type' => 1
             ]);
         }
 
@@ -268,6 +277,14 @@ class OrderController extends Controller
                 'paymentable_type' => 'App\Models\Order',
                 'date' => $payment['date'],
                 'amount' => $payment['amount']
+            ]);
+
+            $delivery = Delivery::create([
+                'deliverable_id' => $order->id,
+                'deliverable_type' => 'App\Models\Order',
+                'date' => $payment['date'],
+                'advance' => '',
+                'type' => 2
             ]);
         }
 

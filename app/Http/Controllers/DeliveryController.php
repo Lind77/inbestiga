@@ -17,7 +17,7 @@ class DeliveryController extends Controller
      */
     public function index()
     {
-        $deliveries = Delivery::with(['deliverable', 'deliverable.quotation', 'deliverable.quotation.customer'])->where('date', date('Y-m-d'))->get();
+        $deliveries = Delivery::with(['deliverable', 'deliverable.quotation', 'deliverable.quotation.customers'])->where('date', date('Y-m-d'))->get();
         return response()->json([
             'deliveries' => $deliveries
         ]);
@@ -155,7 +155,7 @@ class DeliveryController extends Controller
 
     public function deliveriesMonth()
     {
-        $deliveries = Delivery::with(['deliverable', 'deliverable.quotation', 'deliverable.quotation.customers'])->where('date', 'like', '%-' . date('m') . '-%')->get();
+        $deliveries = Delivery::with(['deliverable', 'deliverable.quotation', 'deliverable.quotation.customers'])->get();
         return response()->json([
             'deliveries' => $deliveries
         ]);

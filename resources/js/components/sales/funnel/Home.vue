@@ -13,7 +13,7 @@
     </div>
     <ProductModal :customer="customersSelected" @getAllCustomers="getAllCustomers" />
     <UpdateCom :customerId="customerId" :customer="customerToComunication" :comunication="comunication"
-      @getAllQuotations="getAllQuotations" />
+      @addNewComunication="addNewComunication" />
     <FunnelModal :quotation="quotation" :owners="owners" @updateStatusSpace="updateStatusSpace" @callModal="callModal"
       @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers" @updateOwner="updateOwner"
       @updateOwnerQuotation="updateOwnerQuotation" @updateInterest="updateInterest"
@@ -69,6 +69,30 @@ export default {
     }
   },
   methods: {
+    addNewComunication(comunication, customer) {
+      let arraysByStatus = {
+        5: this.quotations,
+        6: this.explanations,
+        7: this.experiences,
+        8: this.tracings,
+        9: this.nopays,
+        10: this.closings,
+        11: this.customers
+      }
+
+      var arraySelected = arraysByStatus[customer.status];
+
+
+
+      var quotationSelected = arraySelected.find(quotation => quotation.customers && quotation.customers[0].id == customer.id)
+
+      quotationSelected.customers[0].comunications.push(comunication)
+
+      this.quotation = quotationSelected
+
+      $('#funnelModal').modal('show')
+
+    },
     callModalComunication(customer) {
       console.log(customer);
       this.customerToComunication = customer
