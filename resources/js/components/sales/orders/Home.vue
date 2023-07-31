@@ -426,6 +426,7 @@ export default {
 
     },
     createOrder(quotationId) {
+      console.log('calling create quotation');
       if (this.finalDelivery == null || this.observations == null) {
         this.$swal('Tiene que rellenar los campos de manera obligatoria (entrega final y observaciones)')
       } else {

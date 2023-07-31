@@ -107,7 +107,8 @@ import HomeDeliveries from '../components/experience/deliveries/Home.vue'
 import HomeComunications from '../components/experience/comunication/Home.vue'
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
-
+//Profile
+import Profile from '../components/profile/Home.vue'
 
 
 export const routes = [
@@ -370,6 +371,13 @@ export const routes = [
         path: '/notifications/:idUser',
         component: Notifications,
         name: 'notifications',
+        meta: {requiresAuth:true},
+        props: true
+    },
+    {
+        path: '/profile/:idUser',
+        component: Profile,
+        name: 'profile',
         meta: {requiresAuth:true},
         props: true
     },
