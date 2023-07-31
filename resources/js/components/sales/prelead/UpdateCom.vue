@@ -90,8 +90,9 @@ export default {
 
                 axios.post('/api/insertComunication', fd)
                     .then((res) => {
-                        this.$emit('getAllPreleads')
-                        this.$emit('getAllQuotations')
+                        /* this.$emit('getAllPreleads')
+                        this.$emit('getAllQuotations') */
+                        this.$emit('addNewComunication', res.data.comunication, this.customer)
                         $('#updateComModal').modal('hide')
                     })
                     .catch((err) => {

@@ -22,11 +22,8 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::with(['roles', 'permissions'])->find($id);
-        $progress = Progress::where('owner', '=', $user->name)->with(['progressable', 'progressable.activity'])->get();
-        return response()->json([
-            'user' => $user,
-            'progress' => $progress
-        ]);
+        /* $progress = Progress::where('owner', '=', $user->name)->with(['progressable', 'progressable.activity'])->get(); */
+        return response()->json($user);
     }
 
     public function store(Request $request)

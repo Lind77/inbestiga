@@ -9,9 +9,13 @@
                         <small class="text-small text-muted text-uppercase align-middle">Filtros</small>
                         <div class="app-calendar-events-filter mt-4">
                             <div class="form-check mb-2">
-                                <input class="form-check-input input-filter" type="checkbox" id="select-business"
-                                    v-model="ableMeetings" @change="filterEvents(1)" data-value="business">
+                                <input :class="`form-check-input input-filter bg-${colorMeetings} border-${colorMeetings}`"
+                                    type="checkbox" id="select-business" v-model="ableMeetings" @change="filterEvents(1)"
+                                    data-value="business">
                                 <label class="form-check-label" for="select-business">Reuniones</label>
+                                <span @dblclick="changeColor(1)"
+                                    :class="`badge badge-center rounded-pill bg-${colorMeetings} ms-2 cursor-pointer`"><i
+                                        class='bx bx-palette'></i></span>
                             </div>
                             <div class="form-check mb-2">
                                 <input class="form-check-input input-filter bg-warning border-warning" type="checkbox"
@@ -65,18 +69,43 @@ export default {
                 eventClick: this.eventClick,
                 eventDrop: this.eventDrop,
                 dateClick: this.handleDateClick,
-                eventBackgroundColor: '#e7e7ff',
-                eventBorderColor: '#e7e7ff',
-                eventTextColor: '#696cff'
+                eventBackgroundColor: '#696cff',
+                eventBorderColor: '#fff',
+                eventTextColor: '#fff'
             },
             info: {},
             infoEvent: {},
             deliveries: [],
             ableMeetings: true,
-            ableDeliveries: true
+            ableDeliveries: true,
+            colorMeetings: 'primary',
+            typeMeeting: 1
         }
     },
     methods: {
+        changeColor(type) {
+            if (this.typeMeeting == 4) {
+                this.typeMeeting = 0;
+            }
+            this.typeMeeting = this.typeMeeting + 1
+            var colors = {
+                1: 'primary',
+                2: 'success',
+                3: 'danger',
+                4: 'info'
+            }
+
+            var colorEvent = {
+                1: '#696cff',
+                2: '#71dd37',
+                3: '#ff3e1d',
+                4: '#03c3ec'
+            }
+
+            this.calendarOptions.eventBackgroundColor = colorEvent[this.typeMeeting]
+
+            this.colorMeetings = colors[this.typeMeeting]
+        },
         filterEvents(type) {
             if (type == 1) {
                 if (this.ableMeetings) {
@@ -95,7 +124,7 @@ export default {
 
         },
         getEvents() {
-            this.calendarOptions.events = []
+            //this.calendarOptions.events = []
             axios.get('/api/meetings')
                 .then((result) => {
                     result.data.forEach(evt => {
@@ -111,20 +140,25 @@ export default {
                 .then((result) => {
                     this.deliveries = result.data.deliveries
                     this.deliveries.forEach(delivery => {
-                        var newEvt = {
-                            title: 'Entrega ' + delivery.deliverable.quotation.customers[0].name,
-                            date: delivery.date,
-                            comment: delivery.advance,
-                            link: '',
-                            backgroundColor: '#fff2d6',
-                            borderColor: '#fff2d6',
-                            textColor: '#ffab00',
-                            type: 2
+                        if (delivery.deliverable && delivery.deliverable.quotation) {
+                            var newEvt = {
+                                title: 'Entrega ' + delivery.deliverable.quotation.customers[0].name,
+                                date: delivery.date,
+                                comment: delivery.advance,
+                                link: '',
+                                backgroundColor: '#fff2d6',
+                                borderColor: '#fff2d6',
+                                textColor: '#ffab00',
+                                type: 2
+                            }
+                            this.calendarOptions.events.push({ ...newEvt })
+                        } else {
+                            console.log(delivery.id);
                         }
-                        this.calendarOptions.events.push({ ...newEvt })
+
                     });
                 }).catch((err) => {
-
+                    console.error(err);
                 });
         },
         addEvent(evt) {
