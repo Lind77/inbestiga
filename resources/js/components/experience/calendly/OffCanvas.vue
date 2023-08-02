@@ -13,7 +13,13 @@
             <a target="_blank" v-if="info.event.extendedProps.link" class="btn btn-primary"
                 :href="info.event.extendedProps.link">Reunión
                 Meet</a>
+            <p>
+                <span class="badge badge-center rounded-pill bg-secondary"><i class='bx bx-pause'></i></span>
+                <span class="badge badge-center rounded-pill bg-success ms-1"><i class="bx bx-check"></i></span>
+                <!-- <span class="badge badge-center rounded-pill bg-danger ms-1">4</span> -->
+            </p>
         </div>
+
     </div>
 </template>
 <script>

@@ -24,7 +24,6 @@
                                 <label class="form-check-label" for="select-personal">Entregas</label>
                             </div>
                             <!-- <p v-for="delivery in deliveries">{{ delivery.date }}</p> -->
-
                         </div>
                     </div>
                     <div class="col-10">
@@ -35,7 +34,7 @@
             </div>
         </div>
     </div>
-    <AddEvent :info="info" @addEvent="addEvent" />
+    <AddEvent :info="info" @addEvent="addEvent" @getDeliveries="getDeliveries" @getEvents="getEvents" />
     <OffCanvasEvent :info="infoEvent" @getEvents="getEvents" @getDeliveries="getDeliveries" />
 </template>
 <script>
@@ -136,6 +135,7 @@ export default {
                 });
         },
         getDeliveries() {
+            this.calendarOptions.events = []
             axios.get('/api/deliveries-month')
                 .then((result) => {
                     this.deliveries = result.data.deliveries
@@ -146,6 +146,7 @@ export default {
                                 date: delivery.date,
                                 comment: delivery.advance,
                                 link: '',
+                                status: delivery.status,
                                 backgroundColor: '#fff2d6',
                                 borderColor: '#fff2d6',
                                 textColor: '#ffab00',

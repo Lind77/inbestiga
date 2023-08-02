@@ -269,3 +269,5 @@ Route::get('/quotations/search/{search}', [QuotationController::class, 'searchQu
 Route::post('/attendance', [AttendanceController::class, 'store']);
 
 Route::post('/schedules', [ScheduleController::class, 'store']);
+Route::put('/schedules/{id}', [ScheduleController::class, 'update']);
+Route::put('/schedules-type/{id}', [ScheduleController::class, 'updateType']);
