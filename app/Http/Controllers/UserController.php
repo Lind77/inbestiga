@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::with(['roles', 'permissions'])->find($id);
+        $user = User::with(['roles', 'permissions', 'schedules'])->find($id);
         /* $progress = Progress::where('owner', '=', $user->name)->with(['progressable', 'progressable.activity'])->get(); */
         return response()->json($user);
     }
