@@ -10,6 +10,13 @@ class MeetingController extends Controller
     public function index()
     {
         $meetings = Meeting::all();
+        foreach ($meetings as $meeting) {
+            if ($meeting->time) {
+                $meeting->date = $meeting->date . ' ' . $meeting->time;
+                $meeting->start = $meeting->date;
+                $meeting->end = $meeting->date;
+            }
+        }
         return response()->json($meetings);
     }
 
@@ -18,6 +25,7 @@ class MeetingController extends Controller
         $meeting = Meeting::create([
             'title' => $request->get('title'),
             'date' => $request->get('date'),
+            'time' => $request->get('time'),
             'link' => $request->get('link'),
             'comment' => $request->get('comment')
         ]);
@@ -46,6 +54,17 @@ class MeetingController extends Controller
         $meeting = Meeting::find($id);
         $meeting->update([
             'date' => $request->get('date')
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function complete($id)
+    {
+        $meeting = Meeting::find($id);
+        $meeting->update([
+            'status' => 3
         ]);
         return response()->json([
             'msg' => 'success'

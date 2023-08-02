@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="col mb-1">
                             <label for="nameSmall" class="form-label">Fecha:</label>
-                            <input type="date" :value="info.dateStr" class="form-control" disabled>
+                            <input type="datetime-local" v-model="dateTime" class="form-control">
                         </div>
                     </div>
                     <div class="row">
@@ -103,7 +103,8 @@ export default {
             resultType: 0,
             date: '',
             advance: '',
-            dateAcad: ''
+            dateAcad: '',
+            dateTime: ''
         }
     },
     props: {
@@ -119,9 +120,14 @@ export default {
             return moment(date).format('DD/MM/YYYY');
         },
         addEvent() {
+            console.log(this.dateTime);
+            const dateCut = this.dateTime.substring(0, 10);
+            const time = this.dateTime.substring(11, 16);
+
             var newEvt = {
                 title: this.title,
-                date: this.info.dateStr,
+                date: dateCut,
+                startTime: time,
                 comment: this.comment,
                 link: this.link,
                 backgroundColor: '#e7e7ff',
