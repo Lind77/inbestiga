@@ -13,9 +13,9 @@
                                     type="checkbox" id="select-business" v-model="ableMeetings" @change="filterEvents(1)"
                                     data-value="business">
                                 <label class="form-check-label" for="select-business">Reuniones</label>
-                                <span @dblclick="changeColor(1)"
+                                <!-- <span @dblclick="changeColor(1)"
                                     :class="`badge badge-center rounded-pill bg-${colorMeetings} ms-2 cursor-pointer`"><i
-                                        class='bx bx-palette'></i></span>
+                                        class='bx bx-palette'></i></span> -->
                             </div>
                             <div class="form-check mb-2">
                                 <input class="form-check-input input-filter bg-warning border-warning" type="checkbox"
@@ -35,7 +35,8 @@
         </div>
     </div>
     <AddEvent :info="info" @addEvent="addEvent" @getDeliveries="getDeliveries" @getEvents="getEvents" />
-    <OffCanvasEvent :info="infoEvent" @getEvents="getEvents" @getDeliveries="getDeliveries" />
+    <OffCanvasEvent :info="infoEvent" @getEvents="getEvents" @getDeliveries="getDeliveries"
+        @changeEventColor="changeEventColor" />
 </template>
 <script>
 import moment from "moment"
@@ -46,7 +47,6 @@ import esLocale from '@fullcalendar/core/locales/es'
 import AddEvent from './AddEvent.vue'
 import OffCanvasEvent from './OffCanvas.vue'
 import { userStore } from "../../../stores/UserStore"
-import { Fragment } from "vue"
 
 export default {
     components: { FullCalendar, AddEvent, OffCanvasEvent },
@@ -70,7 +70,13 @@ export default {
                 dateClick: this.handleDateClick,
                 eventBackgroundColor: '#696cff',
                 eventBorderColor: '#fff',
-                eventTextColor: '#fff'
+                eventTextColor: '#fff',
+                displayEventTime: true,
+                eventTimeFormat: {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    meridiem: 'short'
+                }
             },
             info: {},
             infoEvent: {},
@@ -82,6 +88,13 @@ export default {
         }
     },
     methods: {
+        changeEventColor(eventId) {
+            console.log(eventId);
+            var eventSelected = this.calendarOptions.events.find(event => event.id == eventId)
+
+            eventSelected.color = '#71dd37'
+            $('#offcanvasEvent').offcanvas('hide')
+        },
         changeColor(type) {
             if (this.typeMeeting == 4) {
                 this.typeMeeting = 0;
@@ -128,8 +141,15 @@ export default {
                 .then((result) => {
                     result.data.forEach(evt => {
                         evt.type = 1
+                        if (evt.status == 3) {
+                            evt.color = '#71dd37'
+                        } else {
+                            evt.color = '#696cff'
+                        }
+
                         this.calendarOptions.events.push(evt);
                     });
+                    console.log(this.calendarOptions.events)
                 }).catch((err) => {
                     console.error(err);
                 });
@@ -150,7 +170,8 @@ export default {
                                 backgroundColor: '#fff2d6',
                                 borderColor: '#fff2d6',
                                 textColor: '#ffab00',
-                                type: 2
+                                color: '#ffab00',
+                                type: 2,
                             }
                             this.calendarOptions.events.push({ ...newEvt })
                         } else {
@@ -163,10 +184,11 @@ export default {
                 });
         },
         addEvent(evt) {
-            console.log(evt);
+            console.log(evt)
             const fd = new FormData()
             fd.append('title', evt.title)
             fd.append('date', evt.date)
+            fd.append('time', evt.time)
             fd.append('link', evt.link)
             fd.append('comment', evt.comment)
 
