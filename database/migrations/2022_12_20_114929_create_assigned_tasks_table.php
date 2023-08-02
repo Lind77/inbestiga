@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('assigned_tasks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('assigned_activity_id')->nullable();;
+            $table->unsignedBigInteger('assigned_activity_id')->nullable();
             $table->foreign('assigned_activity_id')->references('id')->on('assigned_activities')->onDelete('cascade');
             $table->string('title')->nullable();
             $table->date('date')->nullable();

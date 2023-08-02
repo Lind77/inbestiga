@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Meeting extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'date', 'link', 'comment'];
+    protected $fillable = ['title', 'date', 'link', 'comment','status','date','time'];
    //relacion polimorfica muchos a muchos 
    public function users(){
     return $this->morphedByMany('App\Models\User','meetingable');
