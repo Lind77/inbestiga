@@ -91,4 +91,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Attendance');
     }
+    //relacion uno a uno user-work_contract
+    public function work_contract(){
+        return $this->hasOne('App\Models\Work_contract');
+    }
+    //relacion uno a uno user-applications
+    public function documents(){
+        return $this->hasMany('App\Models\Document');
+    }    
 }
