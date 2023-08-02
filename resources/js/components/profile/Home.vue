@@ -38,7 +38,7 @@
                                                     </ul>
                                                 </div>
                                                 <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
-                                                    <i class="bx bx-user-check me-1"></i>Connected
+                                                    <i class="bx bx-user-check me-1"></i>Seguridad
                                                 </a>
                                             </div>
                                         </div>
@@ -55,8 +55,6 @@
                                                 data-bs-target="#navs-pills-justified-home"
                                                 aria-controls="navs-pills-justified-home" aria-selected="true">
                                                 <i class="tf-icons bx bx-home"></i> Mi Horario
-                                                <span
-                                                    class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">3</span>
                                             </button>
                                         </li>
                                         <li class="nav-item">
@@ -85,15 +83,29 @@
                                                         class="btn btn-primary text-nowrap">
                                                         + Horario
                                                     </a>
+                                                    <div class="mt-3">
+                                                        <p><span class="badge badge-center rounded-pill bg-success">{{
+                                                            abledHours }}</span>
+                                                            On
+                                                        </p>
+                                                        <p><span class="badge badge-center rounded-pill bg-secondary">{{
+                                                            disabledHours }}</span>
+                                                            Off
+                                                        </p>
+                                                        <!-- <p><span
+                                                                class="badge badge-center rounded-pill bg-warning">20</span>
+                                                            Reuniones
+                                                        </p> -->
+                                                    </div>
                                                 </div>
                                                 <div class="col-10">
                                                     <div class="row">
                                                         <div class="col" v-for="day in days">
                                                             <p>{{ day.day }}</p>
-                                                            <div class="d-flex flex-column">
-                                                                <button @click="addHour" class="btn btn-primary p-2 mb-1"
-                                                                    v-for="n in 14">{{ n + 7 }}:00</button>
-                                                            </div>
+                                                            <template v-for="schedule in day.schedules">
+                                                                <Hour :schedule="schedule" @minusHour="minusHour"
+                                                                    @addHour="addHour" @showModalHour="showModalHour" />
+                                                            </template>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -137,56 +149,120 @@
             </div>
         </div>
     </div>
-    <ScheduleModal />
+    <ScheduleModal @getUser="getUser" />
+    <HourModal :schedule="scheduleSelected" @getUser="getUser" @addMeeting="addMeeting" />
 </template>
 <script>
+
 import Sidebar from "../layout/Sidebar.vue";
 import Navbar from "../layout/Navbar.vue";
 import moment from "moment/min/moment-with-locales";
 import ScheduleModal from "./ScheduleModal.vue"
+import Hour from "./Hour.vue"
+import HourModal from './HourModal.vue'
 export default {
-    components: { Sidebar, Navbar, ScheduleModal },
+    components: { Sidebar, Navbar, ScheduleModal, Hour, HourModal },
     data() {
         return {
             hidden: true,
             user: {},
             days: [
                 {
-                    day: 'Lunes'
+                    day: 'Lunes',
+                    numberDay: 1,
+                    schedules: []
                 },
                 {
-                    day: 'Martes'
+                    day: 'Martes',
+                    numberDay: 2,
+                    schedules: []
                 },
                 {
-                    day: 'Miércoles'
+                    day: 'Miércoles',
+                    numberDay: 3,
+                    schedules: []
                 },
                 {
-                    day: 'Jueves'
+                    day: 'Jueves',
+                    numberDay: 4,
+                    schedules: []
                 },
                 {
-                    day: 'Viernes'
+                    day: 'Viernes',
+                    numberDay: 5,
+                    schedules: []
                 },
                 {
-                    day: 'Sábado'
+                    day: 'Sábado',
+                    numberDay: 6,
+                    schedules: []
                 }
             ],
-            totalHours: 0
+            totalHours: 0,
+            hours: [],
+            scheduleSelected: {},
+            abledHours: 0,
+            disabledHours: 0
         };
     },
     methods: {
+        addMeeting(newSchedule) {
+            var scheduleDay = this.days.find(day => day.numberDay == newSchedule.day)
+            var scheduleSelected = scheduleDay.schedules.find(schedule => schedule.id == newSchedule.id)
+            scheduleSelected.type = 3
+        },
+        showModalHour(schedule) {
+            this.scheduleSelected = schedule
+            $('#hourModal').modal('show')
+        },
         openModalSchedule() {
             $("#scheduleModal").modal("show");
         },
         getUser() {
+            this.totalHours = 0
+            this.days.forEach(day => {
+                day.schedules = []
+            });
             axios
                 .get("/api/users/" + this.$route.params.idUser)
                 .then((result) => {
                     this.user = result.data;
+                    this.hours = result.data.schedules
+                    this.hours.forEach(schedule => {
+                        var newDepartureTime = moment(schedule.admission_time, 'HH:mm:ss').add(1, 'hours').format('HH:mm:ss')
+
+                        if (schedule.type == 1) {
+                            this.abledHours++;
+                        } else if (schedule.type == 2) {
+                            this.disabledHours++;
+                        }
+
+                        if (schedule.departure_time == newDepartureTime && schedule.type == 1) {
+                            this.totalHours++;
+                        } else {
+                            var timeTotal = moment(schedule.departure_time, 'HH:mm:ss').diff(moment(schedule.admission_time, 'HH:mm:ss'))
+
+                            if (schedule.type == 1) {
+                                var timeConverted = moment.duration(timeTotal)
+                                console.log(timeConverted.minutes())
+                                this.totalHours = this.totalHours + (timeConverted.minutes() / 60)
+                            }
+
+                        }
+
+                        var daySelected = this.days.find(day => day.numberDay == schedule.day)
+                        daySelected.schedules.push({ ...schedule })
+                    });
                 })
-                .catch((err) => { });
+                .catch((err) => {
+                    console.log(err);
+                });
         },
         addHour() {
             this.totalHours++;
+        },
+        minusHour() {
+            this.totalHours--;
         },
         hideSidebar() {
             this.hidden = !this.hidden

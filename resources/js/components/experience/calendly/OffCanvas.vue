@@ -13,7 +13,14 @@
             <a target="_blank" v-if="info.event.extendedProps.link" class="btn btn-primary"
                 :href="info.event.extendedProps.link">Reunión
                 Meet</a>
+            <p>
+                <!-- <span class="badge badge-center rounded-pill bg-secondary"><i class='bx bx-pause'></i></span> -->
+                <span class="badge badge-center rounded-pill bg-success ms-1" @click="completeMeeting(info.event.id)"><i
+                        class="bx bx-check"></i></span>
+                <!-- <span class="badge badge-center rounded-pill bg-danger ms-1">4</span> -->
+            </p>
         </div>
+
     </div>
 </template>
 <script>
@@ -37,6 +44,17 @@ export default {
                 }).catch((err) => {
                     console.error(err);
                 });
+        },
+        completeMeeting(meetingId) {
+            axios.get('/api/meetings-complete/' + meetingId)
+                .then((result) => {
+                    this.$emit('getEvents')
+                    this.$emit('getDeliveries')
+                    $('#offcanvasEvent').offcanvas('hide')
+                }).catch((err) => {
+                    console.error(err);
+                });
+            this.$emit('changeEventColor', this.info.event.id)
         }
     }
 }

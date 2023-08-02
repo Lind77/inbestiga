@@ -262,6 +262,7 @@ Route::get('/meetings', [MeetingController::class, 'index']);
 Route::post('/meetings', [MeetingController::class, 'store']);
 Route::put('/meetings/{id}', [MeetingController::class, 'update']);
 Route::delete('/meetings/{id}', [MeetingController::class, 'destroy']);
+Route::get('/meetings-complete/{id}', [MeetingController::class, 'complete']);
 
 Route::get('/quotations-funnel', [QuotationController::class, 'getQuotationsFunnel']);
 Route::get('/quotations/search/{search}', [QuotationController::class, 'searchQuotations']);
@@ -269,3 +270,5 @@ Route::get('/quotations/search/{search}', [QuotationController::class, 'searchQu
 Route::post('/attendance', [AttendanceController::class, 'store']);
 
 Route::post('/schedules', [ScheduleController::class, 'store']);
+Route::put('/schedules/{id}', [ScheduleController::class, 'update']);
+Route::put('/schedules-type/{id}', [ScheduleController::class, 'updateType']);

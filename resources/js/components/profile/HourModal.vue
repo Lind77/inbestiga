@@ -1,26 +1,27 @@
 <template>
-    <div class="modal fade" id="scheduleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="hourModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Agregar Horario</h5>
+                    <h5 class="modal-title" id="exampleModalLabel1">Editar Hora de {{ nameDays[schedule.day] }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-warning" role="alert">La cantidad de horas se destribuirá en intervalos de una
-                        hora</div>
                     <div class="row">
-                        <div class="col mb-3">
-                            <label for="nameBasic" class="form-label">Horario de Ingreso</label>
-                            <input type="time" v-model="schedule.admission_time" class="form-control">
-                        </div>
-                        <div class="col mb-3">
-                            <label for="nameBasic" class="form-label">Horario de Salida</label>
-                            <input type="time" v-model="schedule.departure_time" class="form-control">
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="nameBasic" class="form-label">Horario de Ingreso</label>
+                                <input type="time" v-model="schedule.admission_time" class="form-control">
+                            </div>
+                            <div class="col mb-3">
+                                <label for="nameBasic" class="form-label">Horario de Salida</label>
+                                <input type="time" v-model="schedule.departure_time" class="form-control">
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md">
-                            <small class="text-light fw-semibold d-block">Días</small>
+                            <small class="text-light fw-semibold d-block">Replicar los días</small>
                             <div class="form-check form-check-inline mt-3">
                                 <input class="form-check-input" type="checkbox" id="inlineCheckbox1" v-model="weekDays"
                                     value="1">
@@ -53,16 +54,23 @@
                             </div>
                         </div>
                     </div>
+                    <!-- <div class="row">
+                        <button class="btn btn-warning" @click="addMeeting(schedule)"
+                            v-if="schedule.type == 1">Reunión</button>
+                    </div> -->
                 </div>
                 <div class="modal-footer">
-                    <button @click="addSchedule" type="button" class="btn btn-primary">Registrar</button>
+                    <button type="button" id="close-insert-customer" class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">
+                        Cerrar
+                    </button>
+                    <button type="button" @click="insertDelivery" class="btn btn-primary">Actualizar</button>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
-import axios from 'axios'
 import { userStore } from '../../stores/UserStore'
 
 export default {
@@ -70,33 +78,47 @@ export default {
         const store = userStore()
         return { store }
     },
+    props: {
+        schedule: Object
+    },
     data() {
         return {
             weekDays: [],
-            schedule: {
-                admission_time: '',
-                departure_time: ''
-            }
+            nameDays: {
+                1: 'Lunes',
+                2: 'Martes',
+                3: 'Miércoles',
+                4: 'Jueves',
+                5: 'Viernes',
+                6: 'Sábado'
+            },
+            admission_time: '',
+            departure_time: ''
         }
+
     },
     methods: {
-        addSchedule() {
-            const fd = new FormData()
+        addMeeting(schedule) {
+            this.$emit('addMeeting', schedule)
+        },
+        insertDelivery() {
 
+            const fd = new FormData();
             fd.append('admission_time', this.schedule.admission_time)
             fd.append('departure_time', this.schedule.departure_time)
-            fd.append('type', 1)
-            fd.append('weekdays', JSON.stringify(this.weekDays))
+            fd.append('weekDays', JSON.stringify(this.weekDays))
             fd.append('user_id', this.store.authUser.id)
+            fd.append('_method', 'put');
 
-            axios.post('/api/schedules', fd)
+            axios.post('/api/schedules/' + this.schedule.id, fd)
                 .then((result) => {
                     this.$emit('getUser')
-                    $("#scheduleModal").modal("hide");
+                    $('#hourModal').modal('hide')
                 }).catch((err) => {
-                    console.error(err)
+                    console.log(err);
                 });
         }
     }
 }
 </script>
+<style></style>
