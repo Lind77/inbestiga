@@ -115,4 +115,50 @@ class AttendanceController extends Controller
     {
         //
     }
+
+    public function jsonFile(Request $request)
+    {
+        // Verificar si se ha enviado un archivo llamado 'file'
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+
+            // Leer el contenido del archivo
+            $contents = $file->get();
+
+            // Decodificar el contenido JSON
+            $data = json_decode($contents, true);
+
+
+            $attendances = $data['data'];
+
+            foreach ($attendances as $attendance) {
+
+                if ($attendance['weekday'] == 'Lunes') {
+                    $newWeekDay = 1;
+                } else if ($attendance['weekday'] == 'Martes') {
+                    $newWeekDay = 2;
+                } else if ($attendance['weekday'] == 'Miércoles') {
+                    $newWeekDay = 3;
+                } else if ($attendance['weekday'] == 'Jueves') {
+                    $newWeekDay = 4;
+                } else if ($attendance['weekday'] == 'Viernes') {
+                    $newWeekDay = 5;
+                } else if ($attendance['weekday'] == 'Sábado') {
+                    $newWeekDay = 6;
+                }
+
+                $newAttendance = Attendance::create([
+                    'user_id' => $attendance['emp_code'],
+                    'date' => $attendance['att_date'],
+                    'first_punch' => $attendance['first_punch'],
+                    'last_punch' => $attendance['last_punch'],
+                    'weekday' => $newWeekDay
+                ]);
+            }
+
+            return response()->json([
+                'msg' => 'success'
+            ]);
+        }
+    }
 }
