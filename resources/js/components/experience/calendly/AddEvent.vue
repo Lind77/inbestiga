@@ -127,7 +127,7 @@ export default {
             var newEvt = {
                 title: this.title,
                 date: dateCut,
-                startTime: time,
+                start: dateCut + ' ' + time,
                 time: time,
                 comment: this.comment,
                 link: this.link,
