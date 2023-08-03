@@ -5,17 +5,37 @@ namespace App\Http\Controllers;
 use App\Models\Schedule;
 use App\Models\User;
 use Illuminate\Http\Request;
+use stdClass;
 
 class ScheduleController extends Controller
 {
-    public function index()
+    public function index($id)
     {
-        $users = User::with(['attendances', 'schedules' => function ($query) {
-            for ($i = 1; $i == 6; $i++) {
-                $query->where('day', $i)->where('type', 1)->get();
-            }
-        }])->get();
-        return response()->json($users);
+        $user = User::with(['attendances', 'schedules'])->find($id);
+
+        $schedules = $user->schedules;
+
+        $newSchedule = new stdClass();
+
+
+        $newSchedules = collect();
+        for ($i = 1; $i < 6; $i++) {
+            $scheduleByDay = $schedules->where('day', $i)->where('type', 1);
+            $min = $scheduleByDay->where('admission_time', $scheduleByDay->min('admission_time'))->first();
+            $max = $scheduleByDay->where('departure_time', $scheduleByDay->max('departure_time'))->first();
+
+            /* $newSchedule->max_schedule = $max->departure_time;
+            $newSchedule->min_schedule = $min->admission_time;
+            $newSchedule->weeekDay = $i; */
+
+            $newSchedules = $newSchedules->push($min);
+            $newSchedules = $newSchedules->push($max);
+        }
+
+        return response()->json([
+            'user' => $user,
+            'newSchedules' => $newSchedules
+        ]);
     }
 
     public function show($id)
