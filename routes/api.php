@@ -268,7 +268,9 @@ Route::get('/quotations-funnel', [QuotationController::class, 'getQuotationsFunn
 Route::get('/quotations/search/{search}', [QuotationController::class, 'searchQuotations']);
 
 Route::post('/attendance', [AttendanceController::class, 'store']);
+Route::post('/json-file', [AttendanceController::class, 'jsonFile']);
 
+Route::get('/schedules', [ScheduleController::class, 'index']);
 Route::post('/schedules', [ScheduleController::class, 'store']);
 Route::put('/schedules/{id}', [ScheduleController::class, 'update']);
 Route::put('/schedules-type/{id}', [ScheduleController::class, 'updateType']);

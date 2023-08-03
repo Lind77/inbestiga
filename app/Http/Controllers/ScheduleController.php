@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Schedule;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
     public function index()
     {
-        $schedules = Schedule::all();
-        return response()->json($schedules);
+        $users = User::with(['attendances', 'schedules' => function ($query) {
+            for ($i = 1; $i == 6; $i++) {
+                $query->where('day', $i)->where('type', 1)->get();
+            }
+        }])->get();
+        return response()->json($users);
     }
 
     public function show($id)

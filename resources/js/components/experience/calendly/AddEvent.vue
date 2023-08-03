@@ -128,6 +128,7 @@ export default {
                 title: this.title,
                 date: dateCut,
                 startTime: time,
+                time: time,
                 comment: this.comment,
                 link: this.link,
                 backgroundColor: '#e7e7ff',

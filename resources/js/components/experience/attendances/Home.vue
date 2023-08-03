@@ -4,26 +4,57 @@
         <p v-for="mark in marks">{{ mark.first_name }} {{ mark.last_name }} {{ mark.att_date }} {{ mark.first_punch }} {{
             mark.last_punch }}</p>
     </div> -->
-    <button class="btn btn-primary w-25" @click="ping">Probar URL</button>
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <input type="file" @change="handleFileUpload" class="form-control">
+        <p class="h3" v-for="user in users">
+            {{ user.name }}
+        <p class="h6" v-for="attendance in user.attendances">{{ attendance.date }} {{ attendance.first_punch }} - {{
+            attendance.last_punch }}</p>
+        <p class="h6" v-for="schedule in user.schedules">
+            <template v-if="schedule.day == 1">
+                {{ schedule }}
+            </template>
+        </p>
+        </p>
+    </div>
 </template>
 <script>
-import axios from 'axios';
-
 export default {
+    data() {
+        return {
+            file: '',
+            users: []
+        }
+    },
     methods: {
-        ping() {
-            axios.get('http://192.168.1.254:8081/att/api/firstLastReport/?departments=1%2C2%2C3%2C4%2C5&employees=-1&end_date=2023-07-30&format=json&page=1&page_size=20&start_date=2023-07-01', {
+        getAttendances() {
+            axios.get('/api/schedules')
+                .then((result) => {
+                    this.users = result.data;
+                }).catch((err) => {
+                    console.error(err)
+                });
+        },
+        handleFileUpload(e) {
+            const fd = new FormData()
+
+            fd.append('file', e.target.files[0])
+
+            axios.post('/api/json-file', fd, {
                 headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+                    'Content-Type': 'multipart/form-data'
                 }
             })
                 .then((result) => {
-                    this.$swal('GG')
+                    this.$swal('Asistencias almacenadas correctamente')
                 }).catch((err) => {
-                    console.log(err);
+                    console.error(err);
                 });
+
         }
+    },
+    mounted() {
+        this.getAttendances();
     }
 }
 </script>
