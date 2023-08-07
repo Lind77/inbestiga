@@ -503,4 +503,10 @@ class CustomerController extends Controller
         $customer = Customer::with(['user', 'comunications'])->find($id);
         return response()->json($customer);
     }
+
+    public function clients()
+    {
+        $customers = Customer::with(['quotations', 'quotations.details', 'quotations.details.product', 'quotations.order', 'quotations.order.payments', 'quotations.contract.payments'])->where('status', 11)->get();
+        return response()->json($customers);
+    }
 }
