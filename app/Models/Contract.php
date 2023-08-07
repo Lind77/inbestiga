@@ -27,4 +27,8 @@ class Contract extends Model
     public function addendums(){
         return $this->morphMany('App\Models\Addendum', 'addendumable');
     }
+    //Relacion morfeable uno a muchos (orders-contracts-payments-payment_proofs)
+       public function payment_proofs(){
+        return $this->morphMany('App\Models\Payment_proof', 'payment_proofable');
+    }
 }
