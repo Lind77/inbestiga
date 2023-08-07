@@ -264,6 +264,9 @@ export default {
         }
     },
     methods: {
+        addDetail() {
+            this.quotation.details.push({ type: 1, level: '', title: '', mode: '', price: '', product: { name: '' }, product_id: '' })
+        },
         getQuotation() {
             axios.get('/api/quotations/' + this.$route.params.idQuotation)
                 .then((result) => {

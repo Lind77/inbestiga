@@ -274,3 +274,5 @@ Route::get('/schedules/{id}', [ScheduleController::class, 'index']);
 Route::post('/schedules', [ScheduleController::class, 'store']);
 Route::put('/schedules/{id}', [ScheduleController::class, 'update']);
 Route::put('/schedules-type/{id}', [ScheduleController::class, 'updateType']);
+
+Route::get('/clients', [CustomerController::class, 'clients']);
