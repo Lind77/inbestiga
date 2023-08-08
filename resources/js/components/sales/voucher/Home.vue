@@ -90,14 +90,14 @@ export default {
             const fd = new FormData()
 
             if (this.quotationSelected.order) {
-                var typeProof = 'App/Models/Order'
-                var paymentId = this.quotationSelected.order.payments[0].id
+                var typeProof = 'App\\Models\\Order'
+                var documentId = this.quotationSelected.order.id
             } else if (this.quotationSelected.contract) {
-                var typeProof = 'App/Models/Contract'
-                var paymentId = this.quotationSelected.contract.payments[0].id
+                var typeProof = 'App\\Models\\Contract'
+                var documentId = this.quotationSelected.contract.id
             }
 
-            fd.append('payment_proofable_id', paymentId)
+            fd.append('payment_proofable_id', documentId)
             fd.append('payment_proofable_type', typeProof)
             fd.append('customer_id', this.quotationSelected.customer_id)
             fd.append('date', this.date)

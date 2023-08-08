@@ -57,7 +57,7 @@ class VoucherController extends Controller
      */
     public function show($id)
     {
-        $payment_proof = Payment_proof::with(['customer'])->find($id);
+        $payment_proof = Payment_proof::with(['customer', 'payment_proofable', 'payment_proofable.quotation', 'payment_proofable.quotation.details', 'payment_proofable.quotation.details.product'])->find($id);
         return response()->json($payment_proof);
     }
 
