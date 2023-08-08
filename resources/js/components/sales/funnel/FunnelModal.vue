@@ -232,6 +232,7 @@ export default {
                     axios.post('/api/updateOwner', fd)
                         .then((res) => {
                             this.$emit('updateOwnerQuotation', this.quotation, newOwner)
+                            alert('Dueño actualizado')
                         })
                         .catch((err) => {
                             console.error(err)
@@ -248,6 +249,7 @@ export default {
                 axios.post('/api/updateOwner', fd)
                     .then((res) => {
                         this.$emit('updateOwner', this.customer, newOwner)
+                        alert('Dueño actualizado')
                     })
                     .catch((err) => {
                         console.error(err)
