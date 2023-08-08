@@ -15,7 +15,7 @@
             </div>
             <div class="col-md-6">
                 <label for="">Fecha de Emisión:</label>
-                <input type="date" name="" id="" class="form-control">
+                <input type="date" v-model="date" class="form-control">
             </div>
         </div>
         <div class="row mt-2">
@@ -56,7 +56,7 @@
             </p>
             <p class="h5">Descuento: <input v-model="discount" @keyup="calcTotal" type="number" class="form-control w-25">
             </p>
-            <p class="h4">Total: <input v-model="total" type="text" class="form-control w-25" disabled></p>
+            <p class="h4">Total: <input v-model="total_price" type="text" class="form-control w-25" disabled></p>
         </div>
         <div class="row">
             <button class="btn btn-success" @click="goVoucherFile">Generar</button>
@@ -77,15 +77,42 @@ export default {
             quotationSelected: {},
             subtotal: 0.0,
             discount: 0.0,
-            total: 0.0
+            total_price: 0.0,
+            date: ''
         }
     },
     methods: {
         calcTotal() {
-            this.total = this.subtotal - this.discount
+            this.total_price = this.subtotal - this.discount
         },
         goVoucherFile() {
-            this.$router.push({ name: 'voucher-file', params: { voucherId: 1 } });
+            console.log(this.quotationSelected);
+            const fd = new FormData()
+
+            if (this.quotationSelected.order) {
+                var typeProof = 'App/Models/Order'
+                var paymentId = this.quotationSelected.order.payments[0].id
+            } else if (this.quotationSelected.contract) {
+                var typeProof = 'App/Models/Contract'
+                var paymentId = this.quotationSelected.contract.payments[0].id
+            }
+
+            fd.append('payment_proofable_id', paymentId)
+            fd.append('payment_proofable_type', typeProof)
+            fd.append('customer_id', this.quotationSelected.customer_id)
+            fd.append('date', this.date)
+            fd.append('subtotal', this.subtotal)
+            fd.append('discount', this.discount)
+            fd.append('total_price', this.total_price)
+
+            axios.post('/api/voucher', fd)
+                .then((result) => {
+                    this.$router.push({ name: 'voucher-file', params: { voucherId: result.data } });
+                }).catch((err) => {
+                    this.$swal('Error: ' + err.message)
+                });
+
+            //
         },
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY')

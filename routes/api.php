@@ -33,6 +33,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TimeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VoucherController;
 use App\Models\Comission;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -276,3 +277,6 @@ Route::put('/schedules/{id}', [ScheduleController::class, 'update']);
 Route::put('/schedules-type/{id}', [ScheduleController::class, 'updateType']);
 
 Route::get('/clients', [CustomerController::class, 'clients']);
+
+Route::post('/voucher', [VoucherController::class, 'store']);
+Route::get('/payment-proof/{id}', [VoucherController::class, 'show']);

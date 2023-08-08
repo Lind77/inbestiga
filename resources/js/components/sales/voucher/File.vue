@@ -21,14 +21,15 @@
                 </p>
             </div>
             <div class="col-md-4 px-5">
-                <p class="title voucher-subheader">FECHA:</p>
+                <p class="title voucher-subheader">FECHA: {{ paymentProof.date }}</p>
             </div>
         </div>
         <div class="voucher-important-data ps-5 mt-2">
-            <p class="title voucher-important-data">FECHA DE EMISIÓN: </p>
-            <p class="title voucher-important-data">N° DE RECIBO: </p>
-            <p class="title voucher-important-data">SEÑOR(A): </p>
-            <p class="title voucher-important-data">TIPO DE MONEDA: </p>
+            <p class="title voucher-important-data">FECHA DE EMISIÓN: {{ paymentProof.date }}</p>
+            <p class="title voucher-important-data">N° DE RECIBO: {{ paymentProof.id }}</p>
+            <p class="title voucher-important-data" v-if="paymentProof.customer">SEÑOR(A): {{ paymentProof.customer.name }}
+            </p>
+            <p class="title voucher-important-data">TIPO DE MONEDA: NUEVOS SOLES</p>
         </div>
         <div class="row">
             <div class="voucher-body">
@@ -50,9 +51,9 @@
         </div>
         <div class="row mt-3">
             <div class="col-md-6 buttons-container">
-                <p class="buttons button-gray">SUBTOTAL S./10000</p>
-                <p class="buttons button-white">DESCUENTO S./1</p>
-                <p class="buttons button-green">TOTAL S./9999</p>
+                <p class="buttons button-gray">SUBTOTAL S./{{ paymentProof.subtotal }}</p>
+                <p class="buttons button-white">DESCUENTO S./{{ paymentProof.discount }}</p>
+                <p class="buttons button-green">TOTAL S./{{ paymentProof.total_price }}</p>
             </div>
         </div>
         <footer class="footer">
@@ -63,6 +64,24 @@
 </template>
 <script>
 export default {
+    data() {
+        return {
+            paymentProof: {}
+        }
+    },
+    methods: {
+        getPaymentProof() {
+            axios.get('/api/payment-proof/' + this.$route.params.voucherId)
+                .then((result) => {
+                    this.paymentProof = result.data
+                }).catch((err) => {
+                    console.log(err);
+                });
+        }
+    },
+    mounted() {
+        this.getPaymentProof()
+    }
 
 }
 </script>
