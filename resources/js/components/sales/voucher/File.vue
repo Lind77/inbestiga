@@ -21,11 +21,11 @@
                 </p>
             </div>
             <div class="col-md-4 px-5">
-                <p class="title voucher-subheader">FECHA: {{ paymentProof.date }}</p>
+                <p class="title voucher-subheader">FECHA: {{ formatDate(paymentProof.date) }}</p>
             </div>
         </div>
         <div class="voucher-important-data ps-5 mt-2">
-            <p class="title voucher-important-data">FECHA DE EMISIÓN: {{ paymentProof.date }}</p>
+            <p class="title voucher-important-data">FECHA DE EMISIÓN: {{ formatDate(paymentProof.date) }}</p>
             <p class="title voucher-important-data">N° DE RECIBO: {{ paymentProof.id }}</p>
             <p class="title voucher-important-data" v-if="paymentProof.customer">SEÑOR(A): {{ paymentProof.customer.name }}
             </p>
@@ -42,8 +42,12 @@
                     </thead>
                     <tbody>
                         <tr class="details">
-                            <td class="detail-description ps-3">Tesis Total</td>
-                            <td class="detail-import"> S./1000</td>
+                            <td class="detail-description ps-3" v-if="paymentProof.payment_proofable">
+                                <template v-for="detail in paymentProof.payment_proofable.quotation.details ">
+                                    <p>{{ detail.product.name }}</p>
+                                </template>
+                            </td>
+                            <td class="detail-import"> S./{{ paymentProof.subtotal }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -63,6 +67,8 @@
     </div>
 </template>
 <script>
+import moment from 'moment';
+
 export default {
     data() {
         return {
@@ -70,10 +76,14 @@ export default {
         }
     },
     methods: {
+        formatDate(date) {
+            return moment(date).format('DD/MM/YYYY')
+        },
         getPaymentProof() {
             axios.get('/api/payment-proof/' + this.$route.params.voucherId)
                 .then((result) => {
                     this.paymentProof = result.data
+                    setTimeout(() => { window.print() }, 1000);
                 }).catch((err) => {
                     console.log(err);
                 });
