@@ -27,7 +27,7 @@
           <div data-i18n="Form Layouts">Mis Leads</div>
         </div>
       </router-link>
-      <router-link :to="{ name: 'vouchers' }" class="menu-item">
+      <router-link :to="{ name: 'vouchers' }" class="menu-item" v-if="store.authUser.id == 5">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-copy-alt"></i>
           <div data-i18n="Form Layouts">Comprobantes</div>
