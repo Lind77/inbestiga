@@ -290,7 +290,8 @@ export default {
       type: Boolean,
       default: true
     },
-    user: Object
+    user: Object,
+    role: String
   },
   data() {
     return {

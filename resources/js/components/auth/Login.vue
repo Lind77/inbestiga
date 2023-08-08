@@ -158,6 +158,7 @@ export default {
         .then(res => {
           localStorage.setItem('token', res.data.token)
           this.store.setUser(res.data.user)
+          //this.$router.push({ path: '/home' })
           this.$router.push({ path: `${res.data.area.name}/home` })
           this.$swal().close()
         }).catch((err) => {
