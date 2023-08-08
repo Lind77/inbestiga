@@ -61,14 +61,14 @@
                                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                                 data-bs-target="#navs-pills-justified-profile"
                                                 aria-controls="navs-pills-justified-profile" aria-selected="false">
-                                                <i class="tf-icons bx bx-user"></i> Seguridad
+                                                <i class="tf-icons bx bx-user"></i> Permisos
                                             </button>
                                         </li>
                                         <li class="nav-item">
                                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                                 data-bs-target="#navs-pills-justified-messages"
                                                 aria-controls="navs-pills-justified-messages" aria-selected="false">
-                                                <i class="tf-icons bx bx-message-square"></i> Messages
+                                                <i class="tf-icons bx bx-message-square"></i> Seguridad
                                             </button>
                                         </li>
                                     </ul>
@@ -112,32 +112,17 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
-                                            <p>
-                                                Donut dragée jelly pie halvah. Danish gingerbread bonbon cookie wafer candy
-                                                oat cake ice
-                                                cream. Gummies halvah tootsie roll muffin biscuit icing dessert gingerbread.
-                                                Pastry ice cream
-                                                cheesecake fruitcake.
-                                            </p>
-                                            <p class="mb-0">
-                                                Jelly-o jelly beans icing pastry cake cake lemon drops. Muffin muffin pie
-                                                tiramisu halvah
-                                                cotton candy liquorice caramels.
-                                            </p>
+                                            <input type="date" v-model="datePermission" @change="checkDatePermission"
+                                                class="form-control w-25">
                                         </div>
                                         <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
                                             <p>
-                                                Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans
-                                                macaroon gummies
-                                                cupcake gummi bears cake chocolate.
+                                                Tener cuidado al editar estos campos.
                                             </p>
-                                            <p class="mb-0">
-                                                Cake chocolate bar cotton candy apple pie tootsie roll ice cream apple pie
-                                                brownie cake. Sweet
-                                                roll icing sesame snaps caramels danish toffee. Brownie biscuit dessert
-                                                dessert. Pudding jelly
-                                                jelly-o tart brownie jelly.
-                                            </p>
+                                            <label for="">Correo</label>
+                                            <input type="text" class="form-control w-25">
+                                            <label for="">Contraseña</label>
+                                            <input type="text" class="form-control w-25">
                                         </div>
                                     </div>
                                 </div>
@@ -202,10 +187,21 @@ export default {
             hours: [],
             scheduleSelected: {},
             abledHours: 0,
-            disabledHours: 0
+            disabledHours: 0,
+            datePermission: ''
         };
     },
     methods: {
+        checkDatePermission() {
+            const datePicked = new Date(this.datePermission)
+            console.log(datePicked.getDay())
+            if (datePicked.getDay() == 6) {
+                this.$swal('Domingo no trabajamos')
+                this.datePermission = ''
+            } else {
+                console.log(datePicked.getDay())
+            }
+        },
         addMeeting(newSchedule) {
             var scheduleDay = this.days.find(day => day.numberDay == newSchedule.day)
             var scheduleSelected = scheduleDay.schedules.find(schedule => schedule.id == newSchedule.id)

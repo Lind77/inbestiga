@@ -44,8 +44,11 @@ import HomeDocuments from '../components/sales/documents/Home.vue'
 import HomePrices from '../components/sales/prices/Home.vue'
 
 //Área de ventas - MyLeads
-
 import HomeMyLeads from '../components/sales/myleads/Home.vue'
+
+//Área de ventas - Voucher
+import HomeVoucher from '../components/sales/voucher/Home.vue'
+import FileVoucher from '../components/sales/voucher/File.vue'
 
 // Área Académica
 import HomeAcad from '../components/academic/Home.vue'
@@ -72,11 +75,9 @@ import HomeAdmin from '../components/admin/Home.vue'
 import MainAdmin from '../components/admin/Main.vue'
 
 //Área Administrativa - Promociones
-
 import PromosAdmin from '../components/admin/promos/Home.vue'
 
 //Área Administrativa - Comisiones
-
 import HomeComissions from '../components/admin/comissions/Home.vue'
 
 //Área Administrativa - Permisos
@@ -88,6 +89,7 @@ import AreasAdmin from '../components/admin/areas/Areas.vue'
 import SubareasAdmin from '../components/admin/subareas/Home.vue'
 
 import RealTime from '../components/admin/chat/Chat.vue'
+
 
 //Área de Experiencia
 import HomeExperience from '../components/experience/Home.vue'
@@ -321,6 +323,11 @@ export const routes = [
                 path: 'comissions-admin',
                 component: HomeComissions,
                 name: 'comissions-admin'
+            },
+            {
+                path: 'vouchers',
+                component: HomeVoucher,
+                name: 'vouchers'
             }
         ]
     },
@@ -397,6 +404,12 @@ export const routes = [
         path: '/order-file/:id',
         component:  OrderFile,
         name: 'order-file',
+        props: true
+    },
+    {
+        path: '/voucher-file/:voucherId',
+        component: FileVoucher,
+        name: 'voucher-file',
         props: true
     },
     {

@@ -12,23 +12,23 @@ class Contract extends Model
     protected $fillable = ['quotation_id', 'amount', 'amount_text', 'date', 'advance', 'percentage', 'third_article', 'fifth_article'];
 
     //Relacion inversa uno  a uno Contract-Quotation
-    public function quotation()
-    {
+    public function quotation(){
         return $this->belongsTo('App\Models\Quotation');
     }
     //Relacion morfeable uno a muchos (O-C-PAYMENT)
-    public function payments()
-    {
+    public function payments(){
         return $this->morphMany('App\Models\Payment', 'paymentable');
     }
     //Relacion morfeable uno a muchos order,contract-deliveries
-    public function deliveries()
-    {
+    public function deliveries(){
         return $this->morphMany('App\Models\Delivery', 'deliverable');
     }
     //Relacion polimorfica uno a mucho addendum-order-contract
-    public function addendums()
-    {
+    public function addendums(){
         return $this->morphMany('App\Models\Addendum', 'addendumable');
+    }
+    //Relacion morfeable uno a muchos (orders-contracts-payments-payment_proofs)
+       public function payment_proofs(){
+        return $this->morphMany('App\Models\Payment_proof', 'payment_proofable');
     }
 }

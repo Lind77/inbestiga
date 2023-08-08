@@ -27,6 +27,12 @@
           <div data-i18n="Form Layouts">Mis Leads</div>
         </div>
       </router-link>
+      <router-link :to="{ name: 'vouchers' }" class="menu-item">
+        <div class="menu-link">
+          <i class="menu-icon tf-icons bx bx-copy-alt"></i>
+          <div data-i18n="Form Layouts">Comprobantes</div>
+        </div>
+      </router-link>
       <!-- <router-link :to="{ name: 'home-product' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-package"></i>
