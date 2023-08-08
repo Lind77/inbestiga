@@ -305,6 +305,7 @@ export default {
         .then((result) => {
           this.quotation = result.data
           this.details = this.quotation.details
+          this.discount = this.quotation.discount
         }).catch((err) => {
 
         });

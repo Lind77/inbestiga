@@ -124,6 +124,11 @@ export const routes = [
         name: 'home'
     },
     {
+        path: '/home',
+        component: Home,
+        name: 'home-enter'
+    },
+    {
         path: '/login',
         component: Login,
         name: 'login'
