@@ -1,38 +1,25 @@
 <template>
     <div class="voucher">
-        <div class="row voucher-header pb-4">
-            <img src="https://inbestiga.com/pdf-sys/headerboleta.png" alt="" srcset="">
-            <div class="col-md-6">
-                <img src="https://inbestiga.com/pdf-sys/logoboleta2.png" alt="" class="logo ms-5">
+        <div class="row voucher-header">
+            <img src="https://inbestiga.com/pdf-sys/header_boleta.png" alt="" srcset="">
+        </div>
+        <div class="row ms-5">
+            <div class="col">
+                <p class="title voucher-important-data" v-if="paymentProof.customer">SEÑOR(A): <span>{{
+                    paymentProof.customer.name
+                }}</span>
+                </p>
+                <p class="title voucher-important-data">TIPO DE MONEDA: <span>NUEVOS SOLES</span></p>
             </div>
-            <div class="col-md-6 ruc">
-                <p>INBESTIGA S.A.C.</p>
-                <p>Ruc: 20609545535</p>
+            <div class="col">
+                <p class="title voucher-important-data">FECHA DE EMISIÓN: <span>{{ formatDate(paymentProof.date) }}</span>
+                </p>
+                <p class="title voucher-important-data">N° DE RECIBO: <span>{{ paymentProof.id }}</span></p>
             </div>
         </div>
-        <div class="voucher-subheader d-flex">
-            <div class="col-md-4 px-5">
-                <p class="title voucher-subheader">SEDE HUANCAYO</p>
-                <p class="subtitle voucher-subheader">Prolongación Cuzco 921
-                    <br> Huancayo
-                </p>
-            </div>
-            <div class="col-md-4 px-5">
-                <p class="title voucher-subheader">SEDE LIMA</p>
-                <p class="subtitle voucher-subheader">Calle Elías Aguirre 180, Piso 3
-                    <br> Miraflores
-                </p>
-            </div>
-            <div class="col-md-4 px-5">
-                <p class="title voucher-subheader">FECHA: {{ formatDate(paymentProof.date) }}</p>
-            </div>
-        </div>
-        <div class="voucher-important-data ps-5 mt-2">
-            <p class="title voucher-important-data">FECHA DE EMISIÓN: {{ formatDate(paymentProof.date) }}</p>
-            <p class="title voucher-important-data">N° DE RECIBO: {{ paymentProof.id }}</p>
-            <p class="title voucher-important-data" v-if="paymentProof.customer">SEÑOR(A): {{ paymentProof.customer.name }}
-            </p>
-            <p class="title voucher-important-data">TIPO DE MONEDA: NUEVOS SOLES</p>
+        <div class="voucher-important-data ps-5">
+
+
         </div>
         <div class="row">
             <div class="voucher-body">
@@ -64,8 +51,7 @@
             </div>
         </div>
         <footer class="footer">
-            <img src="https://inbestiga.com/pdf-sys/payments.png" class="w-0 payments">
-            <img src="https://inbestiga.com/pdf-sys/footerboleta.png" class="w-100">
+            <img src="https://inbestiga.com/pdf-sys/footer_boleta.png" class="w-100">
         </footer>
     </div>
 </template>
@@ -136,11 +122,17 @@ export default {
     font-size: 15px;
 }
 
+.voucher-important-data span {
+    color: #000;
+    font-weight: 500;
+}
+
 .thead {
     /*background-color: #f4f4f3;*/
 
-    background-color: #f4f4f3;
-    color: #545557;
+    background: rgb(87, 108, 179);
+    background: linear-gradient(149deg, rgba(87, 108, 179, 1) 0%, rgba(19, 177, 223, 1) 49%, rgba(92, 194, 166, 1) 100%);
+    color: #fff;
     font-weight: bold;
     font-size: 15px;
 }
