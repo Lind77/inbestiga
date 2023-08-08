@@ -90,7 +90,8 @@ export default {
                     .then(res => {
                         $('#ownerModal').modal('hide')
                         this.selectedProducts = []
-                        this.$emit('cleanLead', this.customerId)
+                        var ownerSelected = this.sellers.find(seller => seller.id == this.seller_selected)
+                        this.$emit('cleanLead', this.customerId, ownerSelected)
                     })
                     .catch(err => {
                         console.error(err)

@@ -173,12 +173,15 @@ export default {
       this.customer_selected = customer
       $('#funnelModal').modal('show')
     },
-    cleanLead(id) {
+    cleanLead(id, owner) {
       var preleadSelected = this.comunications.find(comunication => comunication.id == id)
+      console.log(preleadSelected)
       var index = this.comunications.findIndex(lead => lead.id == id)
       this.comunications.splice(index, 1)
       preleadSelected.status = 4
+      preleadSelected.user = owner
       this.needs.unshift({ ...preleadSelected })
+
     },
     convertLead(id) {
       this.customerId = parseInt(id)
