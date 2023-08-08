@@ -333,8 +333,8 @@ class QuotationController extends Controller
 
     public function search($search)
     {
-        $quotations = Quotation::with('customer')
-            ->whereHas('customer', function ($query) use ($search) {
+        $quotations = Quotation::with('customers')
+            ->whereHas('customers', function ($query) use ($search) {
                 $query->whereRaw('LOWER(name) like ?', ['%' . strtolower($search) . '%']);
             })->get();
 
