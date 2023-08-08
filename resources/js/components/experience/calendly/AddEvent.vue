@@ -104,7 +104,8 @@ export default {
             date: '',
             advance: '',
             dateAcad: '',
-            dateTime: ''
+            dateTime: '',
+            name: ''
         }
     },
     props: {
@@ -156,6 +157,17 @@ export default {
                     $('#eventModal').modal('hide')
                     this.$emit('getDeliveries')
                     this.$emit('getEvents')
+
+                    this.resultType = 0
+                    this.date = ''
+                    this.advance = ''
+                    this.dateAcad = ''
+                    this.contracts = []
+                    this.orders = []
+                    this.name = ''
+                    this.results = []
+                    this.ableFormDelivery = false
+
                 }).catch((err) => {
                     console.error(err)
                 });

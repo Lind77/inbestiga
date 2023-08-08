@@ -5,7 +5,10 @@
             <div class="col-md-6">
                 <img src="https://inbestiga.com/pdf-sys/logoboleta2.png" alt="" class="logo ms-5">
             </div>
-            <div class="col-md-6"></div>
+            <div class="col-md-6 ruc">
+                <p>INBESTIGA S.A.C.</p>
+                <p>Ruc: 20609545535</p>
+            </div>
         </div>
         <div class="voucher-subheader d-flex">
             <div class="col-md-4 px-5">
@@ -47,7 +50,7 @@
                                     <p>{{ detail.product.name }}</p>
                                 </template>
                             </td>
-                            <td class="detail-import"> S./{{ paymentProof.subtotal }}</td>
+                            <td class="detail-import"> S/.{{ paymentProof.subtotal }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -55,9 +58,9 @@
         </div>
         <div class="row mt-3">
             <div class="col-md-6 buttons-container">
-                <p class="buttons button-gray">SUBTOTAL S./{{ paymentProof.subtotal }}</p>
-                <p class="buttons button-white">DESCUENTO S./{{ paymentProof.discount }}</p>
-                <p class="buttons button-green">TOTAL S./{{ paymentProof.total_price }}</p>
+                <p class="buttons button-gray">SUBTOTAL S/.{{ paymentProof.subtotal }}</p>
+                <p class="buttons button-white">DESCUENTO S/.{{ paymentProof.discount }}</p>
+                <p class="buttons button-green">TOTAL S/.{{ paymentProof.total_price }}</p>
             </div>
         </div>
         <footer class="footer">
@@ -100,6 +103,13 @@ export default {
     font-family: 'Montserrat', sans-serif !important;
 }
 
+.ruc {
+    margin-top: -130px;
+    margin-left: 75%;
+    color: #fff;
+    font-weight: bold;
+}
+
 .logo {
     width: 45%;
     margin-top: -130px;
@@ -113,17 +123,17 @@ export default {
 .title {
     font-weight: bold;
     margin-bottom: 0px;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .subtitle {
     font-weight: bold;
-    font-size: 15px;
+    font-size: 10px;
 }
 
 .voucher-important-data {
     color: #36bebf;
-    font-size: 25px;
+    font-size: 15px;
 }
 
 .thead {
@@ -132,7 +142,7 @@ export default {
     background-color: #f4f4f3;
     color: #545557;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 table {
@@ -145,7 +155,7 @@ table {
 .details {
     background-color: #f4f4f3;
     padding-top: 10px;
-    font-size: 25px;
+    font-size: 15px;
     font-weight: 500;
 }
 
@@ -164,7 +174,7 @@ table {
 .buttons {
     border-radius: 12px;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 15px;
     width: 25%;
     padding: 4px;
 }
