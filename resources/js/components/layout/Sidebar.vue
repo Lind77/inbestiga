@@ -21,16 +21,16 @@
           <div data-i18n="Form Layouts">Inicio</div>
         </div>
       </router-link>
-      <router-link :to="{ name: 'my-leads' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Form Layouts">Mis Leads</div>
-        </div>
-      </router-link>
       <router-link :to="{ name: 'vouchers' }" class="menu-item" v-if="store.authUser.id == 5">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-copy-alt"></i>
           <div data-i18n="Form Layouts">Comprobantes</div>
+        </div>
+      </router-link>
+      <router-link :to="{ name: 'home-client' }" class="menu-item">
+        <div class="menu-link">
+          <i class="menu-icon tf-icons bx bx-user"></i>
+          <div data-i18n="Form Layouts">Base de datos</div>
         </div>
       </router-link>
       <!-- <router-link :to="{ name: 'home-product' }" class="menu-item">
@@ -45,12 +45,7 @@
               <div data-i18n="Form Layouts">Precios</div>
             </div>
           </router-link> -->
-      <router-link :to="{ name: 'home-documents' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-detail"></i>
-          <div data-i18n="Form Layouts">Documentos</div>
-        </div>
-      </router-link>
+
       <!-- 
           <router-link :to="{name:'home-orders', params:{ idUser: 0}}" class="menu-item">
             <div class="menu-link">
@@ -58,12 +53,7 @@
               <div data-i18n="Form Layouts">Ordenes</div>
             </div>
           </router-link> -->
-      <router-link :to="{ name: 'home-client' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Form Layouts">Base de datos</div>
-        </div>
-      </router-link>
+
       <router-link :to="{ name: 'home-pre-lead' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-table"></i>
@@ -76,10 +66,22 @@
           <div data-i18n="Form Layouts">Funnel</div>
         </div>
       </router-link>
+      <router-link :to="{ name: 'home-documents' }" class="menu-item">
+        <div class="menu-link">
+          <i class="menu-icon tf-icons bx bx-detail"></i>
+          <div data-i18n="Form Layouts">Documentos</div>
+        </div>
+      </router-link>
       <router-link :to="{ name: 'home-call' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-phone-call"></i>
           <div data-i18n="Form Layouts">Comunicaciones</div>
+        </div>
+      </router-link>
+      <router-link :to="{ name: 'my-leads' }" class="menu-item">
+        <div class="menu-link">
+          <i class="menu-icon tf-icons bx bx-user"></i>
+          <div data-i18n="Form Layouts">Mis Leads</div>
         </div>
       </router-link>
       <router-link :to="{ name: 'real-time', params: { userId: store.authUser.id } }" class="menu-item">
