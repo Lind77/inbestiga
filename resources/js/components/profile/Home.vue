@@ -112,6 +112,7 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
+                                            <label for="">Selecciona una fecha</label>
                                             <input type="date" v-model="datePermission" @change="checkDatePermission"
                                                 class="form-control w-25">
                                         </div>
@@ -196,7 +197,7 @@ export default {
             const datePicked = new Date(this.datePermission)
             console.log(datePicked.getDay())
             if (datePicked.getDay() == 6) {
-                this.$swal('Domingo no trabajamos')
+                this.$swal('Domingo no chambeamos')
                 this.datePermission = ''
             } else {
                 console.log(datePicked.getDay())

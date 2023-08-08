@@ -90,6 +90,9 @@ import SubareasAdmin from '../components/admin/subareas/Home.vue'
 
 import RealTime from '../components/admin/chat/Chat.vue'
 
+//Área de Marketing
+import HomeMarketing from '../components/marketing/Home.vue'
+import MainMarketing from '../components/marketing/Main.vue'
 
 //Área de Experiencia
 import HomeExperience from '../components/experience/Home.vue'
@@ -371,6 +374,19 @@ export const routes = [
                 path: 'comunications',
                 component: HomeComunications,
                 name: 'experience-comunications'
+            }
+        ]
+    },
+    {
+        path: '/marketing',
+        component: HomeMarketing,
+        redirect:'/marketing/home',
+        meta: {requiresAuth:true},
+        children:[
+            {
+                path: 'home',
+                component:  MainMarketing,
+                name: 'main-marketing'
             }
         ]
     },
