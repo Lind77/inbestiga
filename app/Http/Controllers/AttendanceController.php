@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Http\Requests\StoreAttendanceRequest;
 use App\Http\Requests\UpdateAttendanceRequest;
+use App\Models\Attendance_permit;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -160,5 +161,13 @@ class AttendanceController extends Controller
                 'msg' => 'success'
             ]);
         }
+    }
+
+    public function attendancePermits(Request $request)
+    {
+        $attendancePermits = Attendance_permit::create($request->all());
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }

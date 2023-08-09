@@ -147,4 +147,11 @@ class ScheduleController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function schedulesByDay(Request $request)
+    {
+
+        $schedules = Schedule::where('day', $request->get('day'))->where('user_id', $request->get('user_id'))->get();
+        return response()->json($schedules);
+    }
 }

@@ -270,11 +270,14 @@ Route::get('/quotations/search/{search}', [QuotationController::class, 'searchQu
 
 Route::post('/attendance', [AttendanceController::class, 'store']);
 Route::post('/json-file', [AttendanceController::class, 'jsonFile']);
+Route::post('/attendance-permits', [AttendanceController::class, 'attendancePermits']);
 
 Route::get('/schedules/{id}', [ScheduleController::class, 'index']);
 Route::post('/schedules', [ScheduleController::class, 'store']);
 Route::put('/schedules/{id}', [ScheduleController::class, 'update']);
 Route::put('/schedules-type/{id}', [ScheduleController::class, 'updateType']);
+Route::post('/schedules-day', [ScheduleController::class, 'schedulesByDay']);
+
 
 Route::get('/clients', [CustomerController::class, 'clients']);
 
