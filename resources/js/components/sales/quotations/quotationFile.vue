@@ -10,8 +10,8 @@
         </nav>
         <!-- {{ quotation }} -->
         <section class="row user_data_layout">
-            <div class="col-8 ps-5 pt-4">
-                <table class="customer-data">
+            <div class="col-8 ps-5">
+                <table class="customer-data mt-2">
                     <thead v-if="quotation && quotation.customers">
                         <tr>
                             <th>
@@ -307,7 +307,7 @@ th {
 
 .main-table {
     width: 100%;
-    border-spacing: 10px;
+    border-spacing: 0px;
 }
 
 .main-table thead {
