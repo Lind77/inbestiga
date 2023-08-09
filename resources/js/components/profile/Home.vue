@@ -112,9 +112,41 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
-                                            <label for="">Selecciona una fecha</label>
-                                            <input type="date" v-model="datePermission" @change="checkDatePermission"
-                                                class="form-control w-25">
+                                            <div class="alert alert-warning" role="alert">Tener cuidado antes de solicitar
+                                                un permiso, ya que solo se pueden hacer tres solicitudes al mes.</div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label for="">Razón del permiso</label>
+                                                    <textarea class="form-control" v-model="reason"></textarea>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="">Selecciona una fecha de permiso</label>
+                                                    <input type="date" v-model="datePermission"
+                                                        @change="checkDatePermission" class="form-control">
+                                                    <label for="">Hora de inicio</label>
+                                                    <input type="time" v-model="miss_time_admission" class="form-control">
+                                                    <label for="">Hora de fin</label>
+                                                    <input type="time" v-model="miss_time_departure" class="form-control">
+                                                    {{ differenceTimesMiss }}
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="">Seleccionar fecha de recuperación</label>
+                                                    <input type="date" v-model="dateRecovery" @change="checkDateRecovery"
+                                                        class="form-control">
+
+                                                    <label for="">Hora de inicio</label>
+                                                    <input type="time" v-model="recovery_time_admission"
+                                                        class="form-control">
+                                                    <label for="">Hora de fin</label>
+                                                    <input type="time" v-model="recovery_time_departure"
+                                                        class="form-control">
+                                                    {{ differenceTimesRecovery }}
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <button class="btn btn-success" @click="postPermission">Solicitar</button>
+                                            </div>
+
                                         </div>
                                         <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
                                             <p>
@@ -146,7 +178,14 @@ import moment from "moment/min/moment-with-locales";
 import ScheduleModal from "./ScheduleModal.vue"
 import Hour from "./Hour.vue"
 import HourModal from './HourModal.vue'
+import { userStore } from "../../stores/UserStore";
+import axios from "axios";
+
 export default {
+    setup() {
+        const store = userStore()
+        return { store }
+    },
     components: { Sidebar, Navbar, ScheduleModal, Hour, HourModal },
     data() {
         return {
@@ -189,19 +228,74 @@ export default {
             scheduleSelected: {},
             abledHours: 0,
             disabledHours: 0,
-            datePermission: ''
+            datePermission: '',
+            dateRecovery: '',
+            schedulesFounded: [],
+            miss_time_admission: '',
+            miss_time_departure: '',
+            recovery_time_admission: '',
+            recovery_time_departure: '',
+            reason: '',
+            missTime: '',
+            recoveryTime: ''
         };
     },
     methods: {
+        postPermission() {
+            if (this.differenceTimesMiss == this.differenceTimesRecovery) {
+                const fd = new FormData()
+
+                fd.append('miss_date', this.datePermission)
+                fd.append('reason', this.reason)
+                fd.append('recovery_date', this.dateRecovery)
+                fd.append('status', 0)
+                fd.append('miss_time_admission', this.miss_time_admission)
+                fd.append('miss_time_departure', this.miss_time_departure)
+                fd.append('recovery_time_admission', this.recovery_time_admission)
+                fd.append('recovery_time_departure', this.recovery_time_departure)
+                fd.append('user_id', this.store.authUser.id)
+
+                axios.post('/api/attendance-permits', fd)
+                    .then((result) => {
+                        this.$swal('Permiso solicitado')
+                    }).catch((err) => {
+                        console.error(err)
+                    });
+            } else {
+                this.$swal('Los tiempos de permiso no coinciden')
+            }
+        },
+        checkDateRecovery() {
+
+
+
+            /* const datePicked = new Date(this.dateRecovery)
+            var actualDate = moment(new Date()).format('YYYY-MM-DD');
+            if (moment(datePicked).diff(actualDate) > 0) {
+                if (datePicked.getDay() == 6) {
+                    this.$swal('Domingo no chambeamos')
+                    this.dateRecovery = ''
+                }
+            } else {
+                this.$swal('Demasiado tarde')
+                this.dateRecovery = ''
+            } */
+        },
         checkDatePermission() {
             const datePicked = new Date(this.datePermission)
-            console.log(datePicked.getDay())
-            if (datePicked.getDay() == 6) {
-                this.$swal('Domingo no chambeamos')
-                this.datePermission = ''
+            var actualDate = moment(new Date()).format('YYYY-MM-DD');
+            if (moment(datePicked).diff(actualDate) > 0) {
+                if (datePicked.getDay() == 6) {
+                    this.$swal('Domingo no chambeamos')
+                    this.datePermission = ''
+                    this.schedulesFounded = []
+                }
             } else {
-                console.log(datePicked.getDay())
+                this.$swal('Demasiado tarde')
+                this.datePermission = ''
+                this.schedulesFounded = []
             }
+
         },
         addMeeting(newSchedule) {
             var scheduleDay = this.days.find(day => day.numberDay == newSchedule.day)
@@ -263,6 +357,19 @@ export default {
         },
         hideSidebar() {
             this.hidden = !this.hidden
+        }
+    },
+    computed: {
+        differenceTimesMiss() {
+
+            var diffTimes = moment.duration(moment(this.miss_time_departure, 'HH:mm:ss').diff(moment(this.miss_time_admission, 'HH:mm:ss')))
+
+            return diffTimes.hours()
+        },
+        differenceTimesRecovery() {
+            var diffTimes = moment.duration(moment(this.recovery_time_departure, 'HH:mm:ss').diff(moment(this.recovery_time_admission, 'HH:mm:ss')))
+
+            return diffTimes.hours()
         }
     },
     mounted() {
