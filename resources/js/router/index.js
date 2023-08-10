@@ -110,6 +110,9 @@ import HomeProfiles from '../components/experience/profiles/Home.vue'
 import HomeDeliveries from '../components/experience/deliveries/Home.vue'
 //Area de Experiencia - Comunications
 import HomeComunications from '../components/experience/comunication/Home.vue'
+//Area de Experiencia - Solicitudes
+import HomeRequests from '../components/experience/requests/Home.vue'
+
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
 //Profile
@@ -349,6 +352,11 @@ export const routes = [
                 path: 'home',
                 component:  MainExperience,
                 name: 'main-experience'
+            },
+            {
+                path: 'requests',
+                component:  HomeRequests,
+                name: 'home-requests'
             },
             {
                 path:'schedule',

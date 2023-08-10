@@ -78,9 +78,11 @@ class AttendanceController extends Controller
      * @param  \App\Models\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function show(Attendance $attendance)
+    public function show($id)
     {
-        //
+        $attendancePermits = Attendance_permit::where('user_id', $id)->get();
+
+        return response()->json(count($attendancePermits));
     }
 
     /**
@@ -169,5 +171,31 @@ class AttendanceController extends Controller
         return response()->json([
             'msg' => 'success'
         ]);
+    }
+
+    public function getPermissionsRequest()
+    {
+        $attendancePermits = Attendance_permit::with('user')->get();
+        return response()->json($attendancePermits);
+    }
+
+    public function acceptPermit($id)
+    {
+        $attendancePermit = Attendance_permit::find($id);
+        $attendancePermit->update([
+            'status' => 1
+        ]);
+
+        return response()->json($attendancePermit->status);
+    }
+
+    public function rejectPermit($id)
+    {
+        $attendancePermit = Attendance_permit::find($id);
+        $attendancePermit->update([
+            'status' => 2
+        ]);
+
+        return response()->json($attendancePermit->status);
     }
 }

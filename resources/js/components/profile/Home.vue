@@ -112,8 +112,9 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
-                                            <div class="alert alert-warning" role="alert">Tener cuidado antes de solicitar
-                                                un permiso, ya que solo se pueden hacer tres solicitudes al mes.</div>
+                                            <div class="alert alert-warning" role="alert">Ten cuidado antes de solicitar
+                                                un permiso, ya que solo se pueden hacer tres solicitudes al mes. Ya hiciste
+                                                {{ permissionsNumber }} en este mes</div>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <label for="">Razón del permiso</label>
@@ -144,14 +145,15 @@
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
-                                                <button class="btn btn-success" @click="postPermission">Solicitar</button>
+                                                <button class="btn btn-success" @click="postPermission"
+                                                    v-bind:disabled="permissionsNumber >= 3">Solicitar</button>
                                             </div>
 
                                         </div>
                                         <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
-                                            <p>
-                                                Tener cuidado al editar estos campos.
-                                            </p>
+                                            <div class="alert alert-danger" role="alert">Ten cuidado al editar estos campos.
+                                            </div>
+
                                             <label for="">Correo</label>
                                             <input type="text" class="form-control w-25">
                                             <label for="">Contraseña</label>
@@ -237,10 +239,19 @@ export default {
             recovery_time_departure: '',
             reason: '',
             missTime: '',
-            recoveryTime: ''
+            recoveryTime: '',
+            permissionsNumber: 0
         };
     },
     methods: {
+        getNumberOfPermissions() {
+            axios.get('/api/attendance-permits/' + this.store.authUser.id)
+                .then((result) => {
+                    this.permissionsNumber = result.data
+                }).catch((err) => {
+                    console.log(err)
+                });
+        },
         postPermission() {
             if (this.differenceTimesMiss == this.differenceTimesRecovery) {
                 const fd = new FormData()
@@ -258,11 +269,19 @@ export default {
                 axios.post('/api/attendance-permits', fd)
                     .then((result) => {
                         this.$swal('Permiso solicitado')
+                        this.miss_time_admission = ''
+                        this.miss_time_departure = ''
+                        this.recovery_time_admission = ''
+                        this.recovery_time_departure = ''
+                        this.reason = ''
+                        this.datePermission = ''
+                        this.dateRecovery = ''
+                        this.getNumberOfPermissions()
                     }).catch((err) => {
                         console.error(err)
                     });
             } else {
-                this.$swal('Los tiempos de permiso no coinciden')
+                this.$swal('Los tiempos de permiso no coinciden o ha superado el número de permisos de este mes')
             }
         },
         checkDateRecovery() {
@@ -374,6 +393,7 @@ export default {
     },
     mounted() {
         this.getUser();
+        this.getNumberOfPermissions()
     },
 };
 </script>
