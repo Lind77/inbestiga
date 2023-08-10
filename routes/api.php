@@ -269,8 +269,14 @@ Route::get('/quotations-funnel', [QuotationController::class, 'getQuotationsFunn
 Route::get('/quotations/search/{search}', [QuotationController::class, 'searchQuotations']);
 
 Route::post('/attendance', [AttendanceController::class, 'store']);
-Route::post('/json-file', [AttendanceController::class, 'jsonFile']);
+Route::get('/attendance-permits', [AttendanceController::class, 'getPermissionsRequest']);
+Route::get('/attendance-permits/{id}', [AttendanceController::class, 'show']);
 Route::post('/attendance-permits', [AttendanceController::class, 'attendancePermits']);
+Route::get('/accept-permit/{id}', [AttendanceController::class, 'acceptPermit']);
+Route::get('/reject-permit/{id}', [AttendanceController::class, 'rejectPermit']);
+
+Route::post('/json-file', [AttendanceController::class, 'jsonFile']);
+
 
 Route::get('/schedules/{id}', [ScheduleController::class, 'index']);
 Route::post('/schedules', [ScheduleController::class, 'store']);

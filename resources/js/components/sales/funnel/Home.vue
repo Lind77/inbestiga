@@ -211,6 +211,7 @@ export default {
     updateStatusSpaces(quotationId, status) {
       console.log(quotationId, status);
       if (status == 9) {
+
         $('#funnelModal').modal('hide')
         var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
 

@@ -179,6 +179,12 @@
           <div data-i18n="Form Layouts">Asistencias</div>
         </div>
       </router-link>
+      <router-link :to="{ name: 'home-requests' }" class="menu-item">
+        <div class="menu-link">
+          <i class="menu-icon tf-icons bx bx-file"></i>
+          <div data-i18n="Form Layouts">Permisos</div>
+        </div>
+      </router-link>
       <router-link :to="{ name: 'home-schedule' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-time"></i>
