@@ -175,15 +175,15 @@ class AttendanceController extends Controller
 
     public function getPermissionsRequest()
     {
-        $attendancePermits = Attendance_permit::with('user')->get();
+        $attendancePermits = Attendance_permit::with('user')->orderBy('id', 'desc')->get();
         return response()->json($attendancePermits);
     }
 
-    public function acceptPermit($id)
+    public function acceptPermit($id, $status)
     {
         $attendancePermit = Attendance_permit::find($id);
         $attendancePermit->update([
-            'status' => 1
+            'status' => $status
         ]);
 
         return response()->json($attendancePermit->status);

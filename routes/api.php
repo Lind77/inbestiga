@@ -272,7 +272,7 @@ Route::post('/attendance', [AttendanceController::class, 'store']);
 Route::get('/attendance-permits', [AttendanceController::class, 'getPermissionsRequest']);
 Route::get('/attendance-permits/{id}', [AttendanceController::class, 'show']);
 Route::post('/attendance-permits', [AttendanceController::class, 'attendancePermits']);
-Route::get('/accept-permit/{id}', [AttendanceController::class, 'acceptPermit']);
+Route::get('/accept-permit/{id}/{status}', [AttendanceController::class, 'acceptPermit']);
 Route::get('/reject-permit/{id}', [AttendanceController::class, 'rejectPermit']);
 
 Route::post('/json-file', [AttendanceController::class, 'jsonFile']);
