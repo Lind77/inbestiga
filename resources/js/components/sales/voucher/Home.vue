@@ -52,11 +52,25 @@
                     </tr>
                 </tbody>
             </table>
-            <p class="h5">Subtotal: <input v-model="subtotal" @keyup="calcTotal" type="number" class="form-control w-25">
-            </p>
-            <p class="h5">Descuento: <input v-model="discount" @keyup="calcTotal" type="number" class="form-control w-25">
-            </p>
-            <p class="h4">Total: <input v-model="total_price" type="text" class="form-control w-25" disabled></p>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="h5">Subtotal: <input v-model="subtotal" @keyup="calcTotal" type="number" class="form-control">
+                    </p>
+                    <p class="h5">Descuento: <input v-model="discount" @keyup="calcTotal" type="number"
+                            class="form-control">
+                    </p>
+                    <p class="h4">Total: <input v-model="total_price" type="text" class="form-control" disabled></p>
+                </div>
+                <div class="col-md-6">
+                    <p class="h5">Descripción pequeña: <input v-model="pay_detail" @keyup="calcTotal" type="text"
+                            class="form-control">
+                    </p>
+                    <p class="h5">Monto restante de la cuota(opcional): <input v-model="remaining_amount" @keyup="calcTotal"
+                            type="text" class="form-control">
+                    </p>
+                </div>
+            </div>
+
         </div>
         <div class="row">
             <button class="btn btn-success" @click="goVoucherFile">Generar</button>
@@ -78,7 +92,9 @@ export default {
             subtotal: 0.0,
             discount: 0.0,
             total_price: 0.0,
-            date: ''
+            date: '',
+            pay_detail: '',
+            remaining_amount: ''
         }
     },
     methods: {
@@ -104,6 +120,8 @@ export default {
             fd.append('subtotal', this.subtotal)
             fd.append('discount', this.discount)
             fd.append('total_price', this.total_price)
+            fd.append('pay_detail', this.pay_detail)
+            fd.append('remaining_amount', this.remaining_amount)
 
             axios.post('/api/voucher', fd)
                 .then((result) => {

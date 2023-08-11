@@ -44,6 +44,9 @@
             </div>
         </div>
         <div class="row mt-3">
+            <div class="col-md-6 ms-5">
+                Detalle: {{ paymentProof.pay_detail }}
+            </div>
             <div class="col-md-6 buttons-container">
                 <p class="buttons button-gray">SUBTOTAL S/.{{ paymentProof.subtotal }}</p>
                 <p class="buttons button-white">DESCUENTO S/.{{ paymentProof.discount }}</p>
