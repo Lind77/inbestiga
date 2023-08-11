@@ -43,7 +43,9 @@ class VoucherController extends Controller
             'subtotal' => $request->get('subtotal'),
             'discount' => $request->get('discount'),
             'total_price' => $request->get('total_price'),
-            'type' => 1
+            'type' => 1,
+            'remaining_amount' => $request->get('remaining_amount'),
+            'pay_detail' => $request->get('pay_detail'),
         ]);
 
         return response()->json($payment_proof->id);
