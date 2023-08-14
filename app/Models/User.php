@@ -91,6 +91,14 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Attendance');
     }
+    //Relacion uno a muchos User-Attendance_permits
+    public function attendance_permits(){
+        return $this->hasMany('App\Models\Attendance_permit');
+    }
+    //Relacion uno a muchos User-Justifications
+    public function justificationss(){
+        return $this->hasMany('App\Models\Justification');
+    }
     //relacion uno a uno user-work_contract
     public function work_contract(){
         return $this->hasOne('App\Models\Work_contract');
