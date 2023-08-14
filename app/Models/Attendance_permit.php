@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Attendance_permit extends Model
 {
     use HasFactory;
-    protected $fillable = ['status', 'attendance_id', 'miss_date', 'miss_time_admission', 'miss_time_departure', 'recovery_date', 'recovery_time_admission', 'recovery_time_departure', 'reason', 'user_id'];
+    protected $fillable = ['status', 'attendance_id', 'miss_date', 'miss_time_admission', 'miss_time_departure', 'reason', 'time_amount','left_amount','user_id'];
     //Relación  uno a muchos inverso attendances-Attendance-permit
-    public function user()
-    {
+    public function user(){
         return $this->belongsTo('App\Models\User');
+    }
+    //Relación uno a muchos Attendance_permit-Recovery_dates
+    public function recovery_dates(){
+        return $this->hasMany('App\Models\Recovery_date');
     }
 }
