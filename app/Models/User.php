@@ -96,7 +96,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Attendance_permit');
     }
     //Relacion uno a muchos User-Justifications
-    public function justificationss(){
+    public function justifications(){
         return $this->hasMany('App\Models\Justification');
     }
     //relacion uno a uno user-work_contract
