@@ -6,6 +6,7 @@ use App\Models\Attendance;
 use App\Http\Requests\StoreAttendanceRequest;
 use App\Http\Requests\UpdateAttendanceRequest;
 use App\Models\Attendance_permit;
+use App\Models\Recovery_date;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -167,7 +168,22 @@ class AttendanceController extends Controller
 
     public function attendancePermits(Request $request)
     {
-        $attendancePermits = Attendance_permit::create($request->all());
+        $attendancePermit = Attendance_permit::create($request->all());
+
+        $recoveries = json_decode($request->get('recoveries'), true);
+
+
+        foreach ($recoveries as $recovery) {
+            $recoveryDate = Recovery_date::create([
+                'attendance_permit_id' => $attendancePermit->id,
+                'recovery_date' => $recovery['dateRecovery'],
+                'admission_time' => $recovery['recovery_time_admission'],
+                'departure_time' => $recovery['recovery_time_departure'],
+                'amount_recovered' => 0,
+                'status' => 0
+            ]);
+        }
+
         return response()->json([
             'msg' => 'success'
         ]);
