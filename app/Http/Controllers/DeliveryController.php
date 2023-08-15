@@ -116,9 +116,13 @@ class DeliveryController extends Controller
      * @param  \App\Models\Delivery  $delivery
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Delivery $delivery)
+    public function destroy($id)
     {
-        //
+        $delivery = Delivery::find($id);
+        $delivery->delete();
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     public function getDeliveriesByDate($date)

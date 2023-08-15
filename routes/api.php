@@ -247,6 +247,7 @@ Route::get('/deliveries-date/{date}', [DeliveryController::class, 'getDeliveries
 Route::get('/deliveries-search/{search}', [DeliveryController::class, 'search']);
 Route::put('/delivery/{id}', [DeliveryController::class, 'update']);
 Route::get('/check-delivery/{id}', [DeliveryController::class, 'checkDelivery']);
+Route::delete('/deliveries/{id}', [DeliveryController::class, 'destroy']);
 
 Route::post('/observation', [ObservationController::class, 'store']);
 

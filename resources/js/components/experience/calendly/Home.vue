@@ -172,6 +172,7 @@ export default {
                                 textColor: '#ffab00',
                                 color: '#ffab00',
                                 type: 2,
+                                deliveryId: delivery.id
                             }
                             this.calendarOptions.events.push({ ...newEvt })
                         } else {
