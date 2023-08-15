@@ -112,7 +112,7 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
-                                            <Permissions />
+                                            <Permissions :permissionsNumber="permissionsNumber" />
                                         </div>
                                         <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
                                             <div class="alert alert-danger" role="alert">Ten cuidado al editar estos campos.
