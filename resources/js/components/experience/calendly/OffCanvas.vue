@@ -1,8 +1,10 @@
 <template>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEvent" aria-labelledby="offcanvasEndLabel">
         <div class="offcanvas-header" v-if="info.event">
-            <h3 id="offcanvasEndLabel" class="offcanvas-title">Evento {{ info.event.title }}<i
-                    v-if="info.event.extendedProps.type == 1" @click="deleteEvent(info.event.id)"
+            <h3 id="offcanvasEndLabel" class="offcanvas-title">Evento {{ info.event.title }}
+                <i v-if="info.event.extendedProps.type == 1" @click="deleteEvent(info.event.id)"
+                    class='bx bx-trash text-danger cursor-pointer'></i>
+                <i v-else @click="deleteDelivery(info.event.extendedProps.deliveryId)"
                     class='bx bx-trash text-danger cursor-pointer'></i>
             </h3>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -55,6 +57,19 @@ export default {
                     console.error(err);
                 });
             this.$emit('changeEventColor', this.info.event.id)
+        },
+        deleteDelivery(deliveryId) {
+            if (confirm('Deseas eliminar esta entrega, con seguridad?')) {
+                axios.delete('/api/deliveries/' + deliveryId)
+                    .then((result) => {
+                        this.$emit('getEvents')
+                        this.$emit('getDeliveries')
+                        $('#offcanvasEvent').offcanvas('hide')
+                    }).catch((err) => {
+                        console.error(err);
+                    });
+            }
+
         }
     }
 }
