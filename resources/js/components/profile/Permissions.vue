@@ -1,6 +1,6 @@
 <template>
     <div class="alert alert-warning" role="alert">Ten cuidado antes de solicitar
-        un permiso, ya que solo se pueden hacer tres solicitudes al mes.</div>
+        un permiso, ya que solo se pueden hacer tres solicitudes al mes. Ya hiciste {{ permissionsNumber }} este mes</div>
     <div class="row">
         <div class="col-md-12">
             <label for="">Razón del permiso</label>
@@ -53,6 +53,9 @@ export default {
             datePermission: '',
             permissionsNumber: 0
         }
+    },
+    props: {
+        permissionsNumber: Number
     },
     components: { Recovery },
     methods: {
@@ -113,7 +116,8 @@ export default {
                         this.recovery_time_departure = ''
                         this.reason = ''
                         this.datePermission = ''
-                        this.dateRecovery = ''
+                        this.dateRecovery = '',
+                            this.recoveries = []
                         this.getNumberOfPermissions()
                     }).catch((err) => {
                         console.error(err)
