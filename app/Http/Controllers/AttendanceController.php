@@ -7,6 +7,7 @@ use App\Http\Requests\StoreAttendanceRequest;
 use App\Http\Requests\UpdateAttendanceRequest;
 use App\Models\Attendance_permit;
 use App\Models\Recovery_date;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -132,32 +133,38 @@ class AttendanceController extends Controller
             // Decodificar el contenido JSON
             $data = json_decode($contents, true);
 
-
+            $oldAttendances = Attendance::all();
+            $oldAttendances->each->delete();
             $attendances = $data['data'];
 
             foreach ($attendances as $attendance) {
 
-                if ($attendance['weekday'] == 'Lunes') {
-                    $newWeekDay = 1;
-                } else if ($attendance['weekday'] == 'Martes') {
-                    $newWeekDay = 2;
-                } else if ($attendance['weekday'] == 'Miércoles') {
-                    $newWeekDay = 3;
-                } else if ($attendance['weekday'] == 'Jueves') {
-                    $newWeekDay = 4;
-                } else if ($attendance['weekday'] == 'Viernes') {
-                    $newWeekDay = 5;
-                } else if ($attendance['weekday'] == 'Sábado') {
-                    $newWeekDay = 6;
-                }
+                $user = User::find($attendance['emp_code']);
 
-                $newAttendance = Attendance::create([
-                    'user_id' => $attendance['emp_code'],
-                    'date' => $attendance['att_date'],
-                    'first_punch' => $attendance['first_punch'],
-                    'last_punch' => $attendance['last_punch'],
-                    'weekday' => $newWeekDay
-                ]);
+                if ($user) {
+
+                    if ($attendance['weekday'] == 'Lunes') {
+                        $newWeekDay = 1;
+                    } else if ($attendance['weekday'] == 'Martes') {
+                        $newWeekDay = 2;
+                    } else if ($attendance['weekday'] == 'Miércoles') {
+                        $newWeekDay = 3;
+                    } else if ($attendance['weekday'] == 'Jueves') {
+                        $newWeekDay = 4;
+                    } else if ($attendance['weekday'] == 'Viernes') {
+                        $newWeekDay = 5;
+                    } else if ($attendance['weekday'] == 'Sábado') {
+                        $newWeekDay = 6;
+                    }
+
+                    $newAttendance = Attendance::create([
+                        'user_id' => $attendance['emp_code'],
+                        'date' => $attendance['att_date'],
+                        'first_punch' => $attendance['first_punch'],
+                        'last_punch' => $attendance['last_punch'],
+                        'weekday' => $newWeekDay
+                    ]);
+                }
             }
 
             return response()->json([

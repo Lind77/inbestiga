@@ -19,10 +19,19 @@
         <div class="card mt-2">
             <div class="card-header">
                 <h4>{{ user.name }} <button class="btn btn-success btn-sm" @click="compareSchedules">Calcular</button></h4>
-                <p v-for="attendance in user.attendances"><button class="btn btn-primary">{{ attendance.date }},
+
+                <button v-for="attendance in  user.attendances" type="button"
+                    :class="`btn btn-icon btn-${statusColor[attendance.status]} mx-1`">
+                    {{ formatDay(attendance.date) }}
+                </button>
+
+                <p>Temprano: {{ early }}</p>
+                <p>Tardanzas: {{ delays }}</p>
+                <p>Faltas: {{ lacks }}</p>
+                <!-- <p v-for="attendance in user.attendances"><button class="btn btn-primary">{{ attendance.date }},
                         {{ attendance.first_punch }} - {{ attendance.last_punch }}</button>
                     <span v-if="attendance.status">{{ attendance.status }}</span>
-                </p>
+                </p> -->
             </div>
         </div>
     </div>
@@ -38,21 +47,42 @@ export default {
             schedules: [],
             scheduleFiletered: [],
             users: [],
-            userSelected: 0
+            userSelected: 0,
+            statusColor: {
+                null: 'primary',
+                0: 'danger',
+                1: 'success',
+                2: 'warning'
+            },
+            delays: 0,
+            early: 0,
+            lacks: 0
         }
     },
     methods: {
+        formatDay(date) {
+            return moment(date).format('DD')
+        },
         compareSchedules() {
+            this.delays = 0
+            this.early = 0
             this.user.attendances.forEach((attendance) => {
                 var scheduleSelected = this.scheduleFiletered.find(schedule => schedule.weekDay == attendance.weekday)
 
-                var firstPunchPlusTen = moment(scheduleSelected.first_punch, 'HH:mm:ss').add(10, 'minutes').format('HH:mm:ss')
+                if (scheduleSelected) {
+                    var firstPunchPlusTen = moment(scheduleSelected.first_punch, 'HH:mm:ss').add(10, 'minutes').format('HH:mm:ss')
 
-                if (attendance.first_punch > firstPunchPlusTen) {
-                    attendance.status = 'Tarde'
+                    if (attendance.first_punch > firstPunchPlusTen) {
+                        attendance.status = 0
+                        this.delays++
+                    } else {
+                        attendance.status = 1
+                        this.early++
+                    }
                 } else {
-                    attendance.status = 'Temprano'
+                    attendance.status = 2
                 }
+
 
             })
         },
@@ -65,26 +95,30 @@ export default {
                 });
         },
         getAttendances() {
-
+            this.scheduleFiletered = []
             axios.get('/api/schedules/' + this.userSelected)
                 .then((result) => {
                     this.user = result.data.user;
                     this.schedules = result.data.newSchedules
                     console.log(this.schedules);
+
                     this.schedules.forEach((schedule, index) => {
 
-                        if (index % 2 != 0) {
+                        if (schedule != null) {
+                            if (index % 2 != 0) {
+                                console.log(index, this.scheduleFiletered.length)
+                                this.scheduleFiletered[index - this.scheduleFiletered.length].last_punch = schedule.departure_time
+                            } else {
 
-                            this.scheduleFiletered[index - this.scheduleFiletered.length].last_punch = schedule.departure_time
-                        } else {
-
-                            var newSchedule = {
-                                weekDay: schedule.day,
-                                first_punch: schedule.admission_time,
-                                last_punch: ''
+                                var newSchedule = {
+                                    weekDay: schedule.day,
+                                    first_punch: schedule.admission_time,
+                                    last_punch: ''
+                                }
+                                this.scheduleFiletered.push(newSchedule)
                             }
-                            this.scheduleFiletered.push(newSchedule)
                         }
+
                     })
 
                 }).catch((err) => {
@@ -92,6 +126,8 @@ export default {
                 });
         },
         handleFileUpload(e) {
+
+            this.$swal('Cargando datos...')
             const fd = new FormData()
 
             fd.append('file', e.target.files[0])
@@ -106,7 +142,6 @@ export default {
                 }).catch((err) => {
                     console.error(err);
                 });
-
         }
     },
     mounted() {
