@@ -165,7 +165,7 @@
                 <p>
                     <span>SEGUNDO: OBLIGACIONES DEL LOCADOR.</span><br>
                 EL LOCADOR se compromete a cumplir con lo siguiente:
-                <ul>
+                <ul style="margin-top: -15px;">
                     <li>Entregar productos originales que garanticen bajos niveles de similitud con respecto de otros trabajos de investigación.
                     </li>
                     <li>
@@ -186,7 +186,7 @@
                 <p>
                     <span>TERCERO: OBLIGACIONES DEL CLIENTE.</span><br>
                     EL CLIENTE se compromete a cumplir con lo siguiente:
-                    <ul>
+                    <ul style="margin-top: -15px;">
                         @if($contract->third_article == 1)
                         <li>
                             Proporcionar la información de aplicación de instrumentos.
@@ -213,7 +213,7 @@
                     </ul>
                 </p>
                 <div class="page-break"></div>
-                <p>
+                <p style="margin-top: 15px;">
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
                 Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un monto total de S/{{$contract->amount}} (<span class="name">{{$contract->amount_text}}</span> soles), monto que será abonado en las siguientes fechas:
                 </p>
@@ -233,8 +233,8 @@
                         @endforeach
                     </tbody>
                 </table>
-                El pago será abonado bajo las siguientes modalidades:
-                <table style="margin-top: 15px;">
+                <p>El pago será abonado bajo las siguientes modalidades:</p>
+                <table style="margin-top: 20px;">
                     <thead>
                         <tr>
                             <th>Banco</th>
@@ -273,7 +273,7 @@
                     <li> Efectivo: Estrictamente abonado en las oficinas de la empresa.</li>
                     <li> Depósito o transferencia bancaria: </li>
                 </ul>
-                <div class="page-break"></div>
+               {{--  <div class="page-break"></div> --}}
                 <span>QUINTO: ENTREGAS Y FORMA DE ENTREGAS.</span>
                 <p>Las entregas que EL LOCADOR otorgará a favor de EL CLIENTE serán cargadas al correo y/o grupo de WhatsApp creado en los siguientes términos: </p>
                 <table class="delivery-table">
@@ -292,10 +292,10 @@
                         @endforeach
                     </tbody>
                 </table>
-                 @if($contract->fifth_article == 1)
+                 @if($contract->fifth_article != 1)
                     <p>Además, EL LOCADOR se compromete con entregar a favor de EL CLIENTE los siguientes beneficios adicionales:
                     </p>
-                    <ul>
+                    <ul style="margin-top: -10px;">
                         <li>Asesoría de preparación metodológica y temática sobre la investigación para la sustentación.</li>
                         <li>Ebook / guía de sustentación escrita.</li>
                         <li>Balotario de preguntas de sustentación.</li>
@@ -303,9 +303,8 @@
                         <li>Reporte de Turnitin.</li>
                     </ul>
                     @endif
-                    <br>
                     <div class="page-break"></div>
-                <span>SEXTO: SOBRE LA RESOLUCIÓN DEL CONTRATO</span>
+                <span style="margin-top: 0px;">SEXTO: SOBRE LA RESOLUCIÓN DEL CONTRATO</span>
                 <p>Si existe un acuerdo de LAS PARTES para la resolución del contrato, este podrá ser resuelto sin consecuencias jurídicas que perjudiquen a las mismas.
                 En caso de que EL LOCADOR incumpla sus obligaciones sin que exista una justificación suficiente que haya 
                 escapado a su voluntad, este deberá reintegrar a EL CLIENTE, el total de los pagos abonados por este 
@@ -316,7 +315,7 @@
                 conllevará a devolución de los pagos abonados hasta el momento de aprobación o denegación de la 
                 solicitud; pagos utilizados para la cobertura de gastos operativos, logísticos, administrativos y de 
                 mercadotecnia. </p>
-                
+                {{-- <div class="page-break"></div> --}}
                 <span class="seven-article">SÉPTIMO: MORA INDEMNIZATORIA Y PENALIDADES.</span>
                 <p>
                     7.1. Sobre los pagos<br>
@@ -339,6 +338,7 @@
                 </p>
                 <span>OCTAVO: CONFIDENCIALIDAD </span>
                 <p>EL LOCADOR se compromete a mantener en reserva todos los datos de EL CLIENTE, incluso después de que las demás obligaciones de EL CONTRATO se hayan extinguido; a excepción de aquellos casos que la ley exija lo contrario.</p>
+               
                 <span>NOVENO: GARANTÍA DEL SERVICIO</span><br>
                 <p>EL CONTRATO no tiene una cláusula de prescripción de obligaciones por parte de EL LOCADOR  que se rija 
                     por el tiempo, sino que las obligaciones de este se extinguen únicamente cuando EL CLIENTE haya obtenido 
@@ -347,6 +347,7 @@
                     académico, cuando esta es ocasionada por sí mismo, esto es, cuando la información proporcionada por EL 
                     CLIENTE es ilegítima, incorrecta, o influenciada por terceras personas ajenas al vínculo contractual o 
                     personal universitario. </p>
+                    <div class="page-break"></div>
                 <span>DÉCIMO: SANCIONES</span><br>
                 <p> En caso de que EL CLIENTE muestre conductas hostiles hacia cualquier miembro de la organización, este 
                     perderá automáticamente todos los beneficios adicionales contenidos en EL CONTRATO. Además, en caso el 
