@@ -182,7 +182,7 @@
                     </li>
                 </ul>
                 </p>
-                <div class="page-break"></div>
+                
                 <p>
                     <span>TERCERO: OBLIGACIONES DEL CLIENTE.</span><br>
                     EL CLIENTE se compromete a cumplir con lo siguiente:
@@ -212,7 +212,7 @@
                         </li>
                     </ul>
                 </p>
-                
+                <div class="page-break"></div>
                 <p>
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
                 Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un monto total de S/{{$contract->amount}} (<span class="name">{{$contract->amount_text}}</span> soles), monto que será abonado en las siguientes fechas:
@@ -304,6 +304,7 @@
                     </ul>
                     @endif
                     <br>
+                    <div class="page-break"></div>
                 <span>SEXTO: SOBRE LA RESOLUCIÓN DEL CONTRATO</span>
                 <p>Si existe un acuerdo de LAS PARTES para la resolución del contrato, este podrá ser resuelto sin consecuencias jurídicas que perjudiquen a las mismas.
                 En caso de que EL LOCADOR incumpla sus obligaciones sin que exista una justificación suficiente que haya 
