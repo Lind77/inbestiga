@@ -19,7 +19,7 @@ class ScheduleController extends Controller
 
 
         $newSchedules = collect();
-        for ($i = 1; $i < 6; $i++) {
+        for ($i = 1; $i < 7; $i++) {
             $scheduleByDay = $schedules->where('day', $i)->where('type', 1);
             $min = $scheduleByDay->where('admission_time', $scheduleByDay->min('admission_time'))->first();
             $max = $scheduleByDay->where('departure_time', $scheduleByDay->max('departure_time'))->first();
@@ -27,9 +27,11 @@ class ScheduleController extends Controller
             /* $newSchedule->max_schedule = $max->departure_time;
             $newSchedule->min_schedule = $min->admission_time;
             $newSchedule->weeekDay = $i; */
-
             $newSchedules = $newSchedules->push($min);
             $newSchedules = $newSchedules->push($max);
+            /* if ($min != null || $max != null) {
+                
+            } */
         }
 
         return response()->json([
