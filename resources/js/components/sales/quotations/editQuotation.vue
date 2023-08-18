@@ -265,6 +265,7 @@ export default {
         }
     },
     methods: {
+
         getQuotation() {
             axios.get('/api/quotations/' + this.$route.params.idQuotation)
                 .then((res) => {
@@ -311,7 +312,7 @@ export default {
                         this.quotation.discount = result.data.quantity
                     } else {
                         this.$swal('Se ha desbloqueado el descuento por porcentaje')
-                        this.quotation.discount = ((this.totalProducts * codeFound.percent) / 100).toFixed(2)
+                        this.quotation.discount = ((this.totalProducts * result.data.percent) / 100).toFixed(2)
                     }
                 }).catch((err) => {
 
