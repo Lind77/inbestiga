@@ -15,16 +15,22 @@
                 </select>
             </div>
         </div>
-
         <div class="card mt-2">
             <div class="card-header">
                 <h4>{{ user.name }} <button class="btn btn-success btn-sm" @click="compareSchedules">Calcular</button></h4>
-
-                <button v-for="attendance in  user.attendances" type="button"
-                    :class="`btn btn-icon btn-${statusColor[attendance.status]} mx-1`">
-                    {{ formatDay(attendance.date) }}
-                </button>
-
+                <template v-for="attendance in  user.attendances">
+                    <button type="button" @click="showAttendance(attendance)"
+                        :class="`btn btn-icon btn-${statusColor[attendance.status]} mx-1 `">
+                        {{ formatDay(attendance.date) }}
+                    </button>
+                </template>
+                <div class="collapse show mt-3" id="collapseExample" style="">
+                    <div class="p-3 border">
+                        <p>Día: {{ weeyDays[msgAttendance.weekday] }}</p>
+                        <p>Fecha: {{ msgAttendance.date }}</p>
+                        {{ msgAttendance }}
+                    </div>
+                </div>
                 <p>Temprano: {{ early }}</p>
                 <p>Tardanzas: {{ delays }}</p>
                 <p>Faltas: {{ lacks }}</p>
@@ -54,12 +60,24 @@ export default {
                 1: 'success',
                 2: 'warning'
             },
+            weeyDays: {
+                1: 'Lunes',
+                2: 'Martes',
+                3: 'Miércoles',
+                4: 'Jueves',
+                5: 'Viernes',
+                6: 'Sábado'
+            },
             delays: 0,
             early: 0,
-            lacks: 0
+            lacks: 0,
+            msgAttendance: ''
         }
     },
     methods: {
+        showAttendance(attendance) {
+            this.msgAttendance = attendance
+        },
         formatDay(date) {
             return moment(date).format('DD')
         },

@@ -247,4 +247,8 @@ export default {
 .fc-daygrid-event-harness {
     padding: 2px 0px;
 }
+
+table {
+    margin-top: 0px;
+}
 </style>
