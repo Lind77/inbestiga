@@ -94,7 +94,7 @@ export default {
             total_price: 0.0,
             date: '',
             pay_detail: '',
-            remaining_amount: ''
+            remaining_amount: 0
         }
     },
     methods: {
