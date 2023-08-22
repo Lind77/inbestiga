@@ -30,4 +30,8 @@ class Note extends Model
     public function files(){
         return $this->mophMany('App\Models\File','fileable');        
     }
+    //Relación polimorfica de muchos a muchos (Status-Usuarios)
+    public function users(){
+        return $this->morphToMany('App\Models\User', 'userable');
+    }
 }
