@@ -14,7 +14,7 @@
                 <input type="time" v-model="recovery.recovery_time_departure" @change="checkRecoveryTimePermission"
                     class="form-control">
             </div>
-            {{ differenceTimesMiss }}
+            <!--  {{ differenceTimesMiss }} -->
         </div>
     </div>
 </template>

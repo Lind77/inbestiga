@@ -158,10 +158,10 @@
                                             class="text-danger">*</span>:</label>
                                     <input type="text" class="form-control" v-model="order.observations">
                                 </div>
-                                <!-- <div class="d-flex align-items-center mb-3">
+                                <div class="d-flex align-items-center mb-3">
                                     <label for="salesperson" class="form-label me-5 fw-semibold">Cupón de descuento:</label>
                                     <input type="text" class="form-control" v-model="coupon" @keyup="autoDiscount">
-                                </div> -->
+                                </div>
 
                             </div>
 
@@ -264,6 +264,36 @@ export default {
         }
     },
     methods: {
+        autoDiscount() {
+            axios.get('/api/promotions/' + this.coupon)
+                .then((result) => {
+                    console.log(result)
+                    if (Object.keys(result.data).length == 0) {
+                        this.$swal('Código Incorrecto')
+                    }
+                    else if (result.data.percent == 0) {
+                        this.$swal('Se ha desbloqueado el descuento por cantidad')
+                        this.quotation.discount = result.data.quantity
+                    } else {
+                        this.$swal('Se ha desbloqueado el descuento por porcentaje')
+                        this.quotation.discount = ((this.totalProducts * result.data.percent) / 100).toFixed(2)
+                    }
+                }).catch((err) => {
+
+                });
+
+            /* var codeFound = this.recentsCode.find(code => code.code == this.coupon)
+            if (codeFound && codeFound.percent == 0 && this.quotation.discount == 0) {
+             
+              this.quotation.discount = ((this.totalProducts - codeFound.quantity) / 100).toFixed(2)
+            } else if (codeFound && codeFound.quantity == 0 && this.quotation.discount == 0) {
+              
+              
+            } else {
+              this.$swal('Codigo incorrecto o duplicado')
+              this.quotation.discount = 0
+            } */
+        },
         addDetail() {
             this.quotation.details.push({ type: 1, level: '', title: '', mode: '', price: '', product: { name: '' }, product_id: '' })
         },

@@ -290,3 +290,5 @@ Route::get('/clients', [CustomerController::class, 'clients']);
 
 Route::post('/voucher', [VoucherController::class, 'store']);
 Route::get('/payment-proof/{id}', [VoucherController::class, 'show']);
+
+Route::put('/access/{id}', [UserController::class, 'access']);
