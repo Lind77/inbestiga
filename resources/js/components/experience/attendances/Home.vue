@@ -10,30 +10,45 @@
                 <input type="file" @change="handleFileUpload" class="form-control">
             </div>
             <div class="col-md-6">
-                <select v-model="userSelected" class="form-select" @change="getAttendances">
-                    <option :value="user.id" v-for="user in users">{{ user.name }}</option>
-                </select>
+
             </div>
         </div>
         <div class="card mt-2">
             <div class="card-header">
-                <h4>{{ user.name }} <button class="btn btn-success btn-sm" @click="compareSchedules">Calcular</button></h4>
-                <template v-for="attendance in  user.attendances">
-                    <button type="button" @click="showAttendance(attendance)"
-                        :class="`btn btn-icon btn-${statusColor[attendance.status]} mx-1 `">
-                        {{ formatDay(attendance.date) }}
+                <!-- <h4>{{ user.name }} <button class="btn btn-success btn-sm" @click="compareSchedules">Calcular</button></h4> -->
+                <h3>{{ actualMonth() }}</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="w-50">
+                            <input type="text" class="form-control form-control-md" v-model="search" @keyup="searchUser">
+                            <div class="list-group">
+                                <a href="javascript:void(0);" @click="selectUser(user)" v-for="user in usersFounded"
+                                    class="list-group-item list-group-item-action">{{ user.name }}</a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <p>Temprano: {{ early }}</p>
+                        <p>Tardanzas: {{ delays }}</p>
+                        <p>Faltas: {{ lacks }}</p>
+                    </div>
+                </div>
+
+                <template v-for="day in  buttonDays">
+                    <button type="button" :class="`btn btn-${statusColor[day.status]} btn-icon mx-1 my-1`">
+                        {{ formatDay(day.date) }}
                     </button>
                 </template>
-                <div class="collapse show mt-3" id="collapseExample" style="">
-                    <div class="p-3 border">
+                <!-- <div class="collapse show mt-3" id="collapseExample" style="">
+                    <div class="p-3 border d-flex">
                         <p>Día: {{ weeyDays[msgAttendance.weekday] }}</p>
                         <p>Fecha: {{ msgAttendance.date }}</p>
                         {{ msgAttendance }}
                     </div>
-                </div>
-                <p>Temprano: {{ early }}</p>
-                <p>Tardanzas: {{ delays }}</p>
-                <p>Faltas: {{ lacks }}</p>
+                </div> -->
+
+
                 <!-- <p v-for="attendance in user.attendances"><button class="btn btn-primary">{{ attendance.date }},
                         {{ attendance.first_punch }} - {{ attendance.last_punch }}</button>
                     <span v-if="attendance.status">{{ attendance.status }}</span>
@@ -43,22 +58,27 @@
     </div>
 </template>
 <script>
-import moment from 'moment'
+import moment from "moment/min/moment-with-locales";
+moment.locale('es')
 
 export default {
     data() {
         return {
+            search: '',
+            attendances: [],
             file: '',
             user: {},
             schedules: [],
             scheduleFiletered: [],
+            usersFounded: [],
             users: [],
             userSelected: 0,
             statusColor: {
-                null: 'primary',
-                0: 'danger',
-                1: 'success',
-                2: 'warning'
+                0: 'primary',
+                1: 'danger',
+                2: 'success',
+                3: 'warning',
+                4: 'info'
             },
             weeyDays: {
                 1: 'Lunes',
@@ -71,10 +91,25 @@ export default {
             delays: 0,
             early: 0,
             lacks: 0,
-            msgAttendance: ''
+            msgAttendance: '',
+            totalDays: 0,
+            buttonDays: []
         }
     },
     methods: {
+        selectUser(user) {
+            this.usersFounded = []
+            this.search = user.name
+            this.buttonDays.forEach((day) => { day.status = 0 })
+            this.userSelected = user.id
+            this.getAttendances()
+        },
+        searchUser() {
+            this.usersFounded = this.users.filter(user => user.name.toLowerCase().includes(this.search))
+        },
+        actualMonth() {
+            return moment().format('MMMM') + ' ' + moment().format('YYYY')
+        },
         showAttendance(attendance) {
             this.msgAttendance = attendance
         },
@@ -84,27 +119,63 @@ export default {
         compareSchedules() {
             this.delays = 0
             this.early = 0
-            this.user.attendances.forEach((attendance) => {
-                var scheduleSelected = this.scheduleFiletered.find(schedule => schedule.weekDay == attendance.weekday)
+            this.lacks = 0
 
-                if (scheduleSelected) {
+            this.buttonDays.forEach((day) => {
+                var scheduleSelected = this.scheduleFiletered.find(schedule => schedule.weekDay == day.weekDay)
+
+                console.log(scheduleSelected)
+
+                var attendanceSelected = this.attendances.find(attendance => attendance.date == day.date)
+
+                if (scheduleSelected && attendanceSelected) {
                     var firstPunchPlusTen = moment(scheduleSelected.first_punch, 'HH:mm:ss').add(10, 'minutes').format('HH:mm:ss')
 
-                    if (attendance.first_punch > firstPunchPlusTen) {
-                        attendance.status = 0
+                    if (attendanceSelected.first_punch > firstPunchPlusTen) {
+                        day.status = 1
                         this.delays++
                     } else {
-                        attendance.status = 1
+                        day.status = 2
                         this.early++
                     }
+                } else if (scheduleSelected && !attendanceSelected && day.date < moment().format('YYYY-MM-DD')) {
+                    day.status = 4
+                    this.lacks++
+
                 } else {
-                    attendance.status = 2
+                    day.status = 3
                 }
 
-
             })
+            /* this.user.attendances.forEach((attendance) => {
+                var scheduleSelected = this.scheduleFiletered.find(schedule => schedule.weekDay == attendance.weekday)
+
+                
+
+
+            }) */
         },
         getUsers() {
+            const daysInMonth = (year, month) => new Date(year, month, 0).getDate()
+            this.totalDays = daysInMonth(moment().format('YYYY'), moment().format('M'))
+
+            var firstDayOfMonth = moment().startOf('month').format('YYYY-MM-DD')
+
+            for (let index = 0; index < this.totalDays; index++) {
+
+                var newDate = moment(firstDayOfMonth).add(index, 'days')
+
+                const dataButton = {
+                    id: index,
+                    date: newDate.format('YYYY-MM-DD'),
+                    status: 0,
+                    weekDay: moment(newDate).weekday() + 1
+                }
+
+                this.buttonDays.push({ ...dataButton })
+
+            }
+
             axios.get('/api/users')
                 .then((result) => {
                     this.users = result.data
@@ -117,8 +188,8 @@ export default {
             axios.get('/api/schedules/' + this.userSelected)
                 .then((result) => {
                     this.user = result.data.user;
-                    this.schedules = result.data.newSchedules
-                    console.log(this.schedules);
+                    this.schedules = result.data.newSchedules;
+                    this.attendances = this.user.attendances
 
                     this.schedules.forEach((schedule, index) => {
 
@@ -138,6 +209,8 @@ export default {
                         }
 
                     })
+
+                    this.compareSchedules()
 
                 }).catch((err) => {
                     console.error(err)

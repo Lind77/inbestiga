@@ -7,6 +7,7 @@ use App\Models\Memoir;
 use App\Models\Progress;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -104,6 +105,18 @@ class UserController extends Controller
         $user = User::find($request->get('user_id'));
         $permissions = json_decode($request->get('permissions'), true);
         $user->givePermissionTo($permissions);
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function access($id, Request $request)
+    {
+        $user = User::find($id);
+        $user->update([
+            'email' => $request->get('email'),
+            'password' => Hash::make($request->get('password'))
+        ]);
         return response()->json([
             'msg' => 'success'
         ]);

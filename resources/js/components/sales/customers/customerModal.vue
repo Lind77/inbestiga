@@ -52,7 +52,7 @@
                                 <option value="2">Atendido</option>
                                 <option value="3">Comunicación establecida</option>
                                 <option value="4">Obtención de necesidades específicas</option>
-                                <option value="5">Con cotización</option>
+                                <!--  <option value="5">Con cotización</option> -->
                             </select>
                         </div>
                     </div>

@@ -9,6 +9,7 @@
                             <h5>{{ permission.user.name }}</h5>
                         </div>
                         <div class="ms-3">
+                            <p>Razón: {{ permission.reason }}</p>
                             <p> Fecha: {{ permission.miss_date }} de
                                 {{ permission.miss_time_admission }} a {{ permission.miss_time_departure }}
                             </p>
@@ -17,8 +18,8 @@
 
                         </div>
                         <div>
-                            <span
-                                :class="`badge bg-${statusColor[permission.status]} ms-4`">{{ statusTitle[permission.status] }}</span>
+                            <span :class="`badge bg-${statusColor[permission.status]} ms-4`" title="test">{{
+                                statusTitle[permission.status] }}</span>
                         </div>
                     </div>
                     <Buttons :permission="permission" @updateStatus="updateStatus" />
