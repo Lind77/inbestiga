@@ -17,4 +17,8 @@ class Issue extends Model
     public function notes(){
         return $this->morphMany('App\Models\Note', 'noteable');
     }
+    //Relación polimorfica de muchos a muchos (Status-Usuarios)
+    public function users(){
+        return $this->morphToMany('App\Models\User', 'userable');
+    }
 }

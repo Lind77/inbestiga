@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('work_contracts', function (Blueprint $table) {
-            $table->dropColumn('clausules');
+        Schema::table('details', function (Blueprint $table) {
+            $table->double('extra_price')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('work_contracts', function (Blueprint $table) {
+        Schema::table('details', function (Blueprint $table) {
             //
         });
     }
