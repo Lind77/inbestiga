@@ -368,7 +368,7 @@
                     presente contrato, EL LOCADOR otorgará a EL CLIENTE una bonificación de S/.60.00 (sesenta soles) por cada 
                     mil soles de ingreso con los que la empresa se vea beneficiada.</p>
                     <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
-                   {{--  <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($customer->quotations[0]->contract->date))}}</p> --}}
+                    <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($customer->quotations[0]->contract->date))}}</p>
                 <div class="signatures">
                     <div class="col col-left">
                         <img src="https://inbestiga.com/pdf-sys/firmaBere.jpg" width="200">
