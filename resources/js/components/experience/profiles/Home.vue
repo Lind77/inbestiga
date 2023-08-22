@@ -1,8 +1,12 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold">Perfiles de Clientes</h4>
+        <div class="row mb-2">
+            <input type="text" placeholder="Buscar perfil de cliente..." class="form-control w-50 ms-2"
+                v-model="searchProfile" @keyup="filterProfiles">
+        </div>
         <div class="row g-4 mb-4">
-            <div class="col-sm-6 col-xl-3" v-for="customer in customers">
+            <div class="col-sm-6 col-xl-3" v-for="customer in customersFiltered">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex align-items-start justify-content-between">
@@ -58,10 +62,20 @@ export default {
             action: 1,
             customers: [],
             customer_selected: {},
-            comunicationsSelected: []
+            comunicationsSelected: [],
+            searchProfile: '',
+            customersFiltered: []
         }
     },
     methods: {
+        filterProfiles() {
+            if (this.searchProfile == '') {
+                this.customersFiltered = this.customers
+            } else {
+                this.customersFiltered = this.customers.filter(customer => customer.name.toLowerCase().includes(this.searchProfile))
+            }
+
+        },
         showComunicationUpdate(customerId) {
             var customerSelected = this.customers.find(customer => customer.id == customerId)
 
@@ -81,6 +95,7 @@ export default {
             axios.get('/api/profiles')
                 .then((result) => {
                     this.customers = result.data
+                    this.customersFiltered = result.data
                 }).catch((err) => {
                     console.log(err);
                 });
