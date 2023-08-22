@@ -16,7 +16,7 @@
             }
             header {
                 position: fixed;
-                top: -170px;
+                top: -180px;
                 left: 0px;
                 right: 0px;
                 height: 50px;
@@ -33,17 +33,21 @@
 
             footer {
                 position: fixed; 
-                bottom: -30px; 
+                bottom: -10px; 
                 left: 0px; 
                 right: 0px;
                 height: 50px; 
                 font-size: 20px !important;
+                
 
                 /** Extra personal styles **/
-                background-color: #008B8B;
+                background-color: #fff;
                 color: white;
                 text-align: center;
                 line-height: 35px;
+            }
+            footer img{
+                width: 100% !important;
             }
 
             body{
@@ -124,11 +128,11 @@
     <body>
         <!-- Define header and footer blocks before your content -->
         <header>
-            <img src="https://inbestiga.com/pdf-sys/header.png" alt="">
+            <img src="https://inbestiga.com/pdf-sys/contract/contractHeader.png" alt="">
         </header>
 
         <footer>
-            <img src="https://inbestiga.com/pdf-sys/footer.png" alt="">
+            <img src="https://inbestiga.com/pdf-sys/contract/contractFooter.png" alt="">
         </footer>
 
             <img src="" alt="">
@@ -215,7 +219,7 @@
                 <div class="page-break"></div>
                 <p style="margin-top: 15px;">
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
-                Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un monto total de S/{{$contract->amount}} (<span class="name">{{$contract->amount_text}}</span> soles), monto que será abonado en las siguientes fechas:
+                Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un monto total de S/.{{$contract->amount}}0 (<span class="name">{{$contract->amount_text}}</span> soles con {{$contract->cent_text}} céntimos), monto que será abonado en las siguientes fechas:
                 </p>
                 <table class="date-table">
                     <thead>
@@ -352,7 +356,7 @@
                 <p> En caso de que EL CLIENTE muestre conductas hostiles hacia cualquier miembro de la organización, este 
                     perderá automáticamente todos los beneficios adicionales contenidos en EL CONTRATO. Además, en caso el 
                     servicio no contenga beneficios adicionales, se sancionará a EL CLIENTE con un bono excedente de hasta 
-                    S/50.00 (cincuenta soles).</p>
+                    S/.50.00 (cincuenta soles).</p>
                 <span>DÉCIMO PRIMERO: SOLUCIÓN DE CONFLICTOS</span><br>
                 <p>En caso de desacuerdo durante la ejecución del presente contrato, estos deberán solucionarlo mediante 
                     conciliación extrajudicial.
@@ -361,7 +365,7 @@
                     según desee el interesado.</p> 
                 <span>DÉCIMO SEGUNDO: BONIFICACIONES</span><br>
                <p>En caso de que EL CLIENTE refiera a EL LOCADOR y este celebre un contrato de índole similar a la del 
-                    presente contrato, EL LOCADOR otorgará a EL CLIENTE una bonificación de S/60.00 (sesenta soles) por cada 
+                    presente contrato, EL LOCADOR otorgará a EL CLIENTE una bonificación de S/.60.00 (sesenta soles) por cada 
                     mil soles de ingreso con los que la empresa se vea beneficiada.</p>
                     <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
                    {{--  <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($customer->quotations[0]->contract->date))}}</p> --}}

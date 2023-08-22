@@ -305,6 +305,7 @@ class ContractController extends Controller
             'quotation_id' => $request->get('quotation_id'),
             'amount' => $request->get('amount'),
             'amount_text' => $request->get('amount_text'),
+            'cent_text' => $request->get('cent_text'),
             'date' => $request->get('date'),
             'third_article' => $request->get('third_article'),
             'fifth_article' => $request->get('fifth_article')
