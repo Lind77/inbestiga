@@ -219,7 +219,12 @@
                 <div class="page-break"></div>
                 <p style="margin-top: 15px;">
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
-                Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un monto total de S/.{{$contract->amount}}0 (<span class="name">{{$contract->amount_text}}</span> soles con {{$contract->cent_text}} céntimos), monto que será abonado en las siguientes fechas:
+                Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un monto total de
+                @if($contract->cent_text == null) 
+                <span>S/.{{number_format($contract->amount)}} <span class="name">({{$contract->amount_text}} soles)</span></span>
+                @else
+                <span>S/.{{number_format($contract->amount, 1)}}0 <span class="name">({{$contract->amount_text}} soles con {{$contract->cent_text}} céntimos)</span></span>
+                @endif, monto que será abonado en las siguientes fechas:
                 </p>
                 <table class="date-table">
                     <thead>
@@ -232,7 +237,7 @@
                         @foreach ($contract->payments as $fee)
                         <tr>
                             <td>{{$fee->date ? date('d/m/Y',strtotime($fee->date)) : 'Bajo coordinación con gerencia o tesista'}}</td>
-                            <td>{{$fee->percentage}}% - S/ {{$fee->amount}}</td>
+                            <td>{{$fee->percentage}}% - S/. {{$fee->amount}}</td>
                         </tr>
                         @endforeach
                     </tbody>

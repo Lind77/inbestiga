@@ -161,20 +161,20 @@
                 <div class="invoice-calculations">
                   <div class="d-flex justify-content-between mb-2">
                     <span class="w-px-100">Subtotal:</span>
-                    <span class="fw-semibold">S./ {{ totalProducts }}</span>
+                    <span class="fw-semibold">S/. {{ totalProducts }}</span>
                   </div>
                   <div class="d-flex justify-content-between mb-2">
                     <span class="w-px-100">Descuento:</span>
-                    <span class="fw-semibold">S./ {{ discount }}</span>
+                    <span class="fw-semibold">S/. {{ discount }}</span>
                   </div>
                   <div class="d-flex justify-content-between mb-2">
                     <span class="w-px-100">Interés:</span>
-                    <span class="fw-semibold">S./ {{ interest }}</span>
+                    <span class="fw-semibold">S/. {{ interest }}</span>
                   </div>
                   <hr>
                   <div class="d-flex justify-content-between">
                     <span class="w-px-100">Total:</span>
-                    <span class="fw-semibold">S./ {{ totalFinal }}</span>
+                    <span class="fw-semibold">S/. {{ totalFinal }}</span>
                   </div>
                 </div>
               </div>

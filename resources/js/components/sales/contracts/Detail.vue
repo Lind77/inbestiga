@@ -49,7 +49,7 @@
                             class="list-group-item d-flex justify-content-between align-items-center cursor-pointer"
                             v-for="newProductByName in newProductsByName">
                             {{ newProductByName.name }}
-                            <span class="badge bg-primary">S./ {{ newProductByName.newPriceSelected.pivot.price }}</span>
+                            <span class="badge bg-primary">S/. {{ newProductByName.newPriceSelected.pivot.price }}</span>
                         </li>
                     </ul>
                 </div>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="col-md-2 col-12 pe-0">
                     <p class="mb-2 repeater-title">Precio</p>
-                    <p class="mb-0">S./{{ detail.price }}</p>
+                    <p class="mb-0">S/.{{ detail.price }}</p>
                 </div>
             </div>
             <div class="d-flex flex-column align-items-center justify-content-between border-start p-2">
