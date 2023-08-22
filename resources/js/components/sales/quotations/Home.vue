@@ -153,8 +153,8 @@
                   <input type="text" class="form-control" v-model="quotation.term">
                 </div>
                 <div class="d-flex align-items-center mb-3">
-                  <label for="salesperson" class="form-label me-5 fw-semibold">Cupón de descuento:</label>
-                  <input type="text" class="form-control" v-model="coupon" @keyup.enter="autoDiscount">
+                  <!--  <label for="salesperson" class="form-label me-5 fw-semibold">Cupón de descuento:</label>
+                  <input type="text" class="form-control" v-model="coupon" @keyup.enter="autoDiscount"> -->
                 </div>
               </div>
               <div class="col-md-6 d-flex justify-content-end">

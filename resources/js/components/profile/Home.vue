@@ -38,7 +38,7 @@
                                                     </ul>
                                                 </div>
                                                 <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
-                                                    <i class="bx bx-user-check me-1"></i>Seguridad
+                                                    <i class="bx bx-user-check me-1"></i>Online
                                                 </a>
                                             </div>
                                         </div>
@@ -79,8 +79,12 @@
                                                 <div class="col-2">
                                                     <h3>{{ totalHours }}</h3>
                                                     <p>HORAS</p>
-                                                    <a href="javascript:void(0)" @click="openModalSchedule"
-                                                        class="btn btn-primary text-nowrap">
+                                                    <select name="" id="" class="form-control"
+                                                        v-if="store.authUser.id == 9">
+
+                                                    </select>
+                                                    <a v-if="store.authUser.id == 9" href="javascript:void(0)"
+                                                        @click="openModalSchedule" class="btn btn-primary text-nowrap">
                                                         + Horario
                                                     </a>
                                                     <div class="mt-3">
@@ -119,9 +123,10 @@
                                             </div>
 
                                             <label for="">Correo</label>
-                                            <input type="text" class="form-control w-25">
+                                            <input type="text" v-model="email" class="form-control w-25" readonly>
                                             <label for="">Contraseña</label>
-                                            <input type="text" class="form-control w-25">
+                                            <input type="text" v-model="password" class="form-control w-25">
+                                            <button class="btn btn-primary mt-2" @click="updateAccess">Actualizar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -156,6 +161,8 @@ export default {
     components: { Sidebar, Navbar, ScheduleModal, Hour, HourModal, Permissions },
     data() {
         return {
+            email: '',
+            password: '',
             hidden: true,
             user: {},
             days: [
@@ -209,6 +216,21 @@ export default {
         };
     },
     methods: {
+        updateAccess() {
+
+            const fd = new FormData()
+
+            fd.append('email', this.email)
+            fd.append('password', this.password)
+            fd.append('_method', 'put')
+
+            axios.post('/api/access/' + this.store.authUser.id, fd)
+                .then((result) => {
+
+                }).catch((err) => {
+
+                });
+        },
         getNumberOfPermissions() {
             axios.get('/api/attendance-permits/' + this.store.authUser.id)
                 .then((result) => {
@@ -271,6 +293,7 @@ export default {
                 .get("/api/users/" + this.$route.params.idUser)
                 .then((result) => {
                     this.user = result.data;
+                    this.email = result.data.email;
                     this.hours = result.data.schedules
                     this.hours.forEach(schedule => {
                         var newDepartureTime = moment(schedule.admission_time, 'HH:mm:ss').add(1, 'hours').format('HH:mm:ss')
