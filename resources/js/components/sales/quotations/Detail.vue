@@ -102,7 +102,7 @@ export default {
                 product: {
                     name: ''
                 },
-                price: ''
+                price: 0
             },
             newProductsByType: [],
             newProductsByName: [],
