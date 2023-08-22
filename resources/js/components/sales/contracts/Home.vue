@@ -505,8 +505,10 @@ export default {
       const fd = new FormData()
 
       fd.append('quotation_id', this.quotation.id)
-      fd.append('amount', parseInt(this.totalProducts - this.discount))
+      fd.append('amount', this.totalFinal)
       fd.append('amount_text', myConverter.convertToText(parseInt(this.totalProducts - this.discount)))
+      var decimal = this.totalFinal.toString().split(".")[1] * 10
+      fd.append('cent_text', myConverter.convertToText(decimal))
       fd.append('date', this.date)
       fd.append('fees', JSON.stringify(this.fees))
       fd.append('deliveries', JSON.stringify(this.deliveries))
@@ -647,7 +649,8 @@ export default {
   },
   computed: {
     totalFinal() {
-      return parseInt(this.totalProducts - this.discount)
+      var total = this.totalProducts - this.discount
+      return total.toFixed(1)
     },
     totalProducts() {
       var total = 0
