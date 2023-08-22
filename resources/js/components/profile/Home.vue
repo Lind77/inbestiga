@@ -79,12 +79,13 @@
                                                 <div class="col-2">
                                                     <h3>{{ totalHours }}</h3>
                                                     <p>HORAS</p>
-                                                    <select name="" id="" class="form-control"
-                                                        v-if="store.authUser.id == 9">
-
+                                                    <select @change="selectUserSchedule" v-model="userScheduleSelected"
+                                                        class="form-control" v-if="store.authUser.id == 9">
+                                                        <option :value="user.id" v-for="user in users">{{ user.name }}
+                                                        </option>
                                                     </select>
                                                     <a v-if="store.authUser.id == 9" href="javascript:void(0)"
-                                                        @click="openModalSchedule" class="btn btn-primary text-nowrap">
+                                                        @click="openModalSchedule" class="btn btn-primary text-nowrap mt-2">
                                                         + Horario
                                                     </a>
                                                     <div class="mt-3">
@@ -165,6 +166,7 @@ export default {
             password: '',
             hidden: true,
             user: {},
+            users: [],
             days: [
                 {
                     day: 'Lunes',
@@ -212,10 +214,14 @@ export default {
             reason: '',
             missTime: '',
             recoveryTime: '',
-            permissionsNumber: 0
+            permissionsNumber: 0,
+            userScheduleSelected: 0
         };
     },
     methods: {
+        selectUserSchedule() {
+            this.getUser(this.userScheduleSelected)
+        },
         updateAccess() {
 
             const fd = new FormData()
@@ -284,15 +290,22 @@ export default {
         openModalSchedule() {
             $("#scheduleModal").modal("show");
         },
-        getUser() {
+        getProfile() {
+            axios.get("/api/users/" + this.store.authUser.id)
+                .then((result) => {
+                    this.user = result.data;
+                })
+        },
+        getUser(userId) {
             this.totalHours = 0
+            this.abledHours = 0
+            this.disabledHours = 0
             this.days.forEach(day => {
                 day.schedules = []
             });
             axios
-                .get("/api/users/" + this.$route.params.idUser)
+                .get("/api/users/" + userId)
                 .then((result) => {
-                    this.user = result.data;
                     this.email = result.data.email;
                     this.hours = result.data.schedules
                     this.hours.forEach(schedule => {
@@ -325,6 +338,14 @@ export default {
                     console.log(err);
                 });
         },
+        getUsers() {
+            axios.get('/api/users')
+                .then((result) => {
+                    this.users = result.data
+                }).catch((err) => {
+                    console.error(err)
+                });
+        },
         addHour() {
             this.totalHours++;
         },
@@ -343,8 +364,9 @@ export default {
         }
     },
     mounted() {
-        this.getUser();
+        this.getProfile();
         this.getNumberOfPermissions()
+        this.getUsers()
     },
 };
 </script>
