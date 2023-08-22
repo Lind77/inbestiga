@@ -107,4 +107,29 @@ class User extends Authenticatable
     public function documents(){
         return $this->hasMany('App\Models\Document');
     }    
+    //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
+    public function statuses(){
+         return $this->morpehdByMany('App\Models\Status','userable');
+    }
+    //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
+    // ya se ha creado esta relacion mas arriba pero no es polimorfica
+    /* public function projects(){
+        return $this->morpehdByMany('App\Models\Status','userable');
+    } */
+    //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
+    public function notes(){
+    return $this->morpehdByMany('App\Models\Note','userable');
+    }
+    //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
+    public function deliveries(){
+        return $this->morpehdByMany('App\Models\Delivery','userable');
+    }
+    //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
+    public function assigned_activities(){
+        return $this->morpehdByMany('App\Models\Assigned_activity','userable');
+    }
+    //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
+    public function ntasks(){
+        return $this->morpehdByMany('App\Models\Ntasks','userable');
+    }
 }
