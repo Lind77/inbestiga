@@ -9,14 +9,16 @@ class Detail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['quotation_id', 'product_id', 'description', 'type','price','level','mode'];
+    protected $fillable = ['quotation_id', 'product_id', 'description', 'type', 'price', 'extra_price', 'level', 'mode'];
 
     //Relacion inversa uno a muchos Quotation detil
-    public function quotation(){
+    public function quotation()
+    {
         return $this->belongsTo('App\Models\Quotation');
     }
     //Relacion inversa uno a uno Product-Detail
-    public function product(){
+    public function product()
+    {
         return $this->belongsTo("App\Models\Product");
     }
 }

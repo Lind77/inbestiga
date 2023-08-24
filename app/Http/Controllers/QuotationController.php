@@ -50,24 +50,6 @@ class QuotationController extends Controller
     {
         $discount = 0;
 
-        if ($request->get('coupon') != '') {
-            $coupon = $request->get('coupon');
-
-            $promotion = Promotion::where('code', $coupon)->first();
-            if ($promotion->limit == 0) {
-                $discount = $request->get('discount');
-            } else if ($promotion->limit < $promotion->discounted + 1) {
-                $discount = 0;
-                return response()->json('No se realizó el descuento', 402);
-            } else {
-                $discount = $request->get('discount');
-                $promotion->update([
-                    'discounted' => $promotion->discounted + 1
-                ]);
-            }
-        }
-
-
         $quotation = Quotation::create([
             'customer_id' => $request->get('customer_id'),
             'date' => $request->get('date'),
@@ -91,7 +73,8 @@ class QuotationController extends Controller
                 'description' => '-',
                 'price' => $prod['price'],
                 'level' => $prod['level'],
-                'mode' => $prod['mode']
+                'mode' => $prod['mode'],
+                'extra_price' => $prod['extra_price'],
             ]);
         }
 

@@ -268,6 +268,8 @@ class OrderController extends Controller
             }
         }
 
+
+
         $payments = json_decode($request->get('payments'), true);
 
         foreach ($payments as $payment) {
