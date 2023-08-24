@@ -126,8 +126,8 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <button type="button" class="btn btn-primary" data-repeater-create="" @click="addDetail">Agregar
-                    Detalle</button>
+                  <!-- <button type="button" class="btn btn-primary" data-repeater-create="" @click="addDetail">Agregar
+                    Detalle</button> -->
                 </div>
               </div>
             </form>

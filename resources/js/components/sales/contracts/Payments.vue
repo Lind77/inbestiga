@@ -5,8 +5,23 @@
         <button class="btn btn-sm btn-primary" @click="calcFees">Calcular</button>
     </div>
     <div class="row mt-3">
-
-        <div class="col-md-6 col-xl-4" v-for="(fee, index) in fees">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Fecha</td>
+                    <td>Monto</td>
+                    <td>Porcentaje</td>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                <tr v-for="(fee, index) in fees">
+                    <td>{{ fee.date }}</td>
+                    <td>{{ fee.amount }}</td>
+                    <td>{{ fee.percentage }}%</td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- <div class="col-md-6 col-xl-4" v-for="(fee, index) in fees">
             <div class="card bg-primary text-white mb-3">
                 <div class="card-header">Pago {{ index + 1 }}</div>
                 <div class="card-body">
@@ -22,13 +37,9 @@
                         <input type="number" v-model="fee.percentage" class="form-control form-control-sm">
 
                     </p>
-                    <!-- <p class="card-text">
-                Avance:
-                <input type="text" class="form-control" v-model="fee.advance">
-            </p> -->
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>

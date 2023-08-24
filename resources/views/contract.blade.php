@@ -301,7 +301,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                 @if($contract->fifth_article != 1)
+                 @if($contract->fifth_article == 1)
                     <p>Además, EL LOCADOR se compromete con entregar a favor de EL CLIENTE los siguientes beneficios adicionales:
                     </p>
                     <ul style="margin-top: -10px;">
