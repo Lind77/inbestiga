@@ -12,17 +12,49 @@
             <p class="card-text mb-0">
                 Universidad: {{ customer.university }}
             </p>
+            <p class="card-text mb-0">
+                <label for="">DNI:</label>
+                <span v-if="customer.dni != null">{{ customer.dni }}</span>
+                <input v-else type="text" v-model="dni" class="form-control form-control-sm">
+
+            </p>
+            <p class="card-text mb-0">
+                <label for="">Dirección:</label>
+                <span v-if="customer.dni != null">{{ customer.address }}</span>
+                <input v-else type="text" v-model="address" class="form-control form-control-sm">
+            </p>
+            <button v-if="customer.dni == null || customer.address == null" @click="saveDni"
+                class="btn btn-success btn-sm mt-2">Actualizar datos</button>
         </div>
     </div>
 </template>
 <script>
 export default {
+    data() {
+        return {
+            dni: '',
+            address: ''
+        }
+    },
     props: {
         customer: Object
     },
     methods: {
         deleteCustomer(customerId) {
             this.$emit('deleteCustomer', customerId)
+        },
+        saveDni() {
+            const fd = new FormData()
+            fd.append('id_customer', this.customer.id)
+            fd.append('dni', this.dni)
+            fd.append('address', this.address)
+            axios.post('/api/updateDniCustomer', fd)
+                .then((res) => {
+                    this.$emit('getCustomer')
+                })
+                .catch((err) => {
+                    console.error(err)
+                })
         }
     }
 }
