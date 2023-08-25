@@ -31,7 +31,8 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-4 mt-2" v-for="customer in customers">
-                                <Customer :customer="customer" @deleteCustomer="deleteCustomer" />
+                                <Customer :customer="customer" @deleteCustomer="deleteCustomer"
+                                    @getCustomer="getCustomer" />
                             </div>
                         </div>
                     </div>
