@@ -156,7 +156,7 @@ export default {
             this.newProductsByName = []
         },
         addExtraToPrice() {
-            this.detail.price = this.detail.price + this.detail.extra_price
+            /* this.detail.price = this.detail.price + this.detail.extra_price */
         },
     },
     watch: {

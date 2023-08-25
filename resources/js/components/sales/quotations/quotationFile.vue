@@ -96,7 +96,8 @@
                         </th>
                         <th class="table-item fw-normal" style="white-space: pre; text-align: center;">
                             {{ detail.type == 1 ? 'Normal' : 'Sugerido' }}</th>
-                        <th class="table-item fw-normal" style="text-align: center;">S./{{ detail.price }}</th>
+                        <th class="table-item fw-normal" style="text-align: center;">S./{{ detail.price + detail.extra_price
+                        }}</th>
                     </tr>
                     <tr class="sugested-title mt-3">
                         <th class="text-white sugested py-3 px-3" colspan="3">PRECIO FINAL</th>
