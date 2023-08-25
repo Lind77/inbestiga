@@ -133,6 +133,14 @@
             </div>
             <!-- Invoice Actions -->
             <div class="col-lg-3 col-12 invoice-actions">
+                <div class="card bg-success text-white mb-3" v-if="documentType == 1">
+                    <div class="row mb-2 p-2">
+                        <div class="w-100">
+                            <p>Necesidades</p>
+                            {{ customer.needs }}
+                        </div>
+                    </div>
+                </div>
                 <div class="card mb-3" v-if="documentType == 1">
                     <div class="row mb-2 p-2">
                         <div class="w-100">
@@ -238,8 +246,8 @@
                                 </span>
                             </router-link>
                             <a v-if="contractId != 0 && documentType == 3"
-                                :href="`../public/api/generateContract/${contractId}`" target="_blank"
-                                class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
+                                :href="`https://sistema.inbestiga.com/public/api/generateContract/${contractId}`"
+                                target="_blank" class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
                         </div>
                     </div>
                 </div>
@@ -487,7 +495,7 @@ export default {
 
             fd.append('quotation_id', this.quotationExistent.id)
             fd.append('amount', this.finalPrice)
-            fd.append('amount_text', myConverter.convertToText(parseInt(this.finalPrice - this.discount)))
+            fd.append('amount_text', myConverter.convertToText(parseInt(this.finalPrice)))
             var decimal = this.finalPrice.toString().split(".")[1] * 10
             fd.append('cent_text', myConverter.convertToText(decimal))
             fd.append('date', this.contract.date)
@@ -535,10 +543,10 @@ export default {
                     }
                     else if (result.data.percent == 0) {
                         this.$swal('Se ha desbloqueado el descuento por cantidad')
-                        this.quotation.discount = result.data.quantity
+                        this.discount = result.data.quantity
                     } else {
                         this.$swal('Se ha desbloqueado el descuento por porcentaje')
-                        this.quotation.discount = ((this.totalProducts * result.data.percent) / 100).toFixed(2)
+                        this.discount = ((this.totalProducts * result.data.percent) / 100).toFixed(2)
                     }
                 }).catch((err) => {
 
@@ -566,11 +574,12 @@ export default {
             var total = 0
             this.details.forEach((product) => {
                 if (product.type == 1) {
-                    total += parseFloat(product.price)
+                    if (product.extra_price == null) { product.extra_price = 0 }
+                    total += parseFloat(product.price) + parseFloat(product.extra_price)
                 }
 
             })
-            return (total).toFixed(2)
+            return (total).toFixed(2) - this.discount
         }
     },
     mounted() {
