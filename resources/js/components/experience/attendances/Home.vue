@@ -18,8 +18,8 @@
                 <!-- <h4>{{ user.name }} <button class="btn btn-success btn-sm" @click="compareSchedules">Calcular</button></h4> -->
                 <h3>{{ actualMonth() }}</h3>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="w-50">
+                    <div class="col-md-4">
+                        <div class="w-100">
                             <input type="text" class="form-control form-control-md" v-model="search" @keyup="searchUser">
                             <div class="list-group">
                                 <a href="javascript:void(0);" @click="selectUser(user)" v-for="user in usersFounded"
@@ -28,18 +28,28 @@
                         </div>
 
                     </div>
-                    <div class="col-md-6">
-                        <p>Temprano: {{ early }}</p>
-                        <p>Tardanzas: {{ delays }}</p>
-                        <p>Faltas: {{ lacks }}</p>
+                    <div class="col-md-4 d-flex">
+                        <p class="mx-2">Temprano: {{ early }}</p>
+                        <p class="mx-2">Tardanzas: {{ delays }}</p>
+                        <p class="mx-2">Faltas: {{ lacks }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-success text-white p-3">
+                            <p>Fecha: {{ dateSelected }}</p>
+                            <p>Hora de ingreso: {{ attendanceSelected.first_punch }}</p>
+                            <p>Hora de salida: {{ attendanceSelected.last_punch }}</p>
+                        </div>
                     </div>
                 </div>
+                <div class="row mt-3">
+                    <template v-for="day in  buttonDays">
+                        <button type="button" @click="showDay(day.date)"
+                            :class="`btn btn-${statusColor[day.status]} btn-icon mx-1 my-1`">
+                            {{ formatDay(day.date) }}
+                        </button>
+                    </template>
+                </div>
 
-                <template v-for="day in  buttonDays">
-                    <button type="button" :class="`btn btn-${statusColor[day.status]} btn-icon mx-1 my-1`">
-                        {{ formatDay(day.date) }}
-                    </button>
-                </template>
                 <!-- <div class="collapse show mt-3" id="collapseExample" style="">
                     <div class="p-3 border d-flex">
                         <p>Día: {{ weeyDays[msgAttendance.weekday] }}</p>
@@ -93,10 +103,16 @@ export default {
             lacks: 0,
             msgAttendance: '',
             totalDays: 0,
-            buttonDays: []
+            buttonDays: [],
+            dateSelected: '',
+            attendanceSelected: {}
         }
     },
     methods: {
+        showDay(date) {
+            this.dateSelected = date
+            this.attendanceSelected = this.attendances.find(attendance => attendance.date == date)
+        },
         selectUser(user) {
             this.usersFounded = []
             this.search = user.name
@@ -105,7 +121,12 @@ export default {
             this.getAttendances()
         },
         searchUser() {
-            this.usersFounded = this.users.filter(user => user.name.toLowerCase().includes(this.search))
+            if (this.search == '') {
+                this.usersFounded = []
+            } else {
+                this.usersFounded = this.users.filter(user => user.name.toLowerCase().includes(this.search))
+            }
+
         },
         actualMonth() {
             return moment().format('MMMM') + ' ' + moment().format('YYYY')
