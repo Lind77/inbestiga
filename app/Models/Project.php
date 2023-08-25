@@ -40,8 +40,15 @@ class Project extends Model
         return $this->morphToMany('App\Models\Quality_indicator','quality_indicable');
     }
     //Relacion morfeable uno a muchos project,deliveris,assigned_activities,assigned_task)
-     public function observations(){
+    public function observations(){
         return $this->morphMany('App\Models\Observation','observable');
     }
-
+    //Relación muchos a muchos polimorfica (status)-(entidades)(Project,Deliveries,Assigned_activities,Ntasks)
+    public function statuses(){
+        return $this->morphToMany('App\Models\Status','statusable');
+    }
+    //Relación polimorfica de muchos a muchos (Status-Usuarios)
+    public function users(){
+        return $this->morphToMany('App\Models\User', 'userable');
+    }
 }

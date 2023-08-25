@@ -8,13 +8,13 @@
                     <div class="col-md">
                         <div class="form-check mt-3">
                             <input class="form-check-input" type="radio" v-model="detail.mode" @click="selectMode" value="1"
-                                :id="`type1-${detail.id}`">
-                            <label class="form-check-label" :for="`type1-${detail.id}`"> Fragmentado </label>
+                                :id="`type1-${index}`">
+                            <label class="form-check-label" :for="`type1-${index}`"> Frag. </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" v-model="detail.mode" @click="selectMode" value="2"
-                                :id="`type-${detail.id}`">
-                            <label class="form-check-label" :for="`type-${detail.id}`"> Paquete </label>
+                                :id="`type-${index}`">
+                            <label class="form-check-label" :for="`type-${index}`"> Paquete </label>
                         </div>
                     </div>
                 </div>
@@ -49,22 +49,22 @@
                             class="list-group-item d-flex justify-content-between align-items-center cursor-pointer"
                             v-for="newProductByName in newProductsByName">
                             {{ newProductByName.name }}
-                            <span class="badge bg-primary">S/. {{ newProductByName.newPriceSelected.pivot.price }}</span>
+                            <span class="badge bg-primary">S./ {{ newProductByName.newPriceSelected.pivot.price }}</span>
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-2 col-12 mb-md-0 mb-3" v-if="detail.modeProduct == 2">
+                <div class="col-md-2 col-12 mb-md-0 mb-3" v-if="detail.modeProduct == 1">
                     <p class="mb-2 repeater-title">Cantidad</p>
                     <input type="number" @keyup="changeCant" @change="changeCant" class="form-control" v-model="cantProduct"
                         min="1">
                 </div>
                 <div class="col-md-2 col-12 pe-0">
                     <p class="mb-2 repeater-title">Precio</p>
-                    <p class="mb-0">S/.{{ detail.price }}</p>
+                    <p class="mb-0">S./{{ detail.price }}</p>
                 </div>
                 <div class="col-md-2 col-12 pe-0">
                     <p class="mb-2 repeater-title">Extra</p>
-                    <input type="number" @change="addExtraToPrice" v-model="detail.extra_price"
+                    <input type="number" min="0" @change="addExtraToPrice" v-model="detail.extra_price"
                         class="form-control form-control-sm">
                 </div>
             </div>
@@ -104,11 +104,10 @@ export default {
             carNewProduct: {
                 mode: '',
                 level: '',
-                new_product: {
+                product: {
                     name: ''
                 },
-                price: 0,
-                extra_price: 0
+                price: 0
             },
             newProductsByType: [],
             newProductsByName: [],
@@ -122,9 +121,6 @@ export default {
         index: Number
     },
     methods: {
-        addExtraToPrice() {
-            this.detail.price = this.detail.price + this.detail.extra_price
-        },
         changeType() {
             this.detail.type == 1 ? this.detail.type = 2 : this.detail.type = 1
         },
@@ -133,13 +129,11 @@ export default {
         },
         selectMode(e) {
             this.newProductsByType = this.newProducts.filter(product => product.type == e.target.value)
-            console.log('mode selected', this.newProductsByType);
         },
         searchNewProduct(e) {
             this.newProductsByType = this.newProducts.filter(product => product.type == this.detail.mode)
             if (e.target.value != '') {
                 this.newProductsByName = this.newProductsByType.filter(product => product.name.toLowerCase().includes(e.target.value))
-                console.log('searching', this.newProductsByName);
                 this.newProductsByName.forEach((product) => {
                     product.newPriceSelected = product.levels.find(level => level.name == this.detail.level)
                 })
@@ -149,6 +143,7 @@ export default {
         },
         addPrice(newProductByName) {
             console.log(newProductByName)
+            console.log(this.detail);
             this.detail.price = newProductByName.newPriceSelected.pivot.price
             this.initialPrice = newProductByName.newPriceSelected.pivot.price
             if (this.detail.new_product == null) {
@@ -159,7 +154,10 @@ export default {
             this.detail.modeProduct = newProductByName.mode
             this.detail.type = 1
             this.newProductsByName = []
-        }
+        },
+        addExtraToPrice() {
+            /* this.detail.price = this.detail.price + this.detail.extra_price */
+        },
     },
     watch: {
         cantProduct: function (newCant, oldCant) {

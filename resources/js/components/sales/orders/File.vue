@@ -116,7 +116,7 @@
                             </template>
                         </td>
                         <td class="table-item" width="10%" v-if="detail.type <= order.suggested">
-                            <p class="mb-0" style="text-align: center;">S./ {{ detail.price }}</p>
+                            <p class="mb-0" style="text-align: center;">S./ {{ detail.price + detail.extra_price }}</p>
                         </td>
                         <template v-if="index == 0">
                             <td class="table-item ps-2" width="30%" :rowspan="order.quotation.details.length">
@@ -206,12 +206,12 @@ export default {
 
             details.forEach(detail => {
                 if (detail.type <= this.order.suggested) {
-                    sumTotal += parseFloat(detail.price)
+                    sumTotal += parseFloat(detail.price) + detail.extra_price
                 }
 
             })
 
-            return sumTotal - parseFloat(this.order.quotation.discount)
+            return (sumTotal - parseFloat(this.order.quotation.discount)).toFixed(1)
         }
     }
 }

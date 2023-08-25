@@ -39,6 +39,7 @@ import HomeCalendar from '../components/sales/calendar/Home.vue'
 
 //Área de Ventas - Documentos
 import HomeDocuments from '../components/sales/documents/Home.vue'
+import HomeMakeDocs from '../components/sales/makedocs/Home.vue'
 
 //Área de Ventas - Precios
 import HomePrices from '../components/sales/prices/Home.vue'
@@ -198,12 +199,12 @@ export const routes = [
                 component: HomeProduct,
                 name: 'home-product'
             },
-            {
+            /* {
                 path: 'create-quotations/:idCustomer',
                 component: HomeQuotation,
                 props: true,
                 name: 'home-quotation'
-            },
+            } */
             {
                 path: 'edit-quotation/:idQuotation',
                 component: EditQuotation,
@@ -280,7 +281,13 @@ export const routes = [
                 path: 'my-leads',
                 component: HomeMyLeads,
                 name: 'my-leads'
-            }
+            },
+            {
+                path: 'makeDocs/:customerId?',
+                component: HomeMakeDocs,
+                props: true,
+                name: 'home-docs'
+            },
         ]
     },
     {

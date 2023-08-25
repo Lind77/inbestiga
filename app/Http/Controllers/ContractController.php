@@ -28,7 +28,7 @@ class ContractController extends Controller
      */
     public function index()
     {
-        $contracts = Contract::with(['quotation', 'quotation.customers'])->get();
+        $contracts = Contract::with(['quotation', 'quotation.customers'])->orderBy('id', 'desc')->get();
         return response()->json($contracts);
     }
 
@@ -315,16 +315,16 @@ class ContractController extends Controller
             'status' => 9
         ]);
 
-        $fees = json_decode($request->get('fees'), true);
+        $payments = json_decode($request->get('payments'), true);
 
-        foreach ($fees as $fee) {
+        foreach ($payments as $payment) {
             Payment::create([
                 'paymentable_id' => $contract->id,
                 'paymentable_type' => 'App\Models\Contract',
-                'date' => $fee['date'],
-                'amount' => $fee['amount'],
-                'advance' => $fee['advance'],
-                'percentage' => $fee['percentage']
+                'date' => $payment['date'],
+                'amount' => $payment['amount'],
+                'advance' => null,
+                'percentage' => $payment['percentage']
             ]);
         }
 

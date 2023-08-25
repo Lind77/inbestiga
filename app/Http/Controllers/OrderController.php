@@ -255,8 +255,12 @@ class OrderController extends Controller
                 'suggested' => $request->get('suggested')
             ]);
         } else {
-            $quotation = Quotation::with(['order', 'customers'])->where('id', $request->get('quotation_id'))->first();
+            $quotation = Quotation::with(['order', 'customers', 'order.payments'])->where('id', $request->get('quotation_id'))->first();
+            $quotation->update([
+                'discount'  => $request->get('discount')
+            ]);
             if ($quotation->order != null) {
+                $quotation->order->payments->each->delete();
                 $quotation->order->update([
                     'final_delivery' => $request->get('final_delivery'),
                     'observations' => $request->get('observations'),
@@ -267,6 +271,8 @@ class OrderController extends Controller
                 $order = Order::create($request->all());
             }
         }
+
+
 
         $payments = json_decode($request->get('payments'), true);
 

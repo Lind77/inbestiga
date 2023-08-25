@@ -185,11 +185,12 @@ export default {
             this.$router.push({ name: 'edit-quotation', params: { idQuotation: quotationId } })
         },
         toOrder(quotation) {
+            console.log(quotation);
             $('#funnelModal').modal('hide')
             if (quotation.amount <= 1500) {
-                this.$router.push({ name: 'create-orders', params: { idQuotation: quotation.id } })
+                this.$router.push({ name: 'home-docs', params: { customerId: quotation.customer_id } })
             } else {
-                this.$router.push({ name: 'create-contracts', params: { idQuotation: quotation.id } })
+                this.$router.push({ name: 'home-docs', params: { customerId: quotation.customer_id } })
             }
 
             /* $('#funnelModal').modal('hide')
@@ -299,7 +300,7 @@ export default {
                 if (parseInt(this.customer.status) + 1 == 5) {
                     console.log('entrando al if')
                     $('#funnelModal').modal('hide')
-                    this.$router.push({ name: 'home-quotation', params: { idCustomer: this.customer.id } })
+                    this.$router.push({ name: 'home-docs', params: { customerId: this.customer.id } })
                 }
                 var newStatus = parseInt(this.customer.status) + 1
                 this.$emit('updateStatusSpace', this.customer.id, newStatus)

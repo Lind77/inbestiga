@@ -76,11 +76,6 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Customer');
     }
-    //Relacion uno a muchos User-Project
-    public function projects()
-    {
-        return $this->hasMany('App\Models\Project');
-    }
     //Relacion uno a muchos User-Progress
     public function progress()
     {
@@ -109,27 +104,32 @@ class User extends Authenticatable
     }    
     //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
     public function statuses(){
-         return $this->morpehdByMany('App\Models\Status','userable');
+         return $this->morphedByMany('App\Models\Status','userable');
     }
     //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
     // ya se ha creado esta relacion mas arriba pero no es polimorfica
-    /* public function projects(){
-        return $this->morpehdByMany('App\Models\Status','userable');
-    } */
+    public function projects(){
+        return $this->morphedByMany('App\Models\Status','userable');
+    }
     //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
+    //Relacion uno a muchos User-Project
+   /*  public function projects()
+        {
+            return $this->hasMany('App\Models\Project');
+        } */
     public function notes(){
-    return $this->morpehdByMany('App\Models\Note','userable');
+    return $this->morphedByMany('App\Models\Note','userable');
     }
     //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
     public function deliveries(){
-        return $this->morpehdByMany('App\Models\Delivery','userable');
+        return $this->morphedByMany('App\Models\Delivery','userable');
     }
     //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
     public function assigned_activities(){
-        return $this->morpehdByMany('App\Models\Assigned_activity','userable');
+        return $this->morphedByMany('App\Models\Assigned_activity','userable');
     }
     //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
     public function ntasks(){
-        return $this->morpehdByMany('App\Models\Ntasks','userable');
+        return $this->morphedByMany('App\Models\Ntasks','userable');
     }
 }
