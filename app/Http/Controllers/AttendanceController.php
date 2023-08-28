@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Http\Requests\StoreAttendanceRequest;
 use App\Http\Requests\UpdateAttendanceRequest;
+use App\Imports\AttendancesImport;
 use App\Models\Attendance_permit;
 use App\Models\Recovery_date;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AttendanceController extends Controller
 {
@@ -171,6 +173,16 @@ class AttendanceController extends Controller
                 'msg' => 'success'
             ]);
         }
+    }
+
+    public function excelFile(Request $request)
+    {
+        $fileName = time() . '.' . $request->file->getClientOriginalExtension();
+        $request->file->move(public_path('files'), $fileName);
+
+        Excel::import(new AttendancesImport, public_path('files/' . $fileName));
+
+        return response()->json(['success' => 'You have successfully upload file.']);
     }
 
     public function attendancePermits(Request $request)

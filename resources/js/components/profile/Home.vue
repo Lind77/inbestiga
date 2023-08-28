@@ -297,6 +297,7 @@ export default {
                 })
         },
         getUser(userId) {
+
             this.totalHours = 0
             this.abledHours = 0
             this.disabledHours = 0
@@ -306,7 +307,6 @@ export default {
             axios
                 .get("/api/users/" + userId)
                 .then((result) => {
-                    this.email = result.data.email;
                     this.hours = result.data.schedules
                     this.hours.forEach(schedule => {
                         var newDepartureTime = moment(schedule.admission_time, 'HH:mm:ss').add(1, 'hours').format('HH:mm:ss')
@@ -364,6 +364,7 @@ export default {
         }
     },
     mounted() {
+        this.email = this.store.authUser.email;
         this.getProfile();
         this.getNumberOfPermissions()
         this.getUsers()

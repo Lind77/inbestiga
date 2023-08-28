@@ -7,10 +7,12 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row">
             <div class="col-md-6">
+                <label for="">JSON</label>
                 <input type="file" @change="handleFileUpload" class="form-control">
             </div>
             <div class="col-md-6">
-
+                <label for="">XLS</label>
+                <input type="file" @change="handleFileExcel" class="form-control">
             </div>
         </div>
         <div class="card mt-2">
@@ -245,6 +247,23 @@ export default {
             fd.append('file', e.target.files[0])
 
             axios.post('/api/json-file', fd, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then((result) => {
+                    this.$swal('Asistencias almacenadas correctamente')
+                }).catch((err) => {
+                    console.error(err);
+                });
+        },
+        handleFileExcel(e) {
+            this.$swal('Cargando datos desde excel...')
+            const fd = new FormData()
+
+            fd.append('file', e.target.files[0])
+
+            axios.post('/api/excel-file', fd, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

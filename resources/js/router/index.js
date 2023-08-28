@@ -119,6 +119,8 @@ import Notifications from '../components/layout/Notifications.vue'
 //Profile
 import Profile from '../components/profile/Home.vue'
 
+//Trabajos
+import Jobs from '../components/jobs/Home.vue'
 
 export const routes = [
     {
@@ -453,6 +455,11 @@ export const routes = [
         component:  Ecard,
         name: 'ecard',
         props: true
+    },
+    {
+        path: '/jobs',
+        component: Jobs,
+        name: 'jobs'
     }
 ]
 
