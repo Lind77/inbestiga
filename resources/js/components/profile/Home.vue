@@ -68,7 +68,7 @@
                                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                                 data-bs-target="#navs-pills-justified-messages"
                                                 aria-controls="navs-pills-justified-messages" aria-selected="false">
-                                                <i class="tf-icons bx bx-message-square"></i> Seguridad
+                                                <i class="tf-icons bx bx-key"></i> Seguridad
                                             </button>
                                         </li>
                                     </ul>
