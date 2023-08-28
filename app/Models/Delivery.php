@@ -34,27 +34,38 @@ class Delivery extends Model
     {
         return $this->morphMany('App\Models\Observation', 'observable');
     }
-     //Relación muchos a muchos polimorfica (status)-(entidades)(Project,Deliveries,Assigned_activities,Ntasks)
-     public function statuses(){
-        return $this->morphToMany('App\Models\Status','statusable');
+    //Relación muchos a muchos polimorfica (status)-(entidades)(Project,Deliveries,Assigned_activities,Ntasks)
+    public function statuses()
+    {
+        return $this->morphToMany('App\Models\Status', 'statusable');
     }
     //Relación polimorfica de muchos a muchos (Status-Usuarios)
-    public function users(){
+    public function users()
+    {
         return $this->morphToMany('App\Models\User', 'userable');
     }
-    public function links(){
+    public function links()
+    {
         return $this->morphMany('App\Models\Links', 'linkable');
     }
     //Relación polimorfica uno a muchos (Entities-Images)
-    public function images(){
-        return $this->morphMany('App\Models\Image','imageable');
+    public function images()
+    {
+        return $this->morphMany('App\Models\Image', 'imageable');
     }
-     //Relación polimorfica uno a muchos (Entities-Icon)
-     public function icons(){
-        return $this->morphMany('App\Models\Icon','iconable');
+    //Relación polimorfica uno a muchos (Entities-Icon)
+    public function icons()
+    {
+        return $this->morphMany('App\Models\Icon', 'iconable');
     }
     //Relación polimorfica uno a mucho (Entities-File)
-    public function files(){
-        return $this->mophMany('App\Models\File','fileable');        
+    public function files()
+    {
+        return $this->mophMany('App\Models\File', 'fileable');
+    }
+
+    public function deliverable()
+    {
+        return $this->morphTo();
     }
 }
