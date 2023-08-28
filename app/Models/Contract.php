@@ -31,4 +31,8 @@ class Contract extends Model
        public function payment_proofs(){
         return $this->morphMany('App\Models\Payment_proof', 'payment_proofable');
     }
+     //Relacion morfeable uno a muchos (O-C-Projects)
+     public function projects(){
+        return $this->morphMany('App\Models\Project', 'projectable');
+    }
 }
