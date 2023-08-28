@@ -39,12 +39,6 @@
           <div data-i18n="Form Layouts">Productos</div>
         </div>
       </router-link> -->
-      <!-- <router-link :to="{name:'home-prices'}" class="menu-item">
-            <div class="menu-link">
-              <i class="menu-icon tf-icons bx bx-money"></i>
-              <div data-i18n="Form Layouts">Precios</div>
-            </div>
-          </router-link> -->
 
       <!-- 
           <router-link :to="{name:'home-orders', params:{ idUser: 0}}" class="menu-item">
@@ -107,6 +101,12 @@
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-home"></i>
           <div data-i18n="Form Layouts">Inicio</div>
+        </div>
+      </router-link>
+      <router-link :to="{ name: 'home-prices' }" class="menu-item">
+        <div class="menu-link">
+          <i class="menu-icon tf-icons bx bx-money"></i>
+          <div data-i18n="Form Layouts">Precios</div>
         </div>
       </router-link>
       <router-link :to="{ name: 'users-admin' }" class="menu-item">

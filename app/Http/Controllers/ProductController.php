@@ -140,8 +140,8 @@ class ProductController extends Controller
 
     public function getAllProductsWithPrices()
     {
-        $newProducts = NewProduct::with('newprices')->get();
-        $products = Product::where('id', '!=', 1)->with('prices')->get();
+        $newProducts = Product::with('levels')->get();
+        $products = Product::where('id', '!=', 1)->with('levels')->get();
 
         return response()->json($newProducts);
     }
