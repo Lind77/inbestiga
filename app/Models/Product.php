@@ -13,7 +13,7 @@ class Product extends Model
 
 
     //Realcion uno a mucho Product-Activity
-    public function Activities()
+    public function activities()
     {
         return $this->hasMany('App\Models\Activity');
     }

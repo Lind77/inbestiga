@@ -277,7 +277,7 @@ Route::get('/accept-permit/{id}/{status}', [AttendanceController::class, 'accept
 Route::get('/reject-permit/{id}', [AttendanceController::class, 'rejectPermit']);
 
 Route::post('/json-file', [AttendanceController::class, 'jsonFile']);
-
+Route::post('/excel-file', [AttendanceController::class, 'excelFile']);
 
 Route::get('/schedules/{id}', [ScheduleController::class, 'index']);
 Route::post('/schedules', [ScheduleController::class, 'store']);
