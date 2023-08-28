@@ -38,7 +38,7 @@ export default {
     },
     methods: {
         formatCant(number) {
-            return number.toFixed(1)
+            return parseFloat(number).toFixed(1)
         },
         showModalFunnel(quotation) {
             console.log(quotation);
