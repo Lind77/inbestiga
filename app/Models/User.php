@@ -106,10 +106,14 @@ class User extends Authenticatable
     public function statuses(){
          return $this->morphedByMany('App\Models\Status','userable');
     }
+     //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
+     public function issues(){
+        return $this->morphedByMany('App\Models\Issue','userable');
+   }
     //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
     // ya se ha creado esta relacion mas arriba pero no es polimorfica
     public function projects(){
-        return $this->morphedByMany('App\Models\Status','userable');
+        return $this->morphedByMany('App\Models\Project','userable');
     }
     //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
     //Relacion uno a muchos User-Project

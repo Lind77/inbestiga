@@ -19,6 +19,10 @@ class Order extends Model
     public function payments(){
         return $this->morphMany('App\Models\Payment', 'paymentable');
     }
+    //Relacion morfeable uno a muchos (O-C-PROJECTS)
+     public function projects(){
+        return $this->morphMany('App\Models\Project', 'projectable');
+    }
     //Relacion morfeable uno a muchos order,contract-deliveries
     public function deliveries(){
         return $this->morphMany('App\Models\Delivery', 'deliverable');
