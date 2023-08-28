@@ -214,9 +214,13 @@ class QuotationController extends Controller
      * @param  \App\Models\Quotation  $quotation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Quotation $quotation)
+    public function destroy($id)
     {
-        //
+        $quotation = Quotation::find($id);
+        $quotation->delete();
+        return response()->json([
+            'msg' => 'No existe cotización'
+        ]);
     }
 
     public function getQuotationByCustomerId($id)

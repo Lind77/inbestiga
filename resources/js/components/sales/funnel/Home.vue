@@ -16,7 +16,7 @@
       @addNewComunication="addNewComunication" />
     <FunnelModal :quotation="quotation" :owners="owners" @updateStatusSpace="updateStatusSpace" @callModal="callModal"
       @showModalUpdateData="showModalUpdateData" @getAllCustomers="getAllCustomers" @updateOwner="updateOwner"
-      @updateOwnerQuotation="updateOwnerQuotation" @updateInterest="updateInterest"
+      @getAllQuotations="getAllQuotations" @updateOwnerQuotation="updateOwnerQuotation" @updateInterest="updateInterest"
       @callModalComunication="callModalComunication" />
     <customerModal :customer="customer_selected" :action="2" />
   </div>
@@ -213,13 +213,15 @@ export default {
       if (status == 9) {
 
         $('#funnelModal').modal('hide')
-        var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
+        var quotSelected = this.totalQuotations.find(quotation => quotation.id == quotationId)
+        this.$router.push({ name: 'home-docs', params: { customerId: quotSelected.customers[0].id } })
+        /* var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
 
         if (leadSelected.quotations[0].amount < 1500) {
           this.$router.push({ name: 'home-orders', params: { idUser: leadId } });
         } else {
           this.$router.push({ name: 'home-contracts', params: { idUser: leadId } });
-        }
+        } */
 
       } else {
         console.log(quotationId);

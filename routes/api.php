@@ -134,6 +134,7 @@ Route::get('/searchPreleads/{search}', [CustomerController::class, 'searchPrelea
 Route::get('/quotations', [QuotationController::class, 'index']);
 Route::post('/quotations', [QuotationController::class, 'store']);
 Route::get('/quotations/{id}', [QuotationController::class, 'show']);
+Route::delete('/quotations/{id}', [QuotationController::class, 'destroy']);
 Route::get('/quotations/{id}/pdf', [QuotationController::class, 'generatePDF']);
 Route::get('/getQuotationByCustomerId/{id}', [QuotationController::class, 'getQuotationByCustomerId']);
 Route::get('/quotationByOrder/{id}', [QuotationController::class, 'getQuotationByOrder']);
