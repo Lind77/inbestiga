@@ -11,6 +11,7 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Usuario</th>
                             <th>Área</th>
                             <th>Rol</th>
@@ -19,6 +20,7 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                         <tr v-for="user in users">
+                            <td>{{ user.id }}</td>
                             <td>{{ user.name }}</td>
                             <td>{{ user.subarea.area.name }}</td>
                             <td>{{ user.roles[0].name }}</td>
