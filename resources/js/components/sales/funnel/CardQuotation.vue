@@ -3,7 +3,7 @@
         @click="showModalFunnel(quotation)">
         <div :class="`card bg-${bgColor} p-2 cursor-pointer`">
             <template v-if="quotation">
-                <p class="text-white mb-0">S/.{{ quotation.amount }}</p>
+                <p class="text-white mb-0">S/.{{ formatCant(quotation.amount) }}</p>
                 <h6 class="mb-0 py-2 text-white" v-for="customer in quotation.customers">{{ customer.name || customer.cell
                 }}
                 </h6>
@@ -37,6 +37,9 @@ export default {
         quotation: Object
     },
     methods: {
+        formatCant(number) {
+            return number.toFixed(1)
+        },
         showModalFunnel(quotation) {
             console.log(quotation);
             this.$emit('showModalQuotationFunnel', quotation)
