@@ -8,7 +8,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <button v-if="quotation" v-bind:disabled="quotation.status < 5"
-                                    @click="toQuotation(quotation.customers[0].pivot.quotation_id)" type="button"
+                                    @click="toQuotation(quotation.customers[0].id)" type="button"
                                     class="btn btn-icon btn-success ms-2" style=""><span
                                         class="tf-icons bx bx-file"></span></button>
                                 <button v-if="quotation" v-bind:disabled="quotation.status < 8" @click="toOrder(quotation)"
@@ -180,9 +180,9 @@ export default {
             }
 
         },
-        toQuotation(quotationId) {
+        toQuotation(customerId) {
             $('#funnelModal').modal('hide')
-            this.$router.push({ name: 'edit-quotation', params: { idQuotation: quotationId } })
+            this.$router.push({ name: 'home-docs', params: { customerId: customerId } })
         },
         toOrder(quotation) {
             console.log(quotation);
