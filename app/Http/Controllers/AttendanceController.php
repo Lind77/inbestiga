@@ -10,7 +10,6 @@ use App\Models\Attendance_permit;
 use App\Models\Recovery_date;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 
 class AttendanceController extends Controller
 {
@@ -177,12 +176,12 @@ class AttendanceController extends Controller
 
     public function excelFile(Request $request)
     {
-        $fileName = time() . '.' . $request->file->getClientOriginalExtension();
+        /* $fileName = time() . '.' . $request->file->getClientOriginalExtension();
         $request->file->move(public_path('files'), $fileName);
 
         Excel::import(new AttendancesImport, public_path('files/' . $fileName));
 
-        return response()->json(['success' => 'You have successfully upload file.']);
+        return response()->json(['success' => 'You have successfully upload file.']); */
     }
 
     public function attendancePermits(Request $request)

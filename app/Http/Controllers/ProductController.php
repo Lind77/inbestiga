@@ -148,7 +148,7 @@ class ProductController extends Controller
 
     public function insertNewProduct(Request $request)
     {
-        $new_product = NewProduct::create([
+        $product = Product::create([
             'name' => $request->get('name'),
             'type' => $request->get('type'),
             'mode' => $request->get('mode')
@@ -157,11 +157,9 @@ class ProductController extends Controller
         $prices = json_decode($request->get('prices'));
 
         foreach ($prices as $key => $price) {
-            $price = NewPrice::create([
-                'new_product_id' => $new_product->id,
-                'level' => $key,
-                'price' => $price
-            ]);
+            if ($price != 0) {
+                $product->levels()->attach($key + 1, ['price' => $price]);
+            }
         }
 
         return response()->json([
