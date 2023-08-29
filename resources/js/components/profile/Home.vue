@@ -80,12 +80,12 @@
                                                     <h3>{{ totalHours }}</h3>
                                                     <p>HORAS</p>
                                                     <select @change="selectUserSchedule" v-model="userScheduleSelected"
-                                                        class="form-control" v-if="store.authUser.id == 9">
+                                                        class="form-control">
                                                         <option :value="user.id" v-for="user in users">{{ user.name }}
                                                         </option>
                                                     </select>
-                                                    <a v-if="store.authUser.id == 9" href="javascript:void(0)"
-                                                        @click="openModalSchedule" class="btn btn-primary text-nowrap mt-2">
+                                                    <a href="javascript:void(0)" @click="openModalSchedule"
+                                                        class="btn btn-primary text-nowrap mt-2">
                                                         + Horario
                                                     </a>
                                                     <div class="mt-3">
