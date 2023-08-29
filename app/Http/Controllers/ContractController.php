@@ -14,6 +14,7 @@ use App\Models\Fee;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Project;
 use App\Models\Quotation;
 use App\Models\Seen;
 use App\Models\User;
@@ -117,6 +118,13 @@ class ContractController extends Controller
             }
         }
 
+        //Crear el proyecto
+        $project = Project::create([
+            'projectable_id' => $contract->id,
+            'projectable_type' => 'App\Models\Project',
+            'title' => 'Proyecto #' . $contract->id
+        ]);
+
         $fees = json_decode($request->get('fees'), true);
 
         foreach ($fees as $fee) {
@@ -134,11 +142,9 @@ class ContractController extends Controller
 
         foreach ($deliveries as $delivery) {
             Delivery::create([
-                'deliverable_id' => $contract->id,
-                'deliverable_type' => 'App\Models\Contract',
-                'date' => $delivery['date'],
                 'advance' => $delivery['advance'],
-                'type' => 0
+                'project_id' => $project->id,
+                'date' => $delivery['date']
             ]);
         }
 

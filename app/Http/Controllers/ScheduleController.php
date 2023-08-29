@@ -156,4 +156,13 @@ class ScheduleController extends Controller
         $schedules = Schedule::where('day', $request->get('day'))->where('user_id', $request->get('user_id'))->get();
         return response()->json($schedules);
     }
+
+    public function destroyAll($id)
+    {
+        $schedules = Schedule::where('user_id', $id)->get();
+        $schedules->each->delete();
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
 }
