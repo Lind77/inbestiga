@@ -10,6 +10,13 @@
                                     <span class="h5 mt-2 demo text-body fw-bold">{{ titleByType[documentType]
                                     }}</span> <button class="btn btn-success btn-icon"><i class='bx bx-chevrons-right'
                                             @click="changeDocumentType"></i></button>
+
+                                    <label for="file-upload" class="btn btn-dark btn-icon">
+                                        <i class='bx bx-save'></i>
+                                    </label>
+                                    <input id="file-upload" type="file" class="d-none" @change="uploadContract" />
+
+                                    <!-- <button><i class='bx bx-save'></i></button> -->
                                 </div>
                             </div>
                         </div>
@@ -334,6 +341,9 @@ export default {
         }
     },
     methods: {
+        uploadContract() {
+
+        },
         minusPayment() {
             if (this.finalPrice == 0.00) {
                 this.$swal('Aun no hay un precio final, añadir detalles')
