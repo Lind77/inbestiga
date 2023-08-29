@@ -28,11 +28,12 @@ export default {
     },
     methods: {
         showModalHour(schedule) {
-            if (this.store.authUser.id == 9) {
+            this.$emit('showModalHour', schedule)
+            /* if (this.store.authUser.id == 9) {
                 this.$emit('showModalHour', schedule)
             } else {
                 alert('Para actualizar su horario debe comunicarse con Experiencia')
-            }
+            } */
         },
         formatTime(time) {
             return moment(time, "HH:mm:ss").format("hh:mm")
