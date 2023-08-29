@@ -80,7 +80,7 @@
                                                     <h3>{{ totalHours }}</h3>
                                                     <p>HORAS</p>
                                                     <select @change="selectUserSchedule" v-model="userScheduleSelected"
-                                                        class="form-control">
+                                                        class="form-control" v-if="store.authUser.id == 9">
                                                         <option :value="user.id" v-for="user in users">{{ user.name }}
                                                         </option>
                                                     </select>
@@ -294,6 +294,7 @@ export default {
             axios.get("/api/users/" + this.store.authUser.id)
                 .then((result) => {
                     this.user = result.data;
+                    this.getUser(this.user.id)
                 })
         },
         getUser(userId) {
