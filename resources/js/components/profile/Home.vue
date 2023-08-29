@@ -88,6 +88,10 @@
                                                         class="btn btn-primary text-nowrap mt-2">
                                                         + Horario
                                                     </a>
+                                                    <a href="javascript:void(0)" @click="deleteSchedules"
+                                                        class="btn btn-danger text-nowrap mt-2">
+                                                        Limpiar
+                                                    </a>
                                                     <div class="mt-3">
                                                         <p><span class="badge badge-center rounded-pill bg-success">{{
                                                             abledHours }}</span>
@@ -125,8 +129,19 @@
 
                                             <label for="">Correo</label>
                                             <input type="text" v-model="email" class="form-control w-25" readonly>
-                                            <label for="">Contraseña</label>
-                                            <input type="text" v-model="password" class="form-control w-25">
+                                            <label for="">Contraseñas</label>
+
+                                            <div class="input-group input-group-merge w-25">
+                                                <input v-if="showPassword" v-model="password" type="text"
+                                                    class="form-control" id="basic-default-password32"
+                                                    placeholder="············" aria-describedby="basic-default-password">
+                                                <input v-else v-model="password" type="password" class="form-control"
+                                                    id="basic-default-password32" placeholder="············"
+                                                    aria-describedby="basic-default-password">
+                                                <span @click="toggleShow" class="input-group-text cursor-pointer"
+                                                    id="basic-default-password"><i
+                                                        :class="{ 'bx bx-show': showPassword, 'bx bx-hide': !showPassword }"></i></span>
+                                            </div>
                                             <button class="btn btn-primary mt-2" @click="updateAccess">Actualizar</button>
                                         </div>
                                     </div>
@@ -162,6 +177,7 @@ export default {
     components: { Sidebar, Navbar, ScheduleModal, Hour, HourModal, Permissions },
     data() {
         return {
+            showPassword: false,
             email: '',
             password: '',
             hidden: true,
@@ -219,6 +235,9 @@ export default {
         };
     },
     methods: {
+        toggleShow() {
+            this.showPassword = !this.showPassword;
+        },
         selectUserSchedule() {
             this.getUser(this.userScheduleSelected)
         },
@@ -289,6 +308,12 @@ export default {
         },
         openModalSchedule() {
             $("#scheduleModal").modal("show");
+        },
+        deleteSchedules() {
+            axios.delete("/api/schedules-all/" + this.store.authUser.id)
+                .then((result) => {
+                    this.getUser()
+                })
         },
         getProfile() {
             axios.get("/api/users/" + this.store.authUser.id)

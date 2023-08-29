@@ -285,7 +285,7 @@ Route::post('/schedules', [ScheduleController::class, 'store']);
 Route::put('/schedules/{id}', [ScheduleController::class, 'update']);
 Route::put('/schedules-type/{id}', [ScheduleController::class, 'updateType']);
 Route::post('/schedules-day', [ScheduleController::class, 'schedulesByDay']);
-
+Route::delete('/schedules-all/{id}', [ScheduleController::class, 'destroyAll']);
 
 Route::get('/clients', [CustomerController::class, 'clients']);
 
