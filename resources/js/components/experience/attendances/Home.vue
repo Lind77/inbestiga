@@ -45,7 +45,7 @@
                 </div>
                 <div class="row mt-3">
                     <template v-for="day in  buttonDays">
-                        <button type="button" @click="showDay(day.date)"
+                        <button type="button" @click="showDay(day)"
                             :class="`btn btn-${statusColor[day.status]} btn-icon mx-1 my-1`">
                             {{ formatDay(day.date) }}
                         </button>
@@ -111,9 +111,11 @@ export default {
         }
     },
     methods: {
-        showDay(date) {
-            this.dateSelected = date
-            this.attendanceSelected = this.attendances.find(attendance => attendance.date == date)
+        showDay(day) {
+            if (day.status == 1 || day.status == 2) {
+                this.dateSelected = day.date
+                this.attendanceSelected = this.attendances.find(attendance => attendance.date == day.date)
+            }
         },
         selectUser(user) {
             this.usersFounded = []

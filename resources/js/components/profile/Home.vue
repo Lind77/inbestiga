@@ -232,7 +232,7 @@ export default {
 
             axios.post('/api/access/' + this.store.authUser.id, fd)
                 .then((result) => {
-
+                    this.$swal('Contraseña actualizada')
                 }).catch((err) => {
 
                 });
