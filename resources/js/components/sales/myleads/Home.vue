@@ -12,11 +12,11 @@
                         <li class="d-flex py-1 justify-content-between active" data-target="inbox">
                             <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center">
                                 <i class="bx bx-envelope"></i>
-                                <span class="align-middle ms-2">Nuevos</span>
+                                <span class="align-middle ms-2" @click="filterClients">Clientes</span>
                             </a>
                             <div class="badge bg-label-primary rounded-pill">21</div>
                         </li>
-                        <li class="d-flex py-1" data-target="sent">
+                        <!-- <li class="d-flex py-1" data-target="sent">
                             <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center">
                                 <i class="bx bx-send"></i>
                                 <span class="align-middle ms-2">Pre-leads</span>
@@ -34,7 +34,7 @@
                                 <span class="align-middle ms-2">Stand By</span>
                             </a>
                             <div class="badge bg-label-warning rounded-pill">1</div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <div class="col-10">
@@ -144,7 +144,7 @@ export default {
         getAllMyLeads() {
             axios.get('/api/getAllMyLeads/' + this.store.authUser.id)
                 .then((res) => {
-                    this.myLeads = res.data.customers
+                    this.myLeads = res.data.clients
                     this.todayLeads = res.data.customersToday
                 })
                 .catch((err) => {
