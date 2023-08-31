@@ -40,6 +40,7 @@ import HomeCalendar from '../components/sales/calendar/Home.vue'
 //Área de Ventas - Documentos
 import HomeDocuments from '../components/sales/documents/Home.vue'
 import HomeMakeDocs from '../components/sales/makedocs/Home.vue'
+import ViewDocs from '../components/sales/makedocs/View.vue'
 
 //Área de Ventas - Precios
 import HomePrices from '../components/sales/prices/Home.vue'
@@ -285,11 +286,11 @@ export const routes = [
                 name: 'my-leads'
             },
             {
-                path: 'makeDocs/:customerId?',
+                path: 'makeDocs/:customerId?/:quotationId?',
                 component: HomeMakeDocs,
                 props: true,
                 name: 'home-docs'
-            },
+            }
         ]
     },
     {

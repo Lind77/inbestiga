@@ -40,10 +40,6 @@
                             <div class="col-lg-4 mt-2" v-for="customer in customers">
                                 <Customer :customer="customer" @deleteCustomer="deleteCustomer"
                                     @getCustomer="getCustomer" />
-                                <button v-if="documentType == 1" class="btn btn-success m-1"
-                                    @click="pickQuotation(quotation)" v-for="quotation in quotationsExistent">{{
-                                        quotation.date
-                                    }}</button>
                             </div>
                         </div>
                     </div>
@@ -341,14 +337,10 @@ export default {
             thirdArticle: false,
             fifthArticle: false,
             contractId: 0,
-            orderId: 0,
-            quotationsExistent: []
+            orderId: 0
         }
     },
     methods: {
-        pickQuotation(quotation) {
-            this.details = quotation.details
-        },
         uploadContract() {
 
         },
@@ -391,7 +383,6 @@ export default {
                 .then((res) => {
                     this.customer = res.data
                     if (this.customer.quotations[0]) {
-                        this.quotationsExistent = this.customer.quotations
                         this.quotationExistent = this.customer.quotations[0]
                         this.customers = this.customer.quotations[0].customers
                         this.details = this.quotationExistent.details
@@ -603,7 +594,7 @@ export default {
         }
     },
     mounted() {
-        this.getCustomer()
+        /* this.getCustomer() */
         this.getAllNewProducts()
     }
 }

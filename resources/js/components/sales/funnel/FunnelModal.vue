@@ -19,8 +19,12 @@
                                     class="btn btn-icon btn-warning">
                                     <span class="tf-icons bx bx-chat"></span>
                                 </button>
-                                <button v-if="quotation" @click="deleteQuotation(quotation)" type="button"
+                                <!-- <button v-if="quotation" @click="viewQuotation(quotation)" type="button"
                                     class="btn btn-icon btn-danger mx-2">
+                                    <span class="tf-icons bx bx-show"></span>
+                                </button> -->
+                                <button v-if="quotation" @click="deleteQuotation(quotation)" type="button"
+                                    class="btn btn-icon btn-danger">
                                     <span class="tf-icons bx bx-trash"></span>
                                 </button>
                             </div>
