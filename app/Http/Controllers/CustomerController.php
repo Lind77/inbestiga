@@ -446,10 +446,12 @@ class CustomerController extends Controller
 
         $customers = Customer::where('user_id', $id)->orderBy('updated_at', 'desc')->get();
 
+        $clients = Customer::where('status', 11)->get();
 
         return response()->json([
             'customers' => $customers,
-            'customersToday' => $customersToday
+            'customersToday' => $customersToday,
+            'clients' => $clients
         ]);
     }
 
