@@ -347,6 +347,8 @@ export default {
     },
     methods: {
         pickQuotation(quotation) {
+            this.quotation = quotation
+            this.quotationIdGenerated = quotation.id
             this.details = quotation.details
         },
         uploadContract() {
