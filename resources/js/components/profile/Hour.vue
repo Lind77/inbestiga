@@ -28,38 +28,40 @@ export default {
     },
     methods: {
         showModalHour(schedule) {
-            if (this.store.authUser.id == 9) {
+            this.$emit('showModalHour', schedule)
+            /* if (this.store.authUser.id == 9) {
                 this.$emit('showModalHour', schedule)
             } else {
                 alert('Para actualizar su horario debe comunicarse con Experiencia')
-            }
+            } */
         },
         formatTime(time) {
             return moment(time, "HH:mm:ss").format("hh:mm")
         },
         disableHour() {
-            if (this.store.authUser.id == 9) {
-                if (this.schedule.type == 1) {
-                    this.schedule.type = 2
-                    this.$emit('minusHour')
-                } else {
-                    this.schedule.type = 1
-                    this.$emit('addHour')
-                }
+            if (this.schedule.type == 1) {
+                this.schedule.type = 2
+                this.$emit('minusHour')
+            } else {
+                this.schedule.type = 1
+                this.$emit('addHour')
+            }
 
-                const fd = new FormData()
-                fd.append('type', this.schedule.type)
-                fd.append('_method', 'put');
+            const fd = new FormData()
+            fd.append('type', this.schedule.type)
+            fd.append('_method', 'put');
 
-                axios.post('/api/schedules-type/' + this.schedule.id, fd)
-                    .then((result) => {
-                        console.log(result)
-                    }).catch((err) => {
-                        console.log(err);
-                    });
+            axios.post('/api/schedules-type/' + this.schedule.id, fd)
+                .then((result) => {
+                    console.log(result)
+                }).catch((err) => {
+                    console.log(err);
+                });
+            /* if (this.store.authUser.id == 9) {
+                
             } else {
                 alert('Para actualizar su horario debe comunicarse con Experiencia')
-            }
+            } */
 
         }
     }

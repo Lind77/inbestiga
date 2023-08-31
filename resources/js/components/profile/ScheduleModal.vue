@@ -91,7 +91,7 @@ export default {
 
             axios.post('/api/schedules', fd)
                 .then((result) => {
-                    this.$emit('getUser')
+                    this.$emit('getUser', this.store.authUser.id)
                     $("#scheduleModal").modal("hide");
                 }).catch((err) => {
                     console.error(err)

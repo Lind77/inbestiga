@@ -6,6 +6,7 @@ use App\Models\Delivery;
 use App\Http\Requests\StoreDeliveryRequest;
 use App\Http\Requests\UpdateDeliveryRequest;
 use App\Models\Payment;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class DeliveryController extends Controller
@@ -159,6 +160,7 @@ class DeliveryController extends Controller
 
     public function deliveriesMonth()
     {
+        /* $deliveries = Project::with('deliveries')->get(); */
         $deliveries = Delivery::with(['deliverable', 'deliverable.quotation', 'deliverable.quotation.customers'])->get();
         return response()->json([
             'deliveries' => $deliveries
