@@ -79,11 +79,11 @@
                                                 <div class="col-2">
                                                     <h3>{{ totalHours }}</h3>
                                                     <p>HORAS</p>
-                                                    <select @change="selectUserSchedule" v-model="userScheduleSelected"
+                                                    <!-- <select @change="selectUserSchedule" v-model="userScheduleSelected"
                                                         class="form-control" v-if="store.authUser.id == 9">
                                                         <option :value="user.id" v-for="user in users">{{ user.name }}
                                                         </option>
-                                                    </select>
+                                                    </select> -->
                                                     <a href="javascript:void(0)" @click="openModalSchedule"
                                                         class="btn btn-primary text-nowrap mt-2">
                                                         + Horario
@@ -154,7 +154,7 @@
             </div>
         </div>
     </div>
-    <ScheduleModal @getUser="getUser" />
+    <ScheduleModal @getUser="getUser" :userIdSelected="userScheduleSelected" />
     <HourModal :schedule="scheduleSelected" @getUser="getUser" @addMeeting="addMeeting" />
 </template>
 <script>
@@ -310,10 +310,17 @@ export default {
             $("#scheduleModal").modal("show");
         },
         deleteSchedules() {
-            axios.delete("/api/schedules-all/" + this.store.authUser.id)
-                .then((result) => {
-                    this.getUser()
-                })
+            if (this.store.authUser.id == 9) {
+                axios.delete("/api/schedules-all/" + userScheduleSelected)
+                    .then((result) => {
+                        this.getUser()
+                    })
+            } else {
+                axios.delete("/api/schedules-all/" + this.store.authUser.id)
+                    .then((result) => {
+                        this.getUser()
+                    })
+            }
         },
         getProfile() {
             axios.get("/api/users/" + this.store.authUser.id)
