@@ -23,7 +23,7 @@
                 </button>
             </div>
             <div v-for="(recovery, index) in recoveries" :key="index">
-                <Recovery :recovery="recovery" />
+                <Recovery :recovery="recovery" :index="index" @deleteRecovery="deleteRecovery" />
 
             </div>
             {{ totalRecoveryMinutes }} minutos de recuperación
@@ -59,6 +59,10 @@ export default {
     },
     components: { Recovery },
     methods: {
+        deleteRecovery(recoveryIndex) {
+            /* var recoverySelected = this.recoveries.findIndex(recoveryIndex); */
+            this.recoveries.splice(recoveryIndex, 1)
+        },
         addRecovery() {
             var recovery = {
                 date: '',
@@ -130,7 +134,7 @@ export default {
     computed: {
         totalRecoveryMinutes() {
 
-            console.log(this.recoveries);
+            var totalMinutesRecovery = 0;
 
             var totalMinutesRecovery = this.recoveries.reduce((total, item) => total + item.minutes, 0)
 
@@ -138,9 +142,19 @@ export default {
         },
         differenceTimesMiss() {
 
-            var diffTimes = moment(this.miss_time_departure, 'HH:mm:ss').diff(moment(this.miss_time_admission, 'HH:mm:ss'))
+            if (!this.miss_time_departure || !this.miss_time_admission) {
+                return 0; // Si falta algún valor, devuelve directamente 0
+            }
 
-            return moment.duration(diffTimes).asMinutes()
+            var departureTime = moment(this.miss_time_departure, 'HH:mm', true);
+            var admissionTime = moment(this.miss_time_admission, 'HH:mm', true);
+
+            if (!departureTime.isValid() || !admissionTime.isValid()) {
+                return 0; // Si los valores no son válidos, devuelve 0
+            }
+
+            var diffTimes = departureTime.diff(admissionTime);
+            return moment.duration(diffTimes).asMinutes();
         }
     }
 }
