@@ -79,6 +79,9 @@ export default {
             }
         }
     },
+    props: {
+        userIdSelected: Number
+    },
     methods: {
         addSchedule() {
             const fd = new FormData()
