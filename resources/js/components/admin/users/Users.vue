@@ -15,7 +15,7 @@
                             <th>Usuario</th>
                             <th>Área</th>
                             <th>Rol</th>
-                            <th>Eliminar</th>
+                            <th>Opciones</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -31,6 +31,9 @@
                                 <span v-if="user.id != 1" class="badge bg-label-primary me-1 cursor-pointer"
                                     @click="showPermissionModal(user)"><i class='bx bx-dialpad-alt'></i>
                                 </span>
+                                <span class="badge bg-label-primary me-1 cursor-pointer"
+                                    @click="showRoleUpdate(user)"><i class='bx bx-edit'></i>
+                                </span>
                             </td>
                         </tr>
                     </tbody>
@@ -44,8 +47,9 @@
 <script>
 import InsertUser from './InsertUser.vue'
 import PermissionsModal from './PermissionsModal.vue'
+import RoleModal from './RoleModal.vue'
 export default {
-    components: { InsertUser, PermissionsModal },
+    components: { InsertUser, PermissionsModal, RoleModal },
     data() {
         return {
             users: [],
@@ -59,6 +63,9 @@ export default {
         }
     },
     methods: {
+        showRoleUpdate(user){
+            
+        },
         showPermissionModal(user) {
             $('#modalPermission').modal('show');
             this.userSelected = user
