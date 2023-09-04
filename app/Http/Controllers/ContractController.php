@@ -321,6 +321,28 @@ class ContractController extends Controller
             'status' => 9
         ]);
 
+        //Create project
+
+        $project = Project::create([
+            'projectable_id' => $contract->id,
+            'projectable_type' => 'App\Models\Contract',
+            'title' => 'Proyecto #' . $contract->id,
+            'user_id' => $request->get('user_id'),
+            'status' => 0
+        ]);
+
+        $deliveries = json_decode($request->get('deliveries'), true);
+
+        foreach ($deliveries as $delivery) {
+            Delivery::create([
+                'advance' => $delivery['advance'],
+                'status' => 0,
+                'project_id' => $project->id,
+                'date' => $delivery['date'],
+                'type' => 1
+            ]);
+        }
+
         $payments = json_decode($request->get('payments'), true);
 
         foreach ($payments as $payment) {
@@ -331,18 +353,6 @@ class ContractController extends Controller
                 'amount' => $payment['amount'],
                 'advance' => null,
                 'percentage' => $payment['percentage']
-            ]);
-        }
-
-        $deliveries = json_decode($request->get('deliveries'), true);
-
-        foreach ($deliveries as $delivery) {
-            Delivery::create([
-                'deliverable_id' => $contract->id,
-                'deliverable_type' => 'App\Models\Contract',
-                'date' => $delivery['date'],
-                'advance' => $delivery['advance'],
-                'type' => 0
             ]);
         }
 
