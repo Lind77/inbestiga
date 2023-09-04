@@ -68,6 +68,7 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 Route::get('/roles', [RoleController::class, 'index']);
 Route::get('/roles-all', [RoleController::class, 'getAllRoles']);
 Route::post('/roles', [RoleController::class, 'store']);
+Route::put('/roles/{id}', [RoleController::class, 'update']);
 
 // administracion de area y subarea
 Route::get('/areas', [AreaController::class, 'index']);

@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="modalPermission" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="roleModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-simple" role="document">
             <div class="modal-content">
                 <div class="modal-body">
@@ -8,12 +8,13 @@
                         <h3>Actualizar Rol</h3>
                     </div>
                     <div class="">
-                        <select name="" id="">
-
+                        <select v-model="roleSelected" class="form-control">
+                            <option :value="role.id" v-for="role in roles">{{
+                                role.name }}</option>
                         </select>
                     </div>
                     <div class="col-12 text-center demo-vertical-spacing">
-                        <button @click="syncPermissions" class="btn btn-primary me-sm-3 me-1">Actualizar</button>
+                        <button @click="updateRole" class="btn btn-primary me-sm-3 me-1">Actualizar</button>
                         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
                             aria-label="Close">Cancelar</button>
                     </div>
@@ -23,11 +24,53 @@
     </div>
 </template>
 <script>
-    export default {
-        data(){
-            
+import axios from 'axios'
+
+export default {
+    data() {
+        return {
+            subareas: [],
+            roles: [],
+            roleSelected: 0
         }
+    },
+    props: {
+        user: Object
+    },
+    methods: {
+        updateRole() {
+            const fd = new FormData()
+            fd.append('newRole', this.roleSelected)
+            fd.append('_method', 'put')
+
+            axios.post(`/api/roles/${this.user.id}`, fd)
+                .then((result) => {
+                    console.log('Update exitoso')
+                }).catch((err) => {
+                    console.error(err)
+                });
+        },
+        getSubAreas() {
+            axios.get('/api/subareas')
+                .then((result) => {
+                    this.subareas = result.data
+                    this.subareas.forEach((subarea) => {
+                        console.log(subarea.roles)
+                        if (subarea.roles) {
+                            subarea.roles.forEach((role) => {
+                                this.roles.push({ ...role })
+                            })
+                        }
+                    })
+                }).catch((err) => {
+                    console.error(err);
+                });
+        }
+    },
+    mounted() {
+        this.getSubAreas()
     }
+}
 </script>
 <style lang="">
     

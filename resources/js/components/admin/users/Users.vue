@@ -31,8 +31,8 @@
                                 <span v-if="user.id != 1" class="badge bg-label-primary me-1 cursor-pointer"
                                     @click="showPermissionModal(user)"><i class='bx bx-dialpad-alt'></i>
                                 </span>
-                                <span class="badge bg-label-primary me-1 cursor-pointer"
-                                    @click="showRoleUpdate(user)"><i class='bx bx-edit'></i>
+                                <span class="badge bg-label-primary me-1 cursor-pointer" @click="showRoleUpdate(user)"><i
+                                        class='bx bx-edit'></i>
                                 </span>
                             </td>
                         </tr>
@@ -42,6 +42,7 @@
         </div>
         <InsertUser @getAllUsers="getAllUsers" />
         <PermissionsModal :user="userSelected" />
+        <RoleModal :user="userSelected" />
     </div>
 </template>
 <script>
@@ -63,8 +64,9 @@ export default {
         }
     },
     methods: {
-        showRoleUpdate(user){
-            
+        showRoleUpdate(user) {
+            this.userSelected = user
+            $('#roleModal').modal('show');
         },
         showPermissionModal(user) {
             $('#modalPermission').modal('show');
