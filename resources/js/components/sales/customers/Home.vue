@@ -42,6 +42,9 @@
                     <button @click="openCustomerModal(2, customer)" class="btn btn-success btn-sm ms-2">
                       <i class='bx bx-edit'></i>
                     </button>
+                    <button @click="makeDocs(customer.id)" class="btn btn-success btn-sm ms-2">
+                      <i class='bx bx-file'></i>
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -90,6 +93,9 @@ export default {
     }
   },
   methods: {
+    makeDocs(customerId) {
+      this.$router.push({ name: 'home-docs', params: { customerId: customerId } })
+    },
     redirectFunnel(customer) {
       if (customer.status > 3) {
         this.$router.push({ name: 'home-funnel', params: { userId: customer.id } })
