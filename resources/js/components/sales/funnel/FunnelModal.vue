@@ -24,7 +24,7 @@
                                     <span class="tf-icons bx bx-show"></span>
                                 </button> -->
                                 <button v-if="quotation" @click="deleteQuotation(quotation)" type="button"
-                                    class="btn btn-icon btn-danger">
+                                    class="btn btn-icon btn-danger ms-2">
                                     <span class="tf-icons bx bx-trash"></span>
                                 </button>
                             </div>

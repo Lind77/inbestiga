@@ -16,6 +16,7 @@ use App\Models\Fee;
 use App\Models\Notification;
 use App\Models\Payment;
 use App\Models\Payments;
+use App\Models\Project;
 use App\Models\Quotation;
 use App\Models\Seen;
 use App\Models\User;
@@ -272,6 +273,13 @@ class OrderController extends Controller
             }
         }
 
+        $project = Project::create([
+            'projectable_id' => $order->id,
+            'projectable_type' => 'App\Models\Order',
+            'title' => 'Proyecto #' . $order->id,
+            'user_id' => $request->get('user_id'),
+            'status' => 0
+        ]);
 
 
         $payments = json_decode($request->get('payments'), true);
@@ -283,12 +291,11 @@ class OrderController extends Controller
                 'date' => $payment['date'],
                 'amount' => $payment['amount']
             ]);
-
             $delivery = Delivery::create([
-                'deliverable_id' => $order->id,
-                'deliverable_type' => 'App\Models\Order',
-                'date' => $payment['date'],
                 'advance' => '',
+                'status' => 0,
+                'project_id' => $project->id,
+                'date' => $payment['date'],
                 'type' => 2
             ]);
         }

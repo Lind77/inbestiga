@@ -161,7 +161,7 @@ class DeliveryController extends Controller
     public function deliveriesMonth()
     {
         /* $deliveries = Project::with('deliveries')->get(); */
-        $deliveries = Delivery::with(['deliverable', 'deliverable.quotation', 'deliverable.quotation.customers'])->get();
+        $deliveries = Delivery::has('project')->with('project')->get();
         return response()->json([
             'deliveries' => $deliveries
         ]);

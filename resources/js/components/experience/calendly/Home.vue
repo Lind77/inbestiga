@@ -160,23 +160,35 @@ export default {
                 .then((result) => {
                     this.deliveries = result.data.deliveries
                     this.deliveries.forEach(delivery => {
-                        if (delivery.deliverable && delivery.deliverable.quotation) {
+                        if (delivery.project) {
+                            var backgroundColor = ''
+                            var borderColor = ''
+                            var textColor = ''
+
+                            if (delivery.type == 1) {
+                                backgroundColor = '#fff2d6'
+                                borderColor = '#ffab00'
+                                textColor = '#ffab00'
+                            } else {
+                                backgroundColor = '#e7e7ff'
+                                borderColor = '#696cff'
+                                textColor = '#696cff'
+                            }
+
                             var newEvt = {
-                                title: 'Entrega ' + delivery.deliverable.quotation.customers[0].name,
+                                title: delivery.project.title,
                                 date: delivery.date,
                                 comment: delivery.advance,
                                 link: '',
                                 status: delivery.status,
-                                backgroundColor: '#fff2d6',
-                                borderColor: '#fff2d6',
-                                textColor: '#ffab00',
-                                color: '#ffab00',
-                                type: 2,
+                                backgroundColor: backgroundColor,
+                                borderColor: borderColor,
+                                textColor: textColor,
+                                color: textColor,
+                                type: delivery.type,
                                 deliveryId: delivery.id
                             }
                             this.calendarOptions.events.push({ ...newEvt })
-                        } else {
-                            console.log(delivery.id);
                         }
 
                     });
