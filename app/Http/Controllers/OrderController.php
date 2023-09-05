@@ -209,7 +209,7 @@ class OrderController extends Controller
 
     public function generateContract($id)
     {
-        $contract = Contract::with(['quotation', 'quotation.details', 'quotation.details.product', 'quotation.customers', 'payments', 'deliveries'])->find($id);
+        $contract = Contract::with(['quotation', 'quotation.details', 'quotation.details.product', 'quotation.customers', 'payments', 'projects', 'projects.deliveries'])->find($id);
         /* $customer = Customer::with(['quotations' => function ($query) {
             $query->orderBy('id', 'desc')->with(['contract' => function ($query2) {
                 $query2->orderBy('id', 'desc')->with(['payments', 'deliveries'])->first();

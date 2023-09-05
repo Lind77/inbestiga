@@ -15,6 +15,7 @@
                             <th>Usuario</th>
                             <th>Área</th>
                             <th>Rol</th>
+                            <th>Correo</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>
@@ -24,6 +25,7 @@
                             <td>{{ user.name }}</td>
                             <td>{{ user.subarea.area.name }}</td>
                             <td>{{ user.roles[0].name }}</td>
+                            <td>{{ user.email }}</td>
                             <td>
                                 <span v-if="user.id != 1" @click="deleteUser(user.id)"
                                     class="badge bg-label-danger me-1 cursor-pointer"><i class='bx bx-trash'></i>

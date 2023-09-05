@@ -207,17 +207,6 @@ Route::post('/insertEndTimeTask', [TaskController::class, 'insertEndTimeTask']);
 
 Route::post('/insertTimes', [TimeController::class, 'insertTimes']);
 
-
-Route::get('/getAllProjects', [ProjectController::class, 'index']);
-Route::get('/getAllProjectsAcad', [ProjectController::class, 'getAllProjectsAcad']);
-Route::get('/getProjectById/{id}', [ProjectController::class, 'show']);
-Route::post('/insertProject', [ProjectController::class, 'store']);
-Route::post('/changeStatusProject', [ProjectController::class, 'changeStatus']);
-Route::get('/updateQuality/{id}', [ProjectController::class, 'updateQuality']);
-Route::post('/setProject', [ProjectController::class, 'setProject']);
-Route::get('/deleteProject/{id}', [ProjectController::class, 'destroy']);
-Route::get('/getMyProjects/{id}', [ProjectController::class, 'getMyProjects']);
-
 Route::post('/insertDetailsFirstMeeting', [ProgressController::class, 'insertDetailsFirstMeeting']);
 
 Route::post('/updateProgress', [ProgressController::class, 'update']);
@@ -267,6 +256,19 @@ Route::post('/meetings', [MeetingController::class, 'store']);
 Route::put('/meetings/{id}', [MeetingController::class, 'update']);
 Route::delete('/meetings/{id}', [MeetingController::class, 'destroy']);
 Route::get('/meetings-complete/{id}', [MeetingController::class, 'complete']);
+
+
+Route::get('/projects', [ProjectController::class, 'index']);
+Route::get('/projects-acad', [ProjectController::class, 'getAllProjectsAcad']);
+Route::get('/projects/{id}', [ProjectController::class, 'show']);
+Route::post('/projects', [ProjectController::class, 'store']);
+Route::get('/projects-search/{search}', [ProjectController::class, 'search']);
+
+Route::post('/changeStatusProject', [ProjectController::class, 'changeStatus']);
+Route::get('/updateQuality/{id}', [ProjectController::class, 'updateQuality']);
+Route::post('/setProject', [ProjectController::class, 'setProject']);
+Route::get('/deleteProject/{id}', [ProjectController::class, 'destroy']);
+Route::get('/getMyProjects/{id}', [ProjectController::class, 'getMyProjects']);
 
 Route::get('/quotations-funnel', [QuotationController::class, 'getQuotationsFunnel']);
 Route::get('/quotations/search/{search}', [QuotationController::class, 'searchQuotations']);

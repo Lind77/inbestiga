@@ -20,10 +20,9 @@
                         <div class="alert alert-warning" role="alert" v-show="noResults">No se han encontrado contratos ni
                             ordenes que
                             coincidan con el nombre de este usuario.</div>
-                        <div class="col-6 mb-2" v-for="result in results">
-                            <button :class="`btn btn-sm ${result.type == 1 ? 'btn-success' : 'btn-info'}  w-100`"
-                                @click="selectDocument(result)">{{ result.name }} - {{
-                                    result.date }}</button>
+                        <div class="col-6 mb-2" v-for="project in projects">
+                            <button class="btn btn-sm btn-success w-100" @click="selectCustomer(project)">{{
+                                project }}</button>
                         </div>
                     </div>
                     <div class="row" v-show="showFields">
@@ -89,7 +88,8 @@ export default {
             results: [],
             showFields: false,
             resultId: 0,
-            resultType: 0
+            resultType: 0,
+            projects: []
         }
     },
     methods: {
@@ -133,41 +133,12 @@ export default {
                 });
         },
         searchContract() {
-            this.results = []
-            this.noResults = false
-            axios.get('/api/contract/' + this.name)
+            axios.get('/api/projects-search/' + this.name)
                 .then((result) => {
-                    this.contracts = result.data.contracts;
-                    this.orders = result.data.orders;
-                    if (this.contracts.length == 0 && this.orders.length == 0) {
-                        this.noResults = true
-                    }
-                    var result = {
-                        id: 0,
-                        name: '',
-                        date: '',
-                        type: 0
-                    }
-
-                    this.contracts.forEach((contract) => {
-                        result.id = contract.id
-                        result.name = contract.quotation.customers[0].name
-                        result.date = this.formatOrderDate(contract.date)
-                        result.type = 1
-                        this.results.push({ ...result })
-                    })
-
-                    this.orders.forEach((order) => {
-                        result.id = order.id
-                        result.name = order.quotation.customers[0].name
-                        result.date = this.formatOrderDate(order.created_at)
-                        result.type = 2
-                        this.results.push({ ...result })
-                    })
-
+                    var customers = result.data.customers
 
                 }).catch((err) => {
-                    console.error(err);
+
                 });
         },
         updateCustomer() {
