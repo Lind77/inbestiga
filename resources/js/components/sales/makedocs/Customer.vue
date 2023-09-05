@@ -2,7 +2,7 @@
     <div class="card shadow-none bg-info text-white mb-3" v-if="customer.id">
         <div class="card-body">
             <h5 class="card-title text-white">Cliente: {{ customer.name }} <i @click="deleteCustomer(customer.id)"
-                    class='bx bx-x'></i></h5>
+                    class='bx bx-x'></i> <i @click="showEditCustomer(customer)" class='bx bx-edit'></i></h5>
             <p class="card-text mb-0">
                 Teléfono: {{ customer.cell }}
             </p>
@@ -27,19 +27,28 @@
                 class="btn btn-success btn-sm mt-2">Actualizar datos</button>
         </div>
     </div>
+    <customerModal :action="2" :customer="customer_selected" />
 </template>
 <script>
+import customerModal from '../customers/customerModal.vue'
+
 export default {
+    components: { customerModal },
     data() {
         return {
             dni: '',
-            address: ''
+            address: '',
+            customer_selected: {}
         }
     },
     props: {
         customer: Object
     },
     methods: {
+        showEditCustomer(customer) {
+            this.customer_selected = customer
+            $('#customerModal').modal('show')
+        },
         deleteCustomer(customerId) {
             this.$emit('deleteCustomer', customerId)
         },
