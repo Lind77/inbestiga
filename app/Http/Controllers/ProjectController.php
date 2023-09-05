@@ -451,4 +451,29 @@ class ProjectController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function search($search)
+    {
+        /* $contracts = Contract::with(['quotation', 'quotation.customers'])->whereHas('quotation.customers', function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        })->get();
+ */
+        $customers = Customer::with(['quotations', 'quotations.order', 'quotations.contract', 'quotations.order.projects', 'quotations.contract.projects', 'quotations.order.projects.deliveries', 'quotations.contract.projects.deliveries'])->whereHas('quotations')->where('name', 'like', '%' . $search . '%')->get();
+
+        $quotations = array();
+
+
+        foreach ($customers as $customer) {
+            array_push($quotations, $customer->quotations);
+        }
+
+        return response()->json([
+            'quotations' => $quotations
+        ]);
+        /* $projects = Project::with([
+            'projectable',
+            'projectable.quotation',
+            'projectable.quotation.customers'
+        ])->get(); */
+    }
 }

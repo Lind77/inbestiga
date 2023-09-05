@@ -45,7 +45,8 @@ export default {
 
             axios.post(`/api/roles/${this.user.id}`, fd)
                 .then((result) => {
-                    console.log('Update exitoso')
+                    $('#roleModal').modal('hide')
+                    this.$swal('Rol actualizado correctamente')
                 }).catch((err) => {
                     console.error(err)
                 });
