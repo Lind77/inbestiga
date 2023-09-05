@@ -292,8 +292,9 @@
                             <th>Avance</th>
                         </tr>
                     </thead>
+                    
                     <tbody>
-                        @foreach ($contract->projects->deliveries as $delivery)
+                        @foreach ($contract->projects[0]->deliveries as $delivery)
                         <tr>
                             <td>{{$delivery->date ? date('d/m/Y',strtotime($delivery->date)) : 'Bajo coordinación con gerencia o tesista'}}</td>
                             <td>{{$delivery->advance}}</td>
