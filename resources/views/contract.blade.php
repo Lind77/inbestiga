@@ -305,7 +305,7 @@
                  @if($contract->fifth_article == 1)
                     <p>Además, EL LOCADOR se compromete con entregar a favor de EL CLIENTE los siguientes beneficios adicionales:
                     </p>
-                    <ul style="margin-top: -10px;">
+                    <ul style="margin-top: -8px;">
                         <li>Asesoría de preparación metodológica y temática sobre la investigación para la sustentación.</li>
                         <li>Ebook / guía de sustentación escrita.</li>
                         <li>Balotario de preguntas de sustentación.</li>
