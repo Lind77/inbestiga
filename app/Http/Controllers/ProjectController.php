@@ -460,15 +460,40 @@ class ProjectController extends Controller
  */
         $customers = Customer::with(['quotations', 'quotations.order', 'quotations.contract', 'quotations.order.projects', 'quotations.contract.projects', 'quotations.order.projects.deliveries', 'quotations.contract.projects.deliveries'])->whereHas('quotations')->where('name', 'like', '%' . $search . '%')->get();
 
-        $quotations = array();
+        $contracts = [];
+        $orders = [];
 
 
         foreach ($customers as $customer) {
-            array_push($quotations, $customer->quotations);
+            foreach ($customer->quotations as $quotation) {
+                if ($quotation->contract) {
+                    array_push($contracts, $quotation->contract);
+                }
+
+                if ($quotation->order) {
+                    array_push($orders, $quotation->order);
+                }
+            }
         }
 
+        $projects = [];
+
+        foreach ($contracts as $contract) {
+            foreach ($contract->projects as $project) {
+                array_push($projects, $project);
+            }
+        }
+
+        foreach ($orders as $order) {
+            foreach ($order->projects as $project) {
+                array_push($projects, $project);
+            }
+        }
+
+
+
         return response()->json([
-            'quotations' => $quotations
+            'projects' => $projects
         ]);
         /* $projects = Project::with([
             'projectable',
