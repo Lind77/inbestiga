@@ -132,9 +132,9 @@ export default {
                 time: time,
                 comment: this.comment,
                 link: this.link,
-                backgroundColor: '#e7e7ff',
-                borderColor: '#e7e7ff',
-                textColor: '#696cff'
+                backgroundColor: '#ccffff',
+                borderColor: '#ccffff',
+                textColor: '#00cc99'
             }
 
             this.$emit('addEvent', newEvt)
