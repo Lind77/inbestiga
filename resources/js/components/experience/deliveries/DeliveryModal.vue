@@ -21,8 +21,11 @@
                             ordenes que
                             coincidan con el nombre de este usuario.</div>
                         <div class="col-6 mb-2" v-for="project in projects">
-                            <button class="btn btn-sm btn-success w-100" @click="selectCustomer(project)">{{
-                                project.title }} - {{ formatDate(project.created_at) }}</button>
+                            <button class="btn btn-sm btn-success w-100" @click="selectDocument(project)">
+                                <p class="m-0" v-for="customer in project.customers">{{
+                                    customer.name }}</p>
+                                {{ formatDate(project.created_at) }}
+                            </button>
                         </div>
                     </div>
                     <div class="row" v-show="showFields">
@@ -97,9 +100,15 @@ export default {
             return moment(date).format('DD/MM/YYYY')
         },
         selectDocument(result) {
+            console.log(result);
             this.showFields = true
             this.resultId = result.id
-            this.resultType = result.type
+            if (result.type == 'App\\Models\\Contract') {
+                this.resultType = 1
+            } else {
+                this.resultType = 2
+            }
+
         },
         formatOrderDate(date) {
             return moment(date).format('DD/MM/YYYY');
@@ -107,7 +116,7 @@ export default {
         insertDelivery() {
 
             const fd = new FormData()
-            fd.append('deliverable_id', this.resultId)
+            fd.append('project_id', this.resultId)
             fd.append('type', this.resultType)
             fd.append('date', this.date)
             fd.append('advance', this.advance)

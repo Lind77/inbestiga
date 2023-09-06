@@ -467,10 +467,13 @@ class ProjectController extends Controller
         foreach ($customers as $customer) {
             foreach ($customer->quotations as $quotation) {
                 if ($quotation->contract) {
+
+                    $quotation->contract->customers = $quotation->customers;
                     array_push($contracts, $quotation->contract);
                 }
 
                 if ($quotation->order) {
+                    $quotation->order->customers = $quotation->customers;
                     array_push($orders, $quotation->order);
                 }
             }
@@ -480,12 +483,14 @@ class ProjectController extends Controller
 
         foreach ($contracts as $contract) {
             foreach ($contract->projects as $project) {
+                $project->customers = $contract->customers;
                 array_push($projects, $project);
             }
         }
 
         foreach ($orders as $order) {
             foreach ($order->projects as $project) {
+                $project->customers = $order->customers;
                 array_push($projects, $project);
             }
         }
