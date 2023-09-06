@@ -18,7 +18,7 @@ class DeliveryController extends Controller
      */
     public function index()
     {
-        $deliveries = Delivery::with(['deliverable', 'deliverable.quotation', 'deliverable.quotation.customers'])->where('date', date('Y-m-d'))->get();
+        $deliveries = Delivery::with(['project', 'project.projectable', 'project.projectable.quotation', 'project.projectable.quotation.customers'])->where('date', date('Y-m-d'))->get();
         return response()->json([
             'deliveries' => $deliveries
         ]);
@@ -42,28 +42,14 @@ class DeliveryController extends Controller
      */
     public function store(Request $request)
     {
-
-        if ($request->get('type') == 1) {
-            $delivery = Delivery::create([
-                'deliverable_id' => $request->get('deliverable_id'),
-                'deliverable_type' => 'App\Models\Contract',
-                'date' => $request->get('date'),
-                'advance' => $request->get('advance'),
-                'type' => $request->get('type'),
-                'academic_date' => $request->get('dateAcad'),
-                'status' => $request->get('status'),
-            ]);
-        } else {
-            $delivery = Delivery::create([
-                'deliverable_id' => $request->get('deliverable_id'),
-                'deliverable_type' => 'App\Models\Order',
-                'date' => $request->get('date'),
-                'advance' => $request->get('advance'),
-                'type' => $request->get('type'),
-                'academic_date' => $request->get('dateAcad'),
-                'status' => $request->get('status'),
-            ]);
-        }
+        $delivery = Delivery::create([
+            'academic_date' => $request->get('dateAcad'),
+            'advance' => $request->get('advance'),
+            'type' => $request->get('type'),
+            'status' => 0,
+            'project_id' => $request->get('project_id'),
+            'date' => $request->get('date')
+        ]);
 
         return response()->json([
             'msg' => 'success'
