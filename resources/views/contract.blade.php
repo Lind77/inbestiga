@@ -284,7 +284,7 @@
                 </ul>
                {{--  <div class="page-break"></div> --}}
                 <span>QUINTO: ENTREGAS Y FORMA DE ENTREGAS.</span>
-                <p>Las entregas que EL LOCADOR otorgará a favor de EL CLIENTE serán cargadas al correo y/o grupo de WhatsApp creado en los siguientes términos: </p>
+                Las entregas que EL LOCADOR otorgará a favor de EL CLIENTE serán cargadas al correo y/o grupo de WhatsApp creado en los siguientes términos:
                 <table class="delivery-table">
                     <thead>
                         <tr>
