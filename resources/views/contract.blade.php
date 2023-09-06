@@ -284,7 +284,7 @@
                 </ul>
                {{--  <div class="page-break"></div> --}}
                 <span>QUINTO: ENTREGAS Y FORMA DE ENTREGAS.</span>
-                <p>Las entregas que EL LOCADOR otorgará a favor de EL CLIENTE serán cargadas al correo y/o grupo de WhatsApp creado en los siguientes términos: </p>
+                <p style="margin-top: -8px;">Las entregas que EL LOCADOR otorgará a favor de EL CLIENTE serán cargadas al correo y/o grupo de WhatsApp creado en los siguientes términos: </p>
                 <table class="delivery-table">
                     <thead>
                         <tr>
@@ -303,9 +303,9 @@
                     </tbody>
                 </table>
                  @if($contract->fifth_article == 1)
-                    <p>Además, EL LOCADOR se compromete con entregar a favor de EL CLIENTE los siguientes beneficios adicionales:
+                    <p style="margin-top: -5px;">Además, EL LOCADOR se compromete con entregar a favor de EL CLIENTE los siguientes beneficios adicionales:
                     </p>
-                    <ul style="margin-top: -10px;">
+                    <ul style="margin-top: -8px;">
                         <li>Asesoría de preparación metodológica y temática sobre la investigación para la sustentación.</li>
                         <li>Ebook / guía de sustentación escrita.</li>
                         <li>Balotario de preguntas de sustentación.</li>
