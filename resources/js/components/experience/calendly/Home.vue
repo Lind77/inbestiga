@@ -9,6 +9,11 @@
                         <small class="text-small text-muted text-uppercase align-middle">Filtros</small>
                         <div class="app-calendar-events-filter mt-4">
                             <div class="form-check mb-2">
+                                <input class="form-check-input input-filter bg-pink border-pink" type="checkbox"
+                                    id="select-test" v-model="ableMeetings" @change="filterEvents(1)" data-value="business">
+                                <label class="form-check-label" for="select-test">Entregas</label>
+                            </div>
+                            <div class="form-check mb-2">
                                 <input :class="`form-check-input input-filter bg-${colorMeetings} border-${colorMeetings}`"
                                     type="checkbox" id="select-business" v-model="ableMeetings" @change="filterEvents(1)"
                                     data-value="business">
@@ -21,7 +26,7 @@
                                 <input class="form-check-input input-filter bg-warning border-warning" type="checkbox"
                                     v-model="ableDeliveries" @change="filterEvents(2)" id="select-personal"
                                     data-value="personal">
-                                <label class="form-check-label" for="select-personal">Entregas</label>
+                                <label class="form-check-label" for="select-personal">Firmas de Contrato</label>
                             </div>
                             <!-- <p v-for="delivery in deliveries">{{ delivery.date }}</p> -->
                         </div>
@@ -63,20 +68,19 @@ export default {
                 editable: true,
                 initialView: 'dayGridMonth',
                 locale: esLocale,
-                hiddenDays: [],
+                hiddenDays: [0],
                 events: [],
                 eventClick: this.eventClick,
                 eventDrop: this.eventDrop,
                 dateClick: this.handleDateClick,
-                eventBackgroundColor: '#696cff',
-                eventBorderColor: '#fff',
-                eventTextColor: '#fff',
                 displayEventTime: true,
                 eventTimeFormat: {
                     hour: 'numeric',
                     minute: '2-digit',
+                    omitZeroMinute: true,
                     meridiem: 'short'
-                }
+                },
+                dayMaxEvents: 3,
             },
             info: {},
             infoEvent: {},
@@ -85,12 +89,7 @@ export default {
             ableDeliveries: true,
             colorMeetings: 'primary',
             typeMeeting: 1,
-            dayMaxEvents: true,
-            views: {
-                timeGrid: {
-                    dayMaxEvent: 3 // adjust to 6 only for timeGridWeek/timeGridDay
-                }
-            }
+
         }
     },
     methods: {
@@ -148,9 +147,13 @@ export default {
                     result.data.forEach(evt => {
                         evt.type = 1
                         if (evt.status == 3) {
-                            evt.color = '#71dd37'
+                            evt.backgroundColor = '#00cc99',
+                                evt.borderColor = '#00cc99',
+                                evt.textColor = '#00cc99'
                         } else {
-                            evt.color = '#696cff'
+                            evt.backgroundColor = '#ccccff',
+                                evt.borderColor = '#ccccff',
+                                evt.textColor = '#6633ff'
                         }
 
                         this.calendarOptions.events.push(evt);
@@ -167,22 +170,18 @@ export default {
                     this.deliveries = result.data.deliveries
                     this.deliveries.forEach(delivery => {
                         if (delivery.project) {
-                            var backgroundColor = ''
-                            var borderColor = ''
-                            var textColor = ''
+                            var backgroundColor = '#ffccff'
+                            var borderColor = '#ffccff'
+                            var textColor = '#ff00cc'
                             var nameCustomers = ''
 
-                            if (delivery.type == 1) {
-                                backgroundColor = '#ccccff'
-                                borderColor = '#ccccff'
-                                textColor = '#6633ff'
-                            } else {
-                                backgroundColor = '#ffffcc'
-                                borderColor = '#ffffcc'
-                                textColor = '#ffcc00'
-                            }
-                            delivery.project.projectable.quotation.customers.forEach(customer => {
-                                nameCustomers += ' - ' + customer.name
+                            delivery.project.projectable.quotation.customers.forEach((customer, index) => {
+                                if (index != 0) {
+                                    nameCustomers += ' , ' + customer.name
+                                } else {
+                                    nameCustomers += customer.name
+                                }
+
                             });
 
                             var newEvt = {
@@ -278,8 +277,39 @@ export default {
     text-transform: capitalize;
 }
 
+.fc-event-main {
+    padding-left: 10px;
+}
+
+.fc-event {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
 .fc-event-title {
     font-weight: bolder;
+}
+
+.fc-daygrid-dot-event {
+    background-color: #ccccff;
+
+}
+
+.fc-daygrid-dot-event .fc-event-title {
+    color: #6633ff;
+}
+
+.fc-daygrid-dot-event .fc-event-time {
+    color: #6633ff;
+    font-weight: bolder;
+}
+
+.bg-pink {
+    background-color: #ffccff !important;
+}
+
+.border-pink {
+    border-color: #ffccff !important;
 }
 
 table {
