@@ -304,12 +304,16 @@ export default {
     font-weight: bolder;
 }
 
+.fc-daygrid-day-top {
+    flex-direction: row !important;
+}
+
 .bg-pink {
-    background-color: #ffccff !important;
+    background-color: #ff00cc !important;
 }
 
 .border-pink {
-    border-color: #ffccff !important;
+    border-color: #ff00cc !important;
 }
 
 table {
