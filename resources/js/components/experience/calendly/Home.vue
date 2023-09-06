@@ -63,7 +63,7 @@ export default {
                 editable: true,
                 initialView: 'dayGridMonth',
                 locale: esLocale,
-                hiddenDays: [0],
+                hiddenDays: [],
                 events: [],
                 eventClick: this.eventClick,
                 eventDrop: this.eventDrop,
@@ -84,7 +84,13 @@ export default {
             ableMeetings: true,
             ableDeliveries: true,
             colorMeetings: 'primary',
-            typeMeeting: 1
+            typeMeeting: 1,
+            dayMaxEvents: true,
+            views: {
+                timeGrid: {
+                    dayMaxEvent: 3 // adjust to 6 only for timeGridWeek/timeGridDay
+                }
+            }
         }
     },
     methods: {
@@ -164,19 +170,23 @@ export default {
                             var backgroundColor = ''
                             var borderColor = ''
                             var textColor = ''
+                            var nameCustomers = ''
 
                             if (delivery.type == 1) {
-                                backgroundColor = '#fff2d6'
-                                borderColor = '#ffab00'
-                                textColor = '#ffab00'
+                                backgroundColor = '#ccccff'
+                                borderColor = '#ccccff'
+                                textColor = '#6633ff'
                             } else {
-                                backgroundColor = '#e7e7ff'
-                                borderColor = '#696cff'
-                                textColor = '#696cff'
+                                backgroundColor = '#ffffcc'
+                                borderColor = '#ffffcc'
+                                textColor = '#ffcc00'
                             }
+                            delivery.project.projectable.quotation.customers.forEach(customer => {
+                                nameCustomers += ' - ' + customer.name
+                            });
 
                             var newEvt = {
-                                title: delivery.project.title,
+                                title: nameCustomers,
                                 date: delivery.date,
                                 comment: delivery.advance,
                                 link: '',
@@ -258,6 +268,18 @@ export default {
 
 .fc-daygrid-event-harness {
     padding: 2px 0px;
+}
+
+.fc-toolbar-title {
+    text-transform: capitalize;
+}
+
+.fc-col-header-cell-cushion {
+    text-transform: capitalize;
+}
+
+.fc-event-title {
+    font-weight: bolder;
 }
 
 table {

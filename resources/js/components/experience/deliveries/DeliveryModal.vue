@@ -22,7 +22,7 @@
                             coincidan con el nombre de este usuario.</div>
                         <div class="col-6 mb-2" v-for="project in projects">
                             <button class="btn btn-sm btn-success w-100" @click="selectCustomer(project)">{{
-                                project }}</button>
+                                project.title }} - {{ formatDate(project.created_at) }}</button>
                         </div>
                     </div>
                     <div class="row" v-show="showFields">
@@ -93,6 +93,9 @@ export default {
         }
     },
     methods: {
+        formatDate(date) {
+            return moment(date).format('DD/MM/YYYY')
+        },
         selectDocument(result) {
             this.showFields = true
             this.resultId = result.id
@@ -135,7 +138,7 @@ export default {
         searchContract() {
             axios.get('/api/projects-search/' + this.name)
                 .then((result) => {
-                    var customers = result.data.customers
+                    this.projects = result.data.projects
 
                 }).catch((err) => {
 
