@@ -27,7 +27,8 @@ class MeetingController extends Controller
             'date' => $request->get('date'),
             'time' => $request->get('time'),
             'link' => $request->get('link'),
-            'comment' => $request->get('comment')
+            'comment' => $request->get('comment'),
+            'status' => 0
         ]);
 
         $meeting->users()->attach($meeting->id);
@@ -64,7 +65,7 @@ class MeetingController extends Controller
     {
         $meeting = Meeting::find($id);
         $meeting->update([
-            'status' => 3
+            'status' => 1
         ]);
         return response()->json([
             'msg' => 'success'
