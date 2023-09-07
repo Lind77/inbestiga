@@ -114,7 +114,7 @@ class DeliveryController extends Controller
 
     public function getDeliveriesByDate($date)
     {
-        $deliveries = Delivery::with(['deliverable', 'deliverable.quotation', 'deliverable.quotation.customers'])->where('date', $date)->get();
+        $deliveries = Delivery::with(['project', 'project.projectable', 'project.projectable.quotation', 'project.projectable.quotation.customers'])->where('date', $date)->get();
         $payments = Payment::where('date', $date)->get();
 
         return response()->json([

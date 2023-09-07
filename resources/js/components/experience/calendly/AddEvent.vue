@@ -51,10 +51,12 @@
                         <div class="alert alert-warning" role="alert" v-show="noResults">No se han encontrado contratos ni
                             ordenes que
                             coincidan con el nombre de este usuario.</div>
-                        <div class="col-6 mb-2" v-for="result in results">
-                            <button :class="`btn btn-sm ${result.type == 1 ? 'btn-success' : 'btn-info'}  w-100`"
-                                @click="selectDocument(result)">{{ result.name }} - {{
-                                    result.date }}</button>
+                        <div class="col-6 mb-2" v-for="project in projects">
+                            <button class="btn btn-sm btn-success w-100" @click="selectDocument(project)">
+                                <p class="m-0" v-for="customer in project.customers">{{
+                                    customer.name }}</p>
+                                {{ formatDate(project.created_at) }}
+                            </button>
                         </div>
                     </div>
                     <div class="row" v-show="showFields">
@@ -105,17 +107,27 @@ export default {
             advance: '',
             dateAcad: '',
             dateTime: '',
-            name: ''
+            name: '',
+            projects: []
         }
     },
     props: {
         info: Object
     },
     methods: {
+        formatDate(date) {
+            return moment(date).format('DD/MM/YYYY')
+        },
         selectDocument(result) {
+            console.log(result);
             this.showFields = true
             this.resultId = result.id
-            this.resultType = result.type
+            if (result.type == 'App\\Models\\Contract') {
+                this.resultType = 1
+            } else {
+                this.resultType = 2
+            }
+
         },
         formatOrderDate(date) {
             return moment(date).format('DD/MM/YYYY');
@@ -146,7 +158,7 @@ export default {
         insertDelivery() {
 
             const fd = new FormData()
-            fd.append('deliverable_id', this.resultId)
+            fd.append('project_id', this.resultId)
             fd.append('type', this.resultType)
             fd.append('date', this.date)
             fd.append('advance', this.advance)
@@ -172,42 +184,14 @@ export default {
                     console.error(err)
                 });
         },
+
         searchContract() {
-            this.results = []
-            this.noResults = false
-            axios.get('/api/contract/' + this.name)
+            axios.get('/api/projects-search/' + this.name)
                 .then((result) => {
-                    this.contracts = result.data.contracts;
-                    this.orders = result.data.orders;
-                    if (this.contracts.length == 0 && this.orders.length == 0) {
-                        this.noResults = true
-                    }
-                    var result = {
-                        id: 0,
-                        name: '',
-                        date: '',
-                        type: 0
-                    }
-
-                    this.contracts.forEach((contract) => {
-                        result.id = contract.id
-                        result.name = contract.quotation.customers[0].name
-                        result.date = this.formatOrderDate(contract.date)
-                        result.type = 1
-                        this.results.push({ ...result })
-                    })
-
-                    this.orders.forEach((order) => {
-                        result.id = order.id
-                        result.name = order.quotation.customers[0].name
-                        result.date = this.formatOrderDate(order.created_at)
-                        result.type = 2
-                        this.results.push({ ...result })
-                    })
-
+                    this.projects = result.data.projects
 
                 }).catch((err) => {
-                    console.error(err);
+
                 });
         },
     }

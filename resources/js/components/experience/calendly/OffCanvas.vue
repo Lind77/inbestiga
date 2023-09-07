@@ -11,14 +11,15 @@
         </div>
         <div class="offcanvas-body mx-0 flex-grow-0" v-if="info.event">
             <h5 @dblclick="pickDeadline">Comentario: {{ info.event.extendedProps.comment }}</h5>
+            <p>Estado: {{ statusByNumber[info.event.extendedProps.status] }}</p>
             <p class="text-danger cursor-pointer">Fecha: {{ formatDate(info.event.start) }}</p>
             <a target="_blank" v-if="info.event.extendedProps.link" class="btn btn-primary"
                 :href="info.event.extendedProps.link">Reunión
                 Meet</a>
             <p>
                 <!-- <span class="badge badge-center rounded-pill bg-secondary"><i class='bx bx-pause'></i></span> -->
-                <span class="badge badge-center rounded-pill bg-success ms-1" @click="completeMeeting(info.event.id)"><i
-                        class="bx bx-check"></i></span>
+                <span v-if="info.event.extendedProps.status == 0" class="badge badge-center rounded-pill bg-success ms-1"
+                    @click="completeMeeting(info.event.id)"><i class="bx bx-check"></i></span>
                 <!-- <span class="badge badge-center rounded-pill bg-danger ms-1">4</span> -->
             </p>
         </div>
@@ -29,6 +30,14 @@
 import moment from "moment"
 
 export default {
+    data() {
+        return {
+            statusByNumber: {
+                0: 'No realizado',
+                1: 'Realizado'
+            }
+        }
+    },
     props: {
         info: Object
     },

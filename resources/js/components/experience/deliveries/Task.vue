@@ -9,10 +9,18 @@
             </div>
 
             <div class="email-list-item-content ms-2 ms-sm-0 me-2">
-                <span class="email-list-item-username me-2 h6"
-                    v-for="customer in task.project.projectable.quotation.customers">{{
-                        customer.name
-                    }}</span>
+                <template v-if="task.project">
+                    <span class="email-list-item-username me-2 h6"
+                        v-for="customer in task.project.projectable.quotation.customers">{{
+                            customer.name
+                        }}</span>
+                </template>
+                <template v-else>
+                    <div>
+                        <span class="email-list-item-username me-2 h6 text-danger">No tiene proyecto!</span>
+                    </div>
+                </template>
+
                 <span class="email-list-item-subject d-xl-inline-block d-block"> {{
                     task.advance
                 }}</span>
