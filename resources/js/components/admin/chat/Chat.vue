@@ -127,6 +127,14 @@ export default {
         Echo.private(`message.${this.$route.params.userId}`)
             .listen('NewMessage', (e) => {
                 this.setNewMessageBroadcasted(e.message)
+                Notification.requestPermission()
+                    .then((result) => {
+                        if (result === 'granted') {
+                            new Notification('Tienes un nuevo mensaje')
+                        }
+                    }).catch((err) => {
+
+                    });
             })
         this.getAllUsers()
     }

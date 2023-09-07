@@ -93,6 +93,18 @@ export default {
         }
     },
     methods: {
+        permitNotifications() {
+            Notification.requestPermission()
+                .then((result) => {
+                    if (result === 'granted') {
+                        new Notification('Notificación de prueba', {
+                            body: 'Esta es una notificacion de prueba'
+                        })
+                    }
+                }).catch((err) => {
+
+                });
+        },
         changeEventColor(eventId) {
             console.log(eventId);
             var eventSelected = this.calendarOptions.events.find(event => event.id == eventId)
@@ -255,6 +267,7 @@ export default {
         }
     },
     mounted() {
+        this.permitNotifications()
         this.getEvents()
         this.getDeliveries()
     }
