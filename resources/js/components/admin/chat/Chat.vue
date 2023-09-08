@@ -123,7 +123,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.store.authUser.id)
         Echo.private(`message.${this.$route.params.userId}`)
             .listen('NewMessage', (e) => {
                 this.setNewMessageBroadcasted(e.message)
