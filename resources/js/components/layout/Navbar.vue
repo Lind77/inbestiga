@@ -19,6 +19,56 @@
       <!-- /Search -->
 
       <ul class="navbar-nav flex-row align-items-center ms-auto">
+        <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
+          <a @click="clearCantNotifications" class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
+            data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            <i class="bx bx-chat bx-sm"></i><!-- <span v-if="cantNotifications != 0"
+              class="badge bg-danger rounded-pill badge-notifications">{{ cantNotifications }}</span> -->
+            <span class="badge bg-danger rounded-pill badge-notifications" v-if="numberNotifications > 0">{{
+              numberNotifications }}</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end py-0">
+            <li class="dropdown-menu-header border-bottom">
+              <div class="dropdown-header d-flex align-items-center py-3">
+                <h5 class="text-body mb-0 me-auto">Chats</h5>
+                <a href="javascript:void(0)" class="dropdown-notifications-all text-body" data-bs-toggle="tooltip"
+                  data-bs-placement="top" aria-label="Mark all as read" data-bs-original-title="Mark all as read"><i
+                    class="bx fs-4 bx-envelope-open"></i></a>
+              </div>
+            </li>
+            <li class="dropdown-notifications-list scrollable-container ps">
+              <ul class="list-group list-group-flush">
+                <template v-for="notification in notifications">
+                  <!--  <li class="list-group-item list-group-item-action dropdown-notifications-item"
+                    :id="`notification${notification.id}`">
+                    <div class="d-flex">
+                      <div class="flex-grow-1">
+                        <h6 class="mb-1">{{ notification.emisor.name }} {{ notification.content }}</h6>
+                        <small class="text-muted">{{ dateFormatted(notification.created_at) }}</small>
+                      </div>
+                      <div class="flex-grow-1">
+                        <i @click="confirmSeen(notification.users[0].pivot.id, notification.id)"
+                          :id="`checkNot${notification.users[0].pivot.id}`" class='bx bx-check-circle text-secondary'></i>
+                      </div>
+                    </div>
+                  </li> -->
+                </template>
+              </ul>
+              <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+              </div>
+              <div class="ps__rail-y" style="top: 0px; right: 0px;">
+                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+              </div>
+            </li>
+            <router-link v-if="store.authUser" :to="{ name: 'notifications', params: { idUser: store.authUser.id } }"
+              class="dropdown-menu-footer border-top">
+              <a href="javascript:void(0);" class="dropdown-item d-flex justify-content-center p-3">
+                Ver todas las notificaciones
+              </a>
+            </router-link>
+          </ul>
+        </li>
         <!-- Place this tag where you want the button to render. -->
         <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
           <a @click="clearCantNotifications" class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
@@ -246,6 +296,18 @@ export default {
   },
   mounted() {
     this.getNoSeenNotifications()
+    Echo.private(`message.${this.$route.params.userId}`)
+      .listen('NewMessage', (e) => {
+        //this.setNewMessageBroadcasted(e.message)
+        Notification.requestPermission()
+          .then((result) => {
+            if (result === 'granted') {
+              new Notification('Tienes un nuevo mensaje')
+            }
+          }).catch((err) => {
+
+          });
+      })
     if (this.store.authUser.roles[0].name == 'Seller') {
       Echo.private('documents')
         .listen('NewDocument', (e) => {

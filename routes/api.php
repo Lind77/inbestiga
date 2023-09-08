@@ -101,7 +101,8 @@ Route::get('/sellers', [UserController::class, 'getSellers']);
 
 Route::get('/getAllMessages', [ChatController::class, 'index']);
 Route::get('/getAllMessagesById/{id}', [ChatController::class, 'getAllMessagesById'])->middleware('auth:sanctum');
-Route::post('/storeMessage', [ChatController::class, 'store'])->middleware('auth:sanctum');
+
+Route::post('/messages', [ChatController::class, 'store'])->middleware('auth:sanctum');
 
 Route::get('/getAllProducts', [ProductController::class, 'index']);
 Route::post('/insertProduct', [ProductController::class, 'store']);
