@@ -29,8 +29,11 @@
                                 </td>
                                 <td>
                                     <span class="text-nowrap">
-                                        <button class="btn btn-sm btn-icon me-2" @click="modalRoles(permission)">
+                                        <button class="btn btn-sm btn-icon me-2" @click="modalEditRoles(permission)">
                                             <i class="bx bx-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon me-2" @click="modalRoles(permission)">
+                                            <i class="bx bx-dialpad-alt"></i>
                                         </button>
                                         <button class="btn btn-sm btn-icon delete-record"><i class="bx bx-trash"></i>
                                         </button>
@@ -43,7 +46,7 @@
             </div>
         </div>
     </div>
-    <PermissionModal />
+    <PermissionModal @getPermissions="getPermissions" :permissionSelected="permissionSelected" :action="action" />
     <RoleModal :permission="permissionSelected" />
 </template>
 <script>
@@ -56,13 +59,19 @@ export default {
         return {
             users: [],
             permissions: [],
-            permissionSelected: {}
+            permissionSelected: {},
+            action: 0
         }
     },
     methods: {
-        modalRoles(permission) {
-            $('#modalRole').modal('show')
+        modalEditRoles(permission) {
+            this.action = 2
             this.permissionSelected = permission
+            $('#modalPermission').modal('show')
+        },
+        modalRoles(permission) {
+            this.permissionSelected = permission
+            $('#modalRole').modal('show')
         },
         getPermissions() {
             axios.get('/api/permissions')
@@ -73,6 +82,7 @@ export default {
                 });
         },
         showModalPermission() {
+            this.action = 1
             $('#modalPermission').modal('show')
         },
         getAllUsers() {

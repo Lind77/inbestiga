@@ -1,7 +1,8 @@
 <template>
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
-            <Sidebar :hidden="hidden" :user="store.authUser" :role="store.authUser.subarea.name" />
+            <Sidebar :hidden="hidden" :user="store.authUser" :role="store.authUser.subarea.name"
+                :permissions="store.authUser.roles[0].permissions" />
             <div class="layout-page">
                 <Navbar @hideSidebar="hideSidebar" />
                 <div class="content-wrapper">

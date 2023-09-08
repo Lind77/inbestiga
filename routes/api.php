@@ -249,7 +249,9 @@ Route::post('/payment', [PaymentsController::class, 'store']);
 
 Route::post('/permissions', [UserController::class, 'createPermission']);
 Route::get('/permissions', [UserController::class, 'getPermissions']);
+Route::put('/permissions/{id}', [UserController::class, 'updatePermission']);
 Route::post('/permission-sync', [UserController::class, 'syncPermission']);
+Route::post('/permission-sync-role', [UserController::class, 'syncRole']);
 Route::post('/permission-sync-user', [UserController::class, 'syncPermissionUser']);
 
 Route::get('/meetings', [MeetingController::class, 'index']);
