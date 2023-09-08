@@ -184,7 +184,15 @@ export default {
 
             if (comunicationFound && this.store.authUser.roles[0].name == 'Seller') {
                 var nameAndCell = comunicationFound.customer.name + ' - ' + comunicationFound.customer.cell
-                this.$swal('Usted tiene una comuniación pendiente en estos momentos con ' + nameAndCell)
+                this.$swal('Usted tiene una comunicación pendiente en estos momentos con ' + nameAndCell)
+                Notification.requestPermission()
+                    .then((result) => {
+                        if (result === 'granted') {
+                            new Notification('Usted tiene una comunicación pendiente en estos momentos con ' + nameAndCell)
+                        }
+                    }).catch((err) => {
+
+                    });
             }
 
         }
