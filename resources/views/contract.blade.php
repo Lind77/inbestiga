@@ -97,7 +97,7 @@
             }
             .signatures{
                 padding: 0px 120px;
-                margin-top: 180px;
+                margin-top: 140px;
             }
             .locator{
                 margin-top: -35px;
@@ -152,19 +152,19 @@
                         @foreach($contract->quotation->customers as $customer)
                         <span class="name">{{$customer->name}}</span>, identificado con DNI No. {{$customer->dni}}, con domicilio para estos efectos en {{$customer->address}} {{$loop->last?'':'y'}}
                         @endforeach
-                        ; a quienes en adelante se les denominará como “EL CLIENTE”.
+                        ; a quienes en adelante se les denominará como “EL ASESORADO”.
                         @else
-                        <span class="name">{{$contract->quotation->customers[0]->name}}</span>, identificado con DNI No. {{$contract->quotation->customers[0]->dni}}, con domicilio para estos efectos en {{$contract->quotation->customers[0]->address}} ; a quien en adelante se le denominará como “EL CLIENTE”.
+                        <span class="name">{{$contract->quotation->customers[0]->name}}</span>, identificado con DNI No. {{$contract->quotation->customers[0]->dni}}, con domicilio para estos efectos en {{$contract->quotation->customers[0]->address}} ; a quien en adelante se le denominará como “EL ASESORADO”.
                         @endif
                     </li>
                 </ul>
                 <p>
-                    <span>EL CLIENTE</span> y <span>EL LOCADOR</span> podrán ser denominados de manera conjunta como “<span>LAS PARTES</span>” o de 
+                    <span>EL LOCADOR</span> y <span>EL ASESORADO</span> podrán ser denominados de manera conjunta como “<span>LAS PARTES</span>” o de 
                 manera individual como “<span>LA PARTE</span>”. <span>EL CONTRATO</span> es celebrado por <span>LAS PARTES</span> en los términos y condiciones siguientes:
                 </p>
                 <p>
                     <span>PRIMERO: OBJETO DEL CONTRATO.</span><br>
-                EL CONTRATO se celebra con el objeto de que EL LOCADOR entregue a favor de EL CLIENTE un producto académico según los parámetros del contrato y la observancia del reglamento de la {{$contract->quotation->customers[0]->university}} y la carrera o mención de {{$contract->quotation->customers[0]->career}} - N{{$contract->quotation->details[0]->level}}.
+                EL CONTRATO se celebra con el objeto de que EL LOCADOR entregue a favor de EL ASESORADO un producto académico según los parámetros del contrato y la observancia del reglamento de la {{$contract->quotation->customers[0]->university}} y la carrera o mención de {{$contract->quotation->customers[0]->career}} - N{{$contract->quotation->details[0]->level}}.
                 </p>
                 <p>
                     <span>SEGUNDO: OBLIGACIONES DEL LOCADOR.</span><br>
@@ -176,10 +176,10 @@
                         Levantar las observaciones advertidas por los revisores universitarios hasta la obtención del informe que aprueba la sustentación.
                     </li>
                     <li>
-                        Ceder los derechos de propiedad intelectual a favor de EL CLIENTE, para los fines que este considere pertinentes.
+                        Ceder los derechos de propiedad intelectual a favor de EL ASESORADO, para los fines que este considere pertinentes.
                     </li>
                     <li>
-                        No divulgar los datos de EL CLIENTE, salvo necesidad inexcusable o solicitud propia del mismo.
+                        No divulgar los datos de EL ASESORADO, salvo necesidad inexcusable o solicitud propia del mismo.
                     </li>
                     <li>
                         No utilizar el producto académico para fines que no sean los estipulados en EL CONTRATO.
@@ -188,8 +188,8 @@
                 </p>
                 
                 <p>
-                    <span>TERCERO: OBLIGACIONES DEL CLIENTE.</span><br>
-                    EL CLIENTE se compromete a cumplir con lo siguiente:
+                    <span>TERCERO: OBLIGACIONES DEL ASESORADO.</span><br>
+                    EL ASESORADO se compromete a cumplir con lo siguiente:
                     <ul style="margin-top: -15px;">
                         @if($contract->third_article == 1)
                         <li>
@@ -216,10 +216,10 @@
                         </li>
                     </ul>
                 </p>
-                <div class="page-break"></div>
+               {{--  <div class="page-break"></div> --}}
                 <p style="margin-top: 15px;">
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
-                Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un monto total de
+                Como contraprestación al servicio prestado por EL LOCADOR, EL ASESORADO se compromete al abono de un monto total de
                 @if($contract->cent_text == null) 
                 <span>S/.{{number_format($contract->amount)}} <span class="name">({{$contract->amount_text}} soles)</span></span>
                 @else
@@ -284,7 +284,7 @@
                 </ul>
                {{--  <div class="page-break"></div> --}}
                 <span>QUINTO: ENTREGAS Y FORMA DE ENTREGAS.</span>
-                <p style="margin-top: -8px;">Las entregas que EL LOCADOR otorgará a favor de EL CLIENTE serán cargadas al correo y/o grupo de WhatsApp creado en los siguientes términos: </p>
+                <p style="margin-top: -8px;">Las entregas que EL LOCADOR otorgará a favor de EL ASESORADO serán cargadas al correo y/o grupo de WhatsApp creado en los siguientes términos: </p>
                 <table class="delivery-table">
                     <thead>
                         <tr>
@@ -303,7 +303,7 @@
                     </tbody>
                 </table>
                  @if($contract->fifth_article == 1)
-                    <p style="margin-top: -5px;">Además, EL LOCADOR se compromete con entregar a favor de EL CLIENTE los siguientes beneficios adicionales:
+                    <p style="margin-top: -5px;">Además, EL LOCADOR se compromete con entregar a favor de EL ASESORADO los siguientes beneficios adicionales:
                     </p>
                     <ul style="margin-top: -8px;">
                         <li>Asesoría de preparación metodológica y temática sobre la investigación para la sustentación.</li>
@@ -314,66 +314,71 @@
                     </ul>
                     @endif
                     <div class="page-break"></div>
-                <span style="margin-top: 0px;">SEXTO: SOBRE LA RESOLUCIÓN DEL CONTRATO</span>
+                <span>SEXTO: EXCLUSIVIDAD</span>
+                <p>En virtud de esta cláusula, el contrato suscrito se establece exclusivamente entre EL LOCADOR y EL ASESORADO. Cualquier ampliación relacionada al alcance del servicio que incluya a otras personas requiere una notificación y adenda escrita, junto con la aceptación de los términos y costos adicionales por ambas partes. "El asesorado" asume la responsabilidad total de los pagos adicionales relacionados con cualquier extensión del servicio. "El locador" se reserva el derecho de rechazar dicha ampliación sin consentimiento previo por escrito. Esta cláusula garantiza la transparencia y evita malentendidos en caso de cambios en el alcance de los servicios. Ambas partes aceptan estos términos mediante la firma del contrato.</p>
+
+                <span style="margin-top: 0px;">SÉPTIMO: SOBRE LA RESOLUCIÓN DEL CONTRATO</span>
                 <p>Si existe un acuerdo de LAS PARTES para la resolución del contrato, este podrá ser resuelto sin consecuencias jurídicas que perjudiquen a las mismas.
                 En caso de que EL LOCADOR incumpla sus obligaciones sin que exista una justificación suficiente que haya 
-                escapado a su voluntad, este deberá reintegrar a EL CLIENTE, el total de los pagos abonados por este 
+                escapado a su voluntad, este deberá reintegrar a EL ASESORADO, el total de los pagos abonados por este 
                 último.
-                En caso de que EL CLIENTE manifieste la intención de resolver el contrato, este deberá adjuntar mediante 
+                En caso de que EL ASESORADO manifieste la intención de resolver el contrato, este deberá adjuntar mediante 
                 correo electrónico medios probatorios suficientes que justifiquen su solicitud, la cual será evaluada por la 
-                gerencia de EL LOCADOR. Bajo ninguna circunstancia, la resolución del contrato a pedido de EL CLIENTE 
+                gerencia de EL LOCADOR. Bajo ninguna circunstancia, la resolución del contrato a pedido de EL ASESORADO 
                 conllevará a devolución de los pagos abonados hasta el momento de aprobación o denegación de la 
                 solicitud; pagos utilizados para la cobertura de gastos operativos, logísticos, administrativos y de 
                 mercadotecnia. </p>
                 {{-- <div class="page-break"></div> --}}
-                <span class="seven-article">SÉPTIMO: MORA INDEMNIZATORIA Y PENALIDADES.</span>
+                <span class="seven-article">OCTAVO: MORA INDEMNIZATORIA Y PENALIDADES.</span>
                 <p>
                     7.1. Sobre los pagos<br>
-                    EL CLIENTE tendrá una prórroga de hasta 2 días calendario para abonar los montos descritos en la cláusula 
+                    EL ASESORADO tendrá una prórroga de hasta 2 días calendario para abonar los montos descritos en la cláusula 
                     cuarta de EL CONTRATO. A partir del tercer día calendario siguiente al vencimiento de la fecha de pago, EL 
-                    CLIENTE deberá abonar una mora indemnizatoria de S/.15.00 (quince soles) por cada día que no ha 
+                    ASESORADO deberá abonar una mora indemnizatoria de S/.15.00 (quince soles) por cada día que no ha 
                     realizado el pago, lo cual tendrá efecto retroactivo desde el primer día de incumplimiento de pago.<br>
                     7.2. Sobre la resolución de contrato a pedido de parte<br>
-                    En caso de que EL CLIENTE manifieste la intención de resolver el presente contrato, sin que ello esté
+                    En caso de que EL ASESORADO manifieste la intención de resolver el presente contrato, sin que ello esté
                             
                     contenido en la descripción de la cláusula sexta, este deberá pagar a favor de EL LOCADOR un monto 
                     indemnizatorio por incumplimiento de obligaciones contraprestativas que ascenderá a un 20% del monto 
-                    total que EL CLIENTE estuviera pendiente de abonar, según el cronograma de la cláusula cuarta de EL 
+                    total que EL ASESORADO estuviera pendiente de abonar, según el cronograma de la cláusula cuarta de EL 
                     CONTRATO.<br>
                     7.3. Sobre las entregas<br>
                     EL LOCADOR tendrá una prórroga de hasta dos días hábiles para la entrega de los avances contenidos en la 
                     cláusula quinta de EL CONTRATO. En caso de que EL LOCADOR cumpla tardíamente y sin justificación 
-                    razonable con la entrega, EL CLIENTE tendrá la posibilidad de exigir un reembolso de S/15.00 (quince soles) 
+                    razonable con la entrega, EL ASESORADO tendrá la posibilidad de exigir un reembolso de S/15.00 (quince soles) 
                     diarios por cada día de retraso en la entrega del producto académico correspondiente.
                 </p>
-                <span>OCTAVO: CONFIDENCIALIDAD </span>
-                <p>EL LOCADOR se compromete a mantener en reserva todos los datos de EL CLIENTE, incluso después de que las demás obligaciones de EL CONTRATO se hayan extinguido; a excepción de aquellos casos que la ley exija lo contrario.</p>
+                <div class="page-break"></div>
+                <span>NOVENO: CONFIDENCIALIDAD </span>
+                <p>EL LOCADOR se compromete a mantener en reserva todos los datos de EL ASESORADO, incluso después de que las demás obligaciones de EL CONTRATO se hayan extinguido; a excepción de aquellos casos que la ley exija lo contrario.</p>
                
-                <span>NOVENO: GARANTÍA DEL SERVICIO</span><br>
+                <span>DECIMO: GARANTÍA DEL SERVICIO</span><br>
                 <p>EL CONTRATO no tiene una cláusula de prescripción de obligaciones por parte de EL LOCADOR  que se rija 
-                    por el tiempo, sino que las obligaciones de este se extinguen únicamente cuando EL CLIENTE haya obtenido 
+                    por el tiempo, sino que las obligaciones de este se extinguen únicamente cuando EL ASESORADO haya obtenido 
                     el informe aprobatorio de los tres jurados revisores de la tesis.
-                    EL CLIENTE asume la responsabilidad sobre todo tipo de negligencia que pudiera aparecer en el producto 
+                    EL ASESORADO asume la responsabilidad sobre todo tipo de negligencia que pudiera aparecer en el producto 
                     académico, cuando esta es ocasionada por sí mismo, esto es, cuando la información proporcionada por EL 
-                    CLIENTE es ilegítima, incorrecta, o influenciada por terceras personas ajenas al vínculo contractual o 
+                    ASESORADO es ilegítima, incorrecta, o influenciada por terceras personas ajenas al vínculo contractual o 
                     personal universitario. </p>
-                    <div class="page-break"></div>
-                <span>DÉCIMO: SANCIONES</span><br>
-                <p> En caso de que EL CLIENTE muestre conductas hostiles hacia cualquier miembro de la organización, este 
+                    {{-- <div class="page-break"></div> --}}
+                <span>DÉCIMO PRIMERO: SANCIONES</span><br>
+                <p> En caso de que EL ASESORADO muestre conductas hostiles hacia cualquier miembro de la organización, este 
                     perderá automáticamente todos los beneficios adicionales contenidos en EL CONTRATO. Además, en caso el 
-                    servicio no contenga beneficios adicionales, se sancionará a EL CLIENTE con un bono excedente de hasta 
+                    servicio no contenga beneficios adicionales, se sancionará a EL ASESORADO con un bono excedente de hasta 
                     S/.50.00 (cincuenta soles).</p>
-                <span>DÉCIMO PRIMERO: SOLUCIÓN DE CONFLICTOS</span><br>
+                <span>DÉCIMO SEGUNDO: SOLUCIÓN DE CONFLICTOS</span><br>
                 <p>En caso de desacuerdo durante la ejecución del presente contrato, estos deberán solucionarlo mediante 
                     conciliación extrajudicial.
                     En caso de presentarse cualquier asunto dudoso o litigioso derivado de la interpretación, aplicación o 
                     ejecución del presente contrato, las partes se someterán al fuero arbitral de la Cámara de Comercio de Lima 
                     según desee el interesado.</p> 
-                <span>DÉCIMO SEGUNDO: BONIFICACIONES</span><br>
-               <p>En caso de que EL CLIENTE refiera a EL LOCADOR y este celebre un contrato de índole similar a la del 
-                    presente contrato, EL LOCADOR otorgará a EL CLIENTE una bonificación de S/.60.00 (sesenta soles) por cada 
+                <span>DÉCIMO TERCERO: BONIFICACIONES</span><br>
+               <p>En caso de que EL ASESORADO refiera a EL LOCADOR y este celebre un contrato de índole similar a la del 
+                    presente contrato, EL LOCADOR otorgará a EL ASESORADO una bonificación de S/.60.00 (sesenta soles) por cada 
                     mil soles de ingreso con los que la empresa se vea beneficiada.</p>
                     <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
+                    <div class="page-break"></div>
                     <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($contract->date))}}</p>
                 <div class="signatures">
                     <div class="col col-left">
@@ -387,14 +392,14 @@
                     <div class="col col-right">
                         <div class="client">
                         <p>__________________________</p>
-                        <p>EL CLIENTE</p>
+                        <p>EL ASESORADO</p>
                         {{$contract->quotation->customers[0]->name}}
                         </div>
                     </div>
                     @if(count($contract->quotation->customers)>1)
                     <div class="client second-client">
                         __________________________<br>
-                        EL CLIENTE <br>
+                        EL ASESORADO <br>
                         {{$contract->quotation->customers[1]->name}}
                     </div>
                     @else

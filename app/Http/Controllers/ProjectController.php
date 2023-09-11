@@ -135,9 +135,9 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::with(['order', 'order.quotation'])->find($id);
+        /* $project = Project::with(['projectable', 'projectable.quotation'])->find($id); */
 
-        $quotation = $project->order->quotation;
+        /* $quotation = $project->order->quotation;
 
         $projectDetails = $quotation->details;
 
@@ -163,13 +163,10 @@ class ProjectController extends Controller
 
 
 
-        $total_time = $total_maxtime + $total_mintime / 2;
+        $total_time = $total_maxtime + $total_mintime / 2; */
 
-        $project = Project::where('id', $id)->with(['customer', 'activities', 'activities.progresses', 'activities.tasks', 'activities.tasks.progress', 'activities.tasks.fixed_task', 'activities.tasks.fixed_task.fixed_activity', 'activities.tasks.fixed_task.fixed_activity.product', 'team', 'product'])->get();
-        return response()->json([
-            'project' => $project,
-            'total_time' => $total_time
-        ]);
+        $project = Project::find($id);
+        return response()->json($project);
     }
 
     /**
@@ -276,7 +273,10 @@ class ProjectController extends Controller
 
     public function getMyProjects($id)
     {
-        $user = User::find($id);
+        $projects = Project::all();
+        return response()->json($projects);
+
+        /* $user = User::find($id);
         $projects = Project::where('team_id', $user->memoir->team_id)->with(['customer', 'activities', 'activities.tasks', 'activities.tasks.progress', 'order', 'order.quotation', 'order.quotation.details', 'order.quotation.details.product'])->get();
         $numTasks = 0;
         $numTasksCompleted = 0;
@@ -292,9 +292,7 @@ class ProjectController extends Controller
             }
             $project->num_tasks = $numTasks;
             $project->num_tasks_completed = $numTasksCompleted;
-        }
-
-        return response()->json($projects);
+        } */
     }
 
     public function setProject(Request $request)

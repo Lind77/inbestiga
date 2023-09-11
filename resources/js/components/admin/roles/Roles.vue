@@ -6,6 +6,7 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <h4 class="card-title">{{ rol }}</h4>
+                        <i class="bx bx-edit text-primary" @click="showPermissionModal(rol)"></i>
                         <!-- <div v-if="user.roles[0]">
                             <p>{{ user.roles[0].name }}</p>
                         </div>
@@ -40,19 +41,35 @@
             <div class="col-4"></div>
         </div>
         <InsertRole @getAllRoles="getAllRoles" />
+        <PermissionRoleModal :role="roleSelected" :permissions="permissions" />
     </div>
 </template>
 <script>
 import InsertRole from './InsertRole.vue'
+import PermissionRoleModal from './PermissionsRoleModal.vue'
 
 export default {
-    components: { InsertRole },
+    components: { InsertRole, PermissionRoleModal },
     data() {
         return {
-            roles: []
+            roles: [],
+            roleSelected: '',
+            permissions: []
         }
     },
     methods: {
+        getPermissions() {
+            axios.get('/api/permissions')
+                .then((result) => {
+                    this.permissions = result.data
+                }).catch((err) => {
+                    console.log(err);
+                });
+        },
+        showPermissionModal(role) {
+            this.roleSelected = role
+            $('#permissionRoleModal').modal('show')
+        },
         getAllRoles() {
             axios.get('/api/roles')
                 .then(res => {
@@ -91,6 +108,7 @@ export default {
     },
     mounted() {
         this.getAllRoles()
+        this.getPermissions()
     }
 }
 </script>
