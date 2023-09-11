@@ -11,7 +11,7 @@ class Observation extends Model
     protected $fillable = ['observable_id', 'observable_type', 'content', 'status'];
 
     //Relacion polimorfica inversa uno a muchos
-    public function paymentable()
+    public function observable()
     {
         return $this->morphTo();
     }
