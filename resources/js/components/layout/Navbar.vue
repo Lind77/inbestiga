@@ -299,10 +299,11 @@ export default {
     Echo.private(`message.${this.store.authUser.id}`)
       .listen('NewMessage', (e) => {
         //this.setNewMessageBroadcasted(e.message)
+        console.log('new message')
         Notification.requestPermission()
           .then((result) => {
             if (result === 'granted') {
-              new Notification('Tienes un nuevo mensaje', {
+              new Notification('Tienes un nuevo mensaje nav', {
                 body: e.message
               })
             }
