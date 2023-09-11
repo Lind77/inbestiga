@@ -296,7 +296,7 @@ export default {
   },
   mounted() {
     this.getNoSeenNotifications()
-    Echo.private(`message.${this.$route.params.userId}`)
+    Echo.private(`message.${this.store.authUser.id}`)
       .listen('NewMessage', (e) => {
         //this.setNewMessageBroadcasted(e.message)
         Notification.requestPermission()
