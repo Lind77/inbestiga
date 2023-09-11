@@ -15,7 +15,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all()->pluck('name');
+        $roles = Role::with('permissions')->get();
         return $roles;
     }
 
