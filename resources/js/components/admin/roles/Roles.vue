@@ -5,7 +5,7 @@
             <div class="col-md-4" v-for="rol in roles">
                 <div class="card mb-3">
                     <div class="card-body">
-                        <h4 class="card-title">{{ rol }}</h4>
+                        <h4 class="card-title">{{ rol.name }}</h4>
                         <i class="bx bx-edit text-primary" @click="showPermissionModal(rol)"></i>
                         <!-- <div v-if="user.roles[0]">
                             <p>{{ user.roles[0].name }}</p>
@@ -53,7 +53,7 @@ export default {
     data() {
         return {
             roles: [],
-            roleSelected: '',
+            roleSelected: {},
             permissions: []
         }
     },
