@@ -302,7 +302,9 @@ export default {
         Notification.requestPermission()
           .then((result) => {
             if (result === 'granted') {
-              new Notification('Tienes un nuevo mensaje')
+              new Notification('Tienes un nuevo mensaje', {
+                body: e.message
+              })
             }
           }).catch((err) => {
 
