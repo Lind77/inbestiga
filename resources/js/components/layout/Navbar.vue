@@ -304,7 +304,7 @@ export default {
           .then((result) => {
             if (result === 'granted') {
               new Notification('Tienes un nuevo mensaje nav', {
-                body: e.message
+                body: e.message.message
               })
             }
           }).catch((err) => {
