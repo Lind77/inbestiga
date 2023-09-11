@@ -77,7 +77,10 @@ class UserController extends Controller
     public function createPermission(Request $request)
     {
         $permission = Permission::create([
-            'name' => $request->get('name')
+            'name' => $request->get('name'),
+            'siderbar_name' => $request->get('siderbar_name'),
+            'route_name' => $request->get('route_name'),
+            'icon_class' => $request->get('icon_class')
         ]);
         return response()->json([
             'msg' => 'success'
@@ -90,11 +93,35 @@ class UserController extends Controller
         return response()->json($permissions);
     }
 
+    public function updatePermission($id, Request $request)
+    {
+        $permission = Permission::find($id);
+        $permission->update([
+            'name' => $request->get('name'),
+            'siderbar_name' => $request->get('siderbar_name'),
+            'route_name' => $request->get('route_name'),
+            'icon_class' => $request->get('icon_class')
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
     public function syncPermission(Request $request)
     {
         $permission = Permission::find($request->get('permission_id'));
         $roles = json_decode($request->get('roles'), true);
         $permission->syncRoles($roles);
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function syncRole(Request $request)
+    {
+        $role = Role::where('name', $request->get('role'))->first();
+        $permissions = json_decode($request->get('permissions'), true);
+        $role->syncPermissions($permissions);
         return response()->json([
             'msg' => 'success'
         ]);

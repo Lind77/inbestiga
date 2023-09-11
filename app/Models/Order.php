@@ -23,10 +23,6 @@ class Order extends Model
      public function projects(){
         return $this->morphMany('App\Models\Project', 'projectable');
     }
-    //Relacion morfeable uno a muchos order,contract-deliveries
-    public function deliveries(){
-        return $this->morphMany('App\Models\Delivery', 'deliverable');
-    }
     //Relacion polimorfica uno a mucho addendum-order-contract
     public function addendums(){
         return $this->morphMany('App\Models\Addendum', 'addendumable');
@@ -34,5 +30,9 @@ class Order extends Model
    //Relacion morfeable uno a muchos (orders-contract-payments-payment_proofs)
    public function payment_proofs(){
     return $this->morphMany('App\Models\Payment_proof', 'payment_proofable');
+   }
+   //Relación polimorfica uno a mucho (Contrato-Orden->Properties())
+   public function properties(){
+    return $this->morphMany('App\Models\Property', 'propertiable');
 }
 }

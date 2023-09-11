@@ -13,121 +13,43 @@
 
     <div class="menu-inner-shadow"></div>
     <!--  Menú departamento de ventas -->
-    <ul class="menu-inner py-1" v-if="store.authUser.roles[0].name == 'Seller'">
-      <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
-      <router-link :to="{ name: 'main-sales' }" class="menu-item">
+
+    <ul class="menu-inner py-1">
+      <router-link :to="{ name: 'main-' + store.authUser.subarea.area.name }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-home"></i>
           <div data-i18n="Form Layouts">Inicio</div>
         </div>
       </router-link>
-      <router-link :to="{ name: 'vouchers' }" class="menu-item" v-if="store.authUser.id == 5">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-copy-alt"></i>
-          <div data-i18n="Form Layouts">Comprobantes</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'home-client' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Form Layouts">Base de datos</div>
-        </div>
-      </router-link>
-      <!-- <router-link :to="{ name: 'home-product' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-package"></i>
-          <div data-i18n="Form Layouts">Productos</div>
-        </div>
-      </router-link> -->
+      <li class="menu-header small text-uppercase" v-if="store.authUser.permissions.length > 0"><span
+          class="menu-header-text">Premium</span></li>
+      <template v-for="permission in store.authUser.permissions">
+        <router-link :to="{ name: permission.route_name }" class="menu-item" v-if="permission.siderbar_name != 'Chat'">
+          <div class="menu-link">
+            <i :class="`menu-icon tf-icons bx ${permission.icon_class}`"></i>
+            <div data-i18n="Form Layouts">{{ permission.siderbar_name }}</div>
+          </div>
+        </router-link>
+      </template>
+      <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
+      <template v-for="permission in store.authUser.roles[0].permissions">
+        <router-link :to="{ name: permission.route_name }" class="menu-item" v-if="permission.siderbar_name != 'Chat'">
+          <div class="menu-link">
+            <i :class="`menu-icon tf-icons bx ${permission.icon_class}`"></i>
+            <div data-i18n="Form Layouts">{{ permission.siderbar_name }}</div>
+          </div>
+        </router-link>
+      </template>
 
-      <!-- 
-          <router-link :to="{name:'home-orders', params:{ idUser: 0}}" class="menu-item">
-            <div class="menu-link">
-              <i class="menu-icon tf-icons bx bx-detail"></i>
-              <div data-i18n="Form Layouts">Ordenes</div>
-            </div>
-          </router-link> -->
-
-      <router-link :to="{ name: 'home-pre-lead' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-table"></i>
-          <div data-i18n="Form Layouts">Pre-leads</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'home-funnel' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-table"></i>
-          <div data-i18n="Form Layouts">Funnel</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'home-documents' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-detail"></i>
-          <div data-i18n="Form Layouts">Documentos</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'home-call' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-phone-call"></i>
-          <div data-i18n="Form Layouts">Comunicaciones</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'my-leads' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Form Layouts">Mis Leads</div>
-        </div>
-      </router-link>
       <router-link :to="{ name: 'real-time', params: { userId: store.authUser.id } }" class="menu-item">
         <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
+          <i :class="`menu-icon tf-icons bx bx-support`"></i>
           <div data-i18n="Form Layouts">Chat</div>
         </div>
       </router-link>
 
-      <!--
-        {{ user.permissions }} 
-        <router-link :to="{name:'home-calendar'}" class="menu-item">
-            <div class="menu-link">
-              <i class="menu-icon tf-icons bx bx-calendar-event"></i>
-              <div data-i18n="Form Layouts">Calendario</div>
-            </div>
-          </router-link> -->
-    </ul>
-    <!-- Menú departamento admin -->
-    <ul class="menu-inner py-1" v-if="store.authUser.roles[0].name == 'Admin'">
-      <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
-      <router-link :to="{ name: 'main-admin' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-home"></i>
-          <div data-i18n="Form Layouts">Inicio</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'home-prices' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-money"></i>
-          <div data-i18n="Form Layouts">Precios</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'users-admin' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Form Layouts">Usuarios</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'areas-admin' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Form Layouts">Areas</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'subareas-admin' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Form Layouts">Sub-Areas</div>
-        </div>
-      </router-link>
-      <li :class="`menu-item ${toggle}`" @click="showToggle">
+
+      <li :class="`menu-item ${toggle}`" @click="showToggle" v-if="store.authUser.roles[0].name == 'Admin'">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-check-shield"></i>
           <div data-i18n="Invoice">Roles y Permisos</div>
@@ -145,90 +67,9 @@
           </li>
         </ul>
       </li>
-      <router-link :to="{ name: 'promos-admin' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Form Layouts">Promociones</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'comissions-admin' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Form Layouts">Comisiones</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'real-time', params: { userId: store.authUser.id } }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Form Layouts">Chat</div>
-        </div>
-      </router-link>
     </ul>
+    <!-- Menú departamento admin -->
 
-    <ul class="menu-inner py-1" v-if="store.authUser.roles[0].name == 'Experience'">
-      <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
-      <router-link :to="{ name: 'main-experience' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-home"></i>
-          <div data-i18n="Form Layouts">Inicio</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'home-attendance' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-calendar-x"></i>
-          <div data-i18n="Form Layouts">Asistencias</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'home-requests' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-file"></i>
-          <div data-i18n="Form Layouts">Permisos</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'home-schedule' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-time"></i>
-          <div data-i18n="Form Layouts">Horarios</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'home-calendly' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-calendar"></i>
-          <div data-i18n="Form Layouts">Calendario</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'home-deliveries' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-package"></i>
-          <div data-i18n="Form Layouts">Entregas</div>
-        </div>
-      </router-link>
-      <!-- <router-link :to="{ name: 'experience-comunications' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-message"></i>
-          <div data-i18n="Form Layouts">Comunicaciones</div>
-        </div>
-      </router-link> -->
-      <router-link :to="{ name: 'home-profiles' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Form Layouts">Perfiles</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'home-project' }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-folder-open"></i>
-          <div data-i18n="Form Layouts">Proyectos</div>
-        </div>
-      </router-link>
-      <router-link :to="{ name: 'real-time', params: { userId: store.authUser.id } }" class="menu-item">
-        <div class="menu-link">
-          <i class="menu-icon tf-icons bx bx-support"></i>
-          <div data-i18n="Form Layouts">Chat</div>
-          <span v-if="messages != 0" class="badge bg-danger rounded-pill badge-notifications ms-1">{{ messages }}</span>
-        </div>
-      </router-link>
-    </ul>
 
     <ul class="menu-inner py-1"
       v-if="store.authUser.roles[0].name == 'AdminAcad' || store.authUser.roles[0].name == 'Quality'">
@@ -297,7 +138,8 @@ export default {
       default: true
     },
     user: Object,
-    role: String
+    role: String,
+    permissions: Array
   },
   data() {
     return {
