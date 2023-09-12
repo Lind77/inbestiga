@@ -490,7 +490,7 @@ class CustomerController extends Controller
     {
         $customers = Customer::where('status', 11)->with(['comunications', 'quotations' => function ($query) {
             $query->latest('id');
-        }, 'quotations.order', 'quotations.contract'])->get();
+        }, 'quotations.order', 'quotations.contract', 'quotations.details', 'quotations.details.product'])->get();
         return response()->json($customers);
     }
 

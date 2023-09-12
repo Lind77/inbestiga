@@ -216,7 +216,7 @@
                         </li>
                     </ul>
                 </p>
-               {{--  <div class="page-break"></div> --}}
+                <div class="page-break"></div>
                 <p style="margin-top: 15px;">
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
                 Como contraprestación al servicio prestado por EL LOCADOR, EL ASESORADO se compromete al abono de un monto total de
