@@ -29,7 +29,7 @@ window.Echo = new Echo({
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     encrypted: true,
     forceTLS: true,
-    authEndpoint: `https://sistema.inbestiga.com/broadcasting/auth`,
+    authEndpoint: import.meta.env.VITE_AUTH_ENDPOINT,
     auth:{
         headers:{
             'Authorization': 'Bearer '+localStorage.getItem('token'),
