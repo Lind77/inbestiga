@@ -33,7 +33,28 @@
                                     <p class="card-text">Email: {{ customer.email }}</p>
                                     <p class="card-text">Universidad: {{ customer.university }}</p>
                                     <p class="card-text">Carrera: {{ customer.career }}</p>
+                                    <p class="card-text">Carácter: {{ customer.attitude }}</p>
                                 </div>
+                            </div>
+                            <div class="card shadow-none bg-transparent border border-success p-3 mb-3">
+                                <h5>Detalles de documentación</h5> <button class="btn btn-icon btn-success"
+                                    @click="addNewField"><i class="bx bx-plus"></i></button>
+                                <p>Documento firmado: {{ signedDoc }}</p>
+                                <template v-if="customer.quotations">
+                                    Servicio Contratado:
+                                    <p v-for="detail in customer.quotations[0].details">- {{
+                                        detail.product.name }}
+                                    </p>
+                                </template>
+
+                                <template v-for="newField in newFields">
+                                    <div class="d-flex">
+                                        <input type="text" class="form-control" v-model="newField.name">
+                                        :
+                                        <input type="text" class="form-control" v-model="newField.val">
+                                    </div>
+                                </template>
+                                <button class="btn btn-success" @click="saveFields">Agregar</button>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6">
@@ -51,6 +72,7 @@
                                     <p class="card-text">Producto Tentativo: {{ customer.comunications[0].product_tentative
                                     }}</p>
                                     <p class="card-text">Comentario: {{ customer.comunications[0].comment }}</p>
+
                                 </div>
                             </div>
                         </div>
@@ -58,6 +80,7 @@
 
                 </div>
                 <div class="modal-footer">
+
                 </div>
             </div>
         </div>
@@ -88,7 +111,8 @@ export default {
                 1: 'bx-sad text-danger',
                 2: 'bx-smile text-info',
                 3: 'bx-wink-smile text-success'
-            }
+            },
+            newFields: []
         }
     },
     props: {
@@ -96,6 +120,16 @@ export default {
         owners: Array
     },
     methods: {
+        saveFields() {
+            console.log(this.newFields)
+        },
+        addNewField() {
+            var newField = {
+                name: '',
+                val: ''
+            }
+            this.newFields.push({ ...newField })
+        },
         changeInterest(customer) {
             var customerId = customer.id
 
@@ -118,6 +152,18 @@ export default {
             var newStatus = parseInt(this.customer.status) + 1
             this.$emit('updateStatusSpace', this.customer.id, newStatus)
         },
+    },
+    computed: {
+        signedDoc() {
+            if (this.customer && this.customer.quotations) {
+                if (this.customer.quotations[0].contract != null) {
+                    return 'Contrato'
+                } else if (this.customer.quotations[0].order != null) {
+                    return 'Orden'
+                }
+            }
+
+        }
     }
 }
 </script>
