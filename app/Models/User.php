@@ -136,4 +136,8 @@ class User extends Authenticatable
     public function ntasks(){
         return $this->morphedByMany('App\Models\Ntasks','userable');
     }
+    //Relación uno a muchos user-memorandum
+    public function memorandums(){
+        return $this->hasMany('App\Models\Memorandum');
+    }
 }
