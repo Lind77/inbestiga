@@ -24,6 +24,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\PropertiesController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ScheduleController;
@@ -300,3 +301,5 @@ Route::post('/voucher', [VoucherController::class, 'store']);
 Route::get('/payment-proof/{id}', [VoucherController::class, 'show']);
 
 Route::put('/access/{id}', [UserController::class, 'access']);
+
+Route::post('/properties', [PropertiesController::class, 'store']);

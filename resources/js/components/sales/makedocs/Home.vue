@@ -493,6 +493,7 @@ export default {
                 fd.append('payments', JSON.stringify(this.payments))
                 fd.append('discount', this.discount)
                 fd.append('customer_id', this.customer.id)
+                fd.append('products', JSON.stringify(this.details))
                 fd.append('user_id', this.store.authUser.id)
 
                 axios.post('/api/insertOrder', fd)
