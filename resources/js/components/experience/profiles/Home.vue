@@ -41,7 +41,7 @@
             </div>
         </div>
     </div>
-    <CustomerprofileModal :customer="customer_selected" />
+    <CustomerprofileModal :customer="customer_selected" @getAllCustomers="getAllCustomers" />
     <ComunicationsModal :comunications="comunicationsSelected" @showComunicationUpdate="showComunicationUpdate" />
     <UpdateComunicationModal :customer="customer_selected" @showComunicationUpdate="showComunicationUpdate"
         @getAllCustomers="getAllCustomers" />
