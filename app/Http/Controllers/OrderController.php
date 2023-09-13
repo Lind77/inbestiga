@@ -256,7 +256,25 @@ class OrderController extends Controller
                 'suggested' => $request->get('suggested')
             ]);
         } else {
-            $quotation = Quotation::with(['order', 'customers', 'order.payments'])->where('id', $request->get('quotation_id'))->first();
+            $quotation = Quotation::with(['order', 'customers', 'order.payments', 'details'])->where('id', $request->get('quotation_id'))->first();
+
+            $quotation->details->each->delete();
+
+            $products = $request->get('products');
+
+            $arrProds = json_decode($products, true);
+
+            foreach ($arrProds as $prod) {
+                $detail = Detail::create([
+                    'quotation_id' => $quotation->id,
+                    'product_id' => 1,
+                    'type' => $prod['type'],
+                    'description' => '-',
+                    'price' => $prod['price'],
+                    'new_product_id' => $prod['product_id'],
+                    'level' => $prod['level']
+                ]);
+            }
             $quotation->update([
                 'discount'  => $request->get('discount')
             ]);

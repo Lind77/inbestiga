@@ -37,8 +37,7 @@
                                 </div>
                             </div>
                             <div class="card shadow-none bg-transparent border border-success p-3 mb-3">
-                                <h5>Detalles de documentación</h5> <button class="btn btn-icon btn-success"
-                                    @click="addNewField"><i class="bx bx-plus"></i></button>
+                                <h5>Documentación</h5>
                                 <p>Documento firmado: {{ signedDoc }}</p>
                                 <template v-if="customer.quotations">
                                     Servicio Contratado:
@@ -46,7 +45,19 @@
                                         detail.product.name }}
                                     </p>
                                 </template>
+                                <template v-if="doc.properties">
+                                    <template v-for="property in doc.properties">
+                                        <template v-if="property.properties">
+                                            <p v-for="prop in  JSON.parse(property.properties)">{{ prop.name }}:{{ prop.val
+                                            }}</p>
+                                        </template>
 
+                                    </template>
+
+                                </template>
+
+                                <button class="btn btn-icon btn-success" @click="addNewField"><i
+                                        class="bx bx-plus"></i></button>
                                 <template v-for="newField in newFields">
                                     <div class="d-flex">
                                         <input type="text" class="form-control" v-model="newField.name">
@@ -54,7 +65,7 @@
                                         <input type="text" class="form-control" v-model="newField.val">
                                     </div>
                                 </template>
-                                <button class="btn btn-success" @click="saveFields">Agregar</button>
+                                <button class="btn btn-success mt-2" @click="saveFields">Almacenar</button>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6">
@@ -112,7 +123,13 @@ export default {
                 2: 'bx-smile text-info',
                 3: 'bx-wink-smile text-success'
             },
-            newFields: []
+            newFields: [],
+            slugs: [],
+            selectedDoc: {
+                propertiable_id: 0,
+                propertiable_type: ''
+            },
+            doc: {}
         }
     },
     props: {
@@ -120,8 +137,38 @@ export default {
         owners: Array
     },
     methods: {
+        slugify(string, separator = '-') {
+            return string
+                .toString()    // Convert input to string (optional)
+                .toLowerCase()    // Convert the string to lowercase letters
+                .trim()    // Remove whitespace from both sides of the string
+                .replace(/\s+/g, separator)    // Replace spaces with hyphen (-)
+        },
+        deslugify(slug, separator = ' ') {
+            return slug
+                .replace(/\-/g, separator) // Reemplaza guiones (-) con el separador especificado (por defecto, un espacio)
+                .trim(); // Elimina espacios en blanco al principio y al final
+        },
         saveFields() {
-            console.log(this.newFields)
+            this.newFields.forEach(newField => {
+                newField.slug = this.slugify(newField.name)
+            })
+
+            const fd = new FormData()
+
+            fd.append('propertiable_id', this.selectedDoc.propertiable_id)
+            fd.append('propertiable_type', this.selectedDoc.propertiable_type)
+            fd.append('properties', JSON.stringify(this.newFields))
+
+            axios.post('/api/properties', fd)
+                .then((result) => {
+                    $('#CustomerprofileModal').modal('hide')
+                    this.newFields = []
+                    this.$swal('Json insertado')
+                    this.$emit('getAllCustomers')
+                }).catch((err) => {
+                    console.error(err)
+                });
         },
         addNewField() {
             var newField = {
@@ -157,8 +204,14 @@ export default {
         signedDoc() {
             if (this.customer && this.customer.quotations) {
                 if (this.customer.quotations[0].contract != null) {
+                    this.selectedDoc.propertiable_id = this.customer.quotations[0].contract.id
+                    this.selectedDoc.propertiable_type = 'App\\Models\\Contract'
+                    this.doc = this.customer.quotations[0].contract
                     return 'Contrato'
                 } else if (this.customer.quotations[0].order != null) {
+                    this.selectedDoc.propertiable_id = this.customer.quotations[0].order.id
+                    this.selectedDoc.propertiable_type = 'App\\Models\\Order'
+                    this.doc = this.customer.quotations[0].order
                     return 'Orden'
                 }
             }
