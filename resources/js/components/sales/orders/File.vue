@@ -139,7 +139,8 @@
                     </tr>
                     <tr class="sugested-title">
                         <th class="text-purple sugested py-3 ps-2">TOTAL</th>
-                        <th class="text-purple sugested py-3" style="text-align: center;">S/ {{ totalPrice }}</th>
+                        <th class="text-purple sugested py-3" style="text-align: center;">S/ {{ order.quotation.amount }}
+                        </th>
                         <th class="text-danger sugested py-3 ps-1">* DESCUENTO S./{{ order.quotation.discount }}</th>
                     </tr>
                 </tbody>
