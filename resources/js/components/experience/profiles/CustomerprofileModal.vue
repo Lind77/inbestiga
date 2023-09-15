@@ -37,7 +37,9 @@
                                 </div>
                             </div>
                             <div class="card shadow-none bg-transparent border border-success p-3 mb-3">
-                                <h5>Documentación</h5>
+                                <h5>Documentación <button @click="toDocumentation(customer.quotations[0])"
+                                        class="btn btn-icon btn-success"><i class='bx bx-paperclip'></i></button></h5>
+
                                 <p>Documento firmado: {{ signedDoc }}</p>
                                 <template v-if="customer.quotations">
                                     Servicio Contratado:
@@ -48,12 +50,10 @@
                                 <template v-if="doc.properties">
                                     <template v-for="property in doc.properties">
                                         <template v-if="property.properties">
-                                            <p v-for="prop in  JSON.parse(property.properties)">{{ prop.name }}:{{ prop.val
-                                            }}</p>
+                                            <p v-for="prop in  JSON.parse(property.properties)" class="text-capitalize">{{
+                                                prop.name }}:{{ prop.val }}</p>
                                         </template>
-
                                     </template>
-
                                 </template>
 
                                 <button class="btn btn-icon btn-success" @click="addNewField"><i
@@ -66,6 +66,11 @@
                                     </div>
                                 </template>
                                 <button class="btn btn-success mt-2" @click="saveFields">Almacenar</button>
+
+                                <p class="m-0" v-if="customer.quotations">Estado de trámite universitario: {{
+                                    customer.quotations[0].contract.status }}
+                                </p>
+                                <p>Seller a cargo: {{ customer.user_id }}</p>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6">
@@ -137,6 +142,9 @@ export default {
         owners: Array
     },
     methods: {
+        toDocumentation(quotation) {
+            this.$router.push({ name: 'home-documentation', params: { quotationId: quotation.id } })
+        },
         slugify(string, separator = '-') {
             return string
                 .toString()    // Convert input to string (optional)
