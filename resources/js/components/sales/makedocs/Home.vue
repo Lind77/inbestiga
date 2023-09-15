@@ -381,12 +381,16 @@ export default {
             this.deliveries.splice(index, 1)
         },
         changeDocumentType() {
-
-            if (this.documentType == 3) {
-                this.documentType = 1
+            if (this.customer.status >= 5) {
+                if (this.documentType == 3) {
+                    this.documentType = 1
+                } else {
+                    this.documentType++
+                }
             } else {
-                this.documentType++
+                this.$swal('Aun no estás habilitado para hacer una orden o contrato')
             }
+
         },
         getCustomer() {
             axios.get('/api/getCustomer/' + this.$route.params.customerId)

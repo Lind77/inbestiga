@@ -244,6 +244,7 @@ class OrderController extends Controller
                     'type' => $prod['type'],
                     'description' => '-',
                     'price' => $prod['price'],
+                    'extra_price' => $prod['extra_price'],
                     'level' => $prod['level']
                 ]);
             }
@@ -270,6 +271,7 @@ class OrderController extends Controller
                     'type' => $prod['type'],
                     'description' => '-',
                     'price' => $prod['price'],
+                    'extra_price' => $prod['extra_price'],
                     'level' => $prod['level']
                 ]);
             }

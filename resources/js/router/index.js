@@ -114,6 +114,8 @@ import HomeDeliveries from '../components/experience/deliveries/Home.vue'
 import HomeComunications from '../components/experience/comunication/Home.vue'
 //Area de Experiencia - Solicitudes
 import HomeRequests from '../components/experience/requests/Home.vue'
+//Area de Experiencia - Documentacion
+import HomeDocumentation from '../components/experience/profiles/Documentation.vue'
 
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
@@ -397,6 +399,12 @@ export const routes = [
                 path: 'comunications',
                 component: HomeComunications,
                 name: 'experience-comunications'
+            },
+            {
+                path: 'documentation/:quotationId',
+                component: HomeDocumentation,
+                name: 'home-documentation',
+                props: true
             }
         ]
     },
