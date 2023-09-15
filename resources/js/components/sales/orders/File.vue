@@ -28,7 +28,10 @@
                             <th>
                                 <h2 class="name-customer">Nombre: </h2>
                             </th>
-                            <th><span class="name">{{ order.quotation.customers[0].name }}</span></th>
+
+                            <th>
+                                <span class="name" v-for="customer in order.quotation.customers">{{ customer.name }} </span>
+                            </th>
                         </tr>
                         <tr>
                             <th>
@@ -47,7 +50,8 @@
                             <th>
                                 <h2 class="info-user">Teléfono: </h2>
                             </th>
-                            <th><span>{{ order.quotation.customers[0].cell }}</span></th>
+                            <th><span class="name" v-for="customer in order.quotation.customers">{{ customer.cell }} </span>
+                            </th>
                         </tr>
                         <tr>
                             <th>
