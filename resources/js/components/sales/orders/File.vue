@@ -116,8 +116,10 @@
                             </template>
                         </td>
                         <td class="table-item" width="10%" v-if="detail.type <= order.suggested">
-                            <p class="mb-0" style="text-align: center;">S./ {{ detail.price +
-                                detail.extra_price ? detail.extra_price : 0 }}</p>
+                            <p class="mb-0" style="text-align: center;" v-if="detail.extra_price != null">S./ {{
+                                detail.price +
+                                detail.extra_price }}</p>
+                            <p class="mb-0" style="text-align: center;" v-else>S./ {{ detail.price }}</p>
                         </td>
                         <template v-if="index == 0">
                             <td class="table-item ps-2" width="30%" :rowspan="order.quotation.details.length">
