@@ -259,8 +259,6 @@ class OrderController extends Controller
 
             $customers = json_decode($request->get('customers'), true);
 
-
-
             $quotation = Quotation::with(['order', 'customers', 'order.payments', 'details'])->where('id', $request->get('quotation_id'))->first();
 
             $customersId = [];
