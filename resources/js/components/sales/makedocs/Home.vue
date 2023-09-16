@@ -496,6 +496,7 @@ export default {
                 fd.append('suggested', 1)
                 fd.append('payments', JSON.stringify(this.payments))
                 fd.append('discount', this.discount)
+                fd.append('customers', JSON.stringify(this.customers))
                 fd.append('customer_id', this.customer.id)
                 fd.append('products', JSON.stringify(this.details))
                 fd.append('user_id', this.store.authUser.id)
