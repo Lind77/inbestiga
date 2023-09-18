@@ -28,13 +28,16 @@
                             <th>
                                 <h2 class="name-customer">Nombre: </h2>
                             </th>
-                            <th><span class="name">{{ order.quotation.customers[0].name }}</span></th>
+
+                            <th>
+                                <span class="name" v-for="customer in order.quotation.customers">{{ customer.name }} </span>
+                            </th>
                         </tr>
                         <tr>
                             <th>
                                 <h2 class="info-user">Importe: </h2>
                             </th>
-                            <th><span> S./{{ totalPrice }}</span></th>
+                            <th><span> S./{{ order.quotation.amount }}</span></th>
                         </tr>
                     </thead>
                 </table>
@@ -47,7 +50,8 @@
                             <th>
                                 <h2 class="info-user">Teléfono: </h2>
                             </th>
-                            <th><span>{{ order.quotation.customers[0].cell }}</span></th>
+                            <th><span class="name" v-for="customer in order.quotation.customers">{{ customer.cell }} </span>
+                            </th>
                         </tr>
                         <tr>
                             <th>
@@ -116,10 +120,9 @@
                             </template>
                         </td>
                         <td class="table-item" width="10%" v-if="detail.type <= order.suggested">
-                            <p class="mb-0" style="text-align: center;" v-if="detail.extra_price != null">S./ {{
-                                detail.price +
-                                detail.extra_price }}</p>
-                            <p class="mb-0" style="text-align: center;" v-else>S./ {{ detail.price }}</p>
+                            <p class="mb-0" style="text-align: center;">S./ {{
+                                parseFloat(detail.price) +
+                                parseFloat(detail.extra_price) }}</p>
                         </td>
                         <template v-if="index == 0">
                             <td class="table-item ps-2" width="30%" :rowspan="order.quotation.details.length">
@@ -137,7 +140,8 @@
                     </tr>
                     <tr class="sugested-title">
                         <th class="text-purple sugested py-3 ps-2">TOTAL</th>
-                        <th class="text-purple sugested py-3" style="text-align: center;">S/ {{ totalPrice }}</th>
+                        <th class="text-purple sugested py-3" style="text-align: center;">S/ {{ order.quotation.amount }}
+                        </th>
                         <th class="text-danger sugested py-3 ps-1">* DESCUENTO S./{{ order.quotation.discount }}</th>
                     </tr>
                 </tbody>

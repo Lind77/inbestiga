@@ -256,7 +256,18 @@ class OrderController extends Controller
                 'suggested' => $request->get('suggested')
             ]);
         } else {
+
+            $customers = json_decode($request->get('customers'), true);
+
             $quotation = Quotation::with(['order', 'customers', 'order.payments', 'details'])->where('id', $request->get('quotation_id'))->first();
+
+            $customersId = [];
+
+            foreach ($customers as $customer) {
+                array_push($customersId, $customer['id']);
+            }
+
+            $quotation->customers()->sync($customersId);
 
             $quotation->details->each->delete();
 
