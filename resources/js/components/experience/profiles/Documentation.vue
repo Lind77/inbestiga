@@ -114,10 +114,18 @@
                 <div class="card invoice-preview-card mt-2">
                     <div class="card-body">
                         <div class="row">
-                            <span class="h5 mt-2 demo text-body fw-bold">3. Información Académica</span>
-
-                            <p class="mb-1">Asesor Comercial: {{ customer.user_id }}</p>
-
+                            <span class="h5 mt-2 demo text-body fw-bold">3. Información Académica <button
+                                    class="btn btn-icon btn-success" @click="addNewQuestion"><i
+                                        class="bx bx-plus"></i></button> </span>
+                            <p class="mb-1" v-if="customer.user">Asesor Comercial: {{ customer.user.name }}
+                            </p>
+                            <div v-for="newQuestion in newQuestions" class="card bg-success p-2 col-6 ms-2">
+                                <input type="text" class="form-control form-control-sm w-75"
+                                    placeholder="Pregunta o atributo" v-model="question">
+                                <textarea name="" id="" cols="30" rows="3" class="form-control mt-1"
+                                    placeholder="Valor o respuesta" v-model="answer"></textarea>
+                            </div>
+                            <Attrib />
                         </div>
                     </div>
                 </div>
@@ -125,6 +133,7 @@
             <div class="col-lg-3">
                 <div class="card invoice-preview-card">
                     <div class="card-body">
+                        <span class="h5 mt-2 demo text-body fw-bold">4. Información Adicional</span>
                         <template v-if="doc.properties">
                             <template v-for="property in doc.properties">
                                 <template v-if="property.properties">
@@ -142,6 +151,7 @@
                                 <input type="text" class="form-control" v-model="newField.val">
                             </div>
                         </template>
+                        <br>
                         <button class="btn btn-success mt-2" @click="saveFields">Almacenar</button>
                     </div>
                 </div>
@@ -151,8 +161,12 @@
 </template>
 <script>
 import axios from 'axios';
+import Attrib from './Attrib.vue';
 
 export default {
+    components: {
+        Attrib
+    },
     data() {
         return {
             quotation: {},
@@ -162,10 +176,19 @@ export default {
                 propertiable_type: ''
             },
             newFields: [],
-            doc: {}
+            doc: {},
+            newQuestions: []
         }
     },
     methods: {
+        addNewQuestion() {
+            var newQuestion = {
+                question: '',
+                answer: ''
+            }
+
+            this.newQuestions.push({ ...newQuestion })
+        },
         getQuotation() {
             axios.get('/api/quotations/' + this.$route.params.quotationId)
                 .then((result) => {

@@ -37,7 +37,7 @@
                             <th>
                                 <h2 class="info-user">Importe: </h2>
                             </th>
-                            <th><span> S./{{ totalPrice }}</span></th>
+                            <th><span> S./{{ order.quotation.amount }}</span></th>
                         </tr>
                     </thead>
                 </table>
