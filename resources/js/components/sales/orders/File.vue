@@ -121,7 +121,8 @@
                         </td>
                         <td class="table-item" width="10%" v-if="detail.type <= order.suggested">
                             <p class="mb-0" style="text-align: center;">S./ {{
-                                parseFloat(detail.price + detail.extra_price) }}</p>
+                                parseFloat(detail.price) +
+                                parseFloat(detail.extra_price) }}</p>
                         </td>
                         <template v-if="index == 0">
                             <td class="table-item ps-2" width="30%" :rowspan="order.quotation.details.length">
