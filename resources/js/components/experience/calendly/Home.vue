@@ -181,7 +181,7 @@ export default {
                 .then((result) => {
                     this.deliveries = result.data.deliveries
                     this.deliveries.forEach(delivery => {
-                        if (delivery.project) {
+                        if (delivery.project && delivery.project.projectable) {
                             var backgroundColor = '#ffccff'
                             var borderColor = '#ffccff'
                             var textColor = '#ff00cc'

@@ -50,6 +50,7 @@
 import CustomerprofileModal from './CustomerprofileModal.vue'
 import ComunicationsModal from './ComunicationsModal.vue'
 import UpdateComunicationModal from './UpdateComunicationModal.vue'
+
 export default {
     components: {
         CustomerprofileModal,

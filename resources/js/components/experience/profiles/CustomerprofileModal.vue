@@ -143,6 +143,7 @@ export default {
     },
     methods: {
         toDocumentation(quotation) {
+            $('#CustomerprofileModal').modal('hide')
             this.$router.push({ name: 'home-documentation', params: { quotationId: quotation.id } })
         },
         slugify(string, separator = '-') {

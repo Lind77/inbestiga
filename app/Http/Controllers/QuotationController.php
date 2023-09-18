@@ -180,7 +180,7 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        $quotation = Quotation::where('id', $id)->with(['customers', 'details', 'details.product', 'order', 'contract', 'order.properties', 'contract.properties'])->first();
+        $quotation = Quotation::where('id', $id)->with(['customers', 'customers.user', 'details', 'details.product', 'order', 'contract', 'order.properties', 'contract.properties'])->first();
 
         return response()->json($quotation);
     }
