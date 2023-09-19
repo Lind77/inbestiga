@@ -43,7 +43,6 @@
 </head>
 	<body>	
 	<div id="app"></div>	
-	  <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
 	<script src="{{asset('vendor/libs/jquery/jquery.js')}}"></script>
     <script src="{{asset('vendor/libs/popper/popper.js')}}"></script>

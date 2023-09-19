@@ -71,7 +71,7 @@
     <!-- Menú departamento admin -->
 
 
-    <ul class="menu-inner py-1"
+    <!-- <ul class="menu-inner py-1"
       v-if="store.authUser.roles[0].name == 'AdminAcad' || store.authUser.roles[0].name == 'Quality'">
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
       <router-link :to="{ name: 'main-acad' }" class="menu-item">
@@ -105,7 +105,7 @@
         </div>
       </router-link>
     </ul>
-
+ -->
     <ul class="menu-inner py-1" v-if="store.authUser.roles[0].name == 'Acad'">
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
       <router-link :to="{ name: 'main-acad' }" class="menu-item">
