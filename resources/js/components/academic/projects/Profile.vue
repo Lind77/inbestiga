@@ -200,13 +200,12 @@
 </template>
 <script>
 import axios from 'axios';
-import Attrib from './Attrib.vue';
-import ComunicationsModal from './ComunicationsModal.vue';
+//import ComunicationsModal from './ComunicationsModal.vue';
 
 export default {
-    components: {
+    /* components: {
         Attrib, ComunicationsModal
-    },
+    }, */
     data() {
         return {
             quotation: {},

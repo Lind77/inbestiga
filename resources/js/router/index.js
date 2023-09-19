@@ -62,6 +62,7 @@ import Kanban from '../components/academic/projects/kanban/Kanban.vue'
 import UserAcad from '../components/academic/UserAcad.vue'
 import Ecard from '../components/academic/projects/Ecard.vue'
 import MyProjects from '../components/academic/projects/MyProjects.vue'
+import AcadProfile from '../components/academic/projects/Profile.vue'
 
 // Área Acádemica - Productos
 import HomeProduct from '../components/sales/products/Home.vue'
@@ -185,6 +186,12 @@ export const routes = [
                 path: 'myprojects',
                 component: MyProjects,
                 name:'my-projects'
+            },
+            {
+                path: 'profile/:idProject',
+                component: AcadProfile,
+                props: true,
+                name: 'profile-acad'
             }
         ]
     },

@@ -303,3 +303,4 @@ Route::get('/payment-proof/{id}', [VoucherController::class, 'show']);
 Route::put('/access/{id}', [UserController::class, 'access']);
 
 Route::post('/properties', [PropertiesController::class, 'store']);
+Route::get('/projects-properties', [PropertiesController::class, 'properties']);

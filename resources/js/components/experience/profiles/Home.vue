@@ -89,8 +89,7 @@ export default {
             $('#ComunicationsModal').modal('show')
         },
         showCustomerModal(customer) {
-            this.customer_selected = customer
-            $('#CustomerprofileModal').modal('show')
+            this.$router.push({ name: 'home-documentation', params: { quotationId: customer.quotations[0].id } })
         },
         getAllCustomers() {
             axios.get('/api/profiles')
