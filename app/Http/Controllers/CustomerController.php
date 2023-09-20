@@ -146,7 +146,9 @@ class CustomerController extends Controller
             'cell' => $request->get('cell'),
             'university' => $request->get('university'),
             'career' => $request->get('career'),
-            'email' => $request->get('email')
+            'email' => $request->get('email'),
+            'dni' => $request->get('dni'),
+            'address' => $request->get('address')
         ]);
 
         return response()->json([

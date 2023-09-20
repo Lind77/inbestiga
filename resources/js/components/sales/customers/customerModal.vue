@@ -1,7 +1,7 @@
 <template>
     <div class="modal fade" id="customerModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content" v-if="customer">
                 <div class="modal-header">
                     <h5 class="modal-title" v-if="action == 1" id="exampleModalLabel1">Insertar Prospecto</h5>
                     <h5 class="modal-title" v-else id="exampleModalLabel1">Actualizar Cliente {{ customer.name ||
@@ -35,6 +35,20 @@
                             <label for="dobBasic" class="form-label">Universidad</label>
                             <input type="text" v-if="action == 2" v-model="customer.university" class="form-control" />
                             <input type="text" v-else v-model="university" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col mb-0">
+                            <label for="dobBasic" class="form-label">DNI</label>
+                            <input type="text" v-if="action == 2" v-model="customer.dni" class="form-control" />
+                            <input type="text" v-else v-model="dni" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col mb-0">
+                            <label for="dobBasic" class="form-label">Dirección</label>
+                            <input type="text" v-if="action == 2" v-model="customer.address" class="form-control" />
+                            <input type="text" v-else v-model="address" class="form-control" />
                         </div>
                     </div>
                     <div class="row g-2">
@@ -119,6 +133,7 @@ export default {
             university: '',
             career: '',
             email: '',
+            dni: '',
             first_management: null,
             last_management: null,
             next_management: null,
@@ -142,6 +157,8 @@ export default {
             fd.append('university', this.customer.university)
             fd.append('career', this.customer.career)
             fd.append('email', this.customer.email)
+            fd.append('dni', this.customer.dni)
+            fd.append('address', this.customer.address)
 
             axios.post(`/api/customers/${this.customer.id}`, fd)
                 .then(res => {
