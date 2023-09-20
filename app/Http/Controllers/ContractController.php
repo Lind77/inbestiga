@@ -307,6 +307,7 @@ class ContractController extends Controller
 
     public function insertContract(Request $request)
     {
+
         $contract = Contract::create([
             'quotation_id' => $request->get('quotation_id'),
             'amount' => $request->get('amount'),
@@ -316,6 +317,18 @@ class ContractController extends Controller
             'third_article' => $request->get('third_article'),
             'fifth_article' => $request->get('fifth_article')
         ]);
+
+        $customers = json_decode($request->get('customers'), true);
+
+        $customersId = [];
+
+        foreach ($customers as $customer) {
+            array_push($customersId, $customer['id']);
+        }
+
+        $quotation = Quotation::find($request->get('quotation_id'));
+
+        $quotation->customers()->sync($customersId);
 
         $contract->quotation->update([
             'status' => 9
