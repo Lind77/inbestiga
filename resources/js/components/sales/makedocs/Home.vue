@@ -44,6 +44,11 @@
                                     @click="pickQuotation(quotation)" v-for="quotation in quotationsExistent">{{
                                         quotation.date
                                     }}</button>
+
+                                <button v-if="documentType == 3" class="btn btn-info m-1" @click="pickContract(contract)"
+                                    v-for="contract in contractExistent">{{
+                                        contract.date
+                                    }}</button>
                             </div>
                         </div>
                     </div>
@@ -342,10 +347,16 @@ export default {
             fifthArticle: false,
             contractId: 0,
             orderId: 0,
-            quotationsExistent: []
+            quotationsExistent: [],
+            contractExistent: []
         }
     },
     methods: {
+        pickContract(contract) {
+            this.payments = contract.payments
+            console.log(contract)
+            //this.deliveries = contract.projects[0].deliveries
+        },
         pickQuotation(quotation) {
             this.quotation = quotation
             this.quotationIdGenerated = quotation.id
@@ -399,6 +410,13 @@ export default {
                     if (this.customer.quotations[0]) {
                         this.quotationsExistent = this.customer.quotations
                         this.quotationExistent = this.customer.quotations[0]
+
+                        this.customer.quotations.forEach(quotation => {
+                            if (quotation.contract) {
+                                this.contractExistent.push(quotation.contract)
+                            }
+                        })
+
                         this.customers = this.customer.quotations[0].customers
                         this.details = this.quotationExistent.details
                         if (this.quotationExistent.amount > 1500) {
