@@ -62,7 +62,8 @@ class PropertiesController extends Controller
      */
     public function show($id)
     {
-        //
+        $contract = Contract::with('properties', 'quotation', 'quotation.details', 'quotation.details.product', 'quotation.order', 'quotation.contract', 'quotation.customers')->find($id);
+        return $contract;
     }
 
     /**

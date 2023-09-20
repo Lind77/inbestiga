@@ -10,7 +10,8 @@
             <router-link v-if="project.status == 1" :to="{ name: 'kanban', params: { idProject: project.id } }">
                 <i class='bx bx-table'></i>
             </router-link>
-            <router-link v-if="project.status == 1" :to="{ name: 'profile-acad', params: { idProject: project.id } }">
+            <router-link v-if="project.status == 1"
+                :to="{ name: 'profile-acad', params: { idProject: project.projectable_id } }">
                 <i class='bx bx-file text-success'></i>
             </router-link>
             <i v-if="project.status == 2" class='bx bx-list-check text-primary cursor-pointer'
