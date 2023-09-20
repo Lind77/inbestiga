@@ -132,6 +132,7 @@ export default {
         },
         searchNewProduct(e) {
             this.newProductsByType = this.newProducts.filter(product => product.type == this.detail.mode)
+            console.log(this.newProductsByType)
             if (e.target.value != '') {
                 this.newProductsByName = this.newProductsByType.filter(product => product.name.toLowerCase().includes(e.target.value))
                 this.newProductsByName.forEach((product) => {
