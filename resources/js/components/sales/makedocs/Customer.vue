@@ -13,18 +13,11 @@
                 Universidad: {{ customer.university }}
             </p>
             <p class="card-text mb-0">
-                <label for="">DNI:</label>
-                <span v-if="customer.dni != null">{{ customer.dni }}</span>
-                <input v-else type="text" v-model="dni" class="form-control form-control-sm">
-
+                DNI: {{ customer.dni }}
             </p>
             <p class="card-text mb-0">
-                <label for="">Dirección:</label>
-                <span v-if="customer.dni != null">{{ customer.address }}</span>
-                <input v-else type="text" v-model="address" class="form-control form-control-sm">
+                Dirección: {{ customer.address }}
             </p>
-            <button v-if="customer.dni == null || customer.address == null" @click="saveDni"
-                class="btn btn-success btn-sm mt-2">Actualizar datos</button>
         </div>
     </div>
 </template>
