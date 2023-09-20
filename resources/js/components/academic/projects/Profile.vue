@@ -169,7 +169,7 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card invoice-preview-card">
+                <!-- <div class="card invoice-preview-card">
                     <div class="card-body">
                         <span class="h5 mt-2 demo text-body fw-bold">4. Información Adicional</span>
                         <template v-if="doc.properties">
@@ -192,7 +192,7 @@
                         <br>
                         <button class="btn btn-success w-100 mt-2" @click="saveFields">Almacenar</button>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -200,13 +200,12 @@
 </template>
 <script>
 import axios from 'axios';
-import Attrib from './Attrib.vue';
-import ComunicationsModal from './ComunicationsModal.vue';
+//import ComunicationsModal from './ComunicationsModal.vue';
 
 export default {
-    components: {
+    /* components: {
         Attrib, ComunicationsModal
-    },
+    }, */
     data() {
         return {
             quotation: {},
@@ -390,6 +389,17 @@ export default {
         }
     },
     methods: {
+        getProperties() {
+            axios.get('/api/properties/' + this.$route.params.idProject)
+                .then((result) => {
+                    this.quotation = result.data.quotation
+                    this.customer = this.quotation.customers[0]
+                    console.log(result.data)
+                    this.newQuestions = JSON.parse(result.data.properties[0].properties)
+                }).catch((err) => {
+
+                });
+        },
         openComunicationsModal() {
             $('#ComunicationsModal').modal('show')
         },
@@ -403,9 +413,6 @@ export default {
             this.newQuestions.push({ ...newQuestion })
         },
         getQuotation() {
-
-
-
             axios.get('/api/quotations/' + this.$route.params.quotationId)
                 .then((result) => {
                     this.quotation = result.data
@@ -460,7 +467,7 @@ export default {
         } */
     },
     mounted() {
-        this.getQuotation()
+        this.getProperties()
     }
 }
 </script>
