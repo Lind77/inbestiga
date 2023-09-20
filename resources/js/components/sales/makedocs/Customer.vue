@@ -27,7 +27,6 @@
                 class="btn btn-success btn-sm mt-2">Actualizar datos</button>
         </div>
     </div>
-    <customerModal :action="2" :customer="customer_selected" />
 </template>
 <script>
 import customerModal from '../customers/customerModal.vue'
@@ -46,8 +45,7 @@ export default {
     },
     methods: {
         showEditCustomer(customer) {
-            this.customer_selected = customer
-            $('#customerModal').modal('show')
+            this.$emit('openModalCustomerEdit', customer)
         },
         deleteCustomer(customerId) {
             this.$emit('deleteCustomer', customerId)

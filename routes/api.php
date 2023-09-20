@@ -261,7 +261,6 @@ Route::put('/meetings/{id}', [MeetingController::class, 'update']);
 Route::delete('/meetings/{id}', [MeetingController::class, 'destroy']);
 Route::get('/meetings-complete/{id}', [MeetingController::class, 'complete']);
 
-
 Route::get('/projects', [ProjectController::class, 'index']);
 Route::get('/projects-acad', [ProjectController::class, 'getAllProjectsAcad']);
 Route::get('/projects/{id}', [ProjectController::class, 'show']);

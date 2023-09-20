@@ -38,11 +38,16 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-4 mt-2" v-for="customer in customers">
-                                <Customer :customer="customer" @deleteCustomer="deleteCustomer"
-                                    @getCustomer="getCustomer" />
+                                <Customer :customer="customer" @deleteCustomer="deleteCustomer" @getCustomer="getCustomer"
+                                    @openModalCustomerEdit="openModalCustomerEdit" />
                                 <button v-if="documentType == 1" class="btn btn-success m-1"
                                     @click="pickQuotation(quotation)" v-for="quotation in quotationsExistent">{{
                                         quotation.date
+                                    }}</button>
+
+                                <button v-if="documentType == 3" class="btn btn-info m-1" @click="pickContract(contract)"
+                                    v-for="contract in contractExistent">{{
+                                        contract.date
                                     }}</button>
                             </div>
                         </div>
@@ -282,6 +287,7 @@
             <!-- /Invoice Actions -->
         </div>
     </div>
+    <customerModal :action="2" :customer="customerSelected" />
 </template>
 <script>
 import moment from 'moment'
@@ -290,6 +296,7 @@ import Customer from './Customer.vue'
 import Detail from './Detail.vue'
 import Payment from './Payment.vue'
 import Delivery from './Delivery.vue'
+import customerModal from '../customers/customerModal.vue'
 import { userStore } from '../../../stores/UserStore'
 
 export default {
@@ -299,7 +306,7 @@ export default {
             store
         }
     },
-    components: { Customer, Detail, Payment, Delivery },
+    components: { Customer, Detail, Payment, Delivery, customerModal },
     data() {
         return {
             documentType: 1,
@@ -310,6 +317,7 @@ export default {
             },
             customer: {},
             customers: [],
+            customerSelected: {},
             search: '',
             customersFound: [],
             details: [],
@@ -342,10 +350,20 @@ export default {
             fifthArticle: false,
             contractId: 0,
             orderId: 0,
-            quotationsExistent: []
+            quotationsExistent: [],
+            contractExistent: []
         }
     },
     methods: {
+        openModalCustomerEdit(customer) {
+            this.customerSelected = customer
+            $('#customerModal').modal('show')
+        },
+        pickContract(contract) {
+            this.payments = contract.payments
+            console.log(contract)
+            //this.deliveries = contract.projects[0].deliveries
+        },
         pickQuotation(quotation) {
             this.quotation = quotation
             this.quotationIdGenerated = quotation.id
@@ -399,6 +417,13 @@ export default {
                     if (this.customer.quotations[0]) {
                         this.quotationsExistent = this.customer.quotations
                         this.quotationExistent = this.customer.quotations[0]
+
+                        this.customer.quotations.forEach(quotation => {
+                            if (quotation.contract) {
+                                this.contractExistent.push(quotation.contract)
+                            }
+                        })
+
                         this.customers = this.customer.quotations[0].customers
                         this.details = this.quotationExistent.details
                         if (this.quotationExistent.amount > 1500) {
