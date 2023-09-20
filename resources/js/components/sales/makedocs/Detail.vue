@@ -137,6 +137,7 @@ export default {
                 this.newProductsByName.forEach((product) => {
                     product.newPriceSelected = product.levels.find(level => level.name == this.detail.level)
                 })
+                console.log(this.newProductsByName)
             } else {
                 this.newProductsByName = []
             }
