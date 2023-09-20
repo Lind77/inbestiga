@@ -411,6 +411,9 @@ export default {
 
         },
         getCustomer() {
+            this.contractExistent = []
+            this.quotationExistent = []
+
             axios.get('/api/getCustomer/' + this.$route.params.customerId)
                 .then((res) => {
                     this.customer = res.data
