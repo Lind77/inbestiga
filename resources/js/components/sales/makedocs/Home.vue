@@ -40,10 +40,12 @@
                             <div class="col-lg-4 mt-2" v-for="customer in customers">
                                 <Customer :customer="customer" @deleteCustomer="deleteCustomer" @getCustomer="getCustomer"
                                     @openModalCustomerEdit="openModalCustomerEdit" />
-                                <button v-if="documentType == 1" class="btn btn-success m-1"
-                                    @click="pickQuotation(quotation)" v-for="quotation in quotationsExistent">{{
-                                        quotation.date
-                                    }}</button>
+
+                                <div v-if="documentType == 1" class="bg-success rounded text-white my-1 p-1"
+                                    @click="pickQuotation(quotation)" v-for="quotation in quotationsExistent">
+                                    {{ quotation.date }}
+                                    <i class="bx bx-trash text-danger"></i>
+                                </div>
 
                                 <button v-if="documentType == 3" class="btn btn-info m-1" @click="pickContract(contract)"
                                     v-for="contract in contractExistent">{{
