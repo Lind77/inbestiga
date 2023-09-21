@@ -223,9 +223,9 @@
                                     v-model="thirdArticle"></p>
                             <p>5to art.(Considerar Entregas) <input type="checkbox" class="form-check-input"
                                     v-model="fifthArticle"></p>
-                            <label for="salesperson" class="form-label">Tiempo de Ejecucion<span
+                            <!-- <label for="salesperson" class="form-label">Tiempo de Ejecucion<span
                                     class="text-danger">*</span>:</label>
-                            <input type="text" class="form-control" v-model="quotation.term">
+                            <input type="text" class="form-control" v-model="quotation.term"> -->
 
                             <label for="salesperson" class="form-label">Fecha de contrato<span
                                     class="text-danger">*</span>:</label>
@@ -383,7 +383,10 @@ export default {
         pickContract(contract) {
             this.payments = contract.payments
             console.log(contract)
-            //this.deliveries = contract.projects[0].deliveries
+            this.deliveries = contract.projects[0].deliveries
+            this.thirdArticle = this.numberToBoolean(contract.third_article)
+            this.fifthArticle = this.numberToBoolean(contract.fifth_article)
+            this.contract.date = contract.date
         },
         pickQuotation(quotation) {
             this.quotation = quotation
@@ -481,6 +484,9 @@ export default {
         },
         booleanToNumber(value) {
             return value ? 1 : 0
+        },
+        numberToBoolean(value) {
+            return value == 1 ? true : false
         },
         deleteCustomer(customerId) {
             var customerSelected = this.customers.findIndex(customer => customer.id == customerId);
