@@ -40,18 +40,16 @@
                             <div class="col-lg-4 mt-2" v-for="customer in customers">
                                 <Customer :customer="customer" @deleteCustomer="deleteCustomer" @getCustomer="getCustomer"
                                     @openModalCustomerEdit="openModalCustomerEdit" />
-
-                                <div v-if="documentType == 1" class="bg-success rounded text-white my-1 p-1"
-                                    @click="pickQuotation(quotation)" v-for="quotation in quotationsExistent">
-                                    {{ quotation.date }}
-                                    <i class="bx bx-trash text-danger"></i>
-                                </div>
-
-                                <button v-if="documentType == 3" class="btn btn-info m-1" @click="pickContract(contract)"
-                                    v-for="contract in contractExistent">{{
-                                        contract.date
-                                    }}</button>
                             </div>
+                            <div v-if="documentType == 1" class="bg-success rounded text-white text-center my-1 p-1"
+                                @click="pickQuotation(quotation)" v-for="quotation in quotationsExistent">
+                                {{ quotation.date }}
+                                <i class="bx bx-trash" @click="deleteQuotaion(quotation.id)"></i>
+                            </div>
+                            <button v-if="documentType == 3" class="btn btn-info m-1" @click="pickContract(contract)"
+                                v-for="contract in contractExistent">{{
+                                    contract.date
+                                }}</button>
                         </div>
                     </div>
                 </div>
@@ -300,6 +298,7 @@ import Payment from './Payment.vue'
 import Delivery from './Delivery.vue'
 import customerModal from '../customers/customerModal.vue'
 import { userStore } from '../../../stores/UserStore'
+import axios from 'axios'
 
 export default {
     setup() {
@@ -357,6 +356,26 @@ export default {
         }
     },
     methods: {
+        deleteQuotaion(quotationId) {
+            this.$swal.fire({
+                title: '¿Deseas eliminar esta cotización?',
+                showDenyButton: true,
+                confirmButtonText: 'Si',
+                denyButtonText: 'No',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    axios.delete('/api/quotations/' + quotationId)
+                        .then((result) => {
+                            this.getCustomer()
+                            this.documentType = 1
+                        }).catch((err) => {
+
+                        });
+                }
+            })
+
+        },
         openModalCustomerEdit(customer) {
             this.customerSelected = customer
             $('#customerModal').modal('show')
