@@ -594,6 +594,7 @@ export default {
                 .then(res => {
                     this.contractId = res.data
                     this.$swal('Contrato generado correctamente')
+                    this.getCustomer()
                 })
                 .catch(err => {
                     console.log(err)
