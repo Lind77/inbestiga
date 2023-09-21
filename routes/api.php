@@ -106,6 +106,7 @@ Route::get('/getAllMessagesById/{id}', [ChatController::class, 'getAllMessagesBy
 Route::post('/messages', [ChatController::class, 'store'])->middleware('auth:sanctum');
 
 Route::get('/getAllProducts', [ProductController::class, 'index']);
+Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 Route::post('/insertProduct', [ProductController::class, 'store']);
 Route::post('/assignProduct', [ProductController::class, 'assignProduct']);
 Route::get('/getAllProductsWithPrices', [ProductController::class, 'getAllProductsWithPrices']);
