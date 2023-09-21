@@ -1,7 +1,7 @@
 <template>
     <div class="modal fade" id="customerModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" v-if="customer">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" v-if="action == 1" id="exampleModalLabel1">Insertar Prospecto</h5>
                     <h5 class="modal-title" v-else id="exampleModalLabel1">Actualizar Cliente {{ customer.name ||
@@ -134,6 +134,7 @@ export default {
             career: '',
             email: '',
             dni: '',
+            address: '',
             first_management: null,
             last_management: null,
             next_management: null,
