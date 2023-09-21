@@ -173,9 +173,9 @@ Route::get('/changeInterest/{id}/{interest}', [CustomerController::class, 'chang
 
 
 Route::get('/getAllOrders', [OrderController::class, 'index']);
+Route::post('/orders', [OrderController::class, 'insertOrder']);
 Route::post('/order', [OrderController::class, 'store']);
 Route::post('/updateOrder', [OrderController::class, 'update']);
-
 
 Route::post('/updateComunication', [ComunicationController::class, 'update']);
 Route::post('/insertComunication', [ComunicationController::class, 'insertComunication']);
@@ -183,11 +183,10 @@ Route::get('/getComunicationsByToday/{id}', [ComunicationController::class, 'get
 Route::get('/updateComunication/{id}', [ComunicationController::class, 'updateComunication']);
 Route::get('/comunications', [ComunicationController::class, 'comunicationsClient']);
 
+Route::post('/contracts', [ContractController::class, 'insertContract']);
 Route::get('/getAllContracts', [ContractController::class, 'index']);
 Route::get('/generateContract/{id}', [OrderController::class, 'generateContract']);
-Route::post('/insertOrder', [OrderController::class, 'insertOrder']);
 
-Route::post('/insertContract', [ContractController::class, 'insertContract']);
 Route::post('/updateContract', [ContractController::class, 'updateContract']);
 
 Route::get('/promotions/{code}', [PromotionController::class, 'discount']);

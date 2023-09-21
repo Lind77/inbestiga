@@ -307,6 +307,17 @@ class ContractController extends Controller
 
     public function insertContract(Request $request)
     {
+        $payments = json_decode($request->get('payments'), true);
+        $deliveries = json_decode($request->get('deliveries'), true);
+
+        $request->validate([
+            'date' => 'required',
+            'payments' => 'required',
+            'payments.date' => 'required',
+            'deliveries' => 'required',
+            'deliveries.date' => 'required',
+            'deliveries.advance' => 'required'
+        ]);
 
         $contract = Contract::create([
             'quotation_id' => $request->get('quotation_id'),
@@ -344,7 +355,7 @@ class ContractController extends Controller
             'status' => 0
         ]);
 
-        $deliveries = json_decode($request->get('deliveries'), true);
+
 
         foreach ($deliveries as $delivery) {
             Delivery::create([

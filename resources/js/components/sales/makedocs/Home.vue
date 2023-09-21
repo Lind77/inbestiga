@@ -8,8 +8,12 @@
                             <div class="col-md-6 mb-md-0 mb-4">
                                 <div class="d-flex svg-illustration gap-2">
                                     <span class="h5 mt-2 demo text-body fw-bold">{{ titleByType[documentType]
-                                    }}</span> <button class="btn btn-success btn-icon"><i class='bx bx-chevrons-right'
-                                            @click="changeDocumentType"></i></button>
+                                    }}</span>
+
+                                    <button v-if="documentType > 1" @click="changeDocumentType"
+                                        class="btn btn-success btn-icon">
+                                        <i class='bx bx-chevrons-right'></i>
+                                    </button>
 
                                     <label for="file-upload" class="btn btn-dark btn-icon">
                                         <i class='bx bx-save'></i>
@@ -423,16 +427,12 @@ export default {
             this.deliveries.splice(index, 1)
         },
         changeDocumentType() {
-            if (this.customer.status >= 5) {
-                if (this.documentType == 3) {
-                    this.documentType = 1
-                } else {
-                    this.documentType++
-                }
+            console.log(this.documentType)
+            if (this.documentType == 2) {
+                this.documentType = 3
             } else {
-                this.$swal('Aun no estás habilitado para hacer una orden o contrato')
+                this.documentType = 2
             }
-
         },
         getCustomer() {
             this.contractExistent = []
@@ -511,61 +511,54 @@ export default {
                 })
         },
         createQuotation() {
-            if (this.quotation.date == '' || this.quotation.expiration_date == '' || this.quotation.term == '') {
-                this.$swal('Porfavor no deje en blanco los campos de fecha, tiempo de ejecución y fecha de validez')
-            } else {
-                const fd = new FormData()
 
-                fd.append('user_id', this.store.authUser.id)
-                fd.append('customers', JSON.stringify(this.customers))
-                fd.append('customer_id', this.customer.id)
-                fd.append('date', this.quotation.date)
-                fd.append('expirationDay', this.quotation.expiration_date)
-                fd.append('amount', (this.totalProducts - this.quotation.discount).toFixed(2))
-                fd.append('discount', this.quotation.discount)
-                fd.append('term', this.quotation.term)
-                fd.append('products', JSON.stringify(this.details))
-                fd.append('emisor_id', this.store.authUser.id)
-                fd.append('coupon', this.coupon)
+            const fd = new FormData()
 
-                axios.post('/api/quotations', fd)
-                    .then((res) => {
-                        this.$swal('Cotización generada')
-                        this.quotationIdGenerated = res.data.id
-                    })
-                    .catch((err) => {
-                        this.$swal('Surgió un error')
-                        console.log(err)
-                    })
-            }
+            fd.append('user_id', this.store.authUser.id)
+            fd.append('customers', JSON.stringify(this.customers))
+            fd.append('customer_id', this.customer.id)
+            fd.append('date', this.quotation.date)
+            fd.append('expiration_date', this.quotation.expiration_date)
+            fd.append('amount', (this.totalProducts - this.quotation.discount).toFixed(2))
+            fd.append('discount', this.quotation.discount)
+            fd.append('term', this.quotation.term)
+            fd.append('products', JSON.stringify(this.details))
+            fd.append('emisor_id', this.store.authUser.id)
+            fd.append('coupon', this.coupon)
+
+            axios.post('/api/quotations', fd)
+                .then((res) => {
+                    this.$swal('Cotización generada')
+                    this.quotationIdGenerated = res.data.id
+                })
+                .catch((err) => {
+                    this.$swal(err.response.data.message)
+                    console.log(err.response)
+                })
         },
         createOrder(quotationId) {
-            if (this.order.final_delivery == null || this.order.observations == null) {
-                this.$swal('Tiene que rellenar los campos de manera obligatoria (entrega final y observaciones)')
-            } else {
-                const fd = new FormData()
+            const fd = new FormData()
 
-                fd.append('quotation_id', this.quotationExistent.id)
-                fd.append('final_delivery', this.order.final_delivery)
-                fd.append('observations', this.order.observations)
-                fd.append('suggested', 1)
-                fd.append('payments', JSON.stringify(this.payments))
-                fd.append('discount', this.discount)
-                fd.append('customers', JSON.stringify(this.customers))
-                fd.append('customer_id', this.customer.id)
-                fd.append('products', JSON.stringify(this.details))
-                fd.append('user_id', this.store.authUser.id)
+            fd.append('quotation_id', this.quotationExistent.id)
+            fd.append('final_delivery', this.order.final_delivery)
+            fd.append('observations', this.order.observations)
+            fd.append('suggested', 1)
+            fd.append('payments', JSON.stringify(this.payments))
+            fd.append('discount', this.discount)
+            fd.append('customers', JSON.stringify(this.customers))
+            fd.append('customer_id', this.customer.id)
+            fd.append('products', JSON.stringify(this.details))
+            fd.append('user_id', this.store.authUser.id)
 
-                axios.post('/api/insertOrder', fd)
-                    .then(res => {
-                        console.log(res.data);
-                        this.orderId = res.data
-                        this.$swal('Orden registrada correctamente')
-                    })
-                    .catch(err => {
-                        console.error(err)
-                    })
-            }
+            axios.post('/api/orders', fd)
+                .then(res => {
+                    console.log(res.data);
+                    this.orderId = res.data
+                    this.$swal('Orden registrada correctamente')
+                })
+                .catch(err => {
+                    this.$swal(err.response.data.message)
+                })
         },
         createContract() {
             var thirdArticleValue = this.booleanToNumber(this.thirdArticle)
@@ -590,13 +583,14 @@ export default {
             fd.append('emisor_id', this.store.authUser.id)
             fd.append('third_article', thirdArticleValue)
             fd.append('fifth_article', fifthArticleValue)
-            axios.post('/api/insertContract', fd)
+            axios.post('/api/contracts', fd)
                 .then(res => {
                     this.contractId = res.data
                     this.$swal('Contrato generado correctamente')
                     this.getCustomer()
                 })
                 .catch(err => {
+                    this.$swal(err.response.data.message)
                     console.log(err)
                 })
         },
