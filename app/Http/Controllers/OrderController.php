@@ -221,6 +221,15 @@ class OrderController extends Controller
 
     public function insertOrder(Request $request)
     {
+        $payments = json_decode($request->get('payments'), true);
+
+        $request->validate([
+            'final_delivery' => 'required',
+            'observations' => 'required',
+            'paymenrs' => 'required',
+            'payments.date' => 'required'
+        ]);
+
         $customers = json_decode($request->get('customers'), true);
 
         $quotation = Quotation::with(['order', 'customers', 'order.payments', 'details'])->where('id', $request->get('quotation_id'))->first();
@@ -275,7 +284,7 @@ class OrderController extends Controller
         ]);
 
 
-        $payments = json_decode($request->get('payments'), true);
+
 
         foreach ($payments as $payment) {
             $payment_registered = Payment::create([

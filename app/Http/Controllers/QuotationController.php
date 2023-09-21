@@ -48,13 +48,19 @@ class QuotationController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'date' => 'required',
+            'expiration_date' => 'required',
+            'term' => 'required'
+        ]);
+
         $discount = 0;
 
         $quotation = Quotation::create([
             'customer_id' => $request->get('customer_id'),
             'date' => $request->get('date'),
             'amount' => $request->get('amount'),
-            'expiration_date' => $request->get('expirationDay'),
+            'expiration_date' => $request->get('expiration_date'),
             'discount' => $discount,
             'term' => $request->get('term'),
             'note' => $request->get('note'),
