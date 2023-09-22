@@ -307,6 +307,18 @@ class ContractController extends Controller
 
     public function insertContract(Request $request)
     {
+        $payments = json_decode($request->get('payments'), true);
+        $deliveries = json_decode($request->get('deliveries'), true);
+
+        $request->validate([
+            'date' => 'required',
+            'payments' => 'required',
+            /* 'payments.date' => 'required', */
+            'deliveries' => 'required',
+            /*  'deliveries.date' => 'required', */
+            /* 'deliveries.advance' => 'required' */
+        ]);
+
         $contract = Contract::create([
             'quotation_id' => $request->get('quotation_id'),
             'amount' => $request->get('amount'),
@@ -316,6 +328,18 @@ class ContractController extends Controller
             'third_article' => $request->get('third_article'),
             'fifth_article' => $request->get('fifth_article')
         ]);
+
+        $customers = json_decode($request->get('customers'), true);
+
+        $customersId = [];
+
+        foreach ($customers as $customer) {
+            array_push($customersId, $customer['id']);
+        }
+
+        $quotation = Quotation::find($request->get('quotation_id'));
+
+        $quotation->customers()->sync($customersId);
 
         $contract->quotation->update([
             'status' => 9
@@ -331,14 +355,19 @@ class ContractController extends Controller
             'status' => 0
         ]);
 
-        $deliveries = json_decode($request->get('deliveries'), true);
+
 
         foreach ($deliveries as $delivery) {
+            if ($delivery['date'] == '') {
+                $deliveryNull = null;
+            } else {
+                $deliveryNull = $delivery['date'];
+            }
             Delivery::create([
                 'advance' => $delivery['advance'],
                 'status' => 0,
                 'project_id' => $project->id,
-                'date' => $delivery['date'],
+                'date' => $deliveryNull,
                 'type' => 1
             ]);
         }
@@ -346,10 +375,15 @@ class ContractController extends Controller
         $payments = json_decode($request->get('payments'), true);
 
         foreach ($payments as $payment) {
+            if ($payment['date'] == '') {
+                $paymentNull = null;
+            } else {
+                $paymentNull = $payment['date'];
+            }
             Payment::create([
                 'paymentable_id' => $contract->id,
                 'paymentable_type' => 'App\Models\Contract',
-                'date' => $payment['date'],
+                'date' => $paymentNull,
                 'amount' => $payment['amount'],
                 'advance' => null,
                 'percentage' => $payment['percentage']

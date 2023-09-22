@@ -8,8 +8,11 @@
                             <div class="col-md-6 mb-md-0 mb-4">
                                 <div class="d-flex svg-illustration gap-2">
                                     <span class="h5 mt-2 demo text-body fw-bold">{{ titleByType[documentType]
-                                    }}</span> <button class="btn btn-success btn-icon"><i class='bx bx-chevrons-right'
-                                            @click="changeDocumentType"></i></button>
+                                    }}</span>
+
+                                    <button @click="changeDocumentType" class="btn btn-success btn-icon">
+                                        <i class='bx bx-chevrons-right'></i>
+                                    </button>
 
                                     <label for="file-upload" class="btn btn-dark btn-icon">
                                         <i class='bx bx-save'></i>
@@ -38,13 +41,18 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-4 mt-2" v-for="customer in customers">
-                                <Customer :customer="customer" @deleteCustomer="deleteCustomer"
-                                    @getCustomer="getCustomer" />
-                                <button v-if="documentType == 1" class="btn btn-success m-1"
-                                    @click="pickQuotation(quotation)" v-for="quotation in quotationsExistent">{{
-                                        quotation.date
-                                    }}</button>
+                                <Customer :customer="customer" @deleteCustomer="deleteCustomer" @getCustomer="getCustomer"
+                                    @openModalCustomerEdit="openModalCustomerEdit" />
                             </div>
+                            <div v-if="documentType == 1" class="bg-success rounded text-white text-center my-1 p-1"
+                                @click="pickQuotation(quotation)" v-for="quotation in quotationsExistent">
+                                {{ quotation.date }}
+                                <i class="bx bx-trash" @click="deleteQuotaion(quotation.id)"></i>
+                            </div>
+                            <button v-if="documentType == 3" class="btn btn-info m-1" @click="pickContract(contract)"
+                                v-for="contract in contractExistent">{{
+                                    contract.date
+                                }}</button>
                         </div>
                     </div>
                 </div>
@@ -218,9 +226,9 @@
                                     v-model="thirdArticle"></p>
                             <p>5to art.(Considerar Entregas) <input type="checkbox" class="form-check-input"
                                     v-model="fifthArticle"></p>
-                            <label for="salesperson" class="form-label">Tiempo de Ejecucion<span
+                            <!-- <label for="salesperson" class="form-label">Tiempo de Ejecucion<span
                                     class="text-danger">*</span>:</label>
-                            <input type="text" class="form-control" v-model="quotation.term">
+                            <input type="text" class="form-control" v-model="quotation.term"> -->
 
                             <label for="salesperson" class="form-label">Fecha de contrato<span
                                     class="text-danger">*</span>:</label>
@@ -282,6 +290,7 @@
             <!-- /Invoice Actions -->
         </div>
     </div>
+    <customerModal :action="2" :customer="customerSelected" />
 </template>
 <script>
 import moment from 'moment'
@@ -290,7 +299,9 @@ import Customer from './Customer.vue'
 import Detail from './Detail.vue'
 import Payment from './Payment.vue'
 import Delivery from './Delivery.vue'
+import customerModal from '../customers/customerModal.vue'
 import { userStore } from '../../../stores/UserStore'
+import axios from 'axios'
 
 export default {
     setup() {
@@ -299,7 +310,7 @@ export default {
             store
         }
     },
-    components: { Customer, Detail, Payment, Delivery },
+    components: { Customer, Detail, Payment, Delivery, customerModal },
     data() {
         return {
             documentType: 1,
@@ -310,6 +321,7 @@ export default {
             },
             customer: {},
             customers: [],
+            customerSelected: {},
             search: '',
             customersFound: [],
             details: [],
@@ -342,10 +354,43 @@ export default {
             fifthArticle: false,
             contractId: 0,
             orderId: 0,
-            quotationsExistent: []
+            quotationsExistent: [],
+            contractExistent: []
         }
     },
     methods: {
+        deleteQuotaion(quotationId) {
+            this.$swal.fire({
+                title: '¿Deseas eliminar esta cotización?',
+                showDenyButton: true,
+                confirmButtonText: 'Si',
+                denyButtonText: 'No',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    axios.delete('/api/quotations/' + quotationId)
+                        .then((result) => {
+                            this.getCustomer()
+                            this.documentType = 1
+                        }).catch((err) => {
+
+                        });
+                }
+            })
+
+        },
+        openModalCustomerEdit(customer) {
+            this.customerSelected = customer
+            $('#customerModal').modal('show')
+        },
+        pickContract(contract) {
+            this.payments = contract.payments
+            console.log(contract)
+            this.deliveries = contract.projects[0].deliveries
+            this.thirdArticle = this.numberToBoolean(contract.third_article)
+            this.fifthArticle = this.numberToBoolean(contract.fifth_article)
+            this.contract.date = contract.date
+        },
         pickQuotation(quotation) {
             this.quotation = quotation
             this.quotationIdGenerated = quotation.id
@@ -372,7 +417,7 @@ export default {
         },
         addDelivery() {
             var delivery = {
-                date: '',
+                date: null,
                 advance: ''
             }
             this.deliveries.push({ ...delivery })
@@ -381,24 +426,30 @@ export default {
             this.deliveries.splice(index, 1)
         },
         changeDocumentType() {
-            if (this.customer.status >= 5) {
-                if (this.documentType == 3) {
-                    this.documentType = 1
-                } else {
-                    this.documentType++
-                }
+            console.log(this.documentType)
+            if (this.documentType <= 2) {
+                this.documentType = this.documentType + 1
             } else {
-                this.$swal('Aun no estás habilitado para hacer una orden o contrato')
+                this.documentType = 1
             }
-
         },
         getCustomer() {
+            this.contractExistent = []
+            this.quotationExistent = []
+
             axios.get('/api/getCustomer/' + this.$route.params.customerId)
                 .then((res) => {
                     this.customer = res.data
                     if (this.customer.quotations[0]) {
                         this.quotationsExistent = this.customer.quotations
                         this.quotationExistent = this.customer.quotations[0]
+
+                        this.customer.quotations.forEach(quotation => {
+                            if (quotation.contract) {
+                                this.contractExistent.push(quotation.contract)
+                            }
+                        })
+
                         this.customers = this.customer.quotations[0].customers
                         this.details = this.quotationExistent.details
                         if (this.quotationExistent.amount > 1500) {
@@ -433,6 +484,9 @@ export default {
         booleanToNumber(value) {
             return value ? 1 : 0
         },
+        numberToBoolean(value) {
+            return value == 1 ? true : false
+        },
         deleteCustomer(customerId) {
             var customerSelected = this.customers.findIndex(customer => customer.id == customerId);
             this.customers.splice(customerSelected, 1)
@@ -456,61 +510,54 @@ export default {
                 })
         },
         createQuotation() {
-            if (this.quotation.date == '' || this.quotation.expiration_date == '' || this.quotation.term == '') {
-                this.$swal('Porfavor no deje en blanco los campos de fecha, tiempo de ejecución y fecha de validez')
-            } else {
-                const fd = new FormData()
 
-                fd.append('user_id', this.store.authUser.id)
-                fd.append('customers', JSON.stringify(this.customers))
-                fd.append('customer_id', this.customer.id)
-                fd.append('date', this.quotation.date)
-                fd.append('expirationDay', this.quotation.expiration_date)
-                fd.append('amount', (this.totalProducts - this.quotation.discount).toFixed(2))
-                fd.append('discount', this.quotation.discount)
-                fd.append('term', this.quotation.term)
-                fd.append('products', JSON.stringify(this.details))
-                fd.append('emisor_id', this.store.authUser.id)
-                fd.append('coupon', this.coupon)
+            const fd = new FormData()
 
-                axios.post('/api/quotations', fd)
-                    .then((res) => {
-                        this.$swal('Cotización generada')
-                        this.quotationIdGenerated = res.data.id
-                    })
-                    .catch((err) => {
-                        this.$swal('Surgió un error')
-                        console.log(err)
-                    })
-            }
+            fd.append('user_id', this.store.authUser.id)
+            fd.append('customers', JSON.stringify(this.customers))
+            fd.append('customer_id', this.customer.id)
+            fd.append('date', this.quotation.date)
+            fd.append('expiration_date', this.quotation.expiration_date)
+            fd.append('amount', (this.totalProducts - this.quotation.discount).toFixed(2))
+            fd.append('discount', this.quotation.discount)
+            fd.append('term', this.quotation.term)
+            fd.append('products', JSON.stringify(this.details))
+            fd.append('emisor_id', this.store.authUser.id)
+            fd.append('coupon', this.coupon)
+
+            axios.post('/api/quotations', fd)
+                .then((res) => {
+                    this.$swal('Cotización generada')
+                    this.quotationIdGenerated = res.data.id
+                })
+                .catch((err) => {
+                    this.$swal(err.response.data.message)
+                    console.log(err.response)
+                })
         },
         createOrder(quotationId) {
-            if (this.order.final_delivery == null || this.order.observations == null) {
-                this.$swal('Tiene que rellenar los campos de manera obligatoria (entrega final y observaciones)')
-            } else {
-                const fd = new FormData()
+            const fd = new FormData()
 
-                fd.append('quotation_id', this.quotationExistent.id)
-                fd.append('final_delivery', this.order.final_delivery)
-                fd.append('observations', this.order.observations)
-                fd.append('suggested', 1)
-                fd.append('payments', JSON.stringify(this.payments))
-                fd.append('discount', this.discount)
-                fd.append('customers', JSON.stringify(this.customers))
-                fd.append('customer_id', this.customer.id)
-                fd.append('products', JSON.stringify(this.details))
-                fd.append('user_id', this.store.authUser.id)
+            fd.append('quotation_id', this.quotationExistent.id)
+            fd.append('final_delivery', this.order.final_delivery)
+            fd.append('observations', this.order.observations)
+            fd.append('suggested', 1)
+            fd.append('payments', JSON.stringify(this.payments))
+            fd.append('discount', this.discount)
+            fd.append('customers', JSON.stringify(this.customers))
+            fd.append('customer_id', this.customer.id)
+            fd.append('products', JSON.stringify(this.details))
+            fd.append('user_id', this.store.authUser.id)
 
-                axios.post('/api/insertOrder', fd)
-                    .then(res => {
-                        console.log(res.data);
-                        this.orderId = res.data
-                        this.$swal('Orden registrada correctamente')
-                    })
-                    .catch(err => {
-                        console.error(err)
-                    })
-            }
+            axios.post('/api/orders', fd)
+                .then(res => {
+                    console.log(res.data);
+                    this.orderId = res.data
+                    this.$swal('Orden registrada correctamente')
+                })
+                .catch(err => {
+                    this.$swal(err.response.data.message)
+                })
         },
         createContract() {
             var thirdArticleValue = this.booleanToNumber(this.thirdArticle)
@@ -535,12 +582,14 @@ export default {
             fd.append('emisor_id', this.store.authUser.id)
             fd.append('third_article', thirdArticleValue)
             fd.append('fifth_article', fifthArticleValue)
-            axios.post('/api/insertContract', fd)
+            axios.post('/api/contracts', fd)
                 .then(res => {
                     this.contractId = res.data
                     this.$swal('Contrato generado correctamente')
+                    this.getCustomer()
                 })
                 .catch(err => {
+                    this.$swal(err.response.data.message)
                     console.log(err)
                 })
         },

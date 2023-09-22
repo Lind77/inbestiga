@@ -221,86 +221,59 @@ class OrderController extends Controller
 
     public function insertOrder(Request $request)
     {
+        $payments = json_decode($request->get('payments'), true);
 
-        if ($request->get('quotation_id') == 'undefined') {
-            $quotation = Quotation::create([
-                'customer_id' => $request->get('customer_id'),
-                'date' => $request->get('date'),
-                'amount' => $request->get('amount'),
-                'expiration_date' => $request->get('expirationDay'),
-                'discount' => 0,
-                'term' => '-',
-                'note' => '-'
-            ]);
+        $request->validate([
+            'final_delivery' => 'required',
+            'observations' => 'required',
+            'paymenrs' => 'required',
+            'payments.date' => 'required'
+        ]);
 
-            $products = $request->get('products');
+        $customers = json_decode($request->get('customers'), true);
 
-            $arrProds = json_decode($products, true);
+        $quotation = Quotation::with(['order', 'customers', 'order.payments', 'details'])->where('id', $request->get('quotation_id'))->first();
 
-            foreach ($arrProds as $prod) {
-                $detail = Detail::create([
-                    'quotation_id' => $quotation->id,
-                    'product_id' => $prod['product_id'],
-                    'type' => $prod['type'],
-                    'description' => '-',
-                    'price' => $prod['price'],
-                    'extra_price' => $prod['extra_price'],
-                    'level' => $prod['level']
-                ]);
-            }
+        $customersId = [];
 
-            $order = Order::create([
+        foreach ($customers as $customer) {
+            array_push($customersId, $customer['id']);
+        }
+
+        $quotation->customers()->sync($customersId);
+
+        $quotation->details->each->delete();
+
+        $products = $request->get('products');
+
+        $arrProds = json_decode($products, true);
+
+        foreach ($arrProds as $prod) {
+            $detail = Detail::create([
                 'quotation_id' => $quotation->id,
+                'product_id' => $prod['product_id'],
+                'type' => $prod['type'],
+                'description' => '-',
+                'price' => $prod['price'],
+                'extra_price' => $prod['extra_price'],
+                'level' => $prod['level']
+            ]);
+        }
+        $quotation->update([
+            'discount'  => $request->get('discount')
+        ]);
+        if ($quotation->order != null) {
+            $quotation->order->payments->each->delete();
+            $quotation->order->update([
                 'final_delivery' => $request->get('final_delivery'),
                 'observations' => $request->get('observations'),
                 'suggested' => $request->get('suggested')
             ]);
+            $order = $quotation->order;
         } else {
-
-            $customers = json_decode($request->get('customers'), true);
-
-            $quotation = Quotation::with(['order', 'customers', 'order.payments', 'details'])->where('id', $request->get('quotation_id'))->first();
-
-            $customersId = [];
-
-            foreach ($customers as $customer) {
-                array_push($customersId, $customer['id']);
-            }
-
-            $quotation->customers()->sync($customersId);
-
-            $quotation->details->each->delete();
-
-            $products = $request->get('products');
-
-            $arrProds = json_decode($products, true);
-
-            foreach ($arrProds as $prod) {
-                $detail = Detail::create([
-                    'quotation_id' => $quotation->id,
-                    'product_id' => $prod['product_id'],
-                    'type' => $prod['type'],
-                    'description' => '-',
-                    'price' => $prod['price'],
-                    'extra_price' => $prod['extra_price'],
-                    'level' => $prod['level']
-                ]);
-            }
-            $quotation->update([
-                'discount'  => $request->get('discount')
-            ]);
-            if ($quotation->order != null) {
-                $quotation->order->payments->each->delete();
-                $quotation->order->update([
-                    'final_delivery' => $request->get('final_delivery'),
-                    'observations' => $request->get('observations'),
-                    'suggested' => $request->get('suggested')
-                ]);
-                $order = $quotation->order;
-            } else {
-                $order = Order::create($request->all());
-            }
+            $order = Order::create($request->all());
         }
+
 
         $project = Project::create([
             'projectable_id' => $order->id,
@@ -311,7 +284,7 @@ class OrderController extends Controller
         ]);
 
 
-        $payments = json_decode($request->get('payments'), true);
+
 
         foreach ($payments as $payment) {
             $payment_registered = Payment::create([

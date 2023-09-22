@@ -107,6 +107,7 @@ Route::get('/getAllMessagesById/{id}', [ChatController::class, 'getAllMessagesBy
 Route::post('/messages', [ChatController::class, 'store'])->middleware('auth:sanctum');
 
 Route::get('/getAllProducts', [ProductController::class, 'index']);
+Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 Route::post('/insertProduct', [ProductController::class, 'store']);
 Route::post('/assignProduct', [ProductController::class, 'assignProduct']);
 Route::get('/getAllProductsWithPrices', [ProductController::class, 'getAllProductsWithPrices']);
@@ -173,9 +174,9 @@ Route::get('/changeInterest/{id}/{interest}', [CustomerController::class, 'chang
 
 
 Route::get('/getAllOrders', [OrderController::class, 'index']);
+Route::post('/orders', [OrderController::class, 'insertOrder']);
 Route::post('/order', [OrderController::class, 'store']);
 Route::post('/updateOrder', [OrderController::class, 'update']);
-
 
 Route::post('/updateComunication', [ComunicationController::class, 'update']);
 Route::post('/insertComunication', [ComunicationController::class, 'insertComunication']);
@@ -183,11 +184,10 @@ Route::get('/getComunicationsByToday/{id}', [ComunicationController::class, 'get
 Route::get('/updateComunication/{id}', [ComunicationController::class, 'updateComunication']);
 Route::get('/comunications', [ComunicationController::class, 'comunicationsClient']);
 
+Route::post('/contracts', [ContractController::class, 'insertContract']);
 Route::get('/getAllContracts', [ContractController::class, 'index']);
 Route::get('/generateContract/{id}', [OrderController::class, 'generateContract']);
-Route::post('/insertOrder', [OrderController::class, 'insertOrder']);
 
-Route::post('/insertContract', [ContractController::class, 'insertContract']);
 Route::post('/updateContract', [ContractController::class, 'updateContract']);
 
 Route::get('/promotions/{code}', [PromotionController::class, 'discount']);
@@ -262,7 +262,6 @@ Route::put('/meetings/{id}', [MeetingController::class, 'update']);
 Route::delete('/meetings/{id}', [MeetingController::class, 'destroy']);
 Route::get('/meetings-complete/{id}', [MeetingController::class, 'complete']);
 
-
 Route::get('/projects', [ProjectController::class, 'index']);
 Route::get('/projects-acad', [ProjectController::class, 'getAllProjectsAcad']);
 Route::get('/projects/{id}', [ProjectController::class, 'show']);
@@ -310,3 +309,5 @@ Route::post('/properties', [PropertiesController::class, 'store']);
 Route::get('/webhook',[AichatController::class,'webhook']);
 Route::post('/webhook',[AichatController::class,'recibe']);
  */
+Route::get('/properties/{id}', [PropertiesController::class, 'show']);
+Route::get('/projects-properties', [PropertiesController::class, 'properties']);

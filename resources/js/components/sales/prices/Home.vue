@@ -9,9 +9,10 @@
                     <div class="card">
                         <div class="card-header">
                             {{ product.name }} <i @click="showModalPrices(product)" class='text-primary bx bx-edit'></i>
+                            <i @click="deleteProduct(product.id)" class='text-danger bx bx-trash'></i>
                             <br>
-                            <button class="btn btn-sm btn-success m-1" v-for="price in product.newprices">
-                                S./ {{ price.price }}
+                            <button class="btn btn-sm btn-success m-1" v-for="level in product.levels">
+                                S./ {{ level.pivot.price }}
                             </button>
                         </div>
                     </div>
@@ -35,6 +36,14 @@ export default {
         }
     },
     methods: {
+        deleteProduct(productId) {
+            axios.delete('/api/products/' + productId)
+                .then((result) => {
+                    this.getAllProductsWithPrices()
+                }).catch((err) => {
+                    console.log(err);
+                });
+        },
         openNewProductModal() {
             $('#newProductModal').modal('show')
         },

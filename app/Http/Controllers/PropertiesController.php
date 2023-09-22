@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contract;
+use App\Models\Project;
 use App\Models\Property;
 use Illuminate\Http\Request;
 
@@ -40,6 +42,13 @@ class PropertiesController extends Controller
             'propertiable_type' => $request->get('propertiable_type'),
             'properties' => $request->get('properties')
         ]);
+
+        $project = Project::where('projectable_id', $request->get('propertiable_id'))->where('projectable_type', $request->get('propertiable_type'))->find();
+
+        $project->update([
+            'status' => 1
+        ]);
+
         return response()->json([
             'msg' => 'success'
         ]);
@@ -53,7 +62,8 @@ class PropertiesController extends Controller
      */
     public function show($id)
     {
-        //
+        $contract = Contract::with('properties', 'quotation', 'quotation.details', 'quotation.details.product', 'quotation.order', 'quotation.contract', 'quotation.customers')->find($id);
+        return $contract;
     }
 
     /**
@@ -88,5 +98,11 @@ class PropertiesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function properties()
+    {
+        $projects = Project::where('status', 1)->with('projectable', 'projectable.properties')->get();
+        return $projects;
     }
 }

@@ -48,13 +48,19 @@ class QuotationController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'date' => 'required',
+            'expiration_date' => 'required',
+            'term' => 'required'
+        ]);
+
         $discount = 0;
 
         $quotation = Quotation::create([
             'customer_id' => $request->get('customer_id'),
             'date' => $request->get('date'),
             'amount' => $request->get('amount'),
-            'expiration_date' => $request->get('expirationDay'),
+            'expiration_date' => $request->get('expiration_date'),
             'discount' => $discount,
             'term' => $request->get('term'),
             'note' => $request->get('note'),
@@ -180,7 +186,7 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        $quotation = Quotation::where('id', $id)->with(['customers', 'details', 'details.product', 'order', 'contract', 'order.properties', 'contract.properties'])->first();
+        $quotation = Quotation::where('id', $id)->with(['customers', 'customers.user', 'customers.comunications', 'details', 'details.product', 'order', 'contract', 'order.properties', 'contract.properties'])->first();
 
         return response()->json($quotation);
     }
@@ -441,7 +447,7 @@ class QuotationController extends Controller
     public function searchQuotations($search)
     {
         $quotations = Quotation::with(['customers', 'customers.comunications', 'customers.user'])->whereHas('customers', function ($query) use ($search) {
-            $query->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%');
+            $query->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%')->orWhere('university', 'like', '%' . $search . '%')->orWhere('career', 'like', '%' . $search . '%');
         })->get();
 
         return response()->json($quotations);

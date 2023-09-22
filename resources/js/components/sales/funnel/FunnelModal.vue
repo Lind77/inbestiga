@@ -250,6 +250,12 @@ export default {
             this.showOptionOwner = false
         },
         updateOwner() {
+            $('#funnelModal').modal('hide')
+            this.$swal.fire({
+                title: 'Cargando...',
+                allowOutsideClick: false,
+                showConfirmButton: false
+            })
 
             if (this.quotation) {
                 var newOwner = this.owners.find(owner => owner.id == this.newOwner)
@@ -261,7 +267,8 @@ export default {
                     axios.post('/api/updateOwner', fd)
                         .then((res) => {
                             this.$emit('updateOwnerQuotation', this.quotation, newOwner)
-                            alert('Dueño actualizado')
+                            this.$swal.close()
+                            $('#funnelModal').modal('show')
                         })
                         .catch((err) => {
                             console.error(err)
@@ -278,7 +285,8 @@ export default {
                 axios.post('/api/updateOwner', fd)
                     .then((res) => {
                         this.$emit('updateOwner', this.customer, newOwner)
-                        alert('Dueño actualizado')
+                        this.$swal.close()
+                        $('#funnelModal').modal('show')
                     })
                     .catch((err) => {
                         console.error(err)

@@ -2,7 +2,7 @@
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEvent" aria-labelledby="offcanvasEndLabel">
         <div class="offcanvas-header" v-if="info.event">
             <h3 id="offcanvasEndLabel" class="offcanvas-title">Evento {{ info.event.title }}
-                <i v-if="info.event.extendedProps.type == 1" @click="deleteEvent(info.event.id)"
+                <i v-if="info.event.extendedProps.type == 1" @click="deleteEvent(info.event.extendedProps.deliveryId)"
                     class='bx bx-trash text-danger cursor-pointer'></i>
                 <i v-else @click="deleteDelivery(info.event.extendedProps.deliveryId)"
                     class='bx bx-trash text-danger cursor-pointer'></i>
@@ -46,17 +46,29 @@ export default {
             return moment(date).format('DD/MM/YYYY')
         },
         deleteEvent(meetingId) {
+            $('#offcanvasEvent').offcanvas('hide')
+            this.$swal.fire({
+                title: '¿Deseas eliminar este evento?',
+                showDenyButton: true,
+                confirmButtonText: 'Si',
+                denyButtonText: 'No',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    axios.delete('/api/deliveries/' + meetingId)
+                        .then((result) => {
+                            this.$emit('getEvents')
+                            this.$emit('getDeliveries')
 
-            axios.delete('/api/meetings/' + meetingId)
-                .then((result) => {
-                    this.$emit('getEvents')
-                    this.$emit('getDeliveries')
-                    $('#offcanvasEvent').offcanvas('hide')
-                }).catch((err) => {
-                    console.error(err);
-                });
+                        }).catch((err) => {
+                            console.error(err);
+                        });
+                }
+            })
+
         },
         completeMeeting(meetingId) {
+            console.log(meetingId)
             axios.get('/api/meetings-complete/' + meetingId)
                 .then((result) => {
                     this.$emit('getEvents')
