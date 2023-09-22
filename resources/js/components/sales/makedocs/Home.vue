@@ -10,8 +10,7 @@
                                     <span class="h5 mt-2 demo text-body fw-bold">{{ titleByType[documentType]
                                     }}</span>
 
-                                    <button v-if="documentType > 1" @click="changeDocumentType"
-                                        class="btn btn-success btn-icon">
+                                    <button @click="changeDocumentType" class="btn btn-success btn-icon">
                                         <i class='bx bx-chevrons-right'></i>
                                     </button>
 
