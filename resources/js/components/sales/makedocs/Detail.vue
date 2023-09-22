@@ -138,6 +138,7 @@ export default {
         addPrice(newProductByName) {
             console.log(newProductByName)
             this.detail.product.name = newProductByName.name
+            this.detail.product_id = newProductByName.id
             this.newProductsByName = []
             this.levelsByProduct = newProductByName.levels
             //console.log(this.detail);
@@ -147,7 +148,7 @@ export default {
                  this.detail.new_product = {}
              }
              
-             this.detail.product_id = newProductByName.id
+             
              this.detail.modeProduct = newProductByName.mode
              this.detail.type = 1
               */
