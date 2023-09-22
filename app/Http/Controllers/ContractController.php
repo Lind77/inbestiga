@@ -375,10 +375,15 @@ class ContractController extends Controller
         $payments = json_decode($request->get('payments'), true);
 
         foreach ($payments as $payment) {
+            if ($payment['date'] == '') {
+                $paymentNull = null;
+            } else {
+                $paymentNull = $payment['date'];
+            }
             Payment::create([
                 'paymentable_id' => $contract->id,
                 'paymentable_type' => 'App\Models\Contract',
-                'date' => $payment['date'],
+                'date' => $paymentNull,
                 'amount' => $payment['amount'],
                 'advance' => null,
                 'percentage' => $payment['percentage']
