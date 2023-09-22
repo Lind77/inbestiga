@@ -418,7 +418,7 @@ export default {
         },
         addDelivery() {
             var delivery = {
-                date: '',
+                date: null,
                 advance: ''
             }
             this.deliveries.push({ ...delivery })

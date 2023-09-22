@@ -316,7 +316,7 @@ class ContractController extends Controller
             /* 'payments.date' => 'required', */
             'deliveries' => 'required',
             /*  'deliveries.date' => 'required', */
-            'deliveries.advance' => 'required'
+            /* 'deliveries.advance' => 'required' */
         ]);
 
         $contract = Contract::create([
