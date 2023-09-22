@@ -427,11 +427,10 @@ export default {
             this.deliveries.splice(index, 1)
         },
         changeDocumentType() {
-            console.log(this.documentType)
-            if (this.documentType == 2) {
-                this.documentType = 3
+            if (this.documentType <= 2) {
+                this.documentType = this.documentType++
             } else {
-                this.documentType = 2
+                this.documentType = 1
             }
         },
         getCustomer() {
