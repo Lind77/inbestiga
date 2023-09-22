@@ -313,7 +313,7 @@ class ContractController extends Controller
         $request->validate([
             'date' => 'required',
             'payments' => 'required',
-            'payments.date' => 'required',
+            /* 'payments.date' => 'required', */
             'deliveries' => 'required',
             /*  'deliveries.date' => 'required', */
             'deliveries.advance' => 'required'
