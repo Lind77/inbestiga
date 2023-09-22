@@ -315,7 +315,7 @@ class ContractController extends Controller
             'payments' => 'required',
             'payments.date' => 'required',
             'deliveries' => 'required',
-            'deliveries.date' => 'required',
+            /*  'deliveries.date' => 'required', */
             'deliveries.advance' => 'required'
         ]);
 

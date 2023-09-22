@@ -18,26 +18,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 col-12 mb-md-0 mb-3 ps-md-0">
-                    <p class="mb-2 repeater-title">Nivel</p>
-                    <select v-model="detail.level" @change="selectLevel" class="form-select item-details mb-2">
-                        <option selected="" disabled="">Selecciona el Nivel</option>
-                        <template v-if="detail.mode == 2">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </template>
-                        <template v-else>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </template>
-                    </select>
-                </div>
                 <div class="col-md-4 col-12 mb-md-0 mb-3">
                     <p class="mb-2 repeater-title">Detalle</p>
                     <input v-if="detail.product != null" type="text" class="form-control" @keyup="searchNewProduct"
@@ -49,9 +29,15 @@
                             class="list-group-item d-flex justify-content-between align-items-center cursor-pointer"
                             v-for="newProductByName in newProductsByName">
                             {{ newProductByName.name }}
-                            <span class="badge bg-primary">S./ {{ newProductByName.newPriceSelected.pivot.price }}</span>
                         </li>
                     </ul>
+                </div>
+                <div class="col-md-2 col-12 mb-md-0 mb-3 ps-md-0">
+                    <p class="mb-2 repeater-title">Nivel</p>
+                    <select v-model="detail.level" @change="selectLevel" class="form-select item-details mb-2">
+                        <option selected disabled>Selecciona el Nivel</option>
+                        <option :value="level.id" v-for="level in levelsByProduct">{{ level.name }}</option>
+                    </select>
                 </div>
                 <div class="col-md-2 col-12 mb-md-0 mb-3" v-if="detail.modeProduct == 1">
                     <p class="mb-2 repeater-title">Cantidad</p>
@@ -112,7 +98,8 @@ export default {
             newProductsByType: [],
             newProductsByName: [],
             cantProduct: 1,
-            initialPrice: null
+            initialPrice: null,
+            levelsByProduct: []
         }
     },
     props: {
@@ -130,6 +117,11 @@ export default {
         selectMode(e) {
             this.newProductsByType = this.newProducts.filter(product => product.type == e.target.value)
         },
+        selectLevel() {
+            console.log(this.detail.level)
+            var levelSelected = this.levelsByProduct.find(product => product.id == this.detail.level)
+            this.detail.price = levelSelected.pivot.price
+        },
         searchNewProduct(e) {
             this.newProductsByType = this.newProducts.filter(product => product.type == this.detail.mode)
             console.log(this.newProductsByType)
@@ -145,17 +137,20 @@ export default {
         },
         addPrice(newProductByName) {
             console.log(newProductByName)
-            console.log(this.detail);
-            this.detail.price = newProductByName.newPriceSelected.pivot.price
-            this.initialPrice = newProductByName.newPriceSelected.pivot.price
-            if (this.detail.new_product == null) {
-                this.detail.new_product = {}
-            }
             this.detail.product.name = newProductByName.name
-            this.detail.product_id = newProductByName.id
-            this.detail.modeProduct = newProductByName.mode
-            this.detail.type = 1
             this.newProductsByName = []
+            this.levelsByProduct = newProductByName.levels
+            //console.log(this.detail);
+            /*  this.detail.price = newProductByName.newPriceSelected.pivot.price
+             this.initialPrice = newProductByName.newPriceSelected.pivot.price
+             if (this.detail.new_product == null) {
+                 this.detail.new_product = {}
+             }
+             
+             this.detail.product_id = newProductByName.id
+             this.detail.modeProduct = newProductByName.mode
+             this.detail.type = 1
+              */
         },
         addExtraToPrice() {
             /* this.detail.price = this.detail.price + this.detail.extra_price */
