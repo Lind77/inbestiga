@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AichatController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AreaController;
@@ -303,3 +304,9 @@ Route::get('/payment-proof/{id}', [VoucherController::class, 'show']);
 Route::put('/access/{id}', [UserController::class, 'access']);
 
 Route::post('/properties', [PropertiesController::class, 'store']);
+
+/* //Rutas para CHatbot
+ 
+Route::get('/webhook',[AichatController::class,'webhook']);
+Route::post('/webhook',[AichatController::class,'recibe']);
+ */
