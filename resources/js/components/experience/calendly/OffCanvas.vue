@@ -46,15 +46,26 @@ export default {
             return moment(date).format('DD/MM/YYYY')
         },
         deleteEvent(meetingId) {
-            console.log(meetingId)
-            axios.delete('/api/deliveries/' + meetingId)
-                .then((result) => {
-                    this.$emit('getEvents')
-                    this.$emit('getDeliveries')
-                    $('#offcanvasEvent').offcanvas('hide')
-                }).catch((err) => {
-                    console.error(err);
-                });
+            $('#offcanvasEvent').offcanvas('hide')
+            this.$swal.fire({
+                title: '¿Deseas eliminar este evento?',
+                showDenyButton: true,
+                confirmButtonText: 'Si',
+                denyButtonText: 'No',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    axios.delete('/api/deliveries/' + meetingId)
+                        .then((result) => {
+                            this.$emit('getEvents')
+                            this.$emit('getDeliveries')
+
+                        }).catch((err) => {
+                            console.error(err);
+                        });
+                }
+            })
+
         },
         completeMeeting(meetingId) {
             console.log(meetingId)
