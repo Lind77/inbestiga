@@ -358,11 +358,16 @@ class ContractController extends Controller
 
 
         foreach ($deliveries as $delivery) {
+            if ($delivery['date'] == '') {
+                $deliveryNull = null;
+            } else {
+                $deliveryNull = $delivery['date'];
+            }
             Delivery::create([
                 'advance' => $delivery['advance'],
                 'status' => 0,
                 'project_id' => $project->id,
-                'date' => $delivery['date'],
+                'date' => $deliveryNull,
                 'type' => 1
             ]);
         }
