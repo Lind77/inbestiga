@@ -426,8 +426,9 @@ export default {
             this.deliveries.splice(index, 1)
         },
         changeDocumentType() {
+            console.log(this.documentType)
             if (this.documentType <= 2) {
-                this.documentType = this.documentType++
+                this.documentType = this.documentType + 1
             } else {
                 this.documentType = 1
             }
