@@ -14,7 +14,8 @@ class VoucherController extends Controller
      */
     public function index()
     {
-        //
+        $vouchers = Payment_proof::with('customer')->get();
+        return response()->json($vouchers);
     }
 
     /**

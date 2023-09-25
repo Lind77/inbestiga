@@ -1,86 +1,96 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-1"> Comprobantes</h4>
-        <div class="row">
-            <div class="col-md-6">
-                <label for="">Cliente:</label>
-                <input type="text" @keyup="searchClient" v-model="nameClient" class="form-control"
-                    placeholder="Buscar cliente...">
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center cursor-pointer"
-                        @click="selectClient(client)" v-for="client in foundClients">
-                        {{ client.name }}
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <label for="">Fecha de Emisión:</label>
-                <input type="date" v-model="date" class="form-control">
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-md-4">
-                <label for="">Documentos:</label>
-                <div v-for="quotation in quotations">
-                    <template v-if="quotation.order">
-                        <button class="btn btn-success" @click="showPayments(quotation)"> Orden {{
-                            formatDate(quotation.order.created_at) }}</button>
-                    </template>
-                    <template v-else-if="quotation.contract">
-                        <button class="btn btn-info" @click="showPayments(quotation)"> Contrato {{
-                            formatDate(quotation.contract.created_at) }}</button>
-                    </template>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <p class="h5">Productos</p>
-            <p v-for="detail in quotationSelected.details ">{{ detail.product.name }}</p>
-        </div>
-        <div class="row">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Descripción</th>
-                        <th>Importe</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="payment in payments">
-                        <td>{{ payment.advance }}</td>
-                        <td>S./ {{ payment.amount }}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="card p-3">
+            <h4 class="fw-bold py-1"> Comprobantes</h4>
+            <button @click="showOffCanvas" class="btn btn-success btn-icon">
+                <i class='bx bx-list-ol'></i>
+            </button>
             <div class="row">
                 <div class="col-md-6">
-                    <p class="h5">Subtotal: <input v-model="subtotal" @keyup="calcTotal" type="number" class="form-control">
-                    </p>
-                    <p class="h5">Descuento: <input v-model="discount" @keyup="calcTotal" type="number"
-                            class="form-control">
-                    </p>
-                    <p class="h4">Total: <input v-model="total_price" type="text" class="form-control" disabled></p>
+                    <label for="">Cliente:</label>
+                    <input type="text" @keyup="searchClient" v-model="nameClient" class="form-control"
+                        placeholder="Buscar cliente...">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center cursor-pointer"
+                            @click="selectClient(client)" v-for="client in foundClients">
+                            {{ client.name }}
+                        </li>
+                    </ul>
                 </div>
                 <div class="col-md-6">
-                    <p class="h5">Descripción pequeña: <input v-model="pay_detail" @keyup="calcTotal" type="text"
-                            class="form-control">
-                    </p>
-                    <p class="h5">Monto restante de la cuota(opcional): <input v-model="remaining_amount" @keyup="calcTotal"
-                            type="text" class="form-control">
-                    </p>
+                    <label for="">Fecha de Emisión:</label>
+                    <input type="date" v-model="date" class="form-control">
                 </div>
             </div>
-
-        </div>
-        <div class="row">
-            <button class="btn btn-success" @click="goVoucherFile">Generar</button>
+            <div class="row mt-2">
+                <div class="col-md-4">
+                    <label for="">Documentos:</label>
+                    <div v-for="quotation in quotations">
+                        <template v-if="quotation.order">
+                            <button class="btn btn-success" @click="showPayments(quotation)"> Orden {{
+                                formatDate(quotation.order.created_at) }}</button>
+                        </template>
+                        <template v-else-if="quotation.contract">
+                            <button class="btn btn-info" @click="showPayments(quotation)"> Contrato {{
+                                formatDate(quotation.contract.created_at) }}</button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <p class="h5">Productos</p>
+                <p v-for="detail in quotationSelected.details ">{{ detail.product.name }}</p>
+            </div>
+            <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="payment in payments">
+                            <td>{{ payment.advance }}</td>
+                            <td>S./ {{ payment.amount }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="h5">Subtotal: <input v-model="subtotal" @keyup="calcTotal" type="number"
+                                class="form-control">
+                        </p>
+                        <p class="h5">Descuento: <input v-model="discount" @keyup="calcTotal" type="number"
+                                class="form-control">
+                        </p>
+                        <p class="h4">Total: <input v-model="total_price" type="text" class="form-control" disabled></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="h5">Descripción pequeña: <input v-model="pay_detail" @keyup="calcTotal" type="text"
+                                class="form-control">
+                        </p>
+                        <p class="h5">Monto restante de la cuota(opcional): <input v-model="remaining_amount"
+                                @keyup="calcTotal" type="text" class="form-control">
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn btn-success" @click="goVoucherFile">Generar</button>
+            </div>
         </div>
     </div>
+    <OffCanvas />
 </template>
 <script>
 import moment from "moment"
+import OffCanvas from './OffCanvas.vue'
 
 export default {
+    components: {
+        OffCanvas
+    },
     data() {
         return {
             clients: [],
@@ -98,6 +108,9 @@ export default {
         }
     },
     methods: {
+        showOffCanvas() {
+            $('#offcanvas').offcanvas('show')
+        },
         calcTotal() {
             this.total_price = this.subtotal - this.discount
         },

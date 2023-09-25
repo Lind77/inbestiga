@@ -296,7 +296,6 @@ Route::delete('/schedules-all/{id}', [ScheduleController::class, 'destroyAll']);
 
 Route::get('/clients', [CustomerController::class, 'clients']);
 
-Route::post('/voucher', [VoucherController::class, 'store']);
 Route::get('/payment-proof/{id}', [VoucherController::class, 'show']);
 
 Route::put('/access/{id}', [UserController::class, 'access']);
@@ -304,3 +303,6 @@ Route::put('/access/{id}', [UserController::class, 'access']);
 Route::post('/properties', [PropertiesController::class, 'store']);
 Route::get('/properties/{id}', [PropertiesController::class, 'show']);
 Route::get('/projects-properties', [PropertiesController::class, 'properties']);
+
+Route::get('/vouchers', [VoucherController::class, 'index']);
+Route::post('/voucher', [VoucherController::class, 'store']);
