@@ -7,7 +7,6 @@
         <button class="btn btn-info m-1" v-for="voucher in vouchers">
             {{ voucher.customer.name }} - {{ voucher.date }}
         </button>
-
         <!-- <div class="offcanvas-body my-auto mx-0 flex-grow-0">
         <p class="text-primary h5" v-if="project_selected.team"> (Equipo {{ project_selected.team.name }})</p>
         <a href="javascript:void(0)">{{ sumTasksPercent }} %</a>
