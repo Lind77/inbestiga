@@ -39,6 +39,7 @@
                         <option :value="level.id" v-for="level in levelsByProduct">{{ level.name }}</option>
                     </select>
                 </div>
+                {{ detail.modeProduct }}
                 <div class="col-md-2 col-12 mb-md-0 mb-3" v-if="detail.modeProduct == 1">
                     <p class="mb-2 repeater-title">Cantidad</p>
                     <input type="number" @keyup="changeCant" @change="changeCant" class="form-control" v-model="cantProduct"
@@ -121,6 +122,7 @@ export default {
             console.log(this.detail.level)
             var levelSelected = this.levelsByProduct.find(product => product.id == this.detail.level)
             this.detail.price = levelSelected.pivot.price
+            this.initialPrice = this.detail.price
         },
         searchNewProduct(e) {
             this.newProductsByType = this.newProducts.filter(product => product.type == this.detail.mode)
@@ -141,15 +143,17 @@ export default {
             this.detail.product_id = newProductByName.id
             this.newProductsByName = []
             this.levelsByProduct = newProductByName.levels
-            //console.log(this.detail);
+            this.detail.modeProduct = newProductByName.mode
+            console.log(this.detail);
+
             /*  this.detail.price = newProductByName.newPriceSelected.pivot.price
-             this.initialPrice = newProductByName.newPriceSelected.pivot.price
+             
              if (this.detail.new_product == null) {
                  this.detail.new_product = {}
              }
              
              
-             this.detail.modeProduct = newProductByName.mode
+             
              this.detail.type = 1
               */
         },
