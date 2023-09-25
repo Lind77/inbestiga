@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AichatController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AreaController;
@@ -296,11 +297,19 @@ Route::delete('/schedules-all/{id}', [ScheduleController::class, 'destroyAll']);
 
 Route::get('/clients', [CustomerController::class, 'clients']);
 
-Route::post('/voucher', [VoucherController::class, 'store']);
 Route::get('/payment-proof/{id}', [VoucherController::class, 'show']);
 
 Route::put('/access/{id}', [UserController::class, 'access']);
 
 Route::post('/properties', [PropertiesController::class, 'store']);
+
+/* //Rutas para CHatbot
+ 
+Route::get('/webhook',[AichatController::class,'webhook']);
+Route::post('/webhook',[AichatController::class,'recibe']);
+ */
 Route::get('/properties/{id}', [PropertiesController::class, 'show']);
 Route::get('/projects-properties', [PropertiesController::class, 'properties']);
+
+Route::get('/vouchers', [VoucherController::class, 'index']);
+Route::post('/voucher', [VoucherController::class, 'store']);

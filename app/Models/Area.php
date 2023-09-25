@@ -14,4 +14,8 @@ class Area extends Model
       public function subareas(){
         return $this->hasMany('App\Models\Subarea');
         }
+      //Relación inversa de headquarters-Areas
+      public function headquarter(){
+        return $this->belongsTo('App\Models\Headquarter');
+      }
 }
