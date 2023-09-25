@@ -65,7 +65,9 @@ class CustomerController extends Controller
             'email' => $request->get('email'),
             'university' => $request->get('university'),
             'career' => $request->get('career'),
-            'status' => $request->get('status')
+            'status' => $request->get('status'),
+            'dni' => $request->get('dni'),
+            'address' => $request->get('address')
         ]);
 
         if ($request->get('referedFrom') != 0) {
