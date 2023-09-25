@@ -121,6 +121,7 @@ export default {
             console.log(this.detail.level)
             var levelSelected = this.levelsByProduct.find(product => product.id == this.detail.level)
             this.detail.price = levelSelected.pivot.price
+            this.initialPrice = this.detail.price
         },
         searchNewProduct(e) {
             this.newProductsByType = this.newProducts.filter(product => product.type == this.detail.mode)
@@ -141,15 +142,17 @@ export default {
             this.detail.product_id = newProductByName.id
             this.newProductsByName = []
             this.levelsByProduct = newProductByName.levels
-            //console.log(this.detail);
+            this.detail.modeProduct = newProductByName.mode
+            console.log(this.detail);
+
             /*  this.detail.price = newProductByName.newPriceSelected.pivot.price
-             this.initialPrice = newProductByName.newPriceSelected.pivot.price
+             
              if (this.detail.new_product == null) {
                  this.detail.new_product = {}
              }
              
              
-             this.detail.modeProduct = newProductByName.mode
+             
              this.detail.type = 1
               */
         },

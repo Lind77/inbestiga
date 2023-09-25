@@ -222,6 +222,8 @@ export default {
             fd.append('email', this.email)
             fd.append('origin', this.origin)
             fd.append('status', this.status)
+            fd.append('dni', this.dni)
+            fd.append('address', this.address)
             fd.append('referedFrom', this.referedFrom)
             fd.append('channel', this.channel)
             fd.append('user_id', 12)

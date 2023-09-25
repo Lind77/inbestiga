@@ -644,7 +644,7 @@ export default {
     },
     computed: {
         finalPrice() {
-
+            this.calcPayments()
             return parseFloat(this.totalProducts).toFixed(1)
         },
         totalProducts() {
