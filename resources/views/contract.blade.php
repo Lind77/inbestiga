@@ -216,7 +216,7 @@
                         </li>
                     </ul>
                 </p>
-                @if($contract->third_article == 1)
+                @if($contract->third_article != 1)
                 <div class="page-break"></div>
                 @endif
                 <p style="margin-top: 15px;">
