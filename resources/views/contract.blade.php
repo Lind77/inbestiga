@@ -216,7 +216,9 @@
                         </li>
                     </ul>
                 </p>
+                @if($contract->third_article == 1)
                 <div class="page-break"></div>
+                @endif
                 <p style="margin-top: 15px;">
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
                 Como contraprestación al servicio prestado por EL LOCADOR, EL ASESORADO se compromete al abono de un monto total de

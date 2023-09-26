@@ -22,8 +22,9 @@
         <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
           <a @click="clearCantNotifications" class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
             data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-            <i class="bx bx-chat bx-sm"></i><!-- <span v-if="cantNotifications != 0"
-              class="badge bg-danger rounded-pill badge-notifications">{{ cantNotifications }}</span> -->
+            <i class="bx bx-chat bx-sm"></i><span v-if="numberMessages != 0"
+              class="badge bg-danger rounded-pill badge-notifications">{{ numberMessages
+              }}</span>
             <span class="badge bg-danger rounded-pill badge-notifications" v-if="numberNotifications > 0">{{
               numberNotifications }}</span>
           </a>
@@ -38,7 +39,7 @@
             </li>
             <li class="dropdown-notifications-list scrollable-container ps">
               <ul class="list-group list-group-flush">
-                <template v-for="notification in notifications">
+                <template v-for="message in messages">
                   <!--  <li class="list-group-item list-group-item-action dropdown-notifications-item"
                     :id="`notification${notification.id}`">
                     <div class="d-flex">
@@ -64,7 +65,7 @@
             <router-link v-if="store.authUser" :to="{ name: 'notifications', params: { idUser: store.authUser.id } }"
               class="dropdown-menu-footer border-top">
               <a href="javascript:void(0);" class="dropdown-item d-flex justify-content-center p-3">
-                Ver todas las notificaciones
+                Ver todos los chats
               </a>
             </router-link>
           </ul>
@@ -195,7 +196,9 @@ export default {
       toggle: true,
       cantNotifications: 0,
       notifications: [],
-      seens: []
+      seens: [],
+      numberMessages: 0,
+      messages: []
     }
   },
   methods: {
@@ -298,12 +301,13 @@ export default {
     this.getNoSeenNotifications()
     Echo.private(`message.${this.store.authUser.id}`)
       .listen('NewMessage', (e) => {
+        console.log(e.message)
         //this.setNewMessageBroadcasted(e.message)
-        console.log('new message')
+        this.numberMessages = this.numberMessages + 1
         Notification.requestPermission()
           .then((result) => {
             if (result === 'granted') {
-              new Notification('Tienes un nuevo mensaje nav', {
+              new Notification('Tienes un nuevo mensaje', {
                 body: e.message.message
               })
             }
