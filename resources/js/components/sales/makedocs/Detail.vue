@@ -157,6 +157,7 @@ export default {
               */
         },
         addExtraToPrice() {
+            this.$emit('calcPayments')
             /* this.detail.price = this.detail.price + this.detail.extra_price */
         },
     },
