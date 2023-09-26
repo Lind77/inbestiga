@@ -69,7 +69,7 @@
                         <div class="mb-3" data-repeater-list="group-a">
                             <template v-for="(detail, index) in details">
                                 <Detail :detail="detail" :newProducts="newProducts" :index="index"
-                                    @removeSuggestedCart="removeSuggestedCart" />
+                                    @removeSuggestedCart="removeSuggestedCart" @calcPayments="calcPayments" />
                             </template>
                         </div>
                     </div>
@@ -608,7 +608,6 @@ export default {
                     this.payments.push({ ...payment })
                 }
             }
-
         },
         autoDiscount() {
 
@@ -643,8 +642,7 @@ export default {
         }
     },
     computed: {
-        finalPrice() {
-            this.calcPayments()
+        finalPrice(oldValue, newValue) {
             return parseFloat(this.totalProducts).toFixed(1)
         },
         totalProducts() {
