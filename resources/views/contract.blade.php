@@ -223,7 +223,13 @@
                 @if($contract->cent_text == null) 
                 <span>S/.{{number_format($contract->amount)}} <span class="name">({{$contract->amount_text}} soles)</span></span>
                 @else
-                <span>S/.{{number_format($contract->amount, 1)}}0 <span class="name">({{$contract->amount_text}} soles con {{$contract->cent_text}} céntimos)</span></span>
+                <span>S/.{{number_format($contract->amount, 1)}}0 
+                    <span class="name">({{$contract->amount_text}} soles
+                        @if($contract->cent_text != 'cero')
+                        con {{$contract->cent_text}} céntimos)
+                        @endif
+                    </span>
+                </span>
                 @endif, monto que será abonado en las siguientes fechas:
                 </p>
                 <table class="date-table">
