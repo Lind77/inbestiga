@@ -24,7 +24,7 @@
                             <td>{{ user.id }}</td>
                             <td>{{ user.name }}</td>
                             <td>{{ user.subarea.area.name }}</td>
-                            <td>{{ user.roles[0].name }}</td>
+                            <td v-if="user.roles[0]">{{ user.roles[0].name }}</td>
                             <td>{{ user.email }}</td>
                             <td>
                                 <span v-if="user.id != 1" @click="deleteUser(user.id)"
