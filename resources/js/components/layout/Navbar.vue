@@ -40,19 +40,19 @@
             <li class="dropdown-notifications-list scrollable-container ps">
               <ul class="list-group list-group-flush">
                 <template v-for="message in messages">
-                  <!--  <li class="list-group-item list-group-item-action dropdown-notifications-item"
-                    :id="`notification${notification.id}`">
+                  <li class="list-group-item list-group-item-action dropdown-notifications-item">
                     <div class="d-flex">
                       <div class="flex-grow-1">
-                        <h6 class="mb-1">{{ notification.emisor.name }} {{ notification.content }}</h6>
-                        <small class="text-muted">{{ dateFormatted(notification.created_at) }}</small>
+                        <h6 class="mb-1">{{ message.emisor.name }}</h6>
+                        <p>{{ message.message }}</p>
+                        <!-- <small class="text-muted">{{ dateFormatted(notification.created_at) }}</small> -->
                       </div>
-                      <div class="flex-grow-1">
+                      <!--  <div class="flex-grow-1">
                         <i @click="confirmSeen(notification.users[0].pivot.id, notification.id)"
                           :id="`checkNot${notification.users[0].pivot.id}`" class='bx bx-check-circle text-secondary'></i>
-                      </div>
+                      </div> -->
                     </div>
-                  </li> -->
+                  </li>
                 </template>
               </ul>
               <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
@@ -202,6 +202,15 @@ export default {
     }
   },
   methods: {
+    getNewMessages() {
+      axios.get('/api/chats/' + this.store.authUser.id)
+        .then((result) => {
+          console.log(result.data)
+          this.messages.push(result.data)
+        }).catch((err) => {
+
+        });
+    },
     toProfile(id) {
       this.$router.push({ name: 'profile', params: { idUser: id } })
     },
@@ -220,8 +229,6 @@ export default {
             })
         })
       }
-
-
     },
     confirmSeen(seen, notId) {
       console.log(seen)
@@ -302,7 +309,7 @@ export default {
     Echo.private(`message.${this.store.authUser.id}`)
       .listen('NewMessage', (e) => {
         console.log(e.message)
-        //this.setNewMessageBroadcasted(e.message)
+        this.getNewMessages()
         this.numberMessages = this.numberMessages + 1
         Notification.requestPermission()
           .then((result) => {
@@ -315,6 +322,9 @@ export default {
 
           });
       })
+
+
+
     if (this.store.authUser.roles[0].name == 'Seller') {
       Echo.private('documents')
         .listen('NewDocument', (e) => {

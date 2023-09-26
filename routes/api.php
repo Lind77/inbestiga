@@ -306,3 +306,5 @@ Route::get('/projects-properties', [PropertiesController::class, 'properties']);
 
 Route::get('/vouchers', [VoucherController::class, 'index']);
 Route::post('/voucher', [VoucherController::class, 'store']);
+
+Route::get('/chats/{id}', [ChatController::class, 'show']);
