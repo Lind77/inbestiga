@@ -306,6 +306,7 @@ export default {
   },
   mounted() {
     this.getNoSeenNotifications()
+
     Echo.private(`message.${this.store.authUser.id}`)
       .listen('NewMessage', (e) => {
         console.log(e.message)
@@ -332,11 +333,20 @@ export default {
         })
 
       Echo.private('leads')
-        .listen('NewDocument', (e) => {
+        .listen('NewLead', (e) => {
           this.updateNotifications()
+          Notification.requestPermission()
+            .then((result) => {
+              if (result === 'granted') {
+                new Notification('Tienes un nuevo lead asignado')
+              }
+            }).catch((err) => {
+
+            });
         })
     }
-    if (this.store.authUser.roles[0].name == 'Experience') {
+
+    /* if (this.store.authUser.roles[0].name == 'Experience') {
       Echo.private('projects')
         .listen('NewProject', (e) => {
           this.updateNotifications()
@@ -357,7 +367,7 @@ export default {
         .listen('NewUpdate', (e) => {
           this.getNoSeenNotifications()
         })
-    }
+    } */
 
   }
 }
