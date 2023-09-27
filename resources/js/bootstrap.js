@@ -38,4 +38,6 @@ window.Echo = new Echo({
             'X-CSRF-Token': "CSRF_TOKEN"
         }
     }
-});
+})
+
+
