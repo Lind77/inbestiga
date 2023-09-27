@@ -170,6 +170,14 @@
                     <span>SEGUNDO: OBLIGACIONES DEL LOCADOR.</span><br>
                 EL LOCADOR se compromete a cumplir con lo siguiente:
                 <ul style="margin-top: -15px;">
+                    @if($contract->third_article != 1)
+                        <li>
+                            Proporcionar la información de aplicación de instrumentos.
+                        </li>
+                        <li>
+                            Proporcionar información sobre el lugar de estudio, la población y muestra
+                        </li>
+                    @endif
                     <li>Entregar productos originales que garanticen bajos niveles de similitud con respecto de otros trabajos de investigación.
                     </li>
                     <li>
@@ -216,9 +224,6 @@
                         </li>
                     </ul>
                 </p>
-                @if($contract->third_article != 1)
-                <div class="page-break"></div>
-                @endif
                 <p style="margin-top: 15px;">
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
                 Como contraprestación al servicio prestado por EL LOCADOR, EL ASESORADO se compromete al abono de un monto total de
