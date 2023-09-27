@@ -73,9 +73,10 @@ class ChatController extends Controller
      * @param  \App\Models\Chat  $chat
      * @return \Illuminate\Http\Response
      */
-    public function show(Chat $chat)
+    public function show($id)
     {
-        //
+        $message = Chat::with('receptor', 'emisor')->where('receptor_id', $id)->get();
+        return response()->json($message);
     }
 
     /**
@@ -112,15 +113,16 @@ class ChatController extends Controller
         //
     }
 
-    public function getAllMessagesById($id){
+    public function getAllMessagesById($id)
+    {
 
         $emisor_id = Auth::id();
 
-        $messages = Chat::where('receptor_id',$id)
-                        ->where('emisor_id',$emisor_id)
-                        ->orWhere('receptor_id',$emisor_id)
-                        ->where('emisor_id',$id)
-                        ->get();
+        $messages = Chat::where('receptor_id', $id)
+            ->where('emisor_id', $emisor_id)
+            ->orWhere('receptor_id', $emisor_id)
+            ->where('emisor_id', $id)
+            ->get();
 
         return response()->json($messages);
     }

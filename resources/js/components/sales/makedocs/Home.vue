@@ -19,6 +19,10 @@
                                     </label>
                                     <input id="file-upload" type="file" class="d-none" @change="uploadContract" />
 
+                                    <button @click="addNewCustomer" class="btn btn-info btn-icon">
+                                        <i class='bx bx-user-plus'></i>
+                                    </button>
+
                                     <!-- <button><i class='bx bx-save'></i></button> -->
                                 </div>
                             </div>
@@ -290,7 +294,7 @@
             <!-- /Invoice Actions -->
         </div>
     </div>
-    <customerModal :action="2" :customer="customerSelected" />
+    <customerModal :action="action" :customer="customerSelected" />
 </template>
 <script>
 import moment from 'moment'
@@ -355,10 +359,15 @@ export default {
             contractId: 0,
             orderId: 0,
             quotationsExistent: [],
-            contractExistent: []
+            contractExistent: [],
+            action: 1
         }
     },
     methods: {
+        addNewCustomer() {
+            this.action = 1
+            $('#customerModal').modal('show')
+        },
         deleteQuotaion(quotationId) {
             this.$swal.fire({
                 title: '¿Deseas eliminar esta cotización?',
@@ -380,6 +389,7 @@ export default {
 
         },
         openModalCustomerEdit(customer) {
+            this.action = 2
             this.customerSelected = customer
             $('#customerModal').modal('show')
         },
