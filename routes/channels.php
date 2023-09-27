@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 Broadcast::channel('message.{id}', function ($user, $id) {
-    return (int) $user->id == (int) $id;
+    return Auth::check();
 });
 
 Broadcast::channel('projects', function ($id) {
