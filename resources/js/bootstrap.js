@@ -21,7 +21,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
-const token = localStorage.getItem('token');
 
 window.Pusher = Pusher;
  
@@ -34,7 +33,7 @@ window.Echo = new Echo({
     authEndpoint: import.meta.env.VITE_AUTH_ENDPOINT,
     auth:{
         headers:{
-            'Authorization': 'Bearer '+token,
+            'Authorization': 'Bearer '+localStorage.getItem('token'),
             'X-CSRF-Token': "CSRF_TOKEN"
         }
     }
