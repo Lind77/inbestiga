@@ -11,6 +11,7 @@ use App\Models\Notification;
 use App\Models\Seen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ChatController extends Controller
 {
@@ -75,8 +76,11 @@ class ChatController extends Controller
      */
     public function show($id)
     {
-        $message = Chat::with('receptor', 'emisor')->where('receptor_id', $id)->get();
-        return response()->json($message);
+        $messages = Chat::where('receptor_id', $id)->with('emisor')->orderBy('id', 'desc')->groupBy('emisor_id')->get();
+
+
+
+        return response()->json($messages);
     }
 
     /**
