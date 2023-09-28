@@ -35,7 +35,7 @@ window.Echo = new Echo({
     auth:{
         headers:{
             'Authorization': 'Bearer '+localStorage.getItem('token'),
-            'X-CSRF-Token': "CSRF_TOKEN"
+            'X-CSRF-Token': window.Laravel.csrfToken
         }
     }
 })
