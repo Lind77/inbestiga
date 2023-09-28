@@ -198,10 +198,27 @@ export default {
       notifications: [],
       seens: [],
       numberMessages: 0,
-      messages: []
+      messages: [],
+      users: []
     }
   },
   methods: {
+    getUsers() {
+      axios.get('/api/users/')
+        .then((result) => {
+          this.users = result.data
+        }).catch((err) => {
+
+        });
+    },
+    getAllMessages() {
+      axios.get('/api/chats/' + this.store.authUser.id)
+        .then((result) => {
+          this.messages = result.data
+        }).catch((err) => {
+
+        });
+    },
     getNewMessages() {
       axios.get('/api/chats/' + this.store.authUser.id)
         .then((result) => {
@@ -305,6 +322,8 @@ export default {
     }
   },
   mounted() {
+    this.getAllMessages()
+    this.getUsers()
     this.getNoSeenNotifications()
 
     Echo.private(`message.${this.store.authUser.id}`)
