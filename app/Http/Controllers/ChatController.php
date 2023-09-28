@@ -51,18 +51,18 @@ class ChatController extends Controller
             'viewed' => 0
         ]);
 
-        $notification = Notification::create([
+        /* $notification = Notification::create([
             'emisor_id' => Auth::id(),
             'content' => ' te ha enviado un mensaje',
             'type' => 1
         ]);
-
-        $seen = Seen::create([
+ */
+        /*  $seen = Seen::create([
             'user_id' =>  $request->get('receptor_id'),
             'notification_id' => $notification->id,
             'seen' => 0
         ]);
-
+ */
         broadcast(new NewMessage($chat));
 
         return response()->json($chat);
