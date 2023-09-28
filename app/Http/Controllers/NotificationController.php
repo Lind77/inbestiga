@@ -107,10 +107,16 @@ class NotificationController extends Controller
 
     public function getAllNotifications($id)
     {
-        $user = User::where('id', $id)->with(['notifications' => function ($query) {
-            $query->orderBy('id', 'desc')->get();
-        }, 'notifications.emisor'])->get();
-        return response()->json($user);
+        $seens = Seen::where('user_id', $id)->where('seen', 0)->orderBy('id', 'desc')->get();
+
+        $notifications = [];
+
+        foreach ($seens as $seen) {
+            $notification = Notification::with(['users', 'emisor'])->find($seen->notification_id);
+            array_push($notifications, $notification);
+        }
+
+        return response()->json($notifications);
     }
 
     public function insertReject(Request $request)

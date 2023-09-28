@@ -40,8 +40,7 @@ export default {
             axios.get('/api/getAllNotifications/' + this.$route.params.idUser)
                 .then(res => {
                     console.log(res.data)
-                    var data = res.data
-                    this.notifications = data[0].notifications
+                    this.notifications = res.data
                 })
                 .catch(err => {
                     console.log(err)
@@ -56,7 +55,7 @@ export default {
         }
     },
     mounted() {
-        //this.getAllNotifications()
+        this.getAllNotifications()
     }
 }
 </script>
