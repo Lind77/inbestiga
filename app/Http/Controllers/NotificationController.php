@@ -91,11 +91,13 @@ class NotificationController extends Controller
         //
     }
 
-    public function getNoSeenNotifications($id){
+    public function getNoSeenNotifications($id)
+    {
         $seens = Seen::where('user_id', $id)->where('seen', 0)->orderBy('id', 'desc')->take(5)->get();
+
         $notSeenNotifications = [];
 
-        foreach($seens as $seen){
+        foreach ($seens as $seen) {
             $notification = Notification::with(['users', 'emisor'])->find($seen->notification_id);
             array_push($notSeenNotifications, $notification);
         }
@@ -103,26 +105,28 @@ class NotificationController extends Controller
         return response()->json($notSeenNotifications);
     }
 
-    public function getAllNotifications($id){
-        $user = User::where('id',$id)->with(['notifications'=> function($query){
+    public function getAllNotifications($id)
+    {
+        $user = User::where('id', $id)->with(['notifications' => function ($query) {
             $query->orderBy('id', 'desc')->get();
         }, 'notifications.emisor'])->get();
         return response()->json($user);
     }
 
-    public function insertReject(Request $request){
+    public function insertReject(Request $request)
+    {
         $project = Project::find($request->get('project_id'));
 
         $notification = Notification::create([
             'emisor_id' => $request->get('emisor_id'),
-            'content' => 'ha rechazado el '.$project->title.' en la fase de '.$request->get('title'),
+            'content' => 'ha rechazado el ' . $project->title . ' en la fase de ' . $request->get('title'),
             'type' => 2,
             'extra' =>  $request->get('extra')
         ]);
 
         $usersToNotify = User::role('AdminAcad')->get();
 
-        foreach($usersToNotify as $user){
+        foreach ($usersToNotify as $user) {
             Seen::create([
                 'user_id' => $user->id,
                 'notification_id' => $notification->id,
@@ -135,10 +139,11 @@ class NotificationController extends Controller
         ]);
     }
 
-    public function addNotificationComunication(Request $request){
+    public function addNotificationComunication(Request $request)
+    {
         $notification = Notification::create([
             'emisor_id' => $request->get('owner'),
-            'content' => 'Tienes una comunicación pendiente con '.$request->get('customerName').' a las '.$request->get('time'),
+            'content' => 'Tienes una comunicación pendiente con ' . $request->get('customerName') . ' a las ' . $request->get('time'),
             'type' => 2,
             'extra' =>  '-'
         ]);
