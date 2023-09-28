@@ -225,7 +225,7 @@ Route::post('/assignTeam', [TeamController::class, 'assignTeam']);
 Route::get('/getNotifications', [NotificationController::class, 'index']);
 Route::get('/getAllNotifications/{id}', [NotificationController::class, 'getAllNotifications']);
 Route::post('/insertReject', [NotificationController::class, 'insertReject']);
-Route::get('/getNoSeenNotifications/{id}', [NotificationController::class, 'getNoSeenNotifications']);
+Route::get('/notifications/{id}', [NotificationController::class, 'getNoSeenNotifications']);
 Route::get('/registerSeen/{id}', [SeenController::class, 'registerSeen']);
 
 Route::post('/updatePrices', [PriceController::class, 'updatePrices']);

@@ -91,7 +91,7 @@
             <li class="dropdown-notifications-list scrollable-container ps">
               <ul class="list-group list-group-flush">
                 <template v-for="notification in notifications">
-                  <!--  <li class="list-group-item list-group-item-action dropdown-notifications-item"
+                  <li class="list-group-item list-group-item-action dropdown-notifications-item"
                     :id="`notification${notification.id}`">
                     <div class="d-flex">
                       <div class="flex-grow-1">
@@ -103,7 +103,7 @@
                           :id="`checkNot${notification.users[0].pivot.id}`" class='bx bx-check-circle text-secondary'></i>
                       </div>
                     </div>
-                  </li> -->
+                  </li>
                 </template>
               </ul>
               <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
@@ -280,7 +280,7 @@ export default {
         });
     },
     getNoSeenNotifications() {
-      this.axios.get('/api/getNoSeenNotifications/' + this.store.authUser.id)
+      this.axios.get('/api/notifications/' + this.store.authUser.id)
         .then((res) => {
           this.notifications = res.data
           this.cantNotifications = this.notifications.length
