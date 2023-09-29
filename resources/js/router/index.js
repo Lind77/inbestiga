@@ -73,6 +73,9 @@ import HomeTeams from '../components/academic/teams/Home.vue'
 // Área Académica - Colaborators
 import HomeCollabs from '../components/academic/collabs/Home.vue'
 
+//Area Académica - Notion
+import HomeNotion from '../components/academic/notion/Home.vue'
+
 // Área Administrativa del Sistema
 import HomeAdmin from '../components/admin/Home.vue'
 import MainAdmin from '../components/admin/Main.vue'
@@ -117,6 +120,8 @@ import HomeComunications from '../components/experience/comunication/Home.vue'
 import HomeRequests from '../components/experience/requests/Home.vue'
 //Area de Experiencia - Documentacion
 import HomeDocumentation from '../components/experience/profiles/Documentation.vue'
+
+
 
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
@@ -192,6 +197,11 @@ export const routes = [
                 component: AcadProfile,
                 props: true,
                 name: 'profile-acad'
+            },
+            {
+                path: 'notion',
+                component: HomeNotion,
+                name: 'notion'
             }
         ]
     },

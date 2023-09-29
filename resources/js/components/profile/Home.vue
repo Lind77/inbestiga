@@ -84,14 +84,14 @@
                                                         <option :value="user.id" v-for="user in users">{{ user.name }}
                                                         </option>
                                                     </select> -->
-                                                    <!-- <a href="javascript:void(0)" @click="openModalSchedule"
+                                                    <a href="javascript:void(0)" @click="openModalSchedule"
                                                         class="btn btn-primary text-nowrap mt-2">
                                                         + Horario
                                                     </a>
                                                     <a href="javascript:void(0)" @click="deleteSchedules"
                                                         class="btn btn-danger text-nowrap mt-2">
                                                         Limpiar
-                                                    </a> -->
+                                                    </a>
                                                     <div class="mt-3">
                                                         <p><span class="badge badge-center rounded-pill bg-success">{{
                                                             abledHours }}</span>
