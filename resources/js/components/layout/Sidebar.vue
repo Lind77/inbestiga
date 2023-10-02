@@ -106,7 +106,7 @@
       </router-link>
     </ul>
  -->
-    <ul class="menu-inner py-1" v-if="store.authUser.roles[0].name == 'Acad'">
+    <!-- <ul class="menu-inner py-1" v-if="store.authUser.roles[0].name == 'Acad'">
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
       <router-link :to="{ name: 'main-acad' }" class="menu-item">
         <div class="menu-link">
@@ -120,7 +120,7 @@
           <div data-i18n="Form Layouts">Mis Proyectos</div>
         </div>
       </router-link>
-    </ul>
+    </ul> -->
   </aside>
 </template>
 <script>
