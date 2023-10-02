@@ -62,11 +62,11 @@
                 <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
               </div>
             </li>
-            <router-link v-if="store.authUser" :to="{ name: 'notifications', params: { idUser: store.authUser.id } }"
+            <router-link v-if="store.authUser" :to="{ name: 'real-time', params: { userId: store.authUser.id } }"
               class="dropdown-menu-footer border-top">
-              <a href="javascript:void(0);" class="dropdown-item d-flex justify-content-center p-3">
+              <template class="dropdown-item d-flex justify-content-center p-3">
                 Ver todos los chats
-              </a>
+              </template>
             </router-link>
           </ul>
         </li>
