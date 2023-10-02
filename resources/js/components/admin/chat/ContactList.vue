@@ -57,7 +57,7 @@ export default {
 <style scoped>
 .chat-history-body {
     overflow-y: scroll;
-    height: 60vh;
+    height: 70vh;
 }
 
 .list-unstyled {

@@ -1,6 +1,5 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold">Chat</h4>
         <div class="card chat-card">
             <div class="row">
                 <div class="d-none d-lg-block col-xs-12 col-lg-4 pe-0" id="listSection">
@@ -141,7 +140,7 @@ export default {
 </script>
 <style scoped>
 .chat-card {
-    height: 70vh;
+    height: 80vh;
 }
 
 .hidden {

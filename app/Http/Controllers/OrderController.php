@@ -226,7 +226,7 @@ class OrderController extends Controller
         $request->validate([
             'final_delivery' => 'required',
             'observations' => 'required',
-            'paymenrs' => 'required',
+            'payments' => 'required',
             'payments.date' => 'required'
         ]);
 
