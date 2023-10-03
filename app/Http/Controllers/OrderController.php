@@ -227,7 +227,7 @@ class OrderController extends Controller
             'final_delivery' => 'required',
             'observations' => 'required',
             'payments' => 'required',
-            'payments.date' => 'required'
+            'payments.*.date' => 'required'
         ]);
 
         $customers = json_decode($request->get('customers'), true);
