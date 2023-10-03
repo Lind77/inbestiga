@@ -1,7 +1,7 @@
 <template>
     <div class="chat-history-body">
         <ul class="list-unstyled chat-history mb-0 px-3 py-2">
-            <h5 class="text-primary mb-2">Chats</h5>
+            <!-- <h5 class="text-primary mb-2">Chats</h5> -->
             <li class="contact rounded py-2 mb-2" :id="`user${user.id}`" v-for="(user, index) in users" :key="index"
                 @click="selectContact(user, index)">
                 <div class="d-flex justify-content-start overflow-hidden">
