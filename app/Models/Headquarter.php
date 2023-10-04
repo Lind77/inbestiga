@@ -15,6 +15,6 @@ class Headquarter extends Model
     }
     //Relación uno a muchos Headquarter-Areas
     public function areas(){
-        return $this->hasMany('App\Models\Area');
+        return $this->belongsToMany('App\Models\Area','area_headquarter');
     }
 }
