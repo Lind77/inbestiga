@@ -220,7 +220,7 @@ export default {
         });
     },
     getNewMessages() {
-      axios.get('/api/chats/' + this.store.authUser.id)
+      axios.get('/api/new-chat/' + this.store.authUser.id)
         .then((result) => {
           console.log(result.data)
           this.messages.push(result.data)

@@ -16,7 +16,8 @@
 
                         </div>
                     </div>
-                    <ContactList :users="users" @listConversations="listConversations" @hideList="hideList" />
+                    <ContactList :users="users" :messages="lastMessages" @listConversations="listConversations"
+                        @hideList="hideList" />
                 </div>
                 <div class="col-xs-8 col-sm-12 col-lg-8 app-chat-history ps-0" id="chatConverstion">
                     <div class="chat-history-wrapper">
@@ -64,6 +65,7 @@ export default {
             user_selected: {},
             selected_messages: [],
             hidden: true,
+            lastMessages: []
         }
     },
     setup() {
@@ -73,6 +75,15 @@ export default {
         }
     },
     methods: {
+        getMessages() {
+            axios.get('/api/chats/' + this.store.authUser.id)
+                .then(res => {
+                    this.lastMessages = res.data
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
         showList() {
             document.getElementById('listSection').classList.remove('d-none')
             document.getElementById('chatConverstion').classList.add('d-none')
@@ -135,6 +146,7 @@ export default {
                     }); */
             })
         this.getAllUsers()
+        this.getMessages()
     }
 }
 </script>

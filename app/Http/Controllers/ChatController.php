@@ -76,11 +76,15 @@ class ChatController extends Controller
      */
     public function show($id)
     {
-        $messages = Chat::where('receptor_id', $id)->with('emisor')->orderBy('id', 'desc')->groupBy('emisor_id')->get();
+        $messages = Chat::query()->with('emisor')->where('receptor_id', $id)->latest('id')->get()->groupBy('emisor_id');
 
+        $messagesFiltered = [];
 
+        foreach ($messages as $message) {
+            array_push($messagesFiltered, $message[0]);
+        }
 
-        return response()->json($messages);
+        return response()->json($messagesFiltered);
     }
 
     /**
@@ -129,5 +133,11 @@ class ChatController extends Controller
             ->get();
 
         return response()->json($messages);
+    }
+
+    public function newMessage($id)
+    {
+        $message = Chat::where('receptor_id', $id)->latest('id')->first();
+        return response()->json($message);
     }
 }
