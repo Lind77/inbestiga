@@ -9,6 +9,7 @@
             <i class="bx bx-paperclip bx-sm cursor-pointer mx-3"></i>
             <input type="file" id="attach-doc" hidden>
         </label> -->
+
                 <button @click="sendMessage" class="btn btn-primary d-flex">
                     <i class="bx bx-paper-plane me-md-1 me-0"></i>
                     <span class="align-middle d-md-inline-block d-none">Enviar</span>

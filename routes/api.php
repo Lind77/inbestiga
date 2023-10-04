@@ -315,3 +315,4 @@ Route::get('/vouchers', [VoucherController::class, 'index']);
 Route::post('/voucher', [VoucherController::class, 'store']);
 
 Route::get('/chats/{id}', [ChatController::class, 'show']);
+Route::get('/new-chat/{id}', [ChatController::class, 'newMessage']);
