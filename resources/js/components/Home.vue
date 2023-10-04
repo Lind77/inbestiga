@@ -33,7 +33,7 @@ export default {
         }
 
     },
-    components: { Sidebar, Navbar, SalesMain, AdminMain, ExperienceMain },
+    components: { Sidebar, Navbar, SalesMain, AdminMain, ExperienceMain, MarketingMain },
     methods: {
         hideSidebar() {
             this.hidden = !this.hidden

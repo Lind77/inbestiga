@@ -15,7 +15,7 @@
     <!--  Menú departamento de ventas -->
 
     <ul class="menu-inner py-1">
-      <router-link :to="{ name: 'main-' + store.authUser.subarea.area.name }" class="menu-item">
+      <router-link :to="{ path: '/home' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-home"></i>
           <div data-i18n="Form Layouts">Inicio</div>
