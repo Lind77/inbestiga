@@ -137,7 +137,7 @@ class ChatController extends Controller
 
     public function newMessage($id)
     {
-        $message = Chat::where('receptor_id', $id)->latest('id')->first();
+        $message = Chat::where('receptor_id', $id)->with('emisor')->latest('id')->first();
         return response()->json($message);
     }
 }
