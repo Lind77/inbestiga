@@ -20,6 +20,27 @@
                     </div>
                 </div>
             </li>
+            <li class="chat-contact-list-item chat-contact-list-item-title">
+                <h5 class="text-primary mb-0">Contactos</h5>
+            </li>
+            <li class="contact rounded py-2 mb-2" :id="`user${contact.id}`" v-for="(contact, index) in contacts"
+                :key="index" @click="selectContact(contact, index)">
+                <div class="d-flex justify-content-start overflow-hidden">
+                    <div class="flex-shrink-0 avatar ms-2">
+                        <span class="avatar-initial rounded-circle bg-success">{{ contact.name[0] }}</span>
+                    </div>
+                    <div class="d-flex flex-column align-items-start w-100 ps-2">
+                        <h6 :id="`name${contact.id}`" class="contact-name mb-0">{{ contact.name }}</h6>
+                        <p :id="`message${contact.id}`" class="text-message m-0 h6 text-secondary">
+                            {{ contact.roles[0].name }}
+                        </p>
+                        <!-- <p class="text-message m-0 h6 text-secondary" :id="`message${message.emisor.id}`">{{
+                            message.message.length > 20 ?
+                            message.message.substr(0, 19) +
+                            '...' : message.message }}</p> -->
+                    </div>
+                </div>
+            </li>
         </ul>
     </div>
 </template>
@@ -35,7 +56,8 @@ export default {
     },
     props: {
         users: Array,
-        messages: Array
+        messages: Array,
+        contacts: Array
     },
     methods: {
         selectContact(user, index) {
@@ -67,7 +89,7 @@ export default {
 <style scoped>
 .chat-history-body {
     overflow-y: scroll;
-    height: 70vh;
+    height: 68vh;
 }
 
 .list-unstyled {

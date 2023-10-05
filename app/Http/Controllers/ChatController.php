@@ -9,6 +9,7 @@ use App\Http\Requests\StoreChatRequest;
 use App\Http\Requests\UpdateChatRequest;
 use App\Models\Notification;
 use App\Models\Seen;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -137,7 +138,13 @@ class ChatController extends Controller
 
     public function newMessage($id)
     {
-        $message = Chat::where('receptor_id', $id)->latest('id')->first();
+        $message = Chat::where('receptor_id', $id)->with('emisor')->latest('id')->first();
         return response()->json($message);
+    }
+
+    public function contacts($id)
+    {
+        $users = User::where('id', '!=', $id)->with('roles')->get();
+        return response()->json($users);
     }
 }
