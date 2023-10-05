@@ -1,5 +1,5 @@
 <template>
-    <div id="bodyChats" class="chat-history-body bg-body ps" style="height:62vh; overflow-y: scroll !important;">
+    <div id="bodyChats" class="chat-history-body bg-body ps" style="height:60vh; overflow-y: scroll !important;">
         <ul class="list-unstyled chat-history mb-0 px-2 py-2">
             <li class="chat-message" v-for="message in selected_messages">
                 <div class="d-flex justify-content-end overflow-hidden" v-if="message.emisor_id == store.authUser.id">

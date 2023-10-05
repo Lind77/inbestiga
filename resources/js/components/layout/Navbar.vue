@@ -222,8 +222,16 @@ export default {
     getNewMessages() {
       axios.get('/api/new-chat/' + this.store.authUser.id)
         .then((result) => {
-          console.log(result.data)
-          this.messages.push(result.data)
+          var newMessage = result.data
+
+          var existentMessage = this.messages.find(message => message.emisor_id == newMessage.emisor_id)
+
+          if (existentMessage) {
+            existentMessage.message = newMessage.message
+          } else {
+            this.messages.push(newMessage)
+          }
+
         }).catch((err) => {
 
         });

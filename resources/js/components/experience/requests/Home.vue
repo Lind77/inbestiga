@@ -13,8 +13,10 @@
                             <p> Fecha: {{ permission.miss_date }} de
                                 {{ permission.miss_time_admission }} a {{ permission.miss_time_departure }}
                             </p>
-                            <p>Recuperación: {{ permission.recovery_date }} de {{ permission.recovery_time_admission }} a
-                                {{ permission.recovery_time_departure }}.</p>
+                            <p v-for="recovery in  permission.recovery_dates">Recuperación: {{ recovery.reovery_date }} de
+                                {{
+                                    recovery.admission_time }} a
+                                {{ recovery.departure_time }}.</p>
 
                         </div>
                         <div>
