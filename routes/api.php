@@ -68,6 +68,7 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 //Administrative Departement
 
 Route::get('/roles', [RoleController::class, 'index']);
+Route::get('/roles-hierarchy', [RoleController::class, 'hierarchy']);
 Route::get('/roles-all', [RoleController::class, 'getAllRoles']);
 Route::post('/roles', [RoleController::class, 'store']);
 Route::put('/roles/{id}', [RoleController::class, 'update']);

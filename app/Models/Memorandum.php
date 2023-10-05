@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Memorandum extends Model
 {
     use HasFactory;
-    protected $fillable=['emisor_id','receptor_id','content','status'];
+    protected $fillable=['emisor_id','receptor_id','subject','content','status','date','expiration_date'];
     //Relación uno a muchos inversa User(receptor)-Memorandum
     public function emisor(){
         return $this->belongsTo('App\Models\User','emisor_id');
@@ -17,4 +17,9 @@ class Memorandum extends Model
     public function receptor(){
         return $this->belongsTo('App\Models\User','receptor_id');
     }
+    //Relacion uno a muchos Memorandum-Memorandum_details
+    public function memorandum_details(){
+        return $this->hasMany('App\Models\Memorandum_detail');
+    }
+    
 }
