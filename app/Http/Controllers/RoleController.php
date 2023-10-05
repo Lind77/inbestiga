@@ -19,6 +19,12 @@ class RoleController extends Controller
         return $roles;
     }
 
+    public function hierarchy()
+    {
+        $roles = Role::with('permissions')->orderBy('hierarchy')->get();
+        return $roles;
+    }
+
     /**
      * Show the form for creating a new resource.
      *

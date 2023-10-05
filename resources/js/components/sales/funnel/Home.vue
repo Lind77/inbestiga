@@ -254,9 +254,6 @@ export default {
             }
           })
         }
-
-
-
       }
     },
     verifyChange(quotation, status) {

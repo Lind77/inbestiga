@@ -96,6 +96,8 @@ import SubareasAdmin from '../components/admin/subareas/Home.vue'
 
 import RealTime from '../components/admin/chat/Chat.vue'
 
+import HomeChart from '../components/admin/chart/Home.vue'
+
 //Área de Marketing
 import HomeMarketing from '../components/marketing/Home.vue'
 import MainMarketing from '../components/marketing/Main.vue'
@@ -368,6 +370,11 @@ export const routes = [
                 path: 'vouchers',
                 component: HomeVoucher,
                 name: 'vouchers'
+            },
+            {
+                path: 'super-chart',
+                component: HomeChart,
+                name: 'super-chart'
             }
         ]
     },

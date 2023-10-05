@@ -5,9 +5,9 @@
         </div>
         <div class="row ms-5">
             <div class="col">
-                <p class="title voucher-important-data" v-if="paymentProof.customer">SEÑOR(A): <span>{{
-                    paymentProof.customer.name
-                }}</span>
+                <p class="title voucher-important-data" v-if="paymentProof.customer">SEÑOR(A): <span
+                        v-for="customer in paymentProof.payment_proofable.quotation.customers">{{ customer.name + ' / ' }}
+                    </span>
                 </p>
                 <p class="title voucher-important-data">TIPO DE MONEDA: <span>NUEVOS SOLES</span></p>
             </div>
