@@ -171,7 +171,7 @@
             <div class="col-lg-3">
                 <div class="card invoice-preview-card">
                     <div class="card-body">
-                        <span class="h5 mt-2 demo text-body fw-bold">4. Información Adicional</span>
+                        <!-- <span class="h5 mt-2 demo text-body fw-bold">4. Información Adicional</span>
                         <template v-if="doc.properties">
                             <template v-for="property in doc.properties">
                                 <template v-if="property.properties">
@@ -181,7 +181,7 @@
                                 </template>
                             </template>
                         </template>
-                        <button class="btn btn-icon btn-success" @click="addNewField"><i class="bx bx-plus"></i></button>
+                        <button class="btn btn-icon btn-success" @click="addNewField"><i class="bx bx-plus"></i></button> -->
                         <template v-for="newField in newFields">
                             <div class="d-flex">
                                 <input type="text" class="form-control" v-model="newField.name">
@@ -386,7 +386,8 @@ export default {
                 1: 'Llamar',
                 2: 'Escribir',
                 3: 'Meet'
-            }
+            },
+            properties: []
         }
     },
     methods: {
@@ -403,14 +404,14 @@ export default {
             this.newQuestions.push({ ...newQuestion })
         },
         getQuotation() {
-
-
-
             axios.get('/api/quotations/' + this.$route.params.quotationId)
                 .then((result) => {
+                    console.log(result)
                     this.quotation = result.data
                     this.customer = this.quotation.customers[0]
                     this.comunications = this.customer.comunications
+                    this.newQuestions = JSON.parse(this.quotation.contract.properties[0].properties)
+                    console.log(this.properties)
                 }).catch((err) => {
                     console.error(err)
                 });
