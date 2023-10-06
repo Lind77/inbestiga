@@ -539,6 +539,7 @@ export default {
                 .then((res) => {
                     this.$swal('Cotización generada')
                     this.quotationIdGenerated = res.data.id
+                    this.quotationExistent.id = res.data.id
                 })
                 .catch((err) => {
                     this.$swal(err.response.data.message)
