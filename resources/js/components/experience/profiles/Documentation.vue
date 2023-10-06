@@ -91,7 +91,7 @@
                             <template v-for="newQuestion in newQuestions">
                                 <div class="col-4" v-if="newQuestion.type == 3">
                                     <p class="mb-1">{{ newQuestion.question }}</p>
-                                    <input type="text" v-model="newQuestion.answer" class="form-control">
+                                    <textarea v-model="newQuestion.answer" class="form-control"></textarea>
                                 </div>
                             </template>
 
