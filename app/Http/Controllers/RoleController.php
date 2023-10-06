@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Subarea;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -78,13 +79,14 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
-
-        $user->update([
-            'subarea_id' => $request->get('newRole')
-        ]);
+        $user = User::with('roles')->find($id);
 
         $role = Role::find($request->get('newRole'));
+
+        $user->update([
+            'subarea_id' => $role->subarea_id
+        ]);
+
         $user->syncRoles([$role->name]);
 
         return response()->json([
