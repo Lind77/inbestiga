@@ -43,9 +43,9 @@ class PropertiesController extends Controller
             'properties' => $request->get('properties')
         ]);
 
-        $project = Project::where('projectable_id', $request->get('propertiable_id'))->where('projectable_type', $request->get('propertiable_type'))->find();
+        $project = Project::where('projectable_id', $request->get('propertiable_id'))->where('projectable_type', $request->get('propertiable_type'))->get();
 
-        $project->update([
+        $project[0]->update([
             'status' => 1
         ]);
 
