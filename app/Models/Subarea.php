@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Subarea extends Model
 {
   use HasFactory;
-  protected $fillable = ['name', 'area_id'];
+  protected $fillable = ['name', 'area_id','father_id','heirarchy'];
 
   //Realcion inversa uno a muchos Area-Subarea
   public function area()
