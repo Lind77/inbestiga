@@ -203,6 +203,8 @@
                         <li>
                             Proporcionar la información de aplicación de instrumentos.
                         </li>
+                        @endif
+                        @if($contract->third_article_place == 1)
                         <li>
                             Proporcionar información sobre el lugar de estudio, la población y muestra
                         </li>

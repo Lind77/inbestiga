@@ -228,6 +228,8 @@
                         <div class="w-100">
                             <p>3er art.(Instrumentos) <input type="checkbox" class="form-check-input"
                                     v-model="thirdArticle"></p>
+                            <p>3er art.(Lugar) <input type="checkbox" class="form-check-input" v-model="thirdArticlePlace">
+                            </p>
                             <p>5to art.(Considerar Entregas) <input type="checkbox" class="form-check-input"
                                     v-model="fifthArticle"></p>
                             <!-- <label for="salesperson" class="form-label">Tiempo de Ejecucion<span
@@ -355,6 +357,7 @@ export default {
             discount: 0,
             deliveries: [],
             thirdArticle: false,
+            thirdArticlePlace: false,
             fifthArticle: false,
             contractId: 0,
             orderId: 0,
@@ -399,6 +402,7 @@ export default {
             this.deliveries = contract.projects[0].deliveries
             this.thirdArticle = this.numberToBoolean(contract.third_article)
             this.fifthArticle = this.numberToBoolean(contract.fifth_article)
+            this.thirdArticlePlace = this.numberToBoolean(contract.third_article_place)
             this.contract.date = contract.date
         },
         pickQuotation(quotation) {
@@ -573,6 +577,7 @@ export default {
         createContract() {
             var thirdArticleValue = this.booleanToNumber(this.thirdArticle)
             var fifthArticleValue = this.booleanToNumber(this.fifthArticle)
+            var thirdArticlePlaceValue = this.booleanToNumber(this.thirdArticlePlace)
 
             let conversorClass = conversor.conversorNumerosALetras
             let myConverter = new conversorClass()
@@ -593,6 +598,7 @@ export default {
             fd.append('emisor_id', this.store.authUser.id)
             fd.append('third_article', thirdArticleValue)
             fd.append('fifth_article', fifthArticleValue)
+            fd.append('third_article_place', thirdArticlePlaceValue)
             axios.post('/api/contracts', fd)
                 .then(res => {
                     this.contractId = res.data
