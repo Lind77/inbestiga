@@ -49,7 +49,7 @@
             <div class="card bg-success text-white mb-3" v-for="delivery in deliveries">
               <div class="card-header">Entrega de {{ delivery.type == 1 ? 'Contrato' : 'Orden' }}</div>
               <div class="card-body">
-                <template v-if="delivery.project">
+                <template v-if="delivery.project && delivery.project.projectable">
                   <h5 class="card-title text-white">{{ delivery.project.projectable.quotation.customers[0].name }}</h5>
                 </template>
                 <p class="card-text">
