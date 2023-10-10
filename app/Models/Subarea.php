@@ -20,9 +20,14 @@ class Subarea extends Model
   {
     return $this->hasMany('App\Models\User');
   }
-
+  //Relación polimorficaa uno a muchos dasdas as
   public function roles()
   {
     return $this->hasMany('\Spatie\Permission\Models\Role');
   }
+  /* //Relación uno a muchos polimorfica 
+  public function roles()
+  {
+      return $this->morphMany('\Spatie\Permission\Models\Role', 'roleable');
+  } */
 }

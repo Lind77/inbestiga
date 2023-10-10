@@ -8,13 +8,21 @@
                 </span>
             </button>
         </h5>
-        <div class="d-flex justify-content-center" v-for="rol in rolesByHierarchy">
-            <template v-for="rol in rol.roles">
-                <button class="btn btn-primary my-2 mx-2">{{ rol.name }}</button>
-            </template>
+        <template v-for="area in areas">
+            <button class="btn btn-primary my-2 mx-2 w-25" draggable="true" @dragstart="drag" :id="`${area.id}`">{{
+                area.name
+            }}</button>
+        </template>
+        <div :id="`${index}`" class="row bg-transparent border border-primary my-2 py-3 rounded justify-content-center"
+            v-for="(level, index) in levels" @drop="drop" @dragenter.prevent @dragover.prevent>
+            <!-- <h3 class="w-100"> {{ index + 1 }}</h3> -->
         </div>
+
+        <!--  <div class="d-flex justify-content-center" v-for="rol in rolesByHierarchy">
+
+        </div> -->
     </div>
-    <areaModal />
+    <areaModal @getAreas="getAreas" />
 </template>
 <script>
 import areaModal from './AreaModal.vue'
@@ -25,9 +33,27 @@ export default {
         return {
             roles: [],
             rolesByHierarchy: [],
+            areas: [],
+            levels: [0, 1, 2]
         }
     },
     methods: {
+        drag(e) {
+            this.visible = true
+            e.dataTransfer.setData('text', e.target.id)
+        },
+        drop(e) {
+            let area = e.dataTransfer.getData('text')
+            e.target.appendChild(document.getElementById(area))
+        },
+        getAreas() {
+            axios.get('/api/areas')
+                .then((result) => {
+                    this.areas = result.data
+                }).catch((err) => {
+                    console.error(err)
+                });
+        },
         getRoles() {
             axios.get('/api/roles-hierarchy')
                 .then((result) => {
@@ -58,7 +84,7 @@ export default {
         }
     },
     mounted() {
-        this.getRoles();
+        this.getAreas();
     }
 }
 </script>

@@ -27,6 +27,10 @@
                                     class="btn btn-icon btn-danger ms-2">
                                     <span class="tf-icons bx bx-trash"></span>
                                 </button>
+                                <button v-if="customer && customer.status < 3" @click="deleteCustomer(customer)"
+                                    type="button" class="btn btn-icon btn-danger ms-2">
+                                    <span class="tf-icons bx bx-trash"></span>
+                                </button>
                             </div>
                             <div class="col-3" v-if="quotation">
                                 <p class="h2 cursor-pointer emoji" @dblclick="changeInterest(quotation)">{{
@@ -178,6 +182,26 @@ export default {
         quotation: Object
     },
     methods: {
+        deleteCustomer(customer) {
+            $('#funnelModal').modal('hide')
+            this.$swal.fire({
+                title: '¿Deseas eliminar a este prelead?',
+                showDenyButton: true,
+                confirmButtonText: 'Si',
+                denyButtonText: 'No',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    axios.delete('/api/customers/' + customer.id)
+                        .then((result) => {
+
+                            this.$emit('getAllPreleads')
+                        }).catch((err) => {
+
+                        });
+                }
+            })
+        },
         deleteQuotation(quotation) {
             $('#funnelModal').modal('hide')
             this.$swal.fire({
