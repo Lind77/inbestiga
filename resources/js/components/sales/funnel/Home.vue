@@ -211,20 +211,20 @@ export default {
     updateStatusSpaces(quotationId, status) {
       console.log(quotationId, status);
       if (status == 9) {
-
         $('#funnelModal').modal('hide')
         var quotSelected = this.totalQuotations.find(quotation => quotation.id == quotationId)
         this.$router.push({ name: 'home-docs', params: { customerId: quotSelected.customers[0].id } })
         /* var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
-
         if (leadSelected.quotations[0].amount < 1500) {
           this.$router.push({ name: 'home-orders', params: { idUser: leadId } });
         } else {
           this.$router.push({ name: 'home-contracts', params: { idUser: leadId } });
         } */
-
+      } else if (status == 11) {
+        this.updateInBd(quotationId, status)
+        this.removeLead(10, quotationId)
       } else {
-        console.log(quotationId);
+        console.log(quotationId, 'updateando a status 11');
         var quotSelected = this.totalQuotations.find(quotation => quotation.id == quotationId)
         console.log(quotSelected)
         if (quotSelected.customers[0].user_id == this.store.authUser.id) {
@@ -249,8 +249,6 @@ export default {
                 this.removeLead(firstStatus, quotationId)
                 this.addLead(quotSelected, status)
               }
-            } else if (result.isDenied) {
-
             }
           })
         }
