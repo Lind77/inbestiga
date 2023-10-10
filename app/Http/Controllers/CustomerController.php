@@ -164,9 +164,13 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
+    public function destroy($id)
     {
-        //
+        $customer = Customer::find($id);
+        $customer->delete();
+        return response()->json([
+            'msg' => 'deleted'
+        ]);
     }
 
     public function updateCustomerGrade(Request $request)
