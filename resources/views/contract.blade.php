@@ -348,19 +348,17 @@
                 {{-- <div class="page-break"></div> --}}
                 <span class="seven-article">OCTAVO: MORA INDEMNIZATORIA Y PENALIDADES.</span>
                 <p>
-                    7.1. Sobre los pagos<br>
+                    8.1. Sobre los pagos<br>
                     EL ASESORADO tendrá una prórroga de hasta 2 días calendario para abonar los montos descritos en la cláusula 
                     cuarta de EL CONTRATO. A partir del tercer día calendario siguiente al vencimiento de la fecha de pago, EL 
                     ASESORADO deberá abonar una mora indemnizatoria de S/.15.00 (quince soles) por cada día que no ha 
                     realizado el pago, lo cual tendrá efecto retroactivo desde el primer día de incumplimiento de pago.<br>
-                    7.2. Sobre la resolución de contrato a pedido de parte<br>
-                    En caso de que EL ASESORADO manifieste la intención de resolver el presente contrato, sin que ello esté
-                            
-                    contenido en la descripción de la cláusula sexta, este deberá pagar a favor de EL LOCADOR un monto 
+                    8.2. Sobre la resolución de contrato a pedido de parte<br>
+                    En caso de que EL ASESORADO manifieste la intención de resolver el presente contrato, sin que ello esté contenido en la descripción de la cláusula sexta, este deberá pagar a favor de EL LOCADOR un monto 
                     indemnizatorio por incumplimiento de obligaciones contraprestativas que ascenderá a un 20% del monto 
                     total que EL ASESORADO estuviera pendiente de abonar, según el cronograma de la cláusula cuarta de EL 
                     CONTRATO.<br>
-                    7.3. Sobre las entregas<br>
+                    8.3. Sobre las entregas<br>
                     EL LOCADOR tendrá una prórroga de hasta dos días hábiles para la entrega de los avances contenidos en la 
                     cláusula quinta de EL CONTRATO. En caso de que EL LOCADOR cumpla tardíamente y sin justificación 
                     razonable con la entrega, EL ASESORADO tendrá la posibilidad de exigir un reembolso de S/15.00 (quince soles) 
