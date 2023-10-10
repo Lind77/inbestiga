@@ -18,4 +18,9 @@ class Area extends Model
      public function headquarters(){
         return $this->belongsToMany('App\Models\Headquarter','area_headquarter');
      }
+     //Relación uno a muchos polimorfica 
+     public function roles()
+     {
+         return $this->morphMany('\Spatie\Permission\Models\Role', 'roleable');
+     }
 }
