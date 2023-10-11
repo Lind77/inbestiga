@@ -404,19 +404,23 @@
                             <p>Representante Legal</p>
                         </div>
                     </div>
-                    <div class="col col-right">
+                    {{-- <div class="col col-right">
                         <div class="client">
                         <p>__________________________</p>
                         <p>EL ASESORADO</p>
                         {{$contract->quotation->customers[0]->name}}
                         </div>
-                    </div>
-                    @if(count($contract->quotation->customers)>1)
-                    <div class="client second-client">
-                        __________________________<br>
-                        EL ASESORADO <br>
-                        {{$contract->quotation->customers[1]->name}}
-                    </div>
+                    </div> --}}
+                    @if(count($contract->quotation->customers)>2)
+                        @foreach($contract->quotation->customers as $customer)
+                        <div class="col">
+                            <div class="client second-client">
+                                __________________________<br>
+                                EL ASESORADO <br>
+                                {{$customer->name}}
+                            </div>
+                        </div>
+                        @endforeach
                     @else
                     <div></div>
                     @endif

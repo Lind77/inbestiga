@@ -77,6 +77,7 @@ Route::put('/roles/{id}', [RoleController::class, 'update']);
 Route::get('/areas', [AreaController::class, 'index']);
 Route::get('/areas/{id}', [AreaController::class, 'show']);
 Route::post('/areas', [AreaController::class, 'store']);
+Route::post('/areas-hierarchy', [AreaController::class, 'hierarchy']);
 Route::delete('/areas/{id}', [AreaController::class, 'destroy']);
 
 Route::get('/subareas', [SubareaController::class, 'index']);

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Area;
 
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class AreaController extends Controller
      */
     public function index()
     {
-        $areas=Area::all();
+        $areas = Area::all();
         return response()->json($areas);
     }
 
@@ -88,6 +89,19 @@ class AreaController extends Controller
     {
         $area = Area::find($id);
         $area->delete();
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function hierarchy(Request $request)
+    {
+        $area = Area::find($request->get('areaId'));
+
+        $area->update([
+            'hierarchy' => $request->get('hierarchy')
+        ]);
 
         return response()->json([
             'msg' => 'success'
