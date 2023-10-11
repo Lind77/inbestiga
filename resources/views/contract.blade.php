@@ -417,7 +417,7 @@
                         EL ASESORADO <br>
                         {{$contract->quotation->customers[1]->name}}
                     </div>
-                    @elseif(count($contract->quotation->customers)==3){
+                    @elseif(count($contract->quotation->customers)==3)
                         <div class="col col-left">
                             <div class="client">
                                 <p>__________________________</p>
@@ -432,7 +432,6 @@
                             {{$contract->quotation->customers[2]->name}}
                             </div>
                         </div>
-                    }
                     @endif
                 </div>
             </div>
