@@ -414,7 +414,7 @@
                     @if(count($contract->quotation->customers)>2)
                         @foreach($contract->quotation->customers as $customer)
                         <div class="col">
-                            <div class="client second-client">
+                            <div class="client">
                                 __________________________<br>
                                 EL ASESORADO <br>
                                 {{$customer->name}}
