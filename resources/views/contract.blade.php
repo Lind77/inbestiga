@@ -395,9 +395,8 @@
                     <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
                     <div class="page-break"></div>
                     <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($contract->date))}}</p>
-
                 <div class="signatures">
-                    <div style="width: 45%">
+                    <div class="col col-left">
                         <img src="https://inbestiga.com/pdf-sys/firmaBere.jpg" width="200">
                         <div class="locator">
                             <p>__________________________</p>
@@ -405,18 +404,35 @@
                             <p>Representante Legal</p>
                         </div>
                     </div>
-                    @if(count($contract->quotation->customers)>2)
-                        @foreach($contract->quotation->customers as $customer)
-                        <div style="width: 45%">
+                    <div class="col col-right">
+                        <div class="client">
+                        <p>__________________________</p>
+                        <p>EL ASESORADO</p>
+                        {{$contract->quotation->customers[0]->name}}
+                        </div>
+                    </div>
+                    @if(count($contract->quotation->customers)>1)
+                    <div class="client second-client">
+                        __________________________<br>
+                        EL ASESORADO <br>
+                        {{$contract->quotation->customers[1]->name}}
+                    </div>
+                    @elseif(count($contract->quotation->customers)>2){
+                        <div class="col col-left">
                             <div class="client">
-                                __________________________<br>
-                                EL ASESORADO <br>
-                                {{$customer->name}}
+                                <p>__________________________</p>
+                                <p>EL ASESORADO</p>
+                                {{$contract->quotation->customers[1]->name}}
+                                </div>
+                        </div>
+                        <div class="col col-right">
+                            <div class="client">
+                            <p>__________________________</p>
+                            <p>EL ASESORADO</p>
+                            {{$contract->quotation->customers[2]->name}}
                             </div>
                         </div>
-                        @endforeach
-                    @else
-                    <div></div>
+                    }
                     @endif
                 </div>
             </div>
