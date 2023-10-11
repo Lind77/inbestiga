@@ -395,8 +395,9 @@
                     <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
                     <div class="page-break"></div>
                     <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($contract->date))}}</p>
+
                 <div class="signatures">
-                    <div class="col col-left">
+                    <div style="width: 50%">
                         <img src="https://inbestiga.com/pdf-sys/firmaBere.jpg" width="200">
                         <div class="locator">
                             <p>__________________________</p>
@@ -404,19 +405,19 @@
                             <p>Representante Legal</p>
                         </div>
                     </div>
-                    <div class="row">
-                        @if(count($contract->quotation->customers)>2)
-                            @foreach($contract->quotation->customers as $customer)
-                            <div class="col-6">
-                                <div class="client">
-                                    __________________________<br>
-                                    EL ASESORADO <br>
-                                    {{$customer->name}}
-                                </div>
+                    @if(count($contract->quotation->customers)>2)
+                        @foreach($contract->quotation->customers as $customer)
+                        <div style="width: 50%">
+                            <div class="client">
+                                __________________________<br>
+                                EL ASESORADO <br>
+                                {{$customer->name}}
                             </div>
-                            @endforeach
-                        @endif
-                    </div>
+                        </div>
+                        @endforeach
+                    @else
+                    <div></div>
+                    @endif
                 </div>
             </div>
         </main>
