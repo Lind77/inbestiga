@@ -397,7 +397,7 @@
                     <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($contract->date))}}</p>
 
                 <div class="signatures">
-                    <div style="width: 50%">
+                    <div style="width: 45%">
                         <img src="https://inbestiga.com/pdf-sys/firmaBere.jpg" width="200">
                         <div class="locator">
                             <p>__________________________</p>
@@ -407,7 +407,7 @@
                     </div>
                     @if(count($contract->quotation->customers)>2)
                         @foreach($contract->quotation->customers as $customer)
-                        <div style="width: 50%">
+                        <div style="width: 45%">
                             <div class="client">
                                 __________________________<br>
                                 EL ASESORADO <br>
