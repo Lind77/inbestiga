@@ -411,13 +411,13 @@
                         {{$contract->quotation->customers[0]->name}}
                         </div>
                     </div>
-                    @if(count($contract->quotation->customers)>1)
+                    @if(count($contract->quotation->customers)==2)
                     <div class="client second-client">
                         __________________________<br>
                         EL ASESORADO <br>
                         {{$contract->quotation->customers[1]->name}}
                     </div>
-                    @elseif(count($contract->quotation->customers)>2){
+                    @elseif(count($contract->quotation->customers)==3){
                         <div class="col col-left">
                             <div class="client">
                                 <p>__________________________</p>
