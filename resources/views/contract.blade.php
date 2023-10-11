@@ -405,18 +405,21 @@
                         </div>
                     </div>
                     <div class="row">
-                        @if(count($contract->quotation->customers)>2)
-                            @foreach($contract->quotation->customers as $customer)
-                            <div class="col-6">
-                                <div class="client">
-                                    __________________________<br>
-                                    EL ASESORADO <br>
-                                    {{$customer->name}}
-                                </div>
-                            </div>
-                            @endforeach
-                        @endif
+                        
                     </div>
+                    @if(count($contract->quotation->customers)>2)
+                        @foreach($contract->quotation->customers as $customer)
+                        <div class="col">
+                            <div class="client">
+                                __________________________<br>
+                                EL ASESORADO <br>
+                                {{$customer->name}}
+                            </div>
+                        </div>
+                        @endforeach
+                    @else
+                    <div></div>
+                    @endif
                 </div>
             </div>
         </main>
