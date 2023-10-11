@@ -17,7 +17,7 @@
             </td>
             <td>{{ contract.date ? contract.date : '' }}</td>
             <td>
-              <a :href="`http://localhost/inbestiga/public/api/generateContract/${contract.id}`" target="_blank"
+              <a :href="`https://sistema.inbestiga.com/public/api/generateContract/${contract.id}`" target="_blank"
                 class="btn btn-sm btn-primary mx-2 text-white" disabled><i class='bx bx-printer'></i></a>
             </td>
           </tr>
