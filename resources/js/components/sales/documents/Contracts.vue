@@ -12,10 +12,12 @@
         </thead>
         <tbody class="table-border-bottom-0">
           <tr v-for="contract in contracts">
-            <td><strong v-for="customer in contract.quotation.customers">{{ customer.name }}</strong></td>
+            <td>
+              <p class="fw-bold" v-for="customer in contract.quotation.customers">{{ customer.name }}</p>
+            </td>
             <td>{{ contract.date ? contract.date : '' }}</td>
             <td>
-              <a :href="`https://sistema.inbestiga.com/public/api/generateContract/${contract.id}`" target="_blank"
+              <a :href="`http://localhost/inbestiga/public/api/generateContract/${contract.id}`" target="_blank"
                 class="btn btn-sm btn-primary mx-2 text-white" disabled><i class='bx bx-printer'></i></a>
             </td>
           </tr>
