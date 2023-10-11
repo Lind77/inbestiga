@@ -260,7 +260,8 @@ class OrderController extends Controller
             ]);
         }
         $quotation->update([
-            'discount'  => $request->get('discount')
+            'discount'  => $request->get('discount'),
+            'status' => 9
         ]);
         if ($quotation->order != null) {
             $quotation->order->payments->each->delete();

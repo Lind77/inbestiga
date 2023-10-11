@@ -96,10 +96,22 @@
                 margin-top: 30px;
             }
             .signatures{
-                padding: 0px 120px;
+                width: 100%;
                 margin-top: 140px;
+                display: table;
+            }
+            .col-signature{
+                width: 45%;
+                text-align: center;
+                display: table-cell;
+            }
+            .col-signature p{
+                text-align: center;
+                margin: 0px;
+            
             }
             .locator{
+                text-align: center;
                 margin-top: -35px;
             }
             .client{
@@ -395,48 +407,48 @@
                     <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
                     <div class="page-break"></div>
                     <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($contract->date))}}</p>
-                <div class="signatures">
-                    <div class="col col-left">
-                        <img src="https://inbestiga.com/pdf-sys/firmaBere.jpg" width="200">
-                        <div class="locator">
-                            <p>__________________________</p>
-                            <p>EL LOCADOR</p>
-                            <p>Representante Legal</p>
-                        </div>
-                    </div>
-                    <div class="col col-right">
-                        <div class="client">
-                        <p>__________________________</p>
-                        <p>EL ASESORADO</p>
-                        {{$contract->quotation->customers[0]->name}}
-                        </div>
-                    </div>
-                    @if(count($contract->quotation->customers)==2)
-                    <div class="client second-client">
-                        __________________________<br>
-                        EL ASESORADO <br>
-                        {{$contract->quotation->customers[1]->name}}
-                    </div>
-                    @elseif(count($contract->quotation->customers)==3)
-                    <div style="margin-top: 130px;">
-                        <div class="col col-left">
-                            <div class="client">
+                    <div class="signatures">
+                        <div class="col-signature">
+                            <img src="https://inbestiga.com/pdf-sys/firmaBere.jpg" width="200">
+                            <div class="locator">
                                 <p>__________________________</p>
-                                <p>EL ASESORADO</p>
-                                {{$contract->quotation->customers[1]->name}}
-                                </div>
-                        </div>
-                        <div class="col col-right">
-                            <div class="client">
-                            <p>__________________________</p>
-                            <p>EL ASESORADO</p>
-                            {{$contract->quotation->customers[2]->name}}
+                                <p>EL LOCADOR</p>
+                                <p>Representante Legal</p>
                             </div>
                         </div>
+                        @php
+                            $customers = $contract->quotation->customers;
+                            $customerCount = count($customers);
+                        @endphp
+                        @if($customerCount == 1)
+                        <div class="col-signature">
+                            <div class="locator" style="padding-top: 155px">
+                                <p>__________________________</p>
+                                <p>EL ASESORADO</p>
+                                <p>{{ $customers[0]->name }}</p>
+                            </div>
+                        </div>
+                        @else
+                        <div class="col-signature">
+                            <div class="locator" style="padding-top: 150px">
+                                <p>__________________________</p>
+                                <p>EL ASESORADO</p>
+                                <p>{{ $customers[0]->name }}</p>
+                            </div>
+                        </div>
+                        <div style="display: table-row;">
+                            @for ($x = 1; $x < $customerCount; $x++)
+                                    <div class="col-signature">
+                                        <div class="locator" style="padding-top: 150px">
+                                            <p>__________________________</p>
+                                            <p>EL ASESORADO</p>
+                                            <p>{{ $customers[$x]->name }}</p>
+                                        </div>
+                                    </div>
+                                    @endfor
+                        </div>
+                        @endif
                     </div>
-                        
-                    @endif
-                </div>
             </div>
         </main>
     </body>
