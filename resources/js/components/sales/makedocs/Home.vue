@@ -50,7 +50,7 @@
                             </div>
                             <div v-if="documentType == 1" class="bg-success rounded text-white text-center my-1 p-1"
                                 @click="pickQuotation(quotation)" v-for="quotation in quotationsExistent">
-                                {{ quotation.date }}
+                                {{ formatTime(quotation.created_at) }}
                                 <i class="bx bx-trash" @click="deleteQuotaion(quotation.id)"></i>
                             </div>
                             <button v-if="documentType == 3" class="btn btn-info m-1" @click="pickContract(contract)"
@@ -367,6 +367,9 @@ export default {
         }
     },
     methods: {
+        formatTime(time) {
+            return moment(time).format('DD/MM/YYYY hh:mma')
+        },
         addNewCustomer() {
             this.action = 1
             $('#customerModal').modal('show')
