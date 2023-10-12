@@ -359,7 +359,7 @@ export default {
           this.updateNotifications()
         })
 
-      Echo.private('leads')
+      Echo.private(`leads.${this.store.authUser.id}`)
         .listen('NewLead', (e) => {
           this.updateNotifications()
           Notification.requestPermission()

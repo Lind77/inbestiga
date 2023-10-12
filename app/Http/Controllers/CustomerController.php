@@ -363,7 +363,7 @@ class CustomerController extends Controller
             'seen' => 0
         ]);
 
-        broadcast(new NewLead());
+        broadcast(new NewLead($customer));
 
 
         return response()->json([

@@ -14,6 +14,8 @@ class NewLead implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $customer;
+
     /**
      * Create a new event instance.
      *
@@ -31,6 +33,6 @@ class NewLead implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('leads');
+        return new PrivateChannel('leads' . $this->customer->id);
     }
 }
