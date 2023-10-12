@@ -40,6 +40,6 @@ Broadcast::channel('documents', function ($id) {
     return true;
 });
 
-Broadcast::channel('leads', function ($id) {
-    return true;
+Broadcast::channel('leads.{id}', function ($user, $id) {
+    return (int) $user->id == (int) $id;
 });
