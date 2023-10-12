@@ -7,7 +7,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning" role="alert">La cantidad de horas se destribuirá en intervalos de una
-                        hora</div>
+                        hora.
+                        <p v-if="store.authUser.roles[0].name == 'Acad'">Recuerda, si eres parte del equipo académico la
+                            entrada es desde las 7:00 am hasta las 7:30pm</p>
+                    </div>
                     <div class="row">
                         <div class="col mb-3">
                             <label for="nameBasic" class="form-label">Horario de Ingreso</label>
@@ -64,6 +67,7 @@
 <script>
 import axios from 'axios'
 import { userStore } from '../../stores/UserStore'
+import moment from 'moment'
 
 export default {
     setup() {
@@ -84,21 +88,60 @@ export default {
     },
     methods: {
         addSchedule() {
-            const fd = new FormData()
 
-            fd.append('admission_time', this.schedule.admission_time)
-            fd.append('departure_time', this.schedule.departure_time)
-            fd.append('type', 1)
-            fd.append('weekdays', JSON.stringify(this.weekDays))
-            fd.append('user_id', this.store.authUser.id)
+            var startHour = new Date();
+            startHour.setHours(6, 59, 0); // 7.00 am
+            var endHour = new Date();
+            endHour.setHours(19, 31, 0); // 7.30 pm
 
-            axios.post('/api/schedules', fd)
-                .then((result) => {
-                    this.$emit('getUser', this.store.authUser.id)
-                    $("#scheduleModal").modal("hide");
-                }).catch((err) => {
-                    console.error(err)
-                });
+            var admissionTime = moment(this.schedule.admission_time, 'HH:mm').toDate()
+            var deptTime = moment(this.schedule.departure_time, 'HH:mm').toDate()
+
+            console.log(startHour, admissionTime, endHour, deptTime);
+
+
+            if (this.store.authUser.roles[0].name == 'Acad') {
+                if (startHour < admissionTime && endHour > deptTime) {
+                    const fd = new FormData()
+
+                    fd.append('admission_time', this.schedule.admission_time)
+                    fd.append('departure_time', this.schedule.departure_time)
+                    fd.append('type', 1)
+                    fd.append('weekdays', JSON.stringify(this.weekDays))
+                    fd.append('user_id', this.store.authUser.id)
+
+                    axios.post('/api/schedules', fd)
+                        .then((result) => {
+                            this.$emit('getUser', this.store.authUser.id)
+                            $("#scheduleModal").modal("hide");
+                        }).catch((err) => {
+                            console.error(err)
+                        });
+                } else {
+                    this.$swal('Este horario está prohibido para académico.')
+                }
+            } else {
+                const fd = new FormData()
+
+                fd.append('admission_time', this.schedule.admission_time)
+                fd.append('departure_time', this.schedule.departure_time)
+                fd.append('type', 1)
+                fd.append('weekdays', JSON.stringify(this.weekDays))
+                fd.append('user_id', this.store.authUser.id)
+
+                axios.post('/api/schedules', fd)
+                    .then((result) => {
+                        this.$emit('getUser', this.store.authUser.id)
+                        $("#scheduleModal").modal("hide");
+                    }).catch((err) => {
+                        console.error(err)
+                    });
+            }
+
+
+
+
+
         }
     }
 }
