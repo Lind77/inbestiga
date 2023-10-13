@@ -86,6 +86,9 @@ export default {
                 fd.append('customer_id', this.customerId)
                 fd.append('seller_selected', this.seller_selected)
                 fd.append('user_id', this.store.authUser.id)
+
+                var token = localStorage.getItem('token')
+                window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
                 axios.post('/api/assignOwner', fd)
                     .then(res => {
                         $('#ownerModal').modal('hide')

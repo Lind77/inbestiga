@@ -168,7 +168,7 @@ Route::post('/updateDniCustomer', [CustomerController::class, 'updateDniCustomer
 
 
 Route::get('/leads', [CustomerController::class, 'getAllLeads']);
-Route::post('/assignOwner', [CustomerController::class, 'assignOwner']);
+Route::post('/assignOwner', [CustomerController::class, 'assignOwner'])->middleware('auth:sanctum');
 
 
 Route::get('/getLeadsByDate/{date}', [CustomerController::class, 'getLeadsByDate']);

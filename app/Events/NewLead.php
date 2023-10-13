@@ -33,6 +33,6 @@ class NewLead implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('leads' . $this->customer->user_id);
+        return new PrivateChannel('leads.' . $this->customer->user_id);
     }
 }
