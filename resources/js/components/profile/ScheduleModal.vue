@@ -8,7 +8,8 @@
                 <div class="modal-body">
                     <div class="alert alert-warning" role="alert">La cantidad de horas se destribuirá en intervalos de una
                         hora.
-                        <p v-if="store.authUser.roles[0].name == 'Acad'">Recuerda, si eres parte del equipo académico la
+                        <p v-if="store.authUser.roles && store.authUser.roles[0].name == 'Acad'">Recuerda, si eres parte del
+                            equipo académico la
                             entrada es desde las 7:00 am hasta las 7:30pm</p>
                     </div>
                     <div class="row">
