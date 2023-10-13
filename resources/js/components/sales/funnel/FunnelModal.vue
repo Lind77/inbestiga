@@ -230,7 +230,6 @@ export default {
                 console.log(this.quotation);
                 this.$emit('callModalComunication', this.quotation.customers[0])
             }
-
         },
         toQuotation(customerId) {
             $('#funnelModal').modal('hide')
