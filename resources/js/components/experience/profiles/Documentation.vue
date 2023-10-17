@@ -458,9 +458,9 @@ export default {
 
             axios.post('/api/properties', fd)
                 .then((result) => {
-                    console.log(result)
+                    this.$swal('Documentación de proyecto almacenada correctamente')
                 }).catch((err) => {
-                    console.log(err)
+                    this.$swal('Hubo un error')
                 });
         },
         addNewField() {
