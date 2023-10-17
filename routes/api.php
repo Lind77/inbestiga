@@ -236,6 +236,7 @@ Route::post('/updatePrices', [PriceController::class, 'updatePrices']);
 Route::get('/getAllComissions', [ComissionController::class, 'getAllComissions']);
 
 Route::get('/profiles', [CustomerController::class, 'getProfiles']);
+Route::get('/profiles-search/{search}', [CustomerController::class, 'searchProfiles']);
 
 Route::get('/deliveries', [DeliveryController::class, 'index']);
 Route::get('/deliveries-month', [DeliveryController::class, 'deliveriesMonth']);
