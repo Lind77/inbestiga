@@ -359,8 +359,9 @@ export default {
           this.updateNotifications()
         })
 
-      Echo.private('leads')
+      Echo.private(`leads.${this.store.authUser.id}`)
         .listen('NewLead', (e) => {
+          console.log('new lead realtime')
           this.updateNotifications()
           Notification.requestPermission()
             .then((result) => {

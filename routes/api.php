@@ -168,7 +168,7 @@ Route::post('/updateDniCustomer', [CustomerController::class, 'updateDniCustomer
 
 
 Route::get('/leads', [CustomerController::class, 'getAllLeads']);
-Route::post('/assignOwner', [CustomerController::class, 'assignOwner']);
+Route::post('/assignOwner', [CustomerController::class, 'assignOwner'])->middleware('auth:sanctum');
 
 
 Route::get('/getLeadsByDate/{date}', [CustomerController::class, 'getLeadsByDate']);
@@ -236,6 +236,7 @@ Route::post('/updatePrices', [PriceController::class, 'updatePrices']);
 Route::get('/getAllComissions', [ComissionController::class, 'getAllComissions']);
 
 Route::get('/profiles', [CustomerController::class, 'getProfiles']);
+Route::get('/profiles-search/{search}', [CustomerController::class, 'searchProfiles']);
 
 Route::get('/deliveries', [DeliveryController::class, 'index']);
 Route::get('/deliveries-month', [DeliveryController::class, 'deliveriesMonth']);

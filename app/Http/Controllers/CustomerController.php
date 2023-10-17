@@ -363,7 +363,7 @@ class CustomerController extends Controller
             'seen' => 0
         ]);
 
-        broadcast(new NewLead());
+        broadcast(new NewLead($customer));
 
 
         return response()->json([
@@ -498,7 +498,15 @@ class CustomerController extends Controller
     {
         $customers = Customer::where('status', 11)->with(['comunications', 'quotations' => function ($query) {
             $query->latest('id');
-        }, 'quotations.order', 'quotations.contract', 'quotations.order.properties', 'quotations.contract.properties', 'quotations.details', 'quotations.details.product'])->get();
+        }, 'quotations.order', 'quotations.contract', 'quotations.order.properties', 'quotations.contract.properties', 'quotations.details', 'quotations.details.product'])->orderBy('id', 'desc')->take(8)->get();
+        return response()->json($customers);
+    }
+
+    public function searchProfiles($search)
+    {
+        $customers = Customer::where('status', 11)->where('name', 'like', '%' . $search . '%')->with(['comunications', 'quotations' => function ($query) {
+            $query->latest('id');
+        }, 'quotations.order', 'quotations.contract', 'quotations.order.properties', 'quotations.contract.properties', 'quotations.details', 'quotations.details.product'])->orderBy('id', 'desc')->take(8)->get();
         return response()->json($customers);
     }
 

@@ -96,10 +96,22 @@
                 margin-top: 30px;
             }
             .signatures{
-                padding: 0px 120px;
+                width: 100%;
                 margin-top: 140px;
+                display: table;
+            }
+            .col-signature{
+                width: 45%;
+                text-align: center;
+                display: table-cell;
+            }
+            .col-signature p{
+                text-align: center;
+                margin: 0px;
+            
             }
             .locator{
+                text-align: center;
                 margin-top: -35px;
             }
             .client{
@@ -231,17 +243,10 @@
                 <p style="margin-top: 15px;">
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
                 Como contraprestación al servicio prestado por EL LOCADOR, EL ASESORADO se compromete al abono de un monto total de
-                @if($contract->cent_text == null) 
-                <span>S/.{{number_format($contract->amount)}} <span class="name">({{$contract->amount_text}} soles)</span></span>
-                @else
-                <span>S/.{{number_format($contract->amount, 1)}}0 
-                    <span class="name">({{$contract->amount_text}} soles
-                        @if($contract->cent_text != 'cero')
-                        con {{$contract->cent_text}} céntimos)
-                        @endif
-                    </span>
-                </span>
-                @endif, monto que será abonado en las siguientes fechas:
+                {{$contract->cent_text == null? 'S/.'.number_format($contract->amount).'('.strtoupper($contract->amount_text).' SOLES)': 'S/.'.number_format($contract->amount, 1).'0'}}
+                {{'('.strtoupper($contract->amount_text).' SOLES'}} 
+                {{$contract->cent_text!='cero'? 'CON '.strtoupper($contract->cent_text).' CÉNTIMOS)':')'}}
+                monto que será abonado en las siguientes fechas:
                 </p>
                 <table class="date-table">
                     <thead>
@@ -395,30 +400,48 @@
                     <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
                     <div class="page-break"></div>
                     <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($contract->date))}}</p>
-
-                <div class="signatures">
-                    <div style="width: 45%">
-                        <img src="https://inbestiga.com/pdf-sys/firmaBere.jpg" width="200">
-                        <div class="locator">
-                            <p>__________________________</p>
-                            <p>EL LOCADOR</p>
-                            <p>Representante Legal</p>
-                        </div>
-                    </div>
-                    @if(count($contract->quotation->customers)>2)
-                        @foreach($contract->quotation->customers as $customer)
-                        <div style="width: 45%">
-                            <div class="client">
-                                __________________________<br>
-                                EL ASESORADO <br>
-                                {{$customer->name}}
+                    <div class="signatures">
+                        <div class="col-signature">
+                            <img src="https://inbestiga.com/pdf-sys/firmaBere.jpg" width="200">
+                            <div class="locator">
+                                <p>__________________________</p>
+                                <p>EL LOCADOR</p>
+                                <p>Representante Legal</p>
                             </div>
                         </div>
-                        @endforeach
-                    @else
-                    <div></div>
-                    @endif
-                </div>
+                        @php
+                            $customers = $contract->quotation->customers;
+                            $customerCount = count($customers);
+                        @endphp
+                        @if($customerCount == 1)
+                        <div class="col-signature">
+                            <div class="locator" style="padding-top: 155px">
+                                <p>__________________________</p>
+                                <p>EL ASESORADO</p>
+                                <p>{{ $customers[0]->name }}</p>
+                            </div>
+                        </div>
+                        @else
+                        <div class="col-signature">
+                            <div class="locator" style="padding-top: 150px">
+                                <p>__________________________</p>
+                                <p>EL ASESORADO</p>
+                                <p>{{ $customers[0]->name }}</p>
+                            </div>
+                        </div>
+                        <div style="display: table-row;">
+                            @for ($x = 1; $x < $customerCount; $x++)
+                                    <div class="col-signature">
+                                        <div class="locator" style="padding-top: 150px">
+                                            <p>__________________________</p>
+                                            <p>EL ASESORADO</p>
+                                            <p>{{ $customers[$x]->name }}</p>
+                                        </div>
+                                    </div>
+                                    @endfor
+                        </div>
+                        @endif
+                    </div>
             </div>
         </main>
     </body>
