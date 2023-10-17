@@ -3,7 +3,7 @@
         <h4 class="fw-bold">Perfiles de Clientes</h4>
         <div class="row mb-2">
             <input type="text" placeholder="Buscar perfil de cliente..." class="form-control w-50 ms-2"
-                v-model="searchProfile" @keyup="filterProfiles">
+                v-model="searchProfile" @keyup.enter="filterProfiles">
         </div>
         <div class="row g-4 mb-4">
             <div class="col-sm-6 col-xl-3" v-for="customer in customersFiltered">
@@ -70,12 +70,18 @@ export default {
     },
     methods: {
         filterProfiles() {
-            if (this.searchProfile == '') {
-                this.customersFiltered = this.customers
-            } else {
-                this.customersFiltered = this.customers.filter(customer => customer.name.toLowerCase().includes(this.searchProfile))
-            }
-
+            console.log(this.searchProfile);
+            axios.get('/api/profiles-search/' + this.searchProfile)
+                .then((result) => {
+                    this.customersFiltered = result.data
+                }).catch((err) => {
+                    console.error(err);
+                });
+            /*  if (this.searchProfile == '') {
+                 this.customersFiltered = this.customers
+             } else {
+                 this.customersFiltered = this.customers.filter(customer => customer.name.toLowerCase().includes(this.searchProfile))
+             } */
         },
         showComunicationUpdate(customerId) {
             var customerSelected = this.customers.find(customer => customer.id == customerId)

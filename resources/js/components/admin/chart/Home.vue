@@ -32,10 +32,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
         <!--  <div class="d-flex justify-content-center" v-for="rol in rolesByHierarchy">
 
         </div> -->

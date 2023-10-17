@@ -69,23 +69,39 @@
                 <div class="card invoice-preview-card mt-2">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
-                            <span class="h5 mt-2 demo text-body fw-bold">3. Información Académica
-                                <button class="btn btn-icon btn-success mx-1" @click="addNewQuestion"
-                                    title="Agregar Pregunta">
-                                    <i class="bx bx-plus"></i>
-                                </button>
-                                <button class="btn btn-icon btn-warning mx-1" @click="openComunicationsModal"
-                                    title="Comunicaciones">
-                                    <i class="bx bx-chat"></i>
-                                </button>
-                                <button class="btn btn-icon btn-primary mx-1" title="Link de Google Drive">
-                                    <i class='bx bxl-google-cloud'></i>
-                                </button>
-                            </span>
+                            <div>
+                                <span class="h5 mt-2 demo text-body fw-bold">3. Información Académica
+                                    <button class="btn btn-icon btn-success mx-1" @click="addNewQuestion"
+                                        title="Agregar Pregunta">
+                                        <i class="bx bx-plus"></i>
+                                    </button>
+                                    <button class="btn btn-icon btn-warning mx-1" @click="openComunicationsModal"
+                                        title="Comunicaciones">
+                                        <i class="bx bx-chat"></i>
+                                    </button>
+                                    <!-- <button class="btn btn-icon btn-primary mx-1" title="Link de Google Drive">
+                                    <i class='bx bxl-google'></i>
+                                </button> -->
+                                </span>
+                                <span>
+                                    <div class="input-group my-2">
+                                        <span class="input-group-text" id="basic-addon11"><i
+                                                class='bx bxl-google'></i></span>
+                                        <template v-for="newQuestion in newQuestions">
+                                            <template v-if="newQuestion.type == 5">
+                                                <input type="text" class="form-control" v-model="newQuestion.answer"
+                                                    placeholder="Link de Drive">
+                                            </template>
+                                        </template>
+                                    </div>
+                                </span>
+                            </div>
+                            <div>
 
-                            <span v-if="customer.user" class="bg-info rounded w-auto p-2 text-white fw-bold">
-                                <i class='bx bx-user-pin'></i> {{ customer.user.name }}
-                            </span>
+                                <span v-if="customer.user" class="bg-info rounded w-auto p-2 text-white fw-bold">
+                                    <i class='bx bx-user-pin'></i> {{ customer.user.name }}
+                                </span>
+                            </div>
                         </div>
                         <div class="row">
                             <template v-for="newQuestion in newQuestions">
@@ -97,11 +113,16 @@
 
 
                             <!--  <p class="mt-2"><button class="btn btn-primary">Link a Drive</button></p> -->
-                            <template v-for="newQuestion in newQuestions">
+                            <template v-for="(newQuestion, index) in newQuestions">
                                 <div class="col-4 mt-2" v-if="newQuestion.type == 0">
                                     <div class="card p-2 shadow">
-                                        <input type="text" class="form-control form-control-sm w-75"
-                                            placeholder="Pregunta o atributo" v-model="newQuestion.question">
+                                        <div class="d-flex">
+                                            <input type="text" class="form-control form-control-sm w-75"
+                                                placeholder="Pregunta o atributo" v-model="newQuestion.question">
+                                            <button @click="deleteNewQuestion(index)"
+                                                class="btn btn-icon btn-danger btn-sm ms-2"><i class="bx bx-x"></i></button>
+                                        </div>
+
                                         <textarea name="" id="" cols="30" rows="3" class="form-control mt-1"
                                             placeholder="Valor o respuesta" v-model="newQuestion.answer"></textarea>
                                     </div>
@@ -379,6 +400,11 @@ export default {
                     answer: false,
                     type: 4,
                     subtype: 'c'
+                },
+                {
+                    question: 'Link de Drive',
+                    answer: '',
+                    type: 5
                 }
             ],
             comunications: [],
@@ -391,10 +417,15 @@ export default {
         }
     },
     methods: {
+        deleteNewQuestion(index) {
+            console.log(index);
+            this.newQuestions.splice(index, 1);
+        },
         openComunicationsModal() {
             $('#ComunicationsModal').modal('show')
         },
         addNewQuestion() {
+            console.log('new question')
             var newQuestion = {
                 question: '',
                 answer: '',
@@ -410,7 +441,9 @@ export default {
                     this.quotation = result.data
                     this.customer = this.quotation.customers[0]
                     this.comunications = this.customer.comunications
-                    this.newQuestions = JSON.parse(this.quotation.contract.properties[0].properties)
+                    if (this.quotation.contract.properties[0]) {
+                        this.newQuestions = JSON.parse(this.quotation.contract.properties[0].properties)
+                    }
                     console.log(this.properties)
                 }).catch((err) => {
                     console.error(err)
