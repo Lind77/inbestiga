@@ -117,7 +117,7 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $customer = Customer::with(['quotations', 'quotations.contract', 'quotations.contract.payments', 'quotations.contract.projects', 'quotations.contract.projects.deliveries', 'quotations.order', 'quotations.details', 'quotations.details.product', 'quotations.customers'])->find($id);
+        $customer = Customer::with(['quotations', 'quotations.contract', 'quotations.contract.payments', 'quotations.contract.projects', 'quotations.contract.projects.deliveries', 'quotations.order', 'quotations.order.payments', 'quotations.details', 'quotations.details.product', 'quotations.customers'])->find($id);
         return response()->json($customer);
     }
 
