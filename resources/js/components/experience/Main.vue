@@ -27,14 +27,19 @@
             <h5 class="card-title m-0 me-2">Permisos Solicitados <!-- <span @click="showModalNote"
                 class="badge bg-label-primary me-1 cursor-pointer">+</span> --></h5>
           </div>
-          <div class="card-body"><!-- Activity Timeline -->
-            <div class="card bg-info text-white mb-3" v-for="note in notes">
-              <div class="card-header">Nota</div>
-              <div class="card-body">
-                <h5 class="card-title text-white">{{ note.deliverable.quotation.customer.name }}</h5>
-                <p class="card-text">
-                  {{ note.advance }}
-                </p>
+          <div class="card">
+            <div class="card-header d-flex align-items-center justify-content-between">
+              <h5 class="card-title m-0 me-2">Entregas para hoy</h5>
+            </div>
+            <div class="card-body" v-for="permission in permissions"><!-- Activity Timeline -->
+              <div class="card bg-success text-white">
+                <div class="card-header">Solicitud de {{ permission.user.name }}</div>
+                <div class="card-body">
+                  <h5 class="card-title text-white">{{ permission.miss_date }}</h5>
+                  <p class="card-text">
+                    {{ permission.reason }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -79,12 +84,21 @@ export default {
   data() {
     return {
       deliveries: [],
-      notes: []
+      notes: [],
+      permissions: []
     }
   },
   methods: {
     showModalNote() {
       $('#deliveryModal').modal('show')
+    },
+    getPermissionsRequest() {
+      axios.get('/api/attendance-permits')
+        .then((result) => {
+          this.permissions = result.data
+        }).catch((err) => {
+          console.log(err)
+        });
     },
     getAllDeliveries() {
       axios.get('/api/deliveries')
@@ -97,6 +111,7 @@ export default {
     }
   },
   mounted() {
+    this.getPermissionsRequest()
     this.getAllDeliveries()
   }
 }
