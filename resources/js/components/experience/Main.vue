@@ -24,8 +24,8 @@
       <div class="col-md-12 col-lg-6 order-4 order-lg-3">
         <div class="card">
           <div class="card-header d-flex align-items-center justify-content-between">
-            <h5 class="card-title m-0 me-2">Notas <span @click="showModalNote"
-                class="badge bg-label-primary me-1 cursor-pointer">+</span></h5>
+            <h5 class="card-title m-0 me-2">Permisos Solicitados <!-- <span @click="showModalNote"
+                class="badge bg-label-primary me-1 cursor-pointer">+</span> --></h5>
           </div>
           <div class="card-body"><!-- Activity Timeline -->
             <div class="card bg-info text-white mb-3" v-for="note in notes">
