@@ -28,9 +28,6 @@
                 class="badge bg-label-primary me-1 cursor-pointer">+</span> --></h5>
           </div>
           <div class="card">
-            <div class="card-header d-flex align-items-center justify-content-between">
-              <h5 class="card-title m-0 me-2">Entregas para hoy</h5>
-            </div>
             <div class="card-body" v-for="permission in permissions"><!-- Activity Timeline -->
               <div class="card bg-success text-white">
                 <div class="card-header">Solicitud de {{ permission.user.name }}</div>
