@@ -53,6 +53,10 @@
                                 {{ formatTime(quotation.created_at) }}
                                 <i class="bx bx-trash" @click="deleteQuotaion(quotation.id)"></i>
                             </div>
+                            <button v-if="documentType == 2" class="btn btn-info m-1" @click="pickOrder(order)"
+                                v-for="order in ordersExistent">{{
+                                    formatTime(order.created_at)
+                                }}</button>
                             <button v-if="documentType == 3" class="btn btn-info m-1" @click="pickContract(contract)"
                                 v-for="contract in contractExistent">{{
                                     contract.date
@@ -363,7 +367,8 @@ export default {
             orderId: 0,
             quotationsExistent: [],
             contractExistent: [],
-            action: 1
+            action: 1,
+            ordersExistent: []
         }
     },
     methods: {
@@ -413,8 +418,10 @@ export default {
             this.quotationIdGenerated = quotation.id
             this.details = quotation.details
         },
-        uploadContract() {
-
+        pickOrder(order) {
+            this.order = order
+            this.orderId = order.id
+            this.payments = order.payments
         },
         minusPayment() {
             if (this.finalPrice == 0.00) {
@@ -464,6 +471,8 @@ export default {
                         this.customer.quotations.forEach(quotation => {
                             if (quotation.contract) {
                                 this.contractExistent.push(quotation.contract)
+                            } else if (quotation.order) {
+                                this.ordersExistent.push(quotation.order)
                             }
                         })
 
