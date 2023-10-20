@@ -19,7 +19,7 @@
     @callModalComunication="callModalComunication" @showModalUpdateData="showModalUpdateData"
     @getAllPreleads="getAllPreleads" :owners="owners" @updateOwner="updateOwner" />
   <UpdateCom :customer="customerToComunication" :comunication="comunication" :customerId="customerId" :action="action"
-    @getAllPreleads="getAllPreleads" />
+    @getAllPreleads="getAllPreleads" @addNewComunication="addNewComunication" />
 </template>
 <script>
 import axios from 'axios'
@@ -66,6 +66,27 @@ export default {
     }
   },
   methods: {
+    addNewComunication(comunication, customer) {
+      let arraysByStatus = {
+        1: this.noAttended,
+        2: this.attended,
+        3: this.comunications,
+        4: this.needs
+      }
+
+      var arraySelected = arraysByStatus[customer.status];
+
+      console.log(arraySelected);
+
+      var customerSelected = arraySelected.find(prelead => prelead.id == customer.id);
+
+      customerSelected.comunications.push(comunication);
+
+      this.customer = customerSelected
+
+      $('#funnelModal').modal('show')
+
+    },
     showModalFunnelCustomer(customer) {
       this.customer = customer;
       $('#funnelModal').modal('show');
