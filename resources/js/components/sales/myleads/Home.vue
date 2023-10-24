@@ -25,7 +25,7 @@
                             <div class="badge bg-label-primary rounded-pill">{{ standBy.length }}</div>
                         </li>
                         <li class="d-flex py-1 justify-content-between active" data-target="inbox">
-                            <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center">
+                            <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center" @click="filterToday">
                                 <i class="bx bx-user"></i>
                                 <span class="align-middle ms-2" @click="filterClients">De Hoy</span>
                             </a>
@@ -167,6 +167,10 @@ export default {
         },
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY')
+        },
+        filterToday() {
+            this.myLeads = this.todayLeads
+            this.title = 'Leads de hoy'
         },
         filterStandBy() {
             this.totalLeads = this.standBy
