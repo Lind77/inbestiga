@@ -84,9 +84,17 @@ class PropertiesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $property = Property::where('propertiable_id', $request->get('propertiable_id'))->where('propertiable_type', $request->get('propertiable_type'))->first();
+
+        $property->update([
+            'properties' => $request->get('properties')
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     /**

@@ -172,7 +172,7 @@ Route::post('/assignOwner', [CustomerController::class, 'assignOwner'])->middlew
 
 
 Route::get('/getLeadsByDate/{date}', [CustomerController::class, 'getLeadsByDate']);
-Route::get('/getAllMyLeads/{id}', [CustomerController::class, 'getAllMyLeads']);
+Route::get('/my-leads/{id}', [CustomerController::class, 'getAllMyLeads']);
 Route::get('/changeInterest/{id}/{interest}', [CustomerController::class, 'changeInterest']);
 
 
@@ -306,6 +306,7 @@ Route::get('/payment-proof/{id}', [VoucherController::class, 'show']);
 Route::put('/access/{id}', [UserController::class, 'access']);
 
 Route::post('/properties', [PropertiesController::class, 'store']);
+Route::put('/properties', [PropertiesController::class, 'update']);
 
 /* //Rutas para CHatbot
  
