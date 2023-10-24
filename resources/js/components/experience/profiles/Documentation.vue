@@ -84,16 +84,16 @@
                                 </button> -->
                                 </span>
                                 <span>
-                                    <div class="input-group my-2">
-                                        <span class="input-group-text" id="basic-addon11"><i
-                                                class='bx bxl-google'></i></span>
-                                        <template v-for="newQuestion in newQuestions">
-                                            <template v-if="newQuestion.type == 5">
+                                    <template v-for="newQuestion in newQuestions">
+                                        <template v-if="newQuestion.type == 5">
+                                            <div class="input-group my-2">
+                                                <span class="input-group-text" id="basic-addon11"><i
+                                                        class='bx bxl-google'></i></span>
                                                 <input type="text" class="form-control" v-model="newQuestion.answer"
                                                     placeholder="Link de Drive">
-                                            </template>
+                                            </div>
                                         </template>
-                                    </div>
+                                    </template>
                                 </span>
                             </div>
                             <div>
@@ -211,7 +211,9 @@
                             </div>
                         </template>
                         <br>
-                        <button class="btn btn-success w-100 mt-2" @click="saveFields">Almacenar</button>
+                        <button class="btn btn-success w-100 mt-2" v-if="docType == 1"
+                            @click="saveFields">Almacenar</button>
+                        <button class="btn btn-info w-100 mt-2" v-else @click="updateFields">Actualizar</button>
                     </div>
                 </div>
             </div>
@@ -413,7 +415,8 @@ export default {
                 2: 'Escribir',
                 3: 'Meet'
             },
-            properties: []
+            properties: [],
+            docType: 1
         }
     },
     methods: {
@@ -443,14 +446,37 @@ export default {
                     this.comunications = this.customer.comunications
                     if (this.quotation.contract.properties[0]) {
                         this.newQuestions = JSON.parse(this.quotation.contract.properties[0].properties)
+                        this.docType = 2
+                        var findDriveField = this.newQuestions.find(question => question.type == 5)
+
+                        if (!findDriveField) {
+                            this.newQuestions.push({
+                                question: 'Link de Drive',
+                                answer: '',
+                                type: 5
+                            })
+                        }
                     }
                     console.log(this.properties)
                 }).catch((err) => {
                     console.error(err)
                 });
         },
-        saveFields() {
+        updateFields() {
+            const fd = new FormData()
+            fd.append('propertiable_id', this.selectedDoc.propertiable_id)
+            fd.append('propertiable_type', this.selectedDoc.propertiable_type)
+            fd.append('properties', JSON.stringify(this.newQuestions))
+            fd.append('_method', 'put')
 
+            axios.post('/api/properties', fd)
+                .then((result) => {
+                    this.$swal('Documentación de proyecto actualizada correctamente')
+                }).catch((err) => {
+                    this.$swal('Hubo un error')
+                });
+        },
+        saveFields() {
             const fd = new FormData()
             fd.append('propertiable_id', this.selectedDoc.propertiable_id)
             fd.append('propertiable_type', this.selectedDoc.propertiable_type)

@@ -1,7 +1,7 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
 
-        <h4 class="fw-bold py-3 mb-2">Mis Leads ({{ myLeads.length }})</h4>
+        <h4 class="fw-bold py-3 mb-2">Leads ({{ totalLeads.length }})</h4>
 
         <div class="card p-2">
             <div class="row">
@@ -11,10 +11,24 @@
                     <ul class="email-filter-folders list-unstyled pb-1 pt-2">
                         <li class="d-flex py-1 justify-content-between active" data-target="inbox">
                             <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center">
-                                <i class="bx bx-envelope"></i>
-                                <span class="align-middle ms-2" @click="filterClients">Clientes</span>
+                                <i class="bx bx-user"></i>
+                                <span class="align-middle ms-2" @click="filterClients">Contrato</span>
+                            </a>
+                            <div class="badge bg-label-primary rounded-pill">{{ clients.length }}</div>
+                        </li>
+                        <li class="d-flex py-1 justify-content-between active" data-target="inbox">
+                            <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center">
+                                <i class="bx bx-user"></i>
+                                <span class="align-middle ms-2" @click="filterStandBy">Stand By</span>
                             </a>
                             <div class="badge bg-label-primary rounded-pill">21</div>
+                        </li>
+                        <li class="d-flex py-1 justify-content-between active" data-target="inbox">
+                            <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center">
+                                <i class="bx bx-user"></i>
+                                <span class="align-middle ms-2" @click="filterClients">De Hoy</span>
+                            </a>
+                            <div class="badge bg-label-primary rounded-pill">{{ todayLeads.length }}</div>
                         </li>
                         <!-- <li class="d-flex py-1" data-target="sent">
                             <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center">
@@ -54,9 +68,12 @@
                         </div>
                         <div
                             class="email-pagination d-sm-flex d-none align-items-center flex-wrap justify-content-between justify-sm-content-end">
-                            <span class="d-sm-block d-none mx-3 text-muted">1-10 of 653</span>
+                            <span class="d-sm-block d-none mx-3 text-muted">{{ startPage + 1 }}-{{ pageSize }} de {{
+                                totalLeads.length
+                            }}</span>
                             <i class="email-prev bx bx-chevron-left scaleX-n1-rtl cursor-pointer text-muted me-4 fs-4"></i>
-                            <i class="email-next bx bx-chevron-right scaleX-n1-rtl cursor-pointer fs-4"></i>
+                            <i class="email-next bx bx-chevron-right scaleX-n1-rtl cursor-pointer fs-4"
+                                @click="nextPag"></i>
                         </div>
                     </div>
                     <div class="email-list pt-0 ps ps--active-y">
@@ -64,10 +81,7 @@
                             <li class="email-list-item email-marked-read d-block py-3" data-starred="true"
                                 data-bs-toggle="sidebar" data-target="#app-email-view" v-for="lead in myLeads">
                                 <div class="d-flex align-items-center">
-
-                                    <i
-                                        class="email-list-item-bookmark bx bx-star d-sm-inline-block d-none cursor-pointer mx-4 bx-sm"></i>
-                                    <div class="email-list-item-content ms-2 ms-sm-0 me-2">
+                                    <div class="email-list-item-content ps-3 ms-2 ms-sm-0 me-2">
                                         <span class="email-list-item-username me-2 h6">{{ lead.name }}</span>
                                         <span class="email-list-item-subject d-xl-inline-block d-block"> - {{ lead.cell
                                         }}</span>
@@ -76,14 +90,8 @@
                                         <span
                                             class="email-list-item-label badge badge-dot bg-danger d-none d-md-inline-block me-2"
                                             data-label="private"></span>
-                                        <small class="email-list-item-time text-muted">{{ lead.created_at }}</small>
-                                        <ul class="list-inline email-list-item-actions">
-                                            <li class="list-inline-item email-delete"> <i class="bx bx-trash-alt fs-4"></i>
-                                            </li>
-                                            <li class="list-inline-item email-read"> <i class="bx bx-envelope fs-4"></i>
-                                            </li>
-                                            <li class="list-inline-item"> <i class="bx bx-error-circle fs-4"></i> </li>
-                                        </ul>
+                                        <small class="email-list-item-time text-muted">{{ formatDate(lead.created_at)
+                                        }}</small>
                                     </div>
                                 </div>
                             </li>
@@ -127,6 +135,7 @@
     </div>
 </template>
 <script>
+import moment from 'moment'
 import { userStore } from '../../../stores/UserStore'
 
 export default {
@@ -136,19 +145,37 @@ export default {
     },
     data() {
         return {
+            totalLeads: [],
             myLeads: [],
-            todayLeads: []
+            todayLeads: [],
+            clients: [],
+            pageSize: 10,
+            standBy: [],
+            startPage: 0
         }
     },
     methods: {
+        nextPag() {
+            this.startPage++
+            this.myLeads = this.totalLeads.slice(this.startPage * this.pageSize, (this.startPage + 1) * this.pageSize)
+        },
+        formatDate(date) {
+            return moment(date).format('DD/MM/YYYY')
+        },
+        filterStandBy() {
+            this.myLeads = this.standBy
+        },
         getAllMyLeads() {
-            axios.get('/api/getAllMyLeads/' + this.store.authUser.id)
+            axios.get('/api/my-leads/' + this.store.authUser.id)
                 .then((res) => {
-                    this.myLeads = res.data.clients
+                    this.totalLeads = res.data.customers
+                    this.myLeads = res.data.customers.slice(0, 10)
                     this.todayLeads = res.data.customersToday
+                    this.clients = res.data.clients
+                    this.standBy = res.data.standBy
                 })
                 .catch((err) => {
-
+                    console.error(err)
                 })
         }
     },
