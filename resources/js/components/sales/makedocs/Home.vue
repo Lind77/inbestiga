@@ -649,9 +649,11 @@ export default {
                     else if (result.data.percent == 0) {
                         this.$swal('Se ha desbloqueado el descuento por cantidad')
                         this.discount = result.data.quantity
+                        this.calcPayments()
                     } else {
                         this.$swal('Se ha desbloqueado el descuento por porcentaje')
                         this.discount = ((this.totalProducts * result.data.percent) / 100).toFixed(2)
+                        this.calcPayments()
                     }
                 }).catch((err) => {
 

@@ -1,7 +1,7 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
 
-        <h4 class="fw-bold py-3 mb-2">Leads ({{ totalLeads.length }})</h4>
+        <h4 class="fw-bold py-3 mb-2">{{ title + '(' + totalLeads.length + ')' }}</h4>
 
         <div class="card p-2">
             <div class="row">
@@ -17,11 +17,12 @@
                             <div class="badge bg-label-primary rounded-pill">{{ clients.length }}</div>
                         </li>
                         <li class="d-flex py-1 justify-content-between active" data-target="inbox">
-                            <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center">
+                            <a href="javascript:void(0);" class="d-flex flex-wrap  align-items-center"
+                                @click="filterStandBy">
                                 <i class="bx bx-user"></i>
-                                <span class="align-middle ms-2" @click="filterStandBy">Stand By</span>
+                                <span class="align-middle ms-2">Stand By</span>
                             </a>
-                            <div class="badge bg-label-primary rounded-pill">21</div>
+                            <div class="badge bg-label-primary rounded-pill">{{ standBy.length }}</div>
                         </li>
                         <li class="d-flex py-1 justify-content-between active" data-target="inbox">
                             <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center">
@@ -68,10 +69,10 @@
                         </div>
                         <div
                             class="email-pagination d-sm-flex d-none align-items-center flex-wrap justify-content-between justify-sm-content-end">
-                            <span class="d-sm-block d-none mx-3 text-muted">{{ startPage + 1 }}-{{ pageSize }} de {{
-                                totalLeads.length
-                            }}</span>
-                            <i class="email-prev bx bx-chevron-left scaleX-n1-rtl cursor-pointer text-muted me-4 fs-4"></i>
+                            <span class="d-sm-block d-none mx-3 text-muted">{{ startPage + 1 }}-{{
+                                Math.floor(totalLeads.length / pageSize) }} de {{ totalLeads.length }}</span>
+                            <i class="email-prev bx bx-chevron-left scaleX-n1-rtl cursor-pointer text-muted me-4 fs-4"
+                                @click="prevPag"></i>
                             <i class="email-next bx bx-chevron-right scaleX-n1-rtl cursor-pointer fs-4"
                                 @click="nextPag"></i>
                         </div>
@@ -151,7 +152,8 @@ export default {
             clients: [],
             pageSize: 10,
             standBy: [],
-            startPage: 0
+            startPage: 0,
+            title: ''
         }
     },
     methods: {
@@ -159,17 +161,24 @@ export default {
             this.startPage++
             this.myLeads = this.totalLeads.slice(this.startPage * this.pageSize, (this.startPage + 1) * this.pageSize)
         },
+        prevPag() {
+            this.startPage--
+            this.myLeads = this.totalLeads.slice(this.startPage * this.pageSize, (this.startPage - 1) * this.pageSize)
+        },
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY')
         },
         filterStandBy() {
-            this.myLeads = this.standBy
+            this.totalLeads = this.standBy
+            this.myLeads = this.standBy.slice(0, 10)
+            this.title = 'Stand By'
         },
         getAllMyLeads() {
+            this.title = 'Mis Leads'
             axios.get('/api/my-leads/' + this.store.authUser.id)
                 .then((res) => {
                     this.totalLeads = res.data.customers
-                    this.myLeads = res.data.customers.slice(0, 10)
+                    this.myLeads = this.totalLeads.slice(0, 10)
                     this.todayLeads = res.data.customersToday
                     this.clients = res.data.clients
                     this.standBy = res.data.standBy

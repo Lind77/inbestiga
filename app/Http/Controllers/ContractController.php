@@ -266,7 +266,7 @@ class ContractController extends Controller
                 'type' => $prod['type'],
                 'description' => '-',
                 'price' => $prod['price'],
-                'level' => $prod['level'],
+                'level' => intval($prod['level']) - 1,
                 'mode' => $prod['mode']
             ]);
         }
