@@ -256,7 +256,7 @@ class OrderController extends Controller
                 'description' => '-',
                 'price' => $prod['price'],
                 'extra_price' => $prod['extra_price'],
-                'level' => $prod['level']
+                'level' => intval($prod['level']) - 1
             ]);
         }
         $quotation->update([

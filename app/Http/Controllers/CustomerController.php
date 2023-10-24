@@ -456,7 +456,7 @@ class CustomerController extends Controller
 
         $clients = Customer::where('status', 11)->get();
 
-        $standBy = Customer::where('status', 0)->get();
+        $standBy = Customer::where('status', 0)->orderBy('name', 'asc')->get();
 
         return response()->json([
             'customers' => $customers,
