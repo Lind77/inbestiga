@@ -6,7 +6,7 @@
         <div class="card p-2">
             <div class="row">
                 <div class="col-2">
-                    <button class="btn btn-primary w-100">Agregar</button>
+
 
                     <ul class="email-filter-folders list-unstyled pb-1 pt-2">
                         <li class="d-flex py-1 justify-content-between active" data-target="inbox">
