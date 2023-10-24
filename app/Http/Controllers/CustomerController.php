@@ -450,16 +450,19 @@ class CustomerController extends Controller
     public function getAllMyLeads($id)
     {
         $today = date('Y-m-d');
-        $customersToday = Customer::where('user_id', $id)->where('created_at', 'like', '%' . $today . '%')->get();
+        $customersToday = Customer::where('user_id', $id)->where('created_at', 'like', '%' . $today . '%')->orderBy('id', 'desc')->get();
 
-        $customers = Customer::where('user_id', $id)->orderBy('updated_at', 'desc')->get();
+        $customers = Customer::where('user_id', $id)->orderBy('id', 'desc')->get();
 
         $clients = Customer::where('status', 11)->get();
+
+        $standBy = Customer::where('status', 0)->get();
 
         return response()->json([
             'customers' => $customers,
             'customersToday' => $customersToday,
-            'clients' => $clients
+            'clients' => $clients,
+            'standBy' => $standBy
         ]);
     }
 
