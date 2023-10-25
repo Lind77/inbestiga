@@ -4,7 +4,7 @@
       <!-- <span v-if="store.rol == 'AdminAcad'" class="badge bg-label-primary me-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#projectModal">+</span> -->
     </h4>
     <div class="row">
-      <div class="col-md-4" id="clientArea" @drop="drop" @dragover="allowDrop">
+      <!-- <div class="col-md-4" id="clientArea" @drop="drop" @dragover="allowDrop">
         <p class="fw-bold h5">Experiencia</p>
         <div class="container-cards" v-for="project in projects">
           <div v-if="project.status == 0">
@@ -12,7 +12,7 @@
           </div>
         </div>
 
-      </div>
+      </div> -->
       <div class="col-md-4" id="directionArea" @drop="drop" @dragover="allowDrop">
         <p class="fw-bold h5">Dirección académica</p>
         <div class="container-cards" v-for="project in projects">

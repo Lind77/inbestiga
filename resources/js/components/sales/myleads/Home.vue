@@ -1,33 +1,49 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
 
-        <h4 class="fw-bold py-3 mb-2">{{ title + '(' + totalLeads.length + ')' }}</h4>
+        <h4 class="fw-bold py-3 mb-2">{{ title }} ({{ numberLeads }})</h4>
 
         <div class="card p-2">
             <div class="row">
                 <div class="col-2">
-
-
                     <ul class="email-filter-folders list-unstyled pb-1 pt-2">
                         <li class="d-flex py-1 justify-content-between active" data-target="inbox">
-                            <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center">
+                            <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center"
+                                @click="filterCustomers(1)">
                                 <i class="bx bx-user"></i>
-                                <span class="align-middle ms-2" @click="filterClients">Contrato</span>
+                                <span class="align-middle ms-2">Leads</span>
                             </a>
-                            <div class="badge bg-label-primary rounded-pill">{{ clients.length }}</div>
+                            <div class="badge bg-label-primary rounded-pill">{{ numbersFullLeads }}</div>
+                        </li>
+                        <li class="d-flex py-1 justify-content-between active" data-target="inbox">
+                            <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center"
+                                @click="filterCustomers(2)">
+                                <i class="bx bx-user"></i>
+                                <span class="align-middle ms-2">Mis Leads</span>
+                            </a>
+                            <div class="badge bg-label-primary rounded-pill">{{ myLeads.length }}</div>
+                        </li>
+                        <li class="d-flex py-1 justify-content-between active" data-target="inbox">
+                            <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center"
+                                @click="filterCustomers(3)">
+                                <i class="bx bx-user"></i>
+                                <span class="align-middle ms-2">Contrato</span>
+                            </a>
+                            <div class="badge bg-label-primary rounded-pill">{{ contracts.length }}</div>
                         </li>
                         <li class="d-flex py-1 justify-content-between active" data-target="inbox">
                             <a href="javascript:void(0);" class="d-flex flex-wrap  align-items-center"
-                                @click="filterStandBy">
+                                @click="filterCustomers(4)">
                                 <i class="bx bx-user"></i>
                                 <span class="align-middle ms-2">Stand By</span>
                             </a>
                             <div class="badge bg-label-primary rounded-pill">{{ standBy.length }}</div>
                         </li>
                         <li class="d-flex py-1 justify-content-between active" data-target="inbox">
-                            <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center" @click="filterToday">
+                            <a href="javascript:void(0);" class="d-flex flex-wrap align-items-center"
+                                @click="filterCustomers(5)">
                                 <i class="bx bx-user"></i>
-                                <span class="align-middle ms-2" @click="filterClients">De Hoy</span>
+                                <span class="align-middle ms-2">De Hoy</span>
                             </a>
                             <div class="badge bg-label-primary rounded-pill">{{ todayLeads.length }}</div>
                         </li>
@@ -70,8 +86,8 @@
                         <div
                             class="email-pagination d-sm-flex d-none align-items-center flex-wrap justify-content-between justify-sm-content-end">
                             <span class="d-sm-block d-none mx-3 text-muted">{{ startPage + 1 }}-{{
-                                Math.floor(totalLeads.length / pageSize) }} de {{ totalLeads.length }}</span>
-                            <i class="email-prev bx bx-chevron-left scaleX-n1-rtl cursor-pointer text-muted me-4 fs-4"
+                                Math.floor(numberLeads / pageSize) }} de {{ numberLeads }}</span>
+                            <i :class="`email-prev bx bx-chevron-left scaleX-n1-rtl cursor-pointer  me-4 fs-4 ${startPage == 0 ? 'text-muted' : ''}`"
                                 @click="prevPag"></i>
                             <i class="email-next bx bx-chevron-right scaleX-n1-rtl cursor-pointer fs-4"
                                 @click="nextPag"></i>
@@ -80,7 +96,7 @@
                     <div class="email-list pt-0 ps ps--active-y">
                         <ul class="list-unstyled m-0">
                             <li class="email-list-item email-marked-read d-block py-3" data-starred="true"
-                                data-bs-toggle="sidebar" data-target="#app-email-view" v-for="lead in myLeads">
+                                data-bs-toggle="sidebar" data-target="#app-email-view" v-for="lead in showLeads">
                                 <div class="d-flex align-items-center">
                                     <div class="email-list-item-content ps-3 ms-2 ms-sm-0 me-2">
                                         <span class="email-list-item-username me-2 h6">{{ lead.name }}</span>
@@ -100,18 +116,7 @@
                         <ul class="list-unstyled m-0">
                             <li class="email-list-empty text-center d-none">No items found.</li>
                         </ul>
-                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
-                            <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
-                        </div>
-                        <div class="ps__rail-y" style="top: 0px; height: 414px; right: 0px;">
-                            <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 264px;"></div>
-                        </div>
-                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
-                            <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
-                        </div>
-                        <div class="ps__rail-y" style="top: 0px; height: 414px; right: 0px;">
-                            <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 264px;"></div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -153,17 +158,53 @@ export default {
             pageSize: 10,
             standBy: [],
             startPage: 0,
-            title: ''
+            title: '',
+            numberLeads: 0,
+            numbersFullLeads: 0,
+            customers: [],
+            leads: [],
+            contracts: [],
+            showLeads: []
         }
     },
     methods: {
+        filterCustomers(i) {
+            this.startPage = 0
+            var arraysTitles = {
+                1: 'Leads',
+                2: 'Mis Leads',
+                3: 'Contrato',
+                4: 'Stand By',
+                5: 'De Hoy'
+            }
+
+            this.title = arraysTitles[i]
+
+            var arraysLeads = {
+                1: this.leads,
+                2: this.myLeads,
+                3: this.contracts,
+                4: this.standBy,
+                5: this.todayLeads
+            }
+            this.totalLeads = arraysLeads[i]
+
+            i != 1 ? this.numberLeads = arraysLeads[i].length : this.numberLeads = this.numbersFullLeads
+
+            this.showLeads = arraysLeads[i].slice(0, 10)
+        },
         nextPag() {
             this.startPage++
-            this.myLeads = this.totalLeads.slice(this.startPage * this.pageSize, (this.startPage + 1) * this.pageSize)
+            this.showLeads = this.totalLeads.slice(this.startPage * this.pageSize, (this.startPage + 1) * this.pageSize)
         },
         prevPag() {
-            this.startPage--
-            this.myLeads = this.totalLeads.slice(this.startPage * this.pageSize, (this.startPage - 1) * this.pageSize)
+            if (this.startPage > 1 && this.startPage != 0) {
+                this.startPage--
+                this.showLeads = this.totalLeads.slice((this.startPage - 1) * this.pageSize, this.startPage * this.pageSize)
+            } else if (this.startPage == 1) {
+                this.startPage--
+                this.showLeads = this.totalLeads.slice(0, 10)
+            }
         },
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY')
@@ -181,11 +222,13 @@ export default {
             this.title = 'Mis Leads'
             axios.get('/api/my-leads/' + this.store.authUser.id)
                 .then((res) => {
-                    this.totalLeads = res.data.customers
-                    this.myLeads = this.totalLeads.slice(0, 10)
-                    this.todayLeads = res.data.customersToday
-                    this.clients = res.data.clients
+                    this.leads = res.data.customers
+                    this.numbersFullLeads = res.data.countLeads
+                    this.myLeads = res.data.customers
+                    this.contracts = res.data.clients
                     this.standBy = res.data.standBy
+                    this.todayLeads = res.data.customersToday
+                    this.filterCustomers(1)
                 })
                 .catch((err) => {
                     console.error(err)
