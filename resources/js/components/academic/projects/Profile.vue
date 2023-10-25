@@ -94,8 +94,6 @@
                                     <input type="text" v-model="newQuestion.answer" class="form-control">
                                 </div>
                             </template>
-
-
                             <!--  <p class="mt-2"><button class="btn btn-primary">Link a Drive</button></p> -->
                             <template v-for="newQuestion in newQuestions">
                                 <div class="col-4 mt-2" v-if="newQuestion.type == 0">
@@ -107,8 +105,6 @@
                                     </div>
                                 </div>
                             </template>
-
-
                         </div>
                         <div class="row mt-2">
                             <div class="col-4">

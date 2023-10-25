@@ -24,6 +24,7 @@
               <router-link :to="{ name: 'profile-acad', params: { idProject: project.propertiable.id } }">
                 <i class='bx bx-file text-success'></i>
               </router-link>
+              <i class='bx bx-check-double text-info cursor-pointer' @click="showModalAssignation"></i>
             </div>
           </div>
 
@@ -45,6 +46,7 @@
   </div>
   <OffCanvas :project_selected="project_selected" @getAllProjects="getAllProjectsAcad" />
   <QualityModal :qualityActivities="qualityActivities" />
+  <TeamModal />
 </template>
 
 <script>
@@ -52,6 +54,7 @@ import { userStore } from '../../../stores/UserStore'
 import CardProject from './CardProject.vue'
 import OffCanvas from './OffCanvas.vue'
 import QualityModal from './QualityModal.vue'
+import TeamModal from './TeamModal.vue'
 
 export default {
   setup() {
@@ -60,7 +63,7 @@ export default {
       store
     }
   },
-  components: { CardProject, OffCanvas, QualityModal },
+  components: { CardProject, OffCanvas, QualityModal, TeamModal },
   data() {
     return {
       projects: [],
@@ -74,6 +77,9 @@ export default {
     }
   },
   methods: {
+    showModalAssignation() {
+      $('#teamModal').modal('show')
+    },
     showQualityModal(qualityActivities) {
       this.qualityActivities = qualityActivities
       $('#qualityModal').modal('show')
