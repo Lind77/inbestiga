@@ -199,8 +199,10 @@ export default {
         },
         prevPag() {
             if (this.startPage > 1 && this.startPage != 0) {
-                this.startPage--
+                console.log(this.startPage)
                 this.showLeads = this.totalLeads.slice((this.startPage - 1) * this.pageSize, this.startPage * this.pageSize)
+                this.startPage--
+
             } else if (this.startPage == 1) {
                 this.startPage--
                 this.showLeads = this.totalLeads.slice(0, 10)
