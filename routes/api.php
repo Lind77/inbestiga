@@ -260,6 +260,7 @@ Route::put('/permissions/{id}', [UserController::class, 'updatePermission']);
 Route::post('/permission-sync', [UserController::class, 'syncPermission']);
 Route::post('/permission-sync-role', [UserController::class, 'syncRole']);
 Route::post('/permission-sync-user', [UserController::class, 'syncPermissionUser']);
+Route::get('/academic-users', [UserController::class, 'academicUsers']);
 
 Route::get('/meetings', [MeetingController::class, 'index']);
 Route::post('/meetings', [MeetingController::class, 'store']);

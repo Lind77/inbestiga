@@ -148,4 +148,12 @@ class UserController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function academicUsers()
+    {
+
+        $users = User::where('subarea_id', 4)->get();
+
+        return response()->json($users);
+    }
 }
