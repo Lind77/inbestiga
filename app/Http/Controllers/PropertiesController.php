@@ -110,7 +110,7 @@ class PropertiesController extends Controller
 
     public function properties()
     {
-        $projects = Project::where('status', 1)->with('projectable', 'projectable.properties')->get();
-        return $projects;
+        $properties = Property::orderBy('id', 'desc')->with(['propertiable', 'propertiable.quotation', 'propertiable.quotation.customers'])->get();
+        return $properties;
     }
 }

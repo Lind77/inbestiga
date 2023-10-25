@@ -1,6 +1,6 @@
 <template>
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4">Seguimiento de Proyectos
+    <h4 class="fw-bold py-3">Proyectos
       <!-- <span v-if="store.rol == 'AdminAcad'" class="badge bg-label-primary me-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#projectModal">+</span> -->
     </h4>
     <div class="row">
@@ -13,14 +13,26 @@
         </div>
 
       </div> -->
+
       <div class="col-md-4" id="directionArea" @drop="drop" @dragover="allowDrop">
-        <p class="fw-bold h5">Dirección académica</p>
         <div class="container-cards" v-for="project in projects">
-          <div v-if="project.status == 1">
-            <CardProject :project="project" @getAllProjects="getAllProjectsAcad" />
+          <div class="card">
+            <div class="card-body">
+              <h5 v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
+                {{ customer.name }}
+              </h5>
+              <router-link :to="{ name: 'profile-acad', params: { idProject: project.propertiable.id } }">
+                <i class='bx bx-file text-success'></i>
+              </router-link>
+            </div>
           </div>
+
+          <!--  <div v-if="project.status == 1">
+            <CardProject :project="project" @getAllProjects="getAllProjectsAcad" />
+          </div> -->
         </div>
       </div>
+      <!-- 
       <div class="col-md-4" id="qualityArea" @drop="drop" @dragover="allowDrop">
         <p class="fw-bold h5">Calidad académica</p>
         <div class="container-cards" v-for="project in projects">
@@ -28,7 +40,7 @@
             <CardProject :project="project" @getAllProjects="getAllProjectsAcad" @showQualityModal="showQualityModal" />
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <OffCanvas :project_selected="project_selected" @getAllProjects="getAllProjectsAcad" />
