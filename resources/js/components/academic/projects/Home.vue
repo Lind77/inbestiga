@@ -14,8 +14,8 @@
 
       </div> -->
 
-      <div class="col-md-4" id="directionArea" @drop="drop" @dragover="allowDrop">
-        <div class="container-cards" v-for="project in projects">
+      <div class="col-md-4" id="directionArea" v-for="project in projects">
+        <div class="container-cards">
           <div class="card">
             <div class="card-body">
               <h5 v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
