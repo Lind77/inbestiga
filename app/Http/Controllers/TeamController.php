@@ -18,7 +18,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $teams = Team::with(['memoirs','memoirs.user'])->get();
+        $teams = Team::all();
 
         return response()->json($teams);
     }
@@ -28,9 +28,15 @@ class TeamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $team = Team::create([
+            'name' => $request->get('name')
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     /**
@@ -89,12 +95,13 @@ class TeamController extends Controller
         //
     }
 
-    public function assignTeam(Request $request){
+    public function assignTeam(Request $request)
+    {
         $project =  Project::find($request->get('project_id'));
         $project->update([
             'team_id' => $request->get('team_selected')
         ]);
-        
+
         $activity = Activity::with('progresses')->find($request->get('activity_id'));
 
         $progress = $activity->progresses()->first();
