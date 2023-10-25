@@ -2,7 +2,8 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold">Equipos <span @click="changeVisibility"
                 class="badge bg-label-primary me-1 cursor-pointer">+</span></h4>
-        <input v-if="visible" class="form-control w-25 mb-3" type="text" placeholder="Nombre del equipo" />
+        <input v-if="visible" class="form-control w-25 mb-3" type="text" placeholder="Nombre del equipo" v-model="name"
+            @keyup.enter="insertTeam" />
         <div class="row">
             <div class="col-md-4" v-for="team in teams">
                 <div class="card bg-primary text-white mb-3">
@@ -28,7 +29,8 @@ export default {
     data() {
         return {
             visible: false,
-            teams: []
+            teams: [],
+            name: ''
         }
     },
     methods: {
@@ -43,6 +45,19 @@ export default {
                 .catch(err => {
                     console.log(err)
                 })
+        },
+        insertTeam() {
+            const fd = new FormData()
+            fd.append('name', this.name)
+
+            axios.post('/api/teams', fd)
+                .then((result) => {
+                    this.visible = false
+                    this.name = ''
+                    this.getAllTeams()
+                }).catch((err) => {
+                    console.error(err)
+                });
         }
     },
     mounted() {
