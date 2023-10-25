@@ -456,13 +456,19 @@ class CustomerController extends Controller
 
         $clients = Customer::where('status', 11)->get();
 
+        $leads = Customer::where('status', '>', 4)->where('status', '<', 11)->get();
+        $countLeads = $leads->count();
+        $leadsFirstTen = Customer::where('status', '>', 4)->take(10);
+
         $standBy = Customer::where('status', 0)->orderBy('name', 'asc')->get();
 
         return response()->json([
             'customers' => $customers,
             'customersToday' => $customersToday,
             'clients' => $clients,
-            'standBy' => $standBy
+            'standBy' => $standBy,
+            'countLeads' => $countLeads,
+            'leadsFirstTen' => $leadsFirstTen
         ]);
     }
 
