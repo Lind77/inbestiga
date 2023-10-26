@@ -110,7 +110,7 @@ class PropertiesController extends Controller
 
     public function properties()
     {
-        $properties = Property::orderBy('id', 'desc')->with(['propertiable', 'propertiable.quotation', 'propertiable.quotation.customers'])->get();
+        $properties = Property::orderBy('id', 'desc')->with(['propertiable', 'propertiable.projects', 'propertiable.projects.team', 'propertiable.quotation', 'propertiable.quotation.customers'])->get();
         return $properties;
     }
 }

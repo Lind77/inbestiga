@@ -97,17 +97,11 @@ class TeamController extends Controller
 
     public function assignTeam(Request $request)
     {
-        $project =  Project::find($request->get('project_id'));
+        $project =  Project::where('projectable_id', $request->get('contract_id'))
+            ->where('projectable_type', 'App\\Models\\Contract')
+            ->first();
         $project->update([
             'team_id' => $request->get('team_selected')
-        ]);
-
-        $activity = Activity::with('progresses')->find($request->get('activity_id'));
-
-        $progress = $activity->progresses()->first();
-
-        $progress->update([
-            'percentage' => 100
         ]);
 
         return response()->json([
