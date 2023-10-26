@@ -11,7 +11,7 @@
         </div>
         <div class="row mt-2">
             <div class="col-md-4" v-for="team in teams">
-                <div class="card bg-primary text-white mb-3" @drop="drop" @dragenter.prevent @dragover.prevent>
+                <div class="card bg-primary text-white mb-3">
                     <div class="card-body">
                         <h5 class="card-title text-white">Equipo {{ team.name }}</h5>
                         <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
@@ -19,6 +19,9 @@
                                 <li class="avatar avatar-sm pull-up" :title="memoir.user.name">
                                     <span class="avatar-initial rounded-circle bg-primary">{{ memoir.user.name[0] }}</span>
                                 </li>
+                            </div>
+                            <div class="w-100 py-1" @drop="drop" @dragenter.prevent @dragover.prevent>
+
                             </div>
                         </ul>
                     </div>
@@ -40,6 +43,13 @@ export default {
         }
     },
     methods: {
+        drag(e) {
+            e.dataTransfer.setData('text', e.target.id)
+        },
+        drop(e) {
+            let areaId = e.dataTransfer.getData('text')
+            e.target.appendChild(document.getElementById(areaId))
+        },
         changeVisibility() {
             this.visible = !this.visible;
         },
