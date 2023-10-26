@@ -29,12 +29,9 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
-
 export default {
     props: {
-        project: Object,
-        activity: Object
+        contract: Number
     },
     data() {
         return {
@@ -45,21 +42,17 @@ export default {
     methods: {
         assignTeam() {
             const fd = new FormData()
-
-            fd.append('project_id', this.project.id)
+            fd.append('contract_id', this.contract)
             fd.append('team_selected', this.team_selected)
-            fd.append('activity_id', this.activity.id)
             axios.post('/api/assignTeam', fd)
                 .then(res => {
                     console.log(res)
                     $('#teamModal').modal('hide')
-                    this.$emit('colorActivity', this.activity)
-                    this.$emit('updateProgress', this.activity)
+                    this.$emit('getAllProjectsAcad')
                 })
                 .catch(err => {
                     console.error(err)
                 })
-
         },
         getAllTeams() {
             axios.get('/api/getAllTeams')
@@ -74,6 +67,5 @@ export default {
     mounted() {
         this.getAllTeams()
     }
-
 }
 </script>

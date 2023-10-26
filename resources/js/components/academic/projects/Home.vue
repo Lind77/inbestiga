@@ -21,10 +21,11 @@
               <h5 v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
                 {{ customer.name }}
               </h5>
+              <p v-if="project.propertiable.projects[0].team">Equipo: {{ project.propertiable.projects[0].team.name }}</p>
               <router-link :to="{ name: 'profile-acad', params: { idProject: project.propertiable.id } }">
                 <i class='bx bx-file text-success'></i>
               </router-link>
-              <i class='bx bx-check-double text-info cursor-pointer' @click="showModalAssignation"></i>
+              <i class='bx bx-check-double text-info cursor-pointer' @click="showModalAssignation(project)"></i>
             </div>
           </div>
 
@@ -44,9 +45,9 @@
       </div> -->
     </div>
   </div>
-  <OffCanvas :project_selected="project_selected" @getAllProjects="getAllProjectsAcad" />
+  <!-- <OffCanvas :project_selected="project_selected" @getAllProjects="getAllProjectsAcad" /> -->
   <QualityModal :qualityActivities="qualityActivities" />
-  <TeamModal />
+  <TeamModal :contract="contractId" @getAllProjectsAcad="getAllProjectsAcad" />
 </template>
 
 <script>
@@ -73,11 +74,14 @@ export default {
       products: [],
       project_selected: {},
       activities: [],
-      qualityActivities: []
+      qualityActivities: [],
+      contractId: 0
     }
   },
   methods: {
-    showModalAssignation() {
+    showModalAssignation(project) {
+      console.log(project.propertiable_id);
+      this.contractId = project.propertiable_id;
       $('#teamModal').modal('show')
     },
     showQualityModal(qualityActivities) {
