@@ -334,6 +334,7 @@ export default {
     this.getUsers()
     this.getNoSeenNotifications()
 
+
     Echo.private(`message.${this.store.authUser.id}`)
       .listen('NewMessage', (e) => {
         console.log(e.message)
@@ -354,12 +355,12 @@ export default {
 
 
     if (this.store.authUser.roles[0].name == 'Seller') {
-      Echo.private('documents')
+      /* Echo.private('documents')
         .listen('NewDocument', (e) => {
           this.updateNotifications()
-        })
+        }) */
 
-      Echo.private(`leads.${this.store.authUser.id}`)
+      /* Echo.private(`leads.${this.store.authUser.id}`)
         .listen('NewLead', (e) => {
           console.log('new lead realtime')
           this.updateNotifications()
@@ -371,7 +372,7 @@ export default {
             }).catch((err) => {
 
             });
-        })
+        }) */
     }
 
     /* if (this.store.authUser.roles[0].name == 'Experience') {
