@@ -22,22 +22,25 @@ import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
 //console.log(localStorage.getItem('token'))
-
-window.Pusher = Pusher;
- 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    encrypted: true,
-    forceTLS: true,
-    authEndpoint: import.meta.env.VITE_AUTH_ENDPOINT,
-    auth:{
+setTimeout(() => {
+  
+    //console.log(localStorage.getItem('token'))
+  
+    window.Pusher = Pusher;
+  
+    window.Echo = new Echo({
+      broadcaster: 'pusher',
+      key: import.meta.env.VITE_PUSHER_APP_KEY,
+      cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+      encrypted: true,
+      forceTLS: true,
+      authEndpoint: import.meta.env.VITE_AUTH_ENDPOINT,
+      auth:{
         headers:{
-            'Authorization': 'Bearer '+localStorage.getItem('token'),
-            'X-CSRF-Token': window.Laravel.csrfToken
+          'Authorization': 'Bearer '+localStorage.getItem('token'),
+          'X-CSRF-Token': window.Laravel.csrfToken
         }
-    }
-})
-
-
+      }
+    });
+  }, 3000); // 3000 milisegundos = 3 segundos
+  
