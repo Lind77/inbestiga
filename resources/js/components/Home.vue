@@ -60,12 +60,12 @@ export default {
         }
     },
     mounted() {
-        /* if (localStorage.getItem('reloaded')) {
+        if (localStorage.getItem('reloaded')) {
             localStorage.removeItem('reloaded');
         } else {
             localStorage.setItem('reloaded', '1');
             location.reload();
-        } */
+        }
     }
 }
 </script>
