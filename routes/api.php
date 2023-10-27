@@ -224,6 +224,7 @@ Route::get('/removeQualityActivity/{id}', [ProgressController::class, 'removeQua
 
 Route::get('/getAllTeams', [TeamController::class, 'index']);
 Route::post('/assignTeam', [TeamController::class, 'assignTeam']);
+Route::post('/user-team', [TeamController::class, 'updateUserTeam']);
 Route::post('/teams', [TeamController::class, 'create']);
 
 Route::get('/getNotifications', [NotificationController::class, 'index']);
