@@ -7,6 +7,7 @@ use App\Http\Requests\StoreTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
 use App\Models\Activity;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TeamController extends Controller
@@ -104,6 +105,17 @@ class TeamController extends Controller
             'team_id' => $request->get('team_selected')
         ]);
 
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function updateUserTeam(Request $request)
+    {
+        $user = User::find($request->get('userId'));
+        $user->update([
+            'team_id' => $request->get('teamId')
+        ]);
         return response()->json([
             'msg' => 'success'
         ]);
