@@ -20,7 +20,7 @@
                                     <span class="avatar-initial rounded-circle bg-primary">{{ memoir.user.name[0] }}</span>
                                 </li>
                             </div>
-                            <div class="w-100 py-1" @drop="drop" @dragenter.prevent @dragover.prevent>
+                            <div :id="team.id" class="w-100 py-1" @drop="drop" @dragenter.prevent @dragover.prevent>
 
                             </div>
                         </ul>
@@ -47,8 +47,20 @@ export default {
             e.dataTransfer.setData('text', e.target.id)
         },
         drop(e) {
-            let areaId = e.dataTransfer.getData('text')
-            e.target.appendChild(document.getElementById(areaId))
+            let userId = e.dataTransfer.getData('text')
+
+            const fd = new FormData()
+            fd.append('userId', userId)
+            fd.append('teamId', e.target.id)
+
+            axios.post('/api/user-team', fd)
+                .then((result) => {
+                    e.target.appendChild(document.getElementById(userId))
+                }).catch((err) => {
+                    console.error(err)
+                });
+            console.log(userId, e.target.id);
+
         },
         changeVisibility() {
             this.visible = !this.visible;
