@@ -9,7 +9,7 @@ class Detail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['quotation_id', 'product_id', 'description', 'type', 'price', 'extra_price', 'level', 'mode'];
+    protected $fillable = ['quotation_id','name', 'product_id', 'description', 'type', 'price', 'extra_price', 'level', 'mode'];
 
     //Relacion inversa uno a muchos Quotation detil
     public function quotation()
