@@ -1,11 +1,16 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row invoice-add">
-            <div class="col-lg-9 col-12 mb-lg-0 mb-4">
+            <div class="col-lg-12 col-12 mb-lg-0 mb-4">
                 <div class="card invoice-preview-card">
                     <div class="card-body">
                         <div class="row">
-                            <span class="h5 mt-2 demo text-body fw-bold">1. Información General </span>
+                            <div class="col-12">
+                                <span class="h5 mt-2 demo text-body fw-bold">1. Información General - {{
+                                    branchInvestigation }} </span>
+
+                            </div>
+
                             <div class="col-6">
                                 <div class="card p-2 shadow-none bg-info text-white mb-3">
 
@@ -56,7 +61,7 @@
                                             <template v-for="newQuestion in newQuestions">
                                                 <td v-if="newQuestion.type == 2">
                                                     <input type="checkbox" class="form-check-input"
-                                                        v-model="newQuestion.answer">
+                                                        v-model="newQuestion.answer" onclick="return false;">
                                                 </td>
                                             </template>
                                         </tr>
@@ -78,9 +83,10 @@
                                     title="Comunicaciones">
                                     <i class="bx bx-chat"></i>
                                 </button>
-                                <button class="btn btn-icon btn-primary mx-1" title="Link de Google Drive">
-                                    <i class='bx bxl-google-cloud'></i>
-                                </button>
+                                <a v-if="linkDrive != ''" target="_blank" :href="linkDrive.answer"
+                                    class="btn btn-primary mx-1" title="Link de Google Drive">
+                                    Link de Drive
+                                </a>
                             </span>
 
                             <span v-if="customer.user" class="bg-info rounded w-auto p-2 text-white fw-bold">
@@ -90,8 +96,9 @@
                         <div class="row">
                             <template v-for="newQuestion in newQuestions">
                                 <div class="col-4" v-if="newQuestion.type == 3">
-                                    <p class="mb-1">{{ newQuestion.question }}</p>
-                                    <input type="text" v-model="newQuestion.answer" class="form-control">
+                                    <p class="mb-1 fw-bold">{{ newQuestion.question }}</p>
+                                    <p>{{ newQuestion.answer }}</p>
+
                                 </div>
                             </template>
                             <!--  <p class="mt-2"><button class="btn btn-primary">Link a Drive</button></p> -->
@@ -115,7 +122,8 @@
                                             <template v-if="newQuestion.type == 4 && newQuestion.subtype == 'a'">
                                                 <div class="form-check mt-3">
                                                     <input class="form-check-input" type="checkbox"
-                                                        v-model="newQuestion.answer" id="defaultCheck1">
+                                                        v-model="newQuestion.answer" id="defaultCheck1"
+                                                        onclick="return false;">
                                                     <label class="form-check-label" for="defaultCheck1"> {{
                                                         newQuestion.question }}</label>
                                                 </div>
@@ -133,7 +141,8 @@
                                             <template v-if="newQuestion.type == 4 && newQuestion.subtype == 'b'">
                                                 <div class="form-check mt-3">
                                                     <input class="form-check-input" type="checkbox"
-                                                        v-model="newQuestion.answer" id="defaultCheck1">
+                                                        v-model="newQuestion.answer" id="defaultCheck1"
+                                                        onclick="return false;">
                                                     <label class="form-check-label" for="defaultCheck1"> {{
                                                         newQuestion.question }}</label>
                                                 </div>
@@ -151,7 +160,8 @@
                                             <template v-if="newQuestion.type == 4 && newQuestion.subtype == 'c'">
                                                 <div class="form-check mt-3">
                                                     <input class="form-check-input" type="checkbox"
-                                                        v-model="newQuestion.answer" id="defaultCheck1">
+                                                        v-model="newQuestion.answer" id="defaultCheck1"
+                                                        onclick="return false;">
                                                     <label class="form-check-label" for="defaultCheck1"> {{
                                                         newQuestion.question }}</label>
                                                 </div>
@@ -163,32 +173,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3">
-                <!-- <div class="card invoice-preview-card">
-                    <div class="card-body">
-                        <span class="h5 mt-2 demo text-body fw-bold">4. Información Adicional</span>
-                        <template v-if="doc.properties">
-                            <template v-for="property in doc.properties">
-                                <template v-if="property.properties">
-                                    <p v-for="prop in  JSON.parse(property.properties)" class="text-capitalize">
-                                        {{
-                                            prop.name }}:{{ prop.val }}</p>
-                                </template>
-                            </template>
-                        </template>
-                        <button class="btn btn-icon btn-success" @click="addNewField"><i class="bx bx-plus"></i></button>
-                        <template v-for="newField in newFields">
-                            <div class="d-flex">
-                                <input type="text" class="form-control" v-model="newField.name">
-                                :
-                                <input type="text" class="form-control" v-model="newField.val">
-                            </div>
-                        </template>
-                        <br>
-                        <button class="btn btn-success w-100 mt-2" @click="saveFields">Almacenar</button>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
@@ -381,7 +365,9 @@ export default {
                 1: 'Llamar',
                 2: 'Escribir',
                 3: 'Meet'
-            }
+            },
+            linkDrive: '',
+            branchInvestigation: ''
         }
     },
     methods: {
@@ -392,8 +378,28 @@ export default {
                     this.customer = this.quotation.customers[0]
                     console.log(result.data)
                     this.newQuestions = JSON.parse(result.data.properties[0].properties)
-                }).catch((err) => {
+                    var linkDriveFounded = this.newQuestions.find(question => question.type == 5 && question.answer != '')
 
+                    if (linkDriveFounded) {
+                        this.linkDrive = linkDriveFounded
+                    }
+
+                    var branchInvestigation = this.newQuestions.find(question => question.type == 6 && question.answer != 0)
+
+                    if (branchInvestigation) {
+
+                        var branchs = {
+                            1: 'Ingeniería',
+                            2: 'Ciencias Médicas',
+                            3: 'Derecho',
+                            4: 'Ciencias Contables'
+                        }
+
+                        this.branchInvestigation = branchs[branchInvestigation.answer]
+                    }
+
+                }).catch((err) => {
+                    console.error(err)
                 });
         },
         openComunicationsModal() {

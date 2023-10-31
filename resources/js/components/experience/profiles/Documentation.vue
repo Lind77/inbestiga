@@ -84,16 +84,6 @@
                                 </button> -->
                                 </span>
                                 <span>
-                                    <template v-for="newQuestion in newQuestions">
-                                        <template v-if="newQuestion.type == 5">
-                                            <div class="input-group my-2">
-                                                <span class="input-group-text" id="basic-addon11"><i
-                                                        class='bx bxl-google'></i></span>
-                                                <input type="text" class="form-control" v-model="newQuestion.answer"
-                                                    placeholder="Link de Drive">
-                                            </div>
-                                        </template>
-                                    </template>
                                 </span>
                             </div>
                             <div>
@@ -104,15 +94,39 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="d-flex mb-3">
+                                <template v-for="newQuestion in newQuestions">
+                                    <template v-if="newQuestion.type == 5">
+                                        <div class="col-6 px-1">
+                                            <p class="mb-1">{{ newQuestion.question }}</p>
+                                            <div class="input-group">
+                                                <span class="input-group-text" id="basic-addon11"><i
+                                                        class='bx bxl-google'></i></span>
+                                                <input type="text" class="form-control" v-model="newQuestion.answer"
+                                                    placeholder="Link de Drive">
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template v-if="newQuestion.type == 6">
+                                        <div class="col-6 px-1">
+                                            <p class="mb-1">{{ newQuestion.question }}</p>
+                                            <select v-model="newQuestion.answer" class="form-select">
+                                                <option value="1">Ingeniería</option>
+                                                <option value="2">Ciencias Médicas</option>
+                                                <option value="3">Derecho</option>
+                                                <option value="4">Ciencias Contables</option>
+                                            </select>
+                                        </div>
+                                    </template>
+                                </template>
+                            </div>
+
                             <template v-for="newQuestion in newQuestions">
                                 <div class="col-4" v-if="newQuestion.type == 3">
                                     <p class="mb-1">{{ newQuestion.question }}</p>
                                     <textarea v-model="newQuestion.answer" class="form-control"></textarea>
                                 </div>
                             </template>
-
-
-                            <!--  <p class="mt-2"><button class="btn btn-primary">Link a Drive</button></p> -->
                             <template v-for="(newQuestion, index) in newQuestions">
                                 <div class="col-4 mt-2" v-if="newQuestion.type == 0">
                                     <div class="card p-2 shadow">
@@ -128,8 +142,6 @@
                                     </div>
                                 </div>
                             </template>
-
-
                         </div>
                         <div class="row mt-2">
                             <div class="col-4">
@@ -203,13 +215,7 @@
                             </template>
                         </template>
                         <button class="btn btn-icon btn-success" @click="addNewField"><i class="bx bx-plus"></i></button> -->
-                        <template v-for="newField in newFields">
-                            <div class="d-flex">
-                                <input type="text" class="form-control" v-model="newField.name">
-                                :
-                                <input type="text" class="form-control" v-model="newField.val">
-                            </div>
-                        </template>
+
                         <br>
                         <button class="btn btn-success w-100 mt-2" v-if="docType == 1"
                             @click="saveFields">Almacenar</button>
@@ -407,6 +413,11 @@ export default {
                     question: 'Link de Drive',
                     answer: '',
                     type: 5
+                },
+                {
+                    question: 'Rama de investigación',
+                    answer: 0,
+                    type: 6
                 }
             ],
             comunications: [],
@@ -448,12 +459,21 @@ export default {
                         this.newQuestions = JSON.parse(this.quotation.contract.properties[0].properties)
                         this.docType = 2
                         var findDriveField = this.newQuestions.find(question => question.type == 5)
+                        var findBranchInvestigation = this.newQuestions.find(question => question.type == 6)
 
                         if (!findDriveField) {
                             this.newQuestions.push({
                                 question: 'Link de Drive',
                                 answer: '',
                                 type: 5
+                            })
+                        }
+
+                        if (!findBranchInvestigation) {
+                            this.newQuestions.push({
+                                question: 'Rama de investigación',
+                                answer: 0,
+                                type: 6
                             })
                         }
                     }
