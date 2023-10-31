@@ -81,6 +81,7 @@ class QuotationController extends Controller
                 'level' => intval($prod['level']) - 1,
                 'mode' => $prod['mode'],
                 'extra_price' => $prod['extra_price'],
+                'name' => $prod['product']['name']
             ]);
         }
 
