@@ -96,7 +96,7 @@
                         <td class="table-item ps-2" width="30%" v-if="detail.type <= order.suggested">
                             <template v-if="detail.type <= order.suggested">
                                 <h5 class="fw-bold text-dark m-0 pb-0">{{ detail.product.name }}</h5>
-                                <template v-if="detail.product.id == 58">
+                                <template v-if="detail.product.id == 113">
                                     - 02 propuestas de tema (Opcional)
                                     <br>
                                     - Plan de tesis o proyecto de investigación
