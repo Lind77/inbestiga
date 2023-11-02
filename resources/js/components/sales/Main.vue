@@ -30,8 +30,6 @@
                         <h5 class="card-title m-0 me-2">Comunicaciones Pendientes</h5>
                     </div>
                     <div class="card-body">
-
-                        <!-- Activity Timeline -->
                         <ul class="timeline">
                             <li class="timeline-item timeline-item-transparent" v-for="comunication in comunications">
                                 <span class="timeline-point timeline-point-primary"></span>
@@ -63,7 +61,6 @@
                                 </div>
                             </li>
                         </ul>
-                        <!-- /Activity Timeline -->
                     </div>
                 </div>
             </div>
