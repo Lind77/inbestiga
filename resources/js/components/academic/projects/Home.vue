@@ -4,6 +4,53 @@
       <!-- <span v-if="store.rol == 'AdminAcad'" class="badge bg-label-primary me-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#projectModal">+</span> -->
     </h4>
     <div class="row">
+      <div class="col-xl-12">
+        <div class="nav-align-top mb-4">
+          <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
+            <li class="nav-item">
+              <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                data-bs-target="#navs-pills-justified-home" aria-controls="navs-pills-justified-home"
+                aria-selected="true">
+                <i class="tf-icons bx bx-money"></i> Contables
+              </button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                data-bs-target="#navs-pills-justified-profile" aria-controls="navs-pills-justified-profile"
+                aria-selected="false">
+                <i class="tf-icons bx bx-library"></i> Derecho
+              </button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                data-bs-target="#navs-pills-justified-messages" aria-controls="navs-pills-justified-messages"
+                aria-selected="false">
+                <i class="tf-icons bx bx-buildings"></i> Ingeniería
+              </button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                data-bs-target="#navs-pills-justified-health" aria-controls="navs-pills-justified-health"
+                aria-selected="false">
+                <i class="tf-icons bx bx-plus-medical"></i> Salud
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade active show" id="navs-pills-justified-home" role="tabpanel">
+
+            </div>
+            <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
+            </div>
+            <div class="tab-pane fade" id="navs-pills-justified-health" role="tabpanel">
+            </div>
+            <div class="tab-pane fade" id="navs-pills-justified-health" role="tabpanel">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <!-- <div class="col-md-4" id="clientArea" @drop="drop" @dragover="allowDrop">
         <p class="fw-bold h5">Experiencia</p>
         <div class="container-cards" v-for="project in projects">
