@@ -20,7 +20,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="card p-2 shadow-none bg-success text-white mb-3">
+                                <!--  <div class="card p-2 shadow-none bg-success text-white mb-3">
                                     <div class="card-body">
                                         <p class="mb-2">Documento Firmado: {{ signedDoc }}</p>
                                         <p class="mb-2" v-if="quotation.contract">Aplicación de instrumentos: {{
@@ -31,7 +31,7 @@
                                         </p>
                                         <p class="mb-2">Tipo de cliente: {{ customer.attitude }}</p>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
