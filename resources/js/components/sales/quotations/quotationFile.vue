@@ -71,7 +71,7 @@
                 <tbody v-if="quotation">
                     <tr v-for="detail in quotation.details" class="text-dark">
                         <th class="table-item fw-normal ps-2">{{ detail.product.name }}
-                            <template v-if="detail.product.id == 58">
+                            <template v-if="detail.product.id == 113">
                                 <br>
                                 - 02 propuestas de tema (opcional)
                                 <br>
