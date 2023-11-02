@@ -31,7 +31,7 @@
           </fieldset>
           <div class="row" v-for="(price, index) in prices" :key="index">
             <div class="col-3">
-              Nivel {{ index }}
+              Nivel {{ index + 1 }}
             </div>
             <div class="col-7">
               <input type="number" :placeholder="`Nivel ${index}`" v-model="prices[index]" class="form-control mt-1" />
@@ -53,8 +53,6 @@ export default {
       productType: 0,
       productMode: 0,
       prices: [
-        0,
-        0,
         0,
         0,
         0,
