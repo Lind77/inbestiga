@@ -346,21 +346,17 @@ export default {
 
                         if (schedule.type == 1) {
                             this.abledHours++;
+                            var timeTotal = moment(schedule.departure_time, 'HH:mm:ss').diff(moment(schedule.admission_time, 'HH:mm:ss'))
+                            var minutesTotal = timeTotal / 60000
+
+                            var cantHours = minutesTotal / 60
+
+                            this.totalHours = this.totalHours + cantHours
+
+                            console.log(schedule.admission_time, schedule.departure_time, cantHours)
+
                         } else if (schedule.type == 2) {
                             this.disabledHours++;
-                        }
-
-                        if (schedule.departure_time == newDepartureTime && schedule.type == 1) {
-                            this.totalHours++;
-                        } else {
-                            var timeTotal = moment(schedule.departure_time, 'HH:mm:ss').diff(moment(schedule.admission_time, 'HH:mm:ss'))
-
-                            if (schedule.type == 1) {
-                                var timeConverted = moment.duration(timeTotal)
-                                console.log(timeConverted.minutes())
-                                this.totalHours = this.totalHours + (timeConverted.minutes() / 60)
-                            }
-
                         }
 
                         var daySelected = this.days.find(day => day.numberDay == schedule.day)
