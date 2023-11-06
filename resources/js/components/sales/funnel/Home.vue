@@ -5,11 +5,21 @@
         <DatePicker @filterDate="filterDate" @distributeQuotations="distributeQuotations"
           @getAllQuotations="getAllQuotations" />
       </div>
+
+    </div>
+    <!-- <div class="container-override">
+      <div class="first-container"></div>
+      <div class="second-container"></div>
+      <div class="third-container"></div>
+    </div> -->
+    <div class="container-override" id="funnelContainer">
+      <i class='bx bx-chevron-left text-white arrow' @click="moveFunnelLeft"></i>
       <template v-for="areaQuotation in draggableQuotations">
         <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
           :customer="areaQuotation.customer" :quotations="areaQuotation.quotations" :title="areaQuotation.title"
           :status="areaQuotation.status" @callModal="callModal" @showModalQuotationFunnel="showModalQuotationFunnel" />
       </template>
+      <i class='bx bx-chevron-right text-white arrow' @click="moveFunnelRigth"></i>
     </div>
     <ProductModal :customer="customersSelected" @getAllCustomers="getAllCustomers" />
     <UpdateCom :customerId="customerId" :customer="customerToComunication" :comunication="comunication"
@@ -69,6 +79,14 @@ export default {
     }
   },
   methods: {
+    moveFunnelLeft() {
+      $('#funnelContainer').addClass('moveFunnelLeft')
+      $('#funnelContainer').removeClass('moveFunnelRigth')
+    },
+    moveFunnelRigth() {
+      $('#funnelContainer').addClass('moveFunnelRigth')
+      $('#funnelContainer').removeClass('moveFunnelLeft')
+    },
     addNewComunication(comunication, customer) {
       let arraysByStatus = {
         5: this.quotations,
@@ -558,3 +576,44 @@ export default {
   }
 }
 </script>
+<style scoped>
+.container-override {
+  width: 120vw;
+  padding: 2px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.arrow {
+  color: #696cff !important;
+  font-size: 30px;
+}
+
+.moveFunnelLeft {
+  transform: translate(-51.4%, 0);
+  transition: 1s;
+}
+
+.moveFunnelRigth {
+  transform: translate(0%, 0);
+  transition: 1s;
+}
+
+.first-container {
+  background-color: red;
+  width: 30vw;
+  height: 30px;
+}
+
+.second-container {
+  background-color: blue;
+  width: 30vw;
+  height: 30px;
+}
+
+.third-container {
+  background-color: gray;
+  width: 30vw;
+  height: 30px;
+}
+</style>
