@@ -39,7 +39,7 @@
             </div>
             <div class="row">
                 <p class="h5">Productos</p>
-                <p v-for="detail in quotationSelected.details ">{{ detail.product.name }}</p>
+                <p v-for="detail in quotationSelected.details ">{{ detail.name }}</p>
             </div>
             <div class="row">
                 <table class="table">
