@@ -37,6 +37,7 @@ export default {
     methods: {
         hideSidebar() {
             this.hidden = !this.hidden
+            $('body').css('transform', `translate(265px, 0)`)
         }
     },
     computed: {
