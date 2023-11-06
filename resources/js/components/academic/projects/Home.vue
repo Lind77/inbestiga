@@ -38,13 +38,16 @@
           </ul>
           <div class="tab-content">
             <div class="tab-pane fade active show" id="navs-pills-justified-home" role="tabpanel">
-
+              <h1>Contable</h1>
             </div>
             <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
+              <h1>Derecho</h1>
+            </div>
+            <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
+              <h1>Ingeniería</h1>
             </div>
             <div class="tab-pane fade" id="navs-pills-justified-health" role="tabpanel">
-            </div>
-            <div class="tab-pane fade" id="navs-pills-justified-health" role="tabpanel">
+              <h1>Salud</h1>
             </div>
           </div>
         </div>

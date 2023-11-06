@@ -39,7 +39,11 @@
 	  <script src="{{asset('js/config.js')}}"></script>
 		
 	  @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+		<style>
+			body{
+				overflow-x: hidden;
+			}
+		</style>
 </head>
 	<body>	
 	<div id="app"></div>	
