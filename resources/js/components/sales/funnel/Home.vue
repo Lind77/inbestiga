@@ -7,14 +7,19 @@
       <div class="second-container"></div>
       <div class="third-container"></div>
     </div> -->
-    <div class="container-override" id="funnelContainer">
+    <div class="d-flex justify-content-between w-100">
       <i class='bx bx-chevron-left text-white arrow' @click="moveFunnelLeft"></i>
+      <i class='bx bx-chevron-right text-white arrow' @click="moveFunnelRigth"></i>
+    </div>
+
+    <div class="container-override" id="funnelContainer">
+
       <template v-for="areaQuotation in draggableQuotations">
         <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
           :customer="areaQuotation.customer" :quotations="areaQuotation.quotations" :title="areaQuotation.title"
           :status="areaQuotation.status" @callModal="callModal" @showModalQuotationFunnel="showModalQuotationFunnel" />
       </template>
-      <i class='bx bx-chevron-right text-white arrow' @click="moveFunnelRigth"></i>
+
     </div>
     <ProductModal :customer="customersSelected" @getAllCustomers="getAllCustomers" />
     <UpdateCom :customerId="customerId" :customer="customerToComunication" :comunication="comunication"
@@ -70,17 +75,30 @@ export default {
       totalQuotations: [],
       quotation: {},
       customerToComunication: {},
-      customer_selected: {}
+      customer_selected: {},
+      initialPage: 0
     }
   },
   methods: {
-    moveFunnelLeft() {
-      $('#funnelContainer').addClass('moveFunnelLeft')
-      $('#funnelContainer').removeClass('moveFunnelRigth')
-    },
     moveFunnelRigth() {
-      $('#funnelContainer').addClass('moveFunnelRigth')
-      $('#funnelContainer').removeClass('moveFunnelLeft')
+
+      if (this.initialPage < this.draggableQuotations.length - 1) {
+        this.initialPage++;
+        var percent = ((this.initialPage) * 17) * -1
+        console.log(percent)
+        $('#funnelContainer').css('transform', `translate(${percent}%, 0)`)
+        /* $('#funnelContainer').removeClass('moveFunnelRigth') */
+      }
+
+    },
+    moveFunnelLeft() {
+      if (this.initialPage != 0) {
+        this.initialPage--;
+        var percent = ((this.initialPage) * 17) * -1
+        console.log(percent)
+        $('#funnelContainer').css('transform', `translate(${percent}%, 0)`)
+      }
+
     },
     addNewComunication(comunication, customer) {
       let arraysByStatus = {
@@ -573,10 +591,12 @@ export default {
 </script>
 <style scoped>
 .container-override {
+  z-index: 2;
   width: 120vw;
   padding: 2px;
   display: inline-flex;
   align-items: center;
+  transition: 1s;
 }
 
 .arrow {
