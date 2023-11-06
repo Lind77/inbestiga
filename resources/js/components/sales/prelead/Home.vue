@@ -2,7 +2,7 @@
   <div class="container-xxl flex-grow-1 container-p-y">
     <input v-on:keyup.enter="searchByName" @keyup="cleanPreLeads" v-model="search" type="text"
       placeholder="Buscar prelead por nombre..." class="form-control w-50 mb-2">
-    <div class="row">
+    <div class="container-override" id="funnelContainer">
       <template v-for="preleadArea in preleadAreas">
         <draggableArea :customers="preleadArea.customers" :title="preleadArea.title" :status="preleadArea.status"
           @updateStatusPrelead="updateStatusPrelead" @updateStatusSpace="updateStatusSpace"
@@ -418,5 +418,12 @@ export default {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(67, 89, 113, .7);
+}
+
+.container-override {
+  width: 100%;
+  padding: 2px;
+  display: inline-flex;
+  align-items: center;
 }
 </style>

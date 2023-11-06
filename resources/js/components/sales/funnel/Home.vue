@@ -1,12 +1,7 @@
 <template>
   <div class="container-xxl flex-grow-1 container-p-y">
-    <div class="row">
-      <div class="row">
-        <DatePicker @filterDate="filterDate" @distributeQuotations="distributeQuotations"
-          @getAllQuotations="getAllQuotations" />
-      </div>
-
-    </div>
+    <DatePicker class="ms-4" @filterDate="filterDate" @distributeQuotations="distributeQuotations"
+      @getAllQuotations="getAllQuotations" />
     <!-- <div class="container-override">
       <div class="first-container"></div>
       <div class="second-container"></div>
@@ -586,11 +581,11 @@ export default {
 
 .arrow {
   color: #696cff !important;
-  font-size: 30px;
+  font-size: 50px;
 }
 
 .moveFunnelLeft {
-  transform: translate(-51.4%, 0);
+  transform: translate(-19.8%, 0);
   transition: 1s;
 }
 

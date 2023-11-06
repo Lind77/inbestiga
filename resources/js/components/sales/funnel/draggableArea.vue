@@ -1,6 +1,6 @@
 <template>
     <div class="w-75 rounded">
-        <h5 class="fw-600 pt-3">{{ title }}</h5>
+        <p class="fw-bold pt-3 text-center">{{ title }}</p>
         <div :id="'draggableArea' + status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent
             @dragover.prevent>
             <template v-if="quotations">
