@@ -149,6 +149,7 @@ export default {
             return moment(date).format('DD/MM/YYYY')
         },
         showPayments(quotation) {
+            console.log(quotation)
             this.quotationSelected = quotation
             if (quotation.order == null) {
                 this.payments = quotation.contract.payments
