@@ -8,8 +8,8 @@
       <div class="third-container"></div>
     </div> -->
     <div class="d-flex justify-content-between w-100">
-      <i class='bx bx-chevron-left text-white arrow' @click="moveFunnelLeft"></i>
-      <i class='bx bx-chevron-right text-white arrow' @click="moveFunnelRigth"></i>
+      <i class='bx bx-chevron-left text-white arrow cursor-pointer' @click="moveFunnelLeft"></i>
+      <i class='bx bx-chevron-right text-white arrow cursor-pointer' @click="moveFunnelRigth"></i>
     </div>
 
     <div class="container-override" id="funnelContainer">

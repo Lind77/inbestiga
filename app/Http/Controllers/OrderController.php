@@ -34,7 +34,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with(['quotation', 'quotation.customers'])->get();
+        $orders = Order::with(['quotation', 'quotation.customers'])->orderBy('id', 'desc')->get();
 
         return response()->json($orders);
     }
