@@ -11,7 +11,7 @@
                 </div>
                 <div class="d-flex flex-column ps-2" v-if="quotation">
                     <h6 class="mb-0 py-2" v-for="customer in quotation.customers" :title="customer.name">{{
-                        customer.name.length > 20 ? customer.name.substring(0, 20) + '...' : customer.name || customer.cell
+                        customer.name.length > 15 ? customer.name.substring(0, 15) + '...' : customer.name || customer.cell
                     }}
                     </h6>
                     <p class="mb-0">S/.{{ formatCant(quotation.amount) }}</p>
