@@ -1,6 +1,9 @@
 <template>
   <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row" data-v-d514b8ac="">
+      <div class="alert alert-danger" role="alert">
+        Por favor, rellenar las fichas de cliente. Aun nos quedan {{ numDocs }}
+      </div>
       <div class="col-lg-12 mb-4 order-0" data-v-d514b8ac="">
         <div class="card" data-v-d514b8ac="">
           <div class="d-flex align-items-end row" data-v-d514b8ac="">
@@ -67,6 +70,7 @@
   <NoteModal @getAllDeliveries="getAllDeliveries" />
 </template>
 <script>
+import axios from 'axios'
 import { userStore } from '../../stores/UserStore'
 import NoteModal from '../experience/NoteModal.vue'
 
@@ -82,7 +86,8 @@ export default {
     return {
       deliveries: [],
       notes: [],
-      permissions: []
+      permissions: [],
+      numDocs: 0
     }
   },
   methods: {
@@ -105,11 +110,20 @@ export default {
         }).catch((err) => {
           console.error(err)
         });
+    },
+    pendingDocuments() {
+      axios.get('/api/projects-pending')
+        .then((result) => {
+          this.numDocs = result.data
+        }).catch((err) => {
+          console.error(err)
+        });
     }
   },
   mounted() {
     this.getPermissionsRequest()
     this.getAllDeliveries()
+    this.pendingDocuments()
   }
 }
 </script>

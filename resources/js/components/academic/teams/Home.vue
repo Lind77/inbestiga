@@ -5,28 +5,36 @@
         <input v-if="visible" class="form-control w-25 mb-3" type="text" placeholder="Nombre del equipo" v-model="name"
             @keyup.enter="insertTeam" />
         <div class="row">
-            <button class="btn btn-info btn-sm m-2 w-auto" draggable="true" @dragover.prevent @drop.stop.prevent
-                @dragstart="drag" :id="`${user.id}`" v-for="user in  acadUsers ">{{ user.name
-                }}</button>
-        </div>
-        <div class="row mt-2">
-            <div class="col-md-4" v-for="team in teams">
-                <div class="card bg-primary text-white mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title text-white">Equipo {{ team.name }}</h5>
-                        <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-                            <div v-for="memoir in team.memoirs">
-                                <li class="avatar avatar-sm pull-up" :title="memoir.user.name">
-                                    <span class="avatar-initial rounded-circle bg-primary">{{ memoir.user.name[0] }}</span>
-                                </li>
-                            </div>
-                            <div :id="team.id" class="w-100 py-1" @drop="drop" @dragenter.prevent @dragover.prevent>
+            <div class="col-lg-4">
+                <input type="text" placeholder="Buscar inbestigador..." class="form-control">
+                <button class="btn btn-info btn-sm my-1 w-100" draggable="true" @dragover.prevent @drop.stop.prevent
+                    @dragstart="drag" :id="`${user.id}`" v-for="user in  acadUsers ">{{ user.name
+                    }}</button>
+            </div>
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-6" v-for="team in teams">
+                        <div class="card bg-primary text-white mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title text-white">Equipo {{ team.name }}</h5>
+                                <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
+                                    <div v-for="memoir in team.memoirs">
+                                        <li class="avatar avatar-sm pull-up" :title="memoir.user.name">
+                                            <span class="avatar-initial rounded-circle bg-primary">{{ memoir.user.name[0]
+                                            }}</span>
+                                        </li>
+                                    </div>
+                                    <div :id="team.id" class="w-100 py-1" @drop="drop" @dragenter.prevent @dragover.prevent>
 
+                                    </div>
+                                </ul>
                             </div>
-                        </ul>
+                        </div>
                     </div>
                 </div>
+
             </div>
+
         </div>
     </div>
 </template>
