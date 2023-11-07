@@ -249,6 +249,7 @@ Route::put('/delivery/{id}', [DeliveryController::class, 'update']);
 Route::get('/check-delivery/{id}', [DeliveryController::class, 'checkDelivery']);
 Route::delete('/deliveries/{id}', [DeliveryController::class, 'destroy']);
 
+
 Route::post('/observation', [ObservationController::class, 'store']);
 
 Route::get('/contract/{search}', [ContractController::class, 'searchContract']);
@@ -275,6 +276,7 @@ Route::get('/projects/{id}', [ProjectController::class, 'show']);
 Route::post('/projects', [ProjectController::class, 'store']);
 Route::get('/projects-search/{search}', [ProjectController::class, 'search']);
 Route::get('/projects-user/{id}', [ProjectController::class, 'getMyProjects']);
+Route::get('/projects-pending', [ProjectController::class, 'projectPendings']);
 
 Route::post('/changeStatusProject', [ProjectController::class, 'changeStatus']);
 Route::get('/updateQuality/{id}', [ProjectController::class, 'updateQuality']);
