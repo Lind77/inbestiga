@@ -9,6 +9,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Activity;
 use App\Models\Chat;
+use App\Models\Contract;
 use App\Models\Customer;
 use App\Models\FixedActivity;
 use App\Models\Notification;
@@ -503,5 +504,11 @@ class ProjectController extends Controller
             'projectable.quotation',
             'projectable.quotation.customers'
         ])->get(); */
+    }
+
+    public function projectPendings()
+    {
+        $contracts = Contract::doesntHave('properties')->get();
+        return response()->json(count($contracts));
     }
 }
