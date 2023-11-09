@@ -1,9 +1,46 @@
 <template>
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3">Proyectos
-      <!-- <span v-if="store.rol == 'AdminAcad'" class="badge bg-label-primary me-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#projectModal">+</span> -->
-    </h4>
-    <div class="row">
+    <div class="card">
+      <div class="card-header">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h4 class="fw-bold py-3">Gestión de <br> Proyectos</h4>
+          <div class="d-flex flex-row">
+            <div class="card shadow-none bg-transparent border border-primary mb-3">
+              <div class="card-body">
+                <h5 class="card-title">Cantidad</h5>
+                <!-- <p class="card-text">
+                Some quick example text to build on the card title and make up.
+              </p> -->
+              </div>
+            </div>
+
+            <div class="card shadow-none bg-transparent border border-primary mb-3 mx-2">
+              <div class="card-body">
+                <h5 class="card-title">Equipos</h5>
+                <!-- <p class="card-text">
+                Some quick example text to build on the card title and make up.
+              </p> -->
+              </div>
+            </div>
+
+            <div class="card shadow-none bg-transparent border border-primary mb-3">
+              <div class="card-body">
+                <h5 class="card-title">Reportes</h5>
+                <!-- <p class="card-text">
+                Some quick example text to build on the card title and make up.
+              </p> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- <span v-if="store.rol == 'AdminAcad'" class="badge bg-label-primary me-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#projectModal">+</span> -->
+
+    <div class="row mt-3">
       <div class="col-xl-12">
         <div class="nav-align-top mb-4">
           <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
@@ -36,6 +73,15 @@
               </button>
             </li>
           </ul>
+          <div class="d-flex justify-content-center mt-2">
+            <input type="text" class="form-control w-50" placeholder="Buscar...">
+            <select name="" id="" class="form-control w-25 ms-2">
+              <option value="1">Todos</option>
+              <option value="2">En Progreso</option>
+              <option value="3">Stand By</option>
+              <option value="4">Completo</option>
+            </select>
+          </div>
           <div class="tab-content">
             <div class="tab-pane fade active show" id="navs-pills-justified-home" role="tabpanel">
               <h1>Contable</h1>
@@ -49,10 +95,12 @@
             <div class="tab-pane fade" id="navs-pills-justified-health" role="tabpanel">
               <h1>Salud</h1>
             </div>
+
           </div>
         </div>
       </div>
     </div>
+
     <div class="row">
       <!-- <div class="col-md-4" id="clientArea" @drop="drop" @dragover="allowDrop">
         <p class="fw-bold h5">Experiencia</p>
