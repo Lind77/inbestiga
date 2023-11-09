@@ -122,8 +122,6 @@
                     <div class="col-md-3"></div>
                     <div class="col-md-3"></div>
                     <div class="col-md-3">
-                        <p style="background-color: #f1f2f0;">PRECIO: S./{{ quotation.amount + quotation.discount }}</p>
-                        <p style="background-color: #f1f2f0;">DESCUENTO: S./{{ quotation.discount }}</p>
                         <p style="background-color: #f1f2f0;">PRECIO FINAL: S./{{ Number(quotation.amount).toFixed(2) }}</p>
                     </div>
                 </div>
