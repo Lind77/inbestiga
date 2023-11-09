@@ -418,4 +418,8 @@ export default {
 .killSpace {
   display: none;
 }
+
+/* nav {
+  position: fixed;
+} */
 </style>

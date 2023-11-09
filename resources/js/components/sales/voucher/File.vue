@@ -34,7 +34,7 @@
                         <tr class="details">
                             <td class="detail-description ps-3" v-if="paymentProof.payment_proofable">
                                 <template v-for="detail in paymentProof.payment_proofable.quotation.details ">
-                                    <p>{{ detail.product.name }}</p>
+                                    <p>{{ detail.name }}</p>
                                 </template>
                             </td>
                             <td class="detail-import"> S/.{{ paymentProof.subtotal }}</td>
