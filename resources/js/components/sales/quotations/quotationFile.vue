@@ -96,8 +96,8 @@
                         </th>
                         <th class="table-item fw-normal" style="white-space: pre; text-align: center;">
                             {{ detail.type == 1 ? 'Normal' : 'Sugerido' }}</th>
-                        <th class="table-item fw-normal" style="text-align: center;">S./{{ parseFloat(detail.price) +
-                            parseFloat(detail.extra_price)
+                        <th class="table-item fw-normal" style="text-align: center;">S./{{ Number(parseFloat(detail.price) +
+                            parseFloat(detail.extra_price)).toLocaleString('en-US')
                         }}</th>
                     </tr>
                     <tr class="sugested-title mt-3">
@@ -122,7 +122,8 @@
                     <div class="col-md-3"></div>
                     <div class="col-md-3"></div>
                     <div class="col-md-3">
-                        <p style="background-color: #f1f2f0;">PRECIO FINAL: S./{{ Number(quotation.amount).toFixed(2) }}</p>
+                        <p style="background-color: #f1f2f0;">PRECIO FINAL: S./{{
+                            Number(quotation.amount).toLocaleString('en-US') }}</p>
                     </div>
                 </div>
             </div>
