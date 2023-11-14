@@ -28,7 +28,7 @@
                                         <p class="mb-2">Servicio Contratado: </p>
                                         <template v-for="detail in quotation.details">
                                             <p v-if="detail.product"> - {{
-                                                detail.product.name }}
+                                                detail.name }}
                                             </p>
                                         </template>
 
