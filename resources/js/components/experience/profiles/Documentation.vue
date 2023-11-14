@@ -20,18 +20,21 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <!--  <div class="card p-2 shadow-none bg-success text-white mb-3">
+                                <div class="card p-2 shadow-none bg-success text-white mb-3">
                                     <div class="card-body">
                                         <p class="mb-2">Documento Firmado: {{ signedDoc }}</p>
                                         <p class="mb-2" v-if="quotation.contract">Aplicación de instrumentos: {{
                                             quotation.contract.third_article == 1 ? 'Si' : 'No' }}</p>
                                         <p class="mb-2">Servicio Contratado: </p>
-                                        <p v-for="detail in quotation.details">- {{
-                                            detail.product.name }}
-                                        </p>
+                                        <template v-for="detail in quotation.details">
+                                            <p v-if="detail.product"> - {{
+                                                detail.product.name }}
+                                            </p>
+                                        </template>
+
                                         <p class="mb-2">Tipo de cliente: {{ customer.attitude }}</p>
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
 
