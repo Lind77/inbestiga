@@ -305,7 +305,7 @@
                     <li> Depósito o transferencia bancaria: </li>
                 </ul>
                {{--  <div class="page-break"></div> --}}
-                <span>QUINTO: ENTREGAS Y FORMA DE ENTREGAS.</span>
+                <span style="margin-top: -10px;">QUINTO: ENTREGAS Y FORMA DE ENTREGAS.</span>
                 <p style="margin-top: -8px;">Las entregas que EL LOCADOR otorgará a favor de EL ASESORADO serán cargadas al correo y/o grupo de WhatsApp creado en los siguientes términos: </p>
                 <table class="delivery-table">
                     <thead>
