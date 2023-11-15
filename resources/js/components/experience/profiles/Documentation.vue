@@ -1,41 +1,62 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row invoice-add">
-            <div class="col-lg-9 col-12 mb-lg-0 mb-4">
+            <div class="card mb-4 px-0">
+                <div class="user-profile-header-banner">
+                    <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/pages/profile-banner.png"
+                        alt="Banner image" class="rounded-top w-100">
+                </div>
+                <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
+
+                    <div class="flex-grow-1 mt-3 mt-sm-5">
+                        <div
+                            class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
+                            <div class="user-profile-info">
+                                <h4>{{ customer.name }}</h4>
+                                <ul
+                                    class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
+                                    <li class="list-inline-item fw-medium">
+                                        <i class="bx bx-id-card"></i> {{ customer.dni }}
+                                    </li>
+                                    <li class="list-inline-item fw-medium">
+                                        <i class="bx bx-pen"></i> {{ customer.career }}
+                                    </li>
+                                    <li class="list-inline-item fw-medium">
+                                        <i class="bx bxs-graduation"></i> {{ customer.university }}
+                                    </li>
+                                    <li class="list-inline-item fw-medium">
+                                        <i class="bx bx-phone"></i> {{ customer.cell }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
+                                <i class="bx bx-user-check me-1"></i>Connected
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12 mb-lg-0 mb-4">
                 <div class="card invoice-preview-card">
                     <div class="card-body">
                         <div class="row">
-                            <span class="h5 mt-2 demo text-body fw-bold">1. Información General </span>
-                            <div class="col-6">
-                                <div class="card p-2 shadow-none bg-info text-white mb-3">
+                            <span class="h5 mt-2 demo text-body fw-bold">Información General </span>
+                            <p class="mb-2"><span class="fw-bold">Documento Firmado:</span> {{ signedDoc }}</p>
+                            <p class="mb-2" v-if="quotation.contract">
+                                <span class="fw-bold">
+                                    Aplicación de
+                                    instrumentos:</span> {{
+                                        quotation.contract.third_article == 1 ? 'Si' : 'No' }}
+                            </p>
 
-                                    <div class="card-body">
-                                        <h5 class="card-title text-white">{{ customer.name }}
-                                        </h5>
-                                        <p class="card-text">DNI: {{ customer.dni }}</p>
-                                        <p class="card-text">Carrera: {{ customer.career }}</p>
-                                        <p class="card-text">Universidad: {{ customer.university }}</p>
-                                        <p class="card-text">Celular: {{ customer.cell }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="card p-2 shadow-none bg-success text-white mb-3">
-                                    <div class="card-body">
-                                        <p class="mb-2">Documento Firmado: {{ signedDoc }}</p>
-                                        <p class="mb-2" v-if="quotation.contract">Aplicación de instrumentos: {{
-                                            quotation.contract.third_article == 1 ? 'Si' : 'No' }}</p>
-                                        <p class="mb-2">Servicio Contratado: </p>
-                                        <template v-for="detail in quotation.details">
-                                            <p v-if="detail.product"> - {{
-                                                detail.name }}
-                                            </p>
-                                        </template>
+                            <p class="mb-2"><span class="fw-bold">Servicio Contratado </span></p>
+                            <template v-for="detail in quotation.details">
+                                <p v-if="detail.product"> - {{
+                                    detail.name }}
+                                </p>
+                            </template>
 
-                                        <p class="mb-2">Tipo de cliente: {{ customer.attitude }}</p>
-                                    </div>
-                                </div>
-                            </div>
+                            <p class="mb-2"><span class="fw-bold">Tipo de cliente:</span> {{ customer.attitude }}</p>
                         </div>
 
 
@@ -44,7 +65,7 @@
                 <div class="card invoice-preview-card mt-2">
                     <div class="card-body">
                         <div class="row">
-                            <span class="h5 mt-2 demo text-body fw-bold">2. Estado del trámite universitario</span>
+                            <span class="h5 mt-2 demo text-body fw-bold">Estado del trámite universitario</span>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -71,17 +92,17 @@
                 </div>
                 <div class="card invoice-preview-card mt-2">
                     <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
                             <div>
-                                <span class="h5 mt-2 demo text-body fw-bold">3. Información Académica
-                                    <button class="btn btn-icon btn-success mx-1" @click="addNewQuestion"
+                                <span class="h5 m-2 demo text-body fw-bold">Información Académica
+                                    <!-- <button class="btn btn-icon btn-success mx-1" @click="addNewQuestion"
                                         title="Agregar Pregunta">
                                         <i class="bx bx-plus"></i>
-                                    </button>
-                                    <button class="btn btn-icon btn-warning mx-1" @click="openComunicationsModal"
+                                    </button> -->
+                                    <!--  <button class="btn btn-icon btn-warning mx-1" @click="openComunicationsModal"
                                         title="Comunicaciones">
                                         <i class="bx bx-chat"></i>
-                                    </button>
+                                    </button> -->
                                     <!-- <button class="btn btn-icon btn-primary mx-1" title="Link de Google Drive">
                                     <i class='bx bxl-google'></i>
                                 </button> -->
@@ -97,35 +118,35 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="d-flex mb-3">
-                                <template v-for="newQuestion in newQuestions">
-                                    <template v-if="newQuestion.type == 5">
-                                        <div class="col-6 px-1">
-                                            <p class="mb-1">{{ newQuestion.question }}</p>
-                                            <div class="input-group">
-                                                <span class="input-group-text" id="basic-addon11"><i
-                                                        class='bx bxl-google'></i></span>
-                                                <input type="text" class="form-control" v-model="newQuestion.answer"
-                                                    placeholder="Link de Drive">
-                                            </div>
-                                        </div>
-                                    </template>
-                                    <template v-if="newQuestion.type == 6">
-                                        <div class="col-6 px-1">
-                                            <p class="mb-1">{{ newQuestion.question }}</p>
-                                            <select v-model="newQuestion.answer" class="form-select">
-                                                <option value="1">Ingeniería</option>
-                                                <option value="2">Ciencias Médicas</option>
-                                                <option value="3">Derecho</option>
-                                                <option value="4">Ciencias Contables</option>
-                                            </select>
-                                        </div>
-                                    </template>
-                                </template>
-                            </div>
 
                             <template v-for="newQuestion in newQuestions">
-                                <div class="col-4" v-if="newQuestion.type == 3">
+                                <template v-if="newQuestion.type == 5">
+                                    <div class="col-12 px-1">
+                                        <p class="mb-1">{{ newQuestion.question }}</p>
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon11"><i
+                                                    class='bx bxl-google'></i></span>
+                                            <input type="text" class="form-control" v-model="newQuestion.answer"
+                                                placeholder="Link de Drive">
+                                        </div>
+                                    </div>
+                                </template>
+                                <template v-if="newQuestion.type == 6">
+                                    <div class="col-12 px-1">
+                                        <p class="mb-1">{{ newQuestion.question }}</p>
+                                        <select v-model="newQuestion.answer" class="form-select">
+                                            <option value="1">Ingeniería</option>
+                                            <option value="2">Ciencias Médicas</option>
+                                            <option value="3">Derecho</option>
+                                            <option value="4">Ciencias Contables</option>
+                                        </select>
+                                    </div>
+                                </template>
+                            </template>
+
+
+                            <template v-for="newQuestion in newQuestions">
+                                <div class="col-12" v-if="newQuestion.type == 3">
                                     <p class="mb-1">{{ newQuestion.question }}</p>
                                     <textarea v-model="newQuestion.answer" class="form-control"></textarea>
                                 </div>
@@ -147,7 +168,7 @@
                             </template>
                         </div>
                         <div class="row mt-2">
-                            <div class="col-4">
+                            <div class="col-12">
                                 <p class="fw-bold">a. Documentación Requerida</p>
                                 <div class="card bg-success text-white">
                                     <div class="card-body">
@@ -165,7 +186,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-12">
                                 <p class="fw-bold">b. Beneficios Ofrecidos</p>
                                 <div class="card bg-info text-white">
                                     <div class="card-body">
@@ -183,7 +204,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-12">
                                 <p class="fw-bold">c. ¿Qué reuniones ya se ha tenido con el cliente?</p>
                                 <div class="card bg-warning text-white">
                                     <div class="card-body">
@@ -204,7 +225,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-6">
                 <div class="card invoice-preview-card">
                     <div class="card-body">
                         <!-- <span class="h5 mt-2 demo text-body fw-bold">4. Información Adicional</span>
@@ -218,11 +239,30 @@
                             </template>
                         </template>
                         <button class="btn btn-icon btn-success" @click="addNewField"><i class="bx bx-plus"></i></button> -->
+                        <input type="text" placeholder="Escribe alguna actualización..." class="form-control">
 
-                        <br>
                         <button class="btn btn-success w-100 mt-2" v-if="docType == 1"
-                            @click="saveFields">Almacenar</button>
+                            @click="saveFields">Actualizar</button>
                         <button class="btn btn-info w-100 mt-2" v-else @click="updateFields">Actualizar</button>
+                    </div>
+                </div>
+                <!-- <div class="card mt-2 bg-success">
+                    <div class="card-body text-white">
+                        <h4 class="text-white">Cotización</h4>
+                        <p>{{ formatDate(quotation.created_at) }}</p>
+                    </div>
+                </div> -->
+                <div class="card mt-2 bg-success" v-for="comunication in  customer.comunications">
+                    <div class="card-body text-white">
+                        <h4 class="text-white">Comunicación con ventas</h4>
+                        <p>{{ comunication.comment }}</p>
+                        {{ formatDate(comunication.created_at) }}
+                    </div>
+                </div>
+                <div class="card mt-2 bg-info text-white">
+                    <div class="card-body">
+                        <h4 class="text-white">Registro inicial</h4>
+                        {{ formatDate(customer.created_at) }}
                     </div>
                 </div>
             </div>
@@ -231,6 +271,7 @@
     <ComunicationsModal :comunications="customer.comunications" />
 </template>
 <script>
+import moment from 'moment';
 import axios from 'axios';
 import Attrib from './Attrib.vue';
 import ComunicationsModal from './ComunicationsModal.vue';
@@ -434,6 +475,9 @@ export default {
         }
     },
     methods: {
+        formatDate(date) {
+            return moment(date).format('DD/MM/YYYY')
+        },
         deleteNewQuestion(index) {
             console.log(index);
             this.newQuestions.splice(index, 1);
