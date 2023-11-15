@@ -265,7 +265,7 @@
                     </tbody>
                 </table>
                 <p>El pago será abonado bajo las siguientes modalidades:</p>
-                <table style="margin-top: 20px;">
+                <table style="margin-top: 10px;">
                     <thead>
                         <tr>
                             <th>Banco</th>
