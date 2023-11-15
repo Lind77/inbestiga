@@ -240,7 +240,7 @@
                         </li>
                     </ul>
                 </p>
-                <p style="margin-top: 15px;">
+                <p style="margin-top: 10px;">
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
                 Como contraprestación al servicio prestado por EL LOCADOR, EL ASESORADO se compromete al abono de un monto total de
                 {{$contract->cent_text == null? 'S/.'.number_format($contract->amount).'('.strtoupper($contract->amount_text).' SOLES)': 'S/.'.number_format($contract->amount, 1).'0'}}
