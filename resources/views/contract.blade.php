@@ -153,7 +153,7 @@
         <main>
             <div class="container">
                 <h1>Contrato de locación de servicios</h1>
-                <p>Conste por el presente documento, <span>EL CONTRATO DE LOCACIÓN DE SERVICIOS</span>, (en adelante “<span>EL CONTRATO</span>”) que, en virtud al artículo 1764º y siguientes del Código Civil peruano, celebran de una parte:</p>
+                <p style="margin-top: -5px;">Conste por el presente documento, <span>EL CONTRATO DE LOCACIÓN DE SERVICIOS</span>, (en adelante “<span>EL CONTRATO</span>”) que, en virtud al artículo 1764º y siguientes del Código Civil peruano, celebran de una parte:</p>
                 <ul>
                     <li style="text-align: justify">
                         INBESTIGA SOCIEDAD ANÓNIMA CERRADA, empresa identificada con RUC No. 20609545535, 
