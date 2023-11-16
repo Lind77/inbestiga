@@ -33,7 +33,7 @@
 
             footer {
                 position: fixed; 
-                bottom: -10px; 
+                bottom: -15px; 
                 left: 0px; 
                 right: 0px;
                 height: 50px; 
@@ -153,7 +153,7 @@
         <main>
             <div class="container">
                 <h1>Contrato de locación de servicios</h1>
-                <p>Conste por el presente documento, <span>EL CONTRATO DE LOCACIÓN DE SERVICIOS</span>, (en adelante “<span>EL CONTRATO</span>”) que, en virtud al artículo 1764º y siguientes del Código Civil peruano, celebran de una parte:</p>
+                <p style="margin-top: -5px;">Conste por el presente documento, <span>EL CONTRATO DE LOCACIÓN DE SERVICIOS</span>, (en adelante “<span>EL CONTRATO</span>”) que, en virtud al artículo 1764º y siguientes del Código Civil peruano, celebran de una parte:</p>
                 <ul>
                     <li style="text-align: justify">
                         INBESTIGA SOCIEDAD ANÓNIMA CERRADA, empresa identificada con RUC No. 20609545535, 
@@ -240,7 +240,7 @@
                         </li>
                     </ul>
                 </p>
-                <p style="margin-top: 15px;">
+                <p style="margin-top: 10px;">
                     <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
                 Como contraprestación al servicio prestado por EL LOCADOR, EL ASESORADO se compromete al abono de un monto total de
                 {{$contract->cent_text == null? 'S/.'.number_format($contract->amount).'('.strtoupper($contract->amount_text).' SOLES)': 'S/.'.number_format($contract->amount, 1).'0'}}
@@ -265,7 +265,7 @@
                     </tbody>
                 </table>
                 <p>El pago será abonado bajo las siguientes modalidades:</p>
-                <table style="margin-top: 20px;">
+                <table style="margin-top:1px;">
                     <thead>
                         <tr>
                             <th>Banco</th>
@@ -307,7 +307,7 @@
                {{--  <div class="page-break"></div> --}}
                 <span>QUINTO: ENTREGAS Y FORMA DE ENTREGAS.</span>
                 <p style="margin-top: -8px;">Las entregas que EL LOCADOR otorgará a favor de EL ASESORADO serán cargadas al correo y/o grupo de WhatsApp creado en los siguientes términos: </p>
-                <table class="delivery-table">
+                <table class="delivery-table" style="margin-top: -10px;">
                     <thead>
                         <tr>
                             <th>Fecha</th>
@@ -335,7 +335,10 @@
                         <li>Reporte de Turnitin.</li>
                     </ul>
                     @endif
-                    <div class="page-break"></div>
+                    @if (count($contract->quotation->customers) != 4)
+                    <div class="page-break" ></div>
+                    @endif
+                   
                 <span>SEXTO: EXCLUSIVIDAD</span>
                 <p>En virtud de esta cláusula, el contrato suscrito se establece exclusivamente entre EL LOCADOR y EL ASESORADO. Cualquier ampliación relacionada al alcance del servicio que incluya a otras personas requiere una notificación y adenda escrita, junto con la aceptación de los términos y costos adicionales por ambas partes. "El asesorado" asume la responsabilidad total de los pagos adicionales relacionados con cualquier extensión del servicio. "El locador" se reserva el derecho de rechazar dicha ampliación sin consentimiento previo por escrito. Esta cláusula garantiza la transparencia y evita malentendidos en caso de cambios en el alcance de los servicios. Ambas partes aceptan estos términos mediante la firma del contrato.</p>
 

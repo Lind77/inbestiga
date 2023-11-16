@@ -152,7 +152,7 @@
                                 </div>
                             </template>
                             <template v-for="(newQuestion, index) in newQuestions">
-                                <div class="col-4 mt-2" v-if="newQuestion.type == 0">
+                                <div class="col-12 mt-2" v-if="newQuestion.type == 0">
                                     <div class="card p-2 shadow">
                                         <div class="d-flex">
                                             <input type="text" class="form-control form-control-sm w-75"
@@ -496,6 +496,14 @@ export default {
             this.newQuestions.push({ ...newQuestion })
         },
         getQuotation() {
+
+            this.$swal.fire({
+                title: 'Cargando...',
+                allowOutsideClick: false,
+                showConfirmButton: false
+            })
+
+
             axios.get('/api/quotations/' + this.$route.params.quotationId)
                 .then((result) => {
                     console.log(result)
@@ -524,6 +532,7 @@ export default {
                             })
                         }
                     }
+                    this.$swal.close()
                     console.log(this.properties)
                 }).catch((err) => {
                     console.error(err)
