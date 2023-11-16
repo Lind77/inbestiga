@@ -496,6 +496,14 @@ export default {
             this.newQuestions.push({ ...newQuestion })
         },
         getQuotation() {
+
+            this.$swal.fire({
+                title: 'Cargando...',
+                allowOutsideClick: false,
+                showConfirmButton: false
+            })
+
+
             axios.get('/api/quotations/' + this.$route.params.quotationId)
                 .then((result) => {
                     console.log(result)
@@ -524,6 +532,7 @@ export default {
                             })
                         }
                     }
+                    this.$swal.close()
                     console.log(this.properties)
                 }).catch((err) => {
                     console.error(err)
