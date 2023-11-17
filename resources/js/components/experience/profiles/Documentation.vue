@@ -42,6 +42,7 @@
                         <div class="row">
                             <span class="h5 mt-2 demo text-body fw-bold">Información General </span>
                             <p class="mb-2"><span class="fw-bold">Documento Firmado:</span> {{ signedDoc }}</p>
+
                             <p class="mb-2" v-if="quotation.contract">
                                 <span class="fw-bold">
                                     Aplicación de
@@ -50,12 +51,9 @@
                             </p>
 
                             <p class="mb-2"><span class="fw-bold">Servicio Contratado </span></p>
-                            <template v-for="detail in quotation.details">
-                                <p v-if="detail.product"> - {{
-                                    detail.name }}
-                                </p>
-                            </template>
-
+                            <p v-for="detail in quotation.details"> - {{
+                                detail.name }}
+                            </p>
                             <p class="mb-2"><span class="fw-bold">Tipo de cliente:</span> {{ customer.attitude }}</p>
                         </div>
 
@@ -259,6 +257,21 @@
                         {{ formatDate(comunication.created_at) }}
                     </div>
                 </div>
+                <template v-for="(newQuestion, index) in newQuestions">
+                    <div class="col-12 mt-2" v-if="newQuestion.type == 0">
+                        <div class="card p-2 shadow">
+                            <div class="d-flex">
+                                <input type="text" class="form-control form-control-sm w-75"
+                                    placeholder="Pregunta o atributo" v-model="newQuestion.question">
+                                <button @click="deleteNewQuestion(index)" class="btn btn-icon btn-danger btn-sm ms-2"><i
+                                        class="bx bx-x"></i></button>
+                            </div>
+
+                            <textarea name="" id="" cols="30" rows="3" class="form-control mt-1"
+                                placeholder="Valor o respuesta" v-model="newQuestion.answer"></textarea>
+                        </div>
+                    </div>
+                </template>
                 <div class="card mt-2 bg-info text-white">
                     <div class="card-body">
                         <h4 class="text-white">Registro inicial</h4>
@@ -496,21 +509,19 @@ export default {
             this.newQuestions.push({ ...newQuestion })
         },
         getQuotation() {
-
             this.$swal.fire({
                 title: 'Cargando...',
                 allowOutsideClick: false,
                 showConfirmButton: false
             })
-
-
             axios.get('/api/quotations/' + this.$route.params.quotationId)
                 .then((result) => {
-                    console.log(result)
+
                     this.quotation = result.data
+                    console.log(this.quotation)
                     this.customer = this.quotation.customers[0]
                     this.comunications = this.customer.comunications
-                    if (this.quotation.contract.properties[0]) {
+                    if (this.quotation.contract && this.quotation.contract.properties[0]) {
                         this.newQuestions = JSON.parse(this.quotation.contract.properties[0].properties)
                         this.docType = 2
                         var findDriveField = this.newQuestions.find(question => question.type == 5)
@@ -531,6 +542,8 @@ export default {
                                 type: 6
                             })
                         }
+                    } else if (this.quotation.order) {
+                        console.log(this.quotation.order)
                     }
                     this.$swal.close()
                     console.log(this.properties)
