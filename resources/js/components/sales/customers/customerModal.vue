@@ -227,6 +227,7 @@ export default {
             fd.append('referedFrom', this.referedFrom)
             fd.append('channel', this.channel)
             fd.append('user_id', 12)
+            fd.append('userregister_id', this.store.authUser.id)
             fd.append('type', this.type)
 
             axios.post('/api/customers', fd)
