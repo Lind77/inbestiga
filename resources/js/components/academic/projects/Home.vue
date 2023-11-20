@@ -2,39 +2,9 @@
   <div class="container-xxl flex-grow-1 container-p-y">
     <div class="card">
       <div class="card-header">
-
         <div class="d-flex justify-content-between align-items-center">
           <h4 class="fw-bold py-3">Gestión de <br> Proyectos</h4>
-          <div class="d-flex flex-row">
-            <div class="card shadow-none bg-transparent border border-primary mb-3">
-              <div class="card-body">
-                <h5 class="card-title">Cantidad</h5>
-                <!-- <p class="card-text">
-                Some quick example text to build on the card title and make up.
-              </p> -->
-              </div>
-            </div>
-
-            <div class="card shadow-none bg-transparent border border-primary mb-3 mx-2">
-              <div class="card-body">
-                <h5 class="card-title">Equipos</h5>
-                <!-- <p class="card-text">
-                Some quick example text to build on the card title and make up.
-              </p> -->
-              </div>
-            </div>
-
-            <div class="card shadow-none bg-transparent border border-primary mb-3">
-              <div class="card-body">
-                <h5 class="card-title">Reportes</h5>
-                <!-- <p class="card-text">
-                Some quick example text to build on the card title and make up.
-              </p> -->
-              </div>
-            </div>
-          </div>
         </div>
-
       </div>
     </div>
 
@@ -45,28 +15,28 @@
         <div class="nav-align-top mb-4">
           <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
             <li class="nav-item">
-              <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+              <button @click="filterProjects(0)" type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                 data-bs-target="#navs-pills-justified-home" aria-controls="navs-pills-justified-home"
                 aria-selected="true">
                 <i class="tf-icons bx bx-money"></i> Contables
               </button>
             </li>
             <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+              <button @click="filterProjects(1)" type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                 data-bs-target="#navs-pills-justified-profile" aria-controls="navs-pills-justified-profile"
                 aria-selected="false">
                 <i class="tf-icons bx bx-library"></i> Derecho
               </button>
             </li>
             <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+              <button @click="filterProjects(2)" type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                 data-bs-target="#navs-pills-justified-messages" aria-controls="navs-pills-justified-messages"
                 aria-selected="false">
                 <i class="tf-icons bx bx-buildings"></i> Ingeniería
               </button>
             </li>
             <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+              <button @click="filterProjects(3)" type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                 data-bs-target="#navs-pills-justified-health" aria-controls="navs-pills-justified-health"
                 aria-selected="false">
                 <i class="tf-icons bx bx-plus-medical"></i> Salud
@@ -85,15 +55,95 @@
           <div class="tab-content">
             <div class="tab-pane fade active show" id="navs-pills-justified-home" role="tabpanel">
               <h1>Contable</h1>
+              <div class="row">
+                <div class="col-md-4" id="directionArea" v-for="project in projectsFiltered">
+                  <div class="container-cards">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
+                          {{ customer.name }}
+                        </h5>
+                        <p v-if="project.propertiable.projects[0].team">Equipo: {{
+                          project.propertiable.projects[0].team.name }}</p>
+                        <router-link :to="{ name: 'profile-acad', params: { idProject: project.propertiable.id } }">
+                          <i class='bx bx-file text-success'></i>
+                        </router-link>
+                        <i class='bx bx-check-double text-info cursor-pointer' @click="showModalAssignation(project)"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
             <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
               <h1>Derecho</h1>
+              <div class="row">
+                <div class="col-md-4" id="directionArea" v-for="project in projectsFiltered">
+                  <div class="container-cards">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
+                          {{ customer.name }}
+                        </h5>
+                        <p v-if="project.propertiable.projects[0].team">Equipo: {{
+                          project.propertiable.projects[0].team.name }}</p>
+                        <router-link :to="{ name: 'profile-acad', params: { idProject: project.propertiable.id } }">
+                          <i class='bx bx-file text-success'></i>
+                        </router-link>
+                        <i class='bx bx-check-double text-info cursor-pointer' @click="showModalAssignation(project)"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
             <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
               <h1>Ingeniería</h1>
+              <div class="row">
+                <div class="col-md-4" id="directionArea" v-for="project in projectsFiltered">
+                  <div class="container-cards">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
+                          {{ customer.name }}
+                        </h5>
+                        <p v-if="project.propertiable.projects[0].team">Equipo: {{
+                          project.propertiable.projects[0].team.name }}</p>
+                        <router-link :to="{ name: 'profile-acad', params: { idProject: project.propertiable.id } }">
+                          <i class='bx bx-file text-success'></i>
+                        </router-link>
+                        <i class='bx bx-check-double text-info cursor-pointer' @click="showModalAssignation(project)"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
             <div class="tab-pane fade" id="navs-pills-justified-health" role="tabpanel">
               <h1>Salud</h1>
+              <div class="row">
+                <div class="col-md-4" id="directionArea" v-for="project in projectsFiltered">
+                  <div class="container-cards">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
+                          {{ customer.name }}
+                        </h5>
+                        <p v-if="project.propertiable.projects[0].team">Equipo: {{
+                          project.propertiable.projects[0].team.name }}</p>
+                        <router-link :to="{ name: 'profile-acad', params: { idProject: project.propertiable.id } }">
+                          <i class='bx bx-file text-success'></i>
+                        </router-link>
+                        <i class='bx bx-check-double text-info cursor-pointer' @click="showModalAssignation(project)"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
           </div>
@@ -112,26 +162,7 @@
 
       </div> -->
 
-      <div class="col-md-4" id="directionArea" v-for="project in projects">
-        <div class="container-cards">
-          <div class="card">
-            <div class="card-body">
-              <h5 v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
-                {{ customer.name }}
-              </h5>
-              <p v-if="project.propertiable.projects[0].team">Equipo: {{ project.propertiable.projects[0].team.name }}</p>
-              <router-link :to="{ name: 'profile-acad', params: { idProject: project.propertiable.id } }">
-                <i class='bx bx-file text-success'></i>
-              </router-link>
-              <i class='bx bx-check-double text-info cursor-pointer' @click="showModalAssignation(project)"></i>
-            </div>
-          </div>
 
-          <!--  <div v-if="project.status == 1">
-            <CardProject :project="project" @getAllProjects="getAllProjectsAcad" />
-          </div> -->
-        </div>
-      </div>
       <!-- 
       <div class="col-md-4" id="qualityArea" @drop="drop" @dragover="allowDrop">
         <p class="fw-bold h5">Calidad académica</p>
@@ -173,10 +204,22 @@ export default {
       project_selected: {},
       activities: [],
       qualityActivities: [],
-      contractId: 0
+      contractId: 0,
+      projectsFiltered: []
     }
   },
   methods: {
+    filterProjects(index) {
+      this.projectsFiltered = []
+      this.projects.forEach(project => {
+        var properties = JSON.parse(project.properties);
+        var forkInvestigation = properties.filter(property => property.type == 6)
+        console.log(forkInvestigation);
+        if (forkInvestigation[0] && forkInvestigation[0].answer == index) {
+          this.projectsFiltered.push({ ...project })
+        }
+      })
+    },
     showModalAssignation(project) {
       console.log(project.propertiable_id);
       this.contractId = project.propertiable_id;
