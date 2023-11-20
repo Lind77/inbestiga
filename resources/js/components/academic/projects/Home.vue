@@ -59,7 +59,7 @@
                 <div class="col-md-4" id="directionArea" v-for="project in projectsFiltered">
                   <div class="container-cards">
                     <div class="card">
-                      <div class="card-body">
+                      <div class="card-body" @click="enterProject(project.id)">
                         <h5 v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
                           {{ customer.name }}
                         </h5>
@@ -74,7 +74,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
             <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
               <h1>Derecho</h1>
@@ -209,6 +208,9 @@ export default {
     }
   },
   methods: {
+    enterProject(projectId) {
+      alert('nani' + projectId);
+    },
     filterProjects(index) {
       this.projectsFiltered = []
       this.projects.forEach(project => {
