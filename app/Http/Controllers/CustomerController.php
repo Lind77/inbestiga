@@ -516,10 +516,11 @@ class CustomerController extends Controller
 
     public function searchProfiles($search)
     {
-        $customers = Customer::where('status', 11)->where('name', 'like', '%' . $search . '%')->with(['comunications', 'quotations' => function ($query) {
-            $query->latest('id');
-        }, 'quotations.order', 'quotations.contract', 'quotations.order.properties', 'quotations.contract.properties', 'quotations.details', 'quotations.details.product'])->orderBy('id', 'desc')->take(8)->get();
-        return response()->json($customers);
+        $quotations = Quotation::where('status', 11)->with(['contract', 'customers', 'contract.projects'])->whereHas('customers', function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        })->orderBy('id', 'desc')->take(8)->get();
+
+        return response()->json($quotations);
     }
 
     public function searchCustomersByDate($date)
