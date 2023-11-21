@@ -506,10 +506,12 @@ class CustomerController extends Controller
 
     public function getProfiles()
     {
-        $customers = Customer::where('status', 11)->with(['comunications', 'quotations' => function ($query) {
+        /* $customers = Customer::where('status', 11)->with(['comunications', 'quotations' => function ($query) {
             $query->latest('id');
-        }, 'quotations.order', 'quotations.contract', 'quotations.order.properties', 'quotations.contract.properties', 'quotations.details', 'quotations.details.product'])->orderBy('id', 'desc')->take(8)->get();
-        return response()->json($customers);
+        }, 'quotations.order', 'quotations.contract', 'quotations.order.properties', 'quotations.contract.properties', 'quotations.details', 'quotations.details.product'])->orderBy('id', 'desc')->take(8)->get(); */
+        $quotations =  Quotation::where('status', 11)->with(['customers', 'contract', 'contract.projects'])->orderBy('id', 'desc')->take(8)->get();
+
+        return response()->json($quotations);
     }
 
     public function searchProfiles($search)

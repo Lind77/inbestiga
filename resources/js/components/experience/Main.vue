@@ -32,7 +32,7 @@
           </div>
           <div class="card">
             <div class="card-body" v-for="permission in permissions"><!-- Activity Timeline -->
-              <div class="card bg-success text-white">
+              <div class="card bg-success text-white" v-if="permission.status == 0">
                 <div class="card-header">Solicitud de {{ permission.user.name }}</div>
                 <div class="card-body">
                   <h5 class="card-title text-white">{{ permission.miss_date }}</h5>
