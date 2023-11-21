@@ -12,7 +12,8 @@
                         <div
                             class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                             <div class="user-profile-info">
-                                <h4>{{ customer.name }}</h4>
+                                <!-- <p>Id de Contrato: {{ quotation.contract.id }}</p> -->
+                                <h4 v-for="customer in quotation.customers">{{ customer.name }}</h4>
                                 <ul
                                     class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                                     <li class="list-inline-item fw-medium">
@@ -29,9 +30,9 @@
                                     </li>
                                 </ul>
                             </div>
-                            <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
+                            <!-- <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
                                 <i class="bx bx-user-check me-1"></i>Connected
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </div>
@@ -519,7 +520,6 @@ export default {
             })
             axios.get('/api/quotations/' + this.$route.params.quotationId)
                 .then((result) => {
-
                     this.quotation = result.data
                     console.log(this.quotation)
                     this.customer = this.quotation.customers[0]
