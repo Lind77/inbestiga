@@ -17,8 +17,8 @@
             </div>
             <div class="col-sm-5 text-center text-sm-left" data-v-d514b8ac="">
               <div class="card-body pb-0 px-0 px-md-4" data-v-d514b8ac=""><img
-                  src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/illustrations/man-with-laptop-light.png"
-                  height="140" alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                  src="https://themeselection-cdn.b-cdn.net/wp-content/uploads/2022/05/github-img.png" height="140"
+                  alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png"
                   data-app-light-img="illustrations/man-with-laptop-light.png" data-v-d514b8ac=""></div>
             </div>
           </div>
