@@ -52,99 +52,19 @@
               <option value="4">Completo</option>
             </select>
           </div>
-          <div class="tab-content">
+          <div class="tab-content mt-2">
             <div class="tab-pane fade active show" id="navs-pills-justified-home" role="tabpanel">
-              <h1>Contable</h1>
-              <div class="row">
-                <div class="col-md-4" id="directionArea" v-for="project in projectsFiltered">
-                  <div class="container-cards">
-                    <div class="card">
-                      <div class="card-body" @click="enterProject(project.id)">
-                        <h5 v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
-                          {{ customer.name }}
-                        </h5>
-                        <p v-if="project.propertiable.projects[0].team">Equipo: {{
-                          project.propertiable.projects[0].team.name }}</p>
-                        <router-link :to="{ name: 'profile-acad', params: { idProject: project.propertiable.id } }">
-                          <i class='bx bx-file text-success'></i>
-                        </router-link>
-                        <i class='bx bx-check-double text-info cursor-pointer' @click="showModalAssignation(project)"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ProjectTab :projectsFiltered="projectsFiltered" @showModalAssignation="showModalAssignation" />
             </div>
             <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
-              <h1>Derecho</h1>
-              <div class="row">
-                <div class="col-md-4" id="directionArea" v-for="project in projectsFiltered">
-                  <div class="container-cards">
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
-                          {{ customer.name }}
-                        </h5>
-                        <p v-if="project.propertiable.projects[0].team">Equipo: {{
-                          project.propertiable.projects[0].team.name }}</p>
-                        <router-link :to="{ name: 'profile-acad', params: { idProject: project.propertiable.id } }">
-                          <i class='bx bx-file text-success'></i>
-                        </router-link>
-                        <i class='bx bx-check-double text-info cursor-pointer' @click="showModalAssignation(project)"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+              <ProjectTab :projectsFiltered="projectsFiltered" @showModalAssignation="showModalAssignation" />
             </div>
             <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
-              <h1>Ingeniería</h1>
-              <div class="row">
-                <div class="col-md-4" id="directionArea" v-for="project in projectsFiltered">
-                  <div class="container-cards">
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
-                          {{ customer.name }}
-                        </h5>
-                        <p v-if="project.propertiable.projects[0].team">Equipo: {{
-                          project.propertiable.projects[0].team.name }}</p>
-                        <router-link :to="{ name: 'profile-acad', params: { idProject: project.propertiable.id } }">
-                          <i class='bx bx-file text-success'></i>
-                        </router-link>
-                        <i class='bx bx-check-double text-info cursor-pointer' @click="showModalAssignation(project)"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+              <ProjectTab :projectsFiltered="projectsFiltered" @showModalAssignation="showModalAssignation" />
             </div>
             <div class="tab-pane fade" id="navs-pills-justified-health" role="tabpanel">
-              <h1>Salud</h1>
-              <div class="row">
-                <div class="col-md-4" id="directionArea" v-for="project in projectsFiltered">
-                  <div class="container-cards">
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
-                          {{ customer.name }}
-                        </h5>
-                        <p v-if="project.propertiable.projects[0].team">Equipo: {{
-                          project.propertiable.projects[0].team.name }}</p>
-                        <router-link :to="{ name: 'profile-acad', params: { idProject: project.propertiable.id } }">
-                          <i class='bx bx-file text-success'></i>
-                        </router-link>
-                        <i class='bx bx-check-double text-info cursor-pointer' @click="showModalAssignation(project)"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+              <ProjectTab :projectsFiltered="projectsFiltered" @showModalAssignation="showModalAssignation" />
             </div>
-
           </div>
         </div>
       </div>
@@ -184,6 +104,7 @@ import CardProject from './CardProject.vue'
 import OffCanvas from './OffCanvas.vue'
 import QualityModal from './QualityModal.vue'
 import TeamModal from './TeamModal.vue'
+import ProjectTab from './ProjectTab.vue'
 
 export default {
   setup() {
@@ -192,7 +113,7 @@ export default {
       store
     }
   },
-  components: { CardProject, OffCanvas, QualityModal, TeamModal },
+  components: { CardProject, OffCanvas, QualityModal, TeamModal, ProjectTab },
   data() {
     return {
       projects: [],
@@ -267,6 +188,7 @@ export default {
       axios.get('/api/projects-properties')
         .then(res => {
           this.projects = res.data
+          this.filterProjects(0)
           this.$swal.close()
         })
         .catch(err => {
@@ -328,6 +250,7 @@ export default {
   },
   mounted() {
     this.getAllProjectsAcad()
+
     /* this.getAllCustomers()
     this.getAllTeams()
     Echo.private('projects')
