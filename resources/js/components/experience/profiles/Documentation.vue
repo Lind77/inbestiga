@@ -149,7 +149,7 @@
                                     <textarea v-model="newQuestion.answer" class="form-control"></textarea>
                                 </div>
                             </template>
-                            <template v-for="(newQuestion, index) in newQuestions">
+                            <!-- <template v-for="(newQuestion, index) in newQuestions">
                                 <div class="col-12 mt-2" v-if="newQuestion.type == 0">
                                     <div class="card p-2 shadow">
                                         <div class="d-flex">
@@ -163,7 +163,7 @@
                                             placeholder="Valor o respuesta" v-model="newQuestion.answer"></textarea>
                                     </div>
                                 </div>
-                            </template>
+                            </template> -->
                         </div>
                         <div class="row mt-2">
                             <div class="col-12">
@@ -237,8 +237,10 @@
                             </template>
                         </template>
                         <button class="btn btn-icon btn-success" @click="addNewField"><i class="bx bx-plus"></i></button> -->
-                        <input type="text" placeholder="Escribe alguna actualización..." class="form-control">
-
+                        <label for="">Nueva Actualización</label>
+                        <input type="text" v-model="newUpdate.question" placeholder="Título..." class="form-control">
+                        <textarea placeholder="Cuerpo..." v-model="newUpdate.answer" class="form-control mt-2"
+                            rows="5"></textarea>
                         <button class="btn btn-success w-100 mt-2" v-if="docType == 1"
                             @click="saveFields">Actualizar</button>
                         <button class="btn btn-info w-100 mt-2" v-else @click="updateFields">Actualizar</button>
@@ -250,6 +252,17 @@
                         <p>{{ formatDate(quotation.created_at) }}</p>
                     </div>
                 </div> -->
+
+                <template v-for="(newQuestion, index) in newQuestions.slice().reverse()">
+                    <div class="col-12 mt-2" v-if="newQuestion.type == 0">
+                        <div class="card bg-warning p-2 shadow">
+                            <div class="card-body text-white">
+                                <h4 class="text-white">{{ newQuestion.question }}</h4>
+                                <p>{{ newQuestion.answer }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
                 <div class="card mt-2 bg-success" v-for="comunication in  customer.comunications">
                     <div class="card-body text-white">
                         <h4 class="text-white">Comunicación con ventas</h4>
@@ -257,21 +270,6 @@
                         {{ formatDate(comunication.created_at) }}
                     </div>
                 </div>
-                <template v-for="(newQuestion, index) in newQuestions">
-                    <div class="col-12 mt-2" v-if="newQuestion.type == 0">
-                        <div class="card p-2 shadow">
-                            <div class="d-flex">
-                                <input type="text" class="form-control form-control-sm w-75"
-                                    placeholder="Pregunta o atributo" v-model="newQuestion.question">
-                                <button @click="deleteNewQuestion(index)" class="btn btn-icon btn-danger btn-sm ms-2"><i
-                                        class="bx bx-x"></i></button>
-                            </div>
-
-                            <textarea name="" id="" cols="30" rows="3" class="form-control mt-1"
-                                placeholder="Valor o respuesta" v-model="newQuestion.answer"></textarea>
-                        </div>
-                    </div>
-                </template>
                 <div class="card mt-2 bg-info text-white">
                     <div class="card-body">
                         <h4 class="text-white">Registro inicial</h4>
@@ -484,7 +482,12 @@ export default {
                 3: 'Meet'
             },
             properties: [],
-            docType: 1
+            docType: 1,
+            newUpdate: {
+                question: '',
+                answer: '',
+                type: 0
+            }
         }
     },
     methods: {
@@ -553,6 +556,7 @@ export default {
         },
         updateFields() {
             const fd = new FormData()
+            this.newQuestions.push({ ...this.newUpdate })
             fd.append('propertiable_id', this.selectedDoc.propertiable_id)
             fd.append('propertiable_type', this.selectedDoc.propertiable_type)
             fd.append('properties', JSON.stringify(this.newQuestions))
@@ -560,6 +564,11 @@ export default {
 
             axios.post('/api/properties', fd)
                 .then((result) => {
+                    this.newUpdate = {
+                        question: '',
+                        answer: '',
+                        type: 0
+                    }
                     this.$swal('Documentación de proyecto actualizada correctamente')
                 }).catch((err) => {
                     this.$swal('Hubo un error')
@@ -567,6 +576,7 @@ export default {
         },
         saveFields() {
             const fd = new FormData()
+
             fd.append('propertiable_id', this.selectedDoc.propertiable_id)
             fd.append('propertiable_type', this.selectedDoc.propertiable_type)
             fd.append('properties', JSON.stringify(this.newQuestions))
