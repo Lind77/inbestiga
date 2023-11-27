@@ -140,4 +140,8 @@ class User extends Authenticatable
     public function memorandums(){
         return $this->hasMany('App\Models\Memorandum');
     }
+     //Relación polimorfica uno a muchos (Entities-Images)
+    public function images(){
+        return $this->morphMany('App\Models\Image','imageable');
+    }
 }

@@ -21,4 +21,13 @@ class Issue extends Model
     public function users(){
         return $this->morphToMany('App\Models\User', 'userable');
     }
+    //Relación uno a muchos polimorfico Delivery - Assigned_activity
+    public function assigned_activities()
+    {
+        return $this->morphMany('App\Models\Assigned_activity', 'assigned_activitiable');
+    }
+     //Relacion morfeable uno a muchos (Assigned_Activity-NOTES-NTASK)
+     public function ntasks(){
+        return $this->morphMany('App\Models\Ntask', 'ntaskable');
+    }
 }
