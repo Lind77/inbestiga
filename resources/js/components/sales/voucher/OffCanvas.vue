@@ -4,10 +4,13 @@
             <h3 id="offcanvasEndLabel" class="offcanvas-title">Lista de Comprobantes</h3>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <button class="btn btn-info m-1" v-for="voucher in vouchers" @click="showVoucher(voucher.id)"
-            v-if="voucher.customer">
-            {{ voucher.customer.name }} - {{ voucher.date }}
-        </button>
+        <template v-for="voucher in vouchers">
+            <button v-if="voucher" class="btn btn-info m-1" @click="showVoucher(voucher.id)">
+                <span v-if="voucher.customer">{{ voucher.customer.name }}</span>
+                - {{ voucher.date }}
+            </button>
+        </template>
+
         <!-- <div class="offcanvas-body my-auto mx-0 flex-grow-0">
         <p class="text-primary h5" v-if="project_selected.team"> (Equipo {{ project_selected.team.name }})</p>
         <a href="javascript:void(0)">{{ sumTasksPercent }} %</a>
