@@ -4,7 +4,8 @@
             <h3 id="offcanvasEndLabel" class="offcanvas-title">Lista de Comprobantes</h3>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <button class="btn btn-info m-1" v-for="voucher in vouchers" @click="showVoucher(voucher.id)">
+        <button class="btn btn-info m-1" v-for="voucher in vouchers" @click="showVoucher(voucher.id)"
+            v-if="voucher.customer">
             {{ voucher.customer.name }} - {{ voucher.date }}
         </button>
         <!-- <div class="offcanvas-body my-auto mx-0 flex-grow-0">
