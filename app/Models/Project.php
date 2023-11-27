@@ -9,7 +9,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['projectable_id','projectable_type','title', 'team_id','user_id', 'status', 'deadline','academic_date','aditional'];
+    protected $fillable = ['projectable_id','projectable_type','title', 'team_id','user_id', 'status', 'deadline','academic_date','aditional','category_id'];
 
     //Relacion  inversa morfeable uno a muchos order,contract-project
     public function projectable(){
@@ -65,5 +65,9 @@ class Project extends Model
     //Relación polimorfica uno a mucho (Entities-File)
     public function files(){
         return $this->mophMany('App\Models\File','fileable');        
+    }
+    //Relación inversa uno a muchos Category-Project
+    public function category(){
+        return $this->belongsTo('App\Models\Category');
     }
 }

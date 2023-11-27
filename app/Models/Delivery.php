@@ -19,10 +19,10 @@ class Delivery extends Model
     {
         return $this->morphToMany('App\Models\Quality_indicator', 'quality_indicable');
     }
-    //Relación uno a muchos Project_Delivery
+    //Relación uno a muchos polimorfico Delivery - Assigned_activity
     public function assigned_activities()
     {
-        return $this->hasMany("App\Models\Assigned_activity");
+        return $this->morphMany('App\Models\Assigned_activity', 'assigned_activitiable');
     }
     //relacion uno a muchos morfeable morfeable(project,delivery,assigned_task,assigned_activity)
     public function progress()
