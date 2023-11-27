@@ -122,7 +122,7 @@ export default {
 
 .voucher-important-data {
     color: #36bebf;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 .voucher-important-data span {
@@ -137,7 +137,7 @@ export default {
     background: linear-gradient(149deg, rgba(87, 108, 179, 1) 0%, rgba(19, 177, 223, 1) 49%, rgba(92, 194, 166, 1) 100%);
     color: #fff;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 table {
@@ -150,7 +150,7 @@ table {
 .details {
     background-color: #f4f4f3;
     padding-top: 10px;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 500;
 }
 
@@ -169,7 +169,7 @@ table {
 .buttons {
     border-radius: 12px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 17px;
     width: 25%;
     padding: 4px;
 }
