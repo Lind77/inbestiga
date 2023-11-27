@@ -70,8 +70,8 @@
                 <div style="height: 10px;"></div>
                 <tbody v-if="quotation">
                     <tr v-for="detail in quotation.details" class="text-dark">
-                        <th class="table-item fw-normal ps-2">{{ detail.product.name }}
-                            <template v-if="detail.product.id == 113">
+                        <th class="table-item fw-normal ps-2">{{ detail.name }}
+                            <template v-if="detail.product_id == 113 || detail.product_id == 58">
                                 <br>
                                 - 02 propuestas de tema (opcional)
                                 <br>
@@ -96,8 +96,12 @@
                         </th>
                         <th class="table-item fw-normal" style="white-space: pre; text-align: center;">
                             {{ detail.type == 1 ? 'Normal' : 'Sugerido' }}</th>
-                        <th class="table-item fw-normal" style="text-align: center;">S./{{ Number(parseFloat(detail.price) +
-                            parseFloat(detail.extra_price)).toLocaleString('en-US')
+                        <th class="table-item fw-normal" style="text-align: center;" v-if="detail.extra_price">S./{{
+                            Number(parseFloat(detail.price) +
+                                parseFloat(detail.extra_price)).toLocaleString('en-US')
+                        }}</th>
+                        <th class="table-item fw-normal" style="text-align: center;" v-else>S./{{
+                            Number(parseFloat(detail.price)).toLocaleString('en-US')
                         }}</th>
                     </tr>
                     <tr class="sugested-title mt-3">
