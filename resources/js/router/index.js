@@ -63,8 +63,9 @@ import UserAcad from '../components/academic/UserAcad.vue'
 import Ecard from '../components/academic/projects/Ecard.vue'
 import MyProjects from '../components/academic/projects/MyProjects.vue'
 import AcadProfile from '../components/academic/projects/Profile.vue'
+import Sprint from '../components/academic/projects/Sprints.vue'
 
-// Área Acádemica - Productos
+// Área Acádemica
 import HomeProduct from '../components/sales/products/Home.vue'
 
 //Área Acádemica - Teams
@@ -204,6 +205,12 @@ export const routes = [
                 path: 'notion',
                 component: HomeNotion,
                 name: 'notion'
+            },
+            {
+                path: 'sprint/:idProject',
+                component: Sprint,
+                props: true,
+                name: 'sprint'
             }
         ]
     },

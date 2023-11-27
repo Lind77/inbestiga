@@ -166,7 +166,7 @@ class ProjectController extends Controller
 
         $total_time = $total_maxtime + $total_mintime / 2; */
 
-        $project = Project::find($id);
+        $project = Project::with('deliveries')->find($id);
         return response()->json($project);
     }
 

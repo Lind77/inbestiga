@@ -30,7 +30,7 @@ export default {
             this.$emit('showModalAssignation', project)
         },
         enterProject(projectId) {
-            alert('nani' + projectId)
+            this.$router.push({ name: 'sprint', params: { idProject: projectId } })
         }
     }
 }
