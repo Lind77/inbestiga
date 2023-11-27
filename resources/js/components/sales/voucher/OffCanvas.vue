@@ -1,5 +1,6 @@
 <template>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasEndLabel">
+    <div class="offcanvas offcanvas-end" style="overflow: auto;" tabindex="-1" id="offcanvas"
+        aria-labelledby="offcanvasEndLabel">
         <div class="offcanvas-header">
             <h3 id="offcanvasEndLabel" class="offcanvas-title">Lista de Comprobantes</h3>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
