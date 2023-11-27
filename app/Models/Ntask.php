@@ -15,7 +15,7 @@ class Ntask extends Model
         return $this->morphTo();
     } 
     public function links(){
-        return $this->morphMany('App\Models\Links', 'linkable');
+        return $this->morphMany('App\Models\Link', 'linkable');
     }
     //Relación polimorfica uno a muchos (Entities-Images)
     public function images(){
@@ -25,8 +25,8 @@ class Ntask extends Model
      public function icons(){
         return $this->morphMany('App\Models\Icon','iconable');
     }
-    //Relación polimorfica uno a mucho (Entities-File)
+   //Relación polimorfica uno a mucho (Entities-File)
     public function files(){
-        return $this->mophMany('App\Models\File','fileable');        
-    } 
+        return $this->morphMany('App\Models\File','fileable');
+    }
 }
