@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AcademicProductController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AichatController;
 use App\Http\Controllers\AuthController;
@@ -327,3 +328,5 @@ Route::post('/voucher', [VoucherController::class, 'store']);
 Route::get('/chats/{id}', [ChatController::class, 'show']);
 Route::get('/contacts/{id}', [ChatController::class, 'contacts']);
 Route::get('/new-chat/{id}', [ChatController::class, 'newMessage']);
+
+Route::get('/academic-products', [AcademicProductController::class, 'index']);
