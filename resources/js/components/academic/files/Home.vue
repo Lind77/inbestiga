@@ -2,17 +2,19 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4>Subir archivos</h4>
         <input type="file" @change="handleFileExcel" class="form-control">
-
-        <template v-if="recentFiles != []">
-            <h4 class="mt-3">Archivos recientes</h4>
-
-            <div class="card bg-warning text-white w-25" v-for="file in  recentFiles ">
-                <div class="card-body">
-                    <p>Fecha de subida: {{ formatDate(file.created_at) }}</p>
-                    <a class="btn btn-danger" @click="downloadFile(file.url)">Descargar</a>
+        <div class="row">
+            <template v-if="recentFiles != []">
+                <h4 class="mt-3">Archivos recientes</h4>
+                <div class="col-md-4" v-for="file in  recentFiles">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <p>Fecha de subida: {{ formatDate(file.created_at) }}</p>
+                            <a class="btn btn-danger" @click="downloadFile(file.url)">Descargar</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </template>
+            </template>
+        </div>
     </div>
 </template>
 <script>
