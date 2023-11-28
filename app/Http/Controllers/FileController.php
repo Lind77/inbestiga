@@ -91,6 +91,10 @@ class FileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $file = File::find($id);
+        $file->delete();
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }

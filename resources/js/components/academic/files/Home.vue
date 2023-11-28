@@ -9,7 +9,10 @@
                     <div class="card bg-warning text-white">
                         <div class="card-body">
                             <p>Fecha de subida: {{ formatDate(file.created_at) }}</p>
-                            <a class="btn btn-danger" @click="downloadFile(file.url)">Descargar</a>
+                            <a class="btn btn-primary" @click="downloadFile(file.url)">Descargar</a>
+                            <div class="btn btn-icon btn-danger ms-1" @click="deleteFile(file.id)">
+                                <i class="bx bx-trash"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -34,6 +37,29 @@ export default {
         }
     },
     methods: {
+        deleteFile(fileId) {
+            this.$swal({
+                title: '¿Tienes la seguridad de eliminar este archivo?',
+                icon: 'question',
+                confirmButtonText: 'Si',
+                showCancelButton: true,
+                cancelButtonText: 'No'
+            })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        axios.delete('/api/files/' + fileId)
+                            .then((result) => {
+                                this.getRecentFiles()
+                                this.$swal('Archivo eliminado correctamente')
+                            }).catch((err) => {
+                                console.error(err);
+                            });
+                    } else {
+                        this.$swal.close()
+                    }
+                })
+
+        },
         downloadFile(url) {
             window.open(url)
         },
@@ -53,7 +79,7 @@ export default {
                 }
             })
                 .then((result) => {
-                    this.$swal('Archivo correctamente')
+                    this.$swal('Archivo almacenado correctamente')
                     this.getRecentFiles()
                 }).catch((err) => {
                     console.error(err);
