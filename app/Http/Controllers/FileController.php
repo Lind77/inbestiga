@@ -41,7 +41,7 @@ class FileController extends Controller
         $file = File::create([
             'fileable_id' => $request->get('user_id'),
             'fileable_type' => 'App\\Models\\User',
-            'url' => '../public/files/' . $fileName
+            'url' => 'https://sistema.inbestiga.com/public/files/' . $fileName
         ]);
 
         return response()->json(['success' => 'You have successfully upload file.']);
