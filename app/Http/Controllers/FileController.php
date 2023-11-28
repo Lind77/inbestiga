@@ -43,7 +43,7 @@ class FileController extends Controller
         $file = File::create([
             'fileable_id' => $request->get('user_id'),
             'fileable_type' => 'App\\Models\\User',
-            'url' => 'https://sistema.inbestiga.com/public/files/' . $fileName
+            'url' => $fileName
         ]);
 
         return response()->json(['success' => 'You have successfully upload file.']);
@@ -94,10 +94,20 @@ class FileController extends Controller
     public function destroy($id)
     {
         $file = File::find($id);
-        FileFacade::delete($file->url);
-        $file->delete();
-        return response()->json([
-            'msg' => 'success'
-        ]);
+
+        $rutaArchivo = public_path('files/' . $file->url);
+
+        // Verificar si el archivo existe antes de intentar eliminarlo
+        if (FileFacade::exists($rutaArchivo)) {
+            $file->delete();
+            FileFacade::delete($rutaArchivo);
+            return response()->json([
+                'msg' => 'Archivo eliminado'
+            ]);
+        } else {
+            return response()->json([
+                'msg' => 'Archivo no encontrado'
+            ]);
+        }
     }
 }
