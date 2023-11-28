@@ -300,6 +300,7 @@ Route::post('/json-file', [AttendanceController::class, 'jsonFile']);
 Route::post('/excel-file', [AttendanceController::class, 'excelFile']);
 Route::post('/files', [FileController::class, 'store']);
 Route::get('/files/{id}', [FileController::class, 'show']);
+Route::delete('/files/{id}', [FileController::class, 'destroy']);
 
 Route::get('/schedules/{id}', [ScheduleController::class, 'index']);
 Route::post('/schedules', [ScheduleController::class, 'store']);
