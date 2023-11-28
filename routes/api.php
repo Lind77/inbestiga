@@ -12,6 +12,7 @@ use App\Http\Controllers\ComunicationController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliveryController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
 use App\Http\Controllers\MeetingController;
@@ -297,6 +298,8 @@ Route::get('/reject-permit/{id}', [AttendanceController::class, 'rejectPermit'])
 
 Route::post('/json-file', [AttendanceController::class, 'jsonFile']);
 Route::post('/excel-file', [AttendanceController::class, 'excelFile']);
+Route::post('/files', [FileController::class, 'store']);
+Route::get('/files/{id}', [FileController::class, 'show']);
 
 Route::get('/schedules/{id}', [ScheduleController::class, 'index']);
 Route::post('/schedules', [ScheduleController::class, 'store']);
