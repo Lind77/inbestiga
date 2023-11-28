@@ -30,4 +30,9 @@ class Issue extends Model
      public function ntasks(){
         return $this->morphMany('App\Models\Ntask', 'ntaskable');
     }
+     //Relación polimorfica uno a muchos (Entities-Images)
+     public function images(){
+        return $this->morphMany('App\Models\Image','imageable');
+    }
+    
 }
