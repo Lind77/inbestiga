@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use Illuminate\Http\Request;
+use FileFacade;
 
 class FileController extends Controller
 {
@@ -92,7 +93,7 @@ class FileController extends Controller
     public function destroy($id)
     {
         $file = File::find($id);
-        unlink($file->url);
+        FileFacade::delete($file->url);
         $file->delete();
         return response()->json([
             'msg' => 'success'
