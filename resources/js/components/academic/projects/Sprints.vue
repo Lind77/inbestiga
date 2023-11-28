@@ -1,19 +1,18 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h1>Setup Sprints {{ $route.params.idProject }}</h1>
+        <h1>Gestionar Sprint {{ $route.params.idProject }}</h1>
         <div class="row">
             <div class="col-4">
-                <div class="card bg-info mb-2 cursor-pointer" v-for="product in products" :draggable="true">
-                    <div class="card-body text-white">
-                        {{ product.name }}
-                    </div>
+                <div v-for="product in products" class="btn btn-info w-100 mb-2 cursor-pointer" :draggable="true"
+                    @dragstart="handleDragStart(product.id, $event)">
+                    {{ product.name }}
                 </div>
             </div>
             <div class="col-8">
                 <div class="d-flex flex-row" v-for="delivery in deliveries">
                     <div class="card shadow-none bg-transparent border border-info mt-2 w-75">
-                        <div class="card-body">
-                            <p>{{ delivery.advance }}</p>
+                        <div class="card-body" @drop="dropProduct" @dragenter.prevent @dragover.prevent>
+                            <p class="pb-5">{{ delivery.advance }}</p>
                         </div>
                     </div>
                     <button class="btn btn-primary mt-2 ">{{ formatDate(delivery.date) }}</button>
@@ -33,6 +32,12 @@ export default {
         }
     },
     methods: {
+        handleDragStart(productId, e) {
+            e.dataTransfer.setData('quotationId', productId)
+        },
+        dropProduct(e) {
+            e.preventDefault()
+        },
         getProject() {
             axios.get('/api/projects/' + this.$route.params.idProject)
                 .then((result) => {

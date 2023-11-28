@@ -74,6 +74,9 @@ import HomeTeams from '../components/academic/teams/Home.vue'
 // Área Académica - Colaborators
 import HomeCollabs from '../components/academic/collabs/Home.vue'
 
+//Area Académica - Archivos
+import Files from '../components/academic/files/Home.vue'
+
 //Area Académica - Notion
 import HomeNotion from '../components/academic/notion/Home.vue'
 
@@ -211,6 +214,11 @@ export const routes = [
                 component: Sprint,
                 props: true,
                 name: 'sprint'
+            },
+            {
+                path: 'files',
+                component: Files,
+                name: 'files'
             }
         ]
     },
