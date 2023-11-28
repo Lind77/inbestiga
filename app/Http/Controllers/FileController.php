@@ -36,7 +36,8 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        $fileName = time() . '.' . $request->file->getClientOriginalExtension();
+        //$fileName = time() . '.' . $request->file->getClientOriginalExtension();
+        $fileName = $request->file->getClientOriginalName();
         $url = $request->file->move(public_path('files'), $fileName);
 
         $file = File::create([
