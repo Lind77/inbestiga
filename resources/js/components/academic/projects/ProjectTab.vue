@@ -4,7 +4,7 @@
             <div class="container-cards">
                 <div class="card">
                     <div class="card-body">
-                        <h5 @click="enterProject(project.id)" class="cursor-pointer" v-if="project.propertiable"
+                        <h5 class="cursor-pointer" v-if="project.propertiable"
                             v-for="customer in project.propertiable.quotation.customers">
                             {{ customer.name }}
                         </h5>
@@ -14,6 +14,7 @@
                             <i class='bx bx-file text-success'></i>
                         </router-link>
                         <i class='bx bx-check-double text-info cursor-pointer' @click="showModalAssignation(project)"></i>
+                        <i class='bx bx-poll text-primary cursor-pointer' @click="enterProject(project.id)"></i>
                     </div>
                 </div>
             </div>

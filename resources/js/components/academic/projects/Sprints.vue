@@ -11,7 +11,8 @@
             <div class="col-8">
                 <div class="d-flex flex-row" v-for="delivery in deliveries">
                     <div class="card shadow-none bg-transparent border border-info mt-2 w-75">
-                        <div class="card-body" @drop="dropProduct" @dragenter.prevent @dragover.prevent>
+                        <div class="card-body" @dragover="dragOverDelivery(delivery)" @drop="dropProduct" @dragenter.prevent
+                            @dragover.prevent>
                             <p>{{ delivery.advance }}</p>
                         </div>
                     </div>
@@ -29,17 +30,36 @@ export default {
         return {
             deliveries: [],
             products: [],
-            productSelected: 0
+            productSelected: {},
+            deliverySelected: {}
         }
     },
     methods: {
         handleDragStart(product) {
-            this.productSelected = product.id
+            this.productSelected = product
+        },
+        dragOverDelivery(delivery) {
+            this.deliverySelected = delivery
         },
         dropProduct(e) {
             e.preventDefault()
-            e.target.appendChild(document.getElementById(this.productSelected))
-            //alert(this.productSelected)
+            e.target.appendChild(document.getElementById(this.productSelected.id))
+
+            const fd = new FormData()
+
+            fd.append('title', this.productSelected.name)
+            fd.append('date', this.deliverySelected.date)
+            fd.append('academic_date', this.deliverySelected.date)
+            fd.append('type', null)
+            fd.append('progress', 0)
+
+
+            axios.post('/api/assigned-activity/', fd)
+                .then((result) => {
+                    this.getProject()
+                }).catch((err) => {
+                    console.error(err);
+                });
         },
         getProject() {
             axios.get('/api/projects/' + this.$route.params.idProject)
