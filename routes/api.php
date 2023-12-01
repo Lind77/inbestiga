@@ -6,6 +6,7 @@ use App\Http\Controllers\AichatController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\AssignedActivityController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ComissionController;
 use App\Http\Controllers\ComunicationController;
@@ -334,3 +335,5 @@ Route::get('/contacts/{id}', [ChatController::class, 'contacts']);
 Route::get('/new-chat/{id}', [ChatController::class, 'newMessage']);
 
 Route::get('/academic-products', [AcademicProductController::class, 'index']);
+
+Route::post('/assigned-activity', [AssignedActivityController::class, 'store']);
