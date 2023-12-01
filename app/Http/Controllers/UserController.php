@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::with(['roles', 'subarea', 'subarea.area', 'permissions'])->get();
+        $users = User::with(['roles', 'subarea', 'subarea.area', 'permissions', 'attendances'])->get();
         return response()->json($users);
     }
 
