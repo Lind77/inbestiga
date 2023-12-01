@@ -8,6 +8,7 @@
                 <div class="col-md-4" v-for="file in  recentFiles">
                     <div class="card bg-warning text-white">
                         <div class="card-body">
+                            <h5 class="text-white">{{ file.url }}</h5>
                             <p>Fecha de subida: {{ formatDate(file.created_at) }}</p>
                             <a class="btn btn-primary" @click="downloadFile(file.url)">Descargar</a>
                             <div class="btn btn-icon btn-danger ms-1" @click="deleteFile(file.id)">
@@ -37,6 +38,10 @@ export default {
         }
     },
     methods: {
+        getNameFile(url) {
+            const fragments = url.split('/')
+            return fragments[5]
+        },
         deleteFile(fileId) {
             this.$swal({
                 title: '¿Tienes la seguridad de eliminar este archivo?',
@@ -61,7 +66,7 @@ export default {
 
         },
         downloadFile(url) {
-            window.open(url)
+            window.open('https://sistema.inbestiga.com/public/files/' + url)
         },
         formatDate(date) {
             return moment(date).format('DD/MM/yyyy H:mm a')
