@@ -43,9 +43,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mt-3">
+                <!-- <div class="row mt-3">
                     <template v-for="day in  buttonDays">
                         <button type="button" @click="showDay(day)"
+                            :class="`btn btn-${statusColor[day.status]} btn-icon mx-1 my-1`">
+                            {{ formatDay(day.date) }}
+                        </button>
+                    </template>
+                </div> -->
+                <div class="row mt-3">
+                    <h4>Asistencia semanal</h4>
+                    <template v-for="day in  attendances">
+                        <button type="button" @click="showWeekDay(day)"
                             :class="`btn btn-${statusColor[day.status]} btn-icon mx-1 my-1`">
                             {{ formatDay(day.date) }}
                         </button>
@@ -107,10 +116,16 @@ export default {
             totalDays: 0,
             buttonDays: [],
             dateSelected: '',
-            attendanceSelected: {}
+            attendanceSelected: {},
+            attendances: []
         }
     },
     methods: {
+        showWeekDay(day) {
+            console.log(day);
+            this.dateSelected = day.date
+            this.attendanceSelected = day
+        },
         showDay(day) {
             if (day.status == 1 || day.status == 2) {
                 this.dateSelected = day.date
@@ -122,6 +137,7 @@ export default {
             this.search = user.name
             this.buttonDays.forEach((day) => { day.status = 0 })
             this.userSelected = user.id
+            this.attendances = user.attendances
             this.getAttendances()
         },
         searchUser() {
@@ -142,12 +158,15 @@ export default {
             return moment(date).format('DD')
         },
         compareSchedules() {
+            console.log(this.attendances)
+            console.log(this.scheduleFiletered)
             this.delays = 0
             this.early = 0
             this.lacks = 0
 
-            this.buttonDays.forEach((day) => {
-                var scheduleSelected = this.scheduleFiletered.find(schedule => schedule.weekDay == day.weekDay)
+            this.attendances.forEach((day) => {
+                console.log(day)
+                var scheduleSelected = this.scheduleFiletered.find(schedule => schedule.weekDay == day.weekday)
 
                 console.log(scheduleSelected)
 
@@ -181,7 +200,7 @@ export default {
             }) */
         },
         getUsers() {
-            const daysInMonth = (year, month) => new Date(year, month, 0).getDate()
+            /* const daysInMonth = (year, month) => new Date(year, month, 0).getDate()
             this.totalDays = daysInMonth(moment().format('YYYY'), moment().format('M'))
 
             var firstDayOfMonth = moment().startOf('month').format('YYYY-MM-DD')
@@ -199,7 +218,7 @@ export default {
 
                 this.buttonDays.push({ ...dataButton })
 
-            }
+            } */
 
             axios.get('/api/users')
                 .then((result) => {
