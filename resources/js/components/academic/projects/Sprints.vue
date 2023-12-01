@@ -3,16 +3,17 @@
         <h1>Gestionar Sprint {{ $route.params.idProject }}</h1>
         <div class="row">
             <div class="col-4">
-                <div v-for="product in products" class="btn btn-info w-100 mb-2 cursor-pointer" :draggable="true"
-                    @dragstart="handleDragStart(product.id, $event)">
+                <div v-for="product in products" :id="product.id" class="btn btn-info w-100 mb-2 cursor-pointer"
+                    :draggable="true" @dragstart="handleDragStart(product)">
                     {{ product.name }}
                 </div>
             </div>
             <div class="col-8">
                 <div class="d-flex flex-row" v-for="delivery in deliveries">
                     <div class="card shadow-none bg-transparent border border-info mt-2 w-75">
-                        <div class="card-body" @drop="dropProduct" @dragenter.prevent @dragover.prevent>
-                            <p class="pb-5">{{ delivery.advance }}</p>
+                        <div class="card-body" @dragover="dragOverDelivery(delivery)" @drop="dropProduct" @dragenter.prevent
+                            @dragover.prevent>
+                            <p>{{ delivery.advance }}</p>
                         </div>
                     </div>
                     <button class="btn btn-primary mt-2 ">{{ formatDate(delivery.date) }}</button>
@@ -28,15 +29,37 @@ export default {
     data() {
         return {
             deliveries: [],
-            products: []
+            products: [],
+            productSelected: {},
+            deliverySelected: {}
         }
     },
     methods: {
-        handleDragStart(productId, e) {
-            e.dataTransfer.setData('quotationId', productId)
+        handleDragStart(product) {
+            this.productSelected = product
+        },
+        dragOverDelivery(delivery) {
+            this.deliverySelected = delivery
         },
         dropProduct(e) {
             e.preventDefault()
+            e.target.appendChild(document.getElementById(this.productSelected.id))
+
+            const fd = new FormData()
+
+            fd.append('title', this.productSelected.name)
+            fd.append('date', this.deliverySelected.date)
+            fd.append('academic_date', this.deliverySelected.date)
+            fd.append('type', null)
+            fd.append('progress', 0)
+
+
+            axios.post('/api/assigned-activity/', fd)
+                .then((result) => {
+                    this.getProject()
+                }).catch((err) => {
+                    console.error(err);
+                });
         },
         getProject() {
             axios.get('/api/projects/' + this.$route.params.idProject)

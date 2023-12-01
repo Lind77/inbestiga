@@ -138,6 +138,7 @@
                                             <option value="2">Ciencias Médicas</option>
                                             <option value="3">Derecho</option>
                                             <option value="4">Ciencias Contables</option>
+                                            <option value="5">Ciencias Sociales</option>
                                         </select>
                                     </div>
                                 </template>
