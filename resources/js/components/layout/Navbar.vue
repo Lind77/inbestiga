@@ -137,7 +137,7 @@
                       <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/avatars/1.png" class="w-px-40 h-auto rounded-circle" />
                     </div>
                   </div> -->
-                  <div class="flex-grow-1" v-if="store.authUser">
+                  <div class="flex-grow-1 cursor-pointer" v-if="store.authUser">
                     <span class="fw-semibold d-block">{{ store.authUser.name }}</span>
                     <small class="text-muted">{{ store.authUser.roles[0].name }}</small>
                   </div>

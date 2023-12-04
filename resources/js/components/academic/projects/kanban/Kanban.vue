@@ -180,8 +180,15 @@ export default {
       });
       axios.get(`/api/projects/${this.$route.params.idProject}`)
         .then(res => {
+
           this.tasks = []
           this.project = res.data
+          this.project.deliveries.forEach((delivery) => {
+            delivery.assigned_activities.forEach((assignment) => {
+              this.toDo.push({ ...assignment })
+            })
+
+          })
           //this.totalTime = res.data.total_time
 
           this.$swal().close()
