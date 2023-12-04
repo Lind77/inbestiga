@@ -337,3 +337,4 @@ Route::get('/new-chat/{id}', [ChatController::class, 'newMessage']);
 Route::get('/academic-products', [AcademicProductController::class, 'index']);
 
 Route::post('/assigned-activity', [AssignedActivityController::class, 'store']);
+Route::get('/enable-project/{id}', [ProjectController::class, 'enable']);

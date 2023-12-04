@@ -224,6 +224,9 @@ class QuotationController extends Controller
     public function destroy($id)
     {
         $quotation = Quotation::find($id);
+        $quotation->customers->each->update([
+            'status' => 4
+        ]);
         $quotation->delete();
         return response()->json([
             'msg' => 'No existe cotización'

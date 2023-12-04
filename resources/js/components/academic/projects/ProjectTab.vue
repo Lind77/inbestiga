@@ -4,17 +4,20 @@
             <div class="container-cards">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="cursor-pointer" v-if="project.propertiable"
-                            v-for="customer in project.propertiable.quotation.customers">
+                        <router-link :to="{ name: 'kanban', params: { idProject: project.id } }" class="h5 cursor-pointer"
+                            v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
                             {{ customer.name }}
-                        </h5>
-                        <p v-if="project.propertiable.projects[0].team">Equipo: {{
-                            project.propertiable.projects[0].team.name }}</p>
-                        <router-link :to="{ name: 'profile-acad', params: { idProject: project.propertiable.id } }">
-                            <i class='bx bx-file text-success'></i>
                         </router-link>
-                        <i class='bx bx-check-double text-info cursor-pointer' @click="showModalAssignation(project)"></i>
-                        <i class='bx bx-poll text-primary cursor-pointer' @click="enterProject(project.id)"></i>
+                        <div class="card-footer">
+                            <p v-if="project.propertiable.projects[0].team">Equipo: {{
+                                project.propertiable.projects[0].team.name }}</p>
+                            <router-link :to="{ name: 'profile-acad', params: { idProject: project.propertiable.id } }">
+                                <i class='bx bx-file text-success'></i>
+                            </router-link>
+                            <i class='bx bx-check-double text-info cursor-pointer'
+                                @click="showModalAssignation(project)"></i>
+                            <i class='bx bx-poll text-primary cursor-pointer' @click="enterProject(project.id)"></i>
+                        </div>
                     </div>
                 </div>
             </div>
