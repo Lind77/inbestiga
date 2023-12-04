@@ -1,6 +1,6 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h1>Gestionar Sprint {{ $route.params.idProject }}</h1>
+        <h1>Gestionar Sprint <button class="btn btn-success" @click="enableProject">Habilitar proyecto</button></h1>
         <div class="row">
             <div class="col-4">
                 <div v-for="product in products" :id="product.id" class="btn btn-info w-100 mb-2 cursor-pointer"
@@ -14,6 +14,10 @@
                         <div class="card-body" @dragover="dragOverDelivery(delivery)" @drop="dropProduct" @dragenter.prevent
                             @dragover.prevent>
                             <p>{{ delivery.advance }}</p>
+                            <div v-for="product in delivery.assigned_activities" :id="product.id"
+                                class="btn btn-info w-100 mb-2 cursor-pointer">
+                                {{ product.name }}
+                            </div>
                         </div>
                     </div>
                     <button class="btn btn-primary mt-2 ">{{ formatDate(delivery.date) }}</button>
@@ -23,6 +27,7 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
 import moment from 'moment';
 
 export default {
@@ -31,7 +36,8 @@ export default {
             deliveries: [],
             products: [],
             productSelected: {},
-            deliverySelected: {}
+            deliverySelected: {},
+            totalActivitiesAssigned: []
         }
     },
     methods: {
@@ -47,14 +53,13 @@ export default {
 
             const fd = new FormData()
 
-            fd.append('title', this.productSelected.name)
+            fd.append('name', this.productSelected.name)
             fd.append('date', this.deliverySelected.date)
             fd.append('academic_date', this.deliverySelected.date)
-            fd.append('type', null)
-            fd.append('progress', 0)
+            fd.append('assigned_activitiable_id', this.deliverySelected.id)
+            fd.append('assigned_activitiable_type', 'App\\Models\\Delivery')
 
-
-            axios.post('/api/assigned-activity/', fd)
+            axios.post('/api/assigned-activity', fd)
                 .then((result) => {
                     this.getProject()
                 }).catch((err) => {
@@ -65,6 +70,14 @@ export default {
             axios.get('/api/projects/' + this.$route.params.idProject)
                 .then((result) => {
                     this.deliveries = result.data.deliveries
+
+                    this.deliveries.forEach((delivery) => {
+                        delivery.assigned_activities.forEach((assignment) => {
+                            this.totalActivitiesAssigned.push({ ...assignment })
+                        })
+
+                    })
+
                 }).catch((err) => {
                     console.error(err);
                 });
@@ -79,6 +92,14 @@ export default {
         },
         formatDate(date) {
             return moment(date).format('DD/MM')
+        },
+        enableProject() {
+            axios.get('/api/enable-project/' + this.$route.params.idProject)
+                .then((result) => {
+                    this.$swal('Proyecto habilitado correctamente')
+                }).catch((err) => {
+                    this.$swal('Hubo un error')
+                });
         }
     },
     mounted() {

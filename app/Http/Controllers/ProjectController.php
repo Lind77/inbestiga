@@ -166,7 +166,7 @@ class ProjectController extends Controller
 
         $total_time = $total_maxtime + $total_mintime / 2; */
 
-        $project = Project::with('deliveries')->find($id);
+        $project = Project::with(['deliveries', 'deliveries.assigned_activities'])->find($id);
         return response()->json($project);
     }
 
@@ -510,5 +510,16 @@ class ProjectController extends Controller
     {
         $contracts = Contract::doesntHave('properties')->get();
         return response()->json(count($contracts));
+    }
+
+    public function enable($id)
+    {
+        $project = Project::find($id);
+        $project->update([
+            'status' => 1
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }

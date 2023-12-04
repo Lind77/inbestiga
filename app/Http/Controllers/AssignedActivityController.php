@@ -35,9 +35,7 @@ class AssignedActivityController extends Controller
      */
     public function store(Request $request)
     {
-        /* $assigned_activity = Assigned_activity::create([
-
-        ]); */
+        $assigned_activity = Assigned_activity::create($request->all());
 
         return response()->json([
             'msg' => 'success'
