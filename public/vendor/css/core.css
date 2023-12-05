@@ -10090,7 +10090,8 @@ button.list-group-item-gray.active {
 
 .bg-dark {
   --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+  background-color: #2a2b40 !important;
+  color: #a2a3cb !important;
 }
 
 .bg-gray {
@@ -16329,8 +16330,11 @@ html:not(.layout-footer-fixed) .content-wrapper {
 }
 
 .navbar.bg-dark {
-  background-color: #233446 !important;
-  color: #e4e6e8;
+  background-color: #2a2b40 !important;
+  color: #a2a3cb !important;
+}
+.navbar.bg-dark i{
+  color: #a2a3cb !important;
 }
 .navbar.bg-dark .navbar-brand,
 .navbar.bg-dark .navbar-brand a {
@@ -16343,7 +16347,7 @@ html:not(.layout-footer-fixed) .content-wrapper {
 }
 .navbar.bg-dark .navbar-search-wrapper .navbar-search-icon,
 .navbar.bg-dark .navbar-search-wrapper .search-input {
-  color: #e4e6e8;
+  color: #a2a3cb;
 }
 .navbar.bg-dark .search-input-wrapper .search-input,
 .navbar.bg-dark .search-input-wrapper .search-toggler {

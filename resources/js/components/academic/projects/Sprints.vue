@@ -20,7 +20,9 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary mt-2 ">{{ formatDate(delivery.date) }}</button>
+                    <button class="btn btn-primary mt-2 ">{{ delivery.date ? formatDate(delivery.date) :
+                        'Indefinido'
+                    }}</button>
                 </div>
             </div>
         </div>
@@ -58,6 +60,7 @@ export default {
             fd.append('academic_date', this.deliverySelected.date)
             fd.append('assigned_activitiable_id', this.deliverySelected.id)
             fd.append('assigned_activitiable_type', 'App\\Models\\Delivery')
+            fd.append('status', 0)
 
             axios.post('/api/assigned-activity', fd)
                 .then((result) => {
@@ -67,7 +70,7 @@ export default {
                 });
         },
         getProject() {
-            axios.get('/api/projects/' + this.$route.params.idProject)
+            axios.get('/api/projects-sprints/' + this.$route.params.idProject)
                 .then((result) => {
                     this.deliveries = result.data.deliveries
 

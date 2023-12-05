@@ -42,6 +42,9 @@
 		<style>
 			body{
 				overflow-x: hidden;
+			},
+			.dark-mode {
+				background-color: #222236;
 			}
 		</style>
 </head>

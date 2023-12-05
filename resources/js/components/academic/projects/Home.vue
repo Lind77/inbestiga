@@ -25,7 +25,7 @@
               <button @click="filterProjects(1)" type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                 data-bs-target="#navs-pills-justified-profile" aria-controls="navs-pills-justified-profile"
                 aria-selected="false">
-                <i class="tf-icons bx bx-library"></i> Derecho
+                <i class="tf-icons bx bx-library"></i> Sociales
               </button>
             </li>
             <li class="nav-item">

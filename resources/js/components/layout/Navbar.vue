@@ -19,6 +19,12 @@
       <!-- /Search -->
 
       <ul class="navbar-nav flex-row align-items-center ms-auto">
+        <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+          <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
+            @click="darkMode">
+            <i class="bx bx-sm bx-sun"></i>
+          </a>
+        </li>
         <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
           <a @click="clearCantNotifications" class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
             data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
@@ -203,6 +209,12 @@ export default {
     }
   },
   methods: {
+    darkMode() {
+      $('#layout-menu').removeClass('bg-primary');
+      $('#layout-menu').addClass('bg-dark');
+      $('.container-xxl').addClass('bg-dark');
+      this.$emit('darkMode')
+    },
     getUsers() {
       axios.get('/api/users/')
         .then((result) => {
@@ -417,6 +429,10 @@ export default {
 
 .killSpace {
   display: none;
+}
+
+.dark-mode {
+  background-color: #2a2b40 !important;
 }
 
 /* nav {
