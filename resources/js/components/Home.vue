@@ -4,9 +4,9 @@
             <Sidebar v-if="store.authUser" :hidden="hidden" :user="store.authUser" :role="store.authUser.subarea.name"
                 :permissions="store.authUser.roles[0].permissions" />
             <div class="layout-page">
-                <Navbar @hideSidebar="hideSidebar" />
+                <Navbar @hideSidebar="hideSidebar" @darkMode="darkMode" />
                 <div class="content-wrapper">
-                    <component :is="getComponentMain"></component>
+                    <component :is="getComponentMain" :bg="bg"></component>
                 </div>
             </div>
         </div>
@@ -29,12 +29,18 @@ export default {
     },
     data() {
         return {
-            hidden: true
+            hidden: true,
+            bg: ''
         }
 
     },
     components: { Sidebar, Navbar, SalesMain, AdminMain, ExperienceMain, MarketingMain },
     methods: {
+        darkMode() {
+            $('.layout-container').addClass('dark-mode')
+            $('.content-wrapper').addClass('bg-dark')
+            this.bg = 'bg-dark'
+        },
         hideSidebar() {
             this.hidden = !this.hidden
             $('body').css('transform', `translate(265px, 0)`)
@@ -70,3 +76,8 @@ export default {
     }
 }
 </script>
+<style scoped>
+.dark-mode {
+    background-color: #232333 !important;
+}
+</style>

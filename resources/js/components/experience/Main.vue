@@ -127,3 +127,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.bg-dark {
+  background-color: #232333 !important;
+}
+</style>

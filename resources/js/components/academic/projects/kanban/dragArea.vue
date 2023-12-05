@@ -1,7 +1,6 @@
 <template>
   <div class="col">
     <div class="kanban-header fw-bold">
-      {{ tasks }}
       <h4>{{ title }} ({{ tasks.filter(task => task.status == status).length }})</h4>
     </div>
     <div :id="'draggableKanban' + status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent
