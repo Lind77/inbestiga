@@ -514,12 +514,19 @@ class ProjectController extends Controller
 
     public function enable($id)
     {
-        $project = Project::find($id);
+        $contract = Contract::with('projects')->find($id);
+        $project = $contract->projects->first();
         $project->update([
             'status' => 1
         ]);
         return response()->json([
             'msg' => 'success'
         ]);
+    }
+
+    public function sprints($id)
+    {
+        $project = Project::with('deliveries')->find($id);
+        return response()->json($project);
     }
 }

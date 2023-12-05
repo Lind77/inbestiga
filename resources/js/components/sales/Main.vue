@@ -1,5 +1,5 @@
 <template>
-    <div class="container-xxl flex-grow-1 container-p-y">
+    <div :class="'container-xxl flex-grow-1 container-p-y'">
         <div class="row">
             <div class="col-lg-12 mb-4 order-0">
                 <div class="card">
@@ -31,7 +31,7 @@
                     </div>
                     <div class="card-body">
                         <ul class="timeline">
-                            <li class="timeline-item timeline-item-transparent" v-for="comunication in comunications">
+                            <li class="timeline-item timeline-item-transparent" v-for=" comunication  in  comunications ">
                                 <span class="timeline-point timeline-point-primary"></span>
                                 <div class="timeline-event">
                                     <div class="timeline-header mb-1">
@@ -73,6 +73,9 @@ import { userStore } from '../../stores/UserStore';
 import axios from 'axios';
 
 export default {
+    props: {
+        bg: String
+    },
     data() {
         return {
             newDateTime: '',
@@ -362,5 +365,9 @@ export default {
 .timeline .timeline-item.timeline-item-transparent .timeline-event {
     top: -1.4rem;
     background-color: rgba(0, 0, 0, 0)
+}
+
+.bg-dark {
+    background-color: #232333 !important;
 }
 </style>

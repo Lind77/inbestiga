@@ -190,4 +190,8 @@ aside {
   position: fixed !important;
   transform: translate3d(-100%, 0, 0) !important;
 }
+
+.dark-mode {
+  background-color: #2a2b40 !important;
+}
 </style>

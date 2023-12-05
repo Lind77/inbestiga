@@ -274,6 +274,7 @@ Route::delete('/meetings/{id}', [MeetingController::class, 'destroy']);
 Route::get('/meetings-complete/{id}', [MeetingController::class, 'complete']);
 
 Route::get('/projects', [ProjectController::class, 'index']);
+Route::get('/projects-sprints/{id}', [ProjectController::class, 'sprints']);
 Route::get('/projects-acad', [ProjectController::class, 'getAllProjectsAcad']);
 Route::get('/projects/{id}', [ProjectController::class, 'show']);
 Route::post('/projects', [ProjectController::class, 'store']);
@@ -324,6 +325,8 @@ Route::put('/properties', [PropertiesController::class, 'update']);
 Route::get('/webhook',[AichatController::class,'webhook']);
 Route::post('/webhook',[AichatController::class,'recibe']);
  */
+
+
 Route::get('/properties/{id}', [PropertiesController::class, 'show']);
 Route::get('/projects-properties', [PropertiesController::class, 'properties']);
 

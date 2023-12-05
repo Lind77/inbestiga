@@ -4,10 +4,10 @@
             <div class="container-cards">
                 <div class="card">
                     <div class="card-body">
-                        <router-link :to="{ name: 'kanban', params: { idProject: project.id } }" class="h5 cursor-pointer"
-                            v-if="project.propertiable" v-for="customer in project.propertiable.quotation.customers">
+                        <p @click="openKanban(project)" class="h5 cursor-pointer" v-if="project.propertiable"
+                            v-for="customer in project.propertiable.quotation.customers">
                             {{ customer.name }}
-                        </router-link>
+                        </p>
                         <div class="card-footer">
                             <p v-if="project.propertiable.projects[0].team">Equipo: {{
                                 project.propertiable.projects[0].team.name }}</p>
@@ -16,7 +16,7 @@
                             </router-link>
                             <i class='bx bx-check-double text-info cursor-pointer'
                                 @click="showModalAssignation(project)"></i>
-                            <i class='bx bx-poll text-primary cursor-pointer' @click="enterProject(project.id)"></i>
+                            <i class='bx bx-poll text-primary cursor-pointer' @click="enterProject(project)"></i>
                         </div>
                     </div>
                 </div>
@@ -30,11 +30,20 @@ export default {
         projectsFiltered: Array
     },
     methods: {
+        openKanban(project) {
+            console.log(project.propertiable.projects);
+            if (project.propertiable.projects[0].status == 1) {
+                this.$router.push({ name: 'kanban', params: { idProject: project.propertiable.projects[0].id } })
+            } else {
+                this.$swal('Este proyecto aun no tiene sprints')
+            }
+        },
         showModalAssignation(project) {
             this.$emit('showModalAssignation', project)
         },
-        enterProject(projectId) {
-            this.$router.push({ name: 'sprint', params: { idProject: projectId } })
+        enterProject(project) {
+            console.log(project.propertiable.projects[0].id)
+            this.$router.push({ name: 'sprint', params: { idProject: project.propertiable.projects[0].id } })
         }
     }
 }
