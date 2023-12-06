@@ -37,8 +37,19 @@ export default {
     components: { Sidebar, Navbar, SalesMain, AdminMain, ExperienceMain, MarketingMain },
     methods: {
         darkMode() {
+            $('nav').addClass('navbar-border-dark')
+            $('#layout-menu').removeClass('bg-primary');
+            $('#layout-menu').addClass('bg-dark');
+            $('.container-xxl').addClass('bg-dark');
+            $('#toggleIcon').removeClass('bx-moon')
+            $('#toggleIcon').addClass('bx-sun')
+            $('.card').addClass('bg-card-dark')
+            $('.card').filter('.bg-success').removeClass('bg-card-dark')
             $('.layout-container').addClass('dark-mode')
-            $('.content-wrapper').addClass('bg-dark')
+            $('.layout-page').addClass('dark-mode')
+            $('.content-wrapper').addClass('dark-mode')
+            $('aside').addClass('navbar-border-dark')
+            $('.menu-link').addClass('text-dark')
             this.bg = 'bg-dark'
         },
         hideSidebar() {

@@ -1,25 +1,25 @@
 <template>
   <div class="container-xxl flex-grow-1 container-p-y">
-    <div class="row" data-v-d514b8ac="">
+    <div class="row">
       <div class="alert alert-danger" role="alert">
         Por favor, rellenar las fichas de cliente. Aun nos quedan {{ numDocs }}
       </div>
-      <div class="col-lg-12 mb-4 order-0" data-v-d514b8ac="">
-        <div class="card" data-v-d514b8ac="">
-          <div class="d-flex align-items-end row" data-v-d514b8ac="">
-            <div class="col-sm-7" data-v-d514b8ac="">
-              <div class="card-body" data-v-d514b8ac="">
-                <h5 class="card-title text-primary" data-v-d514b8ac="">{{ store.authUser ? store.authUser.name : '' }}, te
+      <div class="col-lg-12 mb-4 order-0">
+        <div class="card">
+          <div class="d-flex align-items-end row">
+            <div class="col-sm-7">
+              <div class="card-body">
+                <h5 class="card-title text-primary">{{ store.authUser ? store.authUser.name : '' }}, te
                   damos la bienvenida 🎉</h5>
-                <p class="mb-4" data-v-d514b8ac="">Hay <span class="fw-bold" data-v-d514b8ac="">{{ deliveries.length
+                <p class="mb-4">Hay <span class="fw-bold">{{ deliveries.length
                 }}</span> entregas para hoy, te recomendamos revisarlas.</p>
               </div>
             </div>
-            <div class="col-sm-5 text-center text-sm-left" data-v-d514b8ac="">
-              <div class="card-body pb-0 px-0 px-md-4" data-v-d514b8ac=""><img
+            <div class="col-sm-5 text-center text-sm-left">
+              <div class="card-body pb-0 px-0 px-md-4"><img
                   src="https://themeselection-cdn.b-cdn.net/wp-content/uploads/2022/05/github-img.png" height="140"
                   alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png"
-                  data-app-light-img="illustrations/man-with-laptop-light.png" data-v-d514b8ac=""></div>
+                  data-app-light-img="illustrations/man-with-laptop-light.png"></div>
             </div>
           </div>
         </div>
@@ -127,8 +127,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.bg-dark {
-  background-color: #232333 !important;
-}
-</style>
