@@ -15,7 +15,7 @@
     <!--  Menú departamento de ventas -->
 
     <ul class="menu-inner py-1">
-      <router-link :to="{ path: '/home' }" class="menu-item">
+      <router-link :to="{ path: '/' + store.authUser.subarea.name }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-home"></i>
           <div data-i18n="Form Layouts">Inicio</div>
@@ -192,6 +192,20 @@ aside {
 }
 
 .dark-mode {
-  background-color: #2a2b40 !important;
+  background-color: red !important;
+}
+
+.navbar-border-dark {
+  box-shadow: 0 0 0.375rem 0.25rem rgba(0, 0, 0, .15) !important;
+}
+
+.text-dark {
+  color: #a2a3cb !important;
+}
+
+.active .menu-link {
+  background-color: #696cff;
+  color: #fff !important;
+  border-radius: 5px;
 }
 </style>
