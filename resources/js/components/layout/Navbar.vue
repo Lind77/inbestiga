@@ -22,7 +22,7 @@
         <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
           <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
             @click="darkMode">
-            <i class="bx bx-sm bx-sun"></i>
+            <i id="toggleIcon" class="bx bx-sm bx-moon"></i>
           </a>
         </li>
         <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
@@ -210,9 +210,6 @@ export default {
   },
   methods: {
     darkMode() {
-      $('#layout-menu').removeClass('bg-primary');
-      $('#layout-menu').addClass('bg-dark');
-      $('.container-xxl').addClass('bg-dark');
       this.$emit('darkMode')
     },
     getUsers() {
@@ -433,6 +430,14 @@ export default {
 
 .dark-mode {
   background-color: #2a2b40 !important;
+}
+
+.bg-dark {
+  background-color: #2b2c40 !important;
+}
+
+.navbar-border-dark {
+  box-shadow: 0 0 0.375rem 0.25rem rgba(0, 0, 0, .15) !important;
 }
 
 /* nav {

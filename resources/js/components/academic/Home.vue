@@ -3,7 +3,7 @@
     <div class="layout-container">
       <Sidebar :hidden="hidden" />
       <div class="layout-page">
-        <Navbar @hideSidebar="hideSidebar" />
+        <Navbar @hideSidebar="hideSidebar" @darkMode="darkMode" />
         <div class="content-wrapper">
           <!-- Content -->
           <router-view></router-view>
@@ -28,6 +28,9 @@ export default {
   methods: {
     hideSidebar() {
       this.hidden = !this.hidden
+    },
+    darkMode() {
+      $('.layout-page').addClass('bg-dark')
     }
   }
 }
