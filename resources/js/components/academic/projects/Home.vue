@@ -3,95 +3,22 @@
     <div class="card">
       <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
-          <h4 class="fw-bold py-3">Gestión de <br> Proyectos</h4>
+          <h4 class="fw-bold py-3">Gestión de Proyectos</h4>
+          <div>
+            <EspecialButton :title="'Cantidad'" :icon="'bx bx-user'" :number="projects.length" />
+            <EspecialButton :title="'Equipos'" :icon="'bx bx-group'" :number="0" />
+            <EspecialButton :title="'Reportes'" :icon="'bx bx-line-chart'" :number="0" />
+          </div>
         </div>
       </div>
-    </div>
 
+      <div class="row">
+        <CardProject v-for="project in projects" :project="project"></CardProject>
+      </div>
+
+
+    </div>
     <!-- <span v-if="store.rol == 'AdminAcad'" class="badge bg-label-primary me-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#projectModal">+</span> -->
-
-    <div class="row mt-3">
-      <div class="col-xl-12">
-        <div class="nav-align-top mb-4">
-          <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
-            <li class="nav-item">
-              <button @click="filterProjects(0)" type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                data-bs-target="#navs-pills-justified-home" aria-controls="navs-pills-justified-home"
-                aria-selected="true">
-                <i class="tf-icons bx bx-money"></i> Contables
-              </button>
-            </li>
-            <li class="nav-item">
-              <button @click="filterProjects(1)" type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                data-bs-target="#navs-pills-justified-profile" aria-controls="navs-pills-justified-profile"
-                aria-selected="false">
-                <i class="tf-icons bx bx-library"></i> Sociales
-              </button>
-            </li>
-            <li class="nav-item">
-              <button @click="filterProjects(2)" type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                data-bs-target="#navs-pills-justified-messages" aria-controls="navs-pills-justified-messages"
-                aria-selected="false">
-                <i class="tf-icons bx bx-buildings"></i> Ingeniería
-              </button>
-            </li>
-            <li class="nav-item">
-              <button @click="filterProjects(3)" type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                data-bs-target="#navs-pills-justified-health" aria-controls="navs-pills-justified-health"
-                aria-selected="false">
-                <i class="tf-icons bx bx-plus-medical"></i> Salud
-              </button>
-            </li>
-          </ul>
-          <div class="d-flex justify-content-center mt-2">
-            <input type="text" class="form-control w-50" placeholder="Buscar...">
-            <select name="" id="" class="form-control w-25 ms-2">
-              <option value="1">Todos</option>
-              <option value="2">En Progreso</option>
-              <option value="3">Stand By</option>
-              <option value="4">Completo</option>
-            </select>
-          </div>
-          <div class="tab-content mt-2">
-            <div class="tab-pane fade active show" id="navs-pills-justified-home" role="tabpanel">
-              <ProjectTab :projectsFiltered="projectsFiltered" @showModalAssignation="showModalAssignation" />
-            </div>
-            <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
-              <ProjectTab :projectsFiltered="projectsFiltered" @showModalAssignation="showModalAssignation" />
-            </div>
-            <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
-              <ProjectTab :projectsFiltered="projectsFiltered" @showModalAssignation="showModalAssignation" />
-            </div>
-            <div class="tab-pane fade" id="navs-pills-justified-health" role="tabpanel">
-              <ProjectTab :projectsFiltered="projectsFiltered" @showModalAssignation="showModalAssignation" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <!-- <div class="col-md-4" id="clientArea" @drop="drop" @dragover="allowDrop">
-        <p class="fw-bold h5">Experiencia</p>
-        <div class="container-cards" v-for="project in projects">
-          <div v-if="project.status == 0">
-            <CardProject :project="project" @click="showProject(project)" @getAllProjects="getAllProjectsAcad" />
-          </div>
-        </div>
-
-      </div> -->
-
-
-      <!-- 
-      <div class="col-md-4" id="qualityArea" @drop="drop" @dragover="allowDrop">
-        <p class="fw-bold h5">Calidad académica</p>
-        <div class="container-cards" v-for="project in projects">
-          <div v-if="project.status == 2">
-            <CardProject :project="project" @getAllProjects="getAllProjectsAcad" @showQualityModal="showQualityModal" />
-          </div>
-        </div>
-      </div> -->
-    </div>
   </div>
   <!-- <OffCanvas :project_selected="project_selected" @getAllProjects="getAllProjectsAcad" /> -->
   <QualityModal :qualityActivities="qualityActivities" />
@@ -100,6 +27,7 @@
 
 <script>
 import { userStore } from '../../../stores/UserStore'
+import EspecialButton from './EspecialButton.vue'
 import CardProject from './CardProject.vue'
 import OffCanvas from './OffCanvas.vue'
 import QualityModal from './QualityModal.vue'
@@ -113,7 +41,7 @@ export default {
       store
     }
   },
-  components: { CardProject, OffCanvas, QualityModal, TeamModal, ProjectTab },
+  components: { CardProject, OffCanvas, QualityModal, TeamModal, ProjectTab, EspecialButton },
   data() {
     return {
       projects: [],

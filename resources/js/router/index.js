@@ -140,139 +140,28 @@ import Jobs from '../components/jobs/Home.vue'
 export const routes = [
     {
         path: '/',
-        component: Home,
-        redirect: '/login',
-        name: 'home'
-    },
-    {
-        path: '/home',
-        component: Home,
-        name: 'home-enter'
-    },
-    {
-        path: '/login',
         component: Login,
         name: 'login'
     },
     {
-        path: '/acad',
-        component: HomeAcad,
-        redirect:'/acad/home',
-        meta: {requiresAuth:true},
+        path: '/home',
+        component: Home,
+        name: 'home',
         children:[
             {
-                path: 'home',
-                component: MainAcad,
-                name: 'main-acad'
-            },
-            {
-                path: 'projects',
-                component: HomeProject,
-                name: 'home-project',
-
-            },
-            {
-                path: 'kanban/:idProject',
-                component: Kanban,
-                props: true,
-                name: 'kanban'
-            },
-            {
-                path: 'collabs',
-                component: HomeCollabs,
-                name: 'home-collabs'
-            },
-            {
-                path: 'teams',
-                component: HomeTeams,
-                name: 'home-teams'
-            },
-            {
-                path: 'user/:idUser',
-                component: UserAcad,
-                props: true,
-                name: 'user-acad'
-            },
-            {
-                path: 'myprojects',
-                component: MyProjects,
-                name:'my-projects'
-            },
-            {
-                path: 'profile/:idProject',
-                component: AcadProfile,
-                props: true,
-                name: 'profile-acad'
-            },
-            {
-                path: 'notion',
-                component: HomeNotion,
-                name: 'notion'
-            },
-            {
-                path: 'sprint/:idProject',
-                component: Sprint,
-                props: true,
-                name: 'sprint'
-            },
-            {
-                path: 'files',
-                component: Files,
-                name: 'files'
-            }
-        ]
-    },
-    {
-        path: '/sales',
-        component: HomeSales,
-        redirect:'/sales/home',
-        meta: {requiresAuth:true},
-        children:[
-            {
-                path: 'home',
+                path: 'sales',
                 component: MainSales,
                 name: 'main-sales'
             },
             {
-                path: 'products',
-                component: HomeProduct,
-                name: 'home-product'
-            },
-            /* {
-                path: 'create-quotations/:idCustomer',
-                component: HomeQuotation,
-                props: true,
-                name: 'home-quotation'
-            } */
-            {
-                path: 'edit-quotation/:idQuotation',
-                component: EditQuotation,
-                props: true,
-                name: 'edit-quotation'
+                path: 'vouchers',
+                component: HomeVoucher,
+                name: 'vouchers'
             },
             {
-                path: 'orders/:idUser',
-                component: HomeOrders,
-                props: true,
-                name: 'home-orders'
-            },
-            {
-                path: 'create-orders/:idQuotation',
-                component: CreateOrder,
-                props: true,
-                name: 'create-orders'
-            },
-            {
-                path: 'create-contracts/:idQuotation',
-                component: HomeContracts,
-                props: true,
-                name: 'create-contracts'
-            },
-            {
-                path: 'edit-contracts/:idContract',
-                component: EditContracts,
-                props: true,
-                name: 'edit-contracts'
+                path: 'prices',
+                component: HomePrices,
+                name: 'home-prices'
             },
             {
                 path: 'customers',
@@ -297,24 +186,9 @@ export const routes = [
                 name: 'home-call'
             },
             {
-                path: 'calendars',
-                component: HomeCalendar,
-                name: 'home-calendar'
-            },
-            {
-                path: 'list-quotations',
-                component: ListQuotation,
-                name: 'list-quotations'
-            },
-            {
                 path: 'documents',
                 component: HomeDocuments,
                 name: 'home-documents'
-            },
-            {
-                path: 'prices',
-                component: HomePrices,
-                name: 'home-prices'
             },
             {
                 path: 'my-leads',
@@ -322,23 +196,10 @@ export const routes = [
                 name: 'my-leads'
             },
             {
-                path: 'makeDocs/:customerId?/:quotationId?',
-                component: HomeMakeDocs,
-                props: true,
-                name: 'home-docs'
-            }
-        ]
-    },
-    {
-        path: '/admin',
-        component: HomeAdmin,
-        redirect:'/admin/home',
-        meta: {requiresAuth:true},
-        children:[
-            {
-                path: 'home',
-                component:  MainAdmin,
-                name: 'main-admin'
+                path: 'real-time/:userId',
+                component: RealTime,
+                name: 'real-time',
+                props: true
             },
             {
                 path: 'users-admin',
@@ -390,19 +251,11 @@ export const routes = [
                 path: 'super-chart',
                 component: HomeChart,
                 name: 'super-chart'
-            }
-        ]
-    },
-    {
-        path: '/experience',
-        component: HomeExperience,
-        redirect:'/experience/home',
-        meta: {requiresAuth:true},
-        children:[
+            },
             {
-                path: 'home',
-                component:  MainExperience,
-                name: 'main-experience'
+                path:'attendance',
+                component: HomeAttendance,
+                name:'home-attendance'
             },
             {
                 path: 'requests',
@@ -415,19 +268,9 @@ export const routes = [
                 name: 'home-schedule'
             },
             {
-                path:'attendance',
-                component: HomeAttendance,
-                name:'home-attendance'
-            },
-            {
                 path: 'calendly',
                 component: HomeCalendly,
                 name: 'home-calendly'
-            },
-            {
-                path: 'profiles',
-                component: HomeProfiles,
-                name: 'home-profiles'
             },
             {
                 path: 'deliveries',
@@ -435,9 +278,25 @@ export const routes = [
                 name: 'home-deliveries'
             },
             {
-                path: 'comunications',
-                component: HomeComunications,
-                name: 'experience-comunications'
+                path: 'profiles',
+                component: HomeProfiles,
+                name: 'home-profiles'
+            },
+            {
+                path: 'projects',
+                component: HomeProject,
+                name: 'home-project',
+            },
+            {
+                path: 'profile/:idProject',
+                component: AcadProfile,
+                props: true,
+                name: 'profile-acad'
+            },
+            {
+                path: 'teams',
+                component: HomeTeams,
+                name: 'home-teams'
             },
             {
                 path: 'documentation/:quotationId',
@@ -448,66 +307,11 @@ export const routes = [
         ]
     },
     {
-        path: '/marketing',
-        component: HomeMarketing,
-        redirect:'/marketing/home',
-        meta: {requiresAuth:true},
-        children:[
-            {
-                path: 'home',
-                component:  MainMarketing,
-                name: 'main-marketing'
-            }
-        ]
-    },
-    {
         path: '/notifications/:idUser',
         component: Notifications,
         name: 'notifications',
         meta: {requiresAuth:true},
         props: true
-    },
-    {
-        path: '/profile/:idUser',
-        component: Profile,
-        name: 'profile',
-        meta: {requiresAuth:true},
-        props: true
-    },
-    {
-        path: '/quotation-file/:id',
-        component:  QuotationFile,
-        name: 'quotation-file',
-        props: true
-    },
-    {
-        path: '/quotation-img/:id',
-        component:  QuotationImg,
-        name: 'quotation-img',
-        props: true
-    },
-    {
-        path: '/order-file/:id',
-        component:  OrderFile,
-        name: 'order-file',
-        props: true
-    },
-    {
-        path: '/voucher-file/:voucherId',
-        component: FileVoucher,
-        name: 'voucher-file',
-        props: true
-    },
-    {
-        path: '/ecard/:id',
-        component:  Ecard,
-        name: 'ecard',
-        props: true
-    },
-    {
-        path: '/jobs',
-        component: Jobs,
-        name: 'jobs'
     }
 ]
 
