@@ -2,7 +2,7 @@
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             <Sidebar v-if="store.authUser" :hidden="hidden" :user="store.authUser" :role="store.authUser.subarea.name"
-                :permissions="store.authUser.roles[0].permissions" />
+                :permissions="store.authUser.roles[0].permissions" :bg="bg" />
             <div class="layout-page">
                 <Navbar @hideSidebar="hideSidebar" @theme="theme" />
                 <div class="content-wrapper">
@@ -56,6 +56,7 @@ export default {
                 $('aside').addClass('bg-primary')
                 $('.menu-link').removeClass('text-dark')
                 /* localStorage.setItem('theme', 'dark'); */
+                this.bg = 'bg-primary'
             } else if (theme == 'dark') {
                 /* localStorage.setItem('theme', 'light'); */
                 $('nav').addClass('bg-dark')
@@ -72,12 +73,13 @@ export default {
                 /* $('.content-wrapper').addClass('dark-mode') */
                 $('aside').addClass('navbar-border-dark')
                 $('.menu-link').addClass('text-dark')
+                this.bg = 'bg-dark'
             }
 
         },
         hideSidebar() {
             this.hidden = !this.hidden
-            $('body').css('transform', `translate(265px, 0)`)
+            /* $('body').css('transform', `translate(265px, 0)`) */
         }
     },
     computed: {
