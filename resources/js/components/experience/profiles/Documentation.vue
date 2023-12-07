@@ -547,7 +547,7 @@ export default {
                             })
                         }
                     } else if (this.quotation.order) {
-                        console.log(this.quotation.order)
+                        this.newQuestions = JSON.parse(this.quotation.order.properties[0].properties)
                     }
                     this.$swal.close()
                     console.log(this.properties)
