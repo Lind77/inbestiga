@@ -147,6 +147,7 @@ export const routes = [
         path: '/home',
         component: Home,
         name: 'home',
+        meta: {requiresAuth:true},
         children:[
             {
                 path: 'sales',
@@ -179,6 +180,12 @@ export const routes = [
                 component: HomeFunnel,
                 props:true,
                 name: 'home-funnel'
+            },
+            {
+                path: '/makeDocs/:customerId?/:quotationId?',
+                component: HomeMakeDocs,
+                props: true,
+                name: 'home-docs'
             },
             {
                 path: 'calls',
