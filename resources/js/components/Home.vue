@@ -47,9 +47,8 @@ export default {
                 $('.container-xxl').removeClass('bg-dark');
                 $('#toggleIcon').removeClass('bx-sun')
                 $('#toggleIcon').addClass('bx-moon')
-
                 $('.card').removeClass('bg-dark')
-                $('.card').filter('.bg-success').removeClass('bg-card-dark')
+                $('.card').filter('.bg-success').removeClass('bg-dark')
                 $('.layout-container').removeClass('dark-mode')
                 $('.layout-page').removeClass('dark-mode')
                 /* $('.content-wrapper').removeClass('dark-mode') */
@@ -59,14 +58,15 @@ export default {
                 /* localStorage.setItem('theme', 'dark'); */
             } else if (theme == 'dark') {
                 /* localStorage.setItem('theme', 'light'); */
+                $('nav').addClass('bg-dark')
                 $('nav').addClass('navbar-border-dark')
                 $('#layout-menu').removeClass('bg-primary');
                 $('#layout-menu').addClass('bg-dark');
-                $('.container-xxl').addClass('bg-dark');
+                $('.container-xxl').addClass('bg-darker');
                 $('#toggleIcon').removeClass('bx-moon')
                 $('#toggleIcon').addClass('bx-sun')
                 $('.card').addClass('bg-dark')
-                $('.card').filter('.bg-success').removeClass('bg-card-dark')
+                $('.card').filter('.bg-success').removeClass('bg-dark')
                 $('.layout-container').addClass('dark-mode')
                 $('.layout-page').addClass('dark-mode')
                 /* $('.content-wrapper').addClass('dark-mode') */
