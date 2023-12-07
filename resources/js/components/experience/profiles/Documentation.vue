@@ -220,6 +220,7 @@
                                         </template>
                                     </div>
                                 </div>
+                                <button class="btn btn-success w-100 mt-2" @click="saveFields">Insertar</button>
                             </div>
                         </div>
                     </div>
@@ -243,9 +244,8 @@
                         <input type="text" v-model="newUpdate.question" placeholder="Título..." class="form-control">
                         <textarea placeholder="Cuerpo..." v-model="newUpdate.answer" class="form-control mt-2"
                             rows="5"></textarea>
-                        <button class="btn btn-success w-100 mt-2" v-if="docType == 1"
-                            @click="saveFields">Actualizar</button>
-                        <button class="btn btn-info w-100 mt-2" v-else @click="updateFields">Actualizar</button>
+
+                        <button class="btn btn-info w-100 mt-2" @click="updateFields">Actualizar</button>
                     </div>
                 </div>
                 <!-- <div class="card mt-2 bg-success">

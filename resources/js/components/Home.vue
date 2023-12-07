@@ -6,7 +6,9 @@
             <div class="layout-page">
                 <Navbar @hideSidebar="hideSidebar" @darkMode="darkMode" />
                 <div class="content-wrapper">
-                    <component :is="getComponentMain" :bg="bg"></component>
+                    <component v-if="$route.path == '/home'" :is="getComponentMain" :bg="bg"></component>
+                    <router-view v-else></router-view>
+
                 </div>
             </div>
         </div>
@@ -37,20 +39,8 @@ export default {
     components: { Sidebar, Navbar, SalesMain, AdminMain, ExperienceMain, MarketingMain },
     methods: {
         darkMode() {
-            $('nav').addClass('navbar-border-dark')
-            $('#layout-menu').removeClass('bg-primary');
-            $('#layout-menu').addClass('bg-dark');
-            $('.container-xxl').addClass('bg-dark');
-            $('#toggleIcon').removeClass('bx-moon')
-            $('#toggleIcon').addClass('bx-sun')
-            $('.card').addClass('bg-card-dark')
-            $('.card').filter('.bg-success').removeClass('bg-card-dark')
-            $('.layout-container').addClass('dark-mode')
-            $('.layout-page').addClass('dark-mode')
-            $('.content-wrapper').addClass('dark-mode')
-            $('aside').addClass('navbar-border-dark')
-            $('.menu-link').addClass('text-dark')
-            this.bg = 'bg-dark'
+            alert('listen')
+            localStorage.setItem('theme', 'dark');
         },
         hideSidebar() {
             this.hidden = !this.hidden
@@ -78,6 +68,28 @@ export default {
         }
     },
     mounted() {
+
+        var theme = localStorage.getItem('theme')
+
+        if (theme == 'dark') {
+            $('nav').addClass('navbar-border-dark')
+            $('#layout-menu').removeClass('bg-primary');
+            $('#layout-menu').addClass('bg-dark');
+            $('.container-xxl').addClass('bg-dark');
+            $('#toggleIcon').removeClass('bx-moon')
+            $('#toggleIcon').addClass('bx-sun')
+            $('.card').addClass('bg-dark')
+            $('.card').filter('.bg-success').removeClass('bg-card-dark')
+            $('.layout-container').addClass('dark-mode')
+            $('.layout-page').addClass('dark-mode')
+            /* $('.content-wrapper').addClass('dark-mode') */
+            $('aside').addClass('navbar-border-dark')
+            $('.menu-link').addClass('text-dark')
+        } else {
+
+
+        }
+
         if (localStorage.getItem('reloaded')) {
             localStorage.removeItem('reloaded');
         } else {
@@ -89,6 +101,10 @@ export default {
 </script>
 <style scoped>
 .dark-mode {
+    background-color: #232333 !important;
+}
+
+.bg-card-dark {
     background-color: #232333 !important;
 }
 </style>

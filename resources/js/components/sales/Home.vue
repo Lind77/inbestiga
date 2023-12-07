@@ -3,7 +3,7 @@
     <div class="layout-container">
       <Sidebar :hidden="hidden" :user="store.user" />
       <div class="layout-page">
-        <Navbar @hideSidebar="hideSidebar" />
+        <Navbar @hideSidebar="hideSidebar" @darkMode="darkMode" />
         <div class="content-wrapper">
           <!-- Content -->
           <router-view></router-view>
@@ -33,6 +33,9 @@ export default {
   methods: {
     hideSidebar() {
       this.hidden = !this.hidden
+    },
+    darkMode() {
+      localStorage.setItem('theme', 'dark');
     }
   }
 }
