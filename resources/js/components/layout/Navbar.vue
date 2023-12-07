@@ -19,12 +19,12 @@
       <!-- /Search -->
 
       <ul class="navbar-nav flex-row align-items-center ms-auto">
-        <!-- <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+        <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
           <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
             @click="darkMode">
             <i id="toggleIcon" class="bx bx-sm bx-moon"></i>
           </a>
-        </li> -->
+        </li>
         <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
           <a @click="clearCantNotifications" class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
             data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
@@ -205,12 +205,23 @@ export default {
       seens: [],
       numberMessages: 0,
       messages: [],
-      users: []
+      users: [],
+      theme: 'light'
     }
   },
   methods: {
     darkMode() {
-      this.$emit('darkMode')
+      if (this.theme == 'light') {
+        $('#toggleIcon').removeClass('bx-moon')
+        $('#toggleIcon').addClass('bx-sun')
+        this.theme = 'dark'
+        this.$emit('theme', this.theme)
+      } else {
+        $('#toggleIcon').addClass('bx-moon')
+        $('#toggleIcon').removeClass('bx-sun')
+        this.theme = 'light'
+        this.$emit('theme', this.theme)
+      }
     },
     getUsers() {
       axios.get('/api/users/')
