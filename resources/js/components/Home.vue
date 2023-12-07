@@ -32,7 +32,7 @@ export default {
     data() {
         return {
             hidden: true,
-            bg: ''
+            bg: 'bg-primary'
         }
 
     },
@@ -42,9 +42,9 @@ export default {
             /*  var theme = localStorage.getItem('theme') */
             if (theme == 'light') {
                 $('nav').removeClass('navbar-border-dark')
-                $('#layout-menu').removeClass('bg-primary');
+                $('nav').removeClass('bg-dark')
                 $('#layout-menu').removeClass('bg-dark');
-                $('.container-xxl').removeClass('bg-dark');
+                $('.container-xxl').removeClass('bg-darker');
                 $('#toggleIcon').removeClass('bx-sun')
                 $('#toggleIcon').addClass('bx-moon')
                 $('.card').removeClass('bg-dark')
