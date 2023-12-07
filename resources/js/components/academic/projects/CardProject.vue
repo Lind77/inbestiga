@@ -1,36 +1,7 @@
 <template>
-    <div :class="`card mb-3 bg-light cursor-move`" draggable="true" @dragstart="drag" :id="`${project.id}`">
-        <!-- <div class="card-header">
-        <p class="mb-0">{{ project.textStatus }}</p>
-    </div> -->
-        <div class="card-body">
-            <div class="badge rounded-pill bg-label-success"> {{ project.title }}</div>
-            <!-- <div class="h6 text-white" v-if="project.team">Equipo {{ project.team.name }}</div> -->
-            <h4 class="card-title h5 mt-3">{{ project.title }}</h4>
-            <router-link v-if="project.status == 1" :to="{ name: 'kanban', params: { idProject: project.id } }">
-                <i class='bx bx-table'></i>
-            </router-link>
-            <router-link v-if="project.status == 1"
-                :to="{ name: 'profile-acad', params: { idProject: project.projectable_id } }">
-                <i class='bx bx-file text-success'></i>
-            </router-link>
-            <i v-if="project.status == 2" class='bx bx-list-check text-primary cursor-pointer'
-                @click="showQualityModal"></i>
-            <router-link v-if="project.status == 0" target="_blank"
-                :to="{ name: 'ecard', params: { id: project.customer.id } }"><i
-                    class='bx bx-credit-card-alt'></i></router-link>
-            <i class='bx bx-trash text-danger cursor-pointer' @click="deleteProject(project.id)"></i>
-
-            <i v-if="project.numTasksCompleted / project.numTasks == 1 && project.status == 1" @click="updateQuality"
-                class='bx bx-check-circle text-success cursor-pointer'></i>
-            <!-- <template v-if="project.status == 0">
-            <p v-for="activity in project.activities">
-            {{ activity.title }}
-            <i v-if="activity.isCompleted" class='bx bx-check-circle text-success'></i>
-            <i v-else class='bx bx-x-circle text-danger'></i>
-            </p>
-        </template>
-        -->
+    <div class="col-4">
+        <div class="card mb-3 bg-red cursor-move">
+            <p>{{ project }}</p>
         </div>
     </div>
 </template>
