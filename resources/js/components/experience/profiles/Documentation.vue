@@ -455,13 +455,13 @@ export default {
                     subtype: 'c'
                 },
                 {
-                    question: 'Asesoría para sustentación',
+                    question: 'Reunión explciativa de informe final',
                     answer: false,
                     type: 4,
                     subtype: 'c'
                 },
                 {
-                    question: 'Reunión explciativa de informe final',
+                    question: 'Asesoría para sustentación',
                     answer: false,
                     type: 4,
                     subtype: 'c'
