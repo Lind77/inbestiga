@@ -104,12 +104,7 @@ export default {
 
         var theme = localStorage.getItem('theme')
 
-        if (theme == 'dark') {
-
-        } else {
-
-
-        }
+        this.theme(theme)
 
         if (localStorage.getItem('reloaded')) {
             localStorage.removeItem('reloaded');
