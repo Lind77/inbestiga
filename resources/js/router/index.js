@@ -319,6 +319,44 @@ export const routes = [
         name: 'notifications',
         meta: {requiresAuth:true},
         props: true
+    },
+    {
+        path: '/notifications/:idUser',
+        component: Notifications,
+        name: 'notifications',
+        meta: {requiresAuth:true},
+        props: true
+    },
+    {
+        path: '/profile/:idUser',
+        component: Profile,
+        name: 'profile',
+        meta: {requiresAuth:true},
+        props: true
+    },
+    {
+        path: '/quotation-file/:id',
+        component:  QuotationFile,
+        name: 'quotation-file',
+        props: true
+    },
+    {
+        path: '/quotation-img/:id',
+        component:  QuotationImg,
+        name: 'quotation-img',
+        props: true
+    },
+    {
+        path: '/order-file/:id',
+        component:  OrderFile,
+        name: 'order-file',
+        props: true
+    },
+    {
+        path: '/voucher-file/:voucherId',
+        component: FileVoucher,
+        name: 'voucher-file',
+        props: true
     }
 ]
 

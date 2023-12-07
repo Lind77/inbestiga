@@ -49,7 +49,7 @@ router.beforeEach((to, from, next) => {
         // if not, redirect to login page.
         if (!loggedIn()) {
             next({
-            path: '/login',
+            path: '/',
             query: { redirect: to.fullPath }
             })
         } else {
