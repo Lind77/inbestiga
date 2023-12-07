@@ -461,6 +461,12 @@ export default {
                     subtype: 'c'
                 },
                 {
+                    question: 'Reunión explciativa de informe final',
+                    answer: false,
+                    type: 4,
+                    subtype: 'c'
+                },
+                {
                     question: 'Otra reunión',
                     answer: false,
                     type: 4,

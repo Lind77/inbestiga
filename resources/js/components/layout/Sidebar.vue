@@ -1,11 +1,10 @@
 <template>
-  <aside v-if="store.authUser" id="layout-menu" class="layout-menu menu-vertical menu bg-primary text-white"
+  <aside v-if="store.authUser" id="layout-menu" class="layout-menu menu-vertical menu text-white"
     :class="{ 'hide-aside': !hidden }">
     <div class="app-brand demo">
       <a href="#" class="app-brand-link">
         <span class="app-brand-text demo menu-text fw-bolder ms-2 text-white">Inbestiga </span>
       </a>
-
       <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
         <i class="bx bx-chevron-left bx-sm align-middle"></i>
       </a>
@@ -23,7 +22,7 @@
       </router-link>
       <li class="menu-header small text-uppercase" v-if="store.authUser.permissions.length > 0"><span
           class="menu-header-text">Premium</span></li>
-      <template v-for="permission in store.authUser.permissions">
+      <template v-for="  permission   in   store.authUser.permissions  ">
         <router-link :to="{ name: permission.route_name }" class="menu-item" v-if="permission.siderbar_name != 'Chat'">
           <div class="menu-link">
             <i :class="`menu-icon tf-icons bx ${permission.icon_class}`"></i>
@@ -32,7 +31,7 @@
         </router-link>
       </template>
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Menú</span></li>
-      <template v-for="permission in store.authUser.roles[0].permissions">
+      <template v-for="  permission   in   store.authUser.roles[0].permissions  ">
         <router-link :to="{ name: permission.route_name }" class="menu-item" v-if="permission.siderbar_name != 'Chat'">
           <div class="menu-link">
             <i :class="`menu-icon tf-icons bx ${permission.icon_class}`"></i>
@@ -139,7 +138,8 @@ export default {
     },
     user: Object,
     role: String,
-    permissions: Array
+    permissions: Array,
+    bg: String
   },
   data() {
     return {
