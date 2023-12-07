@@ -4,7 +4,7 @@
             <Sidebar v-if="store.authUser" :hidden="hidden" :user="store.authUser" :role="store.authUser.subarea.name"
                 :permissions="store.authUser.roles[0].permissions" />
             <div class="layout-page">
-                <Navbar @hideSidebar="hideSidebar" @darkMode="darkMode" />
+                <Navbar @hideSidebar="hideSidebar" @theme="theme" />
                 <div class="content-wrapper">
                     <component v-if="$route.path == '/home'" :is="getComponentMain" :bg="bg"></component>
                     <router-view v-else></router-view>
@@ -38,9 +38,42 @@ export default {
     },
     components: { Sidebar, Navbar, SalesMain, AdminMain, ExperienceMain, MarketingMain },
     methods: {
-        darkMode() {
-            alert('listen')
-            localStorage.setItem('theme', 'dark');
+        theme(theme) {
+            /*  var theme = localStorage.getItem('theme') */
+            if (theme == 'light') {
+                $('nav').removeClass('navbar-border-dark')
+                $('#layout-menu').removeClass('bg-primary');
+                $('#layout-menu').removeClass('bg-dark');
+                $('.container-xxl').removeClass('bg-dark');
+                $('#toggleIcon').removeClass('bx-sun')
+                $('#toggleIcon').addClass('bx-moon')
+
+                $('.card').removeClass('bg-dark')
+                $('.card').filter('.bg-success').removeClass('bg-card-dark')
+                $('.layout-container').removeClass('dark-mode')
+                $('.layout-page').removeClass('dark-mode')
+                /* $('.content-wrapper').removeClass('dark-mode') */
+                $('aside').removeClass('navbar-border-dark')
+                $('aside').addClass('bg-primary')
+                $('.menu-link').removeClass('text-dark')
+                /* localStorage.setItem('theme', 'dark'); */
+            } else if (theme == 'dark') {
+                /* localStorage.setItem('theme', 'light'); */
+                $('nav').addClass('navbar-border-dark')
+                $('#layout-menu').removeClass('bg-primary');
+                $('#layout-menu').addClass('bg-dark');
+                $('.container-xxl').addClass('bg-dark');
+                $('#toggleIcon').removeClass('bx-moon')
+                $('#toggleIcon').addClass('bx-sun')
+                $('.card').addClass('bg-dark')
+                $('.card').filter('.bg-success').removeClass('bg-card-dark')
+                $('.layout-container').addClass('dark-mode')
+                $('.layout-page').addClass('dark-mode')
+                /* $('.content-wrapper').addClass('dark-mode') */
+                $('aside').addClass('navbar-border-dark')
+                $('.menu-link').addClass('text-dark')
+            }
+
         },
         hideSidebar() {
             this.hidden = !this.hidden
@@ -72,19 +105,7 @@ export default {
         var theme = localStorage.getItem('theme')
 
         if (theme == 'dark') {
-            $('nav').addClass('navbar-border-dark')
-            $('#layout-menu').removeClass('bg-primary');
-            $('#layout-menu').addClass('bg-dark');
-            $('.container-xxl').addClass('bg-dark');
-            $('#toggleIcon').removeClass('bx-moon')
-            $('#toggleIcon').addClass('bx-sun')
-            $('.card').addClass('bg-dark')
-            $('.card').filter('.bg-success').removeClass('bg-card-dark')
-            $('.layout-container').addClass('dark-mode')
-            $('.layout-page').addClass('dark-mode')
-            /* $('.content-wrapper').addClass('dark-mode') */
-            $('aside').addClass('navbar-border-dark')
-            $('.menu-link').addClass('text-dark')
+
         } else {
 
 
