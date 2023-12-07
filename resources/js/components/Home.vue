@@ -2,7 +2,7 @@
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             <Sidebar v-if="store.authUser" :hidden="hidden" :user="store.authUser" :role="store.authUser.subarea.name"
-                :permissions="store.authUser.roles[0].permissions" :bg="bg" />
+                :permissions="store.authUser.roles[0].permissions" :bgColor="bg" />
             <div class="layout-page">
                 <Navbar @hideSidebar="hideSidebar" @theme="theme" />
                 <div class="content-wrapper">
@@ -75,7 +75,6 @@ export default {
                 $('.menu-link').addClass('text-dark')
                 this.bg = 'bg-dark'
             }
-
         },
         hideSidebar() {
             this.hidden = !this.hidden
