@@ -310,6 +310,13 @@ export const routes = [
                 component: HomeDocumentation,
                 name: 'home-documentation',
                 props: true
+            },
+            {
+                path: '/profile/:idUser',
+                component: Profile,
+                name: 'profile',
+                meta: {requiresAuth:true},
+                props: true
             }
         ]
     },
@@ -324,13 +331,6 @@ export const routes = [
         path: '/notifications/:idUser',
         component: Notifications,
         name: 'notifications',
-        meta: {requiresAuth:true},
-        props: true
-    },
-    {
-        path: '/profile/:idUser',
-        component: Profile,
-        name: 'profile',
         meta: {requiresAuth:true},
         props: true
     },
