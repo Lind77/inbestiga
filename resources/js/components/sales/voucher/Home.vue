@@ -159,8 +159,14 @@ export default {
 
         },
         selectClient(client) {
+            console.log();
             this.foundClients = []
-            this.quotations = client.quotations
+            if (client.quotations.length == 0) {
+                this.$swal('No se ha encontrado cotización o contrato de este usuario.')
+            } else {
+                this.quotations = client.quotations
+            }
+
         },
         getCustomers() {
             axios.get('/api/clients')

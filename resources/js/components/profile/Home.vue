@@ -1,155 +1,141 @@
 <template>
-    <div class="layout-wrapper layout-content-navbar">
-        <div class="layout-container">
-            <Sidebar :hidden="hidden" />
-            <div class="layout-page">
-                <Navbar @hideSidebar="hideSidebar" />
-                <div class="content-wrapper">
-                    <!-- Content -->
-                    <div class="container-xxl flex-grow-1 container-p-y">
-                        <h4 class="fw-bold py-3 mb-4">Mi Perfil</h4>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card mb-4">
-                                    <div
-                                        class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
-                                        <div class="flex-grow-1 mt-1 mt-sm-4">
-                                            <div
-                                                class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
-                                                <div class="user-profile-info">
-                                                    <h4>{{ user.name }}</h4>
-                                                    <ul
-                                                        class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
-                                                        <li class="list-inline-item fw-medium" v-if="user.roles">
-                                                            <i class="bx bx-pen"></i>
-                                                            {{
-                                                                user.roles[0]
-                                                                    .name
-                                                            }}
-                                                        </li>
-                                                        <li class="list-inline-item fw-medium">
-                                                            <i class="bx bx-map"></i>
-                                                            Huancayo
-                                                        </li>
-                                                        <li class="list-inline-item fw-medium">
-                                                            <i class="bx bx-calendar-alt"></i>
-                                                            Joined April 2022
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
-                                                    <i class="bx bx-user-check me-1"></i>Online
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-12">
-                                <div class="nav-align-top mb-4">
-                                    <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
-                                        <li class="nav-item">
-                                            <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                                                data-bs-target="#navs-pills-justified-home"
-                                                aria-controls="navs-pills-justified-home" aria-selected="true">
-                                                <i class="tf-icons bx bx-home"></i> Mi Horario
-                                            </button>
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4">Mi Perfil</h4>
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
+                        <div class="flex-grow-1 mt-1 mt-sm-4">
+                            <div
+                                class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
+                                <div class="user-profile-info">
+                                    <h4>{{ user.name }}</h4>
+                                    <ul
+                                        class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
+                                        <li class="list-inline-item fw-medium" v-if="user.roles">
+                                            <i class="bx bx-pen"></i>
+                                            {{
+                                                user.roles[0]
+                                                    .name
+                                            }}
                                         </li>
-                                        <li class="nav-item">
-                                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                                data-bs-target="#navs-pills-justified-profile"
-                                                aria-controls="navs-pills-justified-profile" aria-selected="false">
-                                                <i class="tf-icons bx bx-user"></i> Permisos
-                                            </button>
+                                        <li class="list-inline-item fw-medium">
+                                            <i class="bx bx-map"></i>
+                                            Huancayo
                                         </li>
-                                        <li class="nav-item">
-                                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                                data-bs-target="#navs-pills-justified-messages"
-                                                aria-controls="navs-pills-justified-messages" aria-selected="false">
-                                                <i class="tf-icons bx bx-key"></i> Seguridad
-                                            </button>
+                                        <li class="list-inline-item fw-medium">
+                                            <i class="bx bx-calendar-alt"></i>
+                                            Joined April 2022
                                         </li>
                                     </ul>
-                                    <div class="tab-content">
-                                        <div class="tab-pane fade active show" id="navs-pills-justified-home"
-                                            role="tabpanel">
-                                            <div class="row">
-                                                <div class="col-2">
-                                                    <h3>{{ totalHours }}</h3>
-                                                    <p>HORAS</p>
-                                                    <!-- <select @change="selectUserSchedule" v-model="userScheduleSelected"
+                                </div>
+                                <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
+                                    <i class="bx bx-user-check me-1"></i>Online
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="nav-align-top mb-4">
+                    <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
+                        <li class="nav-item">
+                            <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-pills-justified-home" aria-controls="navs-pills-justified-home"
+                                aria-selected="true">
+                                <i class="tf-icons bx bx-home"></i> Mi Horario
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-pills-justified-profile" aria-controls="navs-pills-justified-profile"
+                                aria-selected="false">
+                                <i class="tf-icons bx bx-user"></i> Permisos
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-pills-justified-messages"
+                                aria-controls="navs-pills-justified-messages" aria-selected="false">
+                                <i class="tf-icons bx bx-key"></i> Seguridad
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade active show" id="navs-pills-justified-home" role="tabpanel">
+                            <div class="row">
+                                <div class="col-2">
+                                    <h3>{{ totalHours }}</h3>
+                                    <p>HORAS</p>
+                                    <!-- <select @change="selectUserSchedule" v-model="userScheduleSelected"
                                                         class="form-control" v-if="store.authUser.id == 9">
                                                         <option :value="user.id" v-for="user in users">{{ user.name }}
                                                         </option>
                                                     </select> -->
-                                                    <a href="javascript:void(0)" @click="openModalSchedule"
-                                                        class="btn btn-primary text-nowrap mt-2">
-                                                        + Horario
-                                                    </a>
-                                                    <a href="javascript:void(0)" @click="deleteSchedules"
-                                                        class="btn btn-danger text-nowrap mt-2">
-                                                        Limpiar
-                                                    </a>
-                                                    <div class="mt-3">
-                                                        <p><span class="badge badge-center rounded-pill bg-success">{{
-                                                            abledHours }}</span>
-                                                            On
-                                                        </p>
-                                                        <p><span class="badge badge-center rounded-pill bg-secondary">{{
-                                                            disabledHours }}</span>
-                                                            Off
-                                                        </p>
-                                                        <!-- <p><span
+                                    <a href="javascript:void(0)" @click="openModalSchedule"
+                                        class="btn btn-primary text-nowrap mt-2">
+                                        + Horario
+                                    </a>
+                                    <a href="javascript:void(0)" @click="deleteSchedules"
+                                        class="btn btn-danger text-nowrap mt-2">
+                                        Limpiar
+                                    </a>
+                                    <div class="mt-3">
+                                        <p><span class="badge badge-center rounded-pill bg-success">{{
+                                            abledHours }}</span>
+                                            On
+                                        </p>
+                                        <p><span class="badge badge-center rounded-pill bg-secondary">{{
+                                            disabledHours }}</span>
+                                            Off
+                                        </p>
+                                        <!-- <p><span
                                                                 class="badge badge-center rounded-pill bg-warning">20</span>
                                                             Reuniones
                                                         </p> -->
-                                                    </div>
-                                                </div>
-                                                <div class="col-10">
-                                                    <div class="row">
-                                                        <div class="col" v-for="day in days">
-                                                            <p>{{ day.day }}</p>
-                                                            <template v-for="schedule in day.schedules">
-                                                                <Hour :schedule="schedule" @minusHour="minusHour"
-                                                                    @addHour="addHour" @showModalHour="showModalHour" />
-                                                            </template>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
-                                            <Permissions :permissionsNumber="permissionsNumber" />
-                                        </div>
-                                        <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
-                                            <div class="alert alert-danger" role="alert">Ten cuidado al editar estos campos.
-                                            </div>
-
-                                            <label for="">Correo</label>
-                                            <input type="text" v-model="email" class="form-control w-25" readonly>
-                                            <label for="">Contraseñas</label>
-
-                                            <div class="input-group input-group-merge w-25">
-                                                <input v-if="showPassword" v-model="password" type="text"
-                                                    class="form-control" id="basic-default-password32"
-                                                    placeholder="············" aria-describedby="basic-default-password">
-                                                <input v-else v-model="password" type="password" class="form-control"
-                                                    id="basic-default-password32" placeholder="············"
-                                                    aria-describedby="basic-default-password">
-                                                <span @click="toggleShow" class="input-group-text cursor-pointer"
-                                                    id="basic-default-password"><i
-                                                        :class="{ 'bx bx-show': showPassword, 'bx bx-hide': !showPassword }"></i></span>
-                                            </div>
-                                            <button class="btn btn-primary mt-2" @click="updateAccess">Actualizar</button>
+                                    </div>
+                                </div>
+                                <div class="col-10">
+                                    <div class="row">
+                                        <div class="col" v-for="day in days">
+                                            <p>{{ day.day }}</p>
+                                            <template v-for="schedule in day.schedules">
+                                                <Hour :schedule="schedule" @minusHour="minusHour" @addHour="addHour"
+                                                    @showModalHour="showModalHour" />
+                                            </template>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
+                            <Permissions :permissionsNumber="permissionsNumber" />
+                        </div>
+                        <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
+                            <div class="alert alert-danger" role="alert">Ten cuidado al editar estos campos.
+                            </div>
+
+                            <label for="">Correo</label>
+                            <input type="text" v-model="email" class="form-control w-25" readonly>
+                            <label for="">Contraseñas</label>
+
+                            <div class="input-group input-group-merge w-25">
+                                <input v-if="showPassword" v-model="password" type="text" class="form-control"
+                                    id="basic-default-password32" placeholder="············"
+                                    aria-describedby="basic-default-password">
+                                <input v-else v-model="password" type="password" class="form-control"
+                                    id="basic-default-password32" placeholder="············"
+                                    aria-describedby="basic-default-password">
+                                <span @click="toggleShow" class="input-group-text cursor-pointer"
+                                    id="basic-default-password"><i
+                                        :class="{ 'bx bx-show': showPassword, 'bx bx-hide': !showPassword }"></i></span>
+                            </div>
+                            <button class="btn btn-primary mt-2" @click="updateAccess">Actualizar</button>
+                        </div>
                     </div>
-                    <!-- / Content -->
                 </div>
             </div>
         </div>
