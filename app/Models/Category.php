@@ -13,4 +13,8 @@ class Category extends Model
     public function projects(){
         return $this->hasMany('App\Models\Project');
     }
+    //Relación uno a muchos Category-Icon
+    public function icons(){
+        return $this->morphMany('App\Models\Icon','iconeable');
+    }
 }
