@@ -100,13 +100,33 @@
                                 </div>
                                 <div class="col-10">
                                     <div class="row">
-                                        <div class="col" v-for="day in days">
-                                            <p>{{ day.day }}</p>
-                                            <template v-for="schedule in day.schedules">
-                                                <Hour :schedule="schedule" @minusHour="minusHour" @addHour="addHour"
-                                                    @showModalHour="showModalHour" />
-                                            </template>
+                                        <div class="col"></div>
+                                        <div class="col text-center">Lunes</div>
+                                        <div class="col text-center">Martes</div>
+                                        <div class="col text-center">Miércoles</div>
+                                        <div class="col text-center">Jueves</div>
+                                        <div class="col text-center">Viernes</div>
+                                    </div>
+                                    <div v-for="hour in listHours" class="row border rounded">
+                                        <div class="col pt-2">
+                                            <p>
+                                                <span @dblclick="editStartTime" v-show="!showStartTimeInput">{{ hour.start
+                                                }}
+                                                </span>
+                                                <input v-show="showStartTimeInput" type="time" class="form-control">
+
+                                                - <span @dblclick="editEndTime">{{ hour.end
+                                                }}</span>
+                                            </p>
                                         </div>
+                                        <div class="col d-flex" v-for="index in 5" :key="index">
+
+
+                                            <button class="btn btn-success p-2 w-100"></button>
+                                            <!-- <Hour :schedule="schedule" @minusHour="minusHour" @addHour="addHour"
+                                                        @showModalHour="showModalHour" /> -->
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +161,7 @@
         </div>
     </div>
     <ScheduleModal @getUser="getUser" :userIdSelected="userScheduleSelected" />
-    <HourModal :schedule="scheduleSelected" @getUser="getUser" @addMeeting="addMeeting" />
+    <HourModal :schedule="scheduleSelected" @getUser="getUser" @addMeeting="addMeeting" />Meeting" />
 </template>
 <script>
 
@@ -163,6 +183,11 @@ export default {
     components: { Sidebar, Navbar, ScheduleModal, Hour, HourModal, Permissions },
     data() {
         return {
+            listHours: [],
+            ableHours: {
+                start: '07:00',
+                end: '22:00'
+            },
             showPassword: false,
             email: '',
             password: '',
@@ -217,10 +242,17 @@ export default {
             missTime: '',
             recoveryTime: '',
             permissionsNumber: 0,
-            userScheduleSelected: 0
+            userScheduleSelected: 0,
+            showStartTimeInput: false
         };
     },
     methods: {
+        editStartTime() {
+            showStartTimeInput = true
+        },
+        editEndTime() {
+            alert('gg')
+        },
         toggleShow() {
             this.showPassword = !this.showPassword;
         },
@@ -252,9 +284,6 @@ export default {
         },
 
         checkDateRecovery() {
-
-
-
             /* const datePicked = new Date(this.dateRecovery)
             var actualDate = moment(new Date()).format('YYYY-MM-DD');
             if (moment(datePicked).diff(actualDate) > 0) {
@@ -383,6 +412,22 @@ export default {
         this.getProfile();
         this.getNumberOfPermissions()
         this.getUsers()
+
+        console.log(this.ableHours.start, this.ableHours.end);
+
+        let initialHour = this.ableHours.start
+        let finalHour = moment(this.ableHours.start, 'HH:mm').add(1, 'hours').format('HH:mm')
+
+        for (let index = 1; index < 15; index++) {
+            var hour = {
+                'start': initialHour,
+                'end': moment(initialHour, 'HH:mm').add(1, 'hours').format('HH:mm')
+            }
+
+            this.listHours.push({ ...hour })
+            initialHour = hour.end
+        }
+
     },
 };
 </script>

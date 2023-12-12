@@ -317,6 +317,11 @@ export const routes = [
                 name: 'profile',
                 meta: {requiresAuth:true},
                 props: true
+            },
+            {
+                path: 'files',
+                component: Files,
+                name: 'files'
             }
         ]
     },
