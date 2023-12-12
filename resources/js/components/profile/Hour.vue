@@ -1,9 +1,6 @@
 <template>
     <button @dblclick="showModalHour(schedule)" @click="disableHour"
-        :class="`btn btn-${colorByType[schedule.type]} p-2 mb-1 w-100`">{{
-            formatTime(schedule.admission_time) }} - {{
-        formatTime(schedule.departure_time)
-    }}</button>
+        :class="`btn btn-${colorByType[schedule.type]} p-2 mb-1 w-100`"></button>
 </template>
 <script>
 import { userStore } from '../../stores/UserStore';
