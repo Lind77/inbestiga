@@ -3,13 +3,15 @@
         <div class="card mb-3 bg-secondary cursor-move">
             <div class="card-header">
                 <img src="https://preview.keenthemes.com/metronic8/demo1/assets/media/svg/brand-logos/kanba.svg"
-                    class="rounded" width="50">
+                    class="rounded" width="30">
             </div>
             <div class="card-body">
                 <template v-if="project.propertiable">
                     <h5 class="text-white" v-if="project.propertiable.projects[0]">{{ project.propertiable.projects[0].title
                     }}</h5>
-                    <p v-for="customer in project.propertiable.quotation.customers">{{ customer.name }}</p>
+                    <p class="text-dark fw-bold" v-for="customer in project.propertiable.quotation.customers">{{
+                        customer.name }}
+                    </p>
                 </template>
 
             </div>

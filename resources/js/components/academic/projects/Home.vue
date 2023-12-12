@@ -11,10 +11,58 @@
           </div>
         </div>
       </div>
-
-      <div class="row">
-        <CardProject v-for="project in projects" :project="project"></CardProject>
+      <div class="card w-100 mt-5 mb-5">
+        <div class="row">
+          <div class="col">
+            <label for="">Categoría</label>
+            <select class="form-control" @change="filterProjectsByCategory" v-model="categorySelected">
+              <option value="1">Ingeniería</option>
+              <option value="2">Ciencias Médicas</option>
+              <option value="3">Derecho</option>
+              <option value="4">Ciencias contables</option>
+              <option value="5">Ciencias sociales</option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="">Buscador</label>
+            <input type="text" v-model="search" class="form-control" placeholder="Buscar..."
+              @keyup.enter="searchProjectByWord">
+          </div>
+          <div class="col">
+            <label for="">Estado</label>
+            <select class="form-control">
+              <option value="1">To Do</option>
+              <option value="2">Doing</option>
+              <option value="3">Done</option>
+              <option value="4">Stand By</option>
+            </select>
+          </div>
+        </div>
       </div>
+      <div class="nav-align-top mb-4">
+        <ul class="nav nav-pills mb-3" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+              data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true">Home</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+              data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile" aria-selected="false"
+              tabindex="-1">Tabla</button>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
+            <div class="row">
+              <CardProject v-for="project in projectsFiltered" :project="project"></CardProject>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
+            <ProjectTable :projects="projectsFiltered" />
+          </div>
+        </div>
+      </div>
+
 
 
     </div>
@@ -33,6 +81,7 @@ import OffCanvas from './OffCanvas.vue'
 import QualityModal from './QualityModal.vue'
 import TeamModal from './TeamModal.vue'
 import ProjectTab from './ProjectTab.vue'
+import ProjectTable from './ProjectTable.vue'
 
 export default {
   setup() {
@@ -41,7 +90,7 @@ export default {
       store
     }
   },
-  components: { CardProject, OffCanvas, QualityModal, TeamModal, ProjectTab, EspecialButton },
+  components: { CardProject, OffCanvas, QualityModal, TeamModal, ProjectTab, EspecialButton, ProjectTable },
   data() {
     return {
       projects: [],
@@ -53,10 +102,43 @@ export default {
       activities: [],
       qualityActivities: [],
       contractId: 0,
-      projectsFiltered: []
+      projectsFiltered: [],
+      categorySelected: 0,
+      search: ''
     }
   },
   methods: {
+    searchProjectByWord() {
+      if (this.search == '') {
+        this.projectsFiltered = this.projects
+      } else {
+        this.projectsFiltered = []
+        this.projects.forEach((project) => {
+          if (project.propertiable && project.propertiable.quotation) {
+            project.propertiable.quotation.customers.forEach((customer) => {
+              if (customer.name.toLowerCase().includes(this.search)) {
+                this.projectsFiltered.push({ ...project })
+              }
+            })
+          }
+        })
+      }
+
+    },
+    filterProjectsByCategory() {
+      this.projectsFiltered = []
+      this.projects.forEach((project) => {
+        var category = JSON.parse(project.properties)
+        var forkInvestigation = category.filter(question => question.type == 6)
+
+        if (forkInvestigation && forkInvestigation[0]) {
+          if (forkInvestigation[0].answer == this.categorySelected) {
+            this.projectsFiltered.push({ ...project })
+          }
+        }
+
+      })
+    },
     enterProject(projectId) {
       alert('nani' + projectId);
     },
@@ -116,7 +198,7 @@ export default {
       axios.get('/api/projects-properties')
         .then(res => {
           this.projects = res.data
-          this.filterProjects(0)
+          this.projectsFiltered = res.data
           this.$swal.close()
         })
         .catch(err => {
