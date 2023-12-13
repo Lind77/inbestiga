@@ -165,4 +165,15 @@ class ScheduleController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function updateHour($id, Request $request)
+    {
+        $schedule = Schedule::find($id);
+        $schedule->update([
+            'admission_time' => $request->get('admission_time')
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
 }

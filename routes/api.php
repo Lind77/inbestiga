@@ -341,3 +341,5 @@ Route::get('/academic-products', [AcademicProductController::class, 'index']);
 
 Route::post('/assigned-activity', [AssignedActivityController::class, 'store']);
 Route::get('/enable-project/{id}', [ProjectController::class, 'enable']);
+
+Route::put('/update-hour/{id}', [ScheduleController::class, 'updateHour']);
