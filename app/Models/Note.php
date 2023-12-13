@@ -30,14 +30,14 @@ class Note extends Model
     public function files(){
         return $this->mophMany('App\Models\File','fileable');        
     }
-    //Relación polimorfica de muchos a muchos (Status-Usuarios)
-    public function users(){
+     //Relación polimorfica de muchos a muchos (Status-Usuarios)
+     public function users(){
         return $this->morphToMany('App\Models\User', 'userable');
     }
-     //Relación polimorfica de muchos a muchos (Status-Usuarios)
-     public function statuses(){
-        return $this->morphToMany('App\Models\Status', 'statusable');
-    }
+    //Relación polimorfica uno a muchos (Status-Entities)
+    public function statuses(){
+        return $this->morphToMany('App\Models\Status','statusable');
+    }   
     //Relacion morfeable uno a muchos (Assigned_Activity-NOTES-NTASK)
     public function ntasks(){
         return $this->morphMany('App\Models\Ntask', 'ntaskable');
