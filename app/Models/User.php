@@ -116,11 +116,6 @@ class User extends Authenticatable
         return $this->morphedByMany('App\Models\Project','userable');
     }
     //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
-    //Relacion uno a muchos User-Project
-   /*  public function projects()
-        {
-            return $this->hasMany('App\Models\Project');
-        } */
     public function notes(){
     return $this->morphedByMany('App\Models\Note','userable');
     }
@@ -134,7 +129,19 @@ class User extends Authenticatable
     }
     //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
     public function ntasks(){
-        return $this->morphedByMany('App\Models\Ntasks','userable');
+        return $this->morphedByMany('App\Models\Ntask','userable');
+    }
+    //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
+    public function subtopics(){
+        return $this->morphedByMany('App\Models\Subtopic','userable');
+    }
+     //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
+     public function subsub_topics(){
+        return $this->morphedByMany('App\Models\Subsub_topic','userable');
+    }
+    //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
+    public function specific_topics(){
+        return $this->morphedByMany('App\Models\Specific_topic','userable');
     }
     //Relación uno a muchos user-memorandum
     public function memorandums(){

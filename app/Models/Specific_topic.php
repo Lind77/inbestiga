@@ -29,4 +29,12 @@ class Specific_topic extends Model
    public function images(){
     return $this->morphMany('App\Models\Image','imageable');
   }
+  //Relación polimorfica uno a muchos (Status-Entities)
+  public function statuses(){
+    return $this->morphToMany('App\Models\Status','statusable');
+  }    
+   //Relación polimorfica de muchos a muchos (Status-Usuarios)
+   public function users(){
+    return $this->morphToMany('App\Models\User', 'userable');
+  }
 }
