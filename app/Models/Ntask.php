@@ -29,4 +29,12 @@ class Ntask extends Model
     public function files(){
         return $this->morphMany('App\Models\File','fileable');
     }
+    //Relación polimorfica uno a muchos (Status-Entities)
+    public function statuses(){
+        return $this->morphToMany('App\Models\Status','statusable');
+    }   
+    //Relación polimorfica de muchos a muchos (Status-Usuarios)
+     public function users(){
+        return $this->morphToMany('App\Models\User', 'userable');
+    }
 }

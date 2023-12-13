@@ -34,14 +34,12 @@ class Delivery extends Model
     {
         return $this->morphMany('App\Models\Observation', 'observable');
     }
-    //Relación muchos a muchos polimorfica (status)-(entidades)(Project,Deliveries,Assigned_activities,Ntasks)
-    public function statuses()
-    {
-        return $this->morphToMany('App\Models\Status', 'statusable');
-    }
-    //Relación polimorfica de muchos a muchos (Status-Usuarios)
-    public function users()
-    {
+    //Relación polimorfica uno a muchos (Status-Entities)
+    public function statuses(){
+        return $this->morphToMany('App\Models\Status','statusable');
+    }   
+     //Relación polimorfica de muchos a muchos (Status-Usuarios)
+     public function users(){
         return $this->morphToMany('App\Models\User', 'userable');
     }
     public function links()
