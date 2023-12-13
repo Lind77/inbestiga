@@ -121,10 +121,19 @@
                                                 }}</span>
                                             </p>
                                         </div>
-                                        <div class="col d-flex" v-for="schedule in hour.schedules" :key="index">
+                                        <div class="col d-flex" v-for="index in 6" :key="index">
+                                            <template v-for="schedule in hour.schedules">
+                                                <template v-if="index == schedule.day">
+                                                    <button class="btn btn-success w-100"
+                                                        v-if="schedule.type == 1"></button>
+                                                    <button class="btn btn-secondary w-100" v-else></button>
+                                                </template>
 
-                                            <button v-if="schedule.type == 1" class="btn btn-success w-100"></button>
-                                            <button class="btn btn-secondary w-100" v-else></button>
+                                            </template>
+
+                                            <!--  <button v-if="schedule.type == 1" class="btn btn-success w-100">{{ schedule
+                                                .day }}</button>
+                                            <button class="btn btn-secondary w-100" v-else></button> -->
 
 
                                             <!--  <Hour :schedule="schedule" @minusHour="minusHour" @addHour="addHour"
