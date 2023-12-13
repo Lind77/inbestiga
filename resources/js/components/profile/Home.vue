@@ -98,6 +98,7 @@
                                                         </p> -->
                                     </div>
                                 </div>
+
                                 <div class="col-10">
                                     <div class="row">
                                         <div class="col"></div>
@@ -106,6 +107,7 @@
                                         <div class="col text-center">Miércoles</div>
                                         <div class="col text-center">Jueves</div>
                                         <div class="col text-center">Viernes</div>
+                                        <div class="col text-center">Sábado</div>
                                     </div>
                                     <div v-for="hour in listHours" class="row border rounded">
                                         <div class="col pt-2">
@@ -119,12 +121,14 @@
                                                 }}</span>
                                             </p>
                                         </div>
-                                        <div class="col d-flex" v-for="index in 5" :key="index">
+                                        <div class="col d-flex" v-for="schedule in hour.schedules" :key="index">
+
+                                            <button v-if="schedule.type == 1" class="btn btn-success w-100"></button>
+                                            <button class="btn btn-secondary w-100" v-else></button>
 
 
-                                            <button class="btn btn-success p-2 w-100"></button>
-                                            <!-- <Hour :schedule="schedule" @minusHour="minusHour" @addHour="addHour"
-                                                        @showModalHour="showModalHour" /> -->
+                                            <!--  <Hour :schedule="schedule" @minusHour="minusHour" @addHour="addHour"
+                                                @showModalHour="showModalHour" /> -->
                                         </div>
 
                                     </div>
@@ -161,7 +165,7 @@
         </div>
     </div>
     <ScheduleModal @getUser="getUser" :userIdSelected="userScheduleSelected" />
-    <HourModal :schedule="scheduleSelected" @getUser="getUser" @addMeeting="addMeeting" />Meeting" />
+    <HourModal :schedule="scheduleSelected" @getUser="getUser" @addMeeting="addMeeting" />
 </template>
 <script>
 
@@ -185,8 +189,8 @@ export default {
         return {
             listHours: [],
             ableHours: {
-                start: '07:00',
-                end: '22:00'
+                start: '07:00:00',
+                end: '22:00:00'
             },
             showPassword: false,
             email: '',
@@ -283,18 +287,29 @@ export default {
                 });
         },
 
-        checkDateRecovery() {
-            /* const datePicked = new Date(this.dateRecovery)
-            var actualDate = moment(new Date()).format('YYYY-MM-DD');
-            if (moment(datePicked).diff(actualDate) > 0) {
-                if (datePicked.getDay() == 6) {
-                    this.$swal('Domingo no chambeamos')
-                    this.dateRecovery = ''
+        generateSchedules() {
+            let initialHour = this.ableHours.start
+            let finalHour = moment(this.ableHours.start, 'HH:mm:ss').add(1, 'hours').format('HH:mm:ss')
+
+            for (let index = 1; index < 15; index++) {
+                var hour = {
+                    start: initialHour,
+                    end: moment(initialHour, 'HH:mm:ss').add(1, 'hours').format('HH:mm:ss'),
+                    schedules: []
                 }
-            } else {
-                this.$swal('Demasiado tarde')
-                this.dateRecovery = ''
-            } */
+
+                this.listHours.push({ ...hour })
+                initialHour = hour.end
+            }
+
+            this.completeHours()
+        },
+        completeHours() {
+            /* this.days.forEach(day => {
+                this.listHours.forEach(hour => {
+                    console.log(hour.start, day)
+                })
+            }) */
         },
         checkDatePermission() {
             const datePicked = new Date(this.datePermission)
@@ -344,6 +359,41 @@ export default {
                     this.getUser(this.user.id)
                 })
         },
+        distributeHours() {
+            this.hours.forEach((hour) => {
+
+                var listHourFinded = this.listHours.find(listhour => listhour.start == hour.admission_time && listhour.end == hour.departure_time)
+
+                console.log(listHourFinded);
+
+                if (listHourFinded) {
+                    listHourFinded.schedules.push({ ...hour })
+                }
+            })
+
+
+            /* this.hours.forEach(schedule => {
+                var newDepartureTime = moment(schedule.admission_time, 'HH:mm:ss').add(1, 'hours').format('HH:mm:ss')
+
+                if (schedule.type == 1) {
+                    this.abledHours++;
+                    var timeTotal = moment(schedule.departure_time, 'HH:mm:ss').diff(moment(schedule.admission_time, 'HH:mm:ss'))
+                    var minutesTotal = timeTotal / 60000
+
+                    var cantHours = minutesTotal / 60
+
+                    this.totalHours = this.totalHours + cantHours
+
+                    console.log(schedule.admission_time, schedule.departure_time, cantHours)
+
+                } else if (schedule.type == 2) {
+                    this.disabledHours++;
+                }
+
+                var daySelected = this.days.find(day => day.numberDay == schedule.day)
+                daySelected.schedules.push({ ...schedule })
+            }); */
+        },
         getUser(userId) {
 
             this.totalHours = 0
@@ -356,27 +406,7 @@ export default {
                 .get("/api/users/" + userId)
                 .then((result) => {
                     this.hours = result.data.schedules
-                    this.hours.forEach(schedule => {
-                        var newDepartureTime = moment(schedule.admission_time, 'HH:mm:ss').add(1, 'hours').format('HH:mm:ss')
-
-                        if (schedule.type == 1) {
-                            this.abledHours++;
-                            var timeTotal = moment(schedule.departure_time, 'HH:mm:ss').diff(moment(schedule.admission_time, 'HH:mm:ss'))
-                            var minutesTotal = timeTotal / 60000
-
-                            var cantHours = minutesTotal / 60
-
-                            this.totalHours = this.totalHours + cantHours
-
-                            console.log(schedule.admission_time, schedule.departure_time, cantHours)
-
-                        } else if (schedule.type == 2) {
-                            this.disabledHours++;
-                        }
-
-                        var daySelected = this.days.find(day => day.numberDay == schedule.day)
-                        daySelected.schedules.push({ ...schedule })
-                    });
+                    this.distributeHours()
                 })
                 .catch((err) => {
                     console.log(err);
@@ -412,22 +442,7 @@ export default {
         this.getProfile();
         this.getNumberOfPermissions()
         this.getUsers()
-
-        console.log(this.ableHours.start, this.ableHours.end);
-
-        let initialHour = this.ableHours.start
-        let finalHour = moment(this.ableHours.start, 'HH:mm').add(1, 'hours').format('HH:mm')
-
-        for (let index = 1; index < 15; index++) {
-            var hour = {
-                'start': initialHour,
-                'end': moment(initialHour, 'HH:mm').add(1, 'hours').format('HH:mm')
-            }
-
-            this.listHours.push({ ...hour })
-            initialHour = hour.end
-        }
-
+        this.generateSchedules()
     },
 };
 </script>

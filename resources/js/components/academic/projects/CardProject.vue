@@ -1,6 +1,6 @@
 <template>
     <div class="col-md-4">
-        <div class="card mb-3 bg-secondary cursor-move">
+        <div class="card mb-3 bg-secondary">
             <div class="card-header">
                 <img src="https://preview.keenthemes.com/metronic8/demo1/assets/media/svg/brand-logos/kanba.svg"
                     class="rounded" width="30">
@@ -14,6 +14,25 @@
                     </p>
                 </template>
 
+            </div>
+            <div class="card-footer">
+                <div class="demo-inline-spacing">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-icon rounded-pill dropdown-toggle hide-arrow"
+                            data-bs-toggle="dropdown" aria-expanded="false"><i
+                                class="bx bx-dots-vertical-rounded"></i></button>
+                        <ul class="dropdown-menu dropdown-menu-start" style="">
+                            <li><a class="dropdown-item" href="javascript:void(0);"
+                                    @click="deleteProject(project.id)">Eliminar</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Something else here</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
