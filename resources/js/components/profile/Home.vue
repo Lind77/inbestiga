@@ -371,7 +371,7 @@ export default {
         distributeHours() {
             this.hours.forEach((hour) => {
 
-                var listHourFinded = this.listHours.find(listhour => listhour.start == hour.admission_time && listhour.end == hour.departure_time)
+                var listHourFinded = this.listHours.find(listhour => listhour.start == hour.admission_time)
 
                 console.log(listHourFinded);
 
