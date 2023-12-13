@@ -111,15 +111,7 @@
                                     </div>
                                     <div v-for="hour in listHours" class="row border rounded">
                                         <div class="col pt-2">
-                                            <p>
-                                                <span @dblclick="editStartTime" v-show="!showStartTimeInput">{{ hour.start
-                                                }}
-                                                </span>
-                                                <input v-show="showStartTimeInput" type="time" class="form-control">
-
-                                                - <span @dblclick="editEndTime">{{ hour.end
-                                                }}</span>
-                                            </p>
+                                            <TimeMark :hour="hour" @updateList="updateList" />
                                         </div>
                                         <div class="col d-flex" v-for="index in 6" :key="index">
                                             <template v-for="schedule in hour.schedules">
@@ -185,6 +177,7 @@ import ScheduleModal from "./ScheduleModal.vue"
 import Hour from "./Hour.vue"
 import HourModal from './HourModal.vue'
 import Permissions from './Permissions.vue'
+import TimeMark from './TimeMark.vue'
 import { userStore } from "../../stores/UserStore";
 import axios from "axios";
 
@@ -193,7 +186,7 @@ export default {
         const store = userStore()
         return { store }
     },
-    components: { Sidebar, Navbar, ScheduleModal, Hour, HourModal, Permissions },
+    components: { Sidebar, Navbar, ScheduleModal, Hour, HourModal, Permissions, TimeMark },
     data() {
         return {
             listHours: [],
@@ -260,7 +253,24 @@ export default {
         };
     },
     methods: {
+        updateList(newTime, id) {
+            var hourSelected = this.listHours.find(hour => hour.id == id)
+            var hourPastSelected = this.listHours.find(hour => hour.id == parseInt(id) - 1)
+            hourPastSelected.end = newTime
+            hourSelected.start = newTime
+            console.log(newTime);
+            this.hours.forEach((hour) => {
+                if (hour.admission_time == newTime + ':00') {
+                    hourSelected.schedules.push({ ...hour })
+                }
+            })
+
+        },
+        formatHours(time) {
+            return moment(time, 'HH:mm:ss').format('HH a')
+        },
         editStartTime() {
+            alert('nani')
             showStartTimeInput = true
         },
         editEndTime() {
@@ -297,11 +307,30 @@ export default {
         },
 
         generateSchedules() {
-            let initialHour = this.ableHours.start
+
+            this.hours.forEach((hour) => {
+
+                var hourFinded = this.listHours.find(listhour => listhour.start == hour.admission_time || listhour.end == hour.departure_time)
+
+                if (!hourFinded) {
+                    var hour = {
+                        id: hour.id,
+                        start: hour.admission_time,
+                        end: hour.departure_time,
+                        schedules: []
+                    }
+
+                    this.listHours.push({ ...hour })
+                }
+
+            })
+
+            /* let initialHour = this.ableHours.start
             let finalHour = moment(this.ableHours.start, 'HH:mm:ss').add(1, 'hours').format('HH:mm:ss')
 
             for (let index = 1; index < 15; index++) {
                 var hour = {
+                    id: index,
                     start: initialHour,
                     end: moment(initialHour, 'HH:mm:ss').add(1, 'hours').format('HH:mm:ss'),
                     schedules: []
@@ -311,7 +340,7 @@ export default {
                 initialHour = hour.end
             }
 
-            this.completeHours()
+            this.completeHours() */
         },
         completeHours() {
             /* this.days.forEach(day => {
@@ -370,10 +399,7 @@ export default {
         },
         distributeHours() {
             this.hours.forEach((hour) => {
-
                 var listHourFinded = this.listHours.find(listhour => listhour.start == hour.admission_time)
-
-                console.log(listHourFinded);
 
                 if (listHourFinded) {
                     listHourFinded.schedules.push({ ...hour })
@@ -415,6 +441,7 @@ export default {
                 .get("/api/users/" + userId)
                 .then((result) => {
                     this.hours = result.data.schedules
+                    this.generateSchedules()
                     this.distributeHours()
                 })
                 .catch((err) => {
@@ -451,7 +478,6 @@ export default {
         this.getProfile();
         this.getNumberOfPermissions()
         this.getUsers()
-        this.generateSchedules()
     },
 };
 </script>
