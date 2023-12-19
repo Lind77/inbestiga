@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::table('recovery_dates', function (Blueprint $table) {
             $table->unsignedBigInteger('recoverable_id');
             $table->string('recoverable_type');
-            /* $table->dropForeign(['attendance_permit_id']); */
+            $table->dropForeign(['attendance_permit_id']); 
             $table->dropColumn('attendance_permit_id');
         });
     }
