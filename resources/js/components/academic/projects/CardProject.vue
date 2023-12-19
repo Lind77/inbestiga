@@ -2,18 +2,15 @@
     <div class="col-md-4">
         <div class="card mb-3 bg-secondary">
             <div class="card-header">
-                <img src="https://preview.keenthemes.com/metronic8/demo1/assets/media/svg/brand-logos/kanba.svg"
-                    class="rounded" width="30">
+                <img src="https://inbestiga.com/wp-content/uploads/2023/10/cropped-logo-Inbestiga.png" class="rounded"
+                    width="30">
             </div>
             <div class="card-body">
-                <template v-if="project.propertiable">
-                    <h5 class="text-white" v-if="project.propertiable.projects[0]">{{ project.propertiable.projects[0].title
-                    }}</h5>
-                    <p class="text-dark fw-bold" v-for="customer in project.propertiable.quotation.customers">{{
-                        customer.name }}
-                    </p>
-                </template>
-
+                <h5 class="text-white cursor-pointer" @click="showProject(project)">{{
+                    project.title
+                }}</h5>
+                <p class="text-dark fw-bold" v-for="customer in project.projectable.quotation.customers">{{
+                    customer.name }}</p>
             </div>
             <div class="card-footer">
                 <div class="demo-inline-spacing">
@@ -23,9 +20,9 @@
                                 class="bx bx-dots-vertical-rounded"></i></button>
                         <ul class="dropdown-menu dropdown-menu-start" style="">
                             <li><a class="dropdown-item" href="javascript:void(0);"
-                                    @click="deleteProject(project.id)">Eliminar</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">Something else here</a></li>
+                                    @click="deleteProject(project)">Eliminar</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);" @click="toDocumentation(project)">Ver
+                                    Ficha</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -57,21 +54,34 @@ export default {
         project: Object
     },
     methods: {
+        toProjectKanban() {
+            console.log(this.project);
+            if (project.propertiable.projects[0]) {
+                this.$router.push({ name: 'kanban', params: { idProject: project.propertiable.projects[0].id } })
+            }
+        },
         showQualityModal() {
             var qualityActivities = this.project.activities.filter(activity => activity.type == 2)
             this.$emit('showQualityModal', qualityActivities)
         },
-        deleteProject(id) {
+        deleteProject(project) {
             if (confirm('Desea eliminar este proyecto con seguridad?')) {
-                axios.get(`/api/deleteProject/${id}`)
+                axios.get(`/api/deleteProject/${project.id}`)
                     .then(res => {
                         this.$swal('Proyecto eliminado.')
-                        this.$emit('getAllProjects')
+                        this.$emit('getAllProjectsAcad')
                     })
                     .catch(err => {
                         console.log(err)
                     })
             }
+        },
+        showProject() {
+            this.$router.push({ name: 'project', params: { idProject: this.project.id } })
+        },
+        toDocumentation(project) {
+            console.log(project);
+            this.$router.push({ name: 'home-documentation', params: { quotationId: this.project.projectable.quotation_id } })
         },
         pointsQual() {
             $('#qualityModal').modal('show')

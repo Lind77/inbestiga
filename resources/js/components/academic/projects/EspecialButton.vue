@@ -5,7 +5,6 @@
             <i :class="icon" v-if="number == 0"></i>
             {{ title }}
         </div>
-
     </button>
 </template>
 <script>
