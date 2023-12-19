@@ -176,4 +176,62 @@ class ScheduleController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function updateTimes(Request $request)
+    {
+        $past_times = json_decode($request->get('pastHours'), true);
+
+        if ($past_times) {
+            foreach ($past_times['schedules'] as $schedule) {
+                $scheduleToUpdate = Schedule::find($schedule['id']);
+                $scheduleToUpdate->update([
+                    'departure_time' => $past_times['end']
+                ]);
+            }
+        }
+
+
+        $times = json_decode($request->get('hours'), true);
+
+        foreach ($times['schedules'] as $schedule) {
+            $scheduleToUpdate = Schedule::find($schedule['id']);
+            $scheduleToUpdate->update([
+                'admission_time' => $times['start'],
+                'departure_time' => $times['end']
+            ]);
+        }
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function updateNextTimes(Request $request)
+    {
+        $next_times  = json_decode($request->get('nextHours'), true);
+
+        if ($next_times) {
+            foreach ($next_times['schedules'] as $schedule) {
+                $scheduleToUpdate = Schedule::find($schedule['id']);
+                $scheduleToUpdate->update([
+                    'admission_time' => $next_times['start']
+                ]);
+            }
+        }
+
+
+        $times = json_decode($request->get('hours'), true);
+
+        foreach ($times['schedules'] as $schedule) {
+            $scheduleToUpdate = Schedule::find($schedule['id']);
+            $scheduleToUpdate->update([
+                'admission_time' => $times['start'],
+                'departure_time' => $times['end']
+            ]);
+        }
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
 }

@@ -1,6 +1,5 @@
 <template>
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3">Kanban - {{ project.title }} - Tiempo estimado:<!--  {{ secondsFormatted }} --></h4>
     <div class="row mb-3">
       <div class="col-6">
         <div class="card px-2 py-2">
@@ -183,12 +182,12 @@ export default {
 
           this.tasks = []
           this.project = res.data
-          this.project.deliveries.forEach((delivery) => {
+          /* this.project.deliveries.forEach((delivery) => {
             delivery.assigned_activities.forEach((assignment) => {
               this.toDo.push({ ...assignment })
             })
 
-          })
+          }) */
           //this.totalTime = res.data.total_time
 
           this.$swal().close()
