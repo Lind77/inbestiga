@@ -326,7 +326,6 @@ Route::get('/webhook',[AichatController::class,'webhook']);
 Route::post('/webhook',[AichatController::class,'recibe']);
  */
 
-
 Route::get('/properties/{id}', [PropertiesController::class, 'show']);
 Route::get('/projects-properties', [PropertiesController::class, 'properties']);
 
@@ -343,3 +342,5 @@ Route::post('/assigned-activity', [AssignedActivityController::class, 'store']);
 Route::get('/enable-project/{id}', [ProjectController::class, 'enable']);
 
 Route::put('/update-hour/{id}', [ScheduleController::class, 'updateHour']);
+Route::post('/update-times', [ScheduleController::class, 'updateTimes']);
+Route::post('/update-times-next', [ScheduleController::class, 'updateNextTimes']);

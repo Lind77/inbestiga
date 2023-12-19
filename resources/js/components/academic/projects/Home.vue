@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="card w-100 mt-5 mb-5">
-        <div class="row">
+        <div class="row px-3">
           <div class="col">
             <label for="">Categoría</label>
             <select class="form-control" @change="filterProjectsByCategory" v-model="categorySelected">
@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div class="nav-align-top mb-4">
+      <div class="nav-align-top mb-4 px-2">
         <ul class="nav nav-pills mb-3" role="tablist">
           <li class="nav-item" role="presentation">
             <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
@@ -54,7 +54,8 @@
         <div class="tab-content">
           <div class="tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
             <div class="row">
-              <CardProject v-for="project in projectsFiltered" :project="project"></CardProject>
+              <CardProject v-for="project in projectsFiltered" :project="project"
+                @getAllProjectsAcad="getAllProjectsAcad" />
             </div>
           </div>
           <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
@@ -126,9 +127,10 @@ export default {
 
     },
     filterProjectsByCategory() {
+      console.log(this.projects);
       this.projectsFiltered = []
       this.projects.forEach((project) => {
-        var category = JSON.parse(project.properties)
+        var category = JSON.parse(project.projectable.properties[0].properties)
         var forkInvestigation = category.filter(question => question.type == 6)
 
         if (forkInvestigation && forkInvestigation[0]) {

@@ -63,7 +63,7 @@ import UserAcad from '../components/academic/UserAcad.vue'
 import Ecard from '../components/academic/projects/Ecard.vue'
 import MyProjects from '../components/academic/projects/MyProjects.vue'
 import AcadProfile from '../components/academic/projects/Profile.vue'
-import Sprint from '../components/academic/projects/Sprints.vue'
+import ShowProject from '../components/academic/projects/ShowProject.vue'
 
 // Área Acádemica
 import HomeProduct from '../components/sales/products/Home.vue'
@@ -322,6 +322,18 @@ export const routes = [
                 path: 'files',
                 component: Files,
                 name: 'files'
+            },
+            {
+                path: 'kanban/:idProject',
+                component: Kanban,
+                props: true,
+                name: 'kanban'
+            },
+            {
+                path: 'project/:idProject',
+                component: ShowProject,
+                props: true,
+                name: 'project'
             }
         ]
     },

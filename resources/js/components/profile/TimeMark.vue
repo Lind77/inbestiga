@@ -6,9 +6,9 @@
         </span>
         <input v-show="showStartTimeInput" ref="timeStart" type="time" class="form-control" v-model="startTime"
             @blur="hideStartTime">
-
-        - <span @dblclick="editEndTime">{{ formatHours(hour.end)
-        }}</span>
+        - <span class="cursor-pointer" @dblclick="editEndTime" v-show="!showEndTimeInput">{{ formatHours(hour.end) }}</span>
+        <input v-show="showEndTimeInput" ref="timeEnd" type="time" class="form-control" v-model="endTime"
+            @blur="hideEndTime">
     </p>
 </template>
 <script>
@@ -18,8 +18,10 @@ export default {
     data() {
         return {
             showStartTimeInput: false,
+            showEndTimeInput: false,
             newTime: '',
-            startTime: this.hour.start
+            startTime: this.hour.start,
+            endTime: this.hour.end
         }
     },
     props: {
@@ -36,9 +38,20 @@ export default {
                 editButtonRef.focus();
             });
         },
+        editEndTime() {
+            this.showEndTimeInput = true
+            this.$nextTick(() => {
+                const editButtonRef = this.$refs.timeEnd;
+                editButtonRef.focus();
+            });
+        },
         hideStartTime() {
             this.showStartTimeInput = false
             this.$emit('updateList', this.startTime, this.hour.id)
+        },
+        hideEndTime() {
+            this.showEndTimeInput = false
+            this.$emit('updateEndTime', this.endTime, this.hour.id)
         }
     }
 }

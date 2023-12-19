@@ -68,7 +68,7 @@
                         <div class="tab-pane fade active show" id="navs-pills-justified-home" role="tabpanel">
                             <div class="row">
                                 <div class="col-2">
-                                    <h3>{{ totalHours }}</h3>
+                                    <h3>{{ abledHours }}</h3>
                                     <p>HORAS</p>
                                     <!-- <select @change="selectUserSchedule" v-model="userScheduleSelected"
                                                         class="form-control" v-if="store.authUser.id == 9">
@@ -111,12 +111,13 @@
                                     </div>
                                     <div v-for="hour in listHours" class="row border rounded">
                                         <div class="col pt-2">
-                                            <TimeMark :hour="hour" @updateList="updateList" />
+                                            <TimeMark :hour="hour" @updateList="updateList"
+                                                @updateEndTime="updateEndTime" />
                                         </div>
                                         <div class="col d-flex" v-for="index in 6" :key="index">
                                             <template v-for="schedule in hour.schedules">
                                                 <template v-if="index == schedule.day">
-                                                    <button class="btn btn-success w-100"
+                                                    <button @click="disableHour(schedule)" class="btn btn-success w-100"
                                                         v-if="schedule.type == 1"></button>
                                                     <button class="btn btn-secondary w-100" v-else></button>
                                                 </template>
@@ -253,17 +254,69 @@ export default {
         };
     },
     methods: {
-        updateList(newTime, id) {
+        disableHour(schedule) {
+            if (schedule.type == 1) {
+                schedule.type = 2
+            } else {
+                schedule.type = 1
+            }
+
+            const fd = new FormData()
+            fd.append('type', schedule.type)
+            fd.append('_method', 'put');
+
+            axios.post('/api/schedules-type/' + schedule.id, fd)
+                .then((result) => {
+                    console.log(result)
+                }).catch((err) => {
+                    console.log(err);
+                });
+        },
+        updateEndTime(newTime, id) {
+            var hourNextSelected = this.listHours.find(hour => hour.id == parseInt(id) + 1)
+            if (hourNextSelected) {
+                hourNextSelected.start = newTime
+            }
+
             var hourSelected = this.listHours.find(hour => hour.id == id)
+            hourSelected.end = newTime
+
+            const fd = new FormData()
+            fd.append('hours', JSON.stringify(hourSelected))
+            fd.append('nextHours', JSON.stringify(hourNextSelected))
+
+            axios.post('/api/update-times-next', fd)
+                .then((result) => {
+                    this.$swal('ACtualización correcta')
+                }).catch((err) => {
+                    this.$swal('Error')
+                });
+        },
+        updateList(newTime, id) {
             var hourPastSelected = this.listHours.find(hour => hour.id == parseInt(id) - 1)
-            hourPastSelected.end = newTime
+            if (hourPastSelected) {
+                hourPastSelected.end = newTime
+            }
+
+            var hourSelected = this.listHours.find(hour => hour.id == id)
             hourSelected.start = newTime
-            console.log(newTime);
+
+            const fd = new FormData()
+            fd.append('hours', JSON.stringify(hourSelected))
+            fd.append('pastHours', JSON.stringify(hourPastSelected))
+
+            axios.post('/api/update-times', fd)
+                .then((result) => {
+                    this.$swal('ACtualización correcta')
+                }).catch((err) => {
+                    this.$swal('Error')
+                });
+            /* console.log(newTime);
             this.hours.forEach((hour) => {
                 if (hour.admission_time == newTime + ':00') {
                     hourSelected.schedules.push({ ...hour })
                 }
-            })
+            }) */
 
         },
         formatHours(time) {
@@ -441,6 +494,13 @@ export default {
                 .get("/api/users/" + userId)
                 .then((result) => {
                     this.hours = result.data.schedules
+                    this.hours.forEach((hour) => {
+                        if (hour.type == 1) {
+                            this.abledHours++
+                        } else {
+                            this.disabledHours++
+                        }
+                    })
                     this.generateSchedules()
                     this.distributeHours()
                 })

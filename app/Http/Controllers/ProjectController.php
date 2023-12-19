@@ -166,7 +166,7 @@ class ProjectController extends Controller
 
         $total_time = $total_maxtime + $total_mintime / 2; */
 
-        $project = Project::with(['deliveries', 'deliveries.assigned_activities'])->find($id);
+        $project = Project::with(['deliveries'])->find($id);
         return response()->json($project);
     }
 
@@ -526,7 +526,7 @@ class ProjectController extends Controller
 
     public function sprints($id)
     {
-        $project = Project::with('deliveries')->find($id);
+        $project = Project::with(['deliveries', 'projectable', 'projectable.quotation', 'projectable.quotation.customers'])->find($id);
         return response()->json($project);
     }
 }
