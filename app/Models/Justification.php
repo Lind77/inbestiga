@@ -18,4 +18,8 @@ class Justification extends Model
      {
          return $this->morphMany('App\Models\Recovery_date','recoverable');
      } */
+     //Relación polimorfica uno a mucho (Entities-File)
+    public function files(){
+        return $this->mophMany('App\Models\File','fileable');        
+    }
 }
