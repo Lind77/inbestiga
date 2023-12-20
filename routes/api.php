@@ -16,6 +16,7 @@ use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
+use App\Http\Controllers\JustificationController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\NewProductController;
 use App\Http\Controllers\NotificationController;
@@ -344,3 +345,5 @@ Route::get('/enable-project/{id}', [ProjectController::class, 'enable']);
 Route::put('/update-hour/{id}', [ScheduleController::class, 'updateHour']);
 Route::post('/update-times', [ScheduleController::class, 'updateTimes']);
 Route::post('/update-times-next', [ScheduleController::class, 'updateNextTimes']);
+
+Route::post('/justification', [JustificationController::class, 'store']);
