@@ -1,4 +1,5 @@
 <template>
+    <h4>Permiso</h4>
     <div class="alert alert-warning" role="alert">Ten cuidado antes de solicitar
         un permiso, ya que solo se pueden hacer tres solicitudes al mes. Ya hiciste {{ permissionsNumber }} este mes</div>
     <div class="row">
@@ -33,11 +34,41 @@
         <button class="btn btn-success" @click="postPermission" v-bind:disabled="permissionsNumber >= 3">Solicitar
         </button>
     </div>
+    <h4 class="mt-3">Justificaciones</h4>
+    <div class="row">
+        <div class="col">
+            <label for="">Fecha de inasistencia</label>
+            <input type="date" @change="testDateJustification" v-model="justification.miss_date" class="form-control">
+        </div>
+        <div class="col">
+            <label for="">Hora de inicio</label>
+            <input type="time" v-model="justification.admission_time" class="form-control">
+        </div>
+        <div class="col">
+            <label for="">Hora de fin</label>
+            <input type="time" v-model="justification.departure_time" class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label for="">Razón de Justificación</label>
+            <textarea type="text" v-model="reason" class="form-control"></textarea>
+        </div>
+        <div class="col">
+            <label for="">Archivo de prueba</label>
+            <input type="file" name="" id="" class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <button class="btn btn-success mt-3" @click="postJustification">Enviar
+        </button>
+    </div>
 </template>
 <script>
 import moment from "moment"
 import Recovery from './Recovery.vue'
 import { userStore } from "../../stores/UserStore"
+import axios from "axios"
 
 export default {
     setup() {
@@ -51,7 +82,15 @@ export default {
             miss_time_admission: '',
             miss_time_departure: '',
             datePermission: '',
-            permissionsNumber: 0
+            permissionsNumber: 0,
+            justification: {
+                miss_date: '',
+                admission_time: '',
+                departure_time: '',
+                reason: '',
+                status: 0,
+                userId: this.store.authUser.id
+            }
         }
     },
     props: {
@@ -59,6 +98,32 @@ export default {
     },
     components: { Recovery },
     methods: {
+        testDateJustification() {
+            var today = moment().format('YYYY-MM-DD')
+            if (moment(this.justification.miss_date).diff(today) >= 0) {
+                this.$swal('Solo días anteriores a hoy please')
+                this.justification.miss_date = ''
+            } else {
+                var dateDiff = moment.duration(moment(this.justification.miss_date).diff(today))
+                if (dateDiff.asHours() < -24) {
+                    this.$swal('Solo hasta un día antes please')
+                    this.justification.miss_date = ''
+                }
+            }
+        },
+        postJustification() {
+
+            const fd = new FormData()
+
+            fd.append('justification', JSON.stringify(this.justification))
+
+            axios.post('/api/justification', fd)
+                .then((result) => {
+
+                }).catch((err) => {
+
+                });
+        },
         deleteRecovery(recoveryIndex) {
             /* var recoverySelected = this.recoveries.findIndex(recoveryIndex); */
             this.recoveries.splice(recoveryIndex, 1)

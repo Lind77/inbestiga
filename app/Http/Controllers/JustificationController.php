@@ -35,7 +35,9 @@ class JustificationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $justification = json_decode($request->get('justification'), true);
+
+        return $justification;
     }
 
     /**
