@@ -194,12 +194,13 @@ class AttendanceController extends Controller
 
         foreach ($recoveries as $recovery) {
             $recoveryDate = Recovery_date::create([
-                'attendance_permit_id' => $attendancePermit->id,
                 'recovery_date' => $recovery['dateRecovery'],
                 'admission_time' => $recovery['recovery_time_admission'],
                 'departure_time' => $recovery['recovery_time_departure'],
                 'amount_recovered' => 0,
-                'status' => 0
+                'status' => 0,
+                'recoverable_id' => $attendancePermit->id,
+                'recoverable_type' => 'App\\Models\\Recovery_date'
             ]);
         }
 
