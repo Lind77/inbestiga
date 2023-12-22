@@ -44,7 +44,15 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $role = Role::create($request->all());
+        $subarea = Subarea::find($request->get('subarea_id'));
+
+        $role = Role::create([
+            'name' => $request->get('name'),
+            'guard_name' => 'web',
+            'subarea_id' => $subarea->id,
+            'roleable_id' => $subarea->area_id,
+            'roleable_type' => 'App\\Models\\Area'
+        ]);
         return $role;
     }
 
