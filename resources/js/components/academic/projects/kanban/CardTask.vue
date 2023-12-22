@@ -2,7 +2,8 @@
     <div class="card card-action mb-4 cursor-pointer" draggable="true" @dragstart="drag" :id="task.id">
         <div class="card-header">
             <div class="card-action-title">
-                <p class="mb-1 h6 fw-bold">{{ task.name }}</p>
+                <p class="mb-1 h6 fw-bold">{{ task.advance }}</p>
+
                 <p class="text-danger">{{ task.date }}</p>
 
                 <!-- <template v-if="task.status >= 1">
@@ -34,6 +35,7 @@
         <div class="collapse" :id="`collapseExample${task.id}`">
             <div class="card-body pt-0">
                 <p class="card-text">
+                    <button class="btn btn-info" v-for="activity in task.assigned_activities">{{ activity.name }}</button>
                     <!-- <div class="item-badges" v-if="task.fixed_task.fixed_activity">
                     <p class="h5">Actividad: {{ task.fixed_task.fixed_activity.title }}</p>
                     <p class="h6">Tarea: {{ task.fixed_task.title }}</p>

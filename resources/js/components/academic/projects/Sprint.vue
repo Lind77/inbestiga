@@ -18,9 +18,9 @@
                     <div class="card-body" @dragover="dragOverDelivery(delivery)" @drop="dropProduct" @dragenter.prevent
                         @dragover.prevent>
                         <p>{{ delivery.advance }}</p>
-                        <div v-for="product in delivery.assigned_activities" :id="product.id"
+                        <div v-for="assignedActivity in delivery.assigned_activities"
                             class="btn btn-info w-100 mb-2 cursor-pointer">
-                            {{ product.name }}
+                            {{ assignedActivity.name }}
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@ export default {
 
             const fd = new FormData()
 
-            fd.append('title', this.productSelected.name)
+            fd.append('name', this.productSelected.name)
             fd.append('date', this.deliverySelected.date)
             fd.append('academic_date', this.deliverySelected.date)
             fd.append('assigned_activitiable_id', this.deliverySelected.id)
