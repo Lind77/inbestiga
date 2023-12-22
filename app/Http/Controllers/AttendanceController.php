@@ -211,7 +211,6 @@ class AttendanceController extends Controller
     public function getPermissionsRequest()
     {
         $attendancePermits = Attendance_permit::with('user')
-            ->with('recovery_dates')
             ->orderBy('id', 'desc')
             ->where('miss_date', 'like', '%-' . date('m') . '-%')
             ->get();
