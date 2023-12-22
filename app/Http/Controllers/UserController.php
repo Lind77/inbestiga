@@ -152,7 +152,7 @@ class UserController extends Controller
     public function academicUsers()
     {
 
-        $users = User::where('subarea_id', 4)->get();
+        $users = User::where('subarea_id', 4)->where('team_id', null)->get();
 
         return response()->json($users);
     }

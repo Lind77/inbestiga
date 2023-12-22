@@ -79,7 +79,7 @@
                     <Sprint :deliveries="deliveries" :productsFiltered="productsFiltered" />
                 </div>
                 <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
-                    <Kanban />
+                    <Kanban :deliveries="deliveries" />
                 </div>
                 <div class="tab-pane fade" id="navs-pills-top-calendar" role="tabpanel">
                     <p>Calendario</p>
