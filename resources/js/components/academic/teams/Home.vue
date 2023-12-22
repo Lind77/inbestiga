@@ -7,14 +7,14 @@
         <div class="row">
             <div class="col-lg-4">
                 <input type="text" placeholder="Buscar inbestigador..." class="form-control">
-                <button class="btn btn-info btn-sm my-1 w-100" draggable="true" @dragover.prevent @drop.stop.prevent
+                <button class="btn btn-info btn-sm my-1 w-50" draggable="true" @dragover.prevent @drop.stop.prevent
                     @dragstart="drag" :id="`${user.id}`" v-for="user in  acadUsers ">{{ user.name
                     }}</button>
             </div>
             <div class="col-lg-8">
                 <div class="row">
                     <div class="col-6" v-for="team in teams">
-                        <div class="card bg-primary text-white mb-3">
+                        <div class="card bg-primary text-white mb-3" :id="'card' + team.id">
                             <div class="card-body">
                                 <h5 class="card-title text-white">Equipo {{ team.name }}</h5>
                                 <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
@@ -24,8 +24,13 @@
                                             }}</span>
                                         </li>
                                     </div>
-                                    <div :id="team.id" class="w-100 py-1" @drop="drop" @dragenter.prevent @dragover.prevent>
+                                    <button v-for="user in team.users" class="btn btn-info btn-sm my-1 w-100"
+                                        draggable="true" @dragover.prevent @drop.stop.prevent @dragstart="drag"
+                                        :id="`${user.id}`">{{ user.name
+                                        }}</button>
 
+                                    <div :id="team.id" class="w-100 py-1" style="min-height: 40px;" @drop="drop"
+                                        @dragover="changeCardColor" @dragleave="returnCardColor" @dragenter.prevent>
                                     </div>
                                 </ul>
                             </div>
@@ -51,11 +56,26 @@ export default {
         }
     },
     methods: {
+        returnCardColor(e) {
+            e.preventDefault();
+            $('#card' + e.target.id).addClass('bg-primary')
+            $('#card' + e.target.id).removeClass('bg-success')
+        },
+        changeCardColor(e) {
+            e.preventDefault();
+            $('#card' + e.target.id).removeClass('bg-primary')
+            $('#card' + e.target.id).addClass('bg-success')
+
+        },
         drag(e) {
             e.dataTransfer.setData('text', e.target.id)
         },
         drop(e) {
             let userId = e.dataTransfer.getData('text')
+            e.target.appendChild(document.getElementById(userId))
+
+            $('#card' + e.target.id).addClass('bg-primary')
+            $('#card' + e.target.id).removeClass('bg-success')
 
             const fd = new FormData()
             fd.append('userId', userId)
@@ -63,7 +83,7 @@ export default {
 
             axios.post('/api/user-team', fd)
                 .then((result) => {
-                    e.target.appendChild(document.getElementById(userId))
+
                 }).catch((err) => {
                     console.error(err)
                 });

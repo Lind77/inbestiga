@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="row">
-      <dragArea :title="'To Do'" :tasks="toDo" :status="0" @updateTask="updateTask" />
+      <dragArea :title="'To Do'" :tasks="deliveries" :status="0" @updateTask="updateTask" />
       <dragArea :title="'Doing'" :tasks="doing" :status="1" @updateTask="updateTask" />
       <dragArea :title="'Done'" :tasks="done" :status="2" @updateTask="updateTask" />
     </div>
@@ -42,6 +42,9 @@ export default {
     return {
       store
     }
+  },
+  props: {
+    deliveries: Array
   },
   data() {
     return {

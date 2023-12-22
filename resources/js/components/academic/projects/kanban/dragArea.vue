@@ -1,14 +1,13 @@
 <template>
   <div class="col">
+
     <div class="kanban-header fw-bold">
       <h4>{{ title }} ({{ tasks.filter(task => task.status == status).length }})</h4>
     </div>
     <div :id="'draggableKanban' + status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent
       @dragover.prevent>
       <template v-for="(task, index) in tasks" :key="index">
-        <template v-if="task.status == status">
-          <CardTask :task="task" />
-        </template>
+        <CardTask :task="task" />
       </template>
     </div>
   </div>
