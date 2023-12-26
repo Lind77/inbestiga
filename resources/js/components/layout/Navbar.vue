@@ -133,7 +133,8 @@
             <div class="avatar avatar-online" v-if="store.authUser">
               <div class="flex-shrink-0 me-3" v-if="store.authUser.images[0]">
                 <div class="avatar avatar-online">
-                  <img :src="'../public/files/' + store.authUser.images[0].url" class="w-px-40 h-auto rounded-circle" />
+                  <img :src="'../../public/files/' + store.authUser.images[0].url"
+                    class="w-px-40 h-auto rounded-circle" />
                 </div>
               </div>
               <span v-else class="avatar-initial rounded-circle bg-primary">{{ store.authUser.name[0] }}</span>
