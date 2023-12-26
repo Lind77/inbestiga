@@ -26,7 +26,8 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);" @click="showTeamModel(project)">Asignar
+                                    Equipo</a></li>
                         </ul>
                     </div>
                 </div>
@@ -54,6 +55,9 @@ export default {
         project: Object
     },
     methods: {
+        showTeamModel(project) {
+            this.$emit('showTeamModal', project.id)
+        },
         toProjectKanban() {
             console.log(this.project);
             if (project.propertiable.projects[0]) {

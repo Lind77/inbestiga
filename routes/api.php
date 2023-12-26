@@ -347,3 +347,5 @@ Route::post('/update-times', [ScheduleController::class, 'updateTimes']);
 Route::post('/update-times-next', [ScheduleController::class, 'updateNextTimes']);
 
 Route::post('/justification', [JustificationController::class, 'store']);
+
+Route::post('/profile-photo', [UserController::class, 'updatePhoto']);

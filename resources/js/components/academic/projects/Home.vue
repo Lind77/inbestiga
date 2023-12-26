@@ -54,8 +54,8 @@
         <div class="tab-content">
           <div class="tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
             <div class="row">
-              <CardProject v-for="project in projectsFiltered" :project="project"
-                @getAllProjectsAcad="getAllProjectsAcad" />
+              <CardProject v-for="project in projectsFiltered" :project="project" @getAllProjectsAcad="getAllProjectsAcad"
+                @showTeamModal="showTeamModal" />
             </div>
           </div>
           <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
@@ -109,6 +109,10 @@ export default {
     }
   },
   methods: {
+    showTeamModal(contractId) {
+      this.contractId = contractId;
+      $('#teamModal').modal('show');
+    },
     searchProjectByWord() {
       if (this.search == '') {
         this.projectsFiltered = this.projects

@@ -1,39 +1,50 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">Mi Perfil</h4>
-        <div class="row">
-            <div class="col-12">
-                <div class="card mb-4">
-                    <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
-                        <div class="flex-grow-1 mt-1 mt-sm-4">
-                            <div
-                                class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
-                                <div class="user-profile-info">
-                                    <h4>{{ user.name }}</h4>
-                                    <ul
-                                        class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
-                                        <li class="list-inline-item fw-medium" v-if="user.roles">
-                                            <i class="bx bx-pen"></i>
-                                            {{
-                                                user.roles[0]
-                                                    .name
-                                            }}
-                                        </li>
-                                        <li class="list-inline-item fw-medium">
-                                            <i class="bx bx-map"></i>
-                                            Huancayo
-                                        </li>
-                                        <li class="list-inline-item fw-medium">
-                                            <i class="bx bx-calendar-alt"></i>
-                                            Joined April 2022
-                                        </li>
-                                    </ul>
-                                </div>
-                                <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
-                                    <i class="bx bx-user-check me-1"></i>Online
-                                </a>
-                            </div>
+        <div class="card mb-4">
+            <div class="user-profile-header-banner">
+                <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/pages/profile-banner.png"
+                    alt="Banner image" class="rounded-top w-100">
+            </div>
+            <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
+                <div class="flex-shrink-0 mt-n5 mx-sm-0 mx-auto">
+                    <img :src="'../public/files/' + user.images[0].url" alt="user image" style="width: 180px;"
+                        class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img mb-5 cursor-pointer"
+                        @click="updatePhoto" v-if="user.images && user.images[0]">
+                    <img src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703548800&semt=ais"
+                        alt="user image" style="width: 180px;"
+                        class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img mb-5 cursor-pointer"
+                        @click="updatePhoto" v-else>
+
+                    <input type="file" style="display:none" ref="file" @change="updateProfilePhoto">
+                </div>
+                <div class="flex-grow-1 mt-1 mt-sm-4">
+                    <div
+                        class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
+                        <div class="user-profile-info">
+                            <h4>{{ user.name }}</h4>
+                            <ul
+                                class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
+                                <li class="list-inline-item fw-medium" v-if="user.roles">
+                                    <i class="bx bx-pen"></i>
+                                    {{
+                                        user.roles[0]
+                                            .name
+                                    }}
+                                </li>
+                                <li class="list-inline-item fw-medium">
+                                    <i class="bx bx-map"></i>
+                                    Huancayo
+                                </li>
+                                <li class="list-inline-item fw-medium">
+                                    <i class="bx bx-calendar-alt"></i>
+                                    Joined April 2022
+                                </li>
+                            </ul>
                         </div>
+                        <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
+                            <i class="bx bx-user-check me-1"></i>Online
+                        </a>
                     </div>
                 </div>
             </div>
@@ -254,6 +265,27 @@ export default {
         };
     },
     methods: {
+        updateProfilePhoto(e) {
+            const fd = new FormData()
+
+            fd.append('imageable_id', this.store.authUser.id)
+            fd.append('file', e.target.files[0])
+
+            axios.post('/api/profile-photo', fd, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then((result) => {
+                    this.user.images[0] = result.data
+                    this.store.authUser.images[0] = result.data
+                }).catch((err) => {
+                    console.error(err);
+                });
+        },
+        updatePhoto() {
+            this.$refs.file.click();
+        },
         disableHour(schedule) {
             if (schedule.type == 1) {
                 schedule.type = 2
