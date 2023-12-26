@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Image;
 use App\Models\Memoir;
 use App\Models\Progress;
 use App\Models\User;
@@ -22,7 +23,7 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::with(['roles', 'permissions', 'schedules'])->find($id);
+        $user = User::with(['roles', 'permissions', 'schedules', 'images'])->find($id);
         /* $progress = Progress::where('owner', '=', $user->name)->with(['progressable', 'progressable.activity'])->get(); */
         return response()->json($user);
     }
@@ -155,5 +156,28 @@ class UserController extends Controller
         $users = User::where('subarea_id', 4)->where('team_id', null)->get();
 
         return response()->json($users);
+    }
+
+    public function updatePhoto(Request $request)
+    {
+        $photoExistent = Image::where('imageable_id', $request->get('imageable_id'))->where('imageable_type', 'App\\Models\\User')->first();
+
+        if ($request->hasFile('file')) {
+            $fileName = time() . '.' . $request->file->getClientOriginalExtension();
+            $request->file->move(public_path('files'), $fileName);
+        }
+        if ($photoExistent) {
+            $photoExistent->update([
+                'url' => $fileName
+            ]);
+            return response()->json($photoExistent);
+        } else {
+            $image = Image::create([
+                'imageable_id' => $request->get('imageable_id'),
+                'imageable_type' => 'App\\Models\\User',
+                'url' => $fileName
+            ]);
+            return response()->json($image);
+        }
     }
 }

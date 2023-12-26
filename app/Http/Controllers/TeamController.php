@@ -98,9 +98,7 @@ class TeamController extends Controller
 
     public function assignTeam(Request $request)
     {
-        $project =  Project::where('projectable_id', $request->get('contract_id'))
-            ->where('projectable_type', 'App\\Models\\Contract')
-            ->first();
+        $project =  Project::find($request->get('contract_id'));
         $project->update([
             'team_id' => $request->get('team_selected')
         ]);
