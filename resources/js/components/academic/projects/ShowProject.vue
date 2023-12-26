@@ -28,9 +28,9 @@
                         <p class="mb-0">Presupuesto</p>
                         S./ {{ project.projectable.amount }}
                     </button>
-                    <button class="btn btn-warning">
+                    <button class="btn btn-warning" v-if="project.team">
                         <p class="mb-0">Equipo</p>
-                        {{ project.team_id }}
+                        {{ project.team.name }}
                     </button>
                 </div>
             </div>
@@ -89,15 +89,17 @@
 
 
     </div>
+    <TeamModal :contract="contractId" />
 </template>
 <script>
 import axios from 'axios';
 import moment from 'moment';
 import Sprint from './Sprint.vue'
 import Kanban from './kanban/Kanban.vue'
+import TeamModal from './TeamModal.vue';
 
 export default {
-    components: { Sprint, Kanban },
+    components: { Sprint, Kanban, TeamModal },
     data() {
         return {
             project: {},
@@ -107,10 +109,14 @@ export default {
             productSelected: {},
             deliverySelected: {},
             totalActivitiesAssigned: [],
-            search: ''
+            search: '',
+            contractId: 0
         }
     },
     methods: {
+        showTeamModal() {
+            $('#teamModal').modal('show')
+        },
         filterAcademicProducts() {
             this.productsFiltered = this.products.filter(product => product.name.toLowerCase().includes(this.search))
         },
