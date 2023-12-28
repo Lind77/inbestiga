@@ -10,7 +10,7 @@
                 <div class="me-2" v-if="project.id">
                   <h5 class="mb-1"><router-link :to="{ name: 'project', params: { idProject: project.id } }"
                       class="h5 stretched-link">{{ project.title }}</router-link></h5>
-                  <div class="client-info">
+                  <div class="client-info" v-if="project.projectable">
                     <p v-for="customer in project.projectable.quotation.customers">{{ customer.name }}</p>
                   </div>
                 </div>
