@@ -8,10 +8,10 @@
             <div class="d-flex align-items-start">
               <div class="d-flex align-items-start">
                 <div class="me-2" v-if="project.id">
-                  <h5 class="mb-1"><router-link :to="{ name: 'kanban', params: { idProject: project.id } }"
+                  <h5 class="mb-1"><router-link :to="{ name: 'project', params: { idProject: project.id } }"
                       class="h5 stretched-link">{{ project.title }}</router-link></h5>
-                  <div class="client-info d-flex align-items-center">
-                    <h6 class="mb-0 me-1">Cliente:</h6><span>{{ project.customer ? project.customer.name : '' }}</span>
+                  <div class="client-info">
+                    <p v-for="customer in project.projectable.quotation.customers">{{ customer.name }}</p>
                   </div>
                 </div>
               </div>

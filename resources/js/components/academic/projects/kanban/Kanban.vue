@@ -22,9 +22,9 @@
       </div>
     </div>
     <div class="row">
-      <dragArea :title="'To Do'" :tasks="deliveries" :status="0" @updateTask="updateTask" />
-      <dragArea :title="'Doing'" :tasks="doing" :status="1" @updateTask="updateTask" />
-      <dragArea :title="'Done'" :tasks="done" :status="2" @updateTask="updateTask" />
+      <DragArea :title="'To Do'" :tasks="deliveries" :status="0" @updateTask="updateTask" />
+      <DragArea :title="'Doing'" :tasks="doing" :status="1" @updateTask="updateTask" />
+      <DragArea :title="'Done'" :tasks="done" :status="2" @updateTask="updateTask" />
     </div>
   </div>
 </template>
@@ -32,11 +32,11 @@
 import moment from 'moment'
 import CardActivity from './CardActivity.vue'
 import CardTask from './CardTask.vue'
-import dragArea from './dragArea.vue'
+import DragArea from './DragArea.vue'
 import { userStore } from '../../../../stores/UserStore'
 
 export default {
-  components: { CardActivity, CardTask, dragArea },
+  components: { CardActivity, CardTask, DragArea },
   setup() {
     const store = userStore()
     return {

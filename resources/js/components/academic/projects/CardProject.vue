@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-4">
+    <div class="col">
         <div class="card mb-3 bg-secondary">
             <div class="card-header">
                 <img src="https://inbestiga.com/wp-content/uploads/2023/10/cropped-logo-Inbestiga.png" class="rounded"
@@ -20,7 +20,8 @@
                                 class="bx bx-dots-vertical-rounded"></i></button>
                         <ul class="dropdown-menu dropdown-menu-start" style="">
                             <li><a class="dropdown-item" href="javascript:void(0);"
-                                    @click="deleteProject(project)">Eliminar</a></li>
+                                    @click="deleteProject(project)">Eliminar</a>
+                            </li>
                             <li><a class="dropdown-item" href="javascript:void(0);" @click="toDocumentation(project)">Ver
                                     Ficha</a></li>
                             <li>
@@ -29,6 +30,8 @@
                             <li><a class="dropdown-item" href="javascript:void(0);" @click="showTeamModel(project)">Asignar
                                     Equipo</a></li>
                         </ul>
+                        <div class="text-white ms-2" v-if="project.team">{{ project.team.name }}</div>
+                        <div class="text-white ms-2 cursor-pointer" @click="showTeamModel(project)" v-else>Sin equipo</div>
                     </div>
                 </div>
             </div>

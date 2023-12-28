@@ -53,9 +53,16 @@
         </ul>
         <div class="tab-content">
           <div class="tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
-            <div class="row">
+            <div class="row row-cols-3">
               <CardProject v-for="project in projectsFiltered" :project="project" @getAllProjectsAcad="getAllProjectsAcad"
                 @showTeamModal="showTeamModal" />
+
+            </div>
+            <div class="d-flex align-items-center justify-content-center mt-4">
+              <template v-for="(n, index) in totalProjects">
+                <button class="btn btn-icon btn-primary mx-1" v-if="index % 9 == 0">{{ (index / 9) + 1 }}</button>
+              </template>
+
             </div>
           </div>
           <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
@@ -84,6 +91,7 @@ import TeamModal from './TeamModal.vue'
 import ProjectTab from './ProjectTab.vue'
 import ProjectTable from './ProjectTable.vue'
 
+
 export default {
   setup() {
     const store = userStore()
@@ -105,7 +113,8 @@ export default {
       contractId: 0,
       projectsFiltered: [],
       categorySelected: 0,
-      search: ''
+      search: '',
+      totalProjects: 0
     }
   },
   methods: {
@@ -118,7 +127,13 @@ export default {
         this.projectsFiltered = this.projects
       } else {
         this.projectsFiltered = []
-        this.projects.forEach((project) => {
+        axios.get('/api/search-projects/' + this.search)
+          .then((result) => {
+            this.projectsFiltered = result.data
+          }).catch((err) => {
+
+          });
+        /* this.projects.forEach((project) => {
           if (project.propertiable && project.propertiable.quotation) {
             project.propertiable.quotation.customers.forEach((customer) => {
               if (customer.name.toLowerCase().includes(this.search)) {
@@ -126,7 +141,7 @@ export default {
               }
             })
           }
-        })
+        }) */
       }
 
     },
@@ -203,8 +218,9 @@ export default {
       });
       axios.get('/api/projects-properties')
         .then(res => {
-          this.projects = res.data
-          this.projectsFiltered = res.data
+          this.projects = res.data.data
+          this.projectsFiltered = res.data.data
+          this.totalProjects = res.data.total
           this.$swal.close()
         })
         .catch(err => {
