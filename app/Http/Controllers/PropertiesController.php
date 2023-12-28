@@ -111,11 +111,12 @@ class PropertiesController extends Controller
     public function properties()
     {
         /* $properties = Property::orderBy('id', 'desc')->with(['propertiable', 'propertiable.projects', 'propertiable.projects.team', 'propertiable.quotation', 'propertiable.quotation.customers'])->get(); */
-        $projects = Project::with(['projectable', 'projectable.properties', 'projectable.quotation', 'projectable.quotation.customers'])
+        $projects = Project::with(['projectable', 'projectable.properties', 'projectable.quotation', 'projectable.quotation.customers', 'team'])
             ->whereHas('projectable', function ($query) {
                 $query->whereHas('properties');
             })
-            ->get();
+            ->paginate(9);
+
         return $projects;
     }
 }
