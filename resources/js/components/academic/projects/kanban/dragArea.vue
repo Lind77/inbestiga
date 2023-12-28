@@ -1,6 +1,5 @@
 <template>
   <div class="col">
-
     <div class="kanban-header fw-bold">
       <h4>{{ title }} ({{ tasks.filter(task => task.status == status).length }})</h4>
     </div>

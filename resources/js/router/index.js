@@ -334,6 +334,11 @@ export const routes = [
                 component: ShowProject,
                 props: true,
                 name: 'project'
+            },
+            {
+                path: 'myprojects',
+                component: MyProjects,
+                name: 'myprojects'
             }
         ]
     },
