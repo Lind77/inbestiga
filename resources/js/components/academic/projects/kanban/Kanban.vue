@@ -73,17 +73,27 @@ export default {
     stopCron() {
       clearInterval(this.interval)
     },
-    updateTask(taskId, newStatus) {
-      var taskSelected = this.tasks.find(task => task.id == taskId)
-      var firstStatus = taskSelected.status
-      this.removeTask(firstStatus, taskId)
+    updateTask(taskId, task) {
+      console.log(task);
+      var deliverySelected = this.deliveries.find(delivery => delivery.id == task)
+      var taskSelected = deliverySelected.assigned_activities.find(activity => activity.id == taskId)
+      var taskSelectedIndex = deliverySelected.assigned_activities.findIndex(activity => activity.id == taskId)
+      this.doing.push({ ...taskSelected })
+      deliverySelected.assigned_activities.splice(taskSelectedIndex, 1)
+      console.log(taskSelected);
+      /* var firstStatus = taskSelected.status
+      this.removeTask(firstStatus, taskId) */
+
+      /* 
+      
+      
       this.addTask(taskSelected, newStatus)
-      this.updateStatus(taskId, newStatus)
+      this.updateStatus(taskId, newStatus) */
       //this.updateProgressTask(taskId) 
-      if (newStatus == 2) {
+      /* if (newStatus == 2) {
         this.updateEndTime(taskId)
         this.incrementBar()
-      }
+      } */
     },
     updateTaskRealTime(taskToUpdate) {
       var taskSelected = this.tasks.find(task => task.id == taskToUpdate.id)

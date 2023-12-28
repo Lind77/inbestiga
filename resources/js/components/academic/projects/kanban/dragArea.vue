@@ -31,17 +31,20 @@ export default {
   methods: {
     drop(e) {
       let card = e.dataTransfer.getData('text')
-      let owner = e.dataTransfer.getData('owner')
+      let task = e.dataTransfer.getData('task')
+      this.$emit('updateTask', card, task)
+
+      //let owner = e.dataTransfer.getData('owner')
       /*   e.target.appendChild(document.getElementById(card)) */
-      if (this.status == 2) {
+      /* if (this.status == 2) {
         if (this.store.authUser.name == owner) {
-          this.$emit('updateTask', card, this.status)
+          
         } else {
           this.$swal('A usted no le pertenece esta tarea')
         }
       } else {
         this.$emit('updateTask', card, this.status)
-      }
+      } */
     }
   }
 }
