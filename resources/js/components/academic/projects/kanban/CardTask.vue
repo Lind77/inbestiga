@@ -107,7 +107,9 @@ export default {
         },
         drag(e) {
             e.dataTransfer.setData('text', e.target.id)
-            console.log('este es mi status', this.task.status)
+            e.dataTransfer.setData('task', this.task.id)
+
+            console.log('este es mi status', e.target.id)
             if (this.task.status == 1) {
 
                 e.dataTransfer.setData('owner', this.task.progress.owner)

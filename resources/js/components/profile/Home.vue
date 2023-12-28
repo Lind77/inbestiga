@@ -129,9 +129,8 @@
                                         <div class="col d-flex" v-for="index in 6" :key="index">
                                             <template v-for="schedule in hour.schedules">
                                                 <template v-if="index == schedule.day">
-                                                    <button @click="disableHour(schedule)" class="btn btn-success w-100"
-                                                        v-if="schedule.type == 1"></button>
-                                                    <button class="btn btn-secondary w-100" v-else></button>
+                                                    <button @click="disableHour(schedule)"
+                                                        :class="`btn btn-${colorByType[schedule.type]} w-100`"></button>
                                                 </template>
 
                                             </template>
@@ -202,6 +201,11 @@ export default {
     components: { Sidebar, Navbar, ScheduleModal, Hour, HourModal, Permissions, TimeMark },
     data() {
         return {
+            colorByType: {
+                1: 'success',
+                2: 'secondary',
+                3: 'warning'
+            },
             listHours: [],
             ableHours: {
                 start: '07:00:00',
