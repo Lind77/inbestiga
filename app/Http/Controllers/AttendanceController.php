@@ -200,7 +200,7 @@ class AttendanceController extends Controller
                 'amount_recovered' => 0,
                 'status' => 0,
                 'recoverable_id' => $attendancePermit->id,
-                'recoverable_type' => 'App\\Models\\Recovery_date'
+                'recoverable_type' => 'App\\Models\\Attandance_permit'
             ]);
         }
 
