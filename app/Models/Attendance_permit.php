@@ -23,5 +23,5 @@ class Attendance_permit extends Model
     public function recovery_dates()
     {
         return $this->morphMany('App\Models\Recovery_date','recoverable');
-    } */
+    }
 }
