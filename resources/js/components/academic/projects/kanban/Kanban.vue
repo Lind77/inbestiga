@@ -78,7 +78,11 @@ export default {
       var deliverySelected = this.deliveries.find(delivery => delivery.id == task)
       var taskSelected = deliverySelected.assigned_activities.find(activity => activity.id == taskId)
       var taskSelectedIndex = deliverySelected.assigned_activities.findIndex(activity => activity.id == taskId)
-      this.doing.push({ ...taskSelected })
+
+      var newTask = { ...deliverySelected }
+      newTask.assigned_activities = []
+      newTask.assigned_activities.push({ ...taskSelected })
+      this.doing.push({ ...newTask })
       deliverySelected.assigned_activities.splice(taskSelectedIndex, 1)
       console.log(taskSelected);
       /* var firstStatus = taskSelected.status
