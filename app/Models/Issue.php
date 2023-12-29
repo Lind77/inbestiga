@@ -34,5 +34,8 @@ class Issue extends Model
      public function images(){
         return $this->morphMany('App\Models\Image','imageable');
     }
-    
+    //Relación polimorfica uno a muchos (Status-Entities)
+    public function statuses(){
+        return $this->morphToMany('App\Models\Status','statusable');
+    }    
 }
