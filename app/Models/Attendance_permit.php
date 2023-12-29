@@ -13,13 +13,9 @@ class Attendance_permit extends Model
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
-    //Relación uno a muchos Attendance_permit-Recovery_dates
-    public function recovery_dates(){
-        return $this->hasMany('App\Models\Recovery_date');
-    }
-   /*  //Relacion morfeable uno a muchos (Justification-Attendance_permits-Recovery_dates)
+    //Relacion morfeable uno a muchos (Justification-Attendance_permits-Recovery_dates)
     public function recovery_dates()
     {
         return $this->morphMany('App\Models\Recovery_date','recoverable');
-    } */
+    }
 }
