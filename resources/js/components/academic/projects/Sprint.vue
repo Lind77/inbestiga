@@ -59,7 +59,7 @@ export default {
 
             axios.post('/api/assigned-activity', fd)
                 .then((result) => {
-                    this.getProject()
+                    this.$emit('getProject')
                 }).catch((err) => {
                     console.error(err);
                 });

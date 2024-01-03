@@ -76,7 +76,7 @@
                     <p>Tabla</p>
                 </div>
                 <div class="tab-pane fade" id="navs-pills-top-sprints" role="tabpanel">
-                    <Sprint :deliveries="deliveries" :productsFiltered="productsFiltered" />
+                    <Sprint :deliveries="deliveries" :productsFiltered="productsFiltered" @getProject="getProject" />
                 </div>
                 <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
                     <Kanban :deliveries="deliveries" />
@@ -121,6 +121,7 @@ export default {
             this.productsFiltered = this.products.filter(product => product.name.toLowerCase().includes(this.search))
         },
         getProject() {
+            this.deliveries = []
             axios.get('/api/projects-sprints/' + this.$route.params.idProject)
                 .then((result) => {
                     this.project = result.data
@@ -130,7 +131,6 @@ export default {
                         delivery.assigned_activities.forEach((assignment) => {
                             this.totalActivitiesAssigned.push({ ...assignment })
                         })
-
                     })
 
                 }).catch((err) => {

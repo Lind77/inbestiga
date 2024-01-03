@@ -275,7 +275,7 @@ class ProjectController extends Controller
     public function getMyProjects($id)
     {
         $user = User::find($id);
-        $projects = Project::with(['projectable', 'projectable.properties', 'projectable.quotation', 'projectable.quotation.customers', 'team'])->where('team_id', $user->team_id)->get();
+        $projects = Project::with(['projectable', 'projectable.properties', 'projectable.quotation', 'projectable.quotation.customers', 'team'])->where('team_id', '!=', null)->where('team_id', $user->team_id)->get();
         return response()->json($projects);
 
         /* $user = User::find($id);

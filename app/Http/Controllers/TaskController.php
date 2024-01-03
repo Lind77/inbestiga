@@ -7,6 +7,7 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Http\Request;
 use App\Events\NewDoing;
+use App\Models\Assigned_activity;
 
 class TaskController extends Controller
 {
@@ -86,10 +87,11 @@ class TaskController extends Controller
         //
     }
 
-    public function insertTimeTask(Request $request){
+    public function insertTimeTask(Request $request)
+    {
         //update status task
         $task = Task::find($request->get('id_task'));
-        
+
         $activity = $task->activity;
 
         $task->update([
@@ -98,7 +100,7 @@ class TaskController extends Controller
 
         $task->progress->update([
             'owner' => $request->get('owner'),
-            'start_time' => date("Y-m-d H:i:s") 
+            'start_time' => date("Y-m-d H:i:s")
         ]);
 
         return response()->json([
@@ -108,7 +110,8 @@ class TaskController extends Controller
         ]);
     }
 
-    public function insertEndTimeTask(Request $request){
+    public function insertEndTimeTask(Request $request)
+    {
 
         $task = Task::find($request->get('id_task'));
 
@@ -129,7 +132,8 @@ class TaskController extends Controller
         ]);
     }
 
-    public function insertStartTimeTask($id){
+    public function insertStartTimeTask($id)
+    {
         $task = Task::find($id);
         $task->update([
             'start_time' => time()
@@ -140,13 +144,16 @@ class TaskController extends Controller
         ]);
     }
 
-    public function changeStatus(Request $request){
-        
-        $task = Task::with('progress')->find($request->get('taskId'));
+    public function changeStatus(Request $request)
+    {
 
-        $newStatus = $request->get('newStatus');
+        $assigned_activity = Assigned_activity::find($request->get('taskId'));
 
-        $task->update([
+        $assigned_activity->update([
+            'status' => $request->get('newStatus')
+        ]);
+
+        /* $task->update([
             'status' => $newStatus
         ]);
 
@@ -166,10 +173,10 @@ class TaskController extends Controller
             'owner' => $request->get('owner')
         ]);
 
-        broadcast(new NewDoing($task));
+        broadcast(new NewDoing($task)); */
 
         return response()->json([
-           'msg' =>'success'
+            'msg' => 'success'
         ]);
     }
 }

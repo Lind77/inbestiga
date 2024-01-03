@@ -1,12 +1,12 @@
 <template>
   <div class="col">
     <div class="kanban-header fw-bold">
-      <h4>{{ title }} ({{ tasks.filter(task => task.status == status).length }})</h4>
+      <h4>{{ title }} ({{ cantActivities }})</h4>
     </div>
     <div :id="'draggableKanban' + status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent
       @dragover.prevent>
       <template v-for="(task, index) in tasks" :key="index">
-        <CardTask :task="task" />
+        <CardTask :activity="task" />
       </template>
     </div>
   </div>
@@ -30,9 +30,10 @@ export default {
   },
   methods: {
     drop(e) {
-      let card = e.dataTransfer.getData('text')
-      let task = e.dataTransfer.getData('task')
-      this.$emit('updateTask', card, task)
+
+      let taskId = e.dataTransfer.getData('taskId')
+      let taskStatus = e.dataTransfer.getData('taskStatus')
+      this.$emit('updateTask', taskId, taskStatus, this.status)
 
       //let owner = e.dataTransfer.getData('owner')
       /*   e.target.appendChild(document.getElementById(card)) */
@@ -45,6 +46,14 @@ export default {
       } else {
         this.$emit('updateTask', card, this.status)
       } */
+    }
+  },
+  computed: {
+    cantActivities() {
+      if (this.tasks) {
+        return this.tasks.length
+      }
+
     }
   }
 }
