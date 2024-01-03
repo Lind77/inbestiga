@@ -4,7 +4,7 @@
             <p class="h4">Productos</p>
             <input type="text" class="form-control mb-1" v-model="search" @keyup="filterAcademicProducts">
             <div id="container-products">
-                <div v-for="product in searchedProducts" :id="product.id" class="btn btn-info w-100 mb-2 cursor-pointer"
+                <div v-for="product in productsFiltered" :id="product.id" class="btn btn-info w-100 mb-2 cursor-pointer"
                     :draggable="true" @dragstart="handleDragStart(product)">
                     {{ product.name }}
                 </div>
@@ -34,15 +34,16 @@
 <script>
 import moment from "moment"
 export default {
-    data() {
-        return {
-            search: '',
-            searchedProducts: []
-        }
-    },
     props: {
         deliveries: Array,
         productsFiltered: Array
+    },
+    data() {
+        return {
+            search: '',
+            searchedProducts: [],
+            academicProducts: []
+        }
     },
     methods: {
         formatDate(date) {
@@ -76,10 +77,8 @@ export default {
         },
         filterAcademicProducts() {
             this.searchedProducts = this.productsFiltered.filter(product => product.name.toLowerCase().includes(this.search))
+            console.log(this.searchedProducts);
         }
-    },
-    mounted() {
-        this.searchedProducts = this.productsFiltered
     }
 }
 </script>
