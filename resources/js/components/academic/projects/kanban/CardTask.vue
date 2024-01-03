@@ -1,51 +1,19 @@
 <template>
-    <div class="card card-action mb-4 cursor-pointer">
-        <div class="card-header">
-            <div class="card-action-title">
-                <p class="mb-1 h6 fw-bold">{{ task.advance }}</p>
-
-                <p class="text-danger">{{ task.date }}</p>
-
-                <!-- <template v-if="task.status >= 1">
-                    <span class="h6">{{ task.progress.owner }}</span> <i class='bx bx-user'></i>
-                </template> -->
-            </div>
-            <div class="demo-inline-spacing"
-                v-if="task.status == 1 && this.task.progress.owner == this.store.authUser.name">
-                <!-- <button type="button" @click="startCron" class="btn rounded-pill btn-icon btn-primary">
-                    <span class="tf-icons bx bx-play"></span>
-                </button>
-                <button type="button" @click="stopCron" class="btn rounded-pill btn-icon btn-secondary">
-                    <span class="tf-icons bx bx-pause"></span>
-                </button> -->
-                {{ time }}
-                <!-- {{ cronometer }} -->
-            </div>
-
-            <div class="card-action-element">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item">
-                        <a class="card-collapsible" data-bs-toggle="collapse" :href="`#collapseExample${task.id}`"
-                            role="button" aria-expanded="false" aria-controls="collapseExample"><i
-                                class="tf-icons bx bx-chevron-up"></i></a>
-                    </li>
-                </ul>
-            </div>
+    <div draggable="true" @dragstart="drag" :id="activity.id"
+        class="card shadow-none bg-transparent border border-primary mb-3 cursor-pointer">
+        <div class="card-body">
+            {{ activity.id }}
+            <h5 class="card-title">{{ activity.name
+            }}</h5>
+            <p class="card-text">
+                {{ activity.academic_date }}
+            </p>
         </div>
-        <div class="collapse" :id="`collapseExample${task.id}`">
-            <div class="card-body pt-0">
-                <p class="card-text">
-                    <button draggable="true" @dragstart="drag" :id="activity.id" class="btn btn-info my-1"
-                        v-for="activity in task.assigned_activities">{{ activity.name
-                        }}</button>
-                    <!-- <div class="item-badges" v-if="task.fixed_task.fixed_activity">
+    </div>
+    <!-- <div class="item-badges" v-if="task.fixed_task.fixed_activity">
                     <p class="h5">Actividad: {{ task.fixed_task.fixed_activity.title }}</p>
                     <p class="h6">Tarea: {{ task.fixed_task.title }}</p>
                 </div> -->
-                </p>
-            </div>
-        </div>
-    </div>
 </template>
 <script>
 import moment from 'moment'
@@ -53,7 +21,7 @@ import { userStore } from '../../../../stores/UserStore'
 
 export default {
     props: {
-        task: Object
+        activity: Object
     },
     setup() {
         const store = userStore()
@@ -106,14 +74,15 @@ export default {
             clearInterval(this.interval)
         },
         drag(e) {
-            e.dataTransfer.setData('text', e.target.id)
-            e.dataTransfer.setData('task', this.task.id)
+            console.log(this.activity);
+            e.dataTransfer.setData('taskStatus', this.activity.status)
+            e.dataTransfer.setData('taskId', this.activity.id)
 
             console.log('este es mi status', e.target.id)
-            if (this.task.status == 1) {
+            /* if (this.task.status == 1) {
 
                 e.dataTransfer.setData('owner', this.task.progress.owner)
-            }
+            } */
         }
     },
     computed: {
@@ -159,11 +128,11 @@ export default {
         }
     },
     mounted() {
-        if (this.task.status == 1 && this.task.progress.owner == this.store.authUser.name) {
+        /* if (this.task.status == 1 && this.task.progress.owner == this.store.authUser.name) {
             this.startCron()
         } else if (this.task.status == 2) {
             this.stopCron()
-        }
+        } */
     }
 }
 </script>
