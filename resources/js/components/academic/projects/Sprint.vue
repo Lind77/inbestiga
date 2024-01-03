@@ -37,7 +37,7 @@ export default {
     data() {
         return {
             search: '',
-            searchedProducts: this.productsFiltered
+            searchedProducts: []
         }
     },
     props: {
@@ -77,6 +77,9 @@ export default {
         filterAcademicProducts() {
             this.searchedProducts = this.productsFiltered.filter(product => product.name.toLowerCase().includes(this.search))
         }
+    },
+    mounted() {
+        this.searchedProducts = this.productsFiltered
     }
 }
 </script>
