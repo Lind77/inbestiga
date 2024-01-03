@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="row">
-      <DragArea :title="'To Do'" :tasks="deliveries" :status="0" @updateTask="updateTask" />
+      <DragArea :title="'To Do'" :tasks="toDo" :status="0" @updateTask="updateTask" />
       <DragArea :title="'Doing'" :tasks="doing" :status="1" @updateTask="updateTask" />
       <DragArea :title="'Done'" :tasks="done" :status="2" @updateTask="updateTask" />
     </div>
@@ -73,24 +73,30 @@ export default {
     stopCron() {
       clearInterval(this.interval)
     },
-    updateTask(taskId, task) {
-      console.log(task);
-      var deliverySelected = this.deliveries.find(delivery => delivery.id == task)
-      var taskSelected = deliverySelected.assigned_activities.find(activity => activity.id == taskId)
-      var taskSelectedIndex = deliverySelected.assigned_activities.findIndex(activity => activity.id == taskId)
+    updateTask(taskId, taskStatus, newStatus) {
 
-      var newTask = { ...deliverySelected }
-      newTask.assigned_activities = []
-      newTask.assigned_activities.push({ ...taskSelected })
-      this.doing.push({ ...newTask })
-      deliverySelected.assigned_activities.splice(taskSelectedIndex, 1)
-      console.log(taskSelected);
+      var dragAreasByStatus = {
+        0: this.toDo,
+        1: this.doing,
+        2: this.done
+      }
+
+      var taskSelected = dragAreasByStatus[taskStatus].find(task => task.id == taskId)
+
+      var taskSelectedIndex = dragAreasByStatus[taskStatus].findIndex(task => task.id == taskId)
+
+      dragAreasByStatus[taskStatus].splice(taskSelectedIndex, 1)
+
+      taskSelected.status = newStatus
+
+      dragAreasByStatus[newStatus].push({ ...taskSelected })
+
+      this.updateStatusDb(taskId, newStatus)
+
       /* var firstStatus = taskSelected.status
       this.removeTask(firstStatus, taskId) */
 
-      /* 
-      
-      
+      /*       
       this.addTask(taskSelected, newStatus)
       this.updateStatus(taskId, newStatus) */
       //this.updateProgressTask(taskId) 
@@ -139,7 +145,7 @@ export default {
       taskSelected.progress.owner = this.store.authUser.name
       arraySelected.push(taskSelected)
     },
-    updateStatus(taskId, newStatus) {
+    updateStatusDb(taskId, newStatus) {
       const fd = new FormData()
 
       fd.append('taskId', taskId)
@@ -199,14 +205,6 @@ export default {
 
           this.tasks = []
           this.project = res.data
-          /* this.project.deliveries.forEach((delivery) => {
-            delivery.assigned_activities.forEach((assignment) => {
-              this.toDo.push({ ...assignment })
-            })
-
-          }) */
-          //this.totalTime = res.data.total_time
-
           this.$swal().close()
         })
     },
@@ -227,14 +225,15 @@ export default {
     }
   },
   mounted() {
-    this.getProjectById(),
-      Echo.private('tasks')
-        .listen('NewDoing', (e) => {
-          console.log(e.task)
-          if (e.task.progress.owner != this.store.authUser.name) {
-            this.updateTaskRealTime(e.task)
-          }
-        })
+    this.getProjectById()
+
+    Echo.private('tasks')
+      .listen('NewDoing', (e) => {
+        console.log(e.task)
+        if (e.task.progress.owner != this.store.authUser.name) {
+          this.updateTaskRealTime(e.task)
+        }
+      })
   },
   computed: {
     secondsFormatted() {
@@ -253,6 +252,23 @@ export default {
         return totalMinutes + 'm ' + restSeconds + 's'
       } else {
         return this.totalTime + 's'
+      }
+    }
+  },
+  watch: {
+    deliveries() {
+      if (this.deliveries.length > 0) {
+        this.deliveries.forEach(delivery => {
+          delivery.assigned_activities.forEach(assignment => {
+            if (assignment.status == 0) {
+              this.toDo.push({ ...assignment })
+            } else if (assignment.status == 1) {
+              this.doing.push({ ...assignment })
+            } else {
+              this.done.push({ ...assignment })
+            }
+          })
+        })
       }
     }
   }
