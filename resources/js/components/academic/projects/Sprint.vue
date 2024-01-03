@@ -76,8 +76,7 @@ export default {
             this.productSelected = product
         },
         filterAcademicProducts() {
-            this.searchedProducts = this.productsFiltered.filter(product => product.name.toLowerCase().includes(this.search))
-            console.log(this.searchedProducts);
+            this.$emit('filterAcademicProducts', this.search)
         }
     }
 }
