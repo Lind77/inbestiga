@@ -76,7 +76,8 @@
                     <p>Tabla</p>
                 </div>
                 <div class="tab-pane fade" id="navs-pills-top-sprints" role="tabpanel">
-                    <Sprint :deliveries="deliveries" :productsFiltered="productsFiltered" @getProject="getProject" />
+                    <Sprint :deliveries="deliveries" :productsFiltered="productsFiltered" @getProject="getProject"
+                        @filterAcademicProducts="filterAcademicProducts" />
                 </div>
                 <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
                     <Kanban :deliveries="deliveries" />
@@ -117,8 +118,8 @@ export default {
         showTeamModal() {
             $('#teamModal').modal('show')
         },
-        filterAcademicProducts() {
-            this.productsFiltered = this.products.filter(product => product.name.toLowerCase().includes(this.search))
+        filterAcademicProducts(search) {
+            this.productsFiltered = this.products.filter(product => product.name.toLowerCase().includes(search))
         },
         getProject() {
             this.deliveries = []
