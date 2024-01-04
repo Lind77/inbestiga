@@ -2,14 +2,16 @@
     <div draggable="true" @dragstart="drag" :id="activity.id"
         class="card shadow-none bg-transparent border border-primary mb-3 cursor-pointer">
         <div class="card-body">
-            {{ activity.id }}
             <h5 class="card-title">{{ activity.name
             }}</h5>
             <p class="card-text">
                 {{ activity.academic_date }}
             </p>
+            <button class="btn btn-sm btn-success" @click="sendToReview(activity)" v-if="activity.status == 2">Enviar a
+                revisión</button>
         </div>
     </div>
+
     <!-- <div class="item-badges" v-if="task.fixed_task.fixed_activity">
                     <p class="h5">Actividad: {{ task.fixed_task.fixed_activity.title }}</p>
                     <p class="h6">Tarea: {{ task.fixed_task.title }}</p>
@@ -42,6 +44,22 @@ export default {
         }
     },
     methods: {
+        sendToReview() {
+            this.activity.status = 3
+            this.$emit('removeTask', this.activity.id)
+            const fd = new FormData()
+
+            fd.append('taskId', this.activity.id)
+            fd.append('newStatus', 3)
+            fd.append('owner', this.store.authUser.name)
+            axios.post('/api/changeTaskStatus', fd)
+                .then(res => {
+                    this.$swal('Tarea enviada para revisión correctamente')
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
         startCron() {
             var a = moment(new Date(this.task.start_time))
             console.log(a)
