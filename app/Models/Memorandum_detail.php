@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Memorandum_detail extends Model
 {
     use HasFactory;
-    protected $fillable=['title','content'];
+    protected $fillable=['title','content','partial_amount'];
     //Relación inversa uno a muchos Memorandum-Memorandum_detail
     public function memorandum(){
         return $this->belongsTo('App\Models\Memorandum');
