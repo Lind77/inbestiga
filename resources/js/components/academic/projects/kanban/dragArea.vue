@@ -6,7 +6,7 @@
     <div :id="'draggableKanban' + status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent
       @dragover.prevent>
       <template v-for="(task, index) in tasks" :key="index">
-        <CardTask :activity="task" />
+        <CardTask :activity="task" @removeTask="removeTask" />
       </template>
     </div>
   </div>
@@ -29,6 +29,10 @@ export default {
     status: Number
   },
   methods: {
+    removeTask(taskId) {
+      var taskIndex = this.tasks.findIndex(task => task.id == taskId)
+      this.tasks.splice(taskIndex, 1)
+    },
     drop(e) {
 
       let taskId = e.dataTransfer.getData('taskId')
