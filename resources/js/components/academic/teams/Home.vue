@@ -16,7 +16,8 @@
                     <div class="col-6" v-for="team in teams">
                         <div class="card bg-primary text-white mb-3" :id="'card' + team.id">
                             <div class="card-body">
-                                <h5 class="card-title text-white">Equipo {{ team.name }}</h5>
+                                <h5 class="card-title text-white">Equipo {{ team.name }} <i class="bx bx-trash"
+                                        @click="deleteTeam(team.id)"></i></h5>
                                 <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
                                     <div v-for="memoir in team.memoirs">
                                         <li class="avatar avatar-sm pull-up" :title="memoir.user.name">
@@ -56,6 +57,17 @@ export default {
         }
     },
     methods: {
+        deleteTeam(teamId) {
+            if (confirm('Tienes la seguridad de eliminar este grupo?')) {
+                axios.delete('/api/teams/' + teamId)
+                    .then((result) => {
+                        this.getAllTeams()
+                    }).catch((err) => {
+
+                    });
+            }
+
+        },
         returnCardColor(e) {
             e.preventDefault();
             $('#card' + e.target.id).addClass('bg-primary')
