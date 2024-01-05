@@ -11,7 +11,7 @@
                     <div class="flex-shrink-0 avatar ms-2">
                         <div class="flex-shrink-0 me-3" v-if="message.emisor.images[0]">
                             <div class="avatar avatar-online">
-                                <img :src="'../../public/files/' + message.emisor.images[0].url"
+                                <img :src="'/../public/files/' + message.emisor.images[0].url"
                                     class="w-px-40 h-px-40 rounded-circle" style="object-fit:cover;" />
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                     <div class="flex-shrink-0 avatar ms-2">
                         <div class="flex-shrink-0 me-3" v-if="contact.images && contact.images[0]">
                             <div class="avatar avatar-online">
-                                <img :src="'../../public/files/' + contact.images[0].url"
+                                <img :src="'/../public/files/' + contact.images[0].url"
                                     class="w-px-40 h-px-40 rounded-circle" style="object-fit:cover;" />
                             </div>
                         </div>
