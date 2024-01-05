@@ -9,6 +9,13 @@
             </p>
             <button class="btn btn-sm btn-success" @click="sendToReview(activity)" v-if="activity.status == 2">Enviar a
                 revisión</button>
+            <button class="btn btn-sm btn-success" v-if="store.authUser.roles[0].name == 'CoordAcad' && activity.status > 2"
+                @click="acceptActivity(activity)">Aprobar</button>
+            <p class="text-warning" v-if="store.authUser.roles[0].name != 'CoordAcad' && activity.status > 2">En revisión
+            </p>
+            <button class="btn btn-sm btn-danger ms-2"
+                v-if="store.authUser.roles[0].name == 'CoordAcad' && activity.status > 2"
+                @click="rejectActivity(activity)">Rechazar</button>
         </div>
     </div>
 
@@ -44,21 +51,18 @@ export default {
         }
     },
     methods: {
+        rejectActivity(activity) {
+            this.activity.status = 2
+            this.updateTaskInBd(this.activity.id, this.activity.status)
+        },
+        acceptActivity(activity) {
+            this.activity.status = 4
+            this.updateTaskInBd(this.activity.id, this.activity.status)
+        },
         sendToReview() {
             this.activity.status = 3
             this.$emit('removeTask', this.activity.id)
-            const fd = new FormData()
-
-            fd.append('taskId', this.activity.id)
-            fd.append('newStatus', 3)
-            fd.append('owner', this.store.authUser.name)
-            axios.post('/api/changeTaskStatus', fd)
-                .then(res => {
-                    this.$swal('Tarea enviada para revisión correctamente')
-                })
-                .catch(err => {
-                    console.error(err)
-                })
+            this.updateTaskInBd(this.activity.id, this.activity.status)
         },
         startCron() {
             var a = moment(new Date(this.task.start_time))
@@ -101,6 +105,19 @@ export default {
 
                 e.dataTransfer.setData('owner', this.task.progress.owner)
             } */
+        },
+        updateTaskInBd(taskId, status) {
+            const fd = new FormData()
+            fd.append('taskId', taskId)
+            fd.append('newStatus', status)
+            fd.append('owner', this.store.authUser.name)
+            axios.post('/api/changeTaskStatus', fd)
+                .then(res => {
+                    this.$swal('Tarea enviada para revisión correctamente')
+                })
+                .catch(err => {
+                    console.error(err)
+                })
         }
     },
     computed: {
