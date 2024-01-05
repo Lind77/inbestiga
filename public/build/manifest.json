@@ -9,18 +9,18 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app.720b544b.js",
+    "file": "assets/app.e9e74dec.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app.b8fe2bdf.css"
+      "assets/app.c73e46b0.css"
     ],
     "assets": [
       "assets/tone-alert.1a21ca07.mp3"
     ]
   },
   "resources/js/app.css": {
-    "file": "assets/app.b8fe2bdf.css",
+    "file": "assets/app.c73e46b0.css",
     "src": "resources/js/app.css"
   }
 }
