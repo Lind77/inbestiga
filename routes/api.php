@@ -230,6 +230,7 @@ Route::get('/getAllTeams', [TeamController::class, 'index']);
 Route::post('/assignTeam', [TeamController::class, 'assignTeam']);
 Route::post('/user-team', [TeamController::class, 'updateUserTeam']);
 Route::post('/teams', [TeamController::class, 'create']);
+Route::delete('/teams/{id}', [TeamController::class, 'destroy']);
 
 Route::get('/getNotifications', [NotificationController::class, 'index']);
 Route::get('/getAllNotifications/{id}', [NotificationController::class, 'getAllNotifications']);
