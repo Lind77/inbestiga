@@ -144,7 +144,7 @@ class ChatController extends Controller
 
     public function contacts($id)
     {
-        $users = User::where('id', '!=', $id)->with('roles')->get();
+        $users = User::where('id', '!=', $id)->with(['roles', 'images'])->get();
         return response()->json($users);
     }
 }
