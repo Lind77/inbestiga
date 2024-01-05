@@ -62,6 +62,7 @@ export default {
                 axios.delete('/api/teams/' + teamId)
                     .then((result) => {
                         this.getAllTeams()
+                        this.getAcademicUsers()
                     }).catch((err) => {
 
                     });
