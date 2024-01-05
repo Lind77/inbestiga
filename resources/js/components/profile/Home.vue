@@ -9,7 +9,7 @@
             <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                 <div class="flex-shrink-0 mt-n5 mx-sm-0 mx-auto">
                     <img :src="'../../public/files/' + user.images[0].url" alt="user image"
-                        style="width: 180px; height: 180px;"
+                        style="width: 180px; height: 180px !important; object-fit:cover;"
                         class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img mb-5 cursor-pointer"
                         @click="updatePhoto" v-if="user.images && user.images[0]">
                     <img src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703548800&semt=ais"
