@@ -77,7 +77,7 @@ class ChatController extends Controller
      */
     public function show($id)
     {
-        $messages = Chat::query()->with('emisor')->where('receptor_id', $id)->latest('id')->get()->groupBy('emisor_id');
+        $messages = Chat::query()->with(['emisor', 'emisor.images'])->where('receptor_id', $id)->latest('id')->get()->groupBy('emisor_id');
 
         $messagesFiltered = [];
 
