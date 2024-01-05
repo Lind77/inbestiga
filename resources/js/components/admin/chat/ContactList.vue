@@ -15,7 +15,7 @@
                                     class="w-px-40 h-px-40 rounded-circle" style="object-fit:cover;" />
                             </div>
                         </div>
-                        <span v-else class="avatar-initial rounded-circle bg-primary">{{ store.authUser.name[0] }}</span>
+                        <span v-else class="avatar-initial rounded-circle bg-primary">{{ message.emisor.name[0] }}</span>
                     </div>
                     <div class="d-flex flex-column align-items-start w-100 ps-2">
                         <h6 :id="`name${message.emisor.id}`" class="contact-name mb-0">{{ message.emisor.name }}</h6>
