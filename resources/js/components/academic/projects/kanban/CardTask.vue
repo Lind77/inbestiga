@@ -2,14 +2,23 @@
     <div draggable="true" @dragstart="drag" :id="activity.id"
         class="card shadow-none bg-transparent border border-primary mb-3 cursor-pointer">
         <div class="card-body">
-            {{ activity.id }}
             <h5 class="card-title">{{ activity.name
             }}</h5>
             <p class="card-text">
                 {{ activity.academic_date }}
             </p>
+            <button class="btn btn-sm btn-success" @click="sendToReview(activity)" v-if="activity.status == 2">Enviar a
+                revisión</button>
+            <button class="btn btn-sm btn-success" v-if="store.authUser.roles[0].name == 'CoordAcad' && activity.status > 2"
+                @click="acceptActivity(activity)">Aprobar</button>
+            <p class="text-warning" v-if="store.authUser.roles[0].name != 'CoordAcad' && activity.status > 2">En revisión
+            </p>
+            <button class="btn btn-sm btn-danger ms-2"
+                v-if="store.authUser.roles[0].name == 'CoordAcad' && activity.status > 2"
+                @click="rejectActivity(activity)">Rechazar</button>
         </div>
     </div>
+
     <!-- <div class="item-badges" v-if="task.fixed_task.fixed_activity">
                     <p class="h5">Actividad: {{ task.fixed_task.fixed_activity.title }}</p>
                     <p class="h6">Tarea: {{ task.fixed_task.title }}</p>
@@ -42,6 +51,19 @@ export default {
         }
     },
     methods: {
+        rejectActivity(activity) {
+            this.activity.status = 2
+            this.updateTaskInBd(this.activity.id, this.activity.status)
+        },
+        acceptActivity(activity) {
+            this.activity.status = 4
+            this.updateTaskInBd(this.activity.id, this.activity.status)
+        },
+        sendToReview() {
+            this.activity.status = 3
+            this.$emit('removeTask', this.activity.id)
+            this.updateTaskInBd(this.activity.id, this.activity.status)
+        },
         startCron() {
             var a = moment(new Date(this.task.start_time))
             console.log(a)
@@ -83,6 +105,19 @@ export default {
 
                 e.dataTransfer.setData('owner', this.task.progress.owner)
             } */
+        },
+        updateTaskInBd(taskId, status) {
+            const fd = new FormData()
+            fd.append('taskId', taskId)
+            fd.append('newStatus', status)
+            fd.append('owner', this.store.authUser.name)
+            axios.post('/api/changeTaskStatus', fd)
+                .then(res => {
+                    this.$swal('Tarea enviada para revisión correctamente')
+                })
+                .catch(err => {
+                    console.error(err)
+                })
         }
     },
     computed: {
