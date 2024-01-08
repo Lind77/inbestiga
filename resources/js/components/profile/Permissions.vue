@@ -100,12 +100,12 @@ export default {
     methods: {
         testDateJustification() {
             var today = moment().format('YYYY-MM-DD')
-            if (moment(this.justification.miss_date).diff(today) >= 0) {
+            if (moment(this.justification.miss_date).diff(today) > 0) {
                 this.$swal('Solo días anteriores a hoy please')
                 this.justification.miss_date = ''
             } else {
                 var dateDiff = moment.duration(moment(this.justification.miss_date).diff(today))
-                if (dateDiff.asHours() < -24) {
+                if (dateDiff.asHours() <= -24) {
                     this.$swal('Solo hasta un día antes please')
                     this.justification.miss_date = ''
                 }
