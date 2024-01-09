@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Justification;
 use Illuminate\Http\Request;
 
 class JustificationController extends Controller
@@ -36,6 +37,15 @@ class JustificationController extends Controller
     public function store(Request $request)
     {
         $justification = json_decode($request->get('justification'), true);
+
+        $newJustification = Justification::create([
+            'miss_date' => $justification['miss_date'],
+            'reason' => $justification['reason'],
+            'status' => 0,
+            'user_id' => $justification['userId'],
+            'miss_time_admission' => $justification['admission_time'],
+            'miss_time_departure' => $justification['departure_time']
+        ]);
 
         return $justification;
     }
