@@ -52,7 +52,7 @@
     <div class="row">
         <div class="col">
             <label for="">Razón de Justificación</label>
-            <textarea type="text" v-model="reason" class="form-control"></textarea>
+            <textarea type="text" v-model="justification.reason" class="form-control"></textarea>
         </div>
         <div class="col">
             <label for="">Archivo de prueba</label>
