@@ -339,7 +339,7 @@
                     <div class="page-break" ></div>
                     @endif
                    
-                <span style="margin-top: 60px;">SEXTO: EXCLUSIVIDAD</span>
+                <span style="margin-top: 100px;">SEXTO: EXCLUSIVIDAD</span>
                 <p>En virtud de esta cláusula, el contrato suscrito se establece exclusivamente entre EL LOCADOR y EL ASESORADO. Cualquier ampliación relacionada al alcance del servicio que incluya a otras personas requiere una notificación y adenda escrita, junto con la aceptación de los términos y costos adicionales por ambas partes. "El asesorado" asume la responsabilidad total de los pagos adicionales relacionados con cualquier extensión del servicio. "El locador" se reserva el derecho de rechazar dicha ampliación sin consentimiento previo por escrito. Esta cláusula garantiza la transparencia y evita malentendidos en caso de cambios en el alcance de los servicios. Ambas partes aceptan estos términos mediante la firma del contrato.</p>
 
                 <span style="margin-top: 0px;">SÉPTIMO: SOBRE LA RESOLUCIÓN DEL CONTRATO</span>
