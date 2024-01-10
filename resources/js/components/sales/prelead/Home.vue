@@ -4,7 +4,7 @@
       placeholder="Buscar prelead por nombre..." class="form-control w-50 mb-2">
     <div class="container-override" id="funnelContainer">
       <template v-for="preleadArea in preleadAreas">
-        <draggableArea :customers="preleadArea.customers" :title="preleadArea.title" :status="preleadArea.status"
+        <DraggableArea :customers="preleadArea.customers" :title="preleadArea.title" :status="preleadArea.status"
           @updateStatusPrelead="updateStatusPrelead" @updateStatusSpace="updateStatusSpace"
           @showModalUpdateData="showModalUpdateData" @showModalFunnel="showModalFunnel"
           @showModalFunnelCustomer="showModalFunnelCustomer" />
@@ -26,7 +26,7 @@ import axios from 'axios'
 import { userStore } from '../../../stores/UserStore'
 import CardCustomer from './CardCustomer.vue'
 import ProductModal from '../funnel/ProductModal.vue'
-import draggableArea from '../funnel/DraggableArea.vue'
+import DraggableArea from '../funnel/DraggableArea.vue'
 import UpdateCom from '../prelead/UpdateCom.vue'
 import OwnerModal from './OwnerModal.vue'
 import customerModal from '../customers/customerModal.vue'
@@ -40,7 +40,7 @@ export default {
       store
     }
   },
-  components: { CardCustomer, ProductModal, draggableArea, UpdateCom, OwnerModal, customerModal, FunnelModal },
+  components: { CardCustomer, ProductModal, DraggableArea, UpdateCom, OwnerModal, customerModal, FunnelModal },
   data() {
     return {
       attended: [],
