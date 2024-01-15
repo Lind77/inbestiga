@@ -276,8 +276,8 @@
                                 </span>
                             </router-link>
                             <a v-if="contractId != 0 && documentType == 3"
-                                :href="`https://sistema.inbestiga.com/public/api/generateContract/${contractId}`"
-                                target="_blank" class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
+                                :href="`https://inbestiga.site/api/generateContract/${contractId}`" target="_blank"
+                                class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
                         </div>
                     </div>
                 </div>
