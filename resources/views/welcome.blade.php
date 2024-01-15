@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Inbestiga 2024</title>
+	<title>Inbestiga 2020</title>
 	<!-- Favicon -->
 	<link rel="icon" type="image/x-icon" href="{{asset('img/favicon/favicon.ico')}}" />
 	<!-- Fonts -->
