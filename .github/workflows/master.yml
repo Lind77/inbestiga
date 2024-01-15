@@ -25,5 +25,4 @@ jobs:
           script: |
             whoami
             sudo su -l www-data -s /bin/bash
-            cd /var/www/html
-            git pull origin dev
+            whoami
