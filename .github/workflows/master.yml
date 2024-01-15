@@ -17,4 +17,4 @@ jobs:
           target-server: inbestiga.site
           remote-user: root
           private-ssh-key: ${{ secrets.SSH_KEY }}
-          destination-path: ~/var/www/html/
+          destination-path: /var/www/html/
