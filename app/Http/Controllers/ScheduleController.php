@@ -9,7 +9,11 @@ use stdClass;
 
 class ScheduleController extends Controller
 {
-    public function index($id)
+    public function index()
+    {
+    }
+
+    public function show($id)
     {
         $user = User::with(['attendances', 'schedules'])->find($id);
 
@@ -37,15 +41,6 @@ class ScheduleController extends Controller
         return response()->json([
             'user' => $user,
             'newSchedules' => $newSchedules
-        ]);
-    }
-
-    public function show($id)
-    {
-        $schedule = Schedule::find($id);
-
-        return response()->json([
-            'schedule' => $schedule
         ]);
     }
 
