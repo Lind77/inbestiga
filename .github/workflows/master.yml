@@ -23,6 +23,5 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
-            sudo su -l www-data -s /bin/bash
             cd /var/www/html
             git pull origin dev
