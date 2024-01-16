@@ -146,7 +146,6 @@ export default {
             } else {
                 this.usersFounded = this.users.filter(user => user.name.toLowerCase().includes(this.search))
             }
-
         },
         actualMonth() {
             return moment().format('MMMM') + ' ' + moment().format('YYYY')
@@ -236,7 +235,6 @@ export default {
                     this.attendances = this.user.attendances
 
                     this.schedules.forEach((schedule, index) => {
-
                         if (schedule != null) {
                             if (index % 2 != 0) {
                                 console.log(index, this.scheduleFiletered.length)
