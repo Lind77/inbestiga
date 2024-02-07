@@ -119,9 +119,9 @@ export default {
 
             axios.post('/api/justification', fd)
                 .then((result) => {
-
+                    this.$swal('Justificación enviada para revisión')
                 }).catch((err) => {
-
+                    this.$swal('Error')
                 });
         },
         deleteRecovery(recoveryIndex) {

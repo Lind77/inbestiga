@@ -140,11 +140,11 @@
     <body>
         <!-- Define header and footer blocks before your content -->
         <header>
-            <img src="https://inbestiga.com/pdf-sys/contract/contractHeader.png" alt="">
+            <img src="https://jairpl.com/pdf-sys/contract/contractHeader.png" alt="">
         </header>
 
         <footer>
-            <img src="https://inbestiga.com/pdf-sys/contract/contractFooter.png" alt="">
+            <img src="https://jairpl.com/pdf-sys/contract/contractFooter.png" alt="">
         </footer>
 
             <img src="" alt="">
@@ -404,7 +404,7 @@
                     <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($contract->date))}}</p>
                     <div class="signatures">
                         <div class="col-signature">
-                            <img src="https://inbestiga.com/pdf-sys/firmaBere.jpg" width="200">
+                            <img src="https://jairpl.com/pdf-sys/firmaBere.jpg" width="200">
                             <div class="locator">
                                 <p>__________________________</p>
                                 <p>EL LOCADOR</p>
