@@ -47,7 +47,9 @@ class JustificationController extends Controller
             'miss_time_departure' => $justification['departure_time']
         ]);
 
-        return $justification;
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     /**
