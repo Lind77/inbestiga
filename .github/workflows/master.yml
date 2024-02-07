@@ -20,9 +20,8 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            whoami
-            sudo su -l www-data -s /bin/bash
-            whoami
+            cd /var/www/html
+            git pull Central dev

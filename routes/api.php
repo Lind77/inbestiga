@@ -89,10 +89,10 @@ Route::post('/subareas', [SubareaController::class, 'store']);
 Route::delete('/subareas/{id}', [SubareaController::class, 'destroy']);
 
 //Administración de horarios de atención de los usuarios
-Route::get('/schedules', [ScheduleController::class, 'index']);
-Route::get('/schedules/{id}', [ScheduleController::class, 'show']);
+//Route::get('/schedules', [ScheduleController::class, 'index']);
+/* Route::get('/schedules/{id}', [ScheduleController::class, 'show']);
 Route::post('/schedules', [ScheduleController::class, 'store']);
-Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']);
+Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']); */
 //Administración de asistencias
 Route::get('/attendances', [AttendanceController::class, 'index']);
 Route::get('/attendancess/{id}', [AttendanceController::class, 'show']);
@@ -306,7 +306,7 @@ Route::post('/files', [FileController::class, 'store']);
 Route::get('/files/{id}', [FileController::class, 'show']);
 Route::delete('/files/{id}', [FileController::class, 'destroy']);
 
-Route::get('/schedules/{id}', [ScheduleController::class, 'index']);
+Route::get('/schedules/{id}', [ScheduleController::class, 'show']);
 Route::post('/schedules', [ScheduleController::class, 'store']);
 Route::put('/schedules/{id}', [ScheduleController::class, 'update']);
 Route::put('/schedules-type/{id}', [ScheduleController::class, 'updateType']);

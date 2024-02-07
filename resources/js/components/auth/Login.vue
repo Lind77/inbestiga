@@ -63,7 +63,7 @@
                       </g>
                     </svg>
                   </span>
-                  <span class="app-brand-text demo text-body fw-bolder">Inbestiga</span>
+                  <span class="app-brand-text demo text-body fw-bolder">Inbestiga-2024</span>
                 </a>
               </div>
               <!-- /Logo -->
