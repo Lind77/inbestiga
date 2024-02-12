@@ -130,7 +130,9 @@
                                             <template v-for="schedule in hour.schedules">
                                                 <template v-if="index == schedule.day">
                                                     <button @click="disableHour(schedule)"
-                                                        :class="`btn btn-${colorByType[schedule.type]} w-100`"></button>
+                                                        :class="`btn btn-${colorByType[schedule.type]} w-100`">{{
+                                                            differenceTimes(schedule.departure_time, schedule.admission_time)
+                                                        }}</button>
                                                 </template>
 
                                             </template>
@@ -270,6 +272,12 @@ export default {
         };
     },
     methods: {
+        differenceTimes(departureTime, admissionTime) {
+
+
+
+
+        },
         updateProfilePhoto(e) {
             const fd = new FormData()
 
@@ -533,7 +541,12 @@ export default {
                     this.hours = result.data.schedules
                     this.hours.forEach((hour) => {
                         if (hour.type == 1) {
-                            this.abledHours++
+                            var departureTimeMoment = moment(hour.departure_time, 'HH:mm:ss')
+                            var admissionTimeMoment = moment(hour.admission_time, 'HH:mm:ss')
+
+                            var timePoint = departureTimeMoment.diff(admissionTimeMoment) / 3600000
+
+                            this.abledHours = this.abledHours + timePoint
                         } else {
                             this.disabledHours++
                         }

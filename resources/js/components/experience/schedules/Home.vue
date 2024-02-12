@@ -223,22 +223,21 @@ export default {
                     this.hours.forEach(schedule => {
                         var newDepartureTime = moment(schedule.admission_time, 'HH:mm:ss').add(1, 'hours').format('HH:mm:ss')
 
-                        if (schedule.type == 1) {
+                        /* if (schedule.type == 1) {
                             this.abledHours++;
                         } else if (schedule.type == 2) {
                             this.disabledHours++;
                         }
+ */
+                        if (schedule.type == 1) {
+                            var departureTimeMoment = moment(schedule.departure_time, 'HH:mm:ss')
+                            var admissionTimeMoment = moment(schedule.admission_time, 'HH:mm:ss')
 
-                        if (schedule.departure_time == newDepartureTime && schedule.type == 1) {
-                            this.totalHours++;
+                            var timePoint = departureTimeMoment.diff(admissionTimeMoment) / 3600000
+
+                            this.totalHours = this.totalHours + timePoint
                         } else {
-                            var timeTotal = moment(schedule.departure_time, 'HH:mm:ss').diff(moment(schedule.admission_time, 'HH:mm:ss'))
 
-                            if (schedule.type == 1) {
-                                var timeConverted = moment.duration(timeTotal)
-                                console.log(timeConverted.minutes())
-                                this.totalHours = this.totalHours + (timeConverted.minutes() / 60)
-                            }
 
                         }
 
