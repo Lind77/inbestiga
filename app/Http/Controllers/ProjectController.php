@@ -18,6 +18,7 @@ use App\Models\Price;
 use App\Models\ProcessProject;
 use App\Models\Product;
 use App\Models\Progress;
+use App\Models\Property;
 use App\Models\Quotation;
 use App\Models\Seen;
 use App\Models\Task;
@@ -509,8 +510,10 @@ class ProjectController extends Controller
 
     public function projectPendings()
     {
-        $quotations = Quotation::with('contract')->where('status', 11)->get();
-        return $quotations;
+        $number_contracts =  Quotation::whereHas('contract')->where('status', 11)->get();
+        $contracts_properties = Contract::whereHas('properties')->get();
+
+        return response()->json(count($number_contracts) - count($contracts_properties));
         /* $contracts = Contract::doesntHave('properties')->get();
         return response()->json(count($contracts)); */
     }
