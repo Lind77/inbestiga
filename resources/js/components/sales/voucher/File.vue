@@ -1,7 +1,7 @@
 <template>
     <div class="voucher">
         <div class="row voucher-header">
-            <img src="https://inbestiga.com/pdf-sys/header_boleta.png" alt="" srcset="">
+            <img src="https://jairpl.com/pdf-sys/header_boleta.png" alt="" srcset="">
         </div>
         <div class="row ms-5">
             <div class="col">
@@ -54,7 +54,7 @@
             </div>
         </div>
         <footer class="footer">
-            <img src="https://inbestiga.com/pdf-sys/footer_boleta.png" class="w-100">
+            <img src="https://jairpl.com/pdf-sys/footer_boleta.png" class="w-100">
         </footer>
     </div>
 </template>
