@@ -509,8 +509,10 @@ class ProjectController extends Controller
 
     public function projectPendings()
     {
-        $contracts = Contract::doesntHave('properties')->get();
-        return response()->json(count($contracts));
+        $quotations = Quotation::with('contract')->where('status', 11)->get();
+        return $quotations;
+        /* $contracts = Contract::doesntHave('properties')->get();
+        return response()->json(count($contracts)); */
     }
 
     public function enable($id)
