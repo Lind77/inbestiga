@@ -4,7 +4,7 @@
             <div class="row w-100 px-4 py-3">
                 <div class="col-12 d-flex align-items-center justify-content-around">
                     <h2 class="fw-bolder text-white mb-0">COTIZACIÓN</h2>
-                    <img src="https://inbestiga.com/pdf-sys/logo.png" alt="" class="main-logo mb-3">
+                    <img src="https://jairpl.com/pdf-sys/logo.png" alt="" class="main-logo mb-3">
                 </div>
             </div>
         </nav>
@@ -141,10 +141,10 @@
         <section class="last">
             <div class="d-flex justify-content-around">
                 <div class="d-flex w-50">
-                    <img src="https://inbestiga.com/pdf-sys/circle.png" width="150">
+                    <img src="https://jairpl.com/pdf-sys/circle.png" width="150">
                     <p class="ps-3 pig-text">Recuerda que puedes hacer el pago en CUOTAS!</p>
                 </div>
-                <img src="https://inbestiga.com/pdf-sys/square.png" width="120" height="70">
+                <img src="https://jairpl.com/pdf-sys/square.png" width="120" height="70">
             </div>
             <footer class="mt-3">
                 <p>Gracias por brindarnos tu confianza. Contáctanos si tienes alguna duda acerca de esta cotización.</p>
