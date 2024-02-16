@@ -98,10 +98,25 @@ export default {
             this.$router.push({ name: 'home-documentation', params: { quotationId: quotationId } })
         },
         getAllCustomers() {
+            this.$swal.fire({
+                title: "Cargando...",
+                width: 600,
+                padding: "3em",
+                color: "#716add",
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                backdrop: `
+                            rgba(0,0,123,0.4)
+                            url("https://sweetalert2.github.io/images/nyan-cat.gif")
+                            left top
+                            no-repeat
+                        `
+            });
             axios.get('/api/profiles')
                 .then((result) => {
                     this.customers = result.data
                     this.quotationsFiltered = result.data
+                    this.$swal.close()
                 }).catch((err) => {
                     console.log(err);
                 });
