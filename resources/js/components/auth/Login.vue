@@ -67,7 +67,7 @@
                 </a>
               </div>
               <!-- /Logo -->
-              <h4 class="mb-2">Welcome to Inbestiga! 👋</h4>
+              <h4 class="mb-2">Welcome to Inbestiga! <img src="https://jairpl.com/mario/pngegg.png" width="50px"></h4>
 
              <!--  <p class="text-danger" v-text="errors.email"></p> -->
 
@@ -129,6 +129,8 @@
 </template>
 <script>
 import { userStore } from '../../stores/UserStore'
+import { showLoader } from '../../utils/Loader'
+import { closeLoader } from '../../utils/CloseLoader'
 export default {
   data() {
     return {
@@ -144,11 +146,7 @@ export default {
   },
   methods: {
     login() {
-      this.$swal({
-        title: 'Cargando ...',
-        allowOutsideClick: false,
-        showConfirmButton: false
-      })
+      showLoader()
       const fd = new FormData()
       fd.append('email', this.email)
       fd.append('password', this.password)
@@ -160,7 +158,7 @@ export default {
           this.store.setUser(res.data.user)
           this.$router.push({ path: '/home' })
           //this.$router.push({ path: `${res.data.area.name}/home` })
-          this.$swal().close()
+          closeLoader()
         }).catch((err) => {
           this.$swal({
             icon: 'error',

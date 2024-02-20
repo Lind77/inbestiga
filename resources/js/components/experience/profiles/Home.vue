@@ -15,7 +15,8 @@
         </div>
         <div class="row g-4 mb-4">
             <div class="col-sm-6 col-xl-3" v-for="quotation in quotationsFiltered">
-                <div :class="`card cursor-pointer bg-${bgCards} text-white`" @click="showCustomerModal(quotation.id)">
+                <div :class="`card cursor-pointer bg-${quotation.contract != null ? 'success' : 'primary'} text-white`"
+                    @click="showCustomerModal(quotation.id)">
                     <div class="card-body">
                         <div class="d-flex align-items-start justify-content-between">
                             <div class="content-left">
@@ -97,10 +98,18 @@ export default {
     },
     methods: {
         filterProfiles() {
-            console.log(this.searchProfile);
+            showLoader()
             axios.get('/api/profiles-search/' + this.searchProfile)
                 .then((result) => {
-                    this.quotationsFiltered = result.data
+                    this.quotationsFiltered = result.data.data
+                    if (this.quotationsFiltered.length < 8) {
+                        this.nextPageUrl = null
+                        this.prevPageUrl = null
+                    } else {
+                        this.nextPageUrl = result.data.next_page_url
+                        this.prevPageUrl = result.data.prev_page_url
+                    }
+                    showLoader()
                 }).catch((err) => {
                     console.error(err);
                 });
@@ -139,21 +148,25 @@ export default {
                 });
         },
         nextPage() {
+            showLoader()
             axios.get(this.nextPageUrl)
                 .then((result) => {
                     this.nextPageUrl = result.data.next_page_url
                     this.prevPageUrl = result.data.prev_page_url
                     this.quotationsFiltered = result.data.data
+                    closeLoader()
                 }).catch((err) => {
                     console.log(err);
                 });
         },
         prevPage() {
+            showLoader()
             axios.get(this.prevPageUrl)
                 .then((result) => {
                     this.nextPageUrl = result.data.next_page_url
                     this.prevPageUrl = result.data.prev_page_url
                     this.quotationsFiltered = result.data.data
+                    closeLoader()
                 }).catch((err) => {
                     console.log(err);
                 });
