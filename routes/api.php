@@ -180,7 +180,7 @@ Route::get('/my-leads/{id}', [CustomerController::class, 'getAllMyLeads']);
 Route::get('/changeInterest/{id}/{interest}', [CustomerController::class, 'changeInterest']);
 
 
-Route::get('/getAllOrders', [OrderController::class, 'index']);
+
 Route::post('/orders', [OrderController::class, 'insertOrder']);
 Route::post('/order', [OrderController::class, 'store']);
 Route::post('/updateOrder', [OrderController::class, 'update']);
@@ -351,3 +351,5 @@ Route::post('/update-times-next', [ScheduleController::class, 'updateNextTimes']
 Route::post('/justification', [JustificationController::class, 'store']);
 
 Route::post('/profile-photo', [UserController::class, 'updatePhoto']);
+
+Route::get('/orders', [OrderController::class, 'index']);

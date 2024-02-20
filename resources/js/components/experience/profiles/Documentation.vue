@@ -1,7 +1,7 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row invoice-add">
-            <div class="card mb-4 px-0">
+            <div class="card mb-2 px-0">
                 <div class="user-profile-header-banner">
                     <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/pages/profile-banner.png"
                         alt="Banner image" class="rounded-top w-100">
@@ -13,22 +13,28 @@
                             class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                             <div class="user-profile-info">
                                 <!-- <p>Id de Contrato: {{ quotation.contract.id }}</p> -->
-                                <h4 v-for="customer in quotation.customers">{{ customer.name }}</h4>
-                                <ul
-                                    class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
-                                    <li class="list-inline-item fw-medium">
-                                        <i class="bx bx-id-card"></i> {{ customer.dni }}
-                                    </li>
-                                    <li class="list-inline-item fw-medium">
-                                        <i class="bx bx-pen"></i> {{ customer.career }}
-                                    </li>
-                                    <li class="list-inline-item fw-medium">
-                                        <i class="bx bxs-graduation"></i> {{ customer.university }}
-                                    </li>
-                                    <li class="list-inline-item fw-medium">
-                                        <i class="bx bx-phone"></i> {{ customer.cell }}
-                                    </li>
-                                </ul>
+                                <h3>Ficha de Cliente</h3>
+
+                                <div class="row">
+                                    <span class="h5 mt-2 demo text-body fw-bold">Información General </span>
+                                    <p class="mb-2"><span class="fw-bold">Documento Firmado:</span> {{ signedDoc }}
+                                    </p>
+
+                                    <p class="mb-2"><span class="fw-bold">Servicio Contratado </span></p>
+                                    <p v-for="detail in quotation.details"> - {{
+                                        detail.name }}
+                                    </p>
+
+                                    <p class="mb-2" v-if="quotation.contract">
+                                        <span class="fw-bold">
+                                            Aplicación de
+                                            instrumentos:</span> {{
+                                                quotation.contract.third_article == 1 ? 'Si' : 'No' }}
+                                    </p>
+
+                                    <p class="mb-2"><span class="fw-bold">Tipo de cliente:</span> {{
+                                        customer.attitude }}</p>
+                                </div>
                             </div>
                             <!-- <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
                                 <i class="bx bx-user-check me-1"></i>Connected
@@ -37,30 +43,51 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-12 mb-lg-0 mb-4">
-                <div class="card invoice-preview-card">
-                    <div class="card-body">
-                        <div class="row">
-                            <span class="h5 mt-2 demo text-body fw-bold">Información General </span>
-                            <p class="mb-2"><span class="fw-bold">Documento Firmado:</span> {{ signedDoc }}</p>
-
-                            <p class="mb-2" v-if="quotation.contract">
-                                <span class="fw-bold">
-                                    Aplicación de
-                                    instrumentos:</span> {{
-                                        quotation.contract.third_article == 1 ? 'Si' : 'No' }}
-                            </p>
-
-                            <p class="mb-2"><span class="fw-bold">Servicio Contratado </span></p>
-                            <p v-for="detail in quotation.details"> - {{
-                                detail.name }}
-                            </p>
-                            <p class="mb-2"><span class="fw-bold">Tipo de cliente:</span> {{ customer.attitude }}</p>
+            <div class="row">
+                <div class="col-3" v-for="customer in quotation.customers">
+                    <div class="card bg-primary p-2 mb-2">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <h5 class="card-title m-0 me-2 text-white" :title="customer.name">{{ customer.name.substring(0,
+                                13)
+                            }}</h5>
+                            <div class="dropdown">
+                                <button class="btn p-0" type="button" id="employeeList" data-bs-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <i class="bx bx-dots-vertical-rounded text-white"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="employeeList" style="">
+                                    <a class="dropdown-item" href="javascript:void(0);"
+                                        @click="updateCustomer(customer)">Editar</a>
+                                    <a class="dropdown-item" href="javascript:void(0);">Eliminar</a>
+                                </div>
+                            </div>
                         </div>
 
+                        <div class="card-body">
+                            <ul
+                                class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2 text-white">
+                                <li class="list-inline-item fw-medium">
+                                    <i class="bx bx-id-card"></i> {{ customer.dni }}
+                                </li>
+                                <li class="list-inline-item fw-medium">
+                                    <i class="bx bx-pen"></i> {{ customer.career }}
+                                </li>
+                                <li class="list-inline-item fw-medium">
+                                    <i class="bx bxs-graduation"></i> {{ customer.university }}
+                                </li>
+                                <li class="list-inline-item fw-medium">
+                                    <i class="bx bx-phone"></i> {{ customer.cell }}
+                                </li>
+                            </ul>
+                        </div>
 
                     </div>
                 </div>
+            </div>
+
+
+
+            <div class="col-lg-6 col-12 mb-lg-0 mb-4">
                 <div class="card invoice-preview-card mt-2">
                     <div class="card-body">
                         <div class="row">
@@ -134,11 +161,9 @@
                                     <div class="col-12 px-1">
                                         <p class="mb-1">{{ newQuestion.question }}</p>
                                         <select v-model="newQuestion.answer" class="form-select">
-                                            <option value="1">Ingeniería</option>
-                                            <option value="2">Ciencias Médicas</option>
-                                            <option value="3">Derecho</option>
-                                            <option value="4">Ciencias Contables</option>
-                                            <option value="5">Ciencias Sociales</option>
+                                            <option :value="`${index + 1}`" v-for="(option, index) in newQuestion.options">
+                                                {{
+                                                    option }}</option>
                                         </select>
                                     </div>
                                 </template>
@@ -282,16 +307,18 @@
         </div>
     </div>
     <ComunicationsModal :comunications="customer.comunications" />
+    <customerModal :action="action" :customer="customerSelected" />
 </template>
 <script>
 import moment from 'moment';
 import axios from 'axios';
 import Attrib from './Attrib.vue';
 import ComunicationsModal from './ComunicationsModal.vue';
+import customerModal from '../../sales/customers/customerModal.vue';
 
 export default {
     components: {
-        Attrib, ComunicationsModal
+        Attrib, ComunicationsModal, customerModal
     },
     data() {
         return {
@@ -355,12 +382,27 @@ export default {
                     type: 3
                 },
                 {
+                    question: 'Lugar de investigación',
+                    answer: '',
+                    type: 3
+                },
+                {
+                    question: 'Propuesta de población',
+                    answer: '',
+                    type: 3
+                },
+                {
                     question: 'Levantamiento de observaciones:',
                     answer: '',
                     type: 3
                 },
                 {
                     question: 'Si cuenta con un avance, ¿Cúal es?',
+                    answer: '',
+                    type: 3
+                },
+                {
+                    question: 'Otros',
                     answer: '',
                     type: 3
                 },
@@ -480,7 +522,14 @@ export default {
                 {
                     question: 'Rama de investigación',
                     answer: 0,
-                    type: 6
+                    type: 6,
+                    options: ['Ingeniería', 'Ciencias médicas', 'Derecho', 'Ciencias contables', 'Ciencias sociales']
+                },
+                {
+                    question: 'Modalidad de titulación',
+                    answer: 0,
+                    type: 6,
+                    options: ['Curso de universidad', 'Curso de Maestría', 'Curso de titulación', 'Regular(Sustentación)', 'Por Publicación(Artículo)']
                 }
             ],
             comunications: [],
@@ -495,10 +544,17 @@ export default {
                 question: '',
                 answer: '',
                 type: 0
-            }
+            },
+            customerSelected: {},
+            action: 0
         }
     },
     methods: {
+        updateCustomer(customer) {
+            this.customerSelected = customer
+            this.action = 2
+            $('#customerModal').modal('show')
+        },
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY')
         },
