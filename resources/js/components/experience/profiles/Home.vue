@@ -109,7 +109,7 @@ export default {
                         this.nextPageUrl = result.data.next_page_url
                         this.prevPageUrl = result.data.prev_page_url
                     }
-                    showLoader()
+                    closeLoader()
                 }).catch((err) => {
                     console.error(err);
                 });
