@@ -18,6 +18,8 @@ import VueSweetalert2 from 'vue-sweetalert2'
 
 import 'sweetalert2/dist/sweetalert2.min.css'
 
+import * as swal from 'sweetalert2';
+
 import { createPinia } from 'pinia'
 
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'

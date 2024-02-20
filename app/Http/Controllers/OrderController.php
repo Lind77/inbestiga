@@ -34,9 +34,11 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with(['quotation', 'quotation.customers'])->orderBy('id', 'desc')->get();
+        $quotations = Quotation::whereHas('order')->with(['customers', 'order'])->paginate(8);
 
-        return response()->json($orders);
+        /*  $orders = Order::all(); */
+
+        return response()->json($quotations);
     }
 
     /**
