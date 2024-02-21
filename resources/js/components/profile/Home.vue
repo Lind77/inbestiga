@@ -1,10 +1,8 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">Mi Perfil</h4>
         <div class="card mb-4">
             <div class="user-profile-header-banner">
-                <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/pages/profile-banner.png"
-                    alt="Banner image" class="rounded-top w-100">
+                <img src="https://inbestiga.com/myprofile.jpg" alt="Banner image" class="rounded-top w-100">
             </div>
             <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                 <div class="flex-shrink-0 mt-n5 mx-sm-0 mx-auto">
