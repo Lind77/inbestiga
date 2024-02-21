@@ -353,3 +353,5 @@ Route::post('/justification', [JustificationController::class, 'store']);
 Route::post('/profile-photo', [UserController::class, 'updatePhoto']);
 
 Route::get('/orders', [OrderController::class, 'index']);
+
+Route::get('/customer-contract/{customerId}/{quotationId}', [ContractController::class, 'deleteCustomer']);

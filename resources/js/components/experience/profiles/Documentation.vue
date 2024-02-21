@@ -3,8 +3,7 @@
         <div class="row invoice-add">
             <div class="card mb-2 px-0">
                 <div class="user-profile-header-banner">
-                    <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/pages/profile-banner.png"
-                        alt="Banner image" class="rounded-top w-100">
+                    <img src="https://inbestiga.com/ficha_proyecto.jpg" alt="Banner image" class="rounded-top w-100">
                 </div>
                 <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
 
@@ -13,27 +12,36 @@
                             class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                             <div class="user-profile-info">
                                 <!-- <p>Id de Contrato: {{ quotation.contract.id }}</p> -->
-                                <h3>Ficha de Cliente</h3>
-
                                 <div class="row">
-                                    <span class="h5 mt-2 demo text-body fw-bold">Información General </span>
-                                    <p class="mb-2"><span class="fw-bold">Documento Firmado:</span> {{ signedDoc }}
-                                    </p>
-
-                                    <p class="mb-2"><span class="fw-bold">Servicio Contratado </span></p>
-                                    <p v-for="detail in quotation.details"> - {{
-                                        detail.name }}
-                                    </p>
-
-                                    <p class="mb-2" v-if="quotation.contract">
-                                        <span class="fw-bold">
-                                            Aplicación de
-                                            instrumentos:</span> {{
-                                                quotation.contract.third_article == 1 ? 'Si' : 'No' }}
-                                    </p>
-
-                                    <p class="mb-2"><span class="fw-bold">Tipo de cliente:</span> {{
-                                        customer.attitude }}</p>
+                                    <span class="h5 mt-2 demo text-body fw-bold">1. Información General </span>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <p class="mb-2"><span class="fw-bold">Documento Firmado:</span> {{ signedDoc }}
+                                            </p>
+                                            <p class="mb-2" v-if="quotation.contract"><span class="fw-bold">Aplicación de
+                                                    instrumentos:</span> {{
+                                                        quotation.contract.third_article == 1 ? 'Tesista' : 'Inbestiga' }}
+                                            </p>
+                                            <p class="mb-2" v-if="quotation.contract"><span class="fw-bold">Lugar o contexto
+                                                    de estudio:</span> {{
+                                                        quotation.contract.third_article_place == 1 ? 'Tesista' : 'Inbestiga' }}
+                                            </p>
+                                        </div>
+                                        <div class="col-4">
+                                            <p class="mb-2"><span class="fw-bold">Servicio Contratado </span></p>
+                                            <p v-for="detail in quotation.details"> - {{
+                                                detail.name }}
+                                            </p>
+                                        </div>
+                                        <div class="col-4">
+                                            <p class="mb-2" v-if="quotation.contract">
+                                                <span class="fw-bold">
+                                                    Aplicación de
+                                                    instrumentos:</span> {{
+                                                        quotation.contract.third_article == 1 ? 'Si' : 'No' }}
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!-- <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
@@ -43,84 +51,101 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-3" v-for="customer in quotation.customers">
-                    <div class="card bg-primary p-2 mb-2">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <h5 class="card-title m-0 me-2 text-white" :title="customer.name">{{ customer.name.substring(0,
-                                13)
-                            }}</h5>
-                            <div class="dropdown">
-                                <button class="btn p-0" type="button" id="employeeList" data-bs-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                    <i class="bx bx-dots-vertical-rounded text-white"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="employeeList" style="">
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                        @click="updateCustomer(customer)">Editar</a>
-                                    <a class="dropdown-item" href="javascript:void(0);">Eliminar</a>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="h5 mt-2 demo text-body fw-bold">2. Clientes </span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3" v-for="customer in quotation.customers">
+                            <div class="card bg-primary p-2 mb-2">
+                                <div class="card-header d-flex align-items-center justify-content-between">
+                                    <h5 class="card-title m-0 me-2 text-white" :title="customer.name">{{
+                                        customer.name.substring(0,
+                                            13)
+                                    }}</h5>
+                                    <div class="dropdown">
+                                        <button class="btn p-0" type="button" id="employeeList" data-bs-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            <i class="bx bx-dots-vertical-rounded text-white"></i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="employeeList"
+                                            style="">
+                                            <a class="dropdown-item" href="javascript:void(0);"
+                                                @click="updateCustomer(customer)">Editar</a>
+                                            <a v-if="quotation.customers.length >= 2" class="dropdown-item"
+                                                href="javascript:void(0);"
+                                                @click="deleteCustomerContract(customer.id, quotation.id)">Eliminar</a>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <div class="card-body">
+                                    <ul
+                                        class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2 text-white">
+                                        <li class="list-inline-item fw-medium">
+                                            <i class="bx bx-id-card"></i> {{ customer.dni }}
+                                        </li>
+                                        <li class="list-inline-item fw-medium">
+                                            <i class="bx bx-pen"></i> {{ customer.career }}
+                                        </li>
+                                        <li class="list-inline-item fw-medium">
+                                            <i class="bx bxs-graduation"></i> {{ customer.university }}
+                                        </li>
+                                        <li class="list-inline-item fw-medium">
+                                            <i class="bx bx-phone"></i> {{ customer.cell }}
+                                        </li>
+                                        <!-- <li class="list-inline-item fw-medium">
+                                            <i class='bx bx-happy-alt'></i> {{ customer.attitude }}
+                                        </li> -->
+                                    </ul>
+                                </div>
+
                             </div>
                         </div>
-
-                        <div class="card-body">
-                            <ul
-                                class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2 text-white">
-                                <li class="list-inline-item fw-medium">
-                                    <i class="bx bx-id-card"></i> {{ customer.dni }}
-                                </li>
-                                <li class="list-inline-item fw-medium">
-                                    <i class="bx bx-pen"></i> {{ customer.career }}
-                                </li>
-                                <li class="list-inline-item fw-medium">
-                                    <i class="bx bxs-graduation"></i> {{ customer.university }}
-                                </li>
-                                <li class="list-inline-item fw-medium">
-                                    <i class="bx bx-phone"></i> {{ customer.cell }}
-                                </li>
-                            </ul>
-                        </div>
-
                     </div>
                 </div>
             </div>
 
 
-
-            <div class="col-lg-6 col-12 mb-lg-0 mb-4">
-                <div class="card invoice-preview-card mt-2">
-                    <div class="card-body">
-                        <div class="row">
-                            <span class="h5 mt-2 demo text-body fw-bold">Estado del trámite universitario</span>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <template v-for="newQuestion in newQuestions">
-                                                <td v-if="newQuestion.type == 2">{{ newQuestion.question }}</td>
-                                            </template>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <template v-for="newQuestion in newQuestions">
-                                                <td v-if="newQuestion.type == 2">
-                                                    <input type="checkbox" class="form-check-input"
-                                                        v-model="newQuestion.answer">
-                                                </td>
-                                            </template>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+            <div class="card invoice-preview-card mt-2">
+                <div class="card-body">
+                    <div class="row">
+                        <span class="h5 mt-2 demo text-body fw-bold">3. Estado del trámite universitario</span>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <template v-for="newQuestion in newQuestions">
+                                            <td v-if="newQuestion.type == 2">{{ newQuestion.question }}</td>
+                                        </template>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <template v-for="newQuestion in newQuestions">
+                                            <td v-if="newQuestion.type == 2">
+                                                <input type="checkbox" class="form-check-input"
+                                                    v-model="newQuestion.answer">
+                                            </td>
+                                        </template>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
+            </div>
+
+
+            <div class="col-lg-6 col-12 mb-lg-0 mb-4">
+
                 <div class="card invoice-preview-card mt-2">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <div>
-                                <span class="h5 m-2 demo text-body fw-bold">Información Académica
+                                <span class="h5 m-2 demo text-body fw-bold">4. Información Académica
                                     <!-- <button class="btn btn-icon btn-success mx-1" @click="addNewQuestion"
                                         title="Agregar Pregunta">
                                         <i class="bx bx-plus"></i>
@@ -252,19 +277,8 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="card invoice-preview-card">
+                <div class="card invoice-preview-card mt-2">
                     <div class="card-body">
-                        <!-- <span class="h5 mt-2 demo text-body fw-bold">4. Información Adicional</span>
-                        <template v-if="doc.properties">
-                            <template v-for="property in doc.properties">
-                                <template v-if="property.properties">
-                                    <p v-for="prop in  JSON.parse(property.properties)" class="text-capitalize">
-                                        {{
-                                            prop.name }}:{{ prop.val }}</p>
-                                </template>
-                            </template>
-                        </template>
-                        <button class="btn btn-icon btn-success" @click="addNewField"><i class="bx bx-plus"></i></button> -->
                         <label for="">Nueva Actualización</label>
                         <input type="text" v-model="newUpdate.question" placeholder="Título..." class="form-control">
                         <textarea placeholder="Cuerpo..." v-model="newUpdate.answer" class="form-control mt-2"
@@ -530,6 +544,12 @@ export default {
                     answer: 0,
                     type: 6,
                     options: ['Curso de universidad', 'Curso de Maestría', 'Curso de titulación', 'Regular(Sustentación)', 'Por Publicación(Artículo)']
+                },
+                {
+                    question: 'VIP',
+                    answer: 0,
+                    type: 6,
+                    options: ['Maestría', 'Doctorado', 'Referido', 'Ninguno']
                 }
             ],
             comunications: [],
@@ -550,6 +570,18 @@ export default {
         }
     },
     methods: {
+        deleteCustomerContract(customerId, quotationId) {
+            if (confirm('Tienes la seguridad de eliminar este usuario? Recuerda que modificará el contrato y cotización')) {
+                axios.get(`/api/customer-contract/${customerId}/${quotationId}`)
+                    .then((result) => {
+                        console.log(result.data)
+                        this.getQuotation()
+                    }).catch((err) => {
+                        console.log(err)
+                    });
+            }
+
+        },
         updateCustomer(customer) {
             this.customerSelected = customer
             this.action = 2

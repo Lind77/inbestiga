@@ -19,6 +19,7 @@ use App\Models\Quotation;
 use App\Models\Seen;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ContractController extends Controller
 {
@@ -511,6 +512,14 @@ class ContractController extends Controller
         return response()->json([
             'contracts' => $contracts,
             'orders' => $orders
+        ]);
+    }
+
+    public function deleteCustomer($customerId, $quotationId)
+    {
+        $relationship = DB::table('customer_quotation')->where('customer_id', $customerId)->where('quotation_id', $quotationId)->delete();
+        return response()->json([
+            'msg' => 'success'
         ]);
     }
 }
