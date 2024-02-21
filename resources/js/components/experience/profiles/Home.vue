@@ -51,8 +51,8 @@
                                     quotation.customers[0].career }}</small>
                             </div>
                             <div class="d-flex flex-column">
-                                <i class="bx bx-info-circle text-danger"
-                                    v-if="quotation.contract && quotation.contract.properties == null"></i>
+                                <i class="bx bx-info-circle text-danger" title="No se ha rellenado la ficha"
+                                    v-if="quotation.contract && quotation.contract.properties == null || quotation.order && quotation.order.properties == null"></i>
                             </div>
                         </div>
                     </div>
