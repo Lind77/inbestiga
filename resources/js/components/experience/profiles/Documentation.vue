@@ -18,10 +18,7 @@
                                         <div class="col-4">
                                             <p class="mb-2"><span class="fw-bold">Documento Firmado:</span> {{ signedDoc }}
                                             </p>
-                                            <p class="mb-2" v-if="quotation.contract"><span class="fw-bold">Aplicación de
-                                                    instrumentos:</span> {{
-                                                        quotation.contract.third_article == 1 ? 'Tesista' : 'Inbestiga' }}
-                                            </p>
+
                                             <p class="mb-2" v-if="quotation.contract"><span class="fw-bold">Lugar o contexto
                                                     de estudio:</span> {{
                                                         quotation.contract.third_article_place == 1 ? 'Tesista' : 'Inbestiga' }}
@@ -34,11 +31,9 @@
                                             </p>
                                         </div>
                                         <div class="col-4">
-                                            <p class="mb-2" v-if="quotation.contract">
-                                                <span class="fw-bold">
-                                                    Aplicación de
+                                            <p class="mb-2" v-if="quotation.contract"><span class="fw-bold">Aplicación de
                                                     instrumentos:</span> {{
-                                                        quotation.contract.third_article == 1 ? 'Si' : 'No' }}
+                                                        quotation.contract.third_article == 1 ? 'Tesista' : 'Inbestiga' }}
                                             </p>
                                         </div>
                                     </div>
