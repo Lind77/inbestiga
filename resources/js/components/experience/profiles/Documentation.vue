@@ -91,9 +91,10 @@
                                         <li class="list-inline-item fw-medium">
                                             <i class="bx bx-phone"></i> {{ customer.cell }}
                                         </li>
-                                        <!-- <li class="list-inline-item fw-medium">
-                                            <i class='bx bx-happy-alt'></i> {{ customer.attitude }}
-                                        </li> -->
+                                        <li class="list-inline-item fw-medium">
+                                            <i class='bx bx-street-view'></i> Actitud: {{
+                                                customer.attitude ? customer.attitude : '-' }}
+                                        </li>
                                     </ul>
                                 </div>
 
@@ -636,7 +637,10 @@ export default {
                             })
                         }
                     } else if (this.quotation.order) {
-                        this.newQuestions = JSON.parse(this.quotation.order.properties[0].properties)
+                        if (this.quotation.order.properties[0]) {
+                            this.newQuestions = JSON.parse(this.quotation.order.properties[0].properties)
+                        }
+
                     }
                     this.$swal.close()
                     console.log(this.properties)
