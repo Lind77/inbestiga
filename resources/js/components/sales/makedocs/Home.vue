@@ -275,9 +275,8 @@
                                     <i class="bx bx-file bx-xs me-1"></i>Cotización
                                 </span>
                             </router-link>
-                            <a v-if="contractId != 0 && documentType == 3"
-                                :href="`https://inbestiga.site/api/generateContract/${contractId}`" target="_blank"
-                                class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
+                            <a v-if="contractId != 0 && documentType == 3" :href="`${appUrl}generateContract/${contractId}`"
+                                target="_blank" class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
                         </div>
                     </div>
                 </div>
@@ -323,6 +322,7 @@ export default {
     components: { Customer, Detail, Payment, Delivery, customerModal },
     data() {
         return {
+            appUrl: import.meta.env.BASE_URL,
             documentType: 1,
             titleByType: {
                 1: 'Nueva Cotización',
