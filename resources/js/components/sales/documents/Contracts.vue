@@ -17,7 +17,7 @@
             </td>
             <td>{{ contract.date ? contract.date : '' }}</td>
             <td>
-              <a :href="`https://inbestiga.site/api/generateContract/${contract.id}`" target="_blank"
+              <a :href="`${appUrl}api/generateContract/${contract.id}`" target="_blank"
                 class="btn btn-sm btn-primary mx-2 text-white" disabled><i class='bx bx-printer'></i></a>
             </td>
           </tr>
@@ -30,6 +30,7 @@
 export default {
   data() {
     return {
+      appUrl: import.meta.env.VITE_AXIOS_URL,
       contracts: []
     }
   },

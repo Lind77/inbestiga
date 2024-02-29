@@ -1,16 +1,18 @@
 <template>
     <div class="col">
-        <div class="card mb-3 bg-secondary">
+        <div class="card mb-3 bg-success">
             <div class="card-header">
                 <img src="https://inbestiga.com/wp-content/uploads/2023/10/cropped-logo-Inbestiga.png" class="rounded"
                     width="30">
+                <i class="bx bx-info-circle text-danger" title="No se ha rellenado la ficha"
+                    v-if="project.projectable && project.projectable.properties.length == 0"></i>
             </div>
             <div class="card-body">
-                <h5 class="text-white cursor-pointer" @click="showProject(project)">{{
+                <h4 class="text-white cursor-pointer" @click="showProject(project)">{{
                     project.title
-                }}</h5>
-                <p class="text-dark fw-bold" v-for="customer in project.projectable.quotation.customers">{{
-                    customer.name }}</p>
+                }}</h4>
+                <h6 class="text-dark fw-bold" v-for="customer in project.projectable.quotation.customers">{{
+                    customer.name }}</h6>
             </div>
             <div class="card-footer">
                 <div class="demo-inline-spacing">

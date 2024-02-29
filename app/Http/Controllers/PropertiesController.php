@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contract;
 use App\Models\Project;
 use App\Models\Property;
+use App\Models\Quotation;
 use Illuminate\Http\Request;
 
 class PropertiesController extends Controller
@@ -111,10 +112,15 @@ class PropertiesController extends Controller
     public function properties()
     {
         /* $properties = Property::orderBy('id', 'desc')->with(['propertiable', 'propertiable.projects', 'propertiable.projects.team', 'propertiable.quotation', 'propertiable.quotation.customers'])->get(); */
+        /* $quotations =  Quotation::where('status', 11)->whereHas('contract')->with(['customers', 'contract', 'contract.properties', 'contract.projects'])->orderBy('id', 'desc')->paginate(8); */
+
         $projects = Project::with(['projectable', 'projectable.properties', 'projectable.quotation', 'projectable.quotation.customers', 'team'])
             ->whereHas('projectable', function ($query) {
-                $query->whereHas('properties');
+                $query->whereHas('quotation', function ($secondquery) {
+                    $secondquery->where('status', 11);
+                });
             })
+            ->orderBy('updated_at', 'desc')
             ->paginate(9);
 
         return $projects;
