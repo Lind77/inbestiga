@@ -16,3 +16,7 @@ export function showLoader(mensaje = "Cargando...", width = 600, padding = "3em"
         `
     });
 }
+
+export function closeLoader() {
+    return swal.close();
+}

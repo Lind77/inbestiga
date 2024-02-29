@@ -59,9 +59,10 @@
 
             </div>
             <div class="d-flex align-items-center justify-content-center mt-4">
-              <template v-for="(n, index) in totalProjects">
-                <button class="btn btn-icon btn-primary mx-1" v-if="index % 9 == 0">{{ (index / 9) + 1 }}</button>
-              </template>
+              <button class="btn btn-primary btn-icon" @click="prevPage" v-if="prevPageUrl != null"><i
+                  class='bx bx-chevron-left'></i></button>
+              <button class="btn btn-primary btn-icon" v-if="nextPageUrl != null" @click="nextPage"><i
+                  class='bx bx-chevron-right'></i></button>
 
             </div>
           </div>
@@ -90,7 +91,7 @@ import QualityModal from './QualityModal.vue'
 import TeamModal from './TeamModal.vue'
 import ProjectTab from './ProjectTab.vue'
 import ProjectTable from './ProjectTable.vue'
-
+import { showLoader, closeLoader } from '../../../utils/Loader'
 
 export default {
   setup() {
@@ -114,10 +115,37 @@ export default {
       projectsFiltered: [],
       categorySelected: 0,
       search: '',
-      totalProjects: 0
+      totalProjects: 0,
+      nextPageUrl: '',
+      prevPageUrl: '',
+      quotationsFiltered: ''
     }
   },
   methods: {
+    nextPage() {
+      showLoader()
+      axios.get(this.nextPageUrl)
+        .then((result) => {
+          this.nextPageUrl = result.data.next_page_url
+          this.prevPageUrl = result.data.prev_page_url
+          this.projectsFiltered = result.data.data
+          closeLoader()
+        }).catch((err) => {
+          console.log(err);
+        });
+    },
+    prevPage() {
+      showLoader()
+      axios.get(this.prevPageUrl)
+        .then((result) => {
+          this.nextPageUrl = result.data.next_page_url
+          this.prevPageUrl = result.data.prev_page_url
+          this.projectsFiltered = result.data.data
+          closeLoader()
+        }).catch((err) => {
+          console.log(err);
+        });
+    },
     showTeamModal(contractId) {
       this.contractId = contractId;
       $('#teamModal').modal('show');
@@ -212,16 +240,15 @@ export default {
     },
     getAllProjectsAcad() {
       this.project_selected = {}
-      this.$swal({
-        title: 'Cargando ...',
-        showConfirmButton: false,
-      });
+      showLoader()
       axios.get('/api/projects-properties')
         .then(res => {
           this.projects = res.data.data
           this.projectsFiltered = res.data.data
-          this.totalProjects = res.data.total
-          this.$swal.close()
+          //this.totalProjects = res.data.total
+          this.nextPageUrl = res.data.next_page_url
+          this.prevPageUrl = res.data.prev_page_url
+          closeLoader()
         })
         .catch(err => {
           console.log(err)
