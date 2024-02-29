@@ -53,6 +53,13 @@
                     </div>
                     <div class="row g-2">
                         <div class="col mb-0">
+                            <label for="dobBasic" class="form-label">Actitud</label>
+                            <input type="text" v-if="action == 2" v-model="customer.attitude" class="form-control" />
+                            <input type="text" v-else v-model="attitude" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col mb-0">
                             <label for="emailBasic" class="form-label">Carrera o mención</label>
                             <input type="text" v-if="action == 2" v-model="customer.career" class="form-control" />
                             <input type="text" v-else v-model="career" class="form-control" />
@@ -145,7 +152,8 @@ export default {
             users: [],
             referedFrom: 0,
             channel: 0,
-            status: 1
+            status: 1,
+            attitude: ''
         }
     },
     methods: {
@@ -160,6 +168,7 @@ export default {
             fd.append('email', this.customer.email)
             fd.append('dni', this.customer.dni)
             fd.append('address', this.customer.address)
+            fd.append('attitude', this.customer.attitude)
 
             axios.post(`/api/customers/${this.customer.id}`, fd)
                 .then(res => {
@@ -223,12 +232,14 @@ export default {
             fd.append('origin', this.origin)
             fd.append('status', this.status)
             fd.append('dni', this.dni)
+            fd.append('attitude', this.attitude)
             fd.append('address', this.address)
             fd.append('referedFrom', this.referedFrom)
             fd.append('channel', this.channel)
             fd.append('user_id', 12)
             fd.append('userregister_id', this.store.authUser.id)
             fd.append('type', this.type)
+
 
             axios.post('/api/customers', fd)
                 .then(res => {
