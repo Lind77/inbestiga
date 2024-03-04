@@ -237,4 +237,12 @@ class AttendanceController extends Controller
 
         return response()->json($attendancePermit->status);
     }
+
+    public function chartValues()
+    {
+        $actualMonth = date('Y') . '-' . date('m');
+        $attendances = Attendance::where('date', 'like', '%' . $actualMonth)->get();
+
+        //Futuro algoritmo para calcular la sumatoria de tardanzas y faltas, es necesario almacenar, las faltas y tardanzas en una tabla
+    }
 }

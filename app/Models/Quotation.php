@@ -35,4 +35,8 @@ class Quotation extends Model
     {
         return $this->hasMany("App\Models\Comission");
     }
+    //Relacion morfeable uno a muchos (O-C-PAYMENT)
+    public function payments(){
+        return $this->morphMany('App\Models\Payment', 'paymentable');
+    }
 }
