@@ -355,3 +355,5 @@ Route::post('/profile-photo', [UserController::class, 'updatePhoto']);
 Route::get('/orders', [OrderController::class, 'index']);
 
 Route::get('/customer-contract/{customerId}/{quotationId}', [ContractController::class, 'deleteCustomer']);
+
+Route::get('/chart-attendance-values', [AttendanceController::class, 'chartValues']);

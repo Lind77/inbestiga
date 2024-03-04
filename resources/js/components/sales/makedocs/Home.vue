@@ -8,7 +8,7 @@
                             <div class="col-md-6 mb-md-0 mb-4">
                                 <div class="d-flex svg-illustration gap-2">
                                     <span class="h5 mt-2 demo text-body fw-bold">{{ titleByType[documentType]
-                                    }}</span>
+                                        }}</span>
 
                                     <button @click="changeDocumentType" class="btn btn-success btn-icon">
                                         <i class='bx bx-chevrons-right'></i>
@@ -30,13 +30,14 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="w-100">
-                                    <input type="text" v-model="search" placeholder="Buscar cliente..." class="form-control"
-                                        v-on:keyup.enter="searchCustomer">
+                                    <input type="text" v-model="search" placeholder="Buscar cliente..."
+                                        class="form-control" v-on:keyup.enter="searchCustomer">
 
                                     <ul class="list-group">
                                         <li class="list-group-item bg-white d-flex justify-content-between align-items-center cursor-pointer"
                                             v-for="customerFound in customersFound" @click="addCustomer(customerFound)">
-                                            {{ customerFound.name }} - {{ dateFormatted(customerFound.created_at) }}</li>
+                                            {{ customerFound.name }} - {{ dateFormatted(customerFound.created_at) }}
+                                        </li>
                                     </ul>
 
                                 </div>
@@ -45,8 +46,8 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-4 mt-2" v-for="customer in customers">
-                                <Customer :customer="customer" @deleteCustomer="deleteCustomer" @getCustomer="getCustomer"
-                                    @openModalCustomerEdit="openModalCustomerEdit" />
+                                <Customer :customer="customer" @deleteCustomer="deleteCustomer"
+                                    @getCustomer="getCustomer" @openModalCustomerEdit="openModalCustomerEdit" />
                             </div>
                             <div v-if="documentType == 1" class="bg-success rounded text-white text-center my-1 p-1"
                                 @click="pickQuotation(quotation)" v-for="quotation in quotationsExistent">
@@ -55,12 +56,12 @@
                             </div>
                             <button v-if="documentType == 2" class="btn btn-info m-1" @click="pickOrder(order)"
                                 v-for="order in ordersExistent">{{
-                                    formatTime(order.created_at)
-                                }}</button>
+                                        formatTime(order.created_at)
+                                    }}</button>
                             <button v-if="documentType == 3" class="btn btn-info m-1" @click="pickContract(contract)"
                                 v-for="contract in contractExistent">{{
-                                    contract.date
-                                }}</button>
+                                        contract.date
+                                    }}</button>
                         </div>
                     </div>
                 </div>
@@ -89,10 +90,10 @@
                                 <div class="d-flex justify-content-between">
                                     <div class="">
                                         <span class="h5 mt-2 demo text-body fw-bold">Pagos({{ cantPayments }})</span>
-                                        <button type="button" class="btn btn-primary btn-icon ms-2" @click="minusPayment"><i
-                                                class='bx bx-minus'></i></button>
-                                        <button type="button" class="btn btn-primary btn-icon ms-2" @click="addPayment"><i
-                                                class='bx bx-plus'></i></button>
+                                        <button type="button" class="btn btn-primary btn-icon ms-2"
+                                            @click="minusPayment"><i class='bx bx-minus'></i></button>
+                                        <button type="button" class="btn btn-primary btn-icon ms-2"
+                                            @click="addPayment"><i class='bx bx-plus'></i></button>
 
                                     </div>
 
@@ -112,9 +113,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+
                                             <template v-for="(payment, index) in payments">
-                                                <Payment :payment="payment" :index="index" @deletePayment="deletePayment"
-                                                    :finalPrice="finalPrice" />
+                                                <Payment :payment="payment" :index="index"
+                                                    @deletePayment="deletePayment" :finalPrice="finalPrice" />
                                             </template>
                                         </tbody>
                                     </table>
@@ -131,8 +133,8 @@
                                 <div class="d-flex justify-content-between">
                                     <div class="">
                                         <span class="h5 mt-2 demo text-body fw-bold">Entregas</span>
-                                        <button type="button" class="btn btn-primary btn-icon ms-2" @click="addDelivery"><i
-                                                class='bx bx-plus'></i></button>
+                                        <button type="button" class="btn btn-primary btn-icon ms-2"
+                                            @click="addDelivery"><i class='bx bx-plus'></i></button>
                                     </div>
                                 </div>
 
@@ -146,6 +148,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+
                                             <template v-for="(delivery, index) in deliveries">
                                                 <Delivery :delivery="delivery" :index="index"
                                                     @deleteDelivery="deleteDelivery" />
@@ -173,13 +176,20 @@
                     <div class="row mb-2 p-2">
                         <div class="w-100">
                             <label class="form-label">Fecha<span class="text-danger">*</span>:</label>
-                            <input type="date" class="form-control date-picker flatpickr-input" v-model="quotation.date">
+                            <input type="date" class="form-control date-picker flatpickr-input"
+                                v-model="quotation.date">
                             <label class="form-label">Fecha de validez<span class="text-danger">*</span>:</label>
                             <input type="date" class="form-control date-picker flatpickr-input"
                                 v-model="quotation.expiration_date" />
                             <label for="salesperson" class="form-label">Tiempo de Ejecución<span
                                     class="text-danger">*</span>:</label>
                             <input type="text" class="form-control" v-model="quotation.term">
+                            <label for="salesperson" class="form-label">Cupón de descuento:</label>
+                            <input type="text" class="form-control" v-model="coupon" @keyup.enter="autoDiscount">
+                            <div class="d-flex justify-content-between">
+                                <span class="w-px-100">Descuento:</span>
+                                <span class="fw-semibold">S./ {{ quotation.discount }}</span>
+                            </div>
                             <div class="d-flex justify-content-between">
                                 <span class="w-px-100">TOTAL:</span>
                                 <span class="fw-semibold">S./ {{ finalPrice }}</span>
@@ -232,10 +242,12 @@
                         <div class="w-100">
                             <p>3er art.(Instrumentos) <input type="checkbox" class="form-check-input"
                                     v-model="thirdArticle"></p>
-                            <p>3er art.(Lugar) <input type="checkbox" class="form-check-input" v-model="thirdArticlePlace">
+                            <p>3er art.(Lugar) <input type="checkbox" class="form-check-input"
+                                    v-model="thirdArticlePlace">
                             </p>
                             <p>5to art.(Considerar Entregas) <input type="checkbox" class="form-check-input"
-                                    v-model="fifthArticle"></p>
+                                    v-model="fifthArticle">
+                            </p>
                             <!-- <label for="salesperson" class="form-label">Tiempo de Ejecucion<span
                                     class="text-danger">*</span>:</label>
                             <input type="text" class="form-control" v-model="quotation.term"> -->
@@ -259,7 +271,8 @@
                                 <span class="d-flex align-items-center justify-content-center text-nowrap"><i
                                         class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
                             </button>
-                            <button v-if="documentType == 2" @click="createOrder" class="btn btn-primary d-grid w-100 my-3">
+                            <button v-if="documentType == 2" @click="createOrder"
+                                class="btn btn-primary d-grid w-100 my-3">
                                 <span class="d-flex align-items-center justify-content-center text-nowrap"><i
                                         class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
                             </button>
@@ -302,6 +315,7 @@
     </div>
     <customerModal :action="action" :customer="customerSelected" />
 </template>
+
 <script>
 import moment from 'moment'
 import conversor from 'conversor-numero-a-letras-es-ar'
@@ -545,7 +559,7 @@ export default {
             fd.append('customer_id', this.customer.id)
             fd.append('date', this.quotation.date)
             fd.append('expiration_date', this.quotation.expiration_date)
-            fd.append('amount', (this.totalProducts - this.quotation.discount).toFixed(2))
+            fd.append('amount', (this.totalProducts).toFixed(2))
             fd.append('discount', this.quotation.discount)
             fd.append('term', this.quotation.term)
             fd.append('products', JSON.stringify(this.details))
@@ -650,6 +664,7 @@ export default {
                     else if (result.data.percent == 0) {
                         this.$swal('Se ha desbloqueado el descuento por cantidad')
                         this.discount = result.data.quantity
+                        this.quotation.discount = result.data.quantity
                         this.calcPayments()
                     } else {
                         this.$swal('Se ha desbloqueado el descuento por porcentaje')
@@ -657,20 +672,9 @@ export default {
                         this.calcPayments()
                     }
                 }).catch((err) => {
-
+                    console.log(err)
                 });
 
-            /* var codeFound = this.recentsCode.find(code => code.code == this.coupon)
-            if (codeFound && codeFound.percent == 0 && this.quotation.discount == 0) {
-             
-              this.quotation.discount = ((this.totalProducts - codeFound.quantity) / 100).toFixed(2)
-            } else if (codeFound && codeFound.quantity == 0 && this.quotation.discount == 0) {
-              
-              
-            } else {
-              this.$swal('Codigo incorrecto o duplicado')
-              this.quotation.discount = 0
-            } */
         }
     },
     computed: {
@@ -695,6 +699,7 @@ export default {
     }
 }
 </script>
+
 <style scoped>
 .list-group {
     position: absolute;

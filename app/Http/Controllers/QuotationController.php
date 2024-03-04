@@ -54,14 +54,13 @@ class QuotationController extends Controller
             'term' => 'required'
         ]);
 
-        $discount = 0;
 
         $quotation = Quotation::create([
             'customer_id' => $request->get('customer_id'),
             'date' => $request->get('date'),
             'amount' => $request->get('amount'),
             'expiration_date' => $request->get('expiration_date'),
-            'discount' => $discount,
+            'discount' => $request->get('discount'),
             'term' => $request->get('term'),
             'note' => $request->get('note'),
             'status' => 5
