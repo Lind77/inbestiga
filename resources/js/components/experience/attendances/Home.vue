@@ -61,6 +61,13 @@
                     </template>
                 </div>
 
+                <div class="row mt-3">
+                    <h4>Gráfica</h4>
+                    <div id="chart">
+                        <apexchart type="bar" height="350" :options="chartOptions" :series="series"></apexchart>
+                    </div>
+                </div>
+
                 <!-- <div class="collapse show mt-3" id="collapseExample" style="">
                     <div class="p-3 border d-flex">
                         <p>Día: {{ weeyDays[msgAttendance.weekday] }}</p>
@@ -82,7 +89,14 @@
 import moment from "moment/min/moment-with-locales";
 moment.locale('es')
 
+import VueApexCharts from 'apexcharts'
+import axios from "axios";
+
+
 export default {
+    components: {
+        VueApexCharts,
+    },
     data() {
         return {
             search: '',
@@ -117,10 +131,85 @@ export default {
             buttonDays: [],
             dateSelected: '',
             attendanceSelected: {},
-            attendances: []
+            attendances: [],
+            series: [{
+                name: 'Asistencias',
+                data: [44, 55, 20, 10, 15, 7, 5]
+            }, {
+                name: 'Tardanzas',
+                data: [13, 55, 20, 10, 15, 7, 5]
+            }],
+            chartOptions: {
+                chart: {
+                    type: 'bar',
+                    height: 350,
+                    stacked: true,
+                    toolbar: {
+                        show: true
+                    },
+                    zoom: {
+                        enabled: true
+                    }
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        legend: {
+                            position: 'bottom',
+                            offsetX: -10,
+                            offsetY: 0
+                        }
+                    }
+                }],
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        borderRadius: 10,
+                        dataLabels: {
+
+                        }
+                    },
+                },
+                xaxis: {
+                    type: 'datetime',
+                    categories: [],
+                },
+                legend: {
+                    position: 'right',
+                    offsetY: 40
+                },
+                fill: {
+                    opacity: 1
+                }
+            },
         }
     },
     methods: {
+        getChartValues() {
+            axios.get('/api/chart-attendance-values')
+                .then((result) => {
+                    console.log(result)
+                }).catch((err) => {
+
+                });
+        },
+        llenarFechas() {
+            const fechaActual = new Date();
+            const ultimoDiaMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0).getDate();
+
+            console.log(ultimoDiaMes)
+
+            for (let dia = 1; dia <= ultimoDiaMes; dia++) {
+                const fecha = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), dia);
+                const fechaFormateada = this.formatearFecha(fecha);
+                this.chartOptions.xaxis.categories.push(fechaFormateada);
+            }
+        },
+        formatearFecha(fecha) {
+            const opciones = { timeZone: 'GMT', month: '2-digit', day: '2-digit', year: 'numeric' };
+            return fecha.toLocaleDateString('en-US', opciones) + ' GMT';
+        }
+        ,
         showWeekDay(day) {
             console.log(day);
             this.dateSelected = day.date
@@ -192,31 +281,31 @@ export default {
             })
             /* this.user.attendances.forEach((attendance) => {
                 var scheduleSelected = this.scheduleFiletered.find(schedule => schedule.weekDay == attendance.weekday)
-
+    
                 
-
-
+    
+    
             }) */
         },
         getUsers() {
             /* const daysInMonth = (year, month) => new Date(year, month, 0).getDate()
             this.totalDays = daysInMonth(moment().format('YYYY'), moment().format('M'))
-
+    
             var firstDayOfMonth = moment().startOf('month').format('YYYY-MM-DD')
-
+    
             for (let index = 0; index < this.totalDays; index++) {
-
+    
                 var newDate = moment(firstDayOfMonth).add(index, 'days')
-
+    
                 const dataButton = {
                     id: index,
                     date: newDate.format('YYYY-MM-DD'),
                     status: 0,
                     weekDay: moment(newDate).weekday() + 1
                 }
-
+    
                 this.buttonDays.push({ ...dataButton })
-
+    
             } */
 
             axios.get('/api/users')
@@ -296,6 +385,8 @@ export default {
     },
     mounted() {
         this.getUsers()
+        this.getChartValues()
+        this.llenarFechas()
     }
 }
 </script>

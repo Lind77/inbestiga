@@ -28,6 +28,7 @@
                                 <h2 class="info-user">Teléfono: </h2>
                             </th>
                             <th>
+
                                 <template v-for="customer in quotation.customers">
                                     <span>{{ customer.cell }}</span>
                                 </template>
@@ -71,6 +72,7 @@
                 <tbody v-if="quotation">
                     <tr v-for="detail in quotation.details" class="text-dark">
                         <th class="table-item fw-normal ps-2">{{ detail.name }}
+
                             <template v-if="detail.product_id == 113 || detail.product_id == 58">
                                 <br>
                                 - 02 propuestas de tema (opcional)
@@ -97,9 +99,9 @@
                         <th class="table-item fw-normal" style="white-space: pre; text-align: center;">
                             {{ detail.type == 1 ? 'Normal' : 'Sugerido' }}</th>
                         <th class="table-item fw-normal" style="text-align: center;" v-if="detail.extra_price">S./{{
-                            Number(parseFloat(detail.price) +
-                                parseFloat(detail.extra_price)).toLocaleString('en-US')
-                        }}</th>
+                        Number(parseFloat(detail.price) +
+                            parseFloat(detail.extra_price)).toLocaleString('en-US')
+                    }}</th>
                         <th class="table-item fw-normal" style="text-align: center;" v-else>S./{{
                             Number(parseFloat(detail.price)).toLocaleString('en-US')
                         }}</th>
@@ -126,8 +128,10 @@
                     <div class="col-md-3"></div>
                     <div class="col-md-3"></div>
                     <div class="col-md-3">
+                        <p style="background-color: #f1f2f0;">DESCUENTO: S./{{
+                        Number(quotation.discount).toLocaleString('en-US') }}</p>
                         <p style="background-color: #f1f2f0;">PRECIO FINAL: S./{{
-                            Number(quotation.amount).toLocaleString('en-US') }}</p>
+                        Number(quotation.amount).toLocaleString('en-US') }}</p>
                     </div>
                 </div>
             </div>
@@ -153,6 +157,7 @@
 
     </div>
 </template>
+
 <script>
 export default {
     data() {
@@ -203,6 +208,7 @@ export default {
     }
 }
 </script>
+
 <style scoped>
 * {
     font-family: 'Montserrat', sans-serif !important;
