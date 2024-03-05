@@ -1,4 +1,4 @@
-<template >
+<template>
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4>Subir archivos</h4>
         <input type="file" @change="handleFileExcel" class="form-control">
@@ -21,6 +21,7 @@
         </div>
     </div>
 </template>
+
 <script>
 import moment from 'moment'
 import { userStore } from '../../../stores/UserStore'
@@ -66,7 +67,7 @@ export default {
 
         },
         downloadFile(url) {
-            window.open('https://sistema.inbestiga.com/public/files/' + url)
+            window.open('https://inbestiga.com/public/files/' + url)
         },
         formatDate(date) {
             return moment(date).format('DD/MM/yyyy H:mm a')
@@ -104,6 +105,7 @@ export default {
     }
 }
 </script>
+
 <style lang="">
-    
+
 </style>
