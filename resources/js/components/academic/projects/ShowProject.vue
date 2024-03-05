@@ -9,8 +9,9 @@
                         <div>
                             <h3>{{ project.title }}</h3>
                             <template v-if="project.projectable">
-                                <p class="text-dark fw-bold" v-for="customer in project.projectable.quotation.customers">{{
-                                    customer.name }}</p>
+                                <p class="text-dark fw-bold"
+                                    v-for="customer in project.projectable.quotation.customers">{{
+                                customer.name }}</p>
                             </template>
                         </div>
                         <button class="btn btn-success h-25 btn-small">{{ project.status }}</button>
@@ -41,7 +42,8 @@
 
                 </div>
                 <div>
-                    <button class="btn btn-danger mx-1"><i class='bx bx-file'></i>Files</button>
+                    <button class="btn btn-danger mx-1" @click="showModalFiles"><i
+                            class='bx bx-file'></i>Archivos</button>
                     <button class="btn btn-danger mx-1"><i class='bx bx-file'></i>Videos</button>
                     <button class="btn btn-danger mx-1"><i class='bx bx-link-alt'></i>Links</button>
                 </div>
@@ -91,16 +93,19 @@
 
     </div>
     <TeamModal :contract="contractId" />
+    <ModalFiles :files="files" />
 </template>
+
 <script>
 import axios from 'axios';
 import moment from 'moment';
 import Sprint from './Sprint.vue'
 import Kanban from './kanban/Kanban.vue'
 import TeamModal from './TeamModal.vue';
+import ModalFiles from './ModalFiles.vue';
 
 export default {
-    components: { Sprint, Kanban, TeamModal },
+    components: { Sprint, Kanban, TeamModal, ModalFiles },
     data() {
         return {
             project: {},
@@ -111,10 +116,14 @@ export default {
             deliverySelected: {},
             totalActivitiesAssigned: [],
             search: '',
-            contractId: 0
+            contractId: 0,
+            files: []
         }
     },
     methods: {
+        showModalFiles() {
+            $('#filesModal').modal('show')
+        },
         showTeamModal() {
             $('#teamModal').modal('show')
         },
@@ -127,7 +136,7 @@ export default {
                 .then((result) => {
                     this.project = result.data
                     this.deliveries = result.data.deliveries
-
+                    this.files = result.data.files
                     this.deliveries.forEach((delivery) => {
                         delivery.assigned_activities.forEach((assignment) => {
                             this.totalActivitiesAssigned.push({ ...assignment })
@@ -165,6 +174,7 @@ export default {
     }
 }
 </script>
+
 <style scoped>
 .verticaltext {
     transform: rotate(90deg);

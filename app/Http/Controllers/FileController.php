@@ -110,4 +110,18 @@ class FileController extends Controller
             ]);
         }
     }
+
+    public function filesProject(Request $request)
+    {
+        $fileName = $request->file->getClientOriginalName();
+        $url = $request->file->move(public_path('files'), $fileName);
+
+        $file = File::create([
+            'fileable_id' => $request->get('project_id'),
+            'fileable_type' => 'App\\Models\\Project',
+            'url' => $fileName
+        ]);
+
+        return response()->json(['success' => 'You have successfully upload file.']);
+    }
 }

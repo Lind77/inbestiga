@@ -303,6 +303,7 @@ Route::get('/reject-permit/{id}', [AttendanceController::class, 'rejectPermit'])
 Route::post('/json-file', [AttendanceController::class, 'jsonFile']);
 Route::post('/excel-file', [AttendanceController::class, 'excelFile']);
 Route::post('/files', [FileController::class, 'store']);
+Route::post('/files-project', [FileController::class, 'filesProject']);
 Route::get('/files/{id}', [FileController::class, 'show']);
 Route::delete('/files/{id}', [FileController::class, 'destroy']);
 
