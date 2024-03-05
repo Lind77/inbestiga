@@ -10,8 +10,9 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-4">
-                            <button class="btn btn-info" @click="downloadFile(file.url)" v-for="file in files">{{
-                                file.url }}</button>
+                            <button class="btn btn-info my-1 w-100" @click="downloadFile(file.url)"
+                                v-for="file in files">{{
+                                    file.url }}</button>
                         </div>
                         <div class="col-8">
                             <label for="" class="form-label">Subir Archivo</label>
@@ -92,8 +93,8 @@ export default {
                 }
             })
                 .then((result) => {
-                    this.$swal('Archivo almacenado correctamente')
-                    this.getRecentFiles()
+                    this.$swal().close()
+                    this.$emit('updateFilesModal')
                 }).catch((err) => {
                     console.error(err);
                 });
