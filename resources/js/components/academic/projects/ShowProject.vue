@@ -93,7 +93,7 @@
 
     </div>
     <TeamModal :contract="contractId" />
-    <ModalFiles :files="files" />
+    <ModalFiles :files="files" @updateFilesModal="updateFilesModal" />
 </template>
 
 <script>
@@ -121,6 +121,9 @@ export default {
         }
     },
     methods: {
+        updateFilesModal() {
+            this.getProject()
+        },
         showModalFiles() {
             $('#filesModal').modal('show')
         },
