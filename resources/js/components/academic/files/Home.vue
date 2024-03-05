@@ -67,7 +67,7 @@ export default {
 
         },
         downloadFile(url) {
-            window.open('https://inbestiga.com/public/files/' + url)
+            window.open('https://inbestiga.com/inbestiga/public/files/' + url)
         },
         formatDate(date) {
             return moment(date).format('DD/MM/yyyy H:mm a')
