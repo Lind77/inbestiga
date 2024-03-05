@@ -83,7 +83,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card invoice-preview-card mt-2" v-if="documentType != 1">
+                <div class="card invoice-preview-card mt-2">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
@@ -565,6 +565,7 @@ export default {
             fd.append('products', JSON.stringify(this.details))
             fd.append('emisor_id', this.store.authUser.id)
             fd.append('coupon', this.coupon)
+            fd.append('payments', JSON.stringify(this.payments))
 
             axios.post('/api/quotations', fd)
                 .then((res) => {
