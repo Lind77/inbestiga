@@ -35,7 +35,7 @@ label {
 }
 
 .bg-login-user {
-    background: url('public/img/login-user.png') no-repeat;
+    background: url('/inbestiga/public/img/login-user.png') no-repeat;
     background-attachment: fixed;
     background-size: cover;
     display: grid;
