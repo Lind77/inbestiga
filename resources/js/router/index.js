@@ -127,7 +127,8 @@ import HomeRequests from '../components/experience/requests/Home.vue'
 //Area de Experiencia - Documentacion
 import HomeDocumentation from '../components/experience/profiles/Documentation.vue'
 
-
+//Área para los usuarios
+import UsersLogin from '../components/user/Login.vue'
 
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
@@ -142,6 +143,11 @@ export const routes = [
         path: '/',
         component: Login,
         name: 'login'
+    },
+    {
+        path: '/user',
+        component: UsersLogin,
+        name: 'user-login'
     },
     {
         path: '/home',
