@@ -265,44 +265,10 @@
                     </tbody>
                 </table>
                 <p>El pago será abonado bajo las siguientes modalidades:</p>
-                <table style="margin-top:1px;">
-                    <thead>
-                        <tr>
-                            <th>Banco</th>
-                            <th>Moneda</th>
-                            <th>Titular y número de cuenta</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>BCP</td>
-                            <td>Soles</td>
-                            <td>Inbestiga SAC Nº 355-9862526-0-30 <br> CCI: 00235500986252603066</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="2">Interbank</td>
-                            <td>Soles</td>
-                            <td>Inbestiga SAC Nº 500-3004188829 <br> CCI: 00350000300418882965</td>
-                        </tr>
-                        <tr>
-                            <td>Dólares</td>
-                            <td>Inbestiga SAC N° 500-3004188836</td>
-                        </tr>
-                        <tr>
-                            <td>BBVA</td>
-                            <td>Soles</td>
-                            <td>Inbestiga SAC Nº 0011-0235-0201838132</td>
-                        </tr>
-                        <tr>
-                            <td>Yape</td>
-                            <td>Soles</td>
-                            <td>Inbestiga SAC – 926708058</td>
-                        </tr>
-                    </tbody>
-                </table>
+                
                 <ul>
-                    <li> Efectivo: Estrictamente abonado en las oficinas de la empresa.</li>
-                    <li> Depósito o transferencia bancaria: </li>
+                    <li> En efectivo: Exclusivamente en las instalaciones de la empresa, durante las horas hábiles de atención.</li>
+                    <li> Link de pago: Este método se facilitará mediante plataformas seguras y confiables como Izi Pay y Niubiz, garantizando así la protección de sus datos financieros. El link para el pago se generará y enviará al cliente después de una coordinación previa con el asesor comercial asignado, ofreciendo una solución práctica y segura para realizar su pago.</li>      
                 </ul>
                {{--  <div class="page-break"></div> --}}
                 <span>QUINTO: ENTREGAS Y FORMA DE ENTREGAS.</span>
