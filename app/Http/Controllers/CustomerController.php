@@ -539,7 +539,7 @@ class CustomerController extends Controller
 
     public function searchCustomersById($id)
     {
-        $customer = Customer::with(['user', 'comunications'])->find($id);
+        $customer = Customer::with(['user', 'comunications', 'quotations.order.project', 'quotations.contract.projects'])->find($id);
         return response()->json($customer);
     }
 

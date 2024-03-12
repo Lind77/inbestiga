@@ -129,6 +129,7 @@ import HomeDocumentation from '../components/experience/profiles/Documentation.v
 
 //Área para los usuarios
 import UsersLogin from '../components/user/Login.vue'
+import HomeUser from '../components/user/HomeUser.vue'
 
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
@@ -148,6 +149,12 @@ export const routes = [
         path: '/user',
         component: UsersLogin,
         name: 'user-login'
+    },
+    {
+        path: '/home-user/:customerId',
+        component: HomeUser,
+        name: 'home-user',
+        props: true
     },
     {
         path: '/home',
