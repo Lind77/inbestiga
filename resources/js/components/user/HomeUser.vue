@@ -2,34 +2,32 @@
     <div>
         <div class="container">
             <div class="card mt-5 bg-info">
-                <h5 class="card-header">Mis Proyectos</h5>
+                <h4 class="card-header">Mis Proyectos</h4>
                 <div class="card-body">
-                    <ul class="timeline">
-                        <li class="timeline-item timeline-item-transparent">
-                            <span class="timeline-point-wrapper"><span
-                                    class="timeline-point timeline-point-primary"></span></span>
-                            <div class="timeline-event ps-5">
-                                <div class="timeline-header border-bottom mb-3">
-                                    <h6 class="mb-0">Get on the flight</h6>
-                                    <span class="text-muted">3rd October</span>
+                    <ul class="timeline" v-for="quotation in info.quotations">
+                        <li class="timeline-item timeline-item-transparent mb-3" v-for="project in projects">
+                            <!-- <span class="timeline-point-wrapper"><span
+                                    class="timeline-point timeline-point-primary"></span></span> -->
+                            <div class="timeline-event ps-3 my-4">
+                                <div class="timeline-header border-bottom mb-3 mt-3">
+                                    <h5 class="mb-0">Proyecto {{ project.id }}</h5>
+                                    <span>Fecha: {{ project.deadline }}</span>
                                 </div>
-                                <div class="d-flex justify-content-between flex-wrap mb-2">
+                                <div class="d-flex justify-content-between flex-wrap mb-0">
                                     <div>
-                                        <span>Charles de Gaulle Airport, Paris</span>
-                                        <i class="bx bx-right-arrow-alt scaleX-n1-rtl mx-3"></i>
-                                        <span>Heathrow Airport, London</span>
+                                        <!-- <span>{{ project }}</span> -->
+                                        <!-- <i class="bx bx-right-arrow-alt scaleX-n1-rtl mx-3"></i>
+                                        <span>Heathrow Airport, London</span> -->
                                     </div>
-                                    <div>
+                                    <!-- <div>
                                         <span class="text-muted">6:30 AM</span>
-                                    </div>
+                                    </div> -->
                                 </div>
-                                <a href="javascript:void(0)">
-                                    <i class="bx bx-link"></i>
-                                    bookingCard.pdf
-                                </a>
+                                <button class="btn btn-primary" @click="showCustomerModal(quotation.id)"> Ver más
+                                </button>
                             </div>
                         </li>
-                        <!--  <li class="timeline-item timeline-item-transparent">
+                        <!-- < li class=" timeline-item timeline-item-transparent">
                             <span class="timeline-point-wrapper"><span
                                     class="timeline-point timeline-point-success"></span></span>
                             <div class="timeline-event">
@@ -46,7 +44,7 @@
 
                                 </div>
                             </div>
-                        </li> -->
+                            </li> -->
                         <!--  <li class="timeline-end-indicator">
                             <i class="bx bx-check-circle"></i>
                         </li> -->
@@ -62,14 +60,23 @@
 export default {
     data() {
         return {
-            info: {}
+            info: {},
+            projects: []
         }
     },
     methods: {
+        showCustomerModal(quotationId) {
+            this.$router.push({ name: 'user-documentation', params: { quotationId: quotationId } })
+        },
         getUserInfo() {
             axios.get('/api/customer-by-id/' + this.$route.params.customerId)
                 .then((result) => {
                     this.info = result.data
+                    result.data.quotations.forEach(quotation => {
+                        quotation.contract.projects.forEach(project => {
+                            this.projects.push(project)
+                        })
+                    });
                 }).catch((err) => {
                     console.log(err)
                 });
@@ -89,9 +96,6 @@ export default {
     list-style: none;
 }
 
-html:not([dir=rtl]) .timeline-item {
-    border-left: 1px solid #444564;
-}
 
 .timeline .timeline-item .timeline-point-wrapper {
     position: absolute;
