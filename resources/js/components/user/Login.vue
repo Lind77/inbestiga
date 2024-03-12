@@ -40,7 +40,11 @@ export default {
                     console.log(result.data)
                     this.$router.push({ path: '/home-user/' + result.data.id })
                 }).catch((err) => {
-                    console.log(err)
+                    this.$swal({
+                        icon: 'error',
+                        title: 'Credenciales incorrectas'
+                    })
+                    console.error(err)
                 });
         }
     }
