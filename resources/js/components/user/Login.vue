@@ -5,14 +5,14 @@
                 <h5 class="fw-bold text-white pt-5">¡Bienvenido a InBESTiga!</h5>
                 <div class="form-group">
                     <label for="">Ingresa tu email</label>
-                    <input type="email" class="form-control" autocomplete="off">
+                    <input type="email" class="form-control" autocomplete="off" v-model="email">
                 </div>
                 <div class="form-group mt-3">
                     <label for="">Contraseña</label>
-                    <input type="password" class="form-control" autocomplete="off">
+                    <input type="password" class="form-control" autocomplete="off" v-model="password">
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Ingresar" class="btn-submit">
+                    <input type="submit" value="Ingresar" class="btn-submit" @click="login">
                 </div>
             </form>
         </div>
@@ -21,7 +21,29 @@
 
 <script>
 export default {
+    data() {
+        return {
+            email: '',
+            password: ''
+        }
+    },
+    methods: {
+        login(e) {
+            e.preventDefault()
+            const fd = new FormData()
+            fd.append('email', this.email)
+            fd.append('password', this.password)
+            fd.append('device_name', 'browser')
 
+            axios.post('/api/login-user', fd)
+                .then((result) => {
+                    console.log(result.data)
+                    this.$router.push({ path: '/home-user/' + result.data.id })
+                }).catch((err) => {
+                    console.log(err)
+                });
+        }
+    }
 }
 </script>
 

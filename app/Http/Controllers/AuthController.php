@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -32,6 +33,26 @@ class AuthController extends Controller
             'area' => $user->subarea->area
         ]);
     }
+
+    public function loginUser(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            'device_name' => 'required',
+        ]);
+
+        $customer = Customer::where('email', $request->email)->with(['quotations', 'quotations.order', 'quotations.contract', 'quotations.order.projects', 'quotations.contract.projects'])->first();
+
+        if (!$customer || !Hash::check($request->password, $customer->password)) {
+            throw ValidationException::withMessages([
+                'email' => 'Credenciales incorrectas.',
+            ]);
+        }
+
+        return response()->json($customer);
+    }
+
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
