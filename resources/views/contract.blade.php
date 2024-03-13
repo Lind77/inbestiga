@@ -361,12 +361,24 @@
                     En caso de presentarse cualquier asunto dudoso o litigioso derivado de la interpretación, aplicación o 
                     ejecución del presente contrato, las partes se someterán al fuero arbitral de la Cámara de Comercio de Lima 
                     según desee el interesado.</p> 
+                    
                 <span>DÉCIMO TERCERO: BONIFICACIONES</span><br>
-               <p>En caso de que EL ASESORADO refiera a EL LOCADOR y este celebre un contrato de índole similar a la del 
-                    presente contrato, EL LOCADOR otorgará a EL ASESORADO una bonificación de S/.60.00 (sesenta soles) por cada 
-                    mil soles de ingreso con los que la empresa se vea beneficiada.</p>
+               <p>En caso de que EL ASESORADO refiera a EL LOCADOR y este celebre un contrato de índole similar a la del presente
+                  contrato, EL LOCADOR otorgará a EL ASESORADO una bonificación de acuerdo al siguiente esquema, basado en los
+                  ingresos generados para la empresa por cada contrato exitosamente celebrado:</p>
+                  <ul style="margin-top: -8px;">
+                    <li>Una bonificación de S/ 30.00  para ingresos inferiores a S/ 1,000.00.</li>
+                    <li>Una bonificación de S/ 50.00 para ingresos superiores a S/ 1,000.00 y menores a S/ 3,000.00.</li>
+                    <li>Una bonificación de S/ 100.00 para ingresos mayores a S/ 3,000.00 y menores a S/ 5,000.00.</li>
+                    <li>Una bonificación de S/ 150.00 para ingresos que excedan los S/ 5,000.00.</li>
+                </ul>
+                  <p>Este esquema de bonificaciones se aplicará por cada contrato referido que cumpla con los criterios de ingreso
+                     especificados anteriormente, y será efectivo una vez que se haya confirmado la celebración del contrato y se 
+                     haya verificado el cumplimiento de todas las condiciones pertinentes. EL LOCADOR se reserva el derecho de 
+                     realizar las verificaciones necesarias para asegurar la autenticidad y la legitimidad de cada contrato referido 
+                     antes de emitir cualquier bonificación.</p>  
+                     <div class="page-break"></div>                 
                     <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
-                    <div class="page-break"></div>
                     <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($contract->date))}}</p>
                     <div class="signatures">
                         <div class="col-signature">
