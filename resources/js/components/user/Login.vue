@@ -97,6 +97,12 @@ label {
     color: #fff;
     font-weight: 600;
     font-size: 15px;
+    transition: 0.8s;
+}
+
+.btn-submit:hover {
+    transition: 0.8s;
+    background-color: rgba(127, 33, 251, 0.2) !important;
 }
 
 input:-webkit-autofill,
@@ -104,5 +110,12 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+@media only screen and (max-width: 600px) {
+    .container {
+        width: 80%;
+        padding: 30px;
+    }
 }
 </style>
