@@ -1,8 +1,8 @@
 <template>
     <div class="bg-login-user">
-        <div class="container">
-            <form class="p-3" autocomplete="off">
-                <h5 class="fw-bold text-white pt-5">¡Bienvenido a InBESTiga!</h5>
+        <div class="container glass">
+            <form class="p-2" autocomplete="off">
+                <h5 class="fw-bold text-white pt-5 pb-2">¡Bienvenido a InBESTiga!</h5>
                 <div class="form-group">
                     <label for="">Ingresa tu email</label>
                     <input type="email" class="form-control" autocomplete="off" v-model="email">
@@ -61,50 +61,42 @@ label {
 }
 
 .bg-login-user {
-    background: url('/inbestiga/public/img/login-user.png') no-repeat;
-    background-attachment: fixed;
+    background-image: url('/inbestiga/public/img/loginUser.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
     background-size: cover;
-    display: grid;
+    height: 100vh;
+    display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
 }
 
 .container {
-    width: 30rem;
-    height: 25rem;
-    box-shadow: 0 0 1rem 0 rgb(0, 0, 0);
-    border-radius: 20px;
-    position: relative;
-    z-index: 1;
-    background: inherit;
-    overflow: hidden;
+    width: 37%;
+    padding: 60px;
+    background-color: rgba(0, 0, 0, 0.32);
+    border-radius: 30px;
 }
 
-.container:before {
-    content: "";
-    position: absolute;
-    background: inherit;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    box-shadow: inset 0 0 2000px rgba(46, 46, 46, 0.238);
-    filter: blur(10px);
-    margin: -20px;
+.glass {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.191), rgba(255, 255, 255, 0));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
 }
 
 .btn-submit {
     margin-top: 50px;
     width: 100%;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
+    padding: 7px 0px;
     position: relative;
     z-index: 1;
-    background-color: #0000009d !important;
+    background-color: rgba(0, 0, 0, 0.32) !important;
     color: #fff;
-    padding: 5px 0px;
+    font-weight: 600;
+    font-size: 15px;
 }
 
 input:-webkit-autofill,
