@@ -32,7 +32,7 @@
               class="badge bg-danger rounded-pill badge-notifications">{{ numberMessages
               }}</span>
             <span class="badge bg-danger rounded-pill badge-notifications" v-if="numberNotifications > 0">{{
-              numberNotifications }}</span>
+        numberNotifications }}</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end py-0">
             <li class="dropdown-menu-header border-bottom">
@@ -83,7 +83,7 @@
             <i class="bx bx-bell bx-sm"></i><span v-if="cantNotifications != 0"
               class="badge bg-danger rounded-pill badge-notifications">{{ cantNotifications }}</span>
             <span class="badge bg-danger rounded-pill badge-notifications" v-if="numberNotifications > 0">{{
-              numberNotifications }}</span>
+        numberNotifications }}</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end py-0">
             <li class="dropdown-menu-header border-bottom">
@@ -106,7 +106,8 @@
                       </div>
                       <div class="flex-grow-1">
                         <i @click="confirmSeen(notification.users[0].pivot.id, notification.id)"
-                          :id="`checkNot${notification.users[0].pivot.id}`" class='bx bx-check-circle text-secondary'></i>
+                          :id="`checkNot${notification.users[0].pivot.id}`"
+                          class='bx bx-check-circle text-secondary'></i>
                       </div>
                     </div>
                   </li>
@@ -133,8 +134,8 @@
             <div class="avatar avatar-online" v-if="store.authUser">
               <div class="flex-shrink-0 me-3" v-if="store.authUser.images[0]">
                 <div class="avatar avatar-online">
-                  <img :src="'../../public/files/' + store.authUser.images[0].url" class="w-px-40 h-px-40 rounded-circle"
-                    style="object-fit:cover;" />
+                  <img :src="'../inbestiga/public/files/' + store.authUser.images[0].url"
+                    class="w-px-40 h-px-40 rounded-circle" style="object-fit:cover;" />
                 </div>
               </div>
               <span v-else class="avatar-initial rounded-circle bg-primary">{{ store.authUser.name[0] }}</span>

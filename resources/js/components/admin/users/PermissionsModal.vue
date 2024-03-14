@@ -3,7 +3,8 @@
         <div class="modal-dialog modal-dialog-centered modal-simple" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                     <div class="text-center mb-4">
                         <h3>Gestionar Permisos - {{ user.name }}</h3>
                     </div>
@@ -57,7 +58,8 @@ export default {
             fd.append('permissions', JSON.stringify(this.selectedPermissions))
             axios.post('/api/permission-sync-user', fd)
                 .then((result) => {
-                    this.permissions = result.permissions
+                    $('#modalPermission').modal('hide')
+                    this.$swal('Permisos actualizados correctamente')
                 }).catch((err) => {
                     console.error(err)
                 });
@@ -100,5 +102,5 @@ export default {
 }
 </script>
 <style lang="">
-    
+
 </style>
