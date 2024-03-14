@@ -6,7 +6,7 @@
             </div>
             <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                 <div class="flex-shrink-0 mt-n5 mx-sm-0 mx-auto">
-                    <img :src="'../../public/files/' + user.images[0].url" alt="user image"
+                    <img :src="'../inbestiga/public/files/' + user.images[0].url" alt="user image"
                         style="width: 180px; height: 180px !important; object-fit:cover;"
                         class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img mb-5 cursor-pointer"
                         @click="updatePhoto" v-if="user.images && user.images[0]">
@@ -27,9 +27,9 @@
                                 <li class="list-inline-item fw-medium" v-if="user.roles">
                                     <i class="bx bx-pen"></i>
                                     {{
-                                        user.roles[0]
-                                            .name
-                                    }}
+                            user.roles[0]
+                                .name
+                        }}
                                 </li>
                                 <li class="list-inline-item fw-medium">
                                     <i class="bx bx-map"></i>
@@ -61,8 +61,8 @@
                         </li>
                         <li class="nav-item">
                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                data-bs-target="#navs-pills-justified-profile" aria-controls="navs-pills-justified-profile"
-                                aria-selected="false">
+                                data-bs-target="#navs-pills-justified-profile"
+                                aria-controls="navs-pills-justified-profile" aria-selected="false">
                                 <i class="tf-icons bx bx-user"></i> Permisos
                             </button>
                         </li>
@@ -95,11 +95,11 @@
                                     </a>
                                     <div class="mt-3">
                                         <p><span class="badge badge-center rounded-pill bg-success">{{
-                                            abledHours }}</span>
+                            abledHours }}</span>
                                             On
                                         </p>
                                         <p><span class="badge badge-center rounded-pill bg-secondary">{{
-                                            disabledHours }}</span>
+                            disabledHours }}</span>
                                             Off
                                         </p>
                                         <!-- <p><span
@@ -129,8 +129,9 @@
                                                 <template v-if="index == schedule.day">
                                                     <button @click="disableHour(schedule)"
                                                         :class="`btn btn-${colorByType[schedule.type]} w-100`">{{
-                                                            differenceTimes(schedule.departure_time, schedule.admission_time)
-                                                        }}</button>
+                            differenceTimes(schedule.departure_time,
+                                schedule.admission_time)
+                        }}</button>
                                                 </template>
 
                                             </template>
