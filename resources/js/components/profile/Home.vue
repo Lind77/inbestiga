@@ -173,7 +173,7 @@
                             </div>
                             <button class="btn btn-primary mt-2" @click="updateAccess">Actualizar</button>
 
-                            <button class="btn btn-success" @click="sendMail">Enviar Email</button>
+
                         </div>
                     </div>
                 </div>
@@ -273,14 +273,7 @@ export default {
         };
     },
     methods: {
-        sendMail() {
-            axios.get('/api/send-welcome-email')
-                .then((result) => {
-                    console.log(result.data)
-                }).catch((err) => {
-                    console.log(err)
-                });
-        },
+
         differenceTimes(departureTime, admissionTime) {
 
 
