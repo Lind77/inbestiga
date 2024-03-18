@@ -2,7 +2,7 @@
     <div class="bg-login-user">
         <div class="container glass">
             <form class="p-2" autocomplete="off">
-                <h5 class="fw-bold text-white pt-5 pb-2">¡Bienvenido a InBESTiga!</h5>
+                <h5 class="fw-bold text-white pt-5 pb-2">¡Bienvenido a InBESTiga 2024!</h5>
                 <div class="form-group">
                     <label for="">Ingresa tu email</label>
                     <input type="email" class="form-control" autocomplete="off" v-model="email">
