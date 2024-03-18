@@ -362,4 +362,4 @@ Route::get('/customer-contract/{customerId}/{quotationId}', [ContractController:
 Route::get('/chart-attendance-values', [AttendanceController::class, 'chartValues']);
 
 //Email
-Route::get('/send-welcome-email', [EmailController::class, 'sendWelcomeEmail']);
+Route::post('/send-welcome-email', [EmailController::class, 'sendWelcomeEmail']);
