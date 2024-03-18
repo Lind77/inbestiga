@@ -23,13 +23,13 @@ export default {
     },
     methods: {
         sendMail() {
-
+            const fd = new FormData()
             fd.append('email', this.email)
             fd.append('content', this.content)
 
             axios.post('/api/send-welcome-email', fd)
                 .then((result) => {
-                    console.log(result.data)
+                    this.$swal('Mensaje enviado correctamente')
                 }).catch((err) => {
                     console.log(err)
                 });
