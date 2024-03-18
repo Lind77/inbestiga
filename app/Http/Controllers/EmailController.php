@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Mail;
 
 class EmailController extends Controller
 {
-    public function sendWelcomeEmail()
+    public function sendWelcomeEmail(Request $request)
     {
-        $body = 'Welcome to the inbestiga.com example email';
-        $subject = 'Thank you for participating!';
+        $body = $request->get('content');
+        $subject = 'Desde el Sistema de INBESTIGA!';
 
-        Mail::to('juliofn.system@gmail.com')->send(new WelcomeMail($subject, $body));
+        Mail::to($request->get('email'))->send(new WelcomeMail($subject, $body));
 
         return response()->json([
             'msg' => 'Email sent successfully'

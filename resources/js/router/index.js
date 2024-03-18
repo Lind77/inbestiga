@@ -140,6 +140,9 @@ import Profile from '../components/profile/Home.vue'
 //Trabajos
 import Jobs from '../components/jobs/Home.vue'
 
+//SandBox
+import Sandbox from '../components/admin/sandbox/Home.vue'
+
 export const routes = [
     {
         path: '/',
@@ -359,6 +362,11 @@ export const routes = [
                 path: 'myprojects',
                 component: MyProjects,
                 name: 'myprojects'
+            },
+            {
+                path: 'sandbox',
+                component: Sandbox,
+                name: 'sandbox'
             }
         ]
     },
