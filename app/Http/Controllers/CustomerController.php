@@ -55,7 +55,7 @@ class CustomerController extends Controller
         }
 
         $verification = $this->verifyCustomer($request->get('name'), $request->get('cell'));
-        if ($verification[0]) {
+        if (!is_bool($verification)) {
             return response()->json($verification, 400);
         } else {
             $time = strtotime($request->get('next_management'));
