@@ -10,7 +10,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col mb-3">
+                        <div class="col">
                             <label for="nameBasic" class="form-label">Nombre</label>
                             <input type="text" v-if="action == 2" v-model="customer.name" class="form-control" />
                             <input type="text" v-else v-model="name" class="form-control" />
@@ -23,13 +23,35 @@
                             <input type="text" v-else v-model="cell" class="form-control" />
                         </div>
                     </div>
-                    <div class="row g-2">
+                    <!-- <div class="row g-2">
                         <div class="col mb-0">
                             <label for="nameBasic" class="form-label">Email</label>
                             <input type="email" v-if="action == 2" v-model="customer.email" class="form-control" />
                             <input type="text" v-else v-model="email" class="form-control" />
                         </div>
-                    </div>
+                    </div> -->
+
+                    <!-- <div class="row g-2">
+                        <div class="col mb-0">
+                            <label for="dobBasic" class="form-label">DNI</label>
+                            <input type="text" v-if="action == 2" v-model="customer.dni" class="form-control" />
+                            <input type="text" v-else v-model="dni" class="form-control" />
+                        </div>
+                    </div> -->
+                    <!-- <div class="row g-2">
+                        <div class="col mb-0">
+                            <label for="dobBasic" class="form-label">Dirección</label>
+                            <input type="text" v-if="action == 2" v-model="customer.address" class="form-control" />
+                            <input type="text" v-else v-model="address" class="form-control" />
+                        </div>
+                    </div> -->
+                    <!-- <div class="row g-2">
+                        <div class="col mb-0">
+                            <label for="dobBasic" class="form-label">Actitud</label>
+                            <input type="text" v-if="action == 2" v-model="customer.attitude" class="form-control" />
+                            <input type="text" v-else v-model="attitude" class="form-control" />
+                        </div>
+                    </div> -->
                     <div class="row g-2">
                         <div class="col mb-0">
                             <label for="dobBasic" class="form-label">Universidad</label>
@@ -39,33 +61,12 @@
                     </div>
                     <div class="row g-2">
                         <div class="col mb-0">
-                            <label for="dobBasic" class="form-label">DNI</label>
-                            <input type="text" v-if="action == 2" v-model="customer.dni" class="form-control" />
-                            <input type="text" v-else v-model="dni" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col mb-0">
-                            <label for="dobBasic" class="form-label">Dirección</label>
-                            <input type="text" v-if="action == 2" v-model="customer.address" class="form-control" />
-                            <input type="text" v-else v-model="address" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col mb-0">
-                            <label for="dobBasic" class="form-label">Actitud</label>
-                            <input type="text" v-if="action == 2" v-model="customer.attitude" class="form-control" />
-                            <input type="text" v-else v-model="attitude" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col mb-0">
                             <label for="emailBasic" class="form-label">Carrera o mención</label>
                             <input type="text" v-if="action == 2" v-model="customer.career" class="form-control" />
                             <input type="text" v-else v-model="career" class="form-control" />
                         </div>
                     </div>
-                    <div class="row g-2" v-if="action != 2">
+                    <!-- <div class="row g-2" v-if="action != 2">
                         <div class="col mb-0">
                             <label class="form-label">Estado</label>
                             <select class="form-select" v-model="status">
@@ -73,11 +74,10 @@
                                 <option value="2">Atendido</option>
                                 <option value="3">Comunicación establecida</option>
                                 <option value="4">Obtención de necesidades específicas</option>
-                                <!--  <option value="5">Con cotización</option> -->
                             </select>
                         </div>
-                    </div>
-                    <div class="row g-2" v-if="action != 2">
+                    </div> -->
+                    <!-- <div class="row g-2" v-if="action != 2">
                         <div class="col mb-0">
                             <label for="emailBasic" class="form-label">Origen</label>
                             <select class="form-select" v-model="origin">
@@ -85,7 +85,7 @@
                                 <option value="2">Referido</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div v-show="origin == 1" class="row g-2">
                         <div class="col mb-0">
@@ -113,7 +113,7 @@
                         data-bs-dismiss="modal">
                         Cerrar
                     </button>
-                    <button type="button" v-if="action == 1" @click="verifyExistence"
+                    <button type="button" v-if="action == 1" @click="insertCustomer"
                         class="btn btn-primary">Registrar</button>
                     <button type="button" v-else @click="updateCustomer" class="btn btn-primary">Actualizar</button>
                 </div>
@@ -197,20 +197,7 @@ export default {
                     })
                     if (res.data.msg) {
                         $('#customerModal').modal('hide')
-                        this.$swal.fire({
-                            icon: 'error',
-                            title: res.data.msg,
-                            html: coincidences.join('') + '<br>Tienes la seguridad de continuar?',
-                            showDenyButton: true,
-                            confirmButtonText: 'Registrar',
-                        }).then((result) => {
-                            /* Read more about isConfirmed, isDenied below */
-                            if (result.isConfirmed) {
-                                this.insertCustomer()
-                            } else if (result.isDenied) {
-                                this.$swal.close()
-                            }
-                        })
+
                         //$('#customerModal').modal('hide')
                         //this.$swal('Se ha encontrado un usuario con el mismo nombre')
                     } else {
@@ -230,7 +217,7 @@ export default {
             fd.append('career', this.career)
             fd.append('email', this.email)
             fd.append('origin', this.origin)
-            fd.append('status', this.status)
+            fd.append('status', 9)
             fd.append('dni', this.dni)
             fd.append('attitude', this.attitude)
             fd.append('address', this.address)
@@ -249,8 +236,28 @@ export default {
                 })
                 .catch(err => {
                     $('#customerModal').modal('hide')
-                    this.$swal(err.response.data.message)
-                    console.log(err.response.data)
+
+                    if (err.response.status == 422) {
+                        this.$swal.fire(err.response.data.message)
+                    } else if (err.response.status == 400) {
+                        console.log(err.response.data)
+                        this.$swal.fire({
+                            icon: 'error',
+                            title: 'Se han encontrado usuarios con el mismo nombre',
+                            html: err.response.data.map((customer) => `${customer.name} `) + '<br>Tienes la seguridad de continuar con el registro?',
+                            showDenyButton: true,
+                            confirmButtonText: 'Registrar',
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                this.insertCustomer()
+                            } else if (result.isDenied) {
+                                this.$swal.close()
+                            }
+                        })
+                    }
+
+
                 })
         },
         getAllUsers() {

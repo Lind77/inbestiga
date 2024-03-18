@@ -13,6 +13,7 @@ use App\Http\Controllers\ComunicationController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliveryController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
@@ -359,3 +360,6 @@ Route::get('/orders', [OrderController::class, 'index']);
 Route::get('/customer-contract/{customerId}/{quotationId}', [ContractController::class, 'deleteCustomer']);
 
 Route::get('/chart-attendance-values', [AttendanceController::class, 'chartValues']);
+
+//Email
+Route::get('/send-welcome-email', [EmailController::class, 'sendWelcomeEmail']);
