@@ -54,60 +54,29 @@ class CustomerController extends Controller
             ]);
         }
 
-
-        $time = strtotime($request->get('next_management'));
-        $date = date('Y-m-d', $time);
-        $hour = date('H:i:s', $time);
-
-        $customer = Customer::create([
-            'name' => $request->get('name'),
-            'cell' => $request->get('cell'),
-            'email' => $request->get('email'),
-            'university' => $request->get('university'),
-            'career' => $request->get('career'),
-            'status' => $request->get('status'),
-            'dni' => $request->get('dni'),
-            'address' => $request->get('address'),
-            'userregister_id' => $request->get('userregister_id')
-        ]);
-
-        if ($request->get('referedFrom') != 0) {
-            $origin = Origin::create([
-                'customer_id' => $customer->id,
-                'type' => $request->get('origin'),
-                'channel' => null,
-                'user_id' => $request->get('referedFrom')
-            ]);
+        $verification = $this->verifyCustomer($request->get('name'), $request->get('cell'));
+        if ($verification[0]) {
+            return response()->json($verification, 400);
         } else {
-            $origin = Origin::create([
-                'customer_id' => $customer->id,
-                'type' => $request->get('origin'),
-                'channel' => $request->get('channel'),
-                'user_id' => null
+            $time = strtotime($request->get('next_management'));
+            $date = date('Y-m-d', $time);
+            $hour = date('H:i:s', $time);
 
+            $customer = Customer::create([
+                'name' => $request->get('name'),
+                'cell' => $request->get('cell'),
+                'email' => $request->get('email'),
+                'university' => $request->get('university'),
+                'career' => $request->get('career'),
+                'status' => $request->get('status'),
+                'dni' => $request->get('dni'),
+                'address' => $request->get('address'),
+                'userregister_id' => $request->get('userregister_id')
+            ]);
+            return response()->json([
+                'msg' => 'success'
             ]);
         }
-
-        $referal = User::find($request->get('referedFrom'));
-
-        if (!$referal) {
-            $nameReferal = '-';
-        } else {
-            $nameReferal = $referal->name;
-        }
-
-
-        $comission = Comission::create([
-            'customer_id' => $customer->id,
-            'concept' => 'Marketing/referenciación',
-            'percent' => 23,
-            'referal' => $nameReferal,
-            'user_id' => $request->get('user_id')
-        ]);
-
-        return response()->json([
-            'msg' => 'success'
-        ]);
     }
 
     /**
@@ -390,12 +359,8 @@ class CustomerController extends Controller
         return response()->json($customers);
     }
 
-    public function verifyCustomer(Request $request)
+    private function verifyCustomer($name, $cell)
     {
-
-        $name = $request->get('name');
-        $cell = $request->get('cell');
-
         if ($name != null) {
             $searchByName = Customer::where('name', 'like', '%' . $name . '%')->get();
 
@@ -404,10 +369,7 @@ class CustomerController extends Controller
             if ($cantResName == 0) {
                 $verifiedByName = true;
             } else {
-                return response()->json([
-                    'msg' => 'Se han encontrado coincidencias con este nombre',
-                    'coincidences' => $searchByName
-                ]);
+                return $searchByName;
             }
         } else {
             $verifiedByName = true;
@@ -437,7 +399,7 @@ class CustomerController extends Controller
         }
 
 
-        return response()->json($verifiedTotal);
+        return $verifiedTotal;
     }
 
     public function getLeadsByDate($date)

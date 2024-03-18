@@ -14,7 +14,7 @@
         <tbody class="table-border-bottom-0">
           <tr v-for="quotation in quotations">
             <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong v-for="customer in quotation.customers">{{
-              customer.name }}</strong></td>
+      customer.name }}</strong></td>
             <td>{{ quotation.date }}</td>
             <td>
               <router-link :to="{ name: 'quotation-img', params: { id: quotation.id } }" target="_blank"
@@ -22,8 +22,8 @@
               <router-link :to="{ name: 'quotation-file', params: { id: quotation.id } }" target="_blank"
                 class="btn btn-sm btn-success text-white mx-1"><i class='bx bx-printer'></i>
               </router-link>
-              <router-link :to="{ name: 'edit-quotation', params: { idQuotation: quotation.id } }"
-                class="btn btn-sm btn-success text-white"><i class='bx bx-edit'></i></router-link>
+              <!--  <router-link :to="{ name: 'edit-quotation', params: { idQuotation: quotation.id } }"
+                class="btn btn-sm btn-success text-white"><i class='bx bx-edit'></i></router-link> -->
             </td>
           </tr>
         </tbody>
