@@ -23,28 +23,28 @@
                             <input type="text" v-else v-model="cell" class="form-control" />
                         </div>
                     </div>
-                    <!-- <div class="row g-2">
-                        <div class="col mb-0">
+                    <div class="row g-2">
+                        <div class="col mb-0" v-if="action == 2">
                             <label for="nameBasic" class="form-label">Email</label>
                             <input type="email" v-if="action == 2" v-model="customer.email" class="form-control" />
                             <input type="text" v-else v-model="email" class="form-control" />
                         </div>
-                    </div> -->
+                    </div>
 
-                    <!-- <div class="row g-2">
-                        <div class="col mb-0">
+                    <div class="row g-2">
+                        <div class="col mb-0" v-if="action == 2">
                             <label for="dobBasic" class="form-label">DNI</label>
                             <input type="text" v-if="action == 2" v-model="customer.dni" class="form-control" />
                             <input type="text" v-else v-model="dni" class="form-control" />
                         </div>
-                    </div> -->
-                    <!-- <div class="row g-2">
-                        <div class="col mb-0">
+                    </div>
+                    <div class="row g-2">
+                        <div class="col mb-0" v-if="action == 2">
                             <label for="dobBasic" class="form-label">Dirección</label>
                             <input type="text" v-if="action == 2" v-model="customer.address" class="form-control" />
                             <input type="text" v-else v-model="address" class="form-control" />
                         </div>
-                    </div> -->
+                    </div>
                     <!-- <div class="row g-2">
                         <div class="col mb-0">
                             <label for="dobBasic" class="form-label">Actitud</label>
