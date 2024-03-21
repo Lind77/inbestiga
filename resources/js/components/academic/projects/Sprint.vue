@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-4">
+        <!-- <div class="col-4">
             <p class="h4">Productos</p>
             <input type="text" class="form-control mb-1" v-model="search" @keyup="filterAcademicProducts">
             <div id="container-products">
@@ -9,24 +9,23 @@
                     {{ product.name }}
                 </div>
             </div>
-        </div>
-        <div class="col-8">
+        </div> -->
+        <div class="col-12">
             <p class="h4">Entregables</p>
-            <div class="d-flex flex-row" v-for="delivery in deliveries">
-                <button class="btn btn-primary mt-2 ">{{ delivery.date ? formatDate(delivery.date) :
-                    'Indefinido'
-                }}</button>
-                <div class="card shadow-none bg-transparent border border-info mt-2 w-75">
-                    <div class="card-body" @dragover="dragOverDelivery(delivery)" @drop="dropProduct" @dragenter.prevent
-                        @dragover.prevent>
-                        <p>{{ delivery.advance }}</p>
-                        <div v-for="assignedActivity in delivery.assigned_activities"
-                            class="btn btn-info w-100 mb-2 cursor-pointer">
-                            {{ assignedActivity.name }}
-                        </div>
+
+            <div class="" v-for="delivery in deliveries">
+                <div class="d-flex flex-row justify-content-between align-items-end">
+                    <h5 class="text-primary mb-1">{{ delivery.advance }}</h5>
+                    <p class="mb-1">{{ delivery.date ? formatDate(delivery.date) :
+                'Fecha Indefinida' }}</p>
+                </div>
+                <hr class="my-1">
+                <div v-for="assignedActivity in delivery.assigned_activities"
+                    class="card card-border-shadow-primary p-2 w-100 mb-2 cursor-pointer">
+                    <div class="ps-2 border-start border-primary ">
+                        {{ assignedActivity.name }}
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -85,5 +84,9 @@ export default {
 #container-products {
     overflow-y: scroll;
     height: 75vh;
+}
+
+.border-start {
+    border-left: 5px solid #d9dee3 !important
 }
 </style>

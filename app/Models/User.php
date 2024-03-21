@@ -123,10 +123,10 @@ class User extends Authenticatable
     public function deliveries(){
         return $this->morphedByMany('App\Models\Delivery','userable');
     }
-    //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
+   /*  //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
     public function assigned_activities(){
         return $this->morphedByMany('App\Models\Assigned_activity','userable');
-    }
+    } */
     //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
     public function ntasks(){
         return $this->morphedByMany('App\Models\Ntask','userable');
@@ -150,5 +150,9 @@ class User extends Authenticatable
      //Relación polimorfica uno a muchos (Entities-Images)
     public function images(){
         return $this->morphMany('App\Models\Image','imageable');
+    }
+    //Relación uno a muchos user-Assigned_activities
+    public function assigned_activities(){
+        return $this->hasMany('App\Models\Assigned_activity');
     }
 }

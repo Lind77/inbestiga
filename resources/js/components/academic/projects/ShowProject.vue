@@ -1,82 +1,121 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card w-100">
-            <div class="card-body d-flex">
-                <img src="https://inbestiga.com/inbestiga/public/files/1709671609.png" class=" rounded" width="200"
-                    height="200">
-                <div class="ps-3 w-100">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h3 class="fw-bold mb-0">{{ project.title }}</h3>
-                            <span class="badge bg-success mb-3">{{ project.status }}</span>
-                            <template v-if="project.projectable">
-                                <div class="d-flex align-items-center avatar-group my-3">
-                                    <div class="avatar avatar-sm me-2"
-                                        v-for="customer in project.projectable.quotation.customers"
-                                        :title="customer.name">
-                                        <span class="avatar-initial rounded-circle bg-primary">{{ customer.name[0]
-                                            }}</span>
+            <div class="card-body pb-0">
+                <div class="row">
+                    <div class="col-2">
+                        <img src="https://inbestiga.com/inbestiga/public/files/1709671609.png" class="w-100 rounded">
+                    </div>
+                    <div class="col-9">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="d-flex align-items-center">
+                                    <h3 class="fw-bold mb-0">{{ project.title }}</h3>
+                                    <span class="badge bg-success ms-3">{{ formatStatus(project.status) }}</span>
+                                    <span class="badge bg-warning ms-3" v-if="project && project.team">{{
+                                        project.team.name }}</span>
+                                </div>
+                                <template v-if="project.projectable">
+                                    <div class="d-flex align-items-center avatar-group my-2">
+                                        <div class="avatar avatar-sm me-2"
+                                            v-for="customer in project.projectable.quotation.customers"
+                                            :title="customer.name">
+                                            <span class="avatar-initial rounded-circle bg-primary">{{ customer.name[0]
+                                                }}</span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="card shadow-none bg-transparent border border-success mb-3">
+                                    <div class="card-body p-2">
+                                        <h6 class="card-title mb-1 fw-semibold">{{ formatDate(project.created_at) }}
+                                        </h6>
+                                        <p class="card-text">
+                                            Fecha de Inicio
+                                        </p>
                                     </div>
                                 </div>
-                            </template>
+                            </div>
+                            <div class="col-3">
+                                <div class="card shadow-none bg-transparent border border-danger mb-3">
+                                    <div class="card-body p-2">
+                                        <h6 class="card-title mb-1 fw-semibold">{{ project.deadline ?
+                                        formatDate(project.deadline) : '-'
+                                            }}
+                                        </h6>
+                                        <p class="card-text">
+                                            Fecha de Entrega
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="card shadow-none bg-transparent border border-info mb-3">
+                                    <div class="card-body p-2">
+                                        <h6 class="card-title mb-1 fw-semibold" v-if="project.projectable">
+                                            S/. {{ project.projectable.amount }}
+                                        </h6>
+                                        <p class="card-text">
+                                            Presupuesto
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-3">
+                                <div class="card shadow-none bg-transparent border border-warning mb-3">
+                                    <div class="card-body p-2">
+                                        <h6 class="card-title mb-1 fw-semibold">
+                                            {{ project.team.name }}
+                                        </h6>
+                                        <p class="card-text">
+                                            Equipo
+                                        </p>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="d-flex justify-content-between">
+                        <ul class="nav nav-pills mb-1" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home"
+                                    aria-selected="true">Tabla</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-pills-top-sprints" aria-controls="navs-pills-top-sprints"
+                                    aria-selected="false" tabindex="-1">Sprints</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile"
+                                    aria-selected="false" tabindex="-1">Kanban</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-pills-top-calendar" aria-controls="navs-pills-top-calendar"
+                                    aria-selected="false" tabindex="-1">Calendario</button>
+                            </li>
+                        </ul>
+                        <div>
+                            <button class="btn btn-danger mx-1" @click="showModalFiles"><i
+                                    class='bx bx-file'></i>Archivos</button>
+                            <button class="btn btn-danger mx-1"><i class='bx bx-file'></i>Videos</button>
+                            <button class="btn btn-danger mx-1"><i class='bx bx-link-alt'></i>Links</button>
                         </div>
                     </div>
-
-                    <button class="btn btn-success me-2">
-                        <p class="mb-0">Fecha de inicio</p>
-                        {{ formatDate(project.created_at) }}
-                    </button>
-                    <button class="btn btn-danger me-2">
-                        <p class="mb-0">Fecha de entrega</p>
-                        {{ project.deadline ? formatDate(project.deadline) : '-' }}
-                    </button>
-                    <button class="btn btn-info me-2" v-if="project.projectable">
-                        <p class="mb-0">Presupuesto</p>
-                        S./ {{ project.projectable.amount }}
-                    </button>
-                    <button class="btn btn-warning" v-if="project.team">
-                        <p class="mb-0">Equipo</p>
-                        {{ project.team.name }}
-                    </button>
                 </div>
             </div>
         </div>
-        <div class="card w-100">
-            <div class="card-body d-flex justify-content-between">
-                <ul class="nav nav-pills mb-3" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home"
-                            aria-selected="true">Tabla</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-sprints" aria-controls="navs-pills-top-sprints"
-                            aria-selected="false" tabindex="-1">Sprints</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile"
-                            aria-selected="false" tabindex="-1">Kanban</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-calendar" aria-controls="navs-pills-top-calendar"
-                            aria-selected="false" tabindex="-1">Calendario</button>
-                    </li>
-                </ul>
-                <div>
-                    <button class="btn btn-danger mx-1" @click="showModalFiles"><i
-                            class='bx bx-file'></i>Archivos</button>
-                    <button class="btn btn-danger mx-1"><i class='bx bx-file'></i>Videos</button>
-                    <button class="btn btn-danger mx-1"><i class='bx bx-link-alt'></i>Links</button>
-                </div>
-
-            </div>
-        </div>
-        <div class="nav-align-top mb-4 pt-2 ">
-
-            <div class="tab-content">
+        <div class="nav-align-top mb-4 pt-2">
+            <div class="card tab-content">
                 <div class="tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
                     <p>Tabla</p>
                 </div>
@@ -92,8 +131,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
     <TeamModal :contract="contractId" />
     <ModalFiles :files="files" @updateFilesModal="updateFilesModal" />
@@ -120,12 +157,16 @@ export default {
             totalActivitiesAssigned: [],
             search: '',
             contractId: 0,
-            files: []
+            files: [],
+            statusByNumber: {
+                0: 'Activo',
+                1: 'Completo'
+            }
         }
     },
     methods: {
-        formatDate(date) {
-            return moment(date).format('DD/MM/YYYY')
+        formatStatus(status) {
+            return this.statusByNumber[status]
         },
         updateFilesModal() {
             this.getProject()
@@ -166,7 +207,7 @@ export default {
                 });
         },
         formatDate(date) {
-            return moment(date).format('DD/MM')
+            return moment(date).format('DD/MM/YYYY')
         },
         enableProject() {
             axios.get('/api/enable-project/' + this.$route.params.idProject)

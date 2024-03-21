@@ -9,8 +9,8 @@ class Academic_process extends Model
 {
     use HasFactory;
     protected $fillable=['name'];
-    //Relación uno a muchos Academci_process-Academic_product
+    //Relación muchos a muchos academic-process/academic-products
     public function academic_products(){
-        return $this->hasMany('App\Models\Academic_product');
+        return $this->belongsToMany('App\Models\Academic_product','academic_process_academic_product');
     }
 }
