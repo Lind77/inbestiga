@@ -471,7 +471,7 @@ class CustomerController extends Controller
         /* $customers = Customer::where('status', 11)->with(['comunications', 'quotations' => function ($query) {
             $query->latest('id');
         }, 'quotations.order', 'quotations.contract', 'quotations.order.properties', 'quotations.contract.properties', 'quotations.details', 'quotations.details.product'])->orderBy('id', 'desc')->take(8)->get(); */
-        $quotations =  Quotation::where('status', 11)->whereHas('contract')->with(['customers', 'contract', 'contract.properties', 'contract.projects'])->orderBy('id', 'desc')->paginate(8);
+        $quotations =  Quotation::where('status', 11)->whereHas('contract')->with(['customers', 'contract', 'contract.properties', 'contract.projects'])->orderBy('updated_at', 'desc')->paginate(8);
 
         return response()->json($quotations);
     }
