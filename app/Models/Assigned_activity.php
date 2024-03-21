@@ -29,9 +29,17 @@ class Assigned_activity extends Model
     public function statuses(){
         return $this->morphToMany('App\Models\Status','statusable');
     }   
-    //Relación polimorfica de muchos a muchos (Status-Usuarios)
+    /* //Relación polimorfica de muchos a muchos (Status-Usuarios)
      public function users(){
         return $this->morphToMany('App\Models\User', 'userable');
+    } */
+    //Relación inversa unoa a muchos (User-Assigned activity)
+    public function user(){
+        return $this->belongsTo('App\Models\User');
+    }
+    //Relación inversa uno a muchos  (users-assignedactivitiy)
+    public function assigned_activity(){
+        return $this->belongsTo('App\Models\User');
     }
     //Relacion morfeable uno a muchos (Assigned_Activity-NOTES-NTASK)
     public function ntasks(){
