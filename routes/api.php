@@ -363,3 +363,5 @@ Route::get('/chart-attendance-values', [AttendanceController::class, 'chartValue
 
 //Email
 Route::post('/send-welcome-email', [EmailController::class, 'sendWelcomeEmail']);
+
+Route::post('/academic-product', [AcademicProductController::class, 'store']);

@@ -150,7 +150,8 @@ class TaskController extends Controller
         $assigned_activity = Assigned_activity::find($request->get('taskId'));
 
         $assigned_activity->update([
-            'status' => $request->get('newStatus')
+            'status' => $request->get('newStatus'),
+            'user_id' => $request->get('user_id')
         ]);
 
         /* $task->update([
