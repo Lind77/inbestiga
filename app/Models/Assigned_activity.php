@@ -10,7 +10,7 @@ class Assigned_activity extends Model
     use HasFactory;
     protected $fillable = ['assigned_activitiable_id', 'assigned_activitiable_type', 'name', 'date', 'academic_date', 'type', 'progress', 'status', 'priority', 'user_id'];
     //relacion muchos amuchos morfeable_qualityindicators_(project,delivery,assigned_task,assigned_activity)
-    public function quality_indicators()
+    /* public function quality_indicators()
     {
         return $this->morphToMany('App\Models\Quality_indicator', 'quality_indicable');
     } */
@@ -73,7 +73,8 @@ class Assigned_activity extends Model
         return $this->mophMany('App\Models\File', 'fileable');
     }
     //Relacion morfeable uno a muchos (Project-delivery-assigned_activity-ntasks--quality_indicators)
-    public function quality_indicators(){
-        return $this->morphMany('App\Models\Quality_indicator','quality_indicable');
+    public function quality_indicators()
+    {
+        return $this->morphMany('App\Models\Quality_indicator', 'quality_indicable');
     }
 }
