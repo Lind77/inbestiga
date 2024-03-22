@@ -121,10 +121,10 @@
                 </div>
                 <div class="tab-pane fade" id="navs-pills-top-sprints" role="tabpanel">
                     <Sprint :deliveries="deliveries" :productsFiltered="productsFiltered" @getProject="getProject"
-                        @filterAcademicProducts="filterAcademicProducts" />
+                        @filterAcademicProducts="filterAcademicProducts" @openModalTask="openModalTask" />
                 </div>
                 <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
-                    <Kanban :deliveries="deliveries" />
+                    <Kanban :deliveries="deliveries" @getProject="getProject" v-if="deliveries" />
                 </div>
                 <div class="tab-pane fade" id="navs-pills-top-calendar" role="tabpanel">
                     <p>Calendario</p>
@@ -134,6 +134,7 @@
     </div>
     <TeamModal :contract="contractId" />
     <ModalFiles :files="files" @updateFilesModal="updateFilesModal" />
+    <NewTaskModal @getProject="getProject" :deliveryId="deliveryId" />
 </template>
 
 <script>
@@ -143,9 +144,10 @@ import Sprint from './Sprint.vue'
 import Kanban from './kanban/Kanban.vue'
 import TeamModal from './TeamModal.vue';
 import ModalFiles from './ModalFiles.vue';
+import NewTaskModal from './NewTaskModal.vue';
 
 export default {
-    components: { Sprint, Kanban, TeamModal, ModalFiles },
+    components: { Sprint, Kanban, TeamModal, ModalFiles, NewTaskModal },
     data() {
         return {
             project: {},
@@ -161,10 +163,15 @@ export default {
             statusByNumber: {
                 0: 'Activo',
                 1: 'Completo'
-            }
+            },
+            deliveryId: 0
         }
     },
     methods: {
+        openModalTask(deliveryId) {
+            this.deliveryId = deliveryId
+            $('#newTaskModal').modal('show')
+        },
         formatStatus(status) {
             return this.statusByNumber[status]
         },
@@ -182,6 +189,7 @@ export default {
         },
         getProject() {
             this.deliveries = []
+            console.log(this.deliveries.length)
             axios.get('/api/projects-sprints/' + this.$route.params.idProject)
                 .then((result) => {
                     this.project = result.data

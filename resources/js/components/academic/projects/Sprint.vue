@@ -11,21 +11,76 @@
             </div>
         </div> -->
         <div class="col-12">
-            <p class="h4">Entregables</p>
+            <div class="d-flex justify-content-between">
+                <p class="h4">Entregables</p>
+            </div>
 
             <div class="" v-for="delivery in deliveries">
                 <div class="d-flex flex-row justify-content-between align-items-end">
-                    <h5 class="text-primary mb-1">{{ delivery.advance }}</h5>
-                    <p class="mb-1">{{ delivery.date ? formatDate(delivery.date) :
+                    <h5 class="text-primary mb-1">{{ delivery.advance }} <i class='bx bx-task'
+                            title="Agregar nueva tarea" @click="openTaskModal(delivery.id)"></i></h5>
+                    <div>
+                        <p class="mb-1">{{ delivery.date ? formatDate(delivery.date) :
                 'Fecha Indefinida' }}</p>
-                </div>
-                <hr class="my-1">
-                <div v-for="assignedActivity in delivery.assigned_activities"
-                    class="card card-border-shadow-primary p-2 w-100 mb-2 cursor-pointer">
-                    <div class="ps-2 border-start border-primary ">
-                        {{ assignedActivity.name }}
                     </div>
                 </div>
+                <div class="table-responsive text-nowrap" v-if="delivery.assigned_activities.length != 0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tarea</th>
+                                <th>Dueño</th>
+                                <th>Prioridad</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            <tr v-for="assignedActivity in delivery.assigned_activities">
+                                <td>
+                                    <div class="bg-info ps-2 py-2 border-start border-primary text-white rounded">
+                                        {{ assignedActivity.name }}
+                                    </div>
+                                </td>
+                                <td>{{ assignedActivity.user ? assignedActivity.user.name : 'Sin signar' }}</td>
+                                <td>
+                                    <span class="badge bg-label-warning me-1">{{
+                assignedActivity.priority ? assignedActivity.priority : 'Sin asignar' }}</span>
+                                </td>
+                                <td><span class="badge bg-label-danger me-1">
+                                        {{ assignedActivity.status }}
+                                    </span></td>
+                                <td>
+                                    <button class="btn btn-icon btn-danger text-white">
+                                        <i class="bx bx-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <div class="row" >
+                    <div class="col-6 px-1">
+                        <div class="bg-info ps-2 py-2 border-start border-primary text-white rounded">
+                            {{ assignedActivity.name }}
+                        </div>
+                    </div>
+                    <div class="col-2 px-1">
+                        <div class="bg-warning ps-2 py-2 text-white rounded">
+                            Pendiente
+                        </div>
+                    </div>
+                    <div class="col-2 px-1">
+                        <div class="bg-danger ps-2 py-2 text-white rounded">
+                            Alta
+                        </div>
+                    </div>
+                    <div class="col-2 px-1">
+                        <button class="btn btn-icon btn-danger text-white">
+                            <i class="bx bx-trash"></i>
+                        </button>
+                    </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -45,6 +100,9 @@ export default {
         }
     },
     methods: {
+        openTaskModal(deliveryId) {
+            this.$emit('openModalTask', deliveryId)
+        },
         formatDate(date) {
             return moment(date).format('DD/MM')
         },

@@ -6,10 +6,12 @@
           <h6>Porcentaje de avance</h6>
           <a href="javascript:void(0)">{{ parseInt(0) + cantBar }}%</a>
           <div class="progress mb-3">
-            <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated shadow-none" role="progressbar"
-              :style="{ width: defaultBar + '%' }" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated shadow-none" role="progressbar"
-              :style="{ width: doneBar + '%' }" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated shadow-none"
+              role="progressbar" :style="{ width: defaultBar + '%' }" aria-valuenow="15" aria-valuemin="0"
+              aria-valuemax="100"></div>
+            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated shadow-none"
+              role="progressbar" :style="{ width: doneBar + '%' }" aria-valuenow="30" aria-valuemin="0"
+              aria-valuemax="100"></div>
             <!--  <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated shadow-none" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div> -->
           </div>
         </div>
@@ -22,6 +24,7 @@
       </div>
     </div>
     <div class="row">
+      <!-- {{ deliveries }} -->
       <DragArea :title="'To Do'" :tasks="toDo" :status="0" @updateTask="updateTask" />
       <DragArea :title="'Doing'" :tasks="doing" :status="1" @updateTask="updateTask" />
       <DragArea :title="'Done'" :tasks="done" :status="2" @updateTask="updateTask" />
@@ -89,9 +92,11 @@ export default {
 
       taskSelected.status = newStatus
 
-      dragAreasByStatus[newStatus].push({ ...taskSelected })
+      //dragAreasByStatus[newStatus].push({ ...taskSelected })
 
       this.updateStatusDb(taskId, newStatus)
+
+      this.$emit('getProject')
 
       /* var firstStatus = taskSelected.status
       this.removeTask(firstStatus, taskId) */
@@ -150,7 +155,7 @@ export default {
 
       fd.append('taskId', taskId)
       fd.append('newStatus', newStatus)
-      fd.append('owner', this.store.authUser.name)
+      fd.append('user_id', this.store.authUser.id)
       axios.post('/api/changeTaskStatus', fd)
         .then(res => {
           console.log(res)
@@ -225,15 +230,17 @@ export default {
     }
   },
   mounted() {
-    this.getProjectById()
 
-    Echo.private('tasks')
+
+    //this.getProjectById()
+
+    /* Echo.private('tasks')
       .listen('NewDoing', (e) => {
         console.log(e.task)
         if (e.task.progress.owner != this.store.authUser.name) {
           this.updateTaskRealTime(e.task)
         }
-      })
+      }) */
   },
   computed: {
     secondsFormatted() {
@@ -258,6 +265,15 @@ export default {
   watch: {
     deliveries() {
       if (this.deliveries.length > 0) {
+        if (this.toDo.length > 0) {
+          this.toDo = []
+        }
+        if (this.doing.length > 0) {
+          this.doing = []
+        }
+        if (this.done.length > 0) {
+          this.done = []
+        }
         this.deliveries.forEach(delivery => {
           delivery.assigned_activities.forEach(assignment => {
             if (assignment.status == 0) {

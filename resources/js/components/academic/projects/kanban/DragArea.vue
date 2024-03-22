@@ -3,6 +3,7 @@
     <div class="kanban-header fw-bold">
       <h4>{{ title }} ({{ cantActivities }})</h4>
     </div>
+    <!-- {{ tasks }} -->
     <div :id="'draggableKanban' + status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent
       @dragover.prevent>
       <template v-for="(task, index) in tasks" :key="index">
