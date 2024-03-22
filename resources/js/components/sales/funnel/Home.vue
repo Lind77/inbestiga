@@ -11,9 +11,7 @@
       <i class='bx bx-chevron-left text-white arrow cursor-pointer' @click="moveFunnelLeft"></i>
       <i class='bx bx-chevron-right text-white arrow cursor-pointer' @click="moveFunnelRigth"></i>
     </div>
-
     <div class="container-override" id="funnelContainer">
-
       <template v-for="areaQuotation in draggableQuotations">
         <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
           :customer="areaQuotation.customer" :quotations="areaQuotation.quotations" :title="areaQuotation.title"
