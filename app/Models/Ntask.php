@@ -37,4 +37,8 @@ class Ntask extends Model
      public function users(){
         return $this->morphToMany('App\Models\User', 'userable');
     }
+    //Relacion morfeable uno a muchos (Project-delivery-assigned_activity-ntasks--quality_indicators)
+    public function quality_indicators(){
+        return $this->morphMany('App\Models\Quality_indicator','quality_indicable');
+    }
 }

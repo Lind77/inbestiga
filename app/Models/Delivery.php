@@ -14,10 +14,14 @@ class Delivery extends Model
     {
         return $this->belongsTo('App\Models\Project');
     }
-    //relacion muchos amuchos morfeable_qualityindicators_(project,delivery,assigned_task,assigned_activity)
+    /* //relacion muchos amuchos morfeable_qualityindicators_(project,delivery,assigned_task,assigned_activity)
     public function quality_indicators()
     {
         return $this->morphToMany('App\Models\Quality_indicator', 'quality_indicable');
+    } */
+    //Relacion morfeable uno a muchos (Project-delivery-assigned_activity-ntasks--quality_indicators)
+    public function quality_indicators(){
+        return $this->morphMany('App\Models\Quality_indicator','quality_indicable');
     }
     //Relación uno a muchos polimorfico Delivery - Assigned_activity
     public function assigned_activities()
