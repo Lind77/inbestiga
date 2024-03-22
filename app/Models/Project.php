@@ -41,10 +41,14 @@ class Project extends Model
     {
         return $this->morphMany('App\Models\Progress', 'progressable');
     }
-    //relacion muchos amuchos morfeable_qualityindicators_(project,delivery,assigned_task,assigned_activity)
+    /* //relacion muchos amuchos morfeable_qualityindicators_(project,delivery,assigned_task,assigned_activity)
     public function quality_indicators()
     {
         return $this->morphToMany('App\Models\Quality_indicator', 'quality_indicable');
+    } */
+    //Relacion morfeable uno a muchos (Project-delivery-assigned_activity-ntasks--quality_indicators)
+    public function quality_indicators(){
+        return $this->morphMany('App\Models\Quality_indicator','quality_indicable');
     }
     //Relacion morfeable uno a muchos project,deliveris,assigned_activities,assigned_task)
     public function observations()

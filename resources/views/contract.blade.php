@@ -344,7 +344,7 @@
                 <span>DECIMO: GARANTÍA DEL SERVICIO</span><br>
                 <p>EL CONTRATO no tiene una cláusula de prescripción de obligaciones por parte de EL LOCADOR  que se rija 
                     por el tiempo, sino que las obligaciones de este se extinguen únicamente cuando EL ASESORADO haya obtenido 
-                    el informe aprobatorio de los tres jurados revisores de la tesis.
+                    el informe aprobatorio de los tres jurados revisores de la tesis; tanto sobre el documento, como en la sustentación.
                     EL ASESORADO asume la responsabilidad sobre todo tipo de negligencia que pudiera aparecer en el producto 
                     académico, cuando esta es ocasionada por sí mismo, esto es, cuando la información proporcionada por EL 
                     ASESORADO es ilegítima, incorrecta, o influenciada por terceras personas ajenas al vínculo contractual o 

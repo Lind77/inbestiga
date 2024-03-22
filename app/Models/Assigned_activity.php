@@ -13,7 +13,7 @@ class Assigned_activity extends Model
     public function quality_indicators()
     {
         return $this->morphToMany('App\Models\Quality_indicator', 'quality_indicable');
-    }
+    } */
     //Relacion  inversa morfeable uno a muchos delivery-assigned activity
     public function assigned_activitiable()
     {
@@ -71,5 +71,9 @@ class Assigned_activity extends Model
     public function files()
     {
         return $this->mophMany('App\Models\File', 'fileable');
+    }
+    //Relacion morfeable uno a muchos (Project-delivery-assigned_activity-ntasks--quality_indicators)
+    public function quality_indicators(){
+        return $this->morphMany('App\Models\Quality_indicator','quality_indicable');
     }
 }
