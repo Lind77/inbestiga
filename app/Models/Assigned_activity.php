@@ -9,10 +9,10 @@ class Assigned_activity extends Model
 {
     use HasFactory;
     protected $fillable = ['assigned_activitiable_id', 'assigned_activitiable_type', 'name', 'date', 'academic_date', 'type', 'progress', 'status','priority'];
-    //relacion muchos amuchos morfeable_qualityindicators_(project,delivery,assigned_task,assigned_activity)
+   /*  //relacion muchos a muchos morfeable_qualityindicators_(project,delivery,assigned_task,assigned_activity)
     public function quality_indicators(){
         return $this->morphToMany('App\Models\Quality_indicator', 'quality_indicable');
-    }
+    } */
     //Relacion  inversa morfeable uno a muchos delivery-assigned activity
     public function assigned_activitiable(){
         return $this->morphTo();
@@ -37,10 +37,6 @@ class Assigned_activity extends Model
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
-    //Relación inversa uno a muchos  (users-assignedactivitiy)
-    public function assigned_activity(){
-        return $this->belongsTo('App\Models\User');
-    }
     //Relacion morfeable uno a muchos (Assigned_Activity-NOTES-NTASK)
     public function ntasks(){
         return $this->morphMany('App\Models\Ntask', 'ntaskable');
@@ -59,5 +55,9 @@ class Assigned_activity extends Model
     //Relación polimorfica uno a mucho (Entities-File)
     public function files(){
         return $this->mophMany('App\Models\File', 'fileable');
+    }
+    //Relacion morfeable uno a muchos (Project-delivery-assigned_activity-ntasks--quality_indicators)
+    public function quality_indicators(){
+        return $this->morphMany('App\Models\Quality_indicator','quality_indicable');
     }
 }
