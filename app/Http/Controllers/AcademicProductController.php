@@ -38,32 +38,6 @@ class AcademicProductController extends Controller
      */
     public function store(Request $request)
     {
-        $assigned_activity = Assigned_activity::create([
-            'assigned_activitiable_type' => 'App\Models\Delivery',
-            'assigned_activitiable_id' => $request->get('deliveryId'),
-            'name' => $request->get('name'),
-            'status' => 0
-        ]);
-
-        $indicators = json_decode($request->get('indicators'), true);
-
-        $indicatorIds = [];
-
-        foreach ($indicators as $indicator) {
-            $newIndicator = Acceptance_indicator::create([
-                'name' => $indicator['value']
-            ]);
-            array_push($indicatorIds, $newIndicator->id);
-        }
-
-        $assigned_activity->acceptance_indicators()->attach($indicatorIds);
-
-
-
-
-        return response()->json([
-            'msg' => 'success'
-        ]);
     }
 
     /**

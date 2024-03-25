@@ -41,6 +41,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TimeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
+use App\Models\Assigned_activity;
 use App\Models\Comission;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -364,4 +365,8 @@ Route::get('/chart-attendance-values', [AttendanceController::class, 'chartValue
 //Email
 Route::post('/send-welcome-email', [EmailController::class, 'sendWelcomeEmail']);
 
-Route::post('/academic-product', [AcademicProductController::class, 'store']);
+Route::post('/assigned-activity', [AssignedActivityController::class, 'store']);
+Route::get('/assigned-activities-revision', [AssignedActivityController::class, 'revision']);
+Route::get('/assigned-activity-points/{id}/{points}', [AssignedActivityController::class, 'points']);
+Route::get('/assigned-activity-priority/{id}/{priority}', [AssignedActivityController::class, 'priority']);
+Route::get('/assigned-activity-kanban/{id}', [AssignedActivityController::class, 'kanban']);

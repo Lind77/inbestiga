@@ -2,20 +2,26 @@
     <div draggable="true" @dragstart="drag" :id="activity.id"
         class="card shadow-none bg-transparent border border-primary mb-3 cursor-pointer">
         <div class="card-body">
-            <h5 class="card-title">{{ activity.name
-            }}</h5>
-            <p class="card-text">
-                {{ activity.academic_date }}
-            </p>
+            <h5 class="card-title">{{ activity.name }}</h5>
+            <p class="card-text">{{ activity.date }}</p>
             <button class="btn btn-sm btn-success" @click="sendToReview(activity)" v-if="activity.status == 2">Enviar a
                 revisión</button>
-            <button class="btn btn-sm btn-success" v-if="store.authUser.roles[0].name == 'CoordAcad' && activity.status > 2"
-                @click="acceptActivity(activity)">Aprobar</button>
-            <p class="text-warning" v-if="store.authUser.roles[0].name != 'CoordAcad' && activity.status > 2">En revisión
+            <p class="text-warning" v-if="store.authUser.roles[0].name != 'CoordAcad' && activity.status > 2">En
+                revisión
             </p>
+            <button class="btn btn-sm btn-warning"
+                v-if="store.authUser.roles[0].name == 'CoordAcad' && activity.status > 2"
+                @click="openModelIndicators(activity)">Evaluar</button>
+            <!--  <button class="btn btn-sm btn-success"
+                v-if="store.authUser.roles[0].name == 'CoordAcad' && activity.status > 2"
+                @click="acceptActivity(activity)">Aprobar</button>
             <button class="btn btn-sm btn-danger ms-2"
                 v-if="store.authUser.roles[0].name == 'CoordAcad' && activity.status > 2"
-                @click="rejectActivity(activity)">Rechazar</button>
+                @click="rejectActivity(activity)">Rechazar</button> -->
+
+            <p class="card-text" v-if="activity.user_id">
+                {{ activity.user.name }}
+            </p>
         </div>
     </div>
 
@@ -110,7 +116,7 @@ export default {
             const fd = new FormData()
             fd.append('taskId', taskId)
             fd.append('newStatus', status)
-            fd.append('owner', this.store.authUser.name)
+            fd.append('user_id', this.store.authUser.id)
             axios.post('/api/changeTaskStatus', fd)
                 .then(res => {
                     this.$swal('Tarea enviada para revisión correctamente')
