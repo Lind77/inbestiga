@@ -532,7 +532,7 @@ class ProjectController extends Controller
 
     public function sprints($id)
     {
-        $project = Project::with(['deliveries', 'deliveries.assigned_activities', 'deliveries.assigned_activities.user', 'projectable', 'projectable.quotation', 'projectable.quotation.customers', 'team', 'files'])->find($id);
+        $project = Project::with(['deliveries', 'deliveries.assigned_activities', 'deliveries.assigned_activities.user', 'deliveries.assigned_activities.quality_indicators', 'projectable', 'projectable.quotation', 'projectable.quotation.customers', 'team', 'files'])->find($id);
         return response()->json($project);
     }
 

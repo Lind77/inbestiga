@@ -24,7 +24,7 @@
                 'Fecha Indefinida' }}</p>
                     </div>
                 </div>
-                <div class="table-responsive text-nowrap" v-if="delivery.assigned_activities.length != 0">
+                <div class="text-nowrap" v-if="delivery.assigned_activities.length != 0">
                     <table class="table">
                         <thead>
                             <tr>
@@ -32,27 +32,75 @@
                                 <th>Dueño</th>
                                 <th>Prioridad</th>
                                 <th>Estado</th>
+                                <th>Puntos</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
                             <tr v-for="assignedActivity in delivery.assigned_activities">
                                 <td>
-                                    <div class="bg-info ps-2 py-2 border-start border-primary text-white rounded">
+                                    <div :class="`bg-info ps-2 py-2 border-start border-primary text-white rounded`">
                                         {{ assignedActivity.name }}
                                     </div>
                                 </td>
                                 <td>{{ assignedActivity.user ? assignedActivity.user.name : 'Sin signar' }}</td>
                                 <td>
-                                    <span class="badge bg-label-warning me-1">{{
-                assignedActivity.priority ? assignedActivity.priority : 'Sin asignar' }}</span>
+                                    <!-- <span class="badge bg-label-warning me-1">{{
+                assignedActivity.priority ? assignedActivity.priority : 'Sin asignar' }}</span> -->
+
+                                    <div class="btn-group">
+                                        <button type="button"
+                                            :class="`btn btn-${priorityColor[assignedActivity.priority]} dropdown-toggle hide-arrow`"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            {{ assignedActivity.priority ? priorityName[assignedActivity.priority] :
+                'Sin asignar' }}
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" @click="setPriority(assignedActivity, 3)"
+                                                    href="javascript:void(0);">Alta</a></li>
+                                            <li><a class="dropdown-item" @click="setPriority(assignedActivity, 2)"
+                                                    href="javascript:void(0);">Media</a>
+                                            </li>
+                                            <li><a class="dropdown-item" @click="setPriority(assignedActivity, 1)"
+                                                    href="javascript:void(0);">Baja</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </td>
-                                <td><span class="badge bg-label-danger me-1">
-                                        {{ assignedActivity.status }}
-                                    </span></td>
+                                <td><span class="badge bg-label-success me-1">
+                                        {{ statusByName[assignedActivity.status] }}
+                                    </span>
+                                </td>
                                 <td>
-                                    <button class="btn btn-icon btn-danger text-white">
+                                    <p v-show="!showPointer" @click="editPoints(assignedActivity)">{{
+                assignedActivity.points ?
+                    assignedActivity.points : 'Sin asignar' }}</p>
+                                    <input v-show="showPointer" @blur="closePointer(assignedActivity)"
+                                        class="form-control" ref="pointerField" type="number" min="0" max="10"
+                                        v-model="points" />
+                                </td>
+                                <td>
+                                    <button @click="deleteActivity(assignedActivity)"
+                                        class="btn btn-icon btn-danger text-white">
                                         <i class="bx bx-trash"></i>
+                                    </button>
+                                    <div class="btn-group">
+                                        <button type="button"
+                                            :class="`btn btn-primary btn-icon text-white dropdown-toggle hide-arrow mx-1`"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class='bx bx-info-square'></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li v-for="indicator in assignedActivity.quality_indicators"><a
+                                                    class="dropdown-item" href="javascript:void(0);">{{ indicator.name
+                                                    }}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <button @click="sendToKanban(assignedActivity)"
+                                        v-if="assignedActivity.points && assignedActivity.priority && assignedActivity.status == 0"
+                                        class="btn btn-icon btn-success text-white">
+                                        <i class="bx bx-check"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -96,10 +144,65 @@ export default {
         return {
             search: '',
             searchedProducts: [],
-            academicProducts: []
+            academicProducts: [],
+            statusByName: {
+                0: 'Por Asignar',
+                1: 'ToDo',
+                2: 'Doing',
+                3: 'Done',
+                4: 'En revisión',
+                5: 'Listo'
+            },
+            priorityColor: {
+                null: 'primary',
+                1: 'warning',
+                2: 'info',
+                3: 'success'
+            },
+            priorityName: {
+                1: 'Baja',
+                2: 'Media',
+                3: 'Alta'
+            },
+            showPointer: false,
+            points: 0,
+            showCheck: true
         }
     },
     methods: {
+        sendToKanban(assignedActivity) {
+            axios.get('/api/assigned-activity-kanban/' + assignedActivity.id)
+                .then((result) => {
+                    this.showCheck = false;
+                }).catch((err) => {
+                    console.error(err);
+                });
+        },
+        deleteActivity(assignedActivity) {
+
+        },
+        closePointer(assignedActivity) {
+            assignedActivity.points = this.points
+            axios.get('/api/assigned-activity-points/' + assignedActivity.id + '/' + this.points)
+                .then((result) => {
+                    this.showPointer = false;
+                }).catch((err) => {
+                    console.error(err);
+                });
+        },
+        editPoints() {
+            this.showPointer = true;
+        },
+        setPriority(assignedActivity, priority) {
+            assignedActivity.priority = priority
+            axios.get('/api/assigned-activity-priority/' + assignedActivity.id + '/' + priority)
+                .then((result) => {
+                    $('.dropdown-menu').removeClass('show')
+                }).catch((err) => {
+                    console.error(err);
+                });
+
+        },
         openTaskModal(deliveryId) {
             this.$emit('openModalTask', deliveryId)
         },
@@ -108,6 +211,13 @@ export default {
         },
         dragOverDelivery(delivery) {
             this.deliverySelected = delivery
+
+            axios.post('/api/assigned-activity', fd)
+                .then((result) => {
+                    this.$emit('getProject')
+                }).catch((err) => {
+                    console.error(err);
+                });
         },
         dropProduct(e) {
             e.preventDefault()
