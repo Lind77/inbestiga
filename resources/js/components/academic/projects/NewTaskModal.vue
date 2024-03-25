@@ -22,6 +22,10 @@
                         <label for="firstMeetingDetails" class="form-label">Nombre de la nueva tarea</label>
                         <input type="text" class="form-control" v-model="name">
                     </div>
+                    <div class="mb-3">
+                        <label for="firstMeetingDetails" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" v-model="date">
+                    </div>
                     <hr>
                     <div class="d-flex align-items-center justify-content-between">
                         <label for="" class="form-label">Criterios de aceptación</label>
@@ -54,6 +58,7 @@ export default {
     data() {
         return {
             name: '',
+            date: '',
             indicators: []
         }
     },
@@ -65,9 +70,10 @@ export default {
             const fd = new FormData();
 
             fd.append('name', this.name)
+            fd.append('date', this.date)
             fd.append('indicators', JSON.stringify(this.indicators))
             fd.append('deliveryId', this.deliveryId)
-            axios.post('/api/academic-product', fd)
+            axios.post('/api/assigned-activity', fd)
                 .then((res) => {
                     this.$emit('getProject')
                     $('#newTaskModal').modal('hide')

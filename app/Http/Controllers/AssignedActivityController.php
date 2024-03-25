@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assigned_activity;
+use App\Models\Quality_indicator;
 use Illuminate\Http\Request;
 
 class AssignedActivityController extends Controller
@@ -35,7 +36,26 @@ class AssignedActivityController extends Controller
      */
     public function store(Request $request)
     {
-        $assigned_activity = Assigned_activity::create($request->all());
+        $assigned_activity = Assigned_activity::create([
+            'assigned_activitiable_type' => 'App\Models\Delivery',
+            'assigned_activitiable_id' => $request->get('deliveryId'),
+            'name' => $request->get('name'),
+            'date' => $request->get('date'),
+            'status' => 0
+        ]);
+
+        $indicators = json_decode($request->get('indicators'), true);
+
+        foreach ($indicators as $indicator) {
+            $newIndicator = Quality_indicator::create([
+                'quality_indicable_id' => $assigned_activity->id,
+                'quality_indicable_type' => 'App\Models\Assigned_activity',
+                'name' => $indicator['value'],
+                'status' => 0
+            ]);
+        }
+
+
 
         return response()->json([
             'msg' => 'success'
@@ -85,5 +105,48 @@ class AssignedActivityController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function revision()
+    {
+        $assigned_activity = Assigned_activity::where('status', 3)->with(['user'])->orderBy('updated_at', 'desc')->get();
+
+        return response()->json($assigned_activity);
+    }
+
+    public function points($id, $points)
+    {
+        $assigned_activity = Assigned_activity::find($id);
+        $assigned_activity->update([
+            'points' => $points
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function priority($id, $priority)
+    {
+        $assigned_activity = Assigned_activity::find($id);
+        $assigned_activity->update([
+            'priority' => $priority
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function kanban($id)
+    {
+        $assigned_activity = Assigned_activity::find($id);
+        $assigned_activity->update([
+            'status' => 1
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }

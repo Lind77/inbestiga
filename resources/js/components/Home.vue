@@ -7,8 +7,8 @@
                 <Navbar @hideSidebar="hideSidebar" @theme="theme" />
                 <div class="content-wrapper">
                     <component v-if="$route.path == '/home'" :is="getComponentMain" :bg="bg"></component>
-                    <router-view v-else></router-view>
-
+                    <router-view v-else>
+                    </router-view>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@ export default {
         }
 
     },
-    components: { Sidebar, Navbar, SalesMain, AdminMain, ExperienceMain, MarketingMain },
+    components: { Sidebar, Navbar, SalesMain, AdminMain, ExperienceMain, MarketingMain, AcademicMain },
     methods: {
         theme(theme) {
             /*  var theme = localStorage.getItem('theme') */
