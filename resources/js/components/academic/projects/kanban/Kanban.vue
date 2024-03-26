@@ -25,9 +25,9 @@
     </div>
     <div class="row">
       <!-- {{ deliveries }} -->
-      <DragArea :title="'To Do'" :tasks="toDo" :status="0" @updateTask="updateTask" />
-      <DragArea :title="'Doing'" :tasks="doing" :status="1" @updateTask="updateTask" />
-      <DragArea :title="'Done'" :tasks="done" :status="2" @updateTask="updateTask" />
+      <DragArea :title="'To Do'" :tasks="toDo" :status="1" @updateTask="updateTask" />
+      <DragArea :title="'Doing'" :tasks="doing" :status="2" @updateTask="updateTask" />
+      <DragArea :title="'Done'" :tasks="done" :status="3" @updateTask="updateTask" />
     </div>
   </div>
 </template>
@@ -79,9 +79,9 @@ export default {
     updateTask(taskId, taskStatus, newStatus) {
 
       var dragAreasByStatus = {
-        0: this.toDo,
-        1: this.doing,
-        2: this.done
+        1: this.toDo,
+        2: this.doing,
+        3: this.done
       }
 
       var taskSelected = dragAreasByStatus[taskStatus].find(task => task.id == taskId)
@@ -276,11 +276,11 @@ export default {
         }
         this.deliveries.forEach(delivery => {
           delivery.assigned_activities.forEach(assignment => {
-            if (assignment.status == 0) {
+            if (assignment.status == 1) {
               this.toDo.push({ ...assignment })
-            } else if (assignment.status == 1) {
+            } else if (assignment.status == 2) {
               this.doing.push({ ...assignment })
-            } else {
+            } else if (assignment.status > 2) {
               this.done.push({ ...assignment })
             }
           })
