@@ -4,13 +4,13 @@
         <div class="card-body">
             <h5 class="card-title">{{ activity.name }}</h5>
             <p class="card-text">{{ activity.date }}</p>
-            <button class="btn btn-sm btn-success" @click="sendToReview(activity)" v-if="activity.status == 2">Enviar a
+            <button class="btn btn-sm btn-success" @click="sendToReview(activity)" v-if="activity.status == 3">Enviar a
                 revisión</button>
             <p class="text-warning" v-if="store.authUser.roles[0].name != 'CoordAcad' && activity.status > 2">En
                 revisión
             </p>
             <button class="btn btn-sm btn-warning"
-                v-if="store.authUser.roles[0].name == 'CoordAcad' && activity.status > 2"
+                v-if="store.authUser.roles[0].name == 'CoordAcad' && activity.status > 3"
                 @click="openModelIndicators(activity)">Evaluar</button>
             <!--  <button class="btn btn-sm btn-success"
                 v-if="store.authUser.roles[0].name == 'CoordAcad' && activity.status > 2"

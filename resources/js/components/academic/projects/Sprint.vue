@@ -19,7 +19,13 @@
                 <div class="d-flex flex-row justify-content-between align-items-end">
                     <h5 class="text-primary mb-1">{{ delivery.advance }} <i class='bx bx-task'
                             title="Agregar nueva tarea" @click="openTaskModal(delivery.id)"></i></h5>
-                    <div>
+                    <div class="d-flex align-items-center">
+                        <select name="" id="" class="form-control me-2">
+                            <option value="">Plan de Tesis</option>
+                            <option value="">Informe Final</option>
+                            <option value="">Reunión</option>
+                            <option value="">Otro</option>
+                        </select>
                         <p class="mb-1">{{ delivery.date ? formatDate(delivery.date) :
                 'Fecha Indefinida' }}</p>
                     </div>
@@ -72,12 +78,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <p v-show="!showPointer" @click="editPoints(assignedActivity)">{{
-                assignedActivity.points ?
-                    assignedActivity.points : 'Sin asignar' }}</p>
-                                    <input v-show="showPointer" @blur="closePointer(assignedActivity)"
-                                        class="form-control" ref="pointerField" type="number" min="0" max="10"
-                                        v-model="points" />
+                                    <Pointer :assignedActivity="assignedActivity" />
                                 </td>
                                 <td>
                                     <button @click="deleteActivity(assignedActivity)"
@@ -135,7 +136,9 @@
 </template>
 <script>
 import moment from "moment"
+import Pointer from "./Pointer.vue";
 export default {
+    components: { Pointer },
     props: {
         deliveries: Array,
         productsFiltered: Array
