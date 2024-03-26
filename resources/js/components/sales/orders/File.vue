@@ -3,7 +3,7 @@
         <nav class="navbar navbar-dark bg-purple">
             <div class="row w-100 px-4 py-3">
                 <div class="col-4 d-flex align-items-center justify-content-center">
-                    <img src="https://inbestiga.com/pdf-sys/logo.png" alt="" class="main-logo">
+                    <img src="https://jairpl.com/pdf-sys/logo.png" alt="" class="main-logo">
                 </div>
                 <div class="col-4">
                     <p class="header-text">Prol. Cuzco 921 Huancayo.</p>
@@ -18,7 +18,8 @@
         </nav>
         <section class="row" v-if="order.quotation">
             <div class="ps-5 pt-3">
-                <h2 class="name-customer">TIPO DE SERVICIO: <span class="name text-dark">SERVICIO ESPECÍFICO</span> </h2>
+                <h2 class="name-customer">TIPO DE SERVICIO: <span class="name text-dark">SERVICIO ESPECÍFICO</span>
+                </h2>
 
             </div>
             <div class="col-4 ps-5 pt-4">
@@ -30,7 +31,8 @@
                             </th>
 
                             <th>
-                                <span class="name" v-for="customer in order.quotation.customers">{{ customer.name }} </span>
+                                <span class="name" v-for="customer in order.quotation.customers">{{ customer.name }}
+                                </span>
                             </th>
                         </tr>
                         <tr>
@@ -50,7 +52,8 @@
                             <th>
                                 <h2 class="info-user">Teléfono: </h2>
                             </th>
-                            <th><span class="name" v-for="customer in order.quotation.customers">{{ customer.cell }} </span>
+                            <th><span class="name" v-for="customer in order.quotation.customers">{{ customer.cell }}
+                                </span>
                             </th>
                         </tr>
                         <tr>
@@ -121,8 +124,8 @@
                         </td>
                         <td class="table-item" width="10%" v-if="detail.type <= order.suggested">
                             <p class="mb-0" style="text-align: center;">S./ {{
-                                parseFloat(detail.price) +
-                                parseFloat(detail.extra_price) }}</p>
+            parseFloat(detail.price) +
+            parseFloat(detail.extra_price) }}</p>
                         </td>
                         <template v-if="index == 0">
                             <td class="table-item ps-2" width="30%" :rowspan="order.quotation.details.length">
@@ -140,7 +143,9 @@
                     </tr>
                     <tr class="sugested-title">
                         <th class="text-purple sugested py-3 ps-2">TOTAL</th>
-                        <th class="text-purple sugested py-3" style="text-align: center;">S/ {{ order.quotation.amount }}
+                        <th class="text-purple sugested py-3" style="text-align: center;">S/ {{ order.quotation.amount -
+            order.quotation.discount
+                            }}
                         </th>
                         <th class="text-danger sugested py-3 ps-1">* DESCUENTO S./{{ order.quotation.discount }}</th>
                     </tr>
@@ -166,14 +171,16 @@
         </section>
         <section class="last">
             <footer class="mt-3">
-                <p>Gracias por brindarnos tu confianza. Contáctanos si tienes alguna duda acerca de esta orden de servicio.
+                <p>Gracias por brindarnos tu confianza. Contáctanos si tienes alguna duda acerca de esta orden de
+                    servicio.
                 </p>
                 <p>Recuerda que esta orden tiene valor contractual</p>
-                <p class="top-secret">* El LOCADOR tendrá una prórroga de hasta dos días hábiles para la entrega de avances
+                <p class="top-secret">* El LOCADOR tendrá una prórroga de hasta dos días hábiles para la entrega de
+                    avances
                 </p>
             </footer>
         </section>
-        <img src="https://inbestiga.com/pdf-sys/watermark_order.png" class="watermark">
+        <!-- <img src="https://inbestiga.com/pdf-sys/watermark_order.png" class="watermark"> -->
     </div>
 </template>
 <script>
