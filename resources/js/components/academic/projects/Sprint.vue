@@ -47,7 +47,9 @@
                                 <td>
                                     <TaskName :id="assignedActivity.id" :name="assignedActivity.name" />
                                 </td>
-                                <td>{{ assignedActivity.user ? assignedActivity.user.name : 'Sin signar' }}</td>
+                                <td>
+                                    <UserTask :assignedActivity="assignedActivity" :team="team" />
+                                </td>
                                 <td>
                                     <!-- <span class="badge bg-label-warning me-1">{{
                 assignedActivity.priority ? assignedActivity.priority : 'Sin asignar' }}</span> -->
@@ -85,16 +87,16 @@
                                     </button>
                                     <div class="btn-group">
                                         <button type="button"
-                                            :class="`btn btn-primary btn-icon text-white dropdown-toggle hide-arrow mx-1`"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            class="btn btn-primary btn-icon text-white dropdown-toggle hide-arrow mx-1"
+                                            @click="openIndicatorsModal(assignedActivity)">
                                             <i class='bx bx-info-square'></i>
                                         </button>
-                                        <ul class="dropdown-menu">
+                                        <!-- <ul class="dropdown-menu">
                                             <li v-for="indicator in assignedActivity.quality_indicators"><a
                                                     class="dropdown-item" href="javascript:void(0);">{{ indicator.name
                                                     }}</a>
                                             </li>
-                                        </ul>
+                                        </ul> -->
                                     </div>
                                     <button @click="sendToKanban(assignedActivity)"
                                         v-if="assignedActivity.points && assignedActivity.priority && assignedActivity.status == 0"
@@ -131,16 +133,21 @@
             </div>
         </div>
     </div>
+    <IndicatorsModal :indicators="indicators" />
 </template>
 <script>
 import moment from "moment"
 import Pointer from "./Pointer.vue";
 import TaskName from "./TaskName.vue";
+import IndicatorsModal from "./IndicatorsModal.vue";
+import UserTask from "./UserTask.vue";
+
 export default {
-    components: { Pointer, TaskName },
+    components: { Pointer, TaskName, IndicatorsModal, UserTask },
     props: {
         deliveries: Array,
-        productsFiltered: Array
+        productsFiltered: Array,
+        team: Object
     },
     data() {
         return {
@@ -168,10 +175,16 @@ export default {
             },
             showPointer: false,
             points: 0,
-            showCheck: true
+            showCheck: true,
+            indicators: {},
+            showName: true
         }
     },
     methods: {
+        openIndicatorsModal(assignedActivity) {
+            this.indicators = assignedActivity.quality_indicators
+            $('#indicatorsModal').modal('show')
+        },
         sendToKanban(assignedActivity) {
             axios.get('/api/assigned-activity-kanban/' + assignedActivity.id)
                 .then((result) => {
@@ -181,7 +194,12 @@ export default {
                 });
         },
         deleteActivity(assignedActivity) {
-
+            axios.delete('/api/assigned-activity/' + assignedActivity.id)
+                .then((result) => {
+                    this.$emit('getProject')
+                }).catch((err) => {
+                    console.error(err);
+                });
         },
         closePointer(assignedActivity) {
             assignedActivity.points = this.points

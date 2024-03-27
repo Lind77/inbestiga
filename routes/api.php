@@ -371,3 +371,5 @@ Route::get('/assigned-activity-points/{id}/{points}', [AssignedActivityControlle
 Route::get('/assigned-activity-priority/{id}/{priority}', [AssignedActivityController::class, 'priority']);
 Route::get('/assigned-activity-kanban/{id}', [AssignedActivityController::class, 'kanban']);
 Route::get('/assigned-activity-name/{id}/{name}', [AssignedActivityController::class, 'updateName']);
+Route::get('/assigned-activity-user/{id}/{uid}', [AssignedActivityController::class, 'updateUser']);
+Route::delete('/assigned-activity/{id}', [AssignedActivityController::class, 'destroy']);
