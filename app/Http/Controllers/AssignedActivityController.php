@@ -149,4 +149,16 @@ class AssignedActivityController extends Controller
             'msg' => 'success'
         ]);
     }
+
+    public function updateName($id, $name)
+    {
+        $assigned_activity = Assigned_activity::find($id);
+        $assigned_activity->update([
+            'name' => $name
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
 }

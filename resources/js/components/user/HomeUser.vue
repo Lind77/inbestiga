@@ -2,7 +2,7 @@
     <div>
         <div class="container">
             <div class="card mt-5 bg-info">
-                <h4 class="card-header">Mis Proyectos</h4>
+                <h4 class="card-header"></h4>
                 <div class="card-body">
                     <ul class="timeline" v-for="quotation in info.quotations">
                         <li class="timeline-item timeline-item-transparent mb-3" v-for="project in projects">

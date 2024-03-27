@@ -45,9 +45,7 @@
                         <tbody class="table-border-bottom-0">
                             <tr v-for="assignedActivity in delivery.assigned_activities">
                                 <td>
-                                    <div :class="`bg-info ps-2 py-2 border-start border-primary text-white rounded`">
-                                        {{ assignedActivity.name }}
-                                    </div>
+                                    <TaskName :id="assignedActivity.id" :name="assignedActivity.name" />
                                 </td>
                                 <td>{{ assignedActivity.user ? assignedActivity.user.name : 'Sin signar' }}</td>
                                 <td>
@@ -137,8 +135,9 @@
 <script>
 import moment from "moment"
 import Pointer from "./Pointer.vue";
+import TaskName from "./TaskName.vue";
 export default {
-    components: { Pointer },
+    components: { Pointer, TaskName },
     props: {
         deliveries: Array,
         productsFiltered: Array

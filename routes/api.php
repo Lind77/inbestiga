@@ -370,3 +370,4 @@ Route::get('/assigned-activities-revision', [AssignedActivityController::class, 
 Route::get('/assigned-activity-points/{id}/{points}', [AssignedActivityController::class, 'points']);
 Route::get('/assigned-activity-priority/{id}/{priority}', [AssignedActivityController::class, 'priority']);
 Route::get('/assigned-activity-kanban/{id}', [AssignedActivityController::class, 'kanban']);
+Route::get('/assigned-activity-name/{id}/{name}', [AssignedActivityController::class, 'updateName']);
