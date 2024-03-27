@@ -276,7 +276,7 @@ class ProjectController extends Controller
     public function getMyProjects($id)
     {
         $user = User::find($id);
-        $projects = Project::with(['projectable', 'projectable.properties', 'projectable.quotation', 'projectable.quotation.customers', 'team'])->where('team_id', '!=', null)->where('team_id', $user->team_id)->get();
+        $projects = Project::with(['projectable', 'projectable.properties', 'projectable.quotation', 'projectable.quotation.customers', 'deliveries', 'deliveries.assigned_activities', 'team'])->where('team_id', '!=', null)->where('team_id', $user->team_id)->get();
         return response()->json($projects);
 
         /* $user = User::find($id);
@@ -532,7 +532,7 @@ class ProjectController extends Controller
 
     public function sprints($id)
     {
-        $project = Project::with(['deliveries', 'deliveries.assigned_activities', 'deliveries.assigned_activities.user', 'deliveries.assigned_activities.quality_indicators', 'projectable', 'projectable.quotation', 'projectable.quotation.customers', 'team', 'files'])->find($id);
+        $project = Project::with(['deliveries', 'deliveries.assigned_activities', 'deliveries.assigned_activities.user', 'deliveries.assigned_activities.quality_indicators', 'projectable', 'projectable.quotation', 'projectable.quotation.customers', 'team', 'team.users', 'files'])->find($id);
         return response()->json($project);
     }
 

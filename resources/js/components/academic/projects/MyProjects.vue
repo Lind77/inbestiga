@@ -45,23 +45,23 @@
 
           </div>
           <div class="card-body border-top">
-            <div class="d-flex align-items-center mb-3">
-              <h6 class="mb-1"></h6>
-              <span class="badge bg-label-success ms-auto">{{ formatDays(project.deadline) }}</span>
-            </div>
             <div class="d-flex justify-content-between align-items-center mb-1">
-              <small>Tareas: {{ project.num_tasks_completed }}/{{ project.num_tasks }}</small>
+              <small>Tareas: {{ project.numTasksCompleted }}/{{ project.numTasks }}</small>
               <small>{{ percentageProject(project) }}% Completado</small>
             </div>
             <div class="progress mb-3" style="height: 8px;">
               <div class="progress-bar" role="progressbar" :style="{ width: percentageProject(project) + '%' }"
                 aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
+            <div class="d-flex justify-content-start mb-3">
+              <span class="badge bg-label-success ms-auto">{{ formatDays(project.deadline) }}</span>
+            </div>
+
             <div class="d-flex align-items-center">
 
-              <div class="ms-auto">
+              <!--  <div class="ms-auto">
                 <a href="javascript:void(0);" class="text-body"><i class="bx bx-chat"></i> 15</a>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -94,6 +94,20 @@ export default {
       axios.get('/api/projects-user/' + this.store.authUser.id)
         .then(res => {
           this.projects = res.data
+          var numTasks = 0
+          var numTasksCompleted = 0
+          this.projects.forEach(project => {
+            project.deliveries.forEach(delivery => {
+              numTasks = numTasks + delivery.assigned_activities.length
+              delivery.assigned_activities.forEach(assigned => {
+                if (assigned.status == 4) {
+                  numTasksCompleted++
+                }
+              })
+            })
+            project.numTasks = numTasks
+            project.numTasksCompleted = numTasksCompleted
+          })
         })
         .catch(err => {
 
@@ -106,7 +120,7 @@ export default {
       return moment(date).endOf('day').fromNow();
     },
     percentageProject(project) {
-      return parseFloat((100 / project.num_tasks) * project.num_tasks_completed).toFixed(2)
+      return parseFloat((100 / project.numTasks) * project.numTasksCompleted).toFixed(2)
     }
   },
   mounted() {

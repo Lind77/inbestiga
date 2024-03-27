@@ -28,6 +28,7 @@
       <DragArea :title="'To Do'" :tasks="toDo" :status="1" @updateTask="updateTask" />
       <DragArea :title="'Doing'" :tasks="doing" :status="2" @updateTask="updateTask" />
       <DragArea :title="'Done'" :tasks="done" :status="3" @updateTask="updateTask" />
+      <DragArea :title="'Verified'" :tasks="verified" :status="4" @updateTask="updateTask" />
     </div>
   </div>
 </template>
@@ -59,6 +60,7 @@ export default {
       toDo: [],
       done: [],
       doing: [],
+      verified: [],
       tasks: [],
       localTime: " ",
       seconds: " ",
@@ -81,7 +83,8 @@ export default {
       var dragAreasByStatus = {
         1: this.toDo,
         2: this.doing,
-        3: this.done
+        3: this.done,
+        4: this.verified
       }
 
       var taskSelected = dragAreasByStatus[taskStatus].find(task => task.id == taskId)
@@ -274,14 +277,19 @@ export default {
         if (this.done.length > 0) {
           this.done = []
         }
+        if (this.verified.length > 0) {
+          this.verified = []
+        }
         this.deliveries.forEach(delivery => {
           delivery.assigned_activities.forEach(assignment => {
             if (assignment.status == 1) {
               this.toDo.push({ ...assignment })
             } else if (assignment.status == 2) {
               this.doing.push({ ...assignment })
-            } else if (assignment.status > 2) {
+            } else if (assignment.status == 3) {
               this.done.push({ ...assignment })
+            } else if (assignment.status == 4) {
+              this.verified.push({ ...assignment })
             }
           })
         })

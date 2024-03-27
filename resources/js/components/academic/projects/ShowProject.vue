@@ -121,7 +121,8 @@
                 </div>
                 <div class="tab-pane fade" id="navs-pills-top-sprints" role="tabpanel">
                     <Sprint :deliveries="deliveries" :productsFiltered="productsFiltered" @getProject="getProject"
-                        @filterAcademicProducts="filterAcademicProducts" @openModalTask="openModalTask" />
+                        @filterAcademicProducts="filterAcademicProducts" @openModalTask="openModalTask"
+                        :team="project.team" />
                 </div>
                 <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
                     <Kanban :deliveries="deliveries" @getProject="getProject" v-if="deliveries" />
