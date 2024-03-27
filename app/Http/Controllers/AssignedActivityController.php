@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Assigned_activity;
 use App\Models\Quality_indicator;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AssignedActivityController extends Controller
@@ -104,7 +105,17 @@ class AssignedActivityController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $assigned_activity = Assigned_activity::find($id);
+
+        $quality_indicators = Quality_indicator::where('quality_indicable_id', $id)->where('quality_indicable_type', 'App\Models\Assigned_activity')->get();
+
+        $quality_indicators->each->delete();
+
+        $assigned_activity->delete();
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     public function revision()
@@ -147,6 +158,32 @@ class AssignedActivityController extends Controller
 
         return response()->json([
             'msg' => 'success'
+        ]);
+    }
+
+    public function updateName($id, $name)
+    {
+        $assigned_activity = Assigned_activity::find($id);
+        $assigned_activity->update([
+            'name' => $name
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+    public function updateUser($id, $uid)
+    {
+        $assigned_activity = Assigned_activity::find($id);
+        $assigned_activity->update([
+            'user_id' => $uid
+        ]);
+
+        $user = User::find($uid);
+
+        return response()->json([
+            'msg' => 'success',
+            'name' => $user->name
         ]);
     }
 }

@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Email address</label>
             <input type="email" class="form-control" v-model="email" id="exampleFormControlInput1"
@@ -11,6 +10,10 @@
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="content"></textarea>
         </div>
         <button class="btn btn-success" @click="sendMail">Enviar Email</button>
+
+        <p>EditTextClick</p>
+        <p v-show="!showField" @click="showInput">{{ name }}</p>
+        <input v-show="showField" type="text" v-model="name" ref="name" class="form-control" @blur="hideInput">
     </div>
 </template>
 <script>
@@ -18,10 +21,21 @@ export default {
     data() {
         return {
             content: '',
-            email: ''
+            email: '',
+            showField: false,
+            name: 'Julio'
         }
     },
     methods: {
+        hideInput() {
+            this.showField = false
+        },
+        showInput() {
+            this.showField = true
+            this.$nextTick(() => {
+                this.$refs.name.select()
+            })
+        },
         sendMail() {
             const fd = new FormData()
             fd.append('email', this.email)
