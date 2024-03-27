@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Academic_process;
 use App\Models\Academic_product;
 use App\Models\Acceptance_indicator;
 use App\Models\Assigned_activity;
@@ -17,7 +18,11 @@ class AcademicProductController extends Controller
     public function index()
     {
         $academicProducts = Academic_product::all();
-        return response()->json($academicProducts);
+        $academicProcesses = Academic_process::all();
+        return response()->json([
+            'academicProducts' => $academicProducts,
+            'academicProcesses' => $academicProcesses
+        ]);
     }
 
     /**
