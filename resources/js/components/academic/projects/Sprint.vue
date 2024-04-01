@@ -25,7 +25,6 @@
                                 <option :value="process.id" @click="setProcess(delivery.id)">{{
                 process.name }}</option>
                             </template>
-
                         </select>
                         <p class="mb-1">{{ delivery.date ? formatDate(delivery.date) :
                 'Fecha Indefinida' }}</p>
@@ -218,6 +217,7 @@ export default {
             axios.get('/api/assigned-activity-kanban/' + assignedActivity.id)
                 .then((result) => {
                     this.showCheck = false;
+                    this.$emit('getProject')
                 }).catch((err) => {
                     console.error(err);
                 });
