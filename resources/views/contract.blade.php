@@ -281,7 +281,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>bcp</td>
+                            <td>BCP</td>
                             <td>soles</td>
                             <td>
                                 <ul style=" margin-bottom: 5px; margin-top: -4px;">
@@ -298,7 +298,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>bcp</td>
+                            <td>BCP</td>
                             <td>soles</td>
                             <td>                           
                                 <ul style=" margin-bottom: 5px; margin-top: -4px;">
@@ -315,7 +315,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>bcp</td>
+                            <td>BCP</td>
                             <td>soles</td>
                             <td>
                                 <ul style=" margin-bottom: 5px; margin-top: -4px;">
@@ -332,7 +332,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>bcp</td>
+                            <td>BCP</td>
                             <td>soles</td>
                             <td>
                                 <ul style=" margin-bottom: 5px; margin-top: -4px; ">
