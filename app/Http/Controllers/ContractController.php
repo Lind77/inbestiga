@@ -316,7 +316,7 @@ class ContractController extends Controller
 
         $request->validate([
             'date' => 'required',
-            'payments' => 'required|array',
+            'payments' => 'required',
             'payments.*.date' => 'required',
             'deliveries' => 'required',
             /*  'deliveries.date' => 'required', */
