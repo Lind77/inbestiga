@@ -223,12 +223,14 @@ export default {
                 });
         },
         deleteActivity(assignedActivity) {
-            axios.delete('/api/assigned-activity/' + assignedActivity.id)
-                .then((result) => {
-                    this.$emit('getProject')
-                }).catch((err) => {
-                    console.error(err);
-                });
+            if (confirm('Tienes la seguridad de eliminar esta tarea?')) {
+                axios.delete('/api/assigned-activity/' + assignedActivity.id)
+                    .then((result) => {
+                        this.$emit('getProject')
+                    }).catch((err) => {
+                        console.error(err);
+                    });
+            }
         },
         closePointer(assignedActivity) {
             assignedActivity.points = this.points
