@@ -1,7 +1,7 @@
 <template lang="">
     <p v-show="showName" class="mb-0" @click="editName(assignedActivity)">{{
                 assignedActivity.user ? assignedActivity.user.name : 'Sin asignar' }}</p>
-    <select ref="selectName" v-model="selected" v-show="!showName" class="form-control" @change="updateUserTask" @blur="updateUserTask">
+    <select ref="selectName" v-model="selected" v-show="!showName" class="form-control" @change="updateUserTask" @blur="updateUserTask" v-if="team.users">
         <option value="0" disabled="disabled" v-if="selected == null" >Seleccionar dueño</option>
         <option :value="`${user.id}`" v-for="user in team.users">{{ user.name }}
         </option>
