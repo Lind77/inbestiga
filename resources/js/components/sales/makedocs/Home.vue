@@ -645,7 +645,7 @@ export default {
                 this.payments = []
                 for (var i = 0; i < this.cantPayments; i++) {
                     var payment = {
-                        date: '',
+                        date: null,
                         amount: (this.finalPrice / this.cantPayments).toFixed(1),
                         percentage: (100 / this.cantPayments).toFixed(1)
                     }

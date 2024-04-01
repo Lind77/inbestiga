@@ -20,6 +20,7 @@ use App\Models\Seen;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ContractController extends Controller
 {
@@ -308,20 +309,59 @@ class ContractController extends Controller
 
     public function insertContract(Request $request)
     {
-
         $quotation = Quotation::find($request->get('quotation_id'));
 
+        $customers = json_decode($request->get('customers'), true);
+        if ($customers !== null) {
+            foreach ($customers as $customer) {
+                $rules_customer = [
+                    'dni' => 'required',
+                    'adress' => 'required',
+                    'name' => 'required'
+                    // Otras reglas de validación para el elemento del array
+                ];
+
+                $validator_customers = Validator::make($customer, $rules_customer);
+
+                if ($validator_customers->fails()) {
+                    return response()->json([
+                        'message' => 'Asegurate que los datos de los usuarios estén completos'
+                    ], 405);
+                }
+            }
+        }
+
+
         $payments = json_decode($request->get('payments'), true);
+        if ($payments !== null) {
+            foreach ($payments as $payment) {
+                $rules = [
+                    'date' => 'required',
+                    // Otras reglas de validación para el elemento del array
+                ];
+
+                $validator = Validator::make($payment, $rules);
+
+                if ($validator->fails()) {
+                    return response()->json([
+                        'message' => 'Asegurate de que todas las fechas de pagos están completadas'
+                    ], 405);
+                }
+            }
+        }
+
         $deliveries = json_decode($request->get('deliveries'), true);
 
         $request->validate([
             'date' => 'required',
             'payments' => 'required',
-            'payments.*.date' => 'required',
             'deliveries' => 'required',
+            'payments.*.date' => 'required'
             /*  'deliveries.date' => 'required', */
             /* 'deliveries.advance' => 'required' */
         ]);
+
+
 
         $contract = Contract::create([
             'quotation_id' => $request->get('quotation_id'),
