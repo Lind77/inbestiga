@@ -308,13 +308,18 @@ class ContractController extends Controller
 
     public function insertContract(Request $request)
     {
+
+        $quotation = Quotation::find($request->get('quotation_id'));
+
+
+
         $payments = json_decode($request->get('payments'), true);
         $deliveries = json_decode($request->get('deliveries'), true);
 
         $request->validate([
             'date' => 'required',
             'payments' => 'required',
-            'payments.date' => 'required',
+            'payments.*.date' => 'required',
             'deliveries' => 'required',
             /*  'deliveries.date' => 'required', */
             /* 'deliveries.advance' => 'required' */
