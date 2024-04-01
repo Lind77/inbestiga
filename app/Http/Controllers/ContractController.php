@@ -309,14 +309,13 @@ class ContractController extends Controller
 
     public function insertContract(Request $request)
     {
-        $quotation = Quotation::find($request->get('quotation_id'));
 
         $customers = json_decode($request->get('customers'), true);
         if ($customers !== null) {
             foreach ($customers as $customer) {
                 $rules_customer = [
                     'dni' => 'required',
-                    'adress' => 'required',
+                    'address' => 'required',
                     'name' => 'required'
                     // Otras reglas de validación para el elemento del array
                 ];
@@ -361,7 +360,9 @@ class ContractController extends Controller
             /* 'deliveries.advance' => 'required' */
         ]);
 
+        $oldContracts = Contract::where('quotation_id', $request->get('quotation_id'))->get();
 
+        $oldContracts->each->delete();
 
         $contract = Contract::create([
             'quotation_id' => $request->get('quotation_id'),
