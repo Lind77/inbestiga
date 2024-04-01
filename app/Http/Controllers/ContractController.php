@@ -311,14 +311,12 @@ class ContractController extends Controller
 
         $quotation = Quotation::find($request->get('quotation_id'));
 
-
-
         $payments = json_decode($request->get('payments'), true);
         $deliveries = json_decode($request->get('deliveries'), true);
 
         $request->validate([
             'date' => 'required',
-            'payments' => 'required',
+            'payments' => 'required|array',
             'payments.*.date' => 'required',
             'deliveries' => 'required',
             /*  'deliveries.date' => 'required', */
