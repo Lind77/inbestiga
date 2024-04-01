@@ -22,7 +22,6 @@ export default {
     methods: {
         editName() {
             this.showName = false
-            this.$refs.selectName.open = true
         },
         updateUserTask() {
             if (this.selected) {
