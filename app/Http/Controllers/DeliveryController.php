@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Delivery;
 use App\Http\Requests\StoreDeliveryRequest;
 use App\Http\Requests\UpdateDeliveryRequest;
+use App\Models\Academic_process;
+use App\Models\Assigned_activity;
 use App\Models\Payment;
 use App\Models\Project;
+use App\Models\Quality_indicator;
 use Illuminate\Http\Request;
 
 class DeliveryController extends Controller
@@ -150,6 +153,35 @@ class DeliveryController extends Controller
         $deliveries = Delivery::has('project')->with(['project', 'project.projectable', 'project.projectable.quotation', 'project.projectable.quotation.customers'])->get();
         return response()->json([
             'deliveries' => $deliveries
+        ]);
+    }
+
+    public function processSprint($pid, $id)
+    {
+        $delivery = Delivery::find($id);
+
+        $academic_process = Academic_process::with(['academic_products', 'academic_products.acceptance_indicators'])->find($pid);
+
+        return $academic_process;
+
+        foreach ($academic_process->academic_products as $productAcad) {
+            $assigned_activity = Assigned_activity::create([
+                'assigned_activitiable_id' =>   $productAcad->id,
+                'assigned_activitiable_type' => 'App\Models\Delivery',
+                'name' => $productAcad->name
+            ]);
+
+            foreach ($productAcad->acceptance_indicators as $indicator) {
+                $quality_indicator = Quality_indicator::create([
+                    'quality_indicable_id' => $indicator->id,
+                    'quality_indicable_type' => 'App\Models\Assigned_activity',
+                    'name' => $indicator->name
+                ]);
+            }
+        }
+
+        return response()->json([
+            'msg' => 'success'
         ]);
     }
 }

@@ -373,3 +373,5 @@ Route::get('/assigned-activity-kanban/{id}', [AssignedActivityController::class,
 Route::get('/assigned-activity-name/{id}/{name}', [AssignedActivityController::class, 'updateName']);
 Route::get('/assigned-activity-user/{id}/{uid}', [AssignedActivityController::class, 'updateUser']);
 Route::delete('/assigned-activity/{id}', [AssignedActivityController::class, 'destroy']);
+
+Route::get('/process-sprint/{pid}/{id}', [DeliveryController::class, 'processSprint']);

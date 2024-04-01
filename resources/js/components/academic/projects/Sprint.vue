@@ -20,11 +20,11 @@
                     <h5 class="text-primary mb-1">{{ delivery.advance }} <i class='bx bx-task'
                             title="Agregar nueva tarea" @click="openTaskModal(delivery.id)"></i></h5>
                     <div class="d-flex align-items-center">
-                        <select name="" id="" class="form-control me-2">
-                            <option value="">Plan de Tesis</option>
-                            <option value="">Informe Final</option>
-                            <option value="">Reunión</option>
-                            <option value="">Otro</option>
+                        <select class="form-control me-2">
+                            <template v-for="process in processes">
+                                <option :value="process.id" @click="setProcess(delivery.id)">{{
+                process.name }}</option>
+                            </template>
                         </select>
                         <p class="mb-1">{{ delivery.date ? formatDate(delivery.date) :
                 'Fecha Indefinida' }}</p>
@@ -147,7 +147,8 @@ export default {
     props: {
         deliveries: Array,
         productsFiltered: Array,
-        team: Object
+        team: Object,
+        processes: Array
     },
     data() {
         return {
@@ -181,6 +182,33 @@ export default {
         }
     },
     methods: {
+        setProcess(deliveryId) {
+            this.$swal.fire({
+                icon: 'question',
+                title: 'Asignar proceso',
+                html: '<br>¿Tienes la seguridad de continuar?,recuerda que esta acción actualizará una gran cantidad de información.',
+                showDenyButton: true,
+                confirmButtonText: 'Continuar',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    this.assignProcessesToSprint(deliveryId)
+                } else if (result.isDenied) {
+                    this.$swal.close()
+                }
+            })
+        },
+        assignProcessesToSprint(deliveryId) {
+            console.log(this.$refs)
+            var refSelect = 'selectProcess' + deliveryId
+            axios.get(`/api/process-sprint/${this.$refs.refSelect.value}/${deliveryId}`)
+                .then((result) => {
+                    this.$swal('Proceso agregado con éxito')
+                    //this.$emit('getProject')
+                }).catch((err) => {
+                    console.log(err)
+                });
+        },
         openIndicatorsModal(assignedActivity) {
             this.indicators = assignedActivity.quality_indicators
             $('#indicatorsModal').modal('show')
@@ -189,6 +217,7 @@ export default {
             axios.get('/api/assigned-activity-kanban/' + assignedActivity.id)
                 .then((result) => {
                     this.showCheck = false;
+                    this.$emit('getProject')
                 }).catch((err) => {
                     console.error(err);
                 });
