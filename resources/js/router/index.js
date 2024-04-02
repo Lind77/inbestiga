@@ -205,7 +205,7 @@ export const routes = [
                 name: 'home-funnel'
             },
             {
-                path: '/makeDocs/:customerId?/:quotationId?',
+                path: '/makeDocs/:quotationId?',
                 component: HomeMakeDocs,
                 props: true,
                 name: 'home-docs'
