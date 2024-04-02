@@ -361,7 +361,7 @@ export default {
                 if (parseInt(this.customer.status) + 1 == 5) {
                     console.log('entrando al if')
                     $('#funnelModal').modal('hide')
-                    this.$router.push({ name: 'home-docs', params: { customerId: this.customer.id } })
+                    this.$router.push({ name: 'contract-orders', params: { quotation: this.quotation.id } })
                 }
                 var newStatus = parseInt(this.customer.status) + 1
                 this.$emit('updateStatusSpace', this.customer.id, newStatus)
