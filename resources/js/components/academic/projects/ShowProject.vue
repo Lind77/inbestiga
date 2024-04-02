@@ -122,7 +122,7 @@
                 <div class="tab-pane fade" id="navs-pills-top-sprints" role="tabpanel">
                     <Sprint :deliveries="deliveries" :productsFiltered="productsFiltered" @getProject="getProject"
                         @filterAcademicProducts="filterAcademicProducts" @openModalTask="openModalTask"
-                        :team="project.team" />
+                        :team="project.team" :processes="processes" />
                 </div>
                 <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
                     <Kanban :deliveries="deliveries" @getProject="getProject" v-if="deliveries" />
@@ -165,7 +165,8 @@ export default {
                 0: 'Activo',
                 1: 'Completo'
             },
-            deliveryId: 0
+            deliveryId: 0,
+            processes: []
         }
     },
     methods: {
@@ -209,8 +210,9 @@ export default {
         getProducts() {
             axios.get('/api/academic-products')
                 .then((result) => {
-                    this.products = result.data
-                    this.productsFiltered = result.data
+                    this.products = result.data.academicProducts
+                    this.productsFiltered = result.data.academicProducts
+                    this.processes = result.data.academicProcesses
                 }).catch((err) => {
                     console.error(err);
                 });

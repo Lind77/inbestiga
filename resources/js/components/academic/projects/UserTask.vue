@@ -1,7 +1,8 @@
 <template lang="">
     <p v-show="showName" class="mb-0" @click="editName(assignedActivity)">{{
-                assignedActivity.user ? assignedActivity.user.name : 'Sin signar' }}</p>
-    <select ref="selectName" v-show="!showName" class="form-control" @change="updateUserTask" @blur="updateUserTask">
+                assignedActivity.user ? assignedActivity.user.name : 'Sin asignar' }}</p>
+    <select ref="selectName" v-model="selected" v-show="!showName" class="form-control" @change="updateUserTask" @blur="updateUserTask" v-if="team">
+        <option value="0" disabled="disabled" v-if="selected == null" >Seleccionar dueño</option>
         <option :value="`${user.id}`" v-for="user in team.users">{{ user.name }}
         </option>
     </select>
@@ -10,7 +11,8 @@
 export default {
     data() {
         return {
-            showName: true
+            showName: true,
+            selected: this.assignedActivity ? this.assignedActivity.user_id : 0
         }
     },
     props: {
@@ -20,17 +22,23 @@ export default {
     methods: {
         editName() {
             this.showName = false
-            this.$refs.selectName.open = true
         },
         updateUserTask() {
+            if (this.selected) {
+                axios.get(`/api/assigned-activity-user/${this.assignedActivity.id}/${this.selected}`)
+                    .then((result) => {
+                        this.showName = true
+                        if (this.assignedActivity.user) {
+                            this.assignedActivity.user.name = result.data.name
+                        } else {
+                            var name = result.data.name
+                            this.assignedActivity.user = { name: name }
+                        }
 
-            axios.get(`/api/assigned-activity-user/${this.assignedActivity.id}/${this.$refs.selectName.value}`)
-                .then((result) => {
-                    this.showName = true
-                    this.assignedActivity.user.name = result.data.name
-                }).catch((err) => {
-                    console.log(err)
-                });
+                    }).catch((err) => {
+                        console.log(err)
+                    });
+            }
         }
     }
 }

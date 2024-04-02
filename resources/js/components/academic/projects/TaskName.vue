@@ -1,6 +1,6 @@
 <template>
     <div :class="`bg-info ps-2 py-2 border-start border-primary text-white rounded`" @click="">
-        <p class="mb-0" v-show="!showField" @click="showInput">{{ taskName }}</p>
+        <p class="mb-0" v-show="!showField" @click="showInput" :title="taskName">{{ cutString(taskName) }}</p>
         <input v-show="showField" type="text" v-model="taskName" ref="taskName" class="form-control w-75"
             @blur="hideInput">
     </div>
@@ -34,6 +34,14 @@ export default {
                 this.$refs.taskName.select()
             })
         },
+        cutString(string) {
+            if (string.length > 30) {
+                return string.substring(0, 25) + '...'
+            } else {
+                return string
+            }
+
+        }
     }
 }
 </script>

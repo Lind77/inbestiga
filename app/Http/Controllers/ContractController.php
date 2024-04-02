@@ -20,6 +20,7 @@ use App\Models\Seen;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ContractController extends Controller
 {
@@ -308,18 +309,60 @@ class ContractController extends Controller
 
     public function insertContract(Request $request)
     {
-        $payments = json_decode($request->get('payments'), true);
-        $deliveries = json_decode($request->get('deliveries'), true);
+        // Validación de datos de clientes
+        $customers = json_decode($request->get('customers'), true);
+        if ($customers !== null) {
+            foreach ($customers as $customer) {
+                $rules_customer = [
+                    'dni' => 'required',
+                    'address' => 'required',
+                    'name' => 'required'
+                    // Otras reglas de validación para el elemento del array
+                ];
 
+                $validator_customers = Validator::make($customer, $rules_customer);
+
+                if ($validator_customers->fails()) {
+                    return response()->json([
+                        'message' => 'Asegurate que los datos de los usuarios estén completos'
+                    ], 405);
+                }
+            }
+        }
+
+        // Validación de datos de pagos
+        $payments = json_decode($request->get('payments'), true);
+        if ($payments !== null) {
+            foreach ($payments as $payment) {
+                $rules = [
+                    'date' => 'required',
+                    // Otras reglas de validación para el elemento del array
+                ];
+
+                $validator = Validator::make($payment, $rules);
+
+                if ($validator->fails()) {
+                    return response()->json([
+                        'message' => 'Asegurate de que todas las fechas de pagos están completadas'
+                    ], 405);
+                }
+            }
+        }
+
+        // Validación de datos del request
         $request->validate([
             'date' => 'required',
             'payments' => 'required',
-            /* 'payments.date' => 'required', */
             'deliveries' => 'required',
+            'payments.*.date' => 'required'
             /*  'deliveries.date' => 'required', */
             /* 'deliveries.advance' => 'required' */
         ]);
 
+        // Eliminar contratos antiguos
+        Contract::where('quotation_id', $request->get('quotation_id'))->delete();
+
+        // Crear nuevo contrato
         $contract = Contract::create([
             'quotation_id' => $request->get('quotation_id'),
             'amount' => $request->get('amount'),
@@ -333,16 +376,11 @@ class ContractController extends Controller
 
         $customers = json_decode($request->get('customers'), true);
 
-        $customersId = [];
-
-        foreach ($customers as $customer) {
-            array_push($customersId, $customer['id']);
-        }
-
+        // Asociar clientes con la cotización
         $quotation = Quotation::find($request->get('quotation_id'));
+        $quotation->customers()->sync(array_column($customers, 'id'));
 
-        $quotation->customers()->sync($customersId);
-
+        // Actualizar estado de la cotización
         $contract->quotation->update([
             'status' => 9
         ]);
@@ -357,19 +395,14 @@ class ContractController extends Controller
             'status' => 0
         ]);
 
-
+        $deliveries = json_decode($request->get('deliveries'), true);
 
         foreach ($deliveries as $delivery) {
-            if ($delivery['date'] == '') {
-                $deliveryNull = null;
-            } else {
-                $deliveryNull = $delivery['date'];
-            }
             Delivery::create([
                 'advance' => $delivery['advance'],
                 'status' => 0,
                 'project_id' => $project->id,
-                'date' => $deliveryNull,
+                'date' => $delivery['date'] ?: null,
                 'type' => 1
             ]);
         }
@@ -377,15 +410,10 @@ class ContractController extends Controller
         $payments = json_decode($request->get('payments'), true);
 
         foreach ($payments as $payment) {
-            if ($payment['date'] == '') {
-                $paymentNull = null;
-            } else {
-                $paymentNull = $payment['date'];
-            }
             Payment::create([
                 'paymentable_id' => $contract->id,
                 'paymentable_type' => 'App\Models\Contract',
-                'date' => $paymentNull,
+                'date' => $payment['date'] ?: null,
                 'amount' => $payment['amount'],
                 'advance' => null,
                 'percentage' => $payment['percentage']
@@ -395,8 +423,7 @@ class ContractController extends Controller
         $customers = json_decode($request->get('customers'), true);
 
         foreach ($customers as $customer) {
-            $customer = Customer::find($customer['id']);
-            $customer->update([
+            Customer::find($customer['id'])->update([
                 'status' => 9
             ]);
         }
@@ -410,7 +437,7 @@ class ContractController extends Controller
             'referal' => $user->name,
             'user_id' => $request->get('user_id')
         ]); */
-
+        /* 
         $notification = Notification::create([
             'emisor_id' => $request->get('emisor_id'),
             'content' => 'generó el contrato de ' . $customer->name,
@@ -425,9 +452,9 @@ class ContractController extends Controller
                 'notification_id' => $notification->id,
                 'seen' => 0
             ]);
-        }
+        } */
 
-        broadcast(new NewDocument($contract));
+        //broadcast(new NewDocument($contract));
 
         return response()->json($contract->id);
     }
