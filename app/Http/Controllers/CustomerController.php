@@ -283,13 +283,15 @@ class CustomerController extends Controller
         return response()->json($totalCustomers);
     }
 
-    public function getAllLeads()
+    public function getAllLeads($id)
     {
-
+        return $id;
         $totalCustomers = collect();
 
         for ($i = 5; $i <= 11; $i++) {
-            $customers = Customer::with(['origin', 'user', 'comunications' => function ($query) {
+            $customers = Customer::with(['origin', 'user' => function ($q) use ($id) {
+                $q->where('user_id', $id);
+            }, 'comunications' => function ($query) {
                 $query->latest('id');
             }, 'quotations' => function ($secondQuery) {
                 $secondQuery->latest('id');

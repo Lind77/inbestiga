@@ -6,8 +6,9 @@
             <template v-if="quotations">
                 <template v-for="(quotation, index) in quotations" :key="index">
                     <CardQuotation :customer="customer" :quotation="quotation" :customers="customer.customers"
-                        :status="status" @showModalUpdateCom="showModalUpdateCom" @showModalUpdateData="showModalUpdateData"
-                        @transformLead="transformLead" @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
+                        :status="status" @showModalUpdateCom="showModalUpdateCom"
+                        @showModalUpdateData="showModalUpdateData" @transformLead="transformLead"
+                        @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
                         @showModalQuotationFunnel="showModalQuotationFunnel" />
                 </template>
             </template>
