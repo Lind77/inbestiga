@@ -496,11 +496,7 @@ export default {
 
                         this.customers = this.customer.quotations[0].customers
                         this.details = this.quotationExistent.details
-                        if (this.quotationExistent.amount > 1500) {
-                            this.documentType = 3
-                        } else {
-                            this.documentType = 2
-                        }
+
 
                     } else {
 
