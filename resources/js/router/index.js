@@ -40,6 +40,7 @@ import HomeCalendar from '../components/sales/calendar/Home.vue'
 //Área de Ventas - Documentos
 import HomeDocuments from '../components/sales/documents/Home.vue'
 import HomeMakeDocs from '../components/sales/makedocs/Home.vue'
+import ContractOrders from '../components/sales/makedocs/ContractOrder.vue'
 import ViewDocs from '../components/sales/makedocs/View.vue'
 
 //Área de Ventas - Precios
@@ -209,6 +210,12 @@ export const routes = [
                 component: HomeMakeDocs,
                 props: true,
                 name: 'home-docs'
+            },
+            {
+                path: '/contract-orders/:customerId?',
+                component: ContractOrders,
+                props: true,
+                name: 'contract-orders'
             },
             {
                 path: 'calls',
