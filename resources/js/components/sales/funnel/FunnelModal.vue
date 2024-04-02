@@ -7,10 +7,10 @@
                     <h5 class="modal-title w-100" id="exampleModalLabel3">
                         <div class="row">
                             <div class="col-6">
-                                <button v-if="quotation" v-bind:disabled="quotation.status < 5"
+                                <!-- <button v-if="quotation" v-bind:disabled="quotation.status < 5"
                                     @click="toQuotation(quotation.customers[0].id)" type="button"
                                     class="btn btn-icon btn-success ms-2" style=""><span
-                                        class="tf-icons bx bx-file"></span></button>
+                                        class="tf-icons bx bx-file"></span></button> -->
                                 <button v-if="quotation" v-bind:disabled="quotation.status < 8"
                                     @click="toOrder(quotation)" type="button" class="btn btn-icon btn-info mx-2">
                                     <span class="tf-icons bx bx-pen"></span>
