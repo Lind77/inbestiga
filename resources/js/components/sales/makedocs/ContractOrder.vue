@@ -574,7 +574,7 @@ export default {
         createOrder(quotationId) {
             const fd = new FormData()
 
-            fd.append('quotation_id', this.quotationExistent.id)
+            fd.append('quotation_id', this.quotation.id)
             fd.append('final_delivery', this.order.final_delivery)
             fd.append('observations', this.order.observations)
             fd.append('suggested', 1)
