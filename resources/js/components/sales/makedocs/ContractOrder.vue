@@ -479,31 +479,21 @@ export default {
             this.contractExistent = []
             this.quotationExistent = []
 
-            axios.get('/api/getCustomer/' + this.$route.params.customerId)
+            axios.get('/api/quotations/' + this.$route.params.quotationId)
                 .then((res) => {
-                    this.customer = res.data
-                    if (this.customer.quotations[0]) {
-                        this.quotationsExistent = this.customer.quotations
-                        this.quotationExistent = this.customer.quotations[0]
 
-                        this.customer.quotations.forEach(quotation => {
-                            if (quotation.contract) {
-                                this.contractExistent.push(quotation.contract)
-                            } else if (quotation.order) {
-                                this.ordersExistent.push(quotation.order)
-                            }
-                        })
+                    this.quotation = res.data
+                    if (this.quotation) {
+                        this.customers = res.data.customers
 
-                        this.customers = this.customer.quotations[0].customers
-                        this.details = this.quotationExistent.details
-                        if (this.quotationExistent.amount > 1500) {
+                        this.details = this.quotation.details
+                        if (this.quotation.amount > 1500) {
                             this.documentType = 3
                         } else {
                             this.documentType = 2
                         }
 
                     } else {
-
                         this.customers.push(this.customer)
                     }
                 })

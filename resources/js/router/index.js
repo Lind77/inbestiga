@@ -212,7 +212,7 @@ export const routes = [
                 name: 'home-docs'
             },
             {
-                path: '/contract-orders/:customerId?',
+                path: '/contract-orders/:quotationId?',
                 component: ContractOrders,
                 props: true,
                 name: 'contract-orders'

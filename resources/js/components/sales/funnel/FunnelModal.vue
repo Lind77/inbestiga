@@ -241,9 +241,9 @@ export default {
             console.log(quotation);
             $('#funnelModal').modal('hide')
             if (quotation.amount <= 1500) {
-                this.$router.push({ name: 'contract-orders', params: { customerId: quotation.customer_id } })
+                this.$router.push({ name: 'contract-orders', params: { quotationId: quotation.id } })
             } else {
-                this.$router.push({ name: 'contract-orders', params: { customerId: quotation.customer_id } })
+                this.$router.push({ name: 'contract-orders', params: { quotationId: quotation.id } })
             }
 
             /* $('#funnelModal').modal('hide')
