@@ -1,6 +1,6 @@
 <template>
-    <div class="cardSpace" draggable="true" @dragover.prevent @drop.stop.prevent @dragstart="drag" :id="`${quotation.id}`"
-        @click="showModalFunnel(quotation)">
+    <div class="cardSpace" draggable="true" @dragover.prevent @drop.stop.prevent @dragstart="drag"
+        :id="`${quotation.id}`" @click="showModalFunnel(quotation)">
         <div :class="`card p-2 cursor-pointer`">
 
             <div class="d-flex">
@@ -11,8 +11,9 @@
                 </div>
                 <div class="d-flex flex-column ps-2" v-if="quotation">
                     <h6 class="mb-0 py-2" v-for="customer in quotation.customers" :title="customer.name">{{
-                        customer.name.length > 15 ? customer.name.substring(0, 15) + '...' : customer.name || customer.cell
-                    }}
+            customer.name.length > 15 ? customer.name.substring(0, 15) + '...' : customer.name ||
+                customer.cell
+        }}
                     </h6>
                     <p class="mb-0">S/.{{ formatCant(quotation.amount) }}</p>
                 </div>

@@ -174,7 +174,7 @@ Route::get('/reactivateCustomer/{id}', [CustomerController::class, 'reactivateCu
 Route::post('/updateDniCustomer', [CustomerController::class, 'updateDniCustomer']);
 
 
-Route::get('/leads', [CustomerController::class, 'getAllLeads']);
+Route::get('/leads/{id}', [CustomerController::class, 'getAllLeads']);
 Route::post('/assignOwner', [CustomerController::class, 'assignOwner'])->middleware('auth:sanctum');
 
 
@@ -292,7 +292,7 @@ Route::post('/setProject', [ProjectController::class, 'setProject']);
 Route::get('/deleteProject/{id}', [ProjectController::class, 'destroy']);
 
 
-Route::get('/quotations-funnel', [QuotationController::class, 'getQuotationsFunnel']);
+Route::get('/quotations-funnel/{id}', [QuotationController::class, 'getQuotationsFunnel']);
 Route::get('/quotations/search/{search}', [QuotationController::class, 'searchQuotations']);
 
 Route::post('/attendance', [AttendanceController::class, 'store']);

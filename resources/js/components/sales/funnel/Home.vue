@@ -389,7 +389,7 @@ export default {
         allowOutsideClick: false,
         showConfirmButton: false
       })
-      axios.get('/api/leads')
+      axios.get('/api/leads/' + this.store.authUser.id)
         .then(res => {
 
           this.totalLeads = res.data
@@ -489,7 +489,7 @@ export default {
         })
     },
     getAllQuotations() {
-      axios.get('/api/quotations-funnel')
+      axios.get('/api/quotations-funnel/' + this.store.authUser.id)
         .then(res => {
           this.totalQuotations = res.data
           this.distributeQuotations(this.totalQuotations)
@@ -578,7 +578,7 @@ export default {
     }
   },
   mounted() {
-    this.getAllCustomers()
+    //this.getAllCustomers()
     this.getAllQuotations()
     this.getAllOwners()
     if (this.$route.params.userId) {
