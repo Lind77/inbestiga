@@ -276,10 +276,13 @@
                                 <span class="d-flex align-items-center justify-content-center text-nowrap"><i
                                         class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
                             </button>
+
                             <button v-else-if="documentType == 3" @click="createContract"
                                 class="btn btn-primary d-grid w-100 my-3">
                                 <span class="d-flex align-items-center justify-content-center text-nowrap"><i
-                                        class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
+                                        class="bx bx-paper-plane bx-xs me-1"></i> {{
+                                        contractExistent ? 'Actualizar' : 'Generar'
+                                    }}</span>
                             </button>
                             <router-link v-if="quotationIdGenerated != 0"
                                 :to="{ name: 'quotation-file', params: { id: quotationIdGenerated } }" target="_blank"
@@ -631,7 +634,7 @@ export default {
                 .then(res => {
                     this.contractId = res.data
                     this.$swal('Contrato generado correctamente')
-                    this.getCustomer()
+                    //this.getCustomer()
                 })
                 .catch(err => {
                     this.$swal(err.response.data.message)
