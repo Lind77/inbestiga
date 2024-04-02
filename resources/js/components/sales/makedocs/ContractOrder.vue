@@ -605,7 +605,7 @@ export default {
 
             const fd = new FormData()
 
-            fd.append('quotation_id', this.quotationExistent.id)
+            fd.append('quotation_id', this.quotation.id)
             fd.append('amount', this.finalPrice)
             fd.append('amount_text', myConverter.convertToText(parseInt(this.finalPrice)))
             var decimal = this.finalPrice.toString().split(".")[1] * 10
