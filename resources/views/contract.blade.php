@@ -264,12 +264,92 @@
                         @endforeach
                     </tbody>
                 </table>
-                <p>El pago será abonado bajo las siguientes modalidades:</p>
+                <p style="margin-top: -3px; margin-bottom: -5px;">El pago será abonado bajo las siguientes modalidades:</p>
                 
-                <ul>
+                <ul style="margin-top: -5px;">
                     <li> En efectivo: Exclusivamente en las instalaciones de la empresa, durante las horas hábiles de atención.</li>
-                    <li> Link de pago: Este método se facilitará mediante plataformas seguras y confiables como Izi Pay y Niubiz, garantizando así la protección de sus datos financieros. El link para el pago se generará y enviará al cliente después de una coordinación previa con el asesor comercial asignado, ofreciendo una solución práctica y segura para realizar su pago.</li>      
+                    <li> Link de pago: Este método se facilitará mediante plataformas seguras y confiables como Izi Pay y Niubiz, garantizando así la protección de sus datos financieros. El link para el pago se generará y enviará al cliente después de una coordinación previa con el asesor comercial asignado, ofreciendo una solución práctica y segura para realizar su pago.</li> 
+                    <li>Transferencias Bancarias: Los pagos también podrán ser realizados a través de transferencias bancarias hacia cuentas específicamente autorizadas por la organización.</li>     
                 </ul>
+                <table class="date-table">
+                    <thead>
+                        <tr>
+                            <th>Banco</th>
+                            <th>Moneda</th>
+                            <th>Titular y Número de Cuenta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>BCP</td>
+                            <td>soles</td>
+                            <td>
+                                <ul style=" margin-bottom: 5px; margin-top: -4px;">
+                                    <li style="margin-bottom: -5px;">
+                                        CERVANTES POMA LIGEYA BERENICE 
+                                    </li>
+                                    <li style="margin-bottom: -5px;">
+                                        CC:355-9582757-0-060 
+                                    </li>
+                                    <li style="margin-bottom: -5px;">
+                                        CCI: 00235519582757006065
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>BCP</td>
+                            <td>soles</td>
+                            <td>                           
+                                <ul style=" margin-bottom: 5px; margin-top: -4px;">
+                                    <li style="margin-bottom: -5px;">
+                                        ALLASI GALARZA NICOLET JOYCE  
+                                    </li>
+                                    <li style="margin-bottom: -5px;">
+                                        CC: 355-95787567-0-53 
+                                    </li>
+                                    <li style="margin-bottom: -5px;">
+                                        CCI: 00235519578756705361
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>BCP</td>
+                            <td>soles</td>
+                            <td>
+                                <ul style=" margin-bottom: 5px; margin-top: -4px;">
+                                    <li style="margin-bottom: -5px;">
+                                        ALLASI GALARZA STIL SALOMON  
+                                    </li>
+                                    <li style="margin-bottom: -5px;">
+                                        CC: 355-95767799-0-85  
+                                    </li>
+                                    <li style="margin-bottom: -5px;">
+                                        CCI: 00235519576779908565
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>BCP</td>
+                            <td>soles</td>
+                            <td>
+                                <ul style=" margin-bottom: 5px; margin-top: -4px; ">
+                                    <li style="margin-bottom: -5px;">
+                                        LARA DEL CASTILLO VALERIA VANESSA 
+                                    </li>
+                                    <li style="margin-bottom: -5px;">
+                                        CC: 355-95768263-0-54
+                                    </li>
+                                    <li style="margin-bottom: -5px;">
+                                        CCI: 00235519576826305466
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
                {{--  <div class="page-break"></div> --}}
                 <span>QUINTO: ENTREGAS Y FORMA DE ENTREGAS.</span>
                 <p style="margin-top: -7px;">Las entregas que EL LOCADOR otorgará a favor de EL ASESORADO serán cargadas al correo y/o grupo de WhatsApp creado en los siguientes términos: </p>

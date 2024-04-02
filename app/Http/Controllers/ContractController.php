@@ -309,7 +309,7 @@ class ContractController extends Controller
 
     public function insertContract(Request $request)
     {
-
+        // Validación de datos de clientes
         $customers = json_decode($request->get('customers'), true);
         if ($customers !== null) {
             foreach ($customers as $customer) {
@@ -330,7 +330,7 @@ class ContractController extends Controller
             }
         }
 
-
+        // Validación de datos de pagos
         $payments = json_decode($request->get('payments'), true);
         if ($payments !== null) {
             foreach ($payments as $payment) {
@@ -349,8 +349,7 @@ class ContractController extends Controller
             }
         }
 
-        $deliveries = json_decode($request->get('deliveries'), true);
-
+        // Validación de datos del request
         $request->validate([
             'date' => 'required',
             'payments' => 'required',
@@ -360,10 +359,10 @@ class ContractController extends Controller
             /* 'deliveries.advance' => 'required' */
         ]);
 
-        $oldContracts = Contract::where('quotation_id', $request->get('quotation_id'))->get();
+        // Eliminar contratos antiguos
+        Contract::where('quotation_id', $request->get('quotation_id'))->delete();
 
-        $oldContracts->each->delete();
-
+        // Crear nuevo contrato
         $contract = Contract::create([
             'quotation_id' => $request->get('quotation_id'),
             'amount' => $request->get('amount'),
@@ -377,16 +376,11 @@ class ContractController extends Controller
 
         $customers = json_decode($request->get('customers'), true);
 
-        $customersId = [];
-
-        foreach ($customers as $customer) {
-            array_push($customersId, $customer['id']);
-        }
-
+        // Asociar clientes con la cotización
         $quotation = Quotation::find($request->get('quotation_id'));
+        $quotation->customers()->sync(array_column($customers, 'id'));
 
-        $quotation->customers()->sync($customersId);
-
+        // Actualizar estado de la cotización
         $contract->quotation->update([
             'status' => 9
         ]);
@@ -401,19 +395,14 @@ class ContractController extends Controller
             'status' => 0
         ]);
 
-
+        $deliveries = json_decode($request->get('deliveries'), true);
 
         foreach ($deliveries as $delivery) {
-            if ($delivery['date'] == '') {
-                $deliveryNull = null;
-            } else {
-                $deliveryNull = $delivery['date'];
-            }
             Delivery::create([
                 'advance' => $delivery['advance'],
                 'status' => 0,
                 'project_id' => $project->id,
-                'date' => $deliveryNull,
+                'date' => $delivery['date'] ?: null,
                 'type' => 1
             ]);
         }
@@ -421,15 +410,10 @@ class ContractController extends Controller
         $payments = json_decode($request->get('payments'), true);
 
         foreach ($payments as $payment) {
-            if ($payment['date'] == '') {
-                $paymentNull = null;
-            } else {
-                $paymentNull = $payment['date'];
-            }
             Payment::create([
                 'paymentable_id' => $contract->id,
                 'paymentable_type' => 'App\Models\Contract',
-                'date' => $paymentNull,
+                'date' => $payment['date'] ?: null,
                 'amount' => $payment['amount'],
                 'advance' => null,
                 'percentage' => $payment['percentage']
@@ -439,8 +423,7 @@ class ContractController extends Controller
         $customers = json_decode($request->get('customers'), true);
 
         foreach ($customers as $customer) {
-            $customer = Customer::find($customer['id']);
-            $customer->update([
+            Customer::find($customer['id'])->update([
                 'status' => 9
             ]);
         }
@@ -454,7 +437,7 @@ class ContractController extends Controller
             'referal' => $user->name,
             'user_id' => $request->get('user_id')
         ]); */
-
+        /* 
         $notification = Notification::create([
             'emisor_id' => $request->get('emisor_id'),
             'content' => 'generó el contrato de ' . $customer->name,
@@ -469,7 +452,7 @@ class ContractController extends Controller
                 'notification_id' => $notification->id,
                 'seen' => 0
             ]);
-        }
+        } */
 
         //broadcast(new NewDocument($contract));
 
