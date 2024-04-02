@@ -8,12 +8,6 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col mb-1">
-                            <label for="nameSmall" class="form-label">¿Qué necesita el cliente?</label>
-                            <textarea name="" id="" cols="30" rows="5" class="form-control" v-model="needs"></textarea>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col mb-3">
                             <label for="nameSmall" class="form-label">Dueño del Lead</label>
                             <select v-model="seller_selected" class="form-select">
@@ -80,29 +74,24 @@ export default {
 
         },
         assignSeller() {
-            if (this.needs != '') {
-                const fd = new FormData()
-                fd.append('needs', this.needs)
-                fd.append('customer_id', this.customerId)
-                fd.append('seller_selected', this.seller_selected)
-                fd.append('user_id', this.store.authUser.id)
+            const fd = new FormData()
+            fd.append('needs', this.needs)
+            fd.append('customer_id', this.customerId)
+            fd.append('seller_selected', this.seller_selected)
+            fd.append('user_id', this.store.authUser.id)
 
-                var token = localStorage.getItem('token')
-                window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-                axios.post('/api/assignOwner', fd)
-                    .then(res => {
-                        $('#ownerModal').modal('hide')
-                        this.selectedProducts = []
-                        var ownerSelected = this.sellers.find(seller => seller.id == this.seller_selected)
-                        this.$emit('cleanLead', this.customerId, ownerSelected)
-                    })
-                    .catch(err => {
-                        console.error(err)
-                    })
-            } else {
-                $('#ownerModal').modal('hide')
-                this.$swal('Para ascender a un cliente es requerido saber lo que necesita')
-            }
+            var token = localStorage.getItem('token')
+            window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+            axios.post('/api/assignOwner', fd)
+                .then(res => {
+                    $('#ownerModal').modal('hide')
+                    this.selectedProducts = []
+                    var ownerSelected = this.sellers.find(seller => seller.id == this.seller_selected)
+                    this.$emit('cleanLead', this.customerId, ownerSelected)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
 
 
         },
