@@ -366,7 +366,6 @@ export default {
                 var newStatus = parseInt(this.customer.status) + 1
                 this.$emit('updateStatusSpace', this.customer.id, newStatus)
             }
-
         },
         showModalUpdateData(customer) {
             this.$emit('showModalUpdateData', customer)
