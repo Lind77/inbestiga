@@ -242,7 +242,7 @@ export default {
       if (status == 9) {
         $('#funnelModal').modal('hide')
         var quotSelected = this.totalQuotations.find(quotation => quotation.id == quotationId)
-        this.$router.push({ name: 'home-docs', params: { customerId: quotSelected.customers[0].id } })
+        this.$router.push({ name: 'contract-orders', params: { quotationId: quotationId } })
         /* var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
         if (leadSelected.quotations[0].amount < 1500) {
           this.$router.push({ name: 'home-orders', params: { idUser: leadId } });
