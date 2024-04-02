@@ -183,7 +183,6 @@ Route::get('/my-leads/{id}', [CustomerController::class, 'getAllMyLeads']);
 Route::get('/changeInterest/{id}/{interest}', [CustomerController::class, 'changeInterest']);
 
 
-
 Route::post('/orders', [OrderController::class, 'insertOrder']);
 Route::post('/order', [OrderController::class, 'store']);
 Route::post('/updateOrder', [OrderController::class, 'update']);
