@@ -10,9 +10,9 @@
                                     <span class="h5 mt-2 demo text-body fw-bold">{{ titleByType[documentType]
                                         }}</span>
 
-                                    <button @click="changeDocumentType" class="btn btn-success btn-icon">
+                                    <!-- <button @click="changeDocumentType" class="btn btn-success btn-icon">
                                         <i class='bx bx-chevrons-right'></i>
-                                    </button>
+                                    </button> -->
 
                                     <label for="file-upload" class="btn btn-dark btn-icon">
                                         <i class='bx bx-save'></i>
