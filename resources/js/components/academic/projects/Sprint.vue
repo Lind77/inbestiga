@@ -20,14 +20,14 @@
                     <h5 class="text-primary mb-1">{{ delivery.advance }} <i class='bx bx-task'
                             title="Agregar nueva tarea" @click="openTaskModal(delivery.id)"></i></h5>
                     <div class="d-flex align-items-center">
-                        <select class="form-control me-2">
+                        <select class="form-control me-2" v-model="processSelected" @change="setProcess(delivery.id)">
                             <template v-for="process in processes">
-                                <option :value="process.id" @click="setProcess(delivery.id)">{{
-                process.name }}</option>
+                                <option :value="process.id">{{
+                                    process.name }}</option>
                             </template>
                         </select>
                         <p class="mb-1">{{ delivery.date ? formatDate(delivery.date) :
-                'Fecha Indefinida' }}</p>
+                            'Fecha Indefinida' }}</p>
                     </div>
                 </div>
                 <div class="text-nowrap" v-if="delivery.assigned_activities.length != 0">
@@ -59,7 +59,7 @@
                                             :class="`btn btn-${priorityColor[assignedActivity.priority]} dropdown-toggle hide-arrow`"
                                             data-bs-toggle="dropdown" aria-expanded="false">
                                             {{ assignedActivity.priority ? priorityName[assignedActivity.priority] :
-                'Sin asignar' }}
+                                                'Sin asignar' }}
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item" @click="setPriority(assignedActivity, 3)"
@@ -133,7 +133,7 @@
             </div>
         </div>
     </div>
-    <IndicatorsModal :indicators="indicators" />
+    <IndicatorsModal :indicators="indicators" :assignedActivityId="updateDeliveryId" />
 </template>
 <script>
 import moment from "moment"
@@ -178,7 +178,9 @@ export default {
             points: 0,
             showCheck: true,
             indicators: {},
-            showName: true
+            showName: true,
+            processSelected: 0,
+            updateDeliveryId: 0
         }
     },
     methods: {
@@ -199,9 +201,7 @@ export default {
             })
         },
         assignProcessesToSprint(deliveryId) {
-            console.log(this.$refs)
-            var refSelect = 'selectProcess' + deliveryId
-            axios.get(`/api/process-sprint/${this.$refs.refSelect.value}/${deliveryId}`)
+            axios.get(`/api/process-sprint/${this.processSelected}/${deliveryId}`)
                 .then((result) => {
                     this.$swal('Proceso agregado con éxito')
                     //this.$emit('getProject')
@@ -210,6 +210,7 @@ export default {
                 });
         },
         openIndicatorsModal(assignedActivity) {
+            this.updateDeliveryId = assignedActivity.id
             this.indicators = assignedActivity.quality_indicators
             $('#indicatorsModal').modal('show')
         },
@@ -252,7 +253,6 @@ export default {
                 }).catch((err) => {
                     console.error(err);
                 });
-
         },
         openTaskModal(deliveryId) {
             this.$emit('openModalTask', deliveryId)

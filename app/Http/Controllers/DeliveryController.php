@@ -162,18 +162,16 @@ class DeliveryController extends Controller
 
         $academic_process = Academic_process::with(['academic_products', 'academic_products.acceptance_indicators'])->find($pid);
 
-        return $academic_process;
-
         foreach ($academic_process->academic_products as $productAcad) {
             $assigned_activity = Assigned_activity::create([
-                'assigned_activitiable_id' =>   $productAcad->id,
+                'assigned_activitiable_id' =>   $id,
                 'assigned_activitiable_type' => 'App\Models\Delivery',
                 'name' => $productAcad->name
             ]);
 
             foreach ($productAcad->acceptance_indicators as $indicator) {
                 $quality_indicator = Quality_indicator::create([
-                    'quality_indicable_id' => $indicator->id,
+                    'quality_indicable_id' => $assigned_activity->id,
                     'quality_indicable_type' => 'App\Models\Assigned_activity',
                     'name' => $indicator->name
                 ]);

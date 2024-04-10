@@ -1,15 +1,15 @@
 <template>
-    <div class="cardSpace" draggable="true" @dragover.prevent @drop.stop.prevent @dragstart="drag" :id="`${customer.id}`"
-        @click="showModalFunnel">
-        <div :class="`card bg-${bgColor} p-2 cursor-pointer`">
-            <template v-if="quotation">
-                <h6 class="mb-0 py-2 text-white" v-for="customer in quotation.customers">{{ customer.name || customer.cell
-                }}
-                </h6>
-            </template>
-            <template v-else>
-                <h6 class="mb-0 py-2 text-white">{{ customer.name || customer.cell }}</h6>
-            </template>
+    <div class="cardSpace" draggable="true" @dragover.prevent @drop.stop.prevent @dragstart="drag"
+        :id="`${customer.id}`" @click="showModalFunnel">
+        <div :class="`card p-2 cursor-pointer`">
+            <div class="d-flex">
+                <div class="me-2">
+                    <span class="badge bg-primary p-3"><i class="bx bx-user text-white"></i></span>
+                </div>
+                <div class="d-flex flex-column ps-2">
+                    <h6 class="mb-0 py-2 fw-bold">{{ customer.name || customer.cell }}</h6>
+                </div>
+            </div>
         </div>
         <div class="space" :id="'space' + customer.id" @dragover="changeColor(customer.id)"
             @dragleave="removeColor(customer.id)" @drop="dropSpace($event, customer.id)">

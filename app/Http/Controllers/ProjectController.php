@@ -538,6 +538,9 @@ class ProjectController extends Controller
 
     public function searchProject($search)
     {
+
+        $projects = Project::with(['projectable', 'projectable.quotation',])->get();
+
         $customers = Customer::with(['quotations', 'quotations.contract', 'quotations.contract.projects', 'quotations.contract.projects.deliveries', 'quotations.contract.projects.projectable.quotation.customers', 'quotations.contract.projects.team'])
             ->where('name', 'like', '%' . $search . '%')
             ->whereHas('quotations.contract.projects')
@@ -547,13 +550,37 @@ class ProjectController extends Controller
 
         foreach ($customers as $customer) {
             foreach ($customer->quotations as $quotation) {
-                foreach ($quotation->contract->projects as $project) {
-                    array_push($projects, $project);
+                if ($quotation->contract) {
+                    foreach ($quotation->contract->projects as $project) {
+                        array_push($projects, $project);
+                    }
                 }
             }
         }
 
 
         return response()->json($projects);
+    }
+
+    public function updateProjectTitle($id, $name)
+    {
+        Project::find($id)->update([
+            'title' => $name
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function updateProjectStatus($id, $status)
+    {
+        Project::find($id)->update([
+            'status' => $status
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }

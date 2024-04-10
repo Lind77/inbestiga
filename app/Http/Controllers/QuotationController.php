@@ -349,11 +349,11 @@ class QuotationController extends Controller
 
         $quotationsNonFiltered = Quotation::whereHas('customers', function ($query) use ($id) {
             $query->where('user_id', $id);
-        })->with(['customers', 'customers.comunications', 'customers.user'])->whereIn('status', range(5, 10))->get()->groupBy('status')
+        })->with(['customers', 'customers.comunications', 'customers.user'])->whereIn('status', range(5, 10))->orderBy('updated_at', 'desc')->get()->groupBy('status')
             ->map(function ($group) {
                 return $group->take(10)->values(); // Tomamos solo los primeros 10 de cada grupo
             })
-            ->flatten(1);;
+            ->flatten(1);
         return $quotationsNonFiltered;
 
         /* $totalQuotations = collect();
