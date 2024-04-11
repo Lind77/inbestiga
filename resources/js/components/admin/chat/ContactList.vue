@@ -11,18 +11,19 @@
                     <div class="flex-shrink-0 avatar ms-2">
                         <div class="flex-shrink-0 me-3" v-if="message.emisor.images[0]">
                             <div class="avatar">
-                                <img :src="'/../public/files/' + message.emisor.images[0].url"
+                                <img :src="'/../inbestiga/public/files/' + message.emisor.images[0].url"
                                     class="w-px-40 h-px-40 rounded-circle" style="object-fit:cover;" />
                             </div>
                         </div>
-                        <span v-else class="avatar-initial rounded-circle bg-primary">{{ message.emisor.name[0] }}</span>
+                        <span v-else class="avatar-initial rounded-circle bg-primary">{{ message.emisor.name[0]
+                            }}</span>
                     </div>
                     <div class="d-flex flex-column align-items-start w-100 ps-2">
                         <h6 :id="`name${message.emisor.id}`" class="contact-name mb-0">{{ message.emisor.name }}</h6>
                         <p class="text-message m-0 h6 text-secondary" :id="`message${message.emisor.id}`">{{
                             message.message.length > 20 ?
-                            message.message.substr(0, 19) +
-                            '...' : message.message }}</p>
+                                message.message.substr(0, 19) +
+                                '...' : message.message }}</p>
                     </div>
                 </div>
             </li>
