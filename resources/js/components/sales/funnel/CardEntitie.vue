@@ -27,7 +27,7 @@
                             <button class="btn btn-icon btn-primary" @click="editQuotation(entitie)"><i
                                     class="bx bx-edit"></i></button>
                             <button class="btn btn-icon btn-danger ms-1"><i class='bx bx-trash'></i></button>
-                            <button class="btn btn-icon btn-success ms-1" @click="editQuotation(entitie)"><i
+                            <button class="btn btn-icon btn-success ms-1" @click="toOrder(entitie)"><i
                                     class='bx bx-file'></i></button>
                         </div>
                     </template>
