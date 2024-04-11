@@ -343,17 +343,30 @@ class QuotationController extends Controller
         return response()->json($quotations);
     }
 
-    public function getQuotationsFunnel()
+    public function getQuotationsFunnel($id)
     {
-        $totalQuotations = collect();
+        $customers = Customer::whereHas('quotations')->where('user_id', $id)->get();
+
+        $quotationsNonFiltered = Quotation::whereHas('customers', function ($query) use ($id) {
+            $query->where('user_id', $id);
+        })->with(['customers', 'customers.comunications', 'customers.user'])->whereIn('status', range(5, 10))->orderBy('updated_at', 'desc')->get()->groupBy('status')
+            ->map(function ($group) {
+                return $group->take(10)->values(); // Tomamos solo los primeros 10 de cada grupo
+            })
+            ->flatten(1);
+        return $quotationsNonFiltered;
+
+        /* $totalQuotations = collect();
 
         for ($i = 5; $i < 11; $i++) {
-            $quotations = Quotation::with(['customers', 'customers.comunications', 'customers.user'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
+            $quotations = Quotation::with(['customers' => function ($q) use ($id) {
+                $q->where('user_id', $id);
+            }, 'customers.comunications', 'customers.user'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
 
             $totalQuotations = $totalQuotations->merge($quotations);
         }
-
-        return response()->json($totalQuotations);
+ */
+        return response()->json($customers);
     }
 
     public function updateCustomerGrade(Request $request)

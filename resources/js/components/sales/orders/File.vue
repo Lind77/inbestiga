@@ -39,7 +39,7 @@
                             <th>
                                 <h2 class="info-user">Importe: </h2>
                             </th>
-                            <th><span> S./{{ order.quotation.amount }}</span></th>
+                            <th><span> S./{{ totalPayment }}</span></th>
                         </tr>
                     </thead>
                 </table>
@@ -98,8 +98,9 @@
                     <tr class="text-dark" v-for="(detail, index) in order.quotation.details" :key="index">
                         <td class="table-item ps-2" width="30%" v-if="detail.type <= order.suggested">
                             <template v-if="detail.type <= order.suggested">
-                                <h5 class="fw-bold text-dark m-0 pb-0">{{ detail.product.name }}</h5>
-                                <template v-if="detail.product.id == 113">
+                                <h5 class="fw-bold text-dark m-0 pb-0">{{ detail.product ? detail.product.name : '-' }}
+                                </h5>
+                                <template v-if="detail.product && detail.product.id == 113">
                                     - 02 propuestas de tema (Opcional)
                                     <br>
                                     - Plan de tesis o proyecto de investigación
@@ -143,8 +144,7 @@
                     </tr>
                     <tr class="sugested-title">
                         <th class="text-purple sugested py-3 ps-2">TOTAL</th>
-                        <th class="text-purple sugested py-3" style="text-align: center;">S/ {{ order.quotation.amount -
-            order.quotation.discount
+                        <th class="text-purple sugested py-3" style="text-align: center;">S/ {{ totalPayment
                             }}
                         </th>
                         <th class="text-danger sugested py-3 ps-1">* DESCUENTO S./{{ order.quotation.discount }}</th>
@@ -189,7 +189,8 @@ import moment from "moment"
 export default {
     data() {
         return {
-            order: {}
+            order: {},
+            totalPayment: 0
         }
     },
     methods: {
@@ -201,6 +202,9 @@ export default {
                 .then((res) => {
                     console.log(res.data)
                     this.order = res.data
+                    this.order.payments.forEach((payment) => {
+                        this.totalPayment += payment.amount
+                    })
                     this.print()
                 })
                 .catch(err => console.error(err))

@@ -32,11 +32,12 @@
               <tbody class="table-border-bottom-0">
                 <tr v-for="customer in customers">
                   <td><strong class="cursor-pointer placeholder-glow">{{
-                    customer.name }}</strong><i v-show="customer.user_id == null" class='bx bxs-user-x text-danger'></i>
+        customer.name }}</strong><i @click="openOwnerModal(customer.id)" v-show="customer.user_id == null"
+                      class='bx bxs-user-x text-danger'></i>
                   </td>
                   <td>{{ customer.cell }}</td>
                   <td>{{ formatDate(customer.created_at) }}</td>
-                  <td>{{ customer.university }}</td>
+                  <td>{{ customer.university ? customer.university.substring(0, 20) + '...' : '-' }}</td>
                   <td>{{ customer.career }}</td>
                   <td>{{ status[customer.status] }}</td>
                   <td>
@@ -99,6 +100,10 @@ export default {
     }
   },
   methods: {
+    openOwnerModal(customerId) {
+      this.customerId = customerId
+      $('#ownerModal').modal('show');
+    },
     makeDocs(customerId) {
       this.$router.push({ name: 'home-docs', params: { customerId: customerId } })
     },

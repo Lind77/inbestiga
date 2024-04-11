@@ -14,6 +14,21 @@
         <p>EditTextClick</p>
         <p v-show="!showField" @click="showInput">{{ name }}</p>
         <input v-show="showField" type="text" v-model="name" ref="name" class="form-control" @blur="hideInput">
+
+        <h4>Kanban</h4>
+
+        <button id="tooltip" @mouseover="tooltip" type="button" class="btn btn-primary" data-bs-toggle="tooltip"
+            data-bs-offset="0,4" data-bs-placement="right" data-bs-html="true"
+            data-bs-original-title="<i class='bx bx-trending-up bx-xs' ></i> <span>Tooltip on right</span>">
+            Right
+        </button>
+
+        <button id="popover" @click="popover" type="button" class="btn btn-primary text-nowrap" data-bs-toggle="popover"
+            data-bs-offset="0,14" data-bs-placement="right" data-bs-html="true"
+            data-bs-content="<p>This is a very beautiful popover, show some love.</p> <div class='d-flex justify-content-between'><button type='button' class='btn btn-sm btn-outline-secondary'>Skip</button><button type='button' class='btn btn-sm btn-primary'>Read More</button></div>"
+            data-bs-original-title="Popover Title">
+            Popover on right
+        </button>
     </div>
 </template>
 <script>
@@ -27,6 +42,12 @@ export default {
         }
     },
     methods: {
+        tooltip() {
+            $('#tooltip').tooltip('show')
+        },
+        popover() {
+            $('#popover').popover('show')
+        },
         hideInput() {
             this.showField = false
         },

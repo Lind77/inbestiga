@@ -52,7 +52,7 @@
                             <input type="text" v-else v-model="attitude" class="form-control" />
                         </div>
                     </div> -->
-                    <div class="row g-2">
+                    <div class="row g-2 mt-3">
                         <div class="col mb-0">
                             <label for="dobBasic" class="form-label">Universidad</label>
                             <input type="text" v-if="action == 2" v-model="customer.university" class="form-control" />

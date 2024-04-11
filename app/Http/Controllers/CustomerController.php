@@ -8,6 +8,7 @@ use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Comission;
 use App\Models\Comunication;
+use App\Models\Contract;
 use App\Models\Detail;
 use App\Models\NewProduct;
 use App\Models\Notification;
@@ -283,22 +284,42 @@ class CustomerController extends Controller
         return response()->json($totalCustomers);
     }
 
-    public function getAllLeads()
+    public function getAllLeads($id)
     {
+        $customers = Customer::where('user_id', $id)->orderBy('updated_at', 'desc')->take(10)->get();
 
-        $totalCustomers = collect();
+        $quotations = Quotation::with(['customers' => function ($query) use ($id) {
+            $query->where('user_id', $id);
+        }])->orderBy('updated_at', 'desc')->take(10)->get();
+
+
+        $contracts = Contract::with(['quotation', 'quotation.customers'])
+            ->whereHas('quotation.customers', function ($query) use ($id) {
+                $query->where('user_id', $id);
+            })
+            ->orderBy('updated_at', 'desc')
+            ->take(10)
+            ->get();
+
+        /*  $totalCustomers = collect();
 
         for ($i = 5; $i <= 11; $i++) {
-            $customers = Customer::with(['origin', 'user', 'comunications' => function ($query) {
+            $customers = Customer::with(['origin', 'user' => function ($q) use ($id) {
+                $q->where('user_id', $id);
+            }, 'comunications' => function ($query) {
                 $query->latest('id');
             }, 'quotations' => function ($secondQuery) {
                 $secondQuery->latest('id');
             }, 'quotations.order', 'quotations.contract', 'quotations.details', 'quotations.details.product'])->where('status', $i)->orderBy('updated_at', 'desc')->take(10)->get();
 
             $totalCustomers = $totalCustomers->merge($customers);
-        }
+        } */
 
-        return response()->json($totalCustomers);
+        return response()->json([
+            'customers' => $customers,
+            'quotations' => $quotations,
+            'contracts' => $contracts
+        ]);
     }
 
     public function assignOwner(Request $request)

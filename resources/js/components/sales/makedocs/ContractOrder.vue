@@ -479,27 +479,21 @@ export default {
             this.contractExistent = []
             this.quotationExistent = []
 
-            axios.get('/api/getCustomer/' + this.$route.params.customerId)
+            axios.get('/api/quotations/' + this.$route.params.quotationId)
                 .then((res) => {
-                    this.customer = res.data
-                    if (this.customer.quotations[0]) {
-                        this.quotationsExistent = this.customer.quotations
-                        this.quotationExistent = this.customer.quotations[0]
 
-                        this.customer.quotations.forEach(quotation => {
-                            if (quotation.contract) {
-                                this.contractExistent.push(quotation.contract)
-                            } else if (quotation.order) {
-                                this.ordersExistent.push(quotation.order)
-                            }
-                        })
+                    this.quotation = res.data
+                    if (this.quotation) {
+                        this.customers = res.data.customers
 
-                        this.customers = this.customer.quotations[0].customers
-                        this.details = this.quotationExistent.details
-
+                        this.details = this.quotation.details
+                        if (this.quotation.amount > 1500) {
+                            this.documentType = 3
+                        } else {
+                            this.documentType = 2
+                        }
 
                     } else {
-
                         this.customers.push(this.customer)
                     }
                 })
@@ -580,7 +574,7 @@ export default {
         createOrder(quotationId) {
             const fd = new FormData()
 
-            fd.append('quotation_id', this.quotationExistent.id)
+            fd.append('quotation_id', this.quotation.id)
             fd.append('final_delivery', this.order.final_delivery)
             fd.append('observations', this.order.observations)
             fd.append('suggested', 1)
@@ -611,7 +605,7 @@ export default {
 
             const fd = new FormData()
 
-            fd.append('quotation_id', this.quotationExistent.id)
+            fd.append('quotation_id', this.quotation.id)
             fd.append('amount', this.finalPrice)
             fd.append('amount_text', myConverter.convertToText(parseInt(this.finalPrice)))
             var decimal = this.finalPrice.toString().split(".")[1] * 10

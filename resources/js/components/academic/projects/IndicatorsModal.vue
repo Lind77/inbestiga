@@ -7,25 +7,21 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <template v-for="indicator in indicators">
-                        <div class="d-flex align-items-center">
-                            <p class="mb-0 pe-3"> {{ indicator.name }}</p>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                            </div>
-                        </div>
-                        <div class="col mb-3">
-                            <label for="nameSmall" class="form-label">Observaciones</label>
-                            <input type="text" name="" id="" class="form-control">
-                        </div>
-                    </template>
+                    <class class="mb-2">
+                        <template v-for="(indicator, index) in indicators" :key="index">
+                            <label for="firstMeetingDetails" class="form-label">Criterio {{ index + 1 }}</label> <i
+                                class="bx bx-trash text-danger" @click="deleteIndicator(index)"></i>
+                            <input type="text" class="form-control" v-model="indicator.name">
+                        </template>
+                    </class>
 
+                    <button class="btn btn-icon btn-primary" @click="newIndicator">+</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                         Salir
                     </button>
-                    <button type="button" class="btn btn-primary" @click="assignTeam">Asignar</button>
+                    <button type="button" class="btn btn-primary" @click="syncIndicators">Actualizar</button>
                 </div>
             </div>
         </div>
@@ -34,7 +30,42 @@
 <script>
 export default {
     props: {
-        indicators: Object
+        indicators: Object,
+        assignedActivityId: Number
+    },
+    methods: {
+        deleteIndicator(index) {
+            this.indicators.splice(index, 1)
+        },
+        deleteQualityIndicator(indicatorId) {
+            axios.delete('/api/delete-indicator/' + indicatorId)
+                .then((result) => {
+                    var indexFinded = this.indicators.indexFinded();
+                }).catch((err) => {
+                    this.$emit('getProject')
+                    $('#newTaskModal').modal('hide')
+                });
+        },
+        newIndicator() {
+            var indicator = {
+                value: ''
+            }
+            this.indicators.push({ ...indicator })
+        },
+        syncIndicators() {
+            const fd = new FormData();
+
+            fd.append('indicators', JSON.stringify(this.indicators))
+            fd.append('assignedActivityId', this.assignedActivityId)
+            fd.append('_method', 'put')
+            axios.post('/api/assigned-activity/' + this.assignedActivityId, fd)
+                .then((res) => {
+                    $('#indicatorsModal').modal('hide')
+                })
+                .catch((err) => {
+                    console.error(err)
+                })
+        }
     }
 }
 </script>

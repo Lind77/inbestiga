@@ -7,12 +7,12 @@
                     <h5 class="modal-title w-100" id="exampleModalLabel3">
                         <div class="row">
                             <div class="col-6">
-                                <button v-if="quotation" v-bind:disabled="quotation.status < 5"
+                                <!-- <button v-if="quotation" v-bind:disabled="quotation.status < 5"
                                     @click="toQuotation(quotation.customers[0].id)" type="button"
                                     class="btn btn-icon btn-success ms-2" style=""><span
-                                        class="tf-icons bx bx-file"></span></button>
-                                <button v-if="quotation" v-bind:disabled="quotation.status < 8" @click="toOrder(quotation)"
-                                    type="button" class="btn btn-icon btn-info mx-2">
+                                        class="tf-icons bx bx-file"></span></button> -->
+                                <button v-if="quotation" v-bind:disabled="quotation.status < 8"
+                                    @click="toOrder(quotation)" type="button" class="btn btn-icon btn-info mx-2">
                                     <span class="tf-icons bx bx-pen"></span>
                                 </button>
                                 <button v-if="customer || quotation" @click="callModalUpdateComunication" type="button"
@@ -47,11 +47,12 @@
                                     <div class="d-flex flex-column ps-1">
                                         <h6 class="alert-heading d-flex align-items-center fw-bold mb-1"
                                             v-if="quotation && quotation.customers">{{
-                                                quotation.customers[0].user ? quotation.customers[0].user.name : 'Sin dueño' }}
+                                    quotation.customers[0].user ? quotation.customers[0].user.name : 'Sin dueño'
+                                }}
                                         </h6>
                                         <h6 class="alert-heading d-flex align-items-center fw-bold mb-1"
                                             v-else-if="customer">{{
-                                                customer.user ? customer.user.name : 'Sin dueño' }}
+                                    customer.user ? customer.user.name : 'Sin dueño' }}
                                         </h6>
                                     </div>
                                 </div>
@@ -73,7 +74,7 @@
                                             class="bx bx-user fs-6"></i></span>
                                     <div class="d-flex flex-column ps-1">
                                         <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
-                                            customer.name }}
+                                    customer.name }}
                                         </h6>
                                         <span>{{ customer.cell }}</span>
                                         <span> {{ customer.university }}</span>
@@ -90,7 +91,7 @@
                                             class="bx bx-user fs-6"></i></span>
                                     <div class="d-flex flex-column ps-1">
                                         <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
-                                            customer.name }}
+                                    customer.name }}
                                         </h6>
                                         <span>{{ customer.cell }}</span>
                                         <span> {{ customer.university }}</span>
@@ -107,11 +108,11 @@
                                             class="bx bx-envelope fs-6"></i></span>
                                     <div class="d-flex flex-column ps-1">
                                         <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
-                                            comunication.last_management }}
+                                    comunication.last_management }}
                                         </h6>
                                         <span>{{ comunication.comment }}</span>
                                         <span>Siguiente comunicación: {{ comunication.next_management }} {{
-                                            comunication.time }}</span>
+                                    comunication.time }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -126,11 +127,11 @@
                                                     class="bx bx-envelope fs-6"></i></span>
                                             <div class="d-flex flex-column ps-1">
                                                 <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{
-                                                    comunication.last_management }}
+                                    comunication.last_management }}
                                                 </h6>
                                                 <span>{{ comunication.comment }}</span>
                                                 <span>Siguiente comunicación: {{ comunication.next_management }} {{
-                                                    comunication.time }}</span>
+                                    comunication.time }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -141,7 +142,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-label-secondary" @click="standBy(customer.id)">Stand By</button>
+                    <button type="button" class="btn btn-label-secondary" @click="standBy(customer.id)">Stand
+                        By</button>
                     <button type="button" class="btn btn-primary" @click="updateStatusSpace">Ascender</button>
                 </div>
             </div>
@@ -239,9 +241,9 @@ export default {
             console.log(quotation);
             $('#funnelModal').modal('hide')
             if (quotation.amount <= 1500) {
-                this.$router.push({ name: 'home-docs', params: { customerId: quotation.customer_id } })
+                this.$router.push({ name: 'contract-orders', params: { quotationId: quotation.id } })
             } else {
-                this.$router.push({ name: 'home-docs', params: { customerId: quotation.customer_id } })
+                this.$router.push({ name: 'contract-orders', params: { quotationId: quotation.id } })
             }
 
             /* $('#funnelModal').modal('hide')
@@ -359,12 +361,11 @@ export default {
                 if (parseInt(this.customer.status) + 1 == 5) {
                     console.log('entrando al if')
                     $('#funnelModal').modal('hide')
-                    this.$router.push({ name: 'home-docs', params: { customerId: this.customer.id } })
+                    this.$router.push({ name: 'contract-orders', params: { quotation: this.quotation.id } })
                 }
                 var newStatus = parseInt(this.customer.status) + 1
                 this.$emit('updateStatusSpace', this.customer.id, newStatus)
             }
-
         },
         showModalUpdateData(customer) {
             this.$emit('showModalUpdateData', customer)

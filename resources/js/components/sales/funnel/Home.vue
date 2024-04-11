@@ -1,6 +1,6 @@
 <template>
   <div class="container-xxl flex-grow-1 container-p-y">
-    <DatePicker class="ms-4" @filterDate="filterDate" @distributeQuotations="distributeQuotations"
+    <DatePicker class="ms-1" @filterDate="filterDate" @distributeQuotations="distributeQuotations"
       @getAllQuotations="getAllQuotations" />
     <!-- <div class="container-override">
       <div class="first-container"></div>
@@ -12,12 +12,21 @@
       <i class='bx bx-chevron-right text-white arrow cursor-pointer' @click="moveFunnelRigth"></i>
     </div>
     <div class="container-override" id="funnelContainer">
-      <template v-for="areaQuotation in draggableQuotations">
-        <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
-          :customer="areaQuotation.customer" :quotations="areaQuotation.quotations" :title="areaQuotation.title"
-          :status="areaQuotation.status" @callModal="callModal" @showModalQuotationFunnel="showModalQuotationFunnel" />
-      </template>
-
+      <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
+        :entities="customers" :title="'Usuarios'" :status="1" @callModal="callModal"
+        @showModalUpdateData="showModalUpdateData" />
+      <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
+        :entities="quotations" :title="'Cotizaciones'" :status="2" @callModal="callModal"
+        @showModalQuotationFunnel="showModalQuotationFunnel" />
+      <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
+        :entities="contracts" :title="'Contratos'" :status="3" @callModal="callModal"
+        @showModalQuotationFunnel="showModalQuotationFunnel" />
+      <!-- <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation" :customers="[]"
+        :quotations="quotations" :title="'Contratos'" :status="2" @callModal="callModal"
+         />
+      <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation" :customers="[]"
+        :quotations="quotations" :title="'Pagos'" :status="2" @callModal="callModal"
+        @showModalQuotationFunnel="showModalQuotationFunnel" /> -->
     </div>
     <ProductModal :customer="customersSelected" @getAllCustomers="getAllCustomers" />
     <UpdateCom :customerId="customerId" :customer="customerToComunication" :comunication="comunication"
@@ -74,7 +83,8 @@ export default {
       quotation: {},
       customerToComunication: {},
       customer_selected: {},
-      initialPage: 0
+      initialPage: 0,
+      contracts: []
     }
   },
   methods: {
@@ -82,7 +92,7 @@ export default {
 
       if (this.initialPage < this.draggableQuotations.length - 1) {
         this.initialPage++;
-        var percent = ((this.initialPage) * 17) * -1
+        var percent = ((this.initialPage) * 25) * -1
         console.log(percent)
         $('#funnelContainer').css('transform', `translate(${percent}%, 0)`)
         /* $('#funnelContainer').removeClass('moveFunnelRigth') */
@@ -92,7 +102,7 @@ export default {
     moveFunnelLeft() {
       if (this.initialPage != 0) {
         this.initialPage--;
-        var percent = ((this.initialPage) * 17) * -1
+        var percent = ((this.initialPage) * 25) * -1
         console.log(percent)
         $('#funnelContainer').css('transform', `translate(${percent}%, 0)`)
       }
@@ -110,8 +120,6 @@ export default {
       }
 
       var arraySelected = arraysByStatus[customer.status];
-
-
 
       var quotationSelected = arraySelected.find(quotation => quotation.customers && quotation.customers[0].id == customer.id)
 
@@ -242,7 +250,7 @@ export default {
       if (status == 9) {
         $('#funnelModal').modal('hide')
         var quotSelected = this.totalQuotations.find(quotation => quotation.id == quotationId)
-        this.$router.push({ name: 'home-docs', params: { customerId: quotSelected.customers[0].id } })
+        this.$router.push({ name: 'contract-orders', params: { quotationId: quotationId } })
         /* var leadSelected = this.totalLeads.find(customer => customer.id == leadId)
         if (leadSelected.quotations[0].amount < 1500) {
           this.$router.push({ name: 'home-orders', params: { idUser: leadId } });
@@ -384,19 +392,16 @@ export default {
       console.log(this.customers_filtered)
     },
     getAllCustomers() {
-      this.$swal({
+      /* this.$swal({
         title: 'Cargando ...',
         allowOutsideClick: false,
         showConfirmButton: false
-      })
-      axios.get('/api/leads')
+      }) */
+      axios.get('/api/leads/' + this.store.authUser.id)
         .then(res => {
-
-          this.totalLeads = res.data
-          this.distributeLeads(this.totalLeads)
-
-          this.customers_filtered = this.totalLeads
-          this.$swal().close()
+          this.customers = res.data.customers
+          this.quotations = res.data.quotations
+          this.contracts = res.data.contracts
         })
         .catch(err => {
           console.log(err)
@@ -489,11 +494,10 @@ export default {
         })
     },
     getAllQuotations() {
-      axios.get('/api/quotations-funnel')
+      axios.get('/api/quotations-funnel/' + this.store.authUser.id)
         .then(res => {
           this.totalQuotations = res.data
           this.distributeQuotations(this.totalQuotations)
-
         })
         .catch(err => {
           console.error(err)
@@ -529,33 +533,23 @@ export default {
       this.draggableQuotations = [
         {
           quotations: this.quotations,
-          title: 'Con Cotización',
+          title: 'Usuarios',
           status: 5
         },
         {
           quotations: this.explanations,
-          title: 'Explicación de Cotización',
+          title: 'Cotizaciones',
           status: 6
         },
         {
           quotations: this.experiences,
-          title: 'Explicación de la Experiencia',
+          title: 'Contratos',
           status: 7
         },
         {
           quotations: this.tracings,
-          title: 'Seguimientos',
+          title: 'Pagos',
           status: 8
-        },
-        {
-          quotations: this.nopays,
-          title: 'Cierre no pagado',
-          status: 9
-        },
-        {
-          quotations: this.closings,
-          title: 'Seguimiento de cierre',
-          status: 10
         }
       ]
     },
@@ -590,7 +584,7 @@ export default {
 <style scoped>
 .container-override {
   z-index: 2;
-  width: 120vw;
+  width: 105vw;
   padding: 2px;
   display: inline-flex;
   align-items: center;

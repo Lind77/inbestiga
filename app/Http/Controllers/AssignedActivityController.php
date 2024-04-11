@@ -94,7 +94,26 @@ class AssignedActivityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $assigned_activity = Assigned_activity::find($id);
+
+        $quality_indicators = Quality_indicator::where('quality_indicable_id', $id)->where('quality_indicable_type', 'App\Models\Assigned_activity')->get();
+
+        $quality_indicators->each->delete();
+
+        $indicators = json_decode($request->get('indicators'), true);
+
+        foreach ($indicators as $indicator) {
+            $newIndicator = Quality_indicator::create([
+                'quality_indicable_id' => $assigned_activity->id,
+                'quality_indicable_type' => 'App\Models\Assigned_activity',
+                'name' => $indicator['name'],
+                'status' => 0
+            ]);
+        }
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     /**

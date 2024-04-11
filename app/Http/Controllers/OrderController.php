@@ -34,11 +34,11 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $quotations = Quotation::whereHas('order')->with(['customers', 'order'])->paginate(8);
+        //$quotations = Quotation::whereHas('order')->with(['customers', 'order'])->paginate(8);
 
-        /*  $orders = Order::all(); */
+        $orders = Order::with(['quotation', 'quotation.customers'])->get();
 
-        return response()->json($quotations);
+        return response()->json($orders);
     }
 
     /**
@@ -285,9 +285,6 @@ class OrderController extends Controller
             'user_id' => $request->get('user_id'),
             'status' => 0
         ]);
-
-
-
 
         foreach ($payments as $payment) {
             $payment_registered = Payment::create([

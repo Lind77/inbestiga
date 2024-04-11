@@ -12,7 +12,8 @@
         </thead>
         <tbody class="table-border-bottom-0">
           <tr v-for="order in orders">
-            <td><strong v-for="customer in order.quotation.customers">{{ customer.name }}</strong></td>
+            <td v-if="order.quotation"><strong v-for="customer in order.quotation.customers">{{ customer.name
+                }}</strong></td>
             <td>{{ dateFormatted(order.created_at) }}</td>
             <td>
               <router-link :to="{ name: 'order-file', params: { id: order.id } }" target="_blank"
@@ -38,7 +39,7 @@ export default {
       return moment(date).format('D-MM-YYYY')
     },
     getAllOrders() {
-      axios.get('/api/getAllOrders')
+      axios.get('/api/orders')
         .then(res => {
           console.log(res)
           this.orders = res.data

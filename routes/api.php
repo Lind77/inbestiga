@@ -174,14 +174,13 @@ Route::get('/reactivateCustomer/{id}', [CustomerController::class, 'reactivateCu
 Route::post('/updateDniCustomer', [CustomerController::class, 'updateDniCustomer']);
 
 
-Route::get('/leads', [CustomerController::class, 'getAllLeads']);
+Route::get('/leads/{id}', [CustomerController::class, 'getAllLeads']);
 Route::post('/assignOwner', [CustomerController::class, 'assignOwner'])->middleware('auth:sanctum');
 
 
 Route::get('/getLeadsByDate/{date}', [CustomerController::class, 'getLeadsByDate']);
 Route::get('/my-leads/{id}', [CustomerController::class, 'getAllMyLeads']);
 Route::get('/changeInterest/{id}/{interest}', [CustomerController::class, 'changeInterest']);
-
 
 
 Route::post('/orders', [OrderController::class, 'insertOrder']);
@@ -293,7 +292,7 @@ Route::post('/setProject', [ProjectController::class, 'setProject']);
 Route::get('/deleteProject/{id}', [ProjectController::class, 'destroy']);
 
 
-Route::get('/quotations-funnel', [QuotationController::class, 'getQuotationsFunnel']);
+Route::get('/quotations-funnel/{id}', [QuotationController::class, 'getQuotationsFunnel']);
 Route::get('/quotations/search/{search}', [QuotationController::class, 'searchQuotations']);
 
 Route::post('/attendance', [AttendanceController::class, 'store']);
@@ -345,6 +344,8 @@ Route::get('/new-chat/{id}', [ChatController::class, 'newMessage']);
 Route::get('/academic-products', [AcademicProductController::class, 'index']);
 
 Route::post('/assigned-activity', [AssignedActivityController::class, 'store']);
+Route::put('/assigned-activity/{id}', [AssignedActivityController::class, 'update']);
+
 Route::get('/enable-project/{id}', [ProjectController::class, 'enable']);
 Route::get('/search-projects/{search}', [ProjectController::class, 'searchProject']);
 
@@ -375,3 +376,7 @@ Route::get('/assigned-activity-user/{id}/{uid}', [AssignedActivityController::cl
 Route::delete('/assigned-activity/{id}', [AssignedActivityController::class, 'destroy']);
 
 Route::get('/process-sprint/{pid}/{id}', [DeliveryController::class, 'processSprint']);
+Route::get('/search-task/{name}', [TaskController::class, 'searchTask']);
+
+Route::get('/update-project-title/{id}/{name}', [ProjectController::class, 'updateProjectTitle']);
+Route::get('/update-project-status/{id}/{status}', [ProjectController::class, 'updateProjectStatus']);
