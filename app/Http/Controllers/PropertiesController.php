@@ -121,7 +121,7 @@ class PropertiesController extends Controller
                 });
             })
             ->orderBy('updated_at', 'desc')
-            ->paginate(9);
+            ->paginate(40);
 
         return $projects;
     }

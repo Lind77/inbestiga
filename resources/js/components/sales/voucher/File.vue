@@ -6,13 +6,15 @@
         <div class="row ms-5">
             <div class="col">
                 <p class="title voucher-important-data" v-if="paymentProof.customer">SEÑOR(A): <span
-                        v-for="customer in paymentProof.payment_proofable.quotation.customers">{{ customer.name + ' / ' }}
+                        v-for="customer in paymentProof.payment_proofable.quotation.customers">{{ customer.name + ' / '
+                        }}
                     </span>
                 </p>
                 <p class="title voucher-important-data">TIPO DE MONEDA: <span>NUEVOS SOLES</span></p>
             </div>
             <div class="col">
-                <p class="title voucher-important-data">FECHA DE EMISIÓN: <span>{{ formatDate(paymentProof.date) }}</span>
+                <p class="title voucher-important-data">FECHA DE EMISIÓN: <span>{{ formatDate(paymentProof.date)
+                        }}</span>
                 </p>
                 <p class="title voucher-important-data">N° DE RECIBO: <span>{{ paymentProof.id }}</span></p>
             </div>

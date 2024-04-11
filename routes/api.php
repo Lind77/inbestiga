@@ -344,6 +344,8 @@ Route::get('/new-chat/{id}', [ChatController::class, 'newMessage']);
 Route::get('/academic-products', [AcademicProductController::class, 'index']);
 
 Route::post('/assigned-activity', [AssignedActivityController::class, 'store']);
+Route::put('/assigned-activity/{id}', [AssignedActivityController::class, 'update']);
+
 Route::get('/enable-project/{id}', [ProjectController::class, 'enable']);
 Route::get('/search-projects/{search}', [ProjectController::class, 'searchProject']);
 
@@ -374,3 +376,7 @@ Route::get('/assigned-activity-user/{id}/{uid}', [AssignedActivityController::cl
 Route::delete('/assigned-activity/{id}', [AssignedActivityController::class, 'destroy']);
 
 Route::get('/process-sprint/{pid}/{id}', [DeliveryController::class, 'processSprint']);
+Route::get('/search-task/{name}', [TaskController::class, 'searchTask']);
+
+Route::get('/update-project-title/{id}/{name}', [ProjectController::class, 'updateProjectTitle']);
+Route::get('/update-project-status/{id}/{status}', [ProjectController::class, 'updateProjectStatus']);

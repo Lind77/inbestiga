@@ -7,6 +7,7 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Http\Request;
 use App\Events\NewDoing;
+use App\Models\Academic_product;
 use App\Models\Assigned_activity;
 
 class TaskController extends Controller
@@ -179,5 +180,11 @@ class TaskController extends Controller
         return response()->json([
             'msg' => 'success'
         ]);
+    }
+
+    public function searchTask($name)
+    {
+        $academic_products = Academic_product::with('acceptance_indicators')->where('name', 'like', '%' . $name . '%')->get();
+        return response()->json($academic_products);
     }
 }

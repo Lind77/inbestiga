@@ -1,24 +1,20 @@
 <template>
     <div class="cardSpace" draggable="true" @dragover.prevent @drop.stop.prevent @dragstart="drag"
         :id="`${quotation.id}`" @click="showModalFunnel(quotation)">
-        <div :class="`card p-2 cursor-pointer`">
-
+        <div :class="`card p-2 cursor-pointer bg-primary text-white`">
             <div class="d-flex">
-                <div class="avatar avatar-lg me-2">
-                    <span :class="`avatar-initial rounded bg-${bgColor}`" width="50" height="50">
-                        <i class="bx bx-file"></i>
-                    </span>
+                <div class="me-2">
+                    <span class="badge bg-label-primary p-3"><i class="bx bx-user text-primary"></i></span>
                 </div>
                 <div class="d-flex flex-column ps-2" v-if="quotation">
-                    <h6 class="mb-0 py-2" v-for="customer in quotation.customers" :title="customer.name">{{
-            customer.name.length > 15 ? customer.name.substring(0, 15) + '...' : customer.name ||
+                    <h6 class="mb-0 py-2 text-white" v-for="customer in quotation.customers" :title="customer.name">{{
+            customer.name.length > 20 ? customer.name.substring(0, 20) + '...' : customer.name ||
                 customer.cell
         }}
                     </h6>
                     <p class="mb-0">S/.{{ formatCant(quotation.amount) }}</p>
                 </div>
             </div>
-
         </div>
         <div class="space" :id="'space' + quotation.id" @dragover="changeColor(quotation.id)"
             @dragleave="removeColor(quotation.id)" @drop="dropSpace($event, quotation.id)">

@@ -3,7 +3,6 @@
         <input type="text" class="form-control w-50" placeholder="Buscar por nombre ..." @keyup="cleanLeads"
             v-on:keyup.enter="searchByName" v-model="search">
         <input type="date" @change="filterDate" class="form-control w-25 ms-2">
-
     </div>
 </template>
 <script>

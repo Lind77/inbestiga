@@ -11,7 +11,7 @@
           </div>
         </div>
       </div>
-      <div class="card w-100 mt-5 mb-5">
+      <div class="card w-100 my-2">
         <div class="row px-3">
           <div class="col">
             <label for="">Categoría</label>
@@ -31,49 +31,23 @@
           <div class="col">
             <label for="">Estado</label>
             <select class="form-control">
-              <option value="1">To Do</option>
-              <option value="2">Doing</option>
-              <option value="3">Done</option>
-              <option value="4">Stand By</option>
+              <option value="1">Todos</option>
+              <option value="2">En Progreso</option>
+              <option value="3">Stand By</option>
+              <option value="4">Completo</option>
             </select>
           </div>
         </div>
       </div>
-      <div class="nav-align-top mb-4 px-2">
-        <ul class="nav nav-pills mb-3" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-              data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true">Home</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-              data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile" aria-selected="false"
-              tabindex="-1">Tabla</button>
-          </li>
-        </ul>
-        <div class="tab-content">
-          <div class="tab-pane fade active show" id="navs-pills-top-home" role="tabpanel">
-            <div class="row row-cols-3">
-              <CardProject v-for="project in projectsFiltered" :project="project" @getAllProjectsAcad="getAllProjectsAcad"
-                @showTeamModal="showTeamModal" />
-
-            </div>
-            <div class="d-flex align-items-center justify-content-center mt-4">
-              <button class="btn btn-primary btn-icon" @click="prevPage" v-if="prevPageUrl != null"><i
-                  class='bx bx-chevron-left'></i></button>
-              <button class="btn btn-primary btn-icon" v-if="nextPageUrl != null" @click="nextPage"><i
-                  class='bx bx-chevron-right'></i></button>
-
-            </div>
-          </div>
-          <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
-            <ProjectTable :projects="projectsFiltered" />
-          </div>
+      <div class="row">
+        <ProjectTable :projects="projectsFiltered" />
+        <div class="d-flex align-items-center justify-content-center mt-4">
+          <button class="btn btn-primary btn-icon" @click="prevPage" v-if="prevPageUrl != null"><i
+              class='bx bx-chevron-left'></i></button>
+          <button class="btn btn-primary btn-icon" v-if="nextPageUrl != null" @click="nextPage"><i
+              class='bx bx-chevron-right'></i></button>
         </div>
       </div>
-
-
-
     </div>
     <!-- <span v-if="store.rol == 'AdminAcad'" class="badge bg-label-primary me-1 cursor-pointer" data-bs-toggle="modal" data-bs-target="#projectModal">+</span> -->
   </div>
@@ -159,7 +133,7 @@ export default {
           .then((result) => {
             this.projectsFiltered = result.data
           }).catch((err) => {
-
+            this.$swal('Hubo un error')
           });
         /* this.projects.forEach((project) => {
           if (project.propertiable && project.propertiable.quotation) {

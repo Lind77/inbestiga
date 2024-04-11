@@ -1,23 +1,15 @@
 <template>
-    <div class="w-75 rounded">
-        <p class="fw-bold pt-3 text-center">{{ title }}</p>
-        <div :id="'draggableArea' + status" class="container-cards overflow-auto vh-100" @drop="drop" @dragenter.prevent
-            @dragover.prevent>
-            <template v-if="quotations">
-                <template v-for="(quotation, index) in quotations" :key="index">
-                    <CardQuotation :customer="customer" :quotation="quotation" :customers="customer.customers"
-                        :status="status" @showModalUpdateCom="showModalUpdateCom"
-                        @showModalUpdateData="showModalUpdateData" @transformLead="transformLead"
-                        @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
-                        @showModalQuotationFunnel="showModalQuotationFunnel" />
-                </template>
-            </template>
-            <template v-else>
-                <template v-for="customer in customers">
-                    <CardCustomer :customer="customer" :status="status" @showModalUpdateCom="showModalUpdateCom"
-                        @showModalUpdateData="showModalUpdateData" @updateStatusPrelead="updateStatusPrelead"
-                        @updateStatusSpace="updateStatusSpace" @convertLead="convertLead"
-                        @showModalFunnelCustomer="showModalFunnelCustomer" />
+    <div class="col-3 rounded">
+        <p class="text-dark fw-bold" style="font-size: 18px;"> <span class="text-primary">●</span> {{ title }}
+            <span class="fw-bold text-primary bg-label-primary py-0 px-1 rounded-1" style="font-size: 12px;">{{
+                entities.length
+                }}</span>
+        </p>
+        <div :id="'draggableArea' + status" class="container-cards overflow-auto vh-100 w-100" @drop="drop"
+            @dragenter.prevent @dragover.prevent>
+            <template v-if="entities.length != 0">
+                <template v-for="(entitie, index) in entities" :key="index">
+                    <CardEntitie :entitie="entitie" :status="status" @showModalUpdateData="showModalUpdateData" />
                 </template>
             </template>
         </div>
@@ -27,8 +19,10 @@
 import UpdateCom from '../prelead/UpdateCom.vue'
 import CardCustomer from '../prelead/CardCustomer.vue'
 import CardQuotation from './CardQuotation.vue'
+import CardEntitie from './CardEntitie.vue'
+
 export default {
-    components: { CardCustomer, UpdateCom, CardQuotation },
+    components: { CardCustomer, UpdateCom, CardQuotation, CardEntitie },
     data() {
         return {
             visible: false,
@@ -39,9 +33,8 @@ export default {
     props: {
         title: String,
         bg: String,
-        customers: Object,
         status: Number,
-        quotations: Array
+        entities: Array
     },
     methods: {
         updateStatusPrelead(customerId) {

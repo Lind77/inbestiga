@@ -20,7 +20,11 @@
                 </div> -->
                     <div class="mb-3">
                         <label for="firstMeetingDetails" class="form-label">Nombre de la nueva tarea</label>
-                        <input type="text" class="form-control" v-model="name">
+                        <input type="text" class="form-control" v-model="name" @keyup.enter="searchTask">
+                        <select v-show="showTaskPicker" v-model="taskPicked" @change="selectTaskFounded"
+                            class="form-control">
+                            <option :value="task.id" v-for="task in tasksFounded">{{ task.name }}</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="firstMeetingDetails" class="form-label">Fecha</label>
@@ -59,13 +63,40 @@ export default {
         return {
             name: '',
             date: '',
-            indicators: []
+            indicators: [],
+            tasksFounded: [],
+            taskPicked: 0,
+            showTaskPicker: false
         }
     },
     props: {
         deliveryId: Number
     },
     methods: {
+        searchTask() {
+            axios.get('/api/search-task/' + this.name)
+                .then((result) => {
+                    this.tasksFounded = result.data
+                    this.showTaskPicker = true
+                }).catch((err) => {
+                    console.log(err);
+                });
+        },
+        selectTaskFounded() {
+            var taskSelected = this.tasksFounded.find(task => task.id == this.taskPicked)
+            this.name = taskSelected.name
+            this.showTaskPicker = false
+            taskSelected.acceptance_indicators.forEach(indicator => {
+
+                var newIndicator = {
+                    value: indicator.name
+                }
+
+                this.indicators.push({ ...newIndicator })
+            });
+
+
+        },
         saveNewTask() {
             const fd = new FormData();
 
@@ -73,9 +104,13 @@ export default {
             fd.append('date', this.date)
             fd.append('indicators', JSON.stringify(this.indicators))
             fd.append('deliveryId', this.deliveryId)
-            axios.post('/api/assigned-activity', fd)
+            axios.post('/api/assigned-activity/', fd)
                 .then((res) => {
                     this.$emit('getProject')
+                    this.name = ''
+                    this.date = ''
+                    this.indicators = []
+                    this.tasksFounded = []
                     $('#newTaskModal').modal('hide')
                 })
                 .catch((err) => {
