@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="row">
-        <ProjectTable :projects="projectsFiltered" />
+        <ProjectTable :projects="projectsFiltered" @showTeamModal="showTeamModal" />
         <div class="d-flex align-items-center justify-content-center mt-4">
           <button class="btn btn-primary btn-icon" @click="prevPage" v-if="prevPageUrl != null"><i
               class='bx bx-chevron-left'></i></button>
