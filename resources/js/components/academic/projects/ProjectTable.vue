@@ -23,7 +23,7 @@
                         <ProjectName :id="project.id" :title="project.title" />
                     </td>
                     <td>
-                        <p>{{ project.team ? project.team.name : 'Sin Equipo' }}</p>
+                        <p @click="showTeamModal(project)">{{ project.team ? project.team.name : 'Sin Equipo' }}</p>
                     </td>
                     <td>
                         <div class="d-flex align-items-center avatar-group my-3">
@@ -113,6 +113,10 @@ export default {
         projects: Array
     },
     methods: {
+        showTeamModal(project) {
+            console.log(project);
+            this.$emit('showTeamModal', project.projectable.id)
+        },
         updateStatus(project, newStatus) {
             project.status = newStatus
             axios.get('/api/update-project-status/' + project.id + '/' + newStatus)

@@ -24,9 +24,9 @@
                   <th>Dueño</th>
                   <th>Celular</th>
                   <th>Fecha de Registro</th>
-                  <th>Universidad</th>
-                  <th>Carrera</th>
-                  <th>Estado</th>
+                  <!-- <th>Universidad</th>
+                  <th>Carrera</th> -->
+                  <!-- <th>Estado</th> -->
                   <th>Opciones</th>
                 </tr>
               </thead>
@@ -39,9 +39,9 @@
                   <td>{{ customer.user ? customer.user.name : 'Sin asignar' }}</td>
                   <td>{{ customer.cell }}</td>
                   <td>{{ formatDate(customer.created_at) }}</td>
-                  <td>{{ customer.university ? customer.university.substring(0, 20) + '...' : '-' }}</td>
-                  <td>{{ customer.career ? customer.career.substring(0, 20) + '...' : '-' }}</td>
-                  <td>{{ status[customer.status] }}</td>
+                  <!-- <td>{{ customer.university ? customer.university.substring(0, 20) + '...' : '-' }}</td>
+                  <td>{{ customer.career ? customer.career.substring(0, 20) + '...' : '-' }}</td> -->
+                  <!-- <td>{{ status[customer.status] }}</td> -->
                   <td>
                     <!-- <router-link class="btn btn-success btn-sm" :to="{name:'home-quotation', params:{ idUser: customer.id }}">Generar Cotización</router-link> -->
                     <button v-if="customer.status == 0" @click="reactivateCustomer(customer.id)"
