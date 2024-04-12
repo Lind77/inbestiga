@@ -194,6 +194,7 @@ Route::get('/updateComunication/{id}', [ComunicationController::class, 'updateCo
 Route::get('/comunications', [ComunicationController::class, 'comunicationsClient']);
 
 Route::post('/contracts', [ContractController::class, 'insertContract']);
+Route::delete('/contracts/{id}', [ContractController::class, 'destroy']);
 Route::get('/getAllContracts', [ContractController::class, 'index']);
 Route::get('/generateContract/{id}', [OrderController::class, 'generateContract']);
 

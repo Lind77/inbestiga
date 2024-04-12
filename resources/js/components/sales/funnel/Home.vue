@@ -17,10 +17,10 @@
         @showModalUpdateData="showModalUpdateData" />
       <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
         :entities="quotations" :title="'Cotizaciones'" :status="2" @callModal="callModal"
-        @showModalQuotationFunnel="showModalQuotationFunnel" />
+        @showModalQuotationFunnel="showModalQuotationFunnel" @getAllCustomers="getAllCustomers" />
       <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
         :entities="contracts" :title="'Contratos'" :status="3" @callModal="callModal"
-        @showModalQuotationFunnel="showModalQuotationFunnel" />
+        @showModalQuotationFunnel="showModalQuotationFunnel" @getAllCustomers="getAllCustomers" />
       <!-- <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation" :customers="[]"
         :quotations="quotations" :title="'Contratos'" :status="2" @callModal="callModal"
          />
@@ -392,16 +392,17 @@ export default {
       console.log(this.customers_filtered)
     },
     getAllCustomers() {
-      /* this.$swal({
+      this.$swal({
         title: 'Cargando ...',
         allowOutsideClick: false,
         showConfirmButton: false
-      }) */
+      })
       axios.get('/api/leads/' + this.store.authUser.id)
         .then(res => {
           this.customers = res.data.customers
           this.quotations = res.data.quotations
           this.contracts = res.data.contracts
+          this.$swal.close()
         })
         .catch(err => {
           console.log(err)

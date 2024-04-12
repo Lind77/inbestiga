@@ -288,9 +288,10 @@ class CustomerController extends Controller
     {
         $customers = Customer::where('user_id', $id)->orderBy('updated_at', 'desc')->take(10)->get();
 
-        $quotations = Quotation::with(['customers' => function ($query) use ($id) {
+        $quotations = Quotation::with('customers')->whereHas('customers', function ($query) use ($id) {
             $query->where('user_id', $id);
-        }])->orderBy('updated_at', 'desc')->take(10)->get();
+        })
+            ->orderBy('updated_at', 'desc')->take(10)->get();
 
 
         $contracts = Contract::with(['quotation', 'quotation.customers'])
