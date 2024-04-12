@@ -227,9 +227,13 @@ class ContractController extends Controller
      * @param  \App\Models\Contract  $contract
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contract $contract)
+    public function destroy($id)
     {
-        //
+        $contract = Contract::with('payments')->find($id);
+
+        $contract->payments->each->delete();
+
+        $contract->delete();
     }
 
     public function updateContract(Request $request)
