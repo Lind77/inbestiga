@@ -21,6 +21,7 @@
               <thead>
                 <tr>
                   <th>Nombre</th>
+                  <th>Dueño</th>
                   <th>Celular</th>
                   <th>Fecha de Registro</th>
                   <th>Universidad</th>
@@ -32,13 +33,14 @@
               <tbody class="table-border-bottom-0">
                 <tr v-for="customer in customers">
                   <td><strong class="cursor-pointer placeholder-glow">{{
-        customer.name }}</strong><i @click="openOwnerModal(customer.id)" v-show="customer.user_id == null"
+                    customer.name }}</strong><i @click="openOwnerModal(customer.id)" v-show="customer.user_id == null"
                       class='bx bxs-user-x text-danger'></i>
                   </td>
+                  <td>{{ customer.user ? customer.user.name : 'Sin asignar' }}</td>
                   <td>{{ customer.cell }}</td>
                   <td>{{ formatDate(customer.created_at) }}</td>
                   <td>{{ customer.university ? customer.university.substring(0, 20) + '...' : '-' }}</td>
-                  <td>{{ customer.career }}</td>
+                  <td>{{ customer.career ? customer.career.substring(0, 20) + '...' : '-' }}</td>
                   <td>{{ status[customer.status] }}</td>
                   <td>
                     <!-- <router-link class="btn btn-success btn-sm" :to="{name:'home-quotation', params:{ idUser: customer.id }}">Generar Cotización</router-link> -->
