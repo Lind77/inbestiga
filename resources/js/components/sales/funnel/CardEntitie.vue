@@ -15,33 +15,35 @@
                                     class="bx bx-edit"></i></button>
                             <button class="btn btn-icon btn-danger ms-1" v-if="entitieStatus == 1"
                                 @click="noConnect(entitie)"><i class='bx bx-user-x'></i></button>
+                            <button class="btn btn-icon btn-success ms-1" @click="toQuotation(entitie)"><i
+                                    class='bx bx-file'></i></button>
                         </div>
                     </template>
                     <template v-if="entitie.customers">
                         <h6 class="mb-0 py-2 text-white" v-for="customer in entitie.customers" :title="customer.name">{{
-                            customer.name.length > 20 ? customer.name.substring(0, 20) + '...' : customer.name ||
-                                customer.cell
+                            customer.name.length > 20 ? customer.name.substring(0, 20) + '...' : customer.name
                         }}
                         </h6>
                         <div class="d-flex">
                             <button class="btn btn-icon btn-primary" @click="editQuotation(entitie)"><i
                                     class="bx bx-edit"></i></button>
-                            <button class="btn btn-icon btn-danger ms-1"><i class='bx bx-trash'></i></button>
-                            <button class="btn btn-icon btn-success ms-1" @click="editQuotation(entitie)"><i
+                            <button class="btn btn-icon btn-danger ms-1" @click="deleteQuotation(entitie)"><i
+                                    class='bx bx-trash'></i></button>
+                            <button class="btn btn-icon btn-success ms-1" @click="toOrder(entitie)"><i
                                     class='bx bx-file'></i></button>
                         </div>
                     </template>
                     <template v-if="entitie.quotation">
                         <h6 class="mb-0 py-2 text-white" v-for="customer in entitie.quotation.customers"
                             :title="customer.name">{{
-                                customer.name.length > 20 ? customer.name.substring(0, 20) + '...' : customer.name ||
-                                    customer.cell
+                                customer.name.length > 20 ? customer.name.substring(0, 20) + '...' : customer.name
                             }}
                         </h6>
                         <div class="d-flex">
                             <button class="btn btn-icon btn-info" @click="toOrder(entitie.quotation)"><i
                                     class="bx bx-edit"></i></button>
-                            <button class="btn btn-icon btn-danger ms-1"><i class='bx bx-trash'></i></button>
+                            <button class="btn btn-icon btn-danger ms-1" @click="deleteContract(entitie)"><i
+                                    class='bx bx-trash'></i></button>
                         </div>
                     </template>
                     <!-- <p class="mb-0">S/.{{ formatCant(entitie.amount) }}</p> -->
@@ -82,7 +84,11 @@ export default {
         dropSpace(e) {
             var customerId = e.dataTransfer.getData('customerId')
             e.dataTransfer.setData('quotationId', this.entitie.id)
-            this.$router.push({ name: 'home-docs', params: { customerId: customerId } })
+            if (this.status == 1) {
+                this.$router.push({ name: 'home-docs', params: { customerId: customerId } })
+            } else {
+                this.$router.push({ name: 'contract-orders', params: { quotationId: customerId } })
+            }
         },
         noConnect(customer) {
             this.entitieStatus = 0
@@ -93,6 +99,30 @@ export default {
         },
         editQuotation(quotation) {
             this.$router.push({ name: 'home-docs', params: { customerId: quotation.customer_id } })
+        },
+        deleteQuotation(quotation) {
+            if (confirm('Tienes la seguridad de eliminar esta cotización?')) {
+                axios.delete('/api/quotations/' + quotation.id)
+                    .then((result) => {
+                        this.$swal('Cotización eliminada correctamente')
+                        this.$parent.getCustomers()
+                    }).catch((err) => {
+                        this.$swal('Hubo un error')
+                    });
+            }
+
+        },
+        deleteContract(contract) {
+            if (confirm('Tienes la seguridad de eliminar este contrato?')) {
+                axios.delete('/api/contracts/' + contract.id)
+                    .then((result) => {
+                        this.$swal('Contrato eliminado correctamente')
+                        this.$parent.getCustomers()
+                    }).catch((err) => {
+                        this.$swal('Hubo un error')
+                    });
+            }
+
         },
         changeColor(index) {
             console.log(index)
@@ -123,6 +153,9 @@ export default {
             /* $('#funnelModal').modal('hide')
             this.$router.push({ name: 'edit-quotation', params: { idQuotation: quotationId } }) */
         },
+        toQuotation(customer) {
+            this.$router.push({ name: 'home-docs', params: { customerId: customer.id } })
+        }
     }
 }
 </script>

@@ -37,6 +37,9 @@ export default {
         entities: Array
     },
     methods: {
+        getCustomers() {
+            this.$emit('getAllCustomers');
+        },
         updateStatusPrelead(customerId) {
             console.log(customerId, this.status);
             this.$emit('updateStatusPrelead', customerId, this.status)
