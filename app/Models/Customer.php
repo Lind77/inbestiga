@@ -36,4 +36,8 @@ class Customer extends Model
     {
         return $this->morphToMany('App\Models\Meeting', 'meetingable');
     }
+    //relación uno a muchos Customer-External_voucher
+    public function external_vouchers(){
+        return $this->hasMany('App\Models\External_voucher');
+    }
 }

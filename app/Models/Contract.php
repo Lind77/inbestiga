@@ -40,4 +40,8 @@ class Contract extends Model
     public function properties(){
         return $this->morphMany('App\Models\Property', 'propertiable');
     }
+    //relación uno a muchos Contract-External_voucher
+    public function external_vouchers(){
+        return $this->hasMany('App\Models\External_voucher');
+    }
 }
