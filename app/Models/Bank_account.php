@@ -17,4 +17,8 @@ class Bank_account extends Model
     public function external_vouchers(){
         return $this->hasMany('App\Models\External_voucher');
     }
+    //relación muchos a muchos Bank_account-Payment_method
+    public function payment_methods(){
+        return $this->belongsToMany("App\Models\Payment_method", 'bank_account_payment_method');
+    }
 }
