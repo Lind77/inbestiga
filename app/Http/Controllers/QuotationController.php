@@ -7,6 +7,7 @@ use App\Models\Quotation;
 use App\Http\Requests\StoreQuotationRequest;
 use App\Http\Requests\UpdateQuotationRequest;
 use App\Models\Comission;
+use App\Models\Contract;
 use App\Models\Customer;
 use App\Models\Detail;
 use App\Models\Notification;
@@ -460,10 +461,24 @@ class QuotationController extends Controller
 
     public function searchQuotations($search)
     {
-        $quotations = Quotation::with(['customers', 'customers.comunications', 'customers.user'])->whereHas('customers', function ($query) use ($search) {
-            $query->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%')->orWhere('university', 'like', '%' . $search . '%')->orWhere('career', 'like', '%' . $search . '%');
-        })->get();
+        $customers = Customer::where('name', 'like', '%' . $search . '%')->orderBy('updated_at', 'desc')->get();
 
-        return response()->json($quotations);
+        $quotations = Quotation::with('customers')->whereHas('customers', function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        })->orderBy('updated_at', 'desc')->get();
+
+
+        $contracts = Contract::with(['quotation', 'quotation.customers'])
+            ->whereHas('quotation.customers', function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'customers' => $customers,
+            'quotations' => $quotations,
+            'contracts' => $contracts
+        ]);
     }
 }
