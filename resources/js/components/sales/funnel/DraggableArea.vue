@@ -9,7 +9,8 @@
             @dragenter.prevent @dragover.prevent>
             <template v-if="entities.length != 0">
                 <template v-for="(entitie, index) in entities" :key="index">
-                    <CardEntitie :entitie="entitie" :status="status" @showModalUpdateData="showModalUpdateData" />
+                    <CardEntitie :entitie="entitie" :status="status" @showModalUpdateData="showModalUpdateData"
+                        @updateInBd="updateInBd" />
                 </template>
             </template>
         </div>
@@ -37,6 +38,9 @@ export default {
         entities: Array
     },
     methods: {
+        updateInBd(quotationId, status) {
+            this.$parent.updateInBd(quotationId, status);
+        },
         getCustomers() {
             this.$emit('getAllCustomers');
         },

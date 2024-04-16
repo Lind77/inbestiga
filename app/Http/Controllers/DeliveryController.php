@@ -151,6 +151,7 @@ class DeliveryController extends Controller
     {
         /* $deliveries = Project::with('deliveries')->get(); */
         $deliveries = Delivery::has('project')->with(['project', 'project.projectable', 'project.projectable.quotation', 'project.projectable.quotation.customers'])->get();
+
         return response()->json([
             'deliveries' => $deliveries
         ]);

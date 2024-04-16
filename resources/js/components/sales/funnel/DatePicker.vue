@@ -21,8 +21,7 @@ export default {
         searchByName() {
             axios.get('/api/quotations/search/' + this.search)
                 .then((res) => {
-                    console.log('respuesta de busqueda', res);
-                    this.$emit('distributeQuotations', res.data)
+                    this.$emit('distributeEntities', res.data)
                 })
                 .catch((err) => {
                     console.error(err)

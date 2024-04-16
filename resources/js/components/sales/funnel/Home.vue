@@ -1,6 +1,6 @@
 <template>
   <div class="container-xxl flex-grow-1 container-p-y">
-    <DatePicker class="ms-1" @filterDate="filterDate" @distributeQuotations="distributeQuotations"
+    <DatePicker class="ms-1" @filterDate="filterDate" @distributeEntities="distributeEntities"
       @getAllQuotations="getAllQuotations" />
     <!-- <div class="container-override">
       <div class="first-container"></div>
@@ -20,7 +20,8 @@
         @showModalQuotationFunnel="showModalQuotationFunnel" @getAllCustomers="getAllCustomers" />
       <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
         :entities="contracts" :title="'Contratos'" :status="3" @callModal="callModal"
-        @showModalQuotationFunnel="showModalQuotationFunnel" @getAllCustomers="getAllCustomers" />
+        @showModalQuotationFunnel="showModalQuotationFunnel" @getAllCustomers="getAllCustomers"
+        @updateInBd="updateInBd" />
       <!-- <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation" :customers="[]"
         :quotations="quotations" :title="'Contratos'" :status="2" @callModal="callModal"
          />
@@ -355,7 +356,7 @@ export default {
       fd.append('user_id', this.store.authUser.id)
       axios.post('/api/update-quotation-status', fd)
         .then(res => {
-          console.log(res.data)
+          this.$swal('Felicidades!, ha conseguido un nuevo proyecto para Inbestiga!!')
         })
         .catch(err => {
           console.log(err)
@@ -504,55 +505,10 @@ export default {
           console.error(err)
         })
     },
-    distributeQuotations(quotations) {
-
-      this.totalQuotations = quotations
-
-      this.quotations = []
-      this.explanations = []
-      this.experiences = []
-      this.tracings = []
-      this.nopays = []
-      this.closings = []
-
-      quotations.forEach(quotation => {
-        if (quotation.status == 5) {
-          this.quotations.push(quotation)
-        } else if (quotation.status == 6) {
-          this.explanations.push(quotation)
-        } else if (quotation.status == 7) {
-          this.experiences.push(quotation)
-        } else if (quotation.status == 8) {
-          this.tracings.push(quotation)
-        } else if (quotation.status == 9) {
-          this.nopays.push(quotation)
-        } else if (quotation.status == 10) {
-          this.closings.push(quotation)
-        }
-      })
-
-      this.draggableQuotations = [
-        {
-          quotations: this.quotations,
-          title: 'Usuarios',
-          status: 5
-        },
-        {
-          quotations: this.explanations,
-          title: 'Cotizaciones',
-          status: 6
-        },
-        {
-          quotations: this.experiences,
-          title: 'Contratos',
-          status: 7
-        },
-        {
-          quotations: this.tracings,
-          title: 'Pagos',
-          status: 8
-        }
-      ]
+    distributeEntities(entities) {
+      this.customers = entities.customers
+      this.quotations = entities.quotations
+      this.contracts = entities.contracts
     },
     loadCustomerById(userId) {
       console.log(userId);
