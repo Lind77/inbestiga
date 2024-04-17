@@ -22,12 +22,25 @@
         :entities="contracts" :title="'Contratos'" :status="3" @callModal="callModal"
         @showModalQuotationFunnel="showModalQuotationFunnel" @getAllCustomers="getAllCustomers"
         @updateInBd="updateInBd" />
-      <!-- <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation" :customers="[]"
-        :quotations="quotations" :title="'Contratos'" :status="2" @callModal="callModal"
-         />
-      <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation" :customers="[]"
-        :quotations="quotations" :title="'Pagos'" :status="2" @callModal="callModal"
-        @showModalQuotationFunnel="showModalQuotationFunnel" /> -->
+      <DraggableArea @updateStatusSpace="updateStatusSpace" @transformQuotation="transformQuotation"
+        :entities="contracts" :title="'Vouchers'" :status="4" @callModal="callModal"
+        @showModalQuotationFunnel="showModalQuotationFunnel" @getAllCustomers="getAllCustomers"
+        @updateInBd="updateInBd" />
+    </div>
+    <button type="button" class="btn btn-primary" @click="showToast" id="liveToastBtn">Show live toast</button>
+
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+      <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <!-- <img src="..." class="rounded me-2"> -->
+          <strong class="me-auto">Nuevo Lead</strong>
+          <small>Hace un momento</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          Se te ha asignado un nuevo lead {{ newLeadName }}
+        </div>
+      </div>
     </div>
     <ProductModal :customer="customersSelected" @getAllCustomers="getAllCustomers" />
     <UpdateCom :customerId="customerId" :customer="customerToComunication" :comunication="comunication"
@@ -48,7 +61,6 @@ import DraggableArea from './DraggableArea.vue'
 import UpdateCom from '../prelead/UpdateCom.vue'
 import FunnelModal from './FunnelModal.vue'
 import customerModal from '../customers/customerModal.vue'
-import axios from 'axios'
 
 export default {
   setup() {
@@ -85,13 +97,17 @@ export default {
       customerToComunication: {},
       customer_selected: {},
       initialPage: 0,
-      contracts: []
+      contracts: [],
+      newLeadName: ''
     }
   },
   methods: {
-    moveFunnelRigth() {
+    showToast() {
 
-      if (this.initialPage < this.draggableQuotations.length - 1) {
+    },
+    moveFunnelRigth() {
+      console.log('nani');
+      if (this.initialPage < 3) {
         this.initialPage++;
         var percent = ((this.initialPage) * 25) * -1
         console.log(percent)
@@ -530,11 +546,18 @@ export default {
   },
   mounted() {
     this.getAllCustomers()
-    this.getAllQuotations()
+    //this.getAllQuotations()
     this.getAllOwners()
     if (this.$route.params.userId) {
       this.loadCustomerById(this.$route.params.userId)
     }
+    Echo.private(`leads.${this.store.authUser.id}`)
+      .listen('NewLead', (e) => {
+        console.log(e);
+        this.customers.unshift(e.customer)
+        this.newLeadName = e.customer.name
+        $('#liveToast').toast('show')
+      })
   }
 }
 </script>
