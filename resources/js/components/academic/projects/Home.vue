@@ -53,7 +53,7 @@
   </div>
   <!-- <OffCanvas :project_selected="project_selected" @getAllProjects="getAllProjectsAcad" /> -->
   <QualityModal :qualityActivities="qualityActivities" />
-  <TeamModal :contract="contractId" @getAllProjectsAcad="getAllProjectsAcad" />
+  <TeamModal :projectSelected="project_selected" @getAllProjectsAcad="getAllProjectsAcad" />
 </template>
 
 <script>
@@ -120,8 +120,8 @@ export default {
           console.log(err);
         });
     },
-    showTeamModal(contractId) {
-      this.contractId = contractId;
+    showTeamModal(project) {
+      this.project_selected = project;
       $('#teamModal').modal('show');
     },
     searchProjectByWord() {
@@ -214,6 +214,7 @@ export default {
     },
     getAllProjectsAcad() {
       this.project_selected = {}
+      this.projects = []
       showLoader()
       axios.get('/api/projects-properties')
         .then(res => {

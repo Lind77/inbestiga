@@ -10,7 +10,7 @@ export default {
     data() {
         return {
             showField: false,
-            projectName: this.title
+            projectName: ''
         }
     },
     props: {
@@ -27,11 +27,20 @@ export default {
                 });
         },
         showInput() {
+            this.projectName = this.title
             this.showField = true
             this.$nextTick(() => {
                 this.$refs.projectName.select()
             })
         }
+    },
+    watch: {
+        title() {
+            this.projectName = this.title
+        }
+    },
+    mounted() {
+        this.projectName = this.title
     }
 }
 </script>
