@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel2">Asignar a un equipo</h5>
+                    <h5 class="modal-title" id="exampleModalLabel2">Asignar a un equipo {{ projectSelected.id }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -31,7 +31,7 @@
 <script>
 export default {
     props: {
-        contract: Number
+        projectSelected: Object
     },
     data() {
         return {
@@ -42,7 +42,7 @@ export default {
     methods: {
         assignTeam() {
             const fd = new FormData()
-            fd.append('contract_id', this.contract)
+            fd.append('contract_id', this.projectSelected.id)
             fd.append('team_selected', this.team_selected)
             axios.post('/api/assignTeam', fd)
                 .then(res => {

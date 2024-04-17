@@ -103,12 +103,14 @@ class TeamController extends Controller
     public function assignTeam(Request $request)
     {
         $project =  Project::find($request->get('contract_id'));
+
         $project->update([
             'team_id' => $request->get('team_selected')
         ]);
 
         return response()->json([
-            'msg' => 'success'
+            'msg' => 'success',
+            'project' => $project
         ]);
     }
 
