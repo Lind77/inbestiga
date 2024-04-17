@@ -22,7 +22,7 @@
                     <template v-if="entitie.customers">
                         <h6 class="mb-0 py-2 text-white" v-for="customer in entitie.customers" :title="customer.name">{{
                             customer.name.length > 20 ? customer.name.substring(0, 20) + '...' : customer.name
-                            }}
+                        }}
                         </h6>
                         <div class="d-flex">
                             <button class="btn btn-icon btn-primary" @click="editQuotation(entitie)"><i
@@ -45,7 +45,8 @@
                             <button class="btn btn-icon btn-danger ms-1" @click="deleteContract(entitie)">
                                 <i class='bx bx-trash'></i>
                             </button>
-                            <button class="btn btn-icon btn-success ms-1" @click="assendContract(entitie.quotation)">
+                            <button v-if="status == 3" class="btn btn-icon btn-success ms-1"
+                                @click="assendContract(entitie.quotation)">
                                 <i class='bx bx-user-check'></i>
                             </button>
                         </div>
