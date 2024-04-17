@@ -114,8 +114,7 @@ export default {
     },
     methods: {
         showTeamModal(project) {
-            console.log(project);
-            this.$emit('showTeamModal', project.id)
+            this.$emit('showTeamModal', project)
         },
         updateStatus(project, newStatus) {
             project.status = newStatus
