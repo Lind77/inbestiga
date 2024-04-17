@@ -343,7 +343,6 @@ class CustomerController extends Controller
 
         broadcast(new NewLead($customer));
 
-
         return response()->json([
             'msg' => 'success'
         ]);
