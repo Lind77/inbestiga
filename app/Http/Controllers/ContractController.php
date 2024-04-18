@@ -229,11 +229,21 @@ class ContractController extends Controller
      */
     public function destroy($id)
     {
-        $contract = Contract::with('payments')->find($id);
+        $contract = Contract::with(['payments', 'projects', 'projects.deliveries'])->find($id);
 
-        $contract->payments->each->delete();
+        if ($contract->payments) {
+            $contract->payments->each->delete();
+        }
+
+        $contract->projects->each->deliveries->each->delete();
+
+        $contract->projects->each->delete();
 
         $contract->delete();
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     public function updateContract(Request $request)
