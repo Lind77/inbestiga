@@ -14,7 +14,7 @@
         <tbody class="table-border-bottom-0">
           <tr v-for="quotation in quotations">
             <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong v-for="customer in quotation.customers">{{
-      customer.name }}</strong></td>
+              customer.name }}</strong></td>
             <td>{{ quotation.date }}</td>
             <td>
               <router-link :to="{ name: 'quotation-img', params: { id: quotation.id } }" target="_blank"

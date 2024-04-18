@@ -19,6 +19,8 @@
             <td>
               <a :href="`${appUrl}api/generateContract/${contract.id}`" target="_blank"
                 class="btn btn-sm btn-primary mx-2 text-white" disabled><i class='bx bx-printer'></i></a>
+              <button class="btn btn-sm btn-danger" @click="deleteContract(contract.id)"><i
+                  class="bx bx-trash"></i></button>
             </td>
           </tr>
         </tbody>
@@ -35,6 +37,18 @@ export default {
     }
   },
   methods: {
+    deleteContract(contractId) {
+      if (confirm('Estás seguro de eliminar este contrato?')) {
+        axios.delete('/api/contracts/' + contractId)
+          .then(res => {
+            console.log(res)
+            this.getAllContracts()
+          })
+          .catch(err => {
+            console.log(err.response.data)
+          })
+      }
+    },
     getAllContracts() {
       axios.get('/api/getAllContracts')
         .then(res => {
