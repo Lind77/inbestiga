@@ -23,7 +23,19 @@
                         <ProjectName :id="project.id" :title="project.title" />
                     </td>
                     <td>
-                        <p @click="showTeamModal(project)">{{ project.team ? project.team.name : 'Sin Equipo' }}</p>
+                        <div class="btn-group">
+                            <button type="button" :class="`btn btn-primary dropdown-toggle hide-arrow`"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ project.team ? project.team.name : 'Sin asignar' }}
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li v-for="team in teams">
+                                    <a class="dropdown-item" @click="updateTeam(project, team)"
+                                        href="javascript:void(0);">{{ team.name }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </td>
                     <td>
                         <div class="d-flex align-items-center avatar-group my-3">
@@ -105,12 +117,15 @@ export default {
                     color: 'danger',
                     title: 'Stand by'
                 }
-            }
+            },
+            teamSelected: 0,
+            showSelectTeam: true
         }
     },
     components: { ProjectName },
     props: {
-        projects: Array
+        projects: Array,
+        teams: Array
     },
     methods: {
         showTeamModal(project) {
@@ -124,6 +139,19 @@ export default {
                 }).catch((err) => {
                     console.error(err);
                 });
+        },
+        updateTeam(project, team) {
+            project.team.name = team.name
+            const fd = new FormData()
+            fd.append('contract_id', project.id)
+            fd.append('team_selected', team.id)
+            axios.post('/api/assignTeam', fd)
+                .then(res => {
+                    $('.dropdown-menu').removeClass('show')
+                })
+                .catch(err => {
+                    console.error(err)
+                })
         },
         showProjectFile(projectId) {
             window.open('../home/documentation/' + projectId, '_blank');
