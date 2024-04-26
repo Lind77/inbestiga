@@ -483,13 +483,13 @@ export default {
                     this.customer = this.quotation.customers[0]
                     this.comunications = this.customer.comunications
                     if (this.quotation.contract && this.quotation.contract.properties[0]) {
-                        this.newQuestions = JSON.parse(this.quotation.contract.properties[0].properties)
+                        this.questions = JSON.parse(this.quotation.contract.properties[0].properties)
                         this.docType = 2
                         var findDriveField = this.newQuestions.find(question => question.type == 5)
                         var findBranchInvestigation = this.newQuestions.find(question => question.type == 6)
 
                         if (!findDriveField) {
-                            this.newQuestions.push({
+                            this.questions.push({
                                 question: 'Link de Drive',
                                 answer: '',
                                 type: 5
@@ -497,7 +497,7 @@ export default {
                         }
 
                         if (!findBranchInvestigation) {
-                            this.newQuestions.push({
+                            this.questions.push({
                                 question: 'Rama de investigación',
                                 answer: 0,
                                 type: 6
@@ -505,7 +505,7 @@ export default {
                         }
                     } else if (this.quotation.order) {
                         if (this.quotation.order.properties[0]) {
-                            this.newQuestions = JSON.parse(this.quotation.order.properties[0].properties)
+                            this.questions = JSON.parse(this.quotation.order.properties[0].properties)
                         }
 
                     }
