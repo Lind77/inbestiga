@@ -401,13 +401,13 @@ export default {
                 question: '¿Cuál es la índole de tu investigación?',
                 answer: 0,
                 type: 6,
-                options: ['Proyectual', 'Cienctífico', 'Descriptivo', 'Correlacional', 'Explicativo', 'Implementación de un programa', 'No sé']
+                options: ['Proyectual', 'Científico', 'Descriptivo', 'Correlacional', 'Explicativo', 'Implementación de un programa', 'No sé']
             },
             {
                 question: 'Nivel de detalle',
                 answer: 0,
                 type: 6,
-                options: ['Plano', 'Modelado', 'Simulaciones']
+                options: ['Plano', 'Modelado', 'Simulaciones', 'Ninguno']
             },
             {
                 question: '¿Cuentas con conocimientos en investigación?',
@@ -540,7 +540,7 @@ export default {
 
             fd.append('propertiable_id', this.selectedDoc.propertiable_id)
             fd.append('propertiable_type', this.selectedDoc.propertiable_type)
-            fd.append('properties', JSON.stringify(this.newQuestions))
+            fd.append('properties', JSON.stringify(this.questions))
 
             axios.post('/api/properties', fd)
                 .then((result) => {
