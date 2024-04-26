@@ -485,8 +485,8 @@ export default {
                     if (this.quotation.contract && this.quotation.contract.properties[0]) {
                         this.questions = JSON.parse(this.quotation.contract.properties[0].properties)
                         this.docType = 2
-                        var findDriveField = this.newQuestions.find(question => question.type == 5)
-                        var findBranchInvestigation = this.newQuestions.find(question => question.type == 6)
+                        var findDriveField = this.questions.find(question => question.type == 5)
+                        var findBranchInvestigation = this.questions.find(question => question.type == 6)
 
                         if (!findDriveField) {
                             this.questions.push({
