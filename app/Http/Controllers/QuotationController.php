@@ -189,6 +189,8 @@ class QuotationController extends Controller
     {
         $quotation = Quotation::where('id', $id)->with(['customers', 'customers.user', 'customers.comunications', 'details', 'details.product', 'order', 'contract', 'contract.projects', 'order.properties', 'contract.properties'])->orderBy('created_at', 'desc')->first();
 
+        return $quotation;
+
         return response()->json($quotation);
     }
 

@@ -483,6 +483,11 @@ export default {
                     this.customer = this.quotation.customers[0]
                     this.comunications = this.customer.comunications
                     if (this.quotation.contract && this.quotation.contract.properties[0]) {
+
+                        var propertiesArr = this.quotation.contract.properties
+
+                        propertiesArr.sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at))
+
                         this.questions = JSON.parse(this.quotation.contract.properties[0].properties)
                         this.docType = 2
                         var findDriveField = this.questions.find(question => question.type == 5)
