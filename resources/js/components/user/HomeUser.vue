@@ -1,62 +1,118 @@
 <template>
-    <div>
-        <div class="container">
-            <div class="card mt-5 bg-info">
-                <h4 class="card-header"></h4>
-                <div class="card-body">
-                    <ul class="timeline" v-for="quotation in info.quotations">
-                        <li class="timeline-item timeline-item-transparent mb-3" v-for="project in projects">
-                            <!-- <span class="timeline-point-wrapper"><span
-                                    class="timeline-point timeline-point-primary"></span></span> -->
-                            <div class="timeline-event ps-3 my-4">
-                                <div class="timeline-header border-bottom mb-3 mt-3">
-                                    <h5 class="mb-0">Proyecto {{ project.id }}</h5>
-                                    <span>Fecha: {{ project.deadline }}</span>
-                                </div>
-                                <div class="d-flex justify-content-between flex-wrap mb-0">
-                                    <div>
-                                        <!-- <span>{{ project }}</span> -->
-                                        <!-- <i class="bx bx-right-arrow-alt scaleX-n1-rtl mx-3"></i>
-                                        <span>Heathrow Airport, London</span> -->
-                                    </div>
-                                    <!-- <div>
-                                        <span class="text-muted">6:30 AM</span>
-                                    </div> -->
-                                </div>
-                                <button class="btn btn-primary" @click="showCustomerModal(quotation.id)"> Ver más
-                                </button>
-                            </div>
+    <div class="bg-user">
+        <div class="container pt-5 px-0">
+            <div class="row">
+                <div class="col-2">
+                    <img src="https://jairpl.com/pdf-sys/logo.png" class="main-logo mb-3">
+                    <ul class="mt-5 menu-inner">
+                        <li class="menu-item text-white">
+                            <i class="menu-icon tf-icons bx bx-upload"></i>
+                            Mis Proyectos
                         </li>
-                        <!-- < li class=" timeline-item timeline-item-transparent">
-                            <span class="timeline-point-wrapper"><span
-                                    class="timeline-point timeline-point-success"></span></span>
-                            <div class="timeline-event">
-                                <div class="timeline-header mb-sm-0 mb-3">
-                                    <h6 class="mb-0">Design Review</h6>
-                                    <span class="text-muted">4th October</span>
-                                </div>
-                                <p>
-                                    Weekly review of freshly prepared design for our new
-                                    application.
-                                </p>
-                                <div class="d-flex justify-content-between">
-                                    <h6>New Application</h6>
+                    </ul>
+                </div>
+                <div class="col-10">
+                    <div class="glass d-flex">
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow pt-0 pe-3" href="javascript:void(0);"
+                                    data-bs-toggle="dropdown">
+                                    <div class="avatar">
+                                        <div class="flex-shrink-0 me-3">
+                                            <div class="avatar avatar-md me-4">
+                                                <img src="https://inbestiga.com/inbestiga/public/files/1709671609.png"
+                                                    alt="Avatar" class="rounded-circle">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <!-- <li>
+                                        <a class="dropdown-item">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1 cursor-pointer">
+                                                    <span class="fw-semibold d-block">{{ }}</span>
+                                                    <small class="text-muted">{{ }}</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li> -->
+                                    <!-- <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li> -->
+                                    <li>
+                                        <a class="dropdown-item cursor-pointer" @click="logout">
+                                            <i class="bx bx-power-off me-2"></i>
+                                            <span class="align-middle">Salir</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <template v-for="quotation in info.quotations">
+                        <div class="col-4" v-for="project in projects">
+                            <div class="card bg-card glass mt-4 cursor-pointer"
+                                @click="showCustomerModal(quotation.id)">
 
+                                <div class="card-header pb-0">
+                                    <img src="https://st.depositphotos.com/1380064/2259/i/450/depositphotos_22598471-stock-photo-abstract-technology-background-illustration.jpg"
+                                        class="w-25 mb-2 rounded">
+                                    <h4 class="text-white">{{ project.title }}</h4>
+                                    <p class="text-white" v-for="customer in quotation.customers">{{ customer.name }}
+                                    </p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="card shadow-none bg-transparent border border-ligth mb-3">
+                                                <div class="card-body">
+                                                    <h5 class="card-title text-white">{{ convertDate(project.created_at)
+                                                        }}</h5>
+                                                    <p class="card-text text-white">
+                                                        Inicio
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="card shadow-none bg-transparent border border-ligth mb-3">
+                                                <div class="card-body">
+                                                    <h5 class="card-title text-white">{{ project.deadline ?
+                                            project.deadline : 'Sin asignar' }}</h5>
+                                                    <p class="card-text text-white">
+                                                        Culminación
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="px-3">
+                                            <div class="progress w-100 ps-0" style="height: 8px;">
+                                                <div class="progress-bar bg-info" style="width: 78%" role="progressbar"
+                                                    aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center avatar-group mt-3">
+                                            <div class="avatar avatar-sm me-2" v-for="user in project.team.users"
+                                                :title="user.name">
+                                                <span class="avatar-initial rounded-circle bg-primary">{{
+                                            user.name[0]
+                                        }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            </li> -->
-                        <!--  <li class="timeline-end-indicator">
-                            <i class="bx bx-check-circle"></i>
-                        </li> -->
-                    </ul>
+                        </div>
+                    </template>
                 </div>
             </div>
         </div>
-
-
     </div>
 </template>
 <script>
+import moment from 'moment'
+
 export default {
     data() {
         return {
@@ -65,8 +121,14 @@ export default {
         }
     },
     methods: {
+        convertDate(date) {
+            return moment(date).format('DD/MM/YYYY')
+        },
         showCustomerModal(quotationId) {
             this.$router.push({ name: 'user-documentation', params: { quotationId: quotationId } })
+        },
+        logout() {
+            this.$router.push({ name: 'user-login' })
         },
         getUserInfo() {
             axios.get('/api/customer-by-id/' + this.$route.params.customerId)
@@ -88,12 +150,50 @@ export default {
 }
 </script>
 <style scoped>
-.timeline {
-    position: relative;
-    height: 100%;
+.bg-user {
     width: 100%;
-    padding: 0;
+    height: 100vh;
+    background-image: url('https://inbestiga.com/inbestiga/public/img/cuadros.png'), linear-gradient(67deg, rgba(38, 20, 38, 1) 19%, rgba(41, 21, 41, 1) 30%, rgba(95, 29, 95, 1) 64%);
+    ;
+    background-size: cover;
+}
+
+.main-logo {
+    width: 100%;
+}
+
+.bg-card {
+    background-color: rgba(0, 0, 0, 0.32);
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.112);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 5px;
+
+    padding: 10px 0px;
+}
+
+.menu-item {
+    height: auto;
+    width: 100%;
+    padding: 5px;
     list-style: none;
+    border: 3px solid #fb15d7;
+    border-radius: 5px;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    background: linear-gradient(0deg, #7f21fb 64%, rgba(127, 33, 251, 0) 64%);
+    background-size: 100% 400%;
+    background-position: 100% 0%;
+    transition: background 0.3s ease;
+}
+
+.menu-item:hover {
+    background-position: 100% 100%;
+    border: 3px solid #7f21fb;
 }
 
 
@@ -123,5 +223,9 @@ export default {
 .timeline .timeline-point-primary {
     background-color: #696cff !important;
     box-shadow: 0 0 0 0.1875rem rgba(105, 108, 255, .16);
+}
+
+.progress {
+    background: #ffffff49;
 }
 </style>
