@@ -139,7 +139,7 @@ class AssignedActivityController extends Controller
 
     public function revision()
     {
-        $assigned_activity = Assigned_activity::where('status', 3)->with(['user'])->orderBy('updated_at', 'desc')->get();
+        $assigned_activity = Assigned_activity::where('status', 4)->with(['user'])->orderBy('updated_at', 'desc')->get();
 
         return response()->json($assigned_activity);
     }
@@ -203,6 +203,17 @@ class AssignedActivityController extends Controller
         return response()->json([
             'msg' => 'success',
             'name' => $user->name
+        ]);
+    }
+
+    public function approve($id)
+    {
+        $assigned_activity = Assigned_activity::find($id);
+        $assigned_activity->update([
+            'status' => 5
+        ]);
+        return response()->json([
+            'msg' => 'success'
         ]);
     }
 }

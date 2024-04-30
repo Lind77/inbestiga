@@ -21,7 +21,12 @@ export default {
     },
     methods: {
         editName() {
-            this.showName = false
+            if (this.team) {
+                this.showName = false
+            } else {
+                this.$swal('Se debe asignar el equipo primero')
+            }
+
         },
         updateUserTask() {
             if (this.selected) {
