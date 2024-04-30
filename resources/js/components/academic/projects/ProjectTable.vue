@@ -141,7 +141,10 @@ export default {
                 });
         },
         updateTeam(project, team) {
-            project.team.name = team.name
+            var newTeam = {
+                name: team.name
+            }
+            project.team = newTeam
             const fd = new FormData()
             fd.append('contract_id', project.id)
             fd.append('team_selected', team.id)

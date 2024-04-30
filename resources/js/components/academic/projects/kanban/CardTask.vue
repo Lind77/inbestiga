@@ -6,11 +6,11 @@
             <p class="card-text">{{ activity.date }}</p>
             <button class="btn btn-sm btn-success" @click="sendToReview(activity)" v-if="activity.status == 3">Enviar a
                 revisión</button>
-            <p class="text-warning" v-if="store.authUser.roles[0].name != 'CoordAcad' && activity.status > 2">En
+            <p class="text-warning" v-if="activity.status == 4">En
                 revisión
             </p>
             <button class="btn btn-sm btn-warning"
-                v-if="store.authUser.roles[0].name == 'CoordAcad' && activity.status > 3"
+                v-if="store.authUser.roles[0].name == 'CoordAcad' && activity.status == 3"
                 @click="openModelIndicators(activity)">Evaluar</button>
             <!--  <button class="btn btn-sm btn-success"
                 v-if="store.authUser.roles[0].name == 'CoordAcad' && activity.status > 2"
@@ -66,8 +66,8 @@ export default {
             this.updateTaskInBd(this.activity.id, this.activity.status)
         },
         sendToReview() {
-            this.activity.status = 3
-            this.$emit('removeTask', this.activity.id)
+            this.activity.status = 4
+            /* this.$emit('removeTask', this.activity.id) */
             this.updateTaskInBd(this.activity.id, this.activity.status)
         },
         startCron() {
@@ -105,11 +105,12 @@ export default {
             console.log(this.activity);
             e.dataTransfer.setData('taskStatus', this.activity.status)
             e.dataTransfer.setData('taskId', this.activity.id)
+            e.dataTransfer.setData('owner', this.activity.user_id)
 
-            console.log('este es mi status', e.target.id)
+            console.log('este es mi id', e.target.id)
             /* if (this.task.status == 1) {
 
-                e.dataTransfer.setData('owner', this.task.progress.owner)
+                
             } */
         },
         updateTaskInBd(taskId, status) {

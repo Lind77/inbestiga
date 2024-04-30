@@ -286,9 +286,9 @@ export default {
               this.toDo.push({ ...assignment })
             } else if (assignment.status == 2) {
               this.doing.push({ ...assignment })
-            } else if (assignment.status == 3) {
+            } else if (assignment.status == 3 || assignment.status == 4) {
               this.done.push({ ...assignment })
-            } else if (assignment.status == 4) {
+            } else if (assignment.status == 5) {
               this.verified.push({ ...assignment })
             }
           })
