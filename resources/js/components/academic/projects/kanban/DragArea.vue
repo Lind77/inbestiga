@@ -35,22 +35,19 @@ export default {
       this.tasks.splice(taskIndex, 1)
     },
     drop(e) {
-
       let taskId = e.dataTransfer.getData('taskId')
       let taskStatus = e.dataTransfer.getData('taskStatus')
-      this.$emit('updateTask', taskId, taskStatus, this.status)
-
-      //let owner = e.dataTransfer.getData('owner')
-      /*   e.target.appendChild(document.getElementById(card)) */
-      /* if (this.status == 2) {
-        if (this.store.authUser.name == owner) {
-          
+      let owner = e.dataTransfer.getData('owner')
+      if (this.status != 4) {
+        if (owner == this.store.authUser.id) {
+          this.$emit('updateTask', taskId, taskStatus, this.status)
         } else {
-          this.$swal('A usted no le pertenece esta tarea')
+          this.$swal('Esta actividad no se te ha asignado. GG.')
         }
       } else {
-        this.$emit('updateTask', card, this.status)
-      } */
+        this.$swal('Se debe enviar a revisar primero. GG.')
+      }
+
     }
   },
   computed: {

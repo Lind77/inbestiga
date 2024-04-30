@@ -23,11 +23,11 @@
                         <select class="form-control me-2" v-model="processSelected" @change="setProcess(delivery.id)">
                             <template v-for="process in processes">
                                 <option :value="process.id">{{
-                                    process.name }}</option>
+                process.name }}</option>
                             </template>
                         </select>
                         <p class="mb-1">{{ delivery.date ? formatDate(delivery.date) :
-                            'Fecha Indefinida' }}</p>
+                'Fecha Indefinida' }}</p>
                     </div>
                 </div>
                 <div class="text-nowrap" v-if="delivery.assigned_activities.length != 0">
@@ -37,8 +37,8 @@
                                 <th>Tarea</th>
                                 <th>Dueño</th>
                                 <th>Prioridad</th>
-                                <th>Estado</th>
                                 <th>Puntos</th>
+                                <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -59,7 +59,7 @@
                                             :class="`btn btn-${priorityColor[assignedActivity.priority]} dropdown-toggle hide-arrow`"
                                             data-bs-toggle="dropdown" aria-expanded="false">
                                             {{ assignedActivity.priority ? priorityName[assignedActivity.priority] :
-                                                'Sin asignar' }}
+                'Sin asignar' }}
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item" @click="setPriority(assignedActivity, 3)"
@@ -73,13 +73,14 @@
                                         </ul>
                                     </div>
                                 </td>
+                                <td>
+                                    <Pointer :assignedActivity="assignedActivity" />
+                                </td>
                                 <td><span class="badge bg-label-success me-1">
                                         {{ statusByName[assignedActivity.status] }}
                                     </span>
                                 </td>
-                                <td>
-                                    <Pointer :assignedActivity="assignedActivity" />
-                                </td>
+
                                 <td>
                                     <button @click="deleteActivity(assignedActivity)"
                                         class="btn btn-icon btn-danger text-white">
@@ -99,7 +100,7 @@
                                         </ul> -->
                                     </div>
                                     <button @click="sendToKanban(assignedActivity)"
-                                        v-if="assignedActivity.points && assignedActivity.priority && assignedActivity.status == 0"
+                                        v-if="assignedActivity.points && assignedActivity.priority && assignedActivity.status == null"
                                         class="btn btn-icon btn-success text-white">
                                         <i class="bx bx-check"></i>
                                     </button>
@@ -204,7 +205,7 @@ export default {
             axios.get(`/api/process-sprint/${this.processSelected}/${deliveryId}`)
                 .then((result) => {
                     this.$swal('Proceso agregado con éxito')
-                    //this.$emit('getProject')
+                    this.$emit('getProject')
                 }).catch((err) => {
                     console.log(err)
                 });
