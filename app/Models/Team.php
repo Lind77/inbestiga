@@ -23,4 +23,8 @@ class Team extends Model
      {
          return $this->hasMany("App\Models\Faculty");
      }
+    //Relación polimorfica uno a muchos (Entities-Icons)
+     public function icons(){
+        return $this->morphMany('App\Models\Icon','iconable');
+    }
 }
