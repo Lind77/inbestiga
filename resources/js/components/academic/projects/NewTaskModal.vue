@@ -104,7 +104,7 @@ export default {
             fd.append('date', this.date)
             fd.append('indicators', JSON.stringify(this.indicators))
             fd.append('deliveryId', this.deliveryId)
-            axios.post('/api/assigned-activity/', fd)
+            axios.post('/api/assigned-activity', fd)
                 .then((res) => {
                     this.$emit('getProject')
                     this.name = ''

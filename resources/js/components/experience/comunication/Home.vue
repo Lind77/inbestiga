@@ -65,8 +65,3 @@ export default {
     }
 }
 </script>
-<style>
-.card-info {
-    background: #07E878;
-}
-</style>
