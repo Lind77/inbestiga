@@ -56,8 +56,6 @@ class AssignedActivityController extends Controller
             ]);
         }
 
-
-
         return response()->json([
             'msg' => 'success'
         ]);
