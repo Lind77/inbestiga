@@ -42,7 +42,7 @@ class AssignedActivityController extends Controller
             'assigned_activitiable_id' => $request->get('deliveryId'),
             'name' => $request->get('name'),
             'date' => $request->get('date'),
-            'status' => 0
+            'status' => null
         ]);
 
         $indicators = json_decode($request->get('indicators'), true);
