@@ -12,7 +12,12 @@
                 <p class="card-text">{{ task.user.name }}</p>
                 <div class="d-flex align-items-end mb-2">
                   <h4 class="card-title mb-0 me-2">{{ task.points }}</h4>
-                  <small class="text-success" @click="approveTask(task.id)">Aprobar</small>
+                  <button :id="`popover${task.id}`" @click="showIndicators(task)" type="button"
+                    class="btn btn-secondary btn-sm text-nowrap" data-bs-toggle="popover" data-bs-offset="0,14"
+                    data-bs-placement="right" data-bs-html="true"
+                    :data-bs-content="`${listIndicators(task.quality_indicators)}`" data-bs-original-title="Criterios">
+                    Aprobar
+                  </button>
                 </div>
                 <small :title="task.name">{{ task.name.substring(0, 20) + '...' }}</small>
               </div>
@@ -47,6 +52,16 @@ export default {
     }
   },
   methods: {
+    listIndicators(listIndicators) {
+      console.log(listIndicators)
+      var totalParagraphs = ''
+      listIndicators.forEach((indicator, index) => {
+        var paragraph = `<small>` + (index + 1) + '. ' + indicator.name + `</small>`
+        totalParagraphs += paragraph
+      });
+
+      return totalParagraphs
+    },
     getRevisionTaks() {
       axios.get('/api/assigned-activities-revision')
         .then((result) => {
@@ -62,6 +77,10 @@ export default {
         }).catch((err) => {
           console.log(err)
         });
+    },
+    showIndicators(task) {
+      $('#popover' + task.id).popover('show')
+      console.log(task);
     }
   },
   mounted() {

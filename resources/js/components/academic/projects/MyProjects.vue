@@ -20,7 +20,9 @@
                   <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown"
                     aria-expanded="false"><i class="bx bx-dots-vertical-rounded"></i></button>
                   <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="javascript:void(0);">Ver Kanban</a></li>
+                    <li>
+                      <a class="dropdown-item" href="javascript:void(0);">Ver Kanban</a>
+                    </li>
                     <li>
                       <hr class="dropdown-divider">
                     </li>
@@ -100,7 +102,7 @@ export default {
             project.deliveries.forEach(delivery => {
               numTasks = numTasks + delivery.assigned_activities.length
               delivery.assigned_activities.forEach(assigned => {
-                if (assigned.status == 4) {
+                if (assigned.status == 5) {
                   numTasksCompleted++
                 }
               })
