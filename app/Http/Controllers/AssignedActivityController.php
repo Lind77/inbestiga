@@ -137,7 +137,7 @@ class AssignedActivityController extends Controller
 
     public function revision()
     {
-        $assigned_activity = Assigned_activity::where('status', 4)->with(['user'])->orderBy('updated_at', 'desc')->get();
+        $assigned_activity = Assigned_activity::where('status', 4)->with(['user', 'quality_indicators'])->orderBy('updated_at', 'desc')->get();
 
         return response()->json($assigned_activity);
     }
