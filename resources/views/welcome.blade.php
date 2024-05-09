@@ -40,7 +40,7 @@
 	  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 	  <script src="{{asset('/js/config.js')}}"></script>
 		
-	  @vite(['resources/css/app.css', 'resources/js/app.js'])
+	  
 		<style>
 			body{
 				overflow-x: hidden;
@@ -49,9 +49,11 @@
 				background-color: #222236;
 			}
 		</style>
+		@vite('resources/css/app.css')
 </head>
 	<body>	
-	<div id="app"></div>	
+	<div id="app"></div>
+	@vite('resources/js/app.js')	
     <!-- build:js assets/vendor/js/core.js -->
 	<script src="{{asset('vendor/libs/jquery/jquery.js')}}"></script>
     <script src="{{asset('vendor/libs/popper/popper.js')}}"></script>
