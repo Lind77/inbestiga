@@ -16,21 +16,42 @@
             </div>
 
             <div class="" v-for="delivery in deliveries">
-                <div class="d-flex flex-row justify-content-between align-items-end">
-                    <h5 class="text-primary mb-1">{{ delivery.advance }} <i class='bx bx-task'
-                            title="Agregar nueva tarea" @click="openTaskModal(delivery.id)"></i></h5>
+                <div
+                    class="d-flex flex-row justify-content-between align-items-end"
+                >
+                    <h5 class="text-primary mb-1">
+                        {{ delivery.advance }}
+                        <i
+                            class="bx bx-task"
+                            title="Agregar nueva tarea"
+                            @click="openTaskModal(delivery.id)"
+                        ></i>
+                    </h5>
                     <div class="d-flex align-items-center">
-                        <select class="form-control me-2" v-model="processSelected" @change="setProcess(delivery.id)">
+                        <select
+                            class="form-control me-2"
+                            v-model="processSelected"
+                            @change="setProcess(delivery.id)"
+                        >
                             <template v-for="process in processes">
-                                <option :value="process.id">{{
-                process.name }}</option>
+                                <option :value="process.id">
+                                    {{ process.name }}
+                                </option>
                             </template>
                         </select>
-                        <p class="mb-1">{{ delivery.date ? formatDate(delivery.date) :
-                'Fecha Indefinida' }}</p>
+                        <p class="mb-1">
+                            {{
+                                delivery.date
+                                    ? formatDate(delivery.date)
+                                    : "Fecha Indefinida"
+                            }}
+                        </p>
                     </div>
                 </div>
-                <div class="text-nowrap" v-if="delivery.assigned_activities.length != 0">
+                <div
+                    class="text-nowrap"
+                    v-if="delivery.assigned_activities.length != 0"
+                >
                     <table class="table">
                         <thead>
                             <tr>
@@ -43,54 +64,123 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            <tr v-for="assignedActivity in delivery.assigned_activities">
+                            <tr
+                                v-for="assignedActivity in delivery.assigned_activities"
+                            >
                                 <td>
-                                    <TaskName :id="assignedActivity.id" :name="assignedActivity.name" />
+                                    <TaskName
+                                        :id="assignedActivity.id"
+                                        :name="assignedActivity.name"
+                                    />
                                 </td>
                                 <td>
-                                    <UserTask :assignedActivity="assignedActivity" :team="team" />
+                                    <UserTask
+                                        :assignedActivity="assignedActivity"
+                                        :team="team"
+                                    />
                                 </td>
                                 <td>
                                     <!-- <span class="badge bg-label-warning me-1">{{
                 assignedActivity.priority ? assignedActivity.priority : 'Sin asignar' }}</span> -->
 
                                     <div class="btn-group">
-                                        <button type="button"
-                                            :class="`btn btn-${priorityColor[assignedActivity.priority]} dropdown-toggle hide-arrow`"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            {{ assignedActivity.priority ? priorityName[assignedActivity.priority] :
-                'Sin asignar' }}
+                                        <button
+                                            type="button"
+                                            :class="`btn btn-${
+                                                priorityColor[
+                                                    assignedActivity.priority
+                                                ]
+                                            } dropdown-toggle hide-arrow`"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                        >
+                                            {{
+                                                assignedActivity.priority
+                                                    ? priorityName[
+                                                          assignedActivity
+                                                              .priority
+                                                      ]
+                                                    : "Sin asignar"
+                                            }}
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" @click="setPriority(assignedActivity, 3)"
-                                                    href="javascript:void(0);">Alta</a></li>
-                                            <li><a class="dropdown-item" @click="setPriority(assignedActivity, 2)"
-                                                    href="javascript:void(0);">Media</a>
+                                            <li>
+                                                <a
+                                                    class="dropdown-item"
+                                                    @click="
+                                                        setPriority(
+                                                            assignedActivity,
+                                                            3
+                                                        )
+                                                    "
+                                                    href="javascript:void(0);"
+                                                    >Alta</a
+                                                >
                                             </li>
-                                            <li><a class="dropdown-item" @click="setPriority(assignedActivity, 1)"
-                                                    href="javascript:void(0);">Baja</a>
+                                            <li>
+                                                <a
+                                                    class="dropdown-item"
+                                                    @click="
+                                                        setPriority(
+                                                            assignedActivity,
+                                                            2
+                                                        )
+                                                    "
+                                                    href="javascript:void(0);"
+                                                    >Media</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    class="dropdown-item"
+                                                    @click="
+                                                        setPriority(
+                                                            assignedActivity,
+                                                            1
+                                                        )
+                                                    "
+                                                    href="javascript:void(0);"
+                                                    >Baja</a
+                                                >
                                             </li>
                                         </ul>
                                     </div>
                                 </td>
                                 <td>
-                                    <Pointer :assignedActivity="assignedActivity" />
+                                    <Pointer
+                                        :assignedActivity="assignedActivity"
+                                    />
                                 </td>
-                                <td><span class="badge bg-label-success me-1">
-                                        {{ statusByName[assignedActivity.status] }}
+                                <td>
+                                    <span class="badge bg-label-success me-1">
+                                        {{
+                                            statusByName[
+                                                assignedActivity.status
+                                            ]
+                                        }}
                                     </span>
                                 </td>
 
                                 <td>
-                                    <button @click="deleteActivity(assignedActivity)"
-                                        class="btn btn-icon btn-danger text-white">
+                                    <button
+                                        @click="
+                                            deleteActivity(assignedActivity)
+                                        "
+                                        class="btn btn-icon btn-danger text-white"
+                                    >
                                         <i class="bx bx-trash"></i>
                                     </button>
                                     <div class="btn-group">
-                                        <button type="button"
+                                        <button
+                                            type="button"
                                             class="btn btn-primary btn-icon text-white dropdown-toggle hide-arrow mx-1"
-                                            @click="openIndicatorsModal(assignedActivity)">
-                                            <i class='bx bx-info-square'></i>
+                                            @click="
+                                                openIndicatorsModal(
+                                                    assignedActivity
+                                                )
+                                            "
+                                        >
+                                            <i class="bx bx-info-square"></i>
                                         </button>
                                         <!-- <ul class="dropdown-menu">
                                             <li v-for="indicator in assignedActivity.quality_indicators"><a
@@ -99,9 +189,15 @@
                                             </li>
                                         </ul> -->
                                     </div>
-                                    <button @click="sendToKanban(assignedActivity)"
-                                        v-if="assignedActivity.points && assignedActivity.priority && assignedActivity.status == null"
-                                        class="btn btn-icon btn-success text-white">
+                                    <button
+                                        @click="sendToKanban(assignedActivity)"
+                                        v-if="
+                                            assignedActivity.points &&
+                                            assignedActivity.priority &&
+                                            assignedActivity.status == null
+                                        "
+                                        class="btn btn-icon btn-success text-white"
+                                    >
                                         <i class="bx bx-check"></i>
                                     </button>
                                 </td>
@@ -134,10 +230,13 @@
             </div>
         </div>
     </div>
-    <IndicatorsModal :indicators="indicators" :assignedActivityId="updateDeliveryId" />
+    <IndicatorsModal
+        :indicators="indicators"
+        :assignedActivityId="updateDeliveryId"
+    />
 </template>
 <script>
-import moment from "moment"
+import moment from "moment";
 import Pointer from "./Pointer.vue";
 import TaskName from "./TaskName.vue";
 import IndicatorsModal from "./IndicatorsModal.vue";
@@ -149,31 +248,31 @@ export default {
         deliveries: Array,
         productsFiltered: Array,
         team: Object,
-        processes: Array
+        processes: Array,
     },
     data() {
         return {
-            search: '',
+            search: "",
             searchedProducts: [],
             academicProducts: [],
             statusByName: {
-                0: 'Por Asignar',
-                1: 'ToDo',
-                2: 'Doing',
-                3: 'Done',
-                4: 'En revisión',
-                5: 'Listo'
+                0: "Por Asignar",
+                1: "ToDo",
+                2: "Doing",
+                3: "Done",
+                4: "En revisión",
+                5: "Listo",
             },
             priorityColor: {
-                null: 'primary',
-                1: 'warning',
-                2: 'info',
-                3: 'success'
+                null: "primary",
+                1: "warning",
+                2: "info",
+                3: "success",
             },
             priorityName: {
-                1: 'Baja',
-                2: 'Media',
-                3: 'Alta'
+                1: "Baja",
+                2: "Media",
+                3: "Alta",
             },
             showPointer: false,
             points: 0,
@@ -181,65 +280,82 @@ export default {
             indicators: {},
             showName: true,
             processSelected: 0,
-            updateDeliveryId: 0
-        }
+            updateDeliveryId: 0,
+        };
     },
     methods: {
         setProcess(deliveryId) {
-            this.$swal.fire({
-                icon: 'question',
-                title: 'Asignar proceso',
-                html: '<br>¿Tienes la seguridad de continuar?,recuerda que esta acción actualizará una gran cantidad de información.',
-                showDenyButton: true,
-                confirmButtonText: 'Continuar',
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    this.assignProcessesToSprint(deliveryId)
-                } else if (result.isDenied) {
-                    this.$swal.close()
-                }
-            })
+            this.$swal
+                .fire({
+                    icon: "question",
+                    title: "Asignar proceso",
+                    html: "<br>¿Tienes la seguridad de continuar?,recuerda que esta acción actualizará una gran cantidad de información.",
+                    showDenyButton: true,
+                    confirmButtonText: "Continuar",
+                })
+                .then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        this.assignProcessesToSprint(deliveryId);
+                    } else if (result.isDenied) {
+                        this.$swal.close();
+                    }
+                });
         },
         assignProcessesToSprint(deliveryId) {
-            axios.get(`/api/process-sprint/${this.processSelected}/${deliveryId}`)
+            axios
+                .get(
+                    `/api/process-sprint/${this.processSelected}/${deliveryId}`
+                )
                 .then((result) => {
-                    this.$swal('Proceso agregado con éxito')
-                    this.$emit('getProject')
-                }).catch((err) => {
-                    console.log(err)
+                    this.$swal("Proceso agregado con éxito");
+                    this.$emit("getProject");
+                })
+                .catch((err) => {
+                    console.log(err);
                 });
         },
         openIndicatorsModal(assignedActivity) {
-            this.updateDeliveryId = assignedActivity.id
-            this.indicators = assignedActivity.quality_indicators
-            $('#indicatorsModal').modal('show')
+            this.updateDeliveryId = assignedActivity.id;
+            this.indicators = assignedActivity.quality_indicators;
+            $("#indicatorsModal").modal("show");
         },
         sendToKanban(assignedActivity) {
-            axios.get('/api/assigned-activity-kanban/' + assignedActivity.id)
+            axios
+                .get("/api/assigned-activity-kanban/" + assignedActivity.id)
                 .then((result) => {
                     this.showCheck = false;
-                    this.$emit('getProject')
-                }).catch((err) => {
+                    this.$emit("getProject");
+                })
+                .catch((err) => {
                     console.error(err);
                 });
         },
         deleteActivity(assignedActivity) {
-            if (confirm('Tienes la seguridad de eliminar esta tarea?')) {
-                axios.delete('/api/assigned-activity/' + assignedActivity.id)
+            if (confirm("Tienes la seguridad de eliminar esta tarea?")) {
+                axios
+                    .delete("/api/assigned-activity/" + assignedActivity.id)
                     .then((result) => {
-                        this.$emit('getProject')
-                    }).catch((err) => {
+                        this.$emit("getProject");
+                    })
+                    .catch((err) => {
                         console.error(err);
                     });
             }
         },
         closePointer(assignedActivity) {
-            assignedActivity.points = this.points
-            axios.get('/api/assigned-activity-points/' + assignedActivity.id + '/' + this.points)
+            assignedActivity.points = this.points;
+            axios
+                .get(
+                    "/api/assigned-activity-points/" +
+                        assignedActivity.id +
+                        "/" +
+                        this.points
+                )
                 .then((result) => {
                     this.showPointer = false;
-                }).catch((err) => {
+                })
+                .catch((err) => {
                     console.error(err);
                 });
         },
@@ -247,58 +363,71 @@ export default {
             this.showPointer = true;
         },
         setPriority(assignedActivity, priority) {
-            assignedActivity.priority = priority
-            axios.get('/api/assigned-activity-priority/' + assignedActivity.id + '/' + priority)
+            assignedActivity.priority = priority;
+            axios
+                .get(
+                    "/api/assigned-activity-priority/" +
+                        assignedActivity.id +
+                        "/" +
+                        priority
+                )
                 .then((result) => {
-                    $('.dropdown-menu').removeClass('show')
-                }).catch((err) => {
+                    $(".dropdown-menu").removeClass("show");
+                })
+                .catch((err) => {
                     console.error(err);
                 });
         },
         openTaskModal(deliveryId) {
-            this.$emit('openModalTask', deliveryId)
+            this.$emit("openModalTask", deliveryId);
         },
         formatDate(date) {
-            return moment(date).format('DD/MM')
+            return moment(date).format("DD/MM");
         },
         dragOverDelivery(delivery) {
-            this.deliverySelected = delivery
+            this.deliverySelected = delivery;
 
-            axios.post('/api/assigned-activity', fd)
+            axios
+                .post("/api/assigned-activity", fd)
                 .then((result) => {
-                    this.$emit('getProject')
-                }).catch((err) => {
+                    this.$emit("getProject");
+                })
+                .catch((err) => {
                     console.error(err);
                 });
         },
         dropProduct(e) {
-            e.preventDefault()
-            e.target.appendChild(document.getElementById(this.productSelected.id))
+            e.preventDefault();
+            e.target.appendChild(
+                document.getElementById(this.productSelected.id)
+            );
 
-            const fd = new FormData()
+            const fd = new FormData();
 
-            fd.append('name', this.productSelected.name)
-            fd.append('date', this.deliverySelected.date)
-            fd.append('academic_date', this.deliverySelected.date)
-            fd.append('assigned_activitiable_id', this.deliverySelected.id)
-            fd.append('assigned_activitiable_type', 'App\\Models\\Delivery')
-            fd.append('status', 0)
+            fd.append("name", this.productSelected.name);
+            fd.append("date", this.deliverySelected.date);
+            fd.append("academic_date", this.deliverySelected.date);
+            fd.append("assigned_activitiable_id", this.deliverySelected.id);
+            fd.append("assigned_activitiable_type", "App\\Models\\Delivery");
+            fd.append("status", 0);
 
-            axios.post('/api/assigned-activity', fd)
+            axios
+                .post("/api/assigned-activity", fd)
                 .then((result) => {
-                    this.$emit('getProject')
-                }).catch((err) => {
+                    this.$emit("getProject");
+                })
+                .catch((err) => {
                     console.error(err);
                 });
         },
         handleDragStart(product) {
-            this.productSelected = product
+            this.productSelected = product;
         },
         filterAcademicProducts() {
-            this.$emit('filterAcademicProducts', this.search)
-        }
-    }
-}
+            this.$emit("filterAcademicProducts", this.search);
+        },
+    },
+};
 </script>
 <style scoped>
 #container-products {
@@ -307,6 +436,6 @@ export default {
 }
 
 .border-start {
-    border-left: 5px solid #d9dee3 !important
+    border-left: 5px solid #d9dee3 !important;
 }
 </style>

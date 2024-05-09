@@ -127,6 +127,8 @@ import HomeComunications from '../components/experience/comunication/Home.vue'
 import HomeRequests from '../components/experience/requests/Home.vue'
 //Area de Experiencia - Documentacion
 import HomeDocumentation from '../components/experience/profiles/Documentation.vue'
+//Area de Experiencia - Formularios
+import HomeForms from '../components/experience/forms/Home.vue'
 
 //Área para los usuarios
 import UsersLogin from '../components/user/Login.vue'
@@ -340,6 +342,11 @@ export const routes = [
                 component: HomeDocumentation,
                 name: 'home-documentation',
                 props: true
+            },
+            {
+                path: 'forms',
+                component: HomeForms,
+                name: 'home-forms'
             },
             {
                 path: '/profile/:idUser',
