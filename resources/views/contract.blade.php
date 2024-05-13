@@ -286,64 +286,56 @@
                             <td>
                                 <ul style=" margin-bottom: 5px; margin-top: -4px;">
                                     <li style="margin-bottom: -5px;">
-                                        CERVANTES POMA LIGEYA BERENICE 
+                                        Inbestiga SAC N°355-9862526-0-30
                                     </li>
                                     <li style="margin-bottom: -5px;">
-                                        CC:355-9582757-0-060 
-                                    </li>
-                                    <li style="margin-bottom: -5px;">
-                                        CCI: 00235519582757006065
+                                        CCI: 00235500986252603066
                                     </li>
                                 </ul>
                             </td>
                         </tr>
                         <tr>
-                            <td>BCP</td>
+                            <td rowspan="2">Interbank</td>
                             <td>soles</td>
                             <td>                           
                                 <ul style=" margin-bottom: 5px; margin-top: -4px;">
                                     <li style="margin-bottom: -5px;">
-                                        ALLASI GALARZA NICOLET JOYCE  
-                                    </li>
+                                        Inbestiga SAC N°500-3004188829
+                                    </li>                                   
                                     <li style="margin-bottom: -5px;">
-                                        CC: 355-95787567-0-53 
+                                        CCI: 00350000300418882965
                                     </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>                            
+                            <td>dolares</td>
+                            <td>
+                                <ul style=" margin-bottom: 5px; margin-top: -4px;">
                                     <li style="margin-bottom: -5px;">
-                                        CCI: 00235519578756705361
+                                        Inbestiga SAC N°500-3004188836
                                     </li>
                                 </ul>
                             </td>
                         </tr>
                         <tr>
-                            <td>BCP</td>
+                            <td>BBVA</td>
                             <td>soles</td>
                             <td>
                                 <ul style=" margin-bottom: 5px; margin-top: -4px;">
                                     <li style="margin-bottom: -5px;">
-                                        ALLASI GALARZA STIL SALOMON  
-                                    </li>
-                                    <li style="margin-bottom: -5px;">
-                                        CC: 355-95767799-0-85  
-                                    </li>
-                                    <li style="margin-bottom: -5px;">
-                                        CCI: 00235519576779908565
+                                        Inbestiga SAC N°0011-0235-0201838132
                                     </li>
                                 </ul>
                             </td>
                         </tr>
                         <tr>
-                            <td>BCP</td>
+                            <td>Yape</td>
                             <td>soles</td>
                             <td>
                                 <ul style=" margin-bottom: 5px; margin-top: -4px; ">
                                     <li style="margin-bottom: -5px;">
-                                        LARA DEL CASTILLO VALERIA VANESSA 
-                                    </li>
-                                    <li style="margin-bottom: -5px;">
-                                        CC: 355-95768263-0-54
-                                    </li>
-                                    <li style="margin-bottom: -5px;">
-                                        CCI: 00235519576826305466
+                                        Inbestiga SAC - 926708058
                                     </li>
                                 </ul>
                             </td>
