@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Form;
 use Illuminate\Http\Request;
 
 class FormController extends Controller
@@ -13,7 +14,9 @@ class FormController extends Controller
      */
     public function index()
     {
-        //
+        $forms = Form::all();
+
+        return response()->json($forms);
     }
 
     /**
@@ -34,7 +37,14 @@ class FormController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $form = Form::create([
+            'name' => $request->get('name'),
+            'forms' => $request->get('questions')
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     /**

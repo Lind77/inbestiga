@@ -17,6 +17,7 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\JustificationController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\NewProductController;
@@ -383,3 +384,6 @@ Route::get('/search-task/{name}', [TaskController::class, 'searchTask']);
 
 Route::get('/update-project-title/{id}/{name}', [ProjectController::class, 'updateProjectTitle']);
 Route::get('/update-project-status/{id}/{status}', [ProjectController::class, 'updateProjectStatus']);
+
+Route::post('/forms', [FormController::class, 'store']);
+Route::get('/forms', [FormController::class, 'index']);
