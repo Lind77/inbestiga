@@ -463,16 +463,16 @@ class QuotationController extends Controller
 
     public function searchQuotations($search)
     {
-        $customers = Customer::where('name', 'like', '%' . $search . '%')->orderBy('updated_at', 'desc')->get();
+        $customers = Customer::where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%')->orderBy('updated_at', 'desc')->get();
 
         $quotations = Quotation::with('customers')->whereHas('customers', function ($query) use ($search) {
-            $query->where('name', 'like', '%' . $search . '%');
+            $query->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%');
         })->orderBy('updated_at', 'desc')->get();
 
 
         $contracts = Contract::with(['quotation', 'quotation.customers'])
             ->whereHas('quotation.customers', function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%');
+                $query->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%');
             })
             ->orderBy('updated_at', 'desc')
             ->get();
