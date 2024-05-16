@@ -40,4 +40,8 @@ class Customer extends Model
     public function external_vouchers(){
         return $this->hasMany('App\Models\External_voucher');
     }
+    //Relación polimorfica uno a muchos (User-Customer-Post)
+    public function posts(){
+        return $this->morphMany('App\Models\Post','postable');
+    }
 }
