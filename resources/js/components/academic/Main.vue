@@ -9,23 +9,28 @@
             {{ store.authUser ? store.authUser.name : "" }}
         </h3>
         <h4 class="fw-normal pt-3">Tareas pendientes de revisión</h4>
-        <div
-            class="row"
-            v-if="
-                store.authUser.roles &&
-                store.authUser.roles[0].name == 'CoordAcad'
-            "
-        >
+        <div class="row" v-if="store.authUser.roles[0].name == 'CoordAcad'">
             <div class="col-lg-3 col-sm-6 mb-4" v-for="task in tasksToRevision">
                 <div class="card">
+                    <div class="card-header">
+                        <p class="card-text">
+                            {{ task.user.name }}
+                        </p>
+                    </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div class="card-info">
-                                <p class="card-text">{{ task.user.name }}</p>
+                                <p>
+                                    <small>{{
+                                        task.assigned_activitiable.project.title
+                                    }}</small>
+                                </p>
+
                                 <div class="d-flex align-items-end mb-2">
                                     <h4 class="card-title mb-0 me-2">
                                         {{ task.points }}
                                     </h4>
+
                                     <button
                                         @click="showIndicators(task)"
                                         type="button"
@@ -51,7 +56,10 @@
             </div>
         </div>
     </div>
-    <IndicatorsModal :indicators="indicators" />
+    <IndicatorsModal
+        :indicators="indicators"
+        @getRevisionTaks="getRevisionTaks"
+    />
 </template>
 
 <script>
@@ -71,6 +79,7 @@ export default {
     data() {
         return {
             indicators: [],
+            tasksToRevision: [],
         };
     },
     methods: {
