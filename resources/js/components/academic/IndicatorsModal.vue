@@ -18,30 +18,56 @@
                     ></button>
                 </div>
                 <div class="modal-body">
-                    <template v-for="indicator in indicators">
-                        <div class="d-flex mb-2">
-                            <label
-                                class="form-check-label"
-                                for="flexSwitchCheckDefault"
-                                >{{ indicator.name }}</label
-                            >
-                            <div class="form-check form-switch ps-5">
-                                <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    id="flexSwitchCheckDefault"
-                                    v-model="indicator.status"
-                                />
-                            </div>
-                        </div>
-                    </template>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Indicadores</th>
+                                <th>Opciones</th>
+                                <th>Comentarios</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="indicator in indicators">
+                                <td>{{ indicator.name }}</td>
+                                <td>
+                                    <div class="d-flex">
+                                        <button
+                                            class="btn btn-icon btn-sm btn-success ms-4"
+                                            @click="acceptIndicator(indicator)"
+                                        >
+                                            <i class="bx bx-check"></i>
+                                        </button>
+                                        <button
+                                            class="btn btn-icon btn-sm btn-danger ms-2"
+                                            @click="rejectIndicator(indicator)"
+                                        >
+                                            <i class="bx bx-x"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <textarea
+                                        v-show="indicator.status == 0"
+                                        class="form-control w-100"
+                                        v-model="indicator.observation"
+                                    ></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <input
-                        @click="insertDetailsFirstMeeting"
+                        @click="aproveTask"
                         type="submit"
-                        class="btn btn-primary"
+                        class="btn btn-success"
                         value="Aprobar"
+                    />
+                    <input
+                        @click="rejectTask"
+                        type="submit"
+                        class="btn btn-danger"
+                        value="Rechazar"
                     />
                 </div>
             </div>
@@ -58,6 +84,33 @@ export default {
     props: {
         indicators: Array,
     },
-    methods: {},
+    methods: {
+        acceptIndicator(indicator) {
+            indicator.status = 1;
+        },
+        rejectIndicator(indicator) {
+            indicator.status = 0;
+        },
+        aproveTask() {},
+        rejectTask() {
+            const fd = new FormData();
+
+            fd.append(
+                "assignedActivityId",
+                this.indicators[0].quality_indicable_id
+            );
+            fd.append("indicators", JSON.stringify(this.indicators));
+
+            axios
+                .post("/api/reject-assigned-activity", fd)
+                .then((result) => {
+                    this.$emit("getRevisionTaks");
+                    $("#indicatorsModal").modal("hide");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+    },
 };
 </script>

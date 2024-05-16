@@ -387,3 +387,5 @@ Route::get('/update-project-status/{id}/{status}', [ProjectController::class, 'u
 
 Route::post('/forms', [FormController::class, 'store']);
 Route::get('/forms', [FormController::class, 'index']);
+
+Route::post('/reject-assigned-activity', [AssignedActivityController::class, 'reject']);
