@@ -91,7 +91,20 @@ export default {
         rejectIndicator(indicator) {
             indicator.status = 0;
         },
-        aproveTask() {},
+        aproveTask() {
+            axios
+                .get(
+                    "/api/approve-activities/" +
+                        this.indicators[0].quality_indicable_id
+                )
+                .then((result) => {
+                    this.$emit("getRevisionTaks");
+                    $("#indicatorsModal").modal("hide");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         rejectTask() {
             const fd = new FormData();
 
