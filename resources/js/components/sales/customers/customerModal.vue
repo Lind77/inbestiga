@@ -163,7 +163,7 @@
                     <div class="row g-2" v-if="action == 2">
                         <div class="col mb-0">
                             <label class="form-label">Situación</label>
-                            <select class="form-select" v-model="situation">
+                            <select class="form-select" v-model="customer.type">
                                 <option value="1" default>
                                     Tesis sin avance
                                 </option>
@@ -275,7 +275,6 @@ export default {
             channel: 0,
             status: 1,
             attitude: "",
-            situation: 0,
         };
     },
     methods: {
@@ -291,7 +290,7 @@ export default {
             fd.append("dni", this.customer.dni);
             fd.append("address", this.customer.address);
             fd.append("attitude", this.customer.attitude);
-
+            fd.append("type", this.customer.type);
             axios
                 .post(`/api/customers/${this.customer.id}`, fd)
                 .then((res) => {
