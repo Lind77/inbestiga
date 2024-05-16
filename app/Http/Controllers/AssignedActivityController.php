@@ -42,7 +42,8 @@ class AssignedActivityController extends Controller
             'assigned_activitiable_id' => $request->get('deliveryId'),
             'name' => $request->get('name'),
             'date' => $request->get('date'),
-            'status' => null
+            'status' => null,
+            'type' => 0
         ]);
 
         $indicators = json_decode($request->get('indicators'), true);
@@ -105,7 +106,8 @@ class AssignedActivityController extends Controller
                 'quality_indicable_id' => $assigned_activity->id,
                 'quality_indicable_type' => 'App\Models\Assigned_activity',
                 'name' => $indicator['name'],
-                'status' => 0
+                'status' => 0,
+                'type' => 0
             ]);
         }
 
