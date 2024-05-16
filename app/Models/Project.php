@@ -9,7 +9,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['projectable_id', 'projectable_type', 'title', 'team_id', 'user_id', 'status','start_date', 'deadline', 'academic_date', 'aditional', 'academic_level_id'];
+    protected $fillable = ['projectable_id', 'projectable_type', 'title', 'team_id', 'user_id', 'status','start_date', 'deadline', 'academic_date', 'aditional', 'academic_level_id','type'];
 
     //Relacion  inversa morfeable uno a muchos order,contract-project
     public function projectable()
@@ -30,6 +30,10 @@ class Project extends Model
     public function deliveries()
     {
         return $this->hasMany("App\Models\Delivery");
+    }
+    //Relación uno a muchos Project_Post
+    public function posts(){
+        return $this->hasMany("App\Models\Post");
     }
     //Relacion muchos a muchos project_startupactivity
     public function startup_activities()
