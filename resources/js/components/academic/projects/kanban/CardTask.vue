@@ -15,7 +15,18 @@
             >
                 Enviar a revisión
             </button>
-            <p class="text-warning" v-if="activity.status == 4">En revisión</p>
+            <p
+                class="text-warning"
+                v-if="activity.status == 4 && activity.type != 1"
+            >
+                En revisión
+            </p>
+            <p
+                class="text-danger"
+                v-if="activity.status == 4 && activity.type == 1"
+            >
+                Rechazada
+            </p>
             <button
                 class="btn btn-sm btn-warning"
                 v-if="

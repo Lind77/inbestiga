@@ -137,7 +137,7 @@ class AssignedActivityController extends Controller
 
     public function revision()
     {
-        $assigned_activity = Assigned_activity::where('status', 4)->with(['user', 'quality_indicators', 'assigned_activitiable', 'assigned_activitiable.project'])->orderBy('updated_at', 'desc')->get();
+        $assigned_activity = Assigned_activity::where('status', 4)->where('type', '!=', 1)->with(['user', 'quality_indicators', 'assigned_activitiable', 'assigned_activitiable.project'])->orderBy('updated_at', 'desc')->get();
 
         return response()->json($assigned_activity);
     }
@@ -208,7 +208,7 @@ class AssignedActivityController extends Controller
     {
         $assigned_activity = Assigned_activity::find($id);
         $assigned_activity->update([
-            'status' => 6
+            'status' => 5
         ]);
         return response()->json([
             'msg' => 'success'
@@ -220,7 +220,7 @@ class AssignedActivityController extends Controller
         $assigned_activity = Assigned_activity::find($request->get('assignedActivityId'));
 
         $assigned_activity->update([
-            'status' => 5
+            'type' => 1
         ]);
 
         $indicators = json_decode($request->get('indicators'), true);
