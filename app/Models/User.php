@@ -155,4 +155,8 @@ class User extends Authenticatable
     public function assigned_activities(){
         return $this->hasMany('App\Models\Assigned_activity');
     }
+    //Relación polimorfica uno a muchos (User-Customer-Post)
+    public function posts(){
+        return $this->morphMany('App\Models\Post','postable');
+    }
 }
