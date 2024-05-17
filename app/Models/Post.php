@@ -18,4 +18,8 @@ class Post extends Model
     public function project(){
         return $this->belongsTo('App\Models\Project');
     }
+    //Relación uno a muchos polimorfica Post-files
+    public function files(){
+        return $this->morphMany('App\Models\File', 'fileable');
+    }
 }
