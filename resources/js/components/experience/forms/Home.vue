@@ -47,6 +47,13 @@
                                 >
                                     Bicondicional
                                 </button>
+                                <!-- <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    @click="addFieldForm(7)"
+                                >
+                                    Archivo
+                                </button> -->
                             </div>
                         </div>
                     </div>
@@ -64,6 +71,19 @@
                             ref="nameInputRef"
                         />
 
+                        <label for="">Situación a la que pertenece</label>
+                        <select
+                            v-model="projectSituationId"
+                            class="form-control"
+                        >
+                            <option value="1">Tesis sin avance</option>
+                            <option value="2">Tesis con avance</option>
+                            <option value="3">Artículo Científico</option>
+                            <option value="4">
+                                Otra modalidad de Titulación
+                            </option>
+                        </select>
+
                         <template v-for="newQuestion in questions">
                             <template v-if="newQuestion.type == 4">
                                 <div class="d-flex align-items-center my-2">
@@ -72,6 +92,7 @@
                                         name=""
                                         id=""
                                         class="form-control"
+                                        v-model="newQuestion.question"
                                     />
                                     <div class="form-check form-switch ps-5">
                                         <input
@@ -114,45 +135,48 @@
                             </template>
 
                             <template v-if="newQuestion.type == 6">
-                                <div class="d-flex">
-                                    <select
-                                        v-model="newQuestion.answer"
-                                        class="form-select"
-                                    >
-                                        <option
-                                            :value="`${index + 1}`"
-                                            v-for="(
-                                                option, index
-                                            ) in newQuestion.options"
-                                        >
-                                            {{ option }}
-                                        </option>
-                                    </select>
+                                <div class="border rounded mt-3 p-2">
                                     <input
                                         type="text"
-                                        name=""
-                                        id=""
-                                        class="form-control ms-2"
+                                        placeholder="Escriba su pregunta o etiqueta"
+                                        class="form-control mt-2"
+                                        v-model="newQuestion.question"
                                     />
+                                    <div class="d-flex mt-3">
+                                        <select
+                                            v-model="newQuestion.answer"
+                                            class="form-select"
+                                        >
+                                            <option
+                                                :value="`${index + 1}`"
+                                                v-for="(
+                                                    option, index
+                                                ) in newQuestion.options"
+                                            >
+                                                {{ option }}
+                                            </option>
+                                        </select>
+                                        <input
+                                            type="text"
+                                            name=""
+                                            id=""
+                                            class="form-control ms-2"
+                                            v-model="newOption"
+                                        />
 
-                                    <button
-                                        class="btn btn-icon btn-success ms-2"
-                                    >
-                                        <i
-                                            class="bx bx-check"
-                                            @click="
-                                                addSelection(newQuestion.id)
-                                            "
-                                        ></i>
-                                    </button>
-                                    <button
-                                        class="btn btn-icon btn-danger ms-2"
-                                    >
-                                        <i
-                                            class="bx bx-trash"
+                                        <button
+                                            class="btn btn-icon btn-success ms-2"
+                                            @click="addOptions(newQuestion)"
+                                        >
+                                            <i class="bx bx-plus"></i>
+                                        </button>
+                                        <button
+                                            class="btn btn-icon btn-danger ms-2"
                                             @click="deleteQuestion(newQuestion)"
-                                        ></i>
-                                    </button>
+                                        >
+                                            <i class="bx bx-trash"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </template>
                         </template>
@@ -176,11 +200,23 @@ export default {
             nameForm: "Nombre del Form",
             questions: [],
             showInput: false,
+            projectSituationId: 0,
+            newOption: "",
         };
     },
     methods: {
+        addOptions(question) {
+            var questionSelected = this.questions.find(
+                (q) => q.id == question.id
+            );
+            questionSelected.options.push(this.newOption);
+
+            console.log(questionSelected);
+
+            this.newOption = "";
+        },
         selectForm(form) {
-            console.log("nani");
+            this.nameForm = form.name;
             this.questions = JSON.parse(form.forms);
         },
         closeEditNameForm() {
@@ -245,6 +281,7 @@ export default {
             this.questions.push(typeQuestions[typeQuestion]);
         },
         deleteQuestion(question) {
+            console.log(question);
             this.questions.splice(this.questions.indexOf(question), 1);
         },
         saveForm() {
@@ -252,6 +289,7 @@ export default {
 
             fd.append("name", this.nameForm);
             fd.append("questions", JSON.stringify(this.questions));
+            fd.append("project_situation_id", this.projectSituationId);
 
             axios
                 .post("/api/forms", fd)

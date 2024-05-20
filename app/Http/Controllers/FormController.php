@@ -39,7 +39,8 @@ class FormController extends Controller
     {
         $form = Form::create([
             'name' => $request->get('name'),
-            'forms' => $request->get('questions')
+            'forms' => $request->get('questions'),
+            'project_situation_id' => $request->get('project_situation_id')
         ]);
 
         return response()->json([
