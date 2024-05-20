@@ -241,17 +241,6 @@
                             <div>
                                 <span class="h5 m-2 demo text-body fw-bold"
                                     >4. Información Académica
-                                    <!-- <button class="btn btn-icon btn-success mx-1" @click="addNewQuestion"
-                                        title="Agregar Pregunta">
-                                        <i class="bx bx-plus"></i>
-                                    </button> -->
-                                    <!--  <button class="btn btn-icon btn-warning mx-1" @click="openComunicationsModal"
-                                        title="Comunicaciones">
-                                        <i class="bx bx-chat"></i>
-                                    </button> -->
-                                    <!-- <button class="btn btn-icon btn-primary mx-1" title="Link de Google Drive">
-                                    <i class='bx bxl-google'></i>
-                                </button> -->
                                 </span>
                                 <span> </span>
                             </div>
@@ -265,59 +254,24 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="row">
-                            <template v-for="newQuestion in questions">
-                                <!-- <template v-if="newQuestion.type == 5">
-                                    <div class="col-12 px-1">
-                                        <p class="mb-1">{{ newQuestion.question }}</p>
-                                        <div class="input-group">
-                                            <span class="input-group-text" id="basic-addon11"><i
-                                                    class='bx bxl-google'></i></span>
-                                            <input type="text" class="form-control" v-model="newQuestion.answer"
-                                                placeholder="Link de Drive">
-                                        </div>
-                                    </div>
-                                </template> -->
-                                <!--   -->
-                            </template>
-                            <!-- <template v-for="newQuestion in newQuestions">
-                                
-                            </template> -->
-                            <!-- <template v-for="(newQuestion, index) in newQuestions">
-                                <div class="col-12 mt-2" v-if="newQuestion.type == 0">
-                                    <div class="card p-2 shadow">
-                                        <div class="d-flex">
-                                            <input type="text" class="form-control form-control-sm w-75"
-                                                placeholder="Pregunta o atributo" v-model="newQuestion.question">
-                                            <button @click="deleteNewQuestion(index)"
-                                                class="btn btn-icon btn-danger btn-sm ms-2"><i class="bx bx-x"></i></button>
-                                        </div>
-
-                                        <textarea name="" id="" cols="30" rows="3" class="form-control mt-1"
-                                            placeholder="Valor o respuesta" v-model="newQuestion.answer"></textarea>
-                                    </div>
-                                </div>
-                            </template> -->
+                        <div class="row px-3">
+                            <label class="fw-semibold ps-0" for=""
+                                >Situación del Proyecto</label
+                            >
+                            <select
+                                v-model="formSelected"
+                                class="form-control w-100 mt-1 mb-1"
+                                @change="selectForm"
+                            >
+                                <option value="1">Tesis sin avance</option>
+                                <option value="2">Tesis con avance</option>
+                                <option value="3">Artículo Científico</option>
+                                <option value="4">
+                                    Otra Modalidad de Titulación
+                                </option>
+                            </select>
                         </div>
                         <div class="row mt-2">
-                            <!-- <div class="col-12">
-                                <p class="fw-bold">a. Documentación Requerida</p>
-                                <div class="card bg-success text-white">
-                                    <div class="card-body">
-                                        <template v-for="newQuestion in newQuestions">
-                                            <template v-if="newQuestion.type == 4 && newQuestion.subtype == 'a'">
-                                                <div class="form-check mt-3">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        v-model="newQuestion.answer" id="defaultCheck1">
-                                                    <label class="form-check-label" for="defaultCheck1"> {{
-                                                newQuestion.question }}</label>
-                                                </div>
-                                            </template>
-
-                                        </template>
-                                    </div>
-                                </div>
-                            </div> -->
                             <div class="col-12">
                                 <template v-for="newQuestion in questions">
                                     <template v-if="newQuestion.type == 4">
@@ -372,7 +326,7 @@
                                     </template>
                                 </template>
                                 <button
-                                    class="btn btn-success w-50 mt-2"
+                                    class="btn btn-success w-100 mt-2"
                                     @click="saveFields"
                                 >
                                     Insertar
@@ -477,113 +431,7 @@ export default {
             },
             newFields: [],
             doc: {},
-            questions: [
-                {
-                    question: "Tema",
-                    answer: false,
-                    type: 2,
-                },
-                {
-                    question: "Plan de Tesis",
-                    answer: false,
-                    type: 2,
-                },
-                {
-                    question: "Observaciones del Plan de Tesis",
-                    answer: false,
-                    type: 2,
-                },
-                {
-                    question: "Aprobación del Plan de Tesis",
-                    answer: false,
-                    type: 2,
-                },
-                {
-                    question: "Aplicación de instrumentos",
-                    answer: false,
-                    type: 2,
-                },
-                {
-                    question: "Elaboración de Informe Final",
-                    answer: false,
-                    type: 2,
-                },
-                {
-                    question: "Observaciones del informe final",
-                    answer: false,
-                    type: 2,
-                },
-                {
-                    question: "Revisión de jurados",
-                    answer: false,
-                    type: 2,
-                },
-                {
-                    question: "Sustentación Final",
-                    answer: false,
-                    type: 2,
-                },
-                {
-                    question: "¿Cuentas con experiencia laboral?",
-                    answer: false,
-                    type: 4,
-                },
-                {
-                    question:
-                        "¿Qué temas o problemática te gustaría investigar en base a esta experiencia laboral?",
-                    answer: "",
-                    type: 3,
-                },
-                {
-                    question:
-                        "Comentános: ¿Hay algún tema que te haya llamado la atención en tu carrera y sobre el que quieras investigar? ¿Cuáles? o Escribe las líneas de investigación  de tu interés.",
-                    answer: "",
-                    type: 3,
-                },
-                {
-                    question:
-                        "Según estos temas de interés. ¿Tienes acceso a esta información o lugar de estudio para llevar a cabo este tipo de investigación?",
-                    answer: false,
-                    type: 4,
-                },
-                {
-                    question:
-                        "¿Cúal es este lugar? Describe el lugar de estudio o información con la que cuentas",
-                    answer: "",
-                    type: 3,
-                },
-                {
-                    question:
-                        "Si no tienes acceso a ningún lugar de estudio hasta el momento. Coméntanos el rubro de lugar de estudio que te gustaría realizar tu investigación. Por ejemplo: construcción, manufactura, comercio, almacenes, etc.",
-                    answer: "",
-                    type: 3,
-                },
-                {
-                    question: "¿Cuál es la índole de tu investigación?",
-                    answer: 0,
-                    type: 6,
-                    options: [
-                        "Proyectual",
-                        "Científico",
-                        "Descriptivo",
-                        "Correlacional",
-                        "Explicativo",
-                        "Implementación de un programa",
-                        "No sé",
-                    ],
-                },
-                {
-                    question: "Nivel de detalle",
-                    answer: 0,
-                    type: 6,
-                    options: ["Plano", "Modelado", "Simulaciones", "Ninguno"],
-                },
-                {
-                    question: "¿Cuentas con conocimientos en investigación?",
-                    answer: false,
-                    type: 4,
-                },
-            ],
+            questions: [],
             comunications: [],
             comunicationOptions: {
                 1: "Llamar",
@@ -599,9 +447,13 @@ export default {
             },
             customerSelected: {},
             action: 0,
+            formSelected: 0,
         };
     },
     methods: {
+        selectForm() {
+            console.log(this.formSelected);
+        },
         deleteCustomerContract(customerId, quotationId) {
             if (
                 confirm(
