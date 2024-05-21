@@ -79,7 +79,17 @@ class FormController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $form = Form::find($id);
+
+        $form->update([
+            'name' => $request->get('name'),
+            'forms' => $request->get('questions'),
+            'project_situation_id' => $request->get('project_situation_id')
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     /**

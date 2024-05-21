@@ -161,6 +161,14 @@
                             <button class="btn btn-success" @click="saveForm">
                                 Guardar Form
                             </button>
+
+                            <button
+                                v-if="idFormSelected != 0"
+                                class="btn btn-success"
+                                @click="updateForm"
+                            >
+                                Actualizar Form
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -181,6 +189,7 @@ export default {
             showInput: false,
             projectSituationId: 0,
             newOption: "",
+            idFormSelected: 0,
         };
     },
     components: { Select },
@@ -197,6 +206,7 @@ export default {
         selectForm(form) {
             this.nameForm = form.name;
             this.questions = JSON.parse(form.forms);
+            this.idFormSelected = form.id;
         },
         closeEditNameForm() {
             this.nameForm = this.$refs.nameInputRef.value;
@@ -272,6 +282,21 @@ export default {
 
             axios
                 .post("/api/forms", fd)
+                .then((result) => {
+                    this.getForms();
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        },
+        updateForm() {
+            fd.append("name", this.nameForm);
+            fd.append("questions", JSON.stringify(this.questions));
+            fd.append("project_situation_id", this.projectSituationId);
+            fd.append("_method", "put");
+
+            axios
+                .post("/api/forms/" + this.idFormSelected, fd)
                 .then((result) => {
                     this.getForms();
                 })
