@@ -12,77 +12,51 @@
                 <div
                     class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4"
                 >
-                    <div class="flex-grow-1 mt-3 mt-sm-5">
-                        <div
-                            class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4"
-                        >
-                            <div class="user-profile-info">
-                                <!-- <p>Id de Contrato: {{ quotation.contract.id }}</p> -->
-                                <div class="row">
-                                    <span class="h5 mt-2 demo text-body fw-bold"
-                                        >1. Información General
+                    <div class="px-4 pt-4 w-100">
+                        <div class="row">
+                            <span class="h5 mt-2 demo text-body fw-bold"
+                                >1. Información General
+                            </span>
+                            <div class="col-4">
+                                <p class="mb-2">
+                                    <span class="fw-bold"
+                                        >Documento Firmado:</span
+                                    >
+                                    {{ signedDoc }}
+                                </p>
+                                <p class="mb-2">
+                                    <span class="fw-bold"
+                                        >Servicio Contratado
                                     </span>
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <p class="mb-2">
-                                                <span class="fw-bold"
-                                                    >Documento Firmado:</span
-                                                >
-                                                {{ signedDoc }}
-                                            </p>
-
-                                            <p
-                                                class="mb-2"
-                                                v-if="quotation.contract"
-                                            >
-                                                <span class="fw-bold"
-                                                    >Lugar o contexto de
-                                                    estudio:</span
-                                                >
-                                                {{
-                                                    quotation.contract
-                                                        .third_article_place ==
-                                                    1
-                                                        ? "Tesista"
-                                                        : "Inbestiga"
-                                                }}
-                                            </p>
-                                        </div>
-                                        <div class="col-4">
-                                            <p class="mb-2">
-                                                <span class="fw-bold"
-                                                    >Servicio Contratado
-                                                </span>
-                                            </p>
-                                            <p
-                                                v-for="detail in quotation.details"
-                                            >
-                                                - {{ detail.name }}
-                                            </p>
-                                        </div>
-                                        <div class="col-4">
-                                            <p
-                                                class="mb-2"
-                                                v-if="quotation.contract"
-                                            >
-                                                <span class="fw-bold"
-                                                    >Aplicación de
-                                                    instrumentos:</span
-                                                >
-                                                {{
-                                                    quotation.contract
-                                                        .third_article == 1
-                                                        ? "Tesista"
-                                                        : "Inbestiga"
-                                                }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                                </p>
+                                <p v-for="detail in quotation.details">
+                                    - {{ detail.name }}
+                                </p>
                             </div>
-                            <!-- <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
-                                <i class="bx bx-user-check me-1"></i>Connected
-                            </a> -->
+                            <div class="col-4">
+                                <p class="mb-2" v-if="quotation.contract">
+                                    <span class="fw-bold"
+                                        >Lugar o contexto de estudio:</span
+                                    >
+                                    {{
+                                        quotation.contract
+                                            .third_article_place == 1
+                                            ? "Tesista"
+                                            : "Inbestiga"
+                                    }}
+                                </p>
+                                <p class="mb-2" v-if="quotation.contract">
+                                    <span class="fw-bold"
+                                        >Aplicación de instrumentos:</span
+                                    >
+                                    {{
+                                        quotation.contract.third_article == 1
+                                            ? "Tesista"
+                                            : "Inbestiga"
+                                    }}
+                                </p>
+                            </div>
+                            <div class="col-4"></div>
                         </div>
                     </div>
                 </div>
@@ -97,7 +71,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div
-                            class="col-3"
+                            class="col-lg-3 col-sm-12 col-12"
                             v-for="customer in quotation.customers"
                         >
                             <div class="card bg-primary p-2 mb-2">
