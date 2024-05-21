@@ -143,33 +143,10 @@
                                         v-model="newQuestion.question"
                                     />
                                     <div class="d-flex mt-3">
-                                        <select
-                                            v-model="newQuestion.answer"
-                                            class="form-select"
-                                        >
-                                            <option
-                                                :value="`${index + 1}`"
-                                                v-for="(
-                                                    option, index
-                                                ) in newQuestion.options"
-                                            >
-                                                {{ option }}
-                                            </option>
-                                        </select>
-                                        <input
-                                            type="text"
-                                            name=""
-                                            id=""
-                                            class="form-control ms-2"
-                                            v-model="newOption"
+                                        <Select
+                                            :newQuestion="newQuestion"
+                                            @addOptions="addOptions"
                                         />
-
-                                        <button
-                                            class="btn btn-icon btn-success ms-2"
-                                            @click="addOptions(newQuestion)"
-                                        >
-                                            <i class="bx bx-plus"></i>
-                                        </button>
                                         <button
                                             class="btn btn-icon btn-danger ms-2"
                                             @click="deleteQuestion(newQuestion)"
@@ -192,6 +169,8 @@
     </div>
 </template>
 <script>
+import Select from "./Select.vue";
+
 export default {
     data() {
         return {
@@ -204,16 +183,16 @@ export default {
             newOption: "",
         };
     },
+    components: { Select },
     methods: {
-        addOptions(question) {
+        addOptions(question, newOption) {
+            console.log(newOption);
             var questionSelected = this.questions.find(
                 (q) => q.id == question.id
             );
-            questionSelected.options.push(this.newOption);
+            questionSelected.options.push(newOption);
 
             console.log(questionSelected);
-
-            this.newOption = "";
         },
         selectForm(form) {
             this.nameForm = form.name;
