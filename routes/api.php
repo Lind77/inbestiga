@@ -386,6 +386,7 @@ Route::get('/update-project-title/{id}/{name}', [ProjectController::class, 'upda
 Route::get('/update-project-status/{id}/{status}', [ProjectController::class, 'updateProjectStatus']);
 
 Route::post('/forms', [FormController::class, 'store']);
+Route::put('/forms/{id}', [FormController::class, 'update']);
 Route::get('/forms', [FormController::class, 'index']);
 
 Route::post('/reject-assigned-activity', [AssignedActivityController::class, 'reject']);
