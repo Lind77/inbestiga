@@ -14,153 +14,201 @@
                 >
                     <div class="px-4 pt-4 w-100">
                         <div class="row">
-                            <span class="h5 mt-2 demo text-body fw-bold"
-                                >1. Información General
-                            </span>
-                            <div class="col-4">
-                                <p class="mb-2">
-                                    <span class="fw-bold"
-                                        >Documento Firmado:</span
-                                    >
-                                    {{ signedDoc }}
-                                </p>
-                                <p class="mb-2">
-                                    <span class="fw-bold"
-                                        >Servicio Contratado
-                                    </span>
-                                </p>
-                                <p v-for="detail in quotation.details">
-                                    - {{ detail.name }}
-                                </p>
-                            </div>
-                            <div class="col-4">
-                                <p class="mb-2" v-if="quotation.contract">
-                                    <span class="fw-bold"
-                                        >Lugar o contexto de estudio:</span
-                                    >
-                                    {{
-                                        quotation.contract
-                                            .third_article_place == 1
-                                            ? "Tesista"
-                                            : "Inbestiga"
-                                    }}
-                                </p>
-                                <p class="mb-2" v-if="quotation.contract">
-                                    <span class="fw-bold"
-                                        >Aplicación de instrumentos:</span
-                                    >
-                                    {{
-                                        quotation.contract.third_article == 1
-                                            ? "Tesista"
-                                            : "Inbestiga"
-                                    }}
-                                </p>
-                            </div>
-                            <div class="col-4"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <span class="h5 mt-2 demo text-body fw-bold"
-                        >2. Clientes
-                    </span>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div
-                            class="col-lg-3 col-sm-12 col-12"
-                            v-for="customer in quotation.customers"
-                        >
-                            <div class="card bg-primary p-2 mb-2">
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+                                <span class="h5 mt-2 demo text-body fw-bold"
+                                    >Información General
+                                </span>
                                 <div
-                                    class="card-header d-flex align-items-center justify-content-between"
+                                    class="card bg-warning p-3 text-white mt-2"
                                 >
-                                    <h5
-                                        class="card-title m-0 me-2 text-white"
-                                        :title="customer.name"
+                                    <p class="mb-2">
+                                        <span class="fw-bold"
+                                            >Documento Firmado:</span
+                                        >
+                                        {{ signedDoc }}
+                                    </p>
+
+                                    <p class="mb-2">
+                                        <span class="fw-bold"
+                                            >Servicio Contratado
+                                        </span>
+                                    </p>
+                                    <p v-for="detail in quotation.details">
+                                        - {{ detail.name }}
+                                    </p>
+                                </div>
+                                <div class="mt-3" v-if="quotation.contract">
+                                    <button
+                                        :class="`btn btn-md btn-${
+                                            quotation.contract
+                                                .third_article_place == 0
+                                                ? 'success'
+                                                : 'secondary'
+                                        } btn-icon`"
+                                        title="Lugar o contexto de estudio"
                                     >
-                                        {{ customer.name.substring(0, 13) }}
-                                    </h5>
-                                    <div class="dropdown">
-                                        <button
-                                            class="btn p-0"
-                                            type="button"
-                                            id="employeeList"
-                                            data-bs-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
+                                        <i class="bx bx-landscape"></i>
+                                    </button>
+                                    <button
+                                        :class="`btn btn-md btn-${
+                                            quotation.contract.third_article ==
+                                            0
+                                                ? 'info'
+                                                : 'secondary'
+                                        } btn-icon ms-1`"
+                                        title="Aplicación de instrumentos"
+                                    >
+                                        <i class="bx bxs-vial"></i>
+                                    </button>
+                                    <button
+                                        :class="`btn btn-md btn-${
+                                            quotation.contract.third_article ==
+                                            0
+                                                ? 'warning'
+                                                : 'secondary'
+                                        } btn-icon ms-1`"
+                                        title="Diapositivas"
+                                    >
+                                        <i class="bx bxs-collection"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-12">
+                                <span class="h5 mt-2 demo text-body fw-bold"
+                                    >Clientes
+                                </span>
+
+                                <div
+                                    class="card bg-primary p-2 mb-2 mt-2"
+                                    v-if="customerSelected"
+                                >
+                                    <div
+                                        class="card-header d-flex align-items-center justify-content-between"
+                                    >
+                                        <h5
+                                            class="card-title m-0 me-2 text-white"
+                                            :title="customerSelected.name"
                                         >
-                                            <i
-                                                class="bx bx-dots-vertical-rounded text-white"
-                                            ></i>
-                                        </button>
-                                        <div
-                                            class="dropdown-menu dropdown-menu-end"
-                                            aria-labelledby="employeeList"
-                                            style=""
-                                        >
-                                            <a
-                                                class="dropdown-item"
-                                                href="javascript:void(0);"
-                                                @click="
-                                                    updateCustomer(customer)
-                                                "
-                                                >Editar</a
+                                            {{
+                                                customerSelected.name
+                                                    ? customerSelected.name.substring(
+                                                          0,
+                                                          13
+                                                      )
+                                                    : ""
+                                            }}
+                                        </h5>
+                                        <div class="dropdown">
+                                            <button
+                                                class="btn p-0"
+                                                type="button"
+                                                id="employeeList"
+                                                data-bs-toggle="dropdown"
+                                                aria-haspopup="true"
+                                                aria-expanded="false"
                                             >
-                                            <a
-                                                v-if="
-                                                    quotation.customers
-                                                        .length >= 2
-                                                "
-                                                class="dropdown-item"
-                                                href="javascript:void(0);"
-                                                @click="
-                                                    deleteCustomerContract(
-                                                        customer.id,
-                                                        quotation.id
-                                                    )
-                                                "
-                                                >Eliminar</a
+                                                <i
+                                                    class="bx bx-dots-vertical-rounded text-white"
+                                                ></i>
+                                            </button>
+                                            <div
+                                                class="dropdown-menu dropdown-menu-end"
+                                                aria-labelledby="employeeList"
+                                                style=""
                                             >
+                                                <a
+                                                    class="dropdown-item"
+                                                    href="javascript:void(0);"
+                                                    @click="
+                                                        updateCustomer(customer)
+                                                    "
+                                                    >Editar</a
+                                                >
+                                                <!--   <a
+                                                    v-if="
+                                                        quotation.customers
+                                                            .length >= 2
+                                                    "
+                                                    class="dropdown-item"
+                                                    href="javascript:void(0);"
+                                                    @click="
+                                                        deleteCustomerContract(
+                                                            customer.id,
+                                                            quotation.id
+                                                        )
+                                                    "
+                                                    >Eliminar</a
+                                                > -->
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="card-body">
-                                    <ul
-                                        class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2 text-white"
+                                    <div class="card-body">
+                                        <ul
+                                            class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2 text-white"
+                                        >
+                                            <li
+                                                class="list-inline-item fw-medium"
+                                            >
+                                                <i class="bx bx-id-card"></i>
+                                                {{ customerSelected.dni }}
+                                            </li>
+                                            <li
+                                                class="list-inline-item fw-medium"
+                                            >
+                                                <i class="bx bx-pen"></i>
+                                                {{ customerSelected.career }}
+                                            </li>
+                                            <li
+                                                class="list-inline-item fw-medium"
+                                            >
+                                                <i
+                                                    class="bx bxs-graduation"
+                                                ></i>
+                                                {{
+                                                    customerSelected.university
+                                                }}
+                                            </li>
+                                            <li
+                                                class="list-inline-item fw-medium"
+                                            >
+                                                <i class="bx bx-phone"></i>
+                                                {{ customerSelected.cell }}
+                                            </li>
+                                            <li
+                                                class="list-inline-item fw-medium"
+                                            >
+                                                <i
+                                                    class="bx bx-street-view"
+                                                ></i>
+                                                Actitud:
+                                                {{
+                                                    customerSelected.attitude
+                                                        ? customerSelected.attitude
+                                                        : "-"
+                                                }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div
+                                    class="d-flex align-items-center avatar-group my-3"
+                                >
+                                    <div
+                                        class="avatar avatar-sm me-2"
+                                        v-for="customer in quotation.customers"
+                                        :title="customer.name"
                                     >
-                                        <li class="list-inline-item fw-medium">
-                                            <i class="bx bx-id-card"></i>
-                                            {{ customer.dni }}
-                                        </li>
-                                        <li class="list-inline-item fw-medium">
-                                            <i class="bx bx-pen"></i>
-                                            {{ customer.career }}
-                                        </li>
-                                        <li class="list-inline-item fw-medium">
-                                            <i class="bx bxs-graduation"></i>
-                                            {{ customer.university }}
-                                        </li>
-                                        <li class="list-inline-item fw-medium">
-                                            <i class="bx bx-phone"></i>
-                                            {{ customer.cell }}
-                                        </li>
-                                        <li class="list-inline-item fw-medium">
-                                            <i class="bx bx-street-view"></i>
-                                            Actitud:
-                                            {{
-                                                customer.attitude
-                                                    ? customer.attitude
-                                                    : "-"
-                                            }}
-                                        </li>
-                                    </ul>
+                                        <span
+                                            @click="selectCustomer(customer)"
+                                            class="avatar-initial rounded-circle bg-primary"
+                                            >{{ customer.name[0] }}</span
+                                        >
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-6"></div>
                         </div>
                     </div>
                 </div>
@@ -170,7 +218,7 @@
                 <div class="card-body">
                     <div class="row">
                         <span class="h5 mt-2 demo text-body fw-bold"
-                            >3. Estado del trámite universitario</span
+                            >Estado del trámite universitario</span
                         >
                         <div class="table-responsive">
                             <table class="table">
@@ -214,7 +262,7 @@
                         >
                             <div>
                                 <span class="h5 m-2 demo text-body fw-bold"
-                                    >4. Información Académica
+                                    >Información Académica
                                 </span>
                                 <span> </span>
                             </div>
@@ -512,6 +560,9 @@ export default {
         };
     },
     methods: {
+        selectCustomer(customer) {
+            this.customerSelected = customer;
+        },
         selectForm() {
             console.log(this.formSelected);
         },
@@ -568,7 +619,7 @@ export default {
                 .then((result) => {
                     this.quotation = result.data;
                     console.log(this.quotation);
-                    this.customer = this.quotation.customers[0];
+                    this.customerSelected = this.quotation.customers[0];
                     this.comunications = this.customer.comunications;
                     if (
                         this.quotation.contract &&
