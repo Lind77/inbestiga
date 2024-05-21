@@ -123,7 +123,6 @@ class ProjectController extends Controller
             ]);
         }
 
-
         return response()->json([
             'msg' => 'success'
         ]);
@@ -276,7 +275,7 @@ class ProjectController extends Controller
     public function getMyProjects($id)
     {
         $user = User::find($id);
-        $projects = Project::with(['projectable', 'projectable.properties', 'projectable.quotation', 'projectable.quotation.customers', 'deliveries', 'deliveries.assigned_activities', 'team'])->where('team_id', '!=', null)->where('team_id', $user->team_id)->get();
+        $projects = Project::with(['projectable', 'projectable.properties', 'projectable.quotation', 'projectable.quotation.customers', 'deliveries', 'deliveries.assigned_activities', 'team'])->where('team_id', '!=', null)->where('team_id', $user->team_id)->orderBy('updated_at', 'desc')->get();
         return response()->json($projects);
 
         /* $user = User::find($id);

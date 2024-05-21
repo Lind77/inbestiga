@@ -222,6 +222,7 @@ class AssignedActivityController extends Controller
         $assigned_activity = Assigned_activity::find($request->get('assignedActivityId'));
 
         $assigned_activity->update([
+            'status' => 2,
             'type' => 1
         ]);
 

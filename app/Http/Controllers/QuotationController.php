@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewCustomer;
 use App\Events\NewDocument;
 use App\Models\Quotation;
 use App\Http\Requests\StoreQuotationRequest;
@@ -384,60 +385,9 @@ class QuotationController extends Controller
             ]);
 
             $user = User::find($request->get('user_id'));
-
-            $comissionData = [
-                'quotation_id' => $quotation->id,
-                'referal' => $user->name,
-                'user_id' => $request->get('user_id')
-            ];
-
-            switch ($request->get('status')) {
-                    /*  case 3:
-                    $comissionData['concept'] = 'Obtención de datos';
-                    $comissionData['percent'] = 2;
-                    break; */
-                case 4:
-                    $comissionData['concept'] = 'Obtención de necesidades específicas';
-                    $comissionData['percent'] = 8;
-                    break;
-                case 5:
-                    $comissionData['concept'] = 'Cotización';
-                    $comissionData['percent'] = 5;
-                    break;
-                case 6:
-                    $comissionData['concept'] = 'Explicación de la cotización';
-                    $comissionData['percent'] = 5;
-                    break;
-                case 7:
-                    $comissionData['concept'] = 'Explicación de la experiencia';
-                    $comissionData['percent'] = 15;
-                    break;
-                case 8:
-                    $comissionData['concept'] = 'Seguimientos';
-                    $comissionData['percent'] = 15;
-                    break;
-                case 9:
-                    $comissionData['concept'] = 'Cierre no pagado';
-                    $comissionData['percent'] = 15;
-                    break;
-                case 10:
-                    $comissionData['concept'] = 'Seguimiento de cierre';
-                    $comissionData['percent'] = 10;
-                    break;
-                case 11:
-                    $comissionData['concept'] = 'Gestión Documental';
-                    $comissionData['percent'] = 2;
-                    break;
-            }
-
-            $comission = Comission::where('quotation_id', $request->get('quotation_id'))->where('user_id', $request->get('user_id'))->where('concept', $comissionData['concept'])->first();
-
-            if (!$comission) {
-                $newComission = Comission::create($comissionData);
-            }
         }
 
-        $oldStatus = intval($request->get('status')) - 1;
+        broadcast(new NewCustomer($user));
 
         /* $eleventhCustomer = Customer::where('status', $oldStatus)->orderBy('updated_at', 'desc')->offset(10)->first(); */
         $quotation->customers->each->update([
