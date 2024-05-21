@@ -290,6 +290,8 @@ export default {
                 });
         },
         updateForm() {
+            const fd = new FormData();
+
             fd.append("name", this.nameForm);
             fd.append("questions", JSON.stringify(this.questions));
             fd.append("project_situation_id", this.projectSituationId);
