@@ -275,6 +275,7 @@
                                             type="radio"
                                             value="1"
                                             id="customRadioBuilder"
+                                            v-model="typeQuiz"
                                         />
                                     </label>
                                 </div>
@@ -299,6 +300,7 @@
                                             type="radio"
                                             value="2"
                                             id="customRadioOwner"
+                                            v-model="typeQuiz"
                                         />
                                     </label>
                                 </div>
@@ -323,6 +325,7 @@
                                             type="radio"
                                             value="3"
                                             id="customRadioBroker"
+                                            v-model="typeQuiz"
                                         />
                                     </label>
                                 </div>
@@ -345,8 +348,9 @@
                                             name="plUserType"
                                             class="form-check-input"
                                             type="radio"
-                                            value="3"
+                                            value="4"
                                             id="customRadioBroker"
+                                            v-model="typeQuiz"
                                         />
                                     </label>
                                 </div>
@@ -529,6 +533,8 @@ export default {
             customerSelected: {},
             action: 0,
             formSelected: 0,
+            typeQuiz: 0,
+            forms: [],
         };
     },
     methods: {
@@ -691,6 +697,16 @@ export default {
             };
             this.newFields.push({ ...newField });
         },
+        getForms() {
+            axios
+                .get("/api/forms")
+                .then((result) => {
+                    this.forms = result.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
     },
     computed: {
         signedDoc() {
@@ -710,13 +726,23 @@ export default {
                 }
             }
         },
-        /* slugify(string) {
-            console.log(typeof string)
-            return     // Replace spaces with hyphen (-)
-        } */
+    },
+    watch: {
+        typeQuiz(val) {
+            var formSelected = this.forms.find(
+                (f) => f.project_situation_id == val
+            );
+            if (formSelected) {
+                this.questions = JSON.parse(formSelected.forms);
+            } else {
+                this.$swal("Aun no hay un form para esta modalidad");
+                this.questions = [];
+            }
+        },
     },
     mounted() {
         this.getQuotation();
+        this.getForms();
     },
 };
 </script>
