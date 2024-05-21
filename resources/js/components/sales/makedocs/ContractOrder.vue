@@ -1,5 +1,3 @@
-title="Si usted marca esta opción, el cliente deberá encargarse de este
-aspecto."
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row invoice-add">
@@ -744,14 +742,6 @@ export default {
         deleteDelivery(index) {
             this.deliveries.splice(index, 1);
         },
-        changeDocumentType() {
-            console.log(this.documentType);
-            if (this.documentType <= 2) {
-                this.documentType = this.documentType + 1;
-            } else {
-                this.documentType = 1;
-            }
-        },
         getCustomer() {
             this.contractExistent = [];
             this.quotationExistent = [];
@@ -764,11 +754,8 @@ export default {
                         this.customers = res.data.customers;
 
                         this.details = this.quotation.details;
-                        if (this.quotation.amount > 1500) {
-                            this.documentType = 3;
-                        } else {
-                            this.documentType = 2;
-                        }
+
+                        this.documentType = 3;
                     } else {
                         this.customers.push(this.customer);
                     }
