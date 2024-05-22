@@ -176,7 +176,7 @@
                 </p>
                 <p>
                     <span>PRIMERO: OBJETO DEL CONTRATO.</span><br>
-                EL CONTRATO se celebra con el objeto de que EL LOCADOR entregue a favor de EL ASESORADO un producto académico según los parámetros del contrato y la observancia del reglamento de la {{$contract->quotation->customers[0]->university}} y la carrera o mención de {{$contract->quotation->customers[0]->career}} - N{{$contract->quotation->details[0]->level}}.
+                EL CONTRATO se celebra con el objeto de que EL LOCADOR entregue a favor de EL ASESORADO un producto académico  que corresponde a {{$contract->quotation->details[0]->name}} según los parámetros del contrato y la observancia del reglamento de la {{$contract->quotation->customers[0]->university}} y la carrera o mención de {{$contract->quotation->customers[0]->career}} - N{{$contract->quotation->details[0]->level}}.
                 </p>
                 <p>
                     <span>SEGUNDO: OBLIGACIONES DEL LOCADOR.</span><br>
@@ -192,6 +192,11 @@
                             Proporcionar información sobre el lugar de estudio, la población y muestra
                         </li>
                     @endif
+                    @if($contract->third_article_ppts != 1)
+                        <li>
+                            Realizar las diapositivas para la sustentación, teniendo en consideración la información dada en el trabajo de investigación realizado.
+                        </li>
+                        @endif
                     <li>Entregar productos originales que garanticen bajos niveles de similitud con respecto de otros trabajos de investigación.
                     </li>
                     <li>
@@ -221,6 +226,11 @@
                         @if($contract->third_article_place == 1)
                         <li>
                             Proporcionar información sobre el lugar de estudio, la población y muestra
+                        </li>
+                        @endif
+                        @if($contract->third_article_ppts == 1)
+                        <li>
+                            Realizar las diapositivas para la sustentación, teniendo en consideración la información dada en el trabajo de investigación realizado.
                         </li>
                         @endif
                         <li>
@@ -435,20 +445,10 @@
                     según desee el interesado.</p> 
                     
                 <span>DÉCIMO TERCERO: BONIFICACIONES</span><br>
-               <p>En caso de que EL ASESORADO refiera a EL LOCADOR y este celebre un contrato de índole similar a la del presente
-                  contrato, EL LOCADOR otorgará a EL ASESORADO una bonificación de acuerdo al siguiente esquema, basado en los
-                  ingresos generados para la empresa por cada contrato exitosamente celebrado:</p>
-                  <ul style="margin-top: -8px;">
-                    <li>Una bonificación de S/ 30.00  para ingresos inferiores a S/ 1,000.00.</li>
-                    <li>Una bonificación de S/ 50.00 para ingresos superiores a S/ 1,000.00 y menores a S/ 3,000.00.</li>
-                    <li>Una bonificación de S/ 100.00 para ingresos mayores a S/ 3,000.00 y menores a S/ 5,000.00.</li>
-                    <li>Una bonificación de S/ 150.00 para ingresos que excedan los S/ 5,000.00.</li>
-                </ul>
-                  <p>Este esquema de bonificaciones se aplicará por cada contrato referido que cumpla con los criterios de ingreso
-                     especificados anteriormente, y será efectivo una vez que se haya confirmado la celebración del contrato y se 
-                     haya verificado el cumplimiento de todas las condiciones pertinentes. EL LOCADOR se reserva el derecho de 
-                     realizar las verificaciones necesarias para asegurar la autenticidad y la legitimidad de cada contrato referido 
-                     antes de emitir cualquier bonificación.</p>  
+               <p>En caso de que EL ASESORADO refiera a EL LOCADOR y este celebre un contrato de índole similar al presente
+                  contrato, EL LOCADOR otorgará a EL ASESORADO una bonificación cuyo monto será evaluado y determinado por el área financiera de EL LOCADOR. Esta bonificación variará hasta un máximo de S/ 1,000.00 y será comunicada expresamente por el personal de ventas al ASESORADO.</p>
+                 <p>La evaluación para determinar el monto de la bonificación considerará varios factores, entre ellos el porcentaje de avance de pago del cliente que ya contrató, la dificultad de realización de los trabajos, los tiempos de entrega y el cumplimiento en los pagos, así como otros factores que EL LOCADOR considere pertinentes. EL LOCADOR se reserva el derecho de realizar las verificaciones necesarias para asegurar la autenticidad y la legitimidad de cada contrato referido antes de emitir cualquier bonificación.</p>
+                 <p>Este esquema de bonificaciones se aplicará por cada contrato referido que cumpla con los criterios de ingreso especificados anteriormente, y será efectivo una vez que se haya confirmado la celebración del contrato y se haya verificado el cumplimiento de todas las condiciones pertinentes. Ambas partes aceptan estos términos mediante la firma del presente contrato.</p>
                      <div class="page-break"></div>                 
                     <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
                     <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($contract->date))}}</p>
