@@ -457,6 +457,16 @@
                             <p
                                 title="Si usted marca esta opción, el cliente deberá encargarse de este aspecto."
                             >
+                                3er art.(Diapositivas)
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    v-model="thirdArticlePpts"
+                                />
+                            </p>
+                            <p
+                                title="Si usted marca esta opción, el cliente deberá encargarse de este aspecto."
+                            >
                                 5to art.(Considerar Entregas)
                                 <input
                                     type="checkbox"
@@ -653,6 +663,7 @@ export default {
             deliveries: [],
             thirdArticle: false,
             thirdArticlePlace: false,
+            thirdArticlePpts: false,
             fifthArticle: false,
             contractId: 0,
             orderId: 0,
@@ -879,6 +890,10 @@ export default {
                 this.thirdArticlePlace
             );
 
+            var thirdArticlePptsValue = this.booleanToNumber(
+                this.thirdArticlePpts
+            );
+
             let conversorClass = conversor.conversorNumerosALetras;
             let myConverter = new conversorClass();
 
@@ -902,6 +917,7 @@ export default {
             fd.append("third_article", thirdArticleValue);
             fd.append("fifth_article", fifthArticleValue);
             fd.append("third_article_place", thirdArticlePlaceValue);
+            fd.append("third_article_ppts", thirdArticlePptsValue);
             axios
                 .post("/api/contracts", fd)
                 .then((res) => {

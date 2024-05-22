@@ -385,7 +385,8 @@ class ContractController extends Controller
             'date' => $request->get('date'),
             'third_article' => $request->get('third_article'),
             'fifth_article' => $request->get('fifth_article'),
-            'third_article_place' => $request->get('third_article_place')
+            'third_article_place' => $request->get('third_article_place'),
+            'third_article_ppts' => $request->get('third_article_ppts'),
         ]);
 
         $customers = json_decode($request->get('customers'), true);
