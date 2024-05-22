@@ -14,7 +14,7 @@
                 />
                 <button
                     @click="selectForm(form)"
-                    class="btn btn-primary w-100"
+                    class="btn btn-primary w-100 mb-2"
                     v-for="(form, index) in allForms"
                     :key="index"
                 >

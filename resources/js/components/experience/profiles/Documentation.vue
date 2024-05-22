@@ -220,7 +220,7 @@
                         <span class="h5 mt-2 demo text-body fw-bold"
                             >Estado del trámite universitario</span
                         >
-                        <Documentary :questions="questions" />
+                        <Documentary :questions="documentaryTags" />
                     </div>
                 </div>
             </div>
@@ -530,6 +530,7 @@ export default {
             formSelected: 0,
             typeQuiz: 0,
             forms: [],
+            documentaryTags: [],
         };
     },
     methods: {
@@ -594,6 +595,49 @@ export default {
                     console.log(this.quotation);
                     this.customerSelected = this.quotation.customers[0];
                     this.comunications = this.customer.comunications;
+                    this.documentaryTags = [
+                        { question: "Tema", answer: false, type: 2 },
+                        {
+                            question: "Plan de Tesis",
+                            answer: false,
+                            type: 2,
+                        },
+                        {
+                            question: "Observaciones del Plan de Tesis",
+                            answer: false,
+                            type: 2,
+                        },
+                        {
+                            question: "Aprobación del Plan de Tesis",
+                            answer: false,
+                            type: 2,
+                        },
+                        {
+                            question: "Aplicación de instrumentos",
+                            answer: false,
+                            type: 2,
+                        },
+                        {
+                            question: "Elaboración de Informe Final",
+                            answer: false,
+                            type: 2,
+                        },
+                        {
+                            question: "Observaciones del informe final",
+                            answer: false,
+                            type: 2,
+                        },
+                        {
+                            question: "Revisión de jurados",
+                            answer: false,
+                            type: 2,
+                        },
+                        {
+                            question: "Sustentación Final",
+                            answer: false,
+                            type: 2,
+                        },
+                    ];
                     if (
                         this.quotation.contract &&
                         this.quotation.contract.properties[0]
@@ -609,6 +653,13 @@ export default {
                         this.questions = JSON.parse(
                             this.quotation.contract.properties[0].properties
                         );
+
+                        this.questions.forEach((question) => {
+                            if (question.type == 2) {
+                                this.documentaryTags.push(question);
+                            }
+                        });
+
                         this.docType = 2;
                         var findDriveField = this.questions.find(
                             (question) => question.type == 5
