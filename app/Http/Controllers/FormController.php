@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
+use App\Models\Project_situation;
 use Illuminate\Http\Request;
 
 class FormController extends Controller
@@ -15,8 +16,12 @@ class FormController extends Controller
     public function index()
     {
         $forms = Form::all();
+        $project_situations = Project_situation::all();
 
-        return response()->json($forms);
+        return response()->json([
+            'forms' => $forms,
+            'project_situations' => $project_situations
+        ]);
     }
 
     /**
