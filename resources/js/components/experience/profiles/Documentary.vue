@@ -31,5 +31,40 @@ export default {
     props: {
         questions: Array,
     },
+    data() {
+        return {
+            documentaryQuestions: [
+                { question: "Tema", answer: true, type: 2 },
+                { question: "Plan de Tesis", answer: false, type: 2 },
+                {
+                    question: "Observaciones del Plan de Tesis",
+                    answer: false,
+                    type: 2,
+                },
+                {
+                    question: "Aprobación del Plan de Tesis",
+                    answer: false,
+                    type: 2,
+                },
+                {
+                    question: "Aplicación de instrumentos",
+                    answer: false,
+                    type: 2,
+                },
+                {
+                    question: "Elaboración de Informe Final",
+                    answer: false,
+                    type: 2,
+                },
+                {
+                    question: "Observaciones del informe final",
+                    answer: false,
+                    type: 2,
+                },
+                { question: "Revisión de jurados", answer: false, type: 2 },
+                { question: "Sustentación Final", answer: false, type: 2 },
+            ],
+        };
+    },
 };
 </script>
