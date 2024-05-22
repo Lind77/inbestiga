@@ -259,7 +259,7 @@
                                         <span class="custom-option-body">
                                             <i class="bx bx-building-house"></i>
                                             <span class="custom-option-title"
-                                                >T. con avance</span
+                                                >T. sin avance</span
                                             >
                                         </span>
                                         <input
@@ -284,7 +284,7 @@
                                         <span class="custom-option-body">
                                             <i class="bx bx-crown"></i>
                                             <span class="custom-option-title">
-                                                T. sin avance
+                                                T. con avance
                                             </span>
                                         </span>
                                         <input
