@@ -220,36 +220,7 @@
                         <span class="h5 mt-2 demo text-body fw-bold"
                             >Estado del trámite universitario</span
                         >
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <template
-                                            v-for="newQuestion in questions"
-                                        >
-                                            <td v-if="newQuestion.type == 2">
-                                                {{ newQuestion.question }}
-                                            </td>
-                                        </template>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <template
-                                            v-for="newQuestion in questions"
-                                        >
-                                            <td v-if="newQuestion.type == 2">
-                                                <input
-                                                    type="checkbox"
-                                                    class="form-check-input"
-                                                    v-model="newQuestion.answer"
-                                                />
-                                            </td>
-                                        </template>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <Documentary :questions="questions" />
                     </div>
                 </div>
             </div>
@@ -521,12 +492,14 @@ import axios from "axios";
 import Attrib from "./Attrib.vue";
 import ComunicationsModal from "./ComunicationsModal.vue";
 import customerModal from "../../sales/customers/customerModal.vue";
+import Documentary from "./Documentary.vue";
 
 export default {
     components: {
         Attrib,
         ComunicationsModal,
         customerModal,
+        Documentary,
     },
     data() {
         return {
