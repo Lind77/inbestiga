@@ -76,11 +76,11 @@
                             v-model="projectSituationId"
                             class="form-control"
                         >
-                            <option value="1">Tesis sin avance</option>
-                            <option value="2">Tesis con avance</option>
-                            <option value="3">Artículo Científico</option>
-                            <option value="4">
-                                Otra modalidad de Titulación
+                            <option
+                                :value="situation.id"
+                                v-for="situation in projectSituations"
+                            >
+                                {{ situation.name }}
                             </option>
                         </select>
 
@@ -190,6 +190,7 @@ export default {
             projectSituationId: 0,
             newOption: "",
             idFormSelected: 0,
+            projectSituations: [],
         };
     },
     components: { Select },
@@ -207,6 +208,7 @@ export default {
             this.nameForm = form.name;
             this.questions = JSON.parse(form.forms);
             this.idFormSelected = form.id;
+            this.projectSituationId = form.project_situation_id;
         },
         closeEditNameForm() {
             this.nameForm = this.$refs.nameInputRef.value;
@@ -222,7 +224,8 @@ export default {
             axios
                 .get("/api/forms")
                 .then((result) => {
-                    this.allForms = result.data;
+                    this.allForms = result.data.forms;
+                    this.projectSituations = result.data.project_situations;
                 })
                 .catch((err) => {
                     console.log(err);
