@@ -750,7 +750,7 @@ export default {
             axios
                 .get("/api/forms")
                 .then((result) => {
-                    this.forms = result.data;
+                    this.forms = result.data.forms;
                 })
                 .catch((err) => {
                     console.log(err);
@@ -778,6 +778,7 @@ export default {
     },
     watch: {
         typeQuiz(val) {
+            console.log(val);
             var formSelected = this.forms.find(
                 (f) => f.project_situation_id == val
             );
