@@ -413,6 +413,33 @@
                         </div>
                     </div>
                 </div>
+                <div class="card invoice-preview-card mt-2">
+                    <div class="card-body">
+                        <span class="h5 m-2 demo text-body fw-bold"
+                            >Documentos necesarios
+                        </span>
+                        <div class="row">
+                            <div class="col-12">
+                                <div v-for="file in filesProject">
+                                    <File
+                                        :file="file"
+                                        :projectId="projectId"
+                                        @getQuotation="getQuotation"
+                                    />
+                                </div>
+                                <div v-for="file in filesRequired">
+                                    <File
+                                        v-if="file.complete == false"
+                                        :file="file"
+                                        :projectId="projectId"
+                                        @getQuotation="getQuotation"
+                                        :status="file.status"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-6">
                 <div class="card invoice-preview-card mt-2">
@@ -437,9 +464,18 @@
                             >
                                 Actualizar
                             </button>
-                            <button class="btn btn-success w-50 ms-2">
+                            <button
+                                class="btn btn-success w-50 ms-2"
+                                @click="chooseFile"
+                            >
                                 Archivo
                             </button>
+                            <input
+                                type="file"
+                                ref="inputHidden"
+                                hidden
+                                @change="archivePost"
+                            />
                         </div>
                     </div>
                 </div>
@@ -464,6 +500,18 @@
                         </div>
                     </div>
                 </template>
+                <div class="card mt-2 bg-success" v-for="postFile in postFiles">
+                    <div class="card-body text-white">
+                        <h4 class="text-white">{{ postFile.url }}</h4>
+                        <p>{{ formatDate(postFile.created_at) }}</p>
+                        <button
+                            class="btn btn-warning"
+                            @click="downloadFile(file.url)"
+                        >
+                            Descargar
+                        </button>
+                    </div>
+                </div>
                 <div
                     class="card mt-2 bg-success"
                     v-for="comunication in customer.comunications"
@@ -493,6 +541,7 @@ import Attrib from "./Attrib.vue";
 import ComunicationsModal from "./ComunicationsModal.vue";
 import customerModal from "../../sales/customers/customerModal.vue";
 import Documentary from "./Documentary.vue";
+import File from "./File.vue";
 
 export default {
     components: {
@@ -500,6 +549,7 @@ export default {
         ComunicationsModal,
         customerModal,
         Documentary,
+        File,
     },
     data() {
         return {
@@ -531,9 +581,58 @@ export default {
             typeQuiz: 0,
             forms: [],
             documentaryTags: [],
+            projectId: 0,
+            filesProject: [],
+            postFiles: [],
+            filesRequired: [
+                {
+                    label: "Reglamento / lineamientos de investigación",
+                    status: 1,
+                    complete: false,
+                },
+                {
+                    label: "Estructura de plan de tesis/ informe final",
+                    status: 2,
+                    complete: false,
+                },
+                {
+                    label: "Plantilla de tesis o ejemplo de tesis",
+                    status: 3,
+                    complete: false,
+                },
+                {
+                    label: "Manual de redacción de su universidad (APA, ISO, Vancouver)",
+                    status: 4,
+                    complete: false,
+                },
+            ],
         };
     },
     methods: {
+        downloadFile(url) {
+            window.open("https://inbestiga.com/inbestiga/public/files/" + url);
+        },
+        archivePost(e) {
+            const fd = new FormData();
+            fd.append("file", e.target.files[0]);
+            fd.append("project_id", this.projectId);
+
+            axios
+                .post("/api/file-post", fd, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                .then((result) => {
+                    this.getQuotation();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        chooseFile() {
+            this.$refs.inputHidden.click();
+        },
         selectCustomer(customer) {
             this.customerSelected = customer;
         },
@@ -593,6 +692,26 @@ export default {
                 .then((result) => {
                     this.quotation = result.data;
                     console.log(this.quotation);
+
+                    this.projectId = this.quotation.contract.projects[0].id;
+
+                    this.filesProject =
+                        this.quotation.contract.projects[0].files;
+
+                    this.filesProject.forEach((file, index) => {
+                        if (file.type == 1) {
+                            var fileRequiredFound = this.filesRequired.find(
+                                (fileRequired) =>
+                                    fileRequired.status == file.status
+                            );
+                            fileRequiredFound.complete = true;
+                            file.label = fileRequiredFound.label;
+                        } else if (file.type == 2) {
+                            this.postFiles.push(file);
+                            this.filesProject.splice(index, 1);
+                        }
+                    });
+
                     this.customerSelected = this.quotation.customers[0];
                     this.comunications = this.customer.comunications;
                     this.documentaryTags = [
