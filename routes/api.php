@@ -390,3 +390,6 @@ Route::put('/forms/{id}', [FormController::class, 'update']);
 Route::get('/forms', [FormController::class, 'index']);
 
 Route::post('/reject-assigned-activity', [AssignedActivityController::class, 'reject']);
+
+Route::post('/file-archive', [FileController::class, 'fileArchive']);
+Route::post('/file-post', [FileController::class, 'filePost']);

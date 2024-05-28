@@ -124,4 +124,36 @@ class FileController extends Controller
 
         return response()->json(['success' => 'You have successfully upload file.']);
     }
+
+    public function fileArchive(Request $request)
+    {
+        $fileName = $request->file->getClientOriginalName();
+        $url = $request->file->move(public_path('files'), $fileName);
+
+        $file = File::create([
+            'fileable_id' => $request->get('project_id'),
+            'fileable_type' => 'App\\Models\\Project',
+            'url' => $fileName,
+            'type' => 1,
+            'status' => $request->get('status')
+        ]);
+
+        return response()->json(['success' => 'You have successfully upload file.']);
+    }
+
+    public function filePost(Request $request)
+    {
+        $fileName = $request->file->getClientOriginalName();
+        $url = $request->file->move(public_path('files'), $fileName);
+
+        $file = File::create([
+            'fileable_id' => $request->get('project_id'),
+            'fileable_type' => 'App\\Models\\Project',
+            'url' => $fileName,
+            'type' => 2,
+            'status' => 0
+        ]);
+
+        return response()->json(['success' => 'You have successfully upload file.']);
+    }
 }
