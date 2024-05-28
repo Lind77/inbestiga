@@ -421,23 +421,21 @@
                         <div class="row">
                             <div class="col-12">
                                 <div v-for="file in filesProject">
-                                    <label for="" class="form-label">{{
-                                        file.label
-                                    }}</label>
-                                    <button
-                                        class="btn btn-success rounded cursor-pointer text-white p-3 mb-2 w-100"
-                                    >
-                                        {{ file.url }}
-                                    </button>
+                                    <File
+                                        :file="file"
+                                        :projectId="projectId"
+                                        @getQuotation="getQuotation"
+                                    />
                                 </div>
-
-                                <File
-                                    :label="fileRequired.label"
-                                    :projectId="projectId"
-                                    :type="fileRequired.type"
-                                    v-for="fileRequired in filesRequired"
-                                    @getQuotation="getQuotation"
-                                />
+                                <div v-for="file in filesRequired">
+                                    <File
+                                        v-if="file.complete == false"
+                                        :file="file"
+                                        :projectId="projectId"
+                                        @getQuotation="getQuotation"
+                                        :status="file.status"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -502,6 +500,18 @@
                         </div>
                     </div>
                 </template>
+                <div class="card mt-2 bg-success" v-for="postFile in postFiles">
+                    <div class="card-body text-white">
+                        <h4 class="text-white">{{ postFile.url }}</h4>
+                        <p>{{ formatDate(postFile.created_at) }}</p>
+                        <button
+                            class="btn btn-warning"
+                            @click="downloadFile(file.url)"
+                        >
+                            Descargar
+                        </button>
+                    </div>
+                </div>
                 <div
                     class="card mt-2 bg-success"
                     v-for="comunication in customer.comunications"
@@ -573,27 +583,35 @@ export default {
             documentaryTags: [],
             projectId: 0,
             filesProject: [],
+            postFiles: [],
             filesRequired: [
                 {
                     label: "Reglamento / lineamientos de investigación",
-                    type: 1,
+                    status: 1,
+                    complete: false,
                 },
                 {
                     label: "Estructura de plan de tesis/ informe final",
-                    type: 2,
+                    status: 2,
+                    complete: false,
                 },
                 {
                     label: "Plantilla de tesis o ejemplo de tesis",
-                    type: 3,
+                    status: 3,
+                    complete: false,
                 },
                 {
                     label: "Manual de redacción de su universidad (APA, ISO, Vancouver)",
-                    type: 4,
+                    status: 4,
+                    complete: false,
                 },
             ],
         };
     },
     methods: {
+        downloadFile(url) {
+            window.open("https://inbestiga.com/inbestiga/public/files/" + url);
+        },
         archivePost(e) {
             const fd = new FormData();
             fd.append("file", e.target.files[0]);
@@ -680,15 +698,17 @@ export default {
                     this.filesProject =
                         this.quotation.contract.projects[0].files;
 
-                    this.filesProject.forEach((file) => {
-                        const index = this.filesRequired.findIndex(
-                            (fileRequired) => fileRequired.type === file.type
-                        );
-                        file.label = this.filesRequired.find(
-                            (fileRequired) => fileRequired.type === file.type
-                        ).label;
-                        if (index !== -1) {
-                            this.filesRequired.splice(index, 1);
+                    this.filesProject.forEach((file, index) => {
+                        if (file.type == 1) {
+                            var fileRequiredFound = this.filesRequired.find(
+                                (fileRequired) =>
+                                    fileRequired.status == file.status
+                            );
+                            fileRequiredFound.complete = true;
+                            file.label = fileRequiredFound.label;
+                        } else if (file.type == 2) {
+                            this.postFiles.push(file);
+                            this.filesProject.splice(index, 1);
                         }
                     });
 

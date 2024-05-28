@@ -134,8 +134,8 @@ class FileController extends Controller
             'fileable_id' => $request->get('project_id'),
             'fileable_type' => 'App\\Models\\Project',
             'url' => $fileName,
-            'type' => $request->get('type'),
-            'status' => 1
+            'type' => 1,
+            'status' => $request->get('status')
         ]);
 
         return response()->json(['success' => 'You have successfully upload file.']);
