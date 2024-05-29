@@ -9,7 +9,7 @@ class Contract extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['quotation_id', 'amount', 'amount_text', 'cent_text', 'date', 'advance', 'percentage', 'third_article','third_article_place','status', 'fifth_article','third_article_ppts'];
+    protected $fillable = ['quotation_id', 'amount', 'amount_text', 'cent_text', 'date', 'advance', 'percentage', 'third_article','third_article_place','status', 'fifth_article','third_article_ppts','fragment'];
 
     //Relacion inversa uno  a uno Contract-Quotation
     public function quotation()
