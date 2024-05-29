@@ -52,7 +52,7 @@
                 class="badge bg-label-primary me-1 cursor-pointer">+</span> -->
                         </h5>
                     </div>
-                    <div class="card">
+                    <div class="card mb-2">
                         <div class="card-body">
                             <!-- Activity Timeline -->
                             <template v-for="permission in permissions">
