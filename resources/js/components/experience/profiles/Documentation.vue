@@ -444,31 +444,26 @@
             <div class="col-lg-6">
                 <div class="card invoice-preview-card mt-2">
                     <div class="card-body">
-                        <label for="">Nueva Actualización</label>
+                        <label for="">Nuevo Post</label>
                         <input
                             type="text"
                             v-model="newUpdate.question"
-                            placeholder="Título..."
+                            placeholder="Título"
                             class="form-control"
                         />
                         <textarea
-                            placeholder="Cuerpo..."
+                            placeholder="Cuerpo"
                             v-model="newUpdate.answer"
                             class="form-control mt-2"
                             rows="5"
                         ></textarea>
-                        <div class="d-flex mt-2">
+                        <div class="mt-2">
                             <button
-                                class="btn btn-info w-50"
-                                @click="updateFields"
-                            >
-                                Actualizar
-                            </button>
-                            <button
-                                class="btn btn-success w-50 ms-2"
+                                id="btnFilePost"
+                                class="btn btn-secondary w-100"
                                 @click="chooseFile"
                             >
-                                Archivo
+                                Adjuntar archivo <i class="bx bx-paperclip"></i>
                             </button>
                             <input
                                 type="file"
@@ -476,6 +471,12 @@
                                 hidden
                                 @change="archivePost"
                             />
+                            <button
+                                class="btn btn-info mt-2 w-100"
+                                @click="postNewUpdate"
+                            >
+                                Publicar
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -500,13 +501,14 @@
                         </div>
                     </div>
                 </template>
-                <div class="card mt-2 bg-success" v-for="postFile in postFiles">
+                <div class="card mt-2 bg-success" v-for="postFile in posts">
                     <div class="card-body text-white">
-                        <h4 class="text-white">{{ postFile.url }}</h4>
+                        <h4 class="text-white">{{ postFile.title }}</h4>
+                        <p>{{ postFile.body }}</p>
                         <p>{{ formatDate(postFile.created_at) }}</p>
                         <button
                             class="btn btn-warning"
-                            @click="downloadFile(file.url)"
+                            @click="downloadFile(postFile.files[0].url)"
                         >
                             Descargar
                         </button>
@@ -542,8 +544,15 @@ import ComunicationsModal from "./ComunicationsModal.vue";
 import customerModal from "../../sales/customers/customerModal.vue";
 import Documentary from "./Documentary.vue";
 import File from "./File.vue";
+import { userStore } from "../../../stores/UserStore";
 
 export default {
+    setup() {
+        const store = userStore();
+        return {
+            store,
+        };
+    },
     components: {
         Attrib,
         ComunicationsModal,
@@ -606,14 +615,48 @@ export default {
                     complete: false,
                 },
             ],
+            filePostUploaded: {},
+            posts: [],
         };
     },
     methods: {
+        postNewUpdate() {
+            const fd = new FormData();
+            fd.append("title", this.newUpdate.question);
+            fd.append("body", this.newUpdate.answer);
+            fd.append("file", this.filePostUploaded);
+            fd.append("project_id", this.projectId);
+            fd.append("user_id", this.store.authUser.id);
+
+            axios
+                .post("/api/file-post", fd, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                .then((result) => {
+                    this.getQuotation();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         downloadFile(url) {
             window.open("https://inbestiga.com/inbestiga/public/files/" + url);
         },
-        archivePost(e) {
-            const fd = new FormData();
+        archivePost(event) {
+            var file = event.target.files[0];
+            this.filePostUploaded = file;
+
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                // El texto del archivo se mostrará por consola aquí
+                $("#btnFilePost").removeClass("btn-secondary");
+                $("#btnFilePost").addClass("btn-success");
+                $("#btnFilePost").html(file.name);
+            };
+            reader.readAsText(file);
+            /* const fd = new FormData();
             fd.append("file", e.target.files[0]);
             fd.append("project_id", this.projectId);
 
@@ -628,7 +671,7 @@ export default {
                 })
                 .catch((err) => {
                     console.log(err);
-                });
+                }); */
         },
         chooseFile() {
             this.$refs.inputHidden.click();
@@ -691,9 +734,11 @@ export default {
                 .get("/api/quotations/" + this.$route.params.quotationId)
                 .then((result) => {
                     this.quotation = result.data;
-                    console.log(this.quotation);
+                    /*  console.log(this.quotation); */
 
                     this.projectId = this.quotation.contract.projects[0].id;
+
+                    this.posts = this.quotation.contract.projects[0].posts;
 
                     this.filesProject =
                         this.quotation.contract.projects[0].files;
