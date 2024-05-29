@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use FileFacade;
 
@@ -146,9 +147,17 @@ class FileController extends Controller
         $fileName = $request->file->getClientOriginalName();
         $url = $request->file->move(public_path('files'), $fileName);
 
+        $post = Post::create([
+            'postable_id' => $request->get('user_id'),
+            'postable_type' => 'App\\Models\\User',
+            'title' => $request->get('title'),
+            'body' => $request->get('body'),
+            'project_id' => $request->get('project_id'),
+        ]);
+
         $file = File::create([
-            'fileable_id' => $request->get('project_id'),
-            'fileable_type' => 'App\\Models\\Project',
+            'fileable_id' => $post->id,
+            'fileable_type' => 'App\\Models\\Post',
             'url' => $fileName,
             'type' => 2,
             'status' => 0
