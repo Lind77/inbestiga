@@ -725,6 +725,7 @@ export default {
             this.newQuestions.push({ ...newQuestion });
         },
         getQuotation() {
+            this.filesProject = [];
             this.$swal.fire({
                 title: "Cargando...",
                 allowOutsideClick: false,
@@ -740,10 +741,23 @@ export default {
 
                     this.posts = this.quotation.contract.projects[0].posts;
 
-                    this.filesProject =
-                        this.quotation.contract.projects[0].files;
+                    this.quotation.contract.projects[0].files.forEach(
+                        (file) => {
+                            if (file.type == 1) {
+                                this.filesProject.push(file);
+                                var fileRequiredFound = this.filesRequired.find(
+                                    (fileRequired) =>
+                                        fileRequired.status == file.status
+                                );
+                                fileRequiredFound.complete = true;
+                                file.label = fileRequiredFound.label;
+                            } else if (file.type == 2) {
+                                this.postFiles.push(file);
+                            }
+                        }
+                    );
 
-                    this.filesProject.forEach((file, index) => {
+                    this.filesProject.forEach((file) => {
                         if (file.type == 1) {
                             var fileRequiredFound = this.filesRequired.find(
                                 (fileRequired) =>
@@ -752,8 +766,12 @@ export default {
                             fileRequiredFound.complete = true;
                             file.label = fileRequiredFound.label;
                         } else if (file.type == 2) {
-                            this.postFiles.push(file);
-                            this.filesProject.splice(index, 1);
+                            var indexFile = this.filesProject.findIndex(
+                                (fileProject) => fileProject.id == file.id
+                            );
+
+                            //this.postFiles.push(file);
+                            this.filesProject.splice(indexFile, 1);
                         }
                     });
 
@@ -855,7 +873,6 @@ export default {
                         }
                     }
                     this.$swal.close();
-                    console.log(this.properties);
                 })
                 .catch((err) => {
                     console.error(err);
