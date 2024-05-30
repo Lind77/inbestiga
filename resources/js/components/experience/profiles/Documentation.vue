@@ -94,8 +94,8 @@
                                                 customerSelected.name
                                                     ? customerSelected.name.substring(
                                                           0,
-                                                          13
-                                                      )
+                                                          20
+                                                      ) + "..."
                                                     : ""
                                             }}
                                         </h5>
@@ -121,7 +121,9 @@
                                                     class="dropdown-item"
                                                     href="javascript:void(0);"
                                                     @click="
-                                                        updateCustomer(customer)
+                                                        updateCustomer(
+                                                            customerSelected
+                                                        )
                                                     "
                                                     >Editar</a
                                                 >
