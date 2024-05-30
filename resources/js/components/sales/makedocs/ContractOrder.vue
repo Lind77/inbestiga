@@ -474,6 +474,16 @@
                                     v-model="fifthArticle"
                                 />
                             </p>
+                            <p
+                                title="Si usted marca esta opción se modificará el contrato."
+                            >
+                                Fragmentado
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    v-model="fragmented"
+                                />
+                            </p>
                             <!-- <label for="salesperson" class="form-label">Tiempo de Ejecucion<span
                                     class="text-danger">*</span>:</label>
                             <input type="text" class="form-control" v-model="quotation.term"> -->
@@ -665,6 +675,7 @@ export default {
             thirdArticlePlace: false,
             thirdArticlePpts: false,
             fifthArticle: false,
+            fragmented: false,
             contractId: 0,
             orderId: 0,
             quotationsExistent: [],
@@ -894,6 +905,8 @@ export default {
                 this.thirdArticlePpts
             );
 
+            var fragmentedValue = this.booleanToNumber(this.fragmented);
+
             let conversorClass = conversor.conversorNumerosALetras;
             let myConverter = new conversorClass();
 
@@ -918,6 +931,7 @@ export default {
             fd.append("fifth_article", fifthArticleValue);
             fd.append("third_article_place", thirdArticlePlaceValue);
             fd.append("third_article_ppts", thirdArticlePptsValue);
+            fd.append("fragment", fragmentedValue);
             axios
                 .post("/api/contracts", fd)
                 .then((res) => {

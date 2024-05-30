@@ -196,12 +196,14 @@
                         <li>
                             Realizar las diapositivas para la sustentación, teniendo en consideración la información dada en el trabajo de investigación realizado.
                         </li>
-                        @endif
+                    @endif
                     <li>Entregar productos originales que garanticen bajos niveles de similitud con respecto de otros trabajos de investigación.
                     </li>
+                    @if($contract->fragment != 1)
                     <li>
                         Levantar las observaciones advertidas por los revisores universitarios hasta la obtención del informe que aprueba la sustentación.
                     </li>
+                    @endif
                     <li>
                         Ceder los derechos de propiedad intelectual a favor de EL ASESORADO, para los fines que este considere pertinentes.
                     </li>
@@ -218,17 +220,17 @@
                     <span>TERCERO: OBLIGACIONES DEL ASESORADO.</span><br>
                     EL ASESORADO se compromete a cumplir con lo siguiente:
                     <ul style="margin-top: -15px;">
-                        @if($contract->third_article == 1)
+                        @if($contract->third_article == 1 && $contract->fragment != 1)
                         <li>
                             Proporcionar la información de aplicación de instrumentos.
                         </li>
                         @endif
-                        @if($contract->third_article_place == 1)
+                        @if($contract->third_article_place == 1 && $contract->fragment != 1)
                         <li>
                             Proporcionar información sobre el lugar de estudio, la población y muestra
                         </li>
                         @endif
-                        @if($contract->third_article_ppts == 1)
+                        @if($contract->third_article_ppts == 1 && $contract->fragment != 1)
                         <li>
                             Realizar las diapositivas para la sustentación, teniendo en consideración la información dada en el trabajo de investigación realizado.
                         </li>
@@ -424,13 +426,18 @@
                 <p>EL LOCADOR se compromete a mantener en reserva todos los datos de EL ASESORADO, incluso después de que las demás obligaciones de EL CONTRATO se hayan extinguido; a excepción de aquellos casos que la ley exija lo contrario.</p>
                
                 <span>DECIMO: GARANTÍA DEL SERVICIO</span><br>
+                @if ($contract->fragment != 1)
                 <p>EL CONTRATO no tiene una cláusula de prescripción de obligaciones por parte de EL LOCADOR  que se rija 
                     por el tiempo, sino que las obligaciones de este se extinguen únicamente cuando EL ASESORADO haya obtenido 
                     el informe aprobatorio de los tres jurados revisores de la tesis; tanto sobre el documento, como en la sustentación.
+                </p>
+                @endif
+                <p>
                     EL ASESORADO asume la responsabilidad sobre todo tipo de negligencia que pudiera aparecer en el producto 
                     académico, cuando esta es ocasionada por sí mismo, esto es, cuando la información proporcionada por EL 
                     ASESORADO es ilegítima, incorrecta, o influenciada por terceras personas ajenas al vínculo contractual o 
-                    personal universitario. </p>
+                    personal universitario. 
+                </p>
                     {{-- <div class="page-break"></div> --}}
                 <span>DÉCIMO PRIMERO: SANCIONES</span><br>
                 <p> En caso de que EL ASESORADO muestre conductas hostiles hacia cualquier miembro de la organización, este 
