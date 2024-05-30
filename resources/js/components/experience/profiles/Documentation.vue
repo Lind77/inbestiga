@@ -509,6 +509,7 @@
                         <p>{{ postFile.body }}</p>
                         <p>{{ formatDate(postFile.created_at) }}</p>
                         <button
+                            v-if="postFile.files[0]"
                             class="btn btn-warning"
                             @click="downloadFile(postFile.files[0].url)"
                         >
@@ -637,6 +638,10 @@ export default {
                     },
                 })
                 .then((result) => {
+                    this.$swal("Post publicado correctamente");
+                    this.newUpdate.question = "";
+                    this.newUpdate.answer = "";
+                    this.filePostUploaded = {};
                     this.getQuotation();
                 })
                 .catch((err) => {
@@ -738,7 +743,6 @@ export default {
                 .then((result) => {
                     this.quotation = result.data;
                     /*  console.log(this.quotation); */
-
                     this.projectId = this.quotation.contract.projects[0].id;
 
                     this.posts = this.quotation.contract.projects[0].posts;
