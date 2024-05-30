@@ -144,8 +144,7 @@ class FileController extends Controller
 
     public function filePost(Request $request)
     {
-        $fileName = $request->file->getClientOriginalName();
-        $url = $request->file->move(public_path('files'), $fileName);
+
 
         $post = Post::create([
             'postable_id' => $request->get('user_id'),
@@ -155,13 +154,17 @@ class FileController extends Controller
             'project_id' => $request->get('project_id'),
         ]);
 
-        $file = File::create([
-            'fileable_id' => $post->id,
-            'fileable_type' => 'App\\Models\\Post',
-            'url' => $fileName,
-            'type' => 2,
-            'status' => 0
-        ]);
+        if ($request->hasFile('file')) {
+            $fileName = $request->file->getClientOriginalName();
+            $url = $request->file->move(public_path('files'), $fileName);
+            $file = File::create([
+                'fileable_id' => $post->id,
+                'fileable_type' => 'App\\Models\\Post',
+                'url' => $fileName,
+                'type' => 2,
+                'status' => 0
+            ]);
+        }
 
         return response()->json(['success' => 'You have successfully upload file.']);
     }
