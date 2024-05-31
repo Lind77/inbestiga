@@ -9,16 +9,12 @@
                             <div class="d-flex align-items-start">
                                 <div class="me-2" v-if="project.id">
                                     <h5 class="mb-1">
-                                        <router-link
-                                            :to="{
-                                                name: 'project',
-                                                params: {
-                                                    idProject: project.id,
-                                                },
-                                            }"
-                                            class="h5 stretched-link"
-                                            >{{ project.title }}</router-link
+                                        <p
+                                            class="cursor-pointer"
+                                            @click="toProject(project)"
                                         >
+                                            {{ project.title }}
+                                        </p>
                                     </h5>
                                     <div
                                         class="client-info"
@@ -166,6 +162,14 @@ export default {
         moment.locale("es", localeData);
     },
     methods: {
+        toProject(project) {
+            this.$router.push({
+                name: "project",
+                params: {
+                    idProject: project.id,
+                },
+            });
+        },
         toFile(project) {
             this.$router.push({
                 name: "home-documentation",
