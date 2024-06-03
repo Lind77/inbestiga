@@ -46,6 +46,11 @@
                                     </div>
                                 </td>
                                 <td>
+                                    <span
+                                        class="badge bg-success"
+                                        v-show="indicator.status == 1"
+                                        >Aprobado</span
+                                    >
                                     <textarea
                                         v-show="indicator.status == 0"
                                         class="form-control w-100"

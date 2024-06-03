@@ -21,12 +21,12 @@
             >
                 En revisión
             </p>
-            <p
-                class="text-danger"
-                v-if="activity.status == 4 && activity.type == 1"
+            <button
+                class="btn btn-sm btn-danger"
+                v-if="activity.status == 2 && activity.type == 1"
             >
                 Rechazada
-            </p>
+            </button>
             <button
                 class="btn btn-sm btn-warning"
                 v-if="

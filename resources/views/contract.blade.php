@@ -444,19 +444,19 @@
                     perderá automáticamente todos los beneficios adicionales contenidos en EL CONTRATO. Además, en caso el 
                     servicio no contenga beneficios adicionales, se sancionará a EL ASESORADO con un bono excedente de hasta 
                     S/.50.00 (cincuenta soles).</p>
-                <span>DÉCIMO SEGUNDO: SOLUCIÓN DE CONFLICTOS</span><br>
+                <span style="margin-top: -3px;">DÉCIMO SEGUNDO: SOLUCIÓN DE CONFLICTOS</span><br>
                 <p>En caso de desacuerdo durante la ejecución del presente contrato, estos deberán solucionarlo mediante 
                     conciliación extrajudicial.
                     En caso de presentarse cualquier asunto dudoso o litigioso derivado de la interpretación, aplicación o 
                     ejecución del presente contrato, las partes se someterán al fuero arbitral de la Cámara de Comercio de Lima 
                     según desee el interesado.</p> 
                     
-                <span>DÉCIMO TERCERO: BONIFICACIONES</span><br>
+            <span style="margin-top: -3px;">DÉCIMO TERCERO: BONIFICACIONES</span><br>
                <p>En caso de que EL ASESORADO refiera a EL LOCADOR y este celebre un contrato de índole similar al presente
                   contrato, EL LOCADOR otorgará a EL ASESORADO una bonificación cuyo monto será evaluado y determinado por el área financiera de EL LOCADOR. Esta bonificación variará hasta un máximo de S/ 1,000.00 y será comunicada expresamente por el personal de ventas al ASESORADO.</p>
                  <p>La evaluación para determinar el monto de la bonificación considerará varios factores, entre ellos el porcentaje de avance de pago del cliente que ya contrató, la dificultad de realización de los trabajos, los tiempos de entrega y el cumplimiento en los pagos, así como otros factores que EL LOCADOR considere pertinentes. EL LOCADOR se reserva el derecho de realizar las verificaciones necesarias para asegurar la autenticidad y la legitimidad de cada contrato referido antes de emitir cualquier bonificación.</p>
                  <p>Este esquema de bonificaciones se aplicará por cada contrato referido que cumpla con los criterios de ingreso especificados anteriormente, y será efectivo una vez que se haya confirmado la celebración del contrato y se haya verificado el cumplimiento de todas las condiciones pertinentes. Ambas partes aceptan estos términos mediante la firma del presente contrato.</p>
-                     <div class="page-break"></div>                 
+                <div class="page-break"></div>                 
                     <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
                     <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($contract->date))}}</p>
                     <div class="signatures">
