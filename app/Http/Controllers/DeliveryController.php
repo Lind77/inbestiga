@@ -167,7 +167,8 @@ class DeliveryController extends Controller
             $assigned_activity = Assigned_activity::create([
                 'assigned_activitiable_id' =>   $id,
                 'assigned_activitiable_type' => 'App\Models\Delivery',
-                'name' => $productAcad->name
+                'name' => $productAcad->name,
+                'academic_process_id' => $academic_process->id
             ]);
 
             foreach ($productAcad->acceptance_indicators as $indicator) {
