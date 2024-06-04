@@ -3,9 +3,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"> Nueva Tarea</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        id="close-progress-modal"></button>
+                    <h5 class="modal-title">Nueva Tarea</h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        id="close-progress-modal"
+                    ></button>
                 </div>
                 <div class="modal-body">
                     <!-- <div class="row mb-3">
@@ -19,28 +24,71 @@
                     </div>
                 </div> -->
                     <div class="mb-3">
-                        <label for="firstMeetingDetails" class="form-label">Nombre de la nueva tarea</label>
-                        <input type="text" class="form-control" v-model="name" @keyup.enter="searchTask">
-                        <select v-show="showTaskPicker" v-model="taskPicked" @change="selectTaskFounded"
-                            class="form-control">
-                            <option :value="task.id" v-for="task in tasksFounded">{{ task.name }}</option>
+                        <label for="firstMeetingDetails" class="form-label"
+                            >Nombre de la nueva tarea</label
+                        >
+                        <input
+                            type="text"
+                            class="form-control"
+                            v-model="name"
+                            @keyup.enter="searchTask"
+                        />
+                        <select
+                            v-show="showTaskPicker"
+                            v-model="taskPicked"
+                            @change="selectTaskFounded"
+                            class="form-control"
+                        >
+                            <option
+                                :value="task.id"
+                                v-for="task in tasksFounded"
+                            >
+                                {{ task.name }}
+                            </option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="firstMeetingDetails" class="form-label">Fecha</label>
-                        <input type="date" class="form-control" v-model="date">
+                        <label for="firstMeetingDetails" class="form-label"
+                            >Fecha</label
+                        >
+                        <input
+                            type="date"
+                            class="form-control"
+                            v-model="date"
+                        />
                     </div>
-                    <hr>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <label for="" class="form-label">Criterios de aceptación</label>
-                        <button class="btn btn-icon btn-primary" @click="newIndicator">+</button>
+                    <hr />
+                    <div
+                        class="d-flex align-items-center justify-content-between"
+                    >
+                        <label for="" class="form-label"
+                            >Criterios de aceptación</label
+                        >
+                        <button
+                            class="btn btn-icon btn-primary"
+                            @click="newIndicator"
+                        >
+                            +
+                        </button>
                     </div>
 
                     <class class="mb-2">
-                        <template v-for="(indicator, index) in indicators" :key="index">
-                            <label for="firstMeetingDetails" class="form-label">Criterio {{ index + 1 }}</label> <i
-                                class="bx bx-trash text-danger" @click="deleteIndicator(index)"></i>
-                            <input type="text" class="form-control" v-model="indicator.value">
+                        <template
+                            v-for="(indicator, index) in indicators"
+                            :key="index"
+                        >
+                            <label for="firstMeetingDetails" class="form-label"
+                                >Criterio {{ index + 1 }}</label
+                            >
+                            <i
+                                class="bx bx-trash text-danger"
+                                @click="deleteIndicator(index)"
+                            ></i>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model="indicator.value"
+                            />
                         </template>
                     </class>
 
@@ -51,7 +99,12 @@
                 </div>
 
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" value="Asignar" @click="saveNewTask" />
+                    <input
+                        type="submit"
+                        class="btn btn-primary"
+                        value="Asignar"
+                        @click="saveNewTask"
+                    />
                 </div>
             </div>
         </div>
@@ -61,86 +114,89 @@
 export default {
     data() {
         return {
-            name: '',
-            date: '',
+            name: "",
+            date: "",
             indicators: [],
             tasksFounded: [],
             taskPicked: 0,
-            showTaskPicker: false
-        }
+            showTaskPicker: false,
+        };
     },
     props: {
-        deliveryId: Number
+        deliveryId: Number,
     },
     methods: {
         searchTask() {
-            axios.get('/api/search-task/' + this.name)
+            axios
+                .get("/api/search-task/" + this.name)
                 .then((result) => {
-                    this.tasksFounded = result.data
-                    this.showTaskPicker = true
-                }).catch((err) => {
+                    this.tasksFounded = result.data;
+                    this.showTaskPicker = true;
+                })
+                .catch((err) => {
                     console.log(err);
                 });
         },
         selectTaskFounded() {
-            var taskSelected = this.tasksFounded.find(task => task.id == this.taskPicked)
-            this.name = taskSelected.name
-            this.showTaskPicker = false
-            taskSelected.acceptance_indicators.forEach(indicator => {
-
+            var taskSelected = this.tasksFounded.find(
+                (task) => task.id == this.taskPicked
+            );
+            this.name = taskSelected.name;
+            this.showTaskPicker = false;
+            taskSelected.acceptance_indicators.forEach((indicator) => {
                 var newIndicator = {
-                    value: indicator.name
-                }
+                    value: indicator.name,
+                };
 
-                this.indicators.push({ ...newIndicator })
+                this.indicators.push({ ...newIndicator });
             });
-
-
         },
         saveNewTask() {
             const fd = new FormData();
 
-            fd.append('name', this.name)
-            fd.append('date', this.date)
-            fd.append('indicators', JSON.stringify(this.indicators))
-            fd.append('deliveryId', this.deliveryId)
-            axios.post('/api/assigned-activity', fd)
+            fd.append("name", this.name);
+            fd.append("date", this.date);
+            fd.append("indicators", JSON.stringify(this.indicators));
+            fd.append("deliveryId", this.deliveryId);
+            axios
+                .post("/api/assigned-activity", fd)
                 .then((res) => {
-                    this.$emit('getProject')
-                    this.name = ''
-                    this.date = ''
-                    this.indicators = []
-                    this.tasksFounded = []
-                    $('#newTaskModal').modal('hide')
+                    this.$emit("getProject");
+                    this.name = "";
+                    this.date = "";
+                    this.indicators = [];
+                    this.tasksFounded = [];
+                    $("#newTaskModal").modal("hide");
                 })
                 .catch((err) => {
-                    console.error(err)
-                })
+                    console.error(err);
+                });
         },
         deleteIndicator(index) {
-            this.indicators.splice(index, 1)
+            this.indicators.splice(index, 1);
         },
         newIndicator() {
             var indicator = {
-                value: ''
-            }
-            this.indicators.push({ ...indicator })
+                value: "",
+            };
+            this.indicators.push({ ...indicator });
         },
         insertDetailsFirstMeeting() {
-            const fd = new FormData()
-            fd.append('activityId', this.activity.id)
-            fd.append('detail', this.detail)
+            const fd = new FormData();
+            fd.append("activityId", this.activity.id);
+            fd.append("detail", this.detail);
 
-            axios.post('/api/insertDetailsFirstMeeting', fd)
+            axios
+                .post("/api/insertDetailsFirstMeeting", fd)
                 .then((res) => {
-                    this.detail = ''
-                    $('#firstMeetModal').modal('hide')
-                    this.$emit('colorActivity', this.activity)
+                    this.detail = "";
+                    $("#firstMeetModal").modal("hide");
+                    this.$emit("colorActivity", this.activity);
                 })
                 .catch((err) => {
-                    console.error(err)
-                })
-        }
-    }
-}
+                    console.error(err);
+                });
+        },
+    },
+};
 </script>

@@ -157,7 +157,7 @@
                 <ul>
                     <li style="text-align: justify">
                         INBESTIGA SOCIEDAD ANÓNIMA CERRADA, empresa identificada con RUC No. 20609545535, 
-                        con domicilio para estos efectos en Calle Elías Aguirre 180º, distrito de Miraflores y provincia de Lima; a quien en adelante se le denominará como “EL LOCADOR”.</li>
+                        con domicilio para estos efectos en Calle Mártir José Olaya 169º Oficina 505, distrito de Miraflores y provincia de Lima; a quien en adelante se le denominará como “EL LOCADOR”.</li>
                         Y, de la otra parte:
                         
                     <li>@if(count($contract->quotation->customers) > 1)
