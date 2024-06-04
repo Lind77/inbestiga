@@ -22,6 +22,7 @@
                 En revisión
             </p>
             <button
+                @click="openIndicatorsModal"
                 class="btn btn-sm btn-danger"
                 v-if="activity.status == 2 && activity.type == 1"
             >
@@ -49,7 +50,7 @@
             </p>
         </div>
     </div>
-
+    {{}}
     <!-- <div class="item-badges" v-if="task.fixed_task.fixed_activity">
                     <p class="h5">Actividad: {{ task.fixed_task.fixed_activity.title }}</p>
                     <p class="h6">Tarea: {{ task.fixed_task.title }}</p>
@@ -82,6 +83,9 @@ export default {
         };
     },
     methods: {
+        openIndicatorsModal() {
+            this.$emit("openModalIndicators", this.activity.quality_indicators);
+        },
         rejectActivity(activity) {
             this.activity.status = 2;
             this.updateTaskInBd(this.activity.id, this.activity.status);

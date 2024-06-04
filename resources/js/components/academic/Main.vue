@@ -105,7 +105,7 @@ export default {
         },
         showIndicators(task) {
             this.indicators = task.quality_indicators;
-            $("#indicatorsModal").modal("show");
+            $("#indModal").modal("show");
         },
     },
     mounted() {

@@ -1,10 +1,5 @@
 <template>
-    <div
-        class="modal fade"
-        id="indicatorsModal"
-        tabindex="-1"
-        aria-hidden="true"
-    >
+    <div class="modal fade" id="indModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -22,14 +17,26 @@
                         <thead>
                             <tr>
                                 <th>Indicadores</th>
-                                <th>Opciones</th>
+                                <th
+                                    v-if="
+                                        store.authUser.roles[0].name ==
+                                        'CoordAcad'
+                                    "
+                                >
+                                    Opciones
+                                </th>
                                 <th>Comentarios</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="indicator in indicators">
                                 <td>{{ indicator.name }}</td>
-                                <td>
+                                <td
+                                    v-if="
+                                        store.authUser.roles[0].name ==
+                                        'CoordAcad'
+                                    "
+                                >
                                     <div class="d-flex">
                                         <button
                                             class="btn btn-icon btn-sm btn-success ms-4"
@@ -51,11 +58,28 @@
                                         v-show="indicator.status == 1"
                                         >Aprobado</span
                                     >
-                                    <textarea
+                                    <span
+                                        class="badge bg-danger mb-1"
                                         v-show="indicator.status == 0"
+                                        >Rechazado</span
+                                    >
+                                    <textarea
+                                        v-show="
+                                            indicator.status == 0 &&
+                                            store.authUser.roles[0].name ==
+                                                'CoordAcad'
+                                        "
                                         class="form-control w-100"
                                         v-model="indicator.observation"
                                     ></textarea>
+                                    <p
+                                        v-show="
+                                            store.authUser.roles[0].name !=
+                                            'CoordAcad'
+                                        "
+                                    >
+                                        {{ indicator.observation }}
+                                    </p>
                                 </td>
                             </tr>
                         </tbody>
@@ -63,12 +87,14 @@
                 </div>
                 <div class="modal-footer">
                     <input
+                        v-if="confirmApprovation"
                         @click="aproveTask"
                         type="submit"
                         class="btn btn-success"
                         value="Aprobar"
                     />
                     <input
+                        v-if="store.authUser.roles[0].name == 'CoordAcad'"
                         @click="rejectTask"
                         type="submit"
                         class="btn btn-danger"
@@ -80,7 +106,15 @@
     </div>
 </template>
 <script>
+import { userStore } from "../../stores/UserStore";
+
 export default {
+    setup() {
+        const store = userStore();
+        return {
+            store,
+        };
+    },
     data() {
         return {
             detail: "",
@@ -104,7 +138,7 @@ export default {
                 )
                 .then((result) => {
                     this.$emit("getRevisionTaks");
-                    $("#indicatorsModal").modal("hide");
+                    $("#indModal").modal("hide");
                 })
                 .catch((err) => {
                     console.log(err);
@@ -123,11 +157,21 @@ export default {
                 .post("/api/reject-assigned-activity", fd)
                 .then((result) => {
                     this.$emit("getRevisionTaks");
-                    $("#indicatorsModal").modal("hide");
+                    $("#indModal").modal("hide");
                 })
                 .catch((err) => {
                     console.log(err);
                 });
+        },
+    },
+    computed: {
+        confirmApprovation() {
+            if (this.indicators && this.indicators[0]) {
+                var approvedIndicators = this.indicators.filter(
+                    (i) => i.status == 1
+                );
+                return approvedIndicators.length == this.indicators.length;
+            }
         },
     },
 };

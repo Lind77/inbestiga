@@ -218,6 +218,7 @@
                     <Kanban
                         :deliveries="deliveries"
                         @getProject="getProject"
+                        @openIndicatorsModal="openIndicatorsModal"
                         v-if="deliveries"
                     />
                 </div>
@@ -234,6 +235,7 @@
     <TeamModal :contract="contractId" />
     <ModalFiles :files="files" @updateFilesModal="updateFilesModal" />
     <NewTaskModal @getProject="getProject" :deliveryId="deliveryId" />
+    <IndicatorsModal :indicators="indicators" />
 </template>
 
 <script>
@@ -244,9 +246,17 @@ import Kanban from "./kanban/Kanban.vue";
 import TeamModal from "./TeamModal.vue";
 import ModalFiles from "./ModalFiles.vue";
 import NewTaskModal from "./NewTaskModal.vue";
+import IndicatorsModal from "../IndicatorsModal.vue";
 
 export default {
-    components: { Sprint, Kanban, TeamModal, ModalFiles, NewTaskModal },
+    components: {
+        Sprint,
+        Kanban,
+        TeamModal,
+        ModalFiles,
+        NewTaskModal,
+        IndicatorsModal,
+    },
     data() {
         return {
             project: {},
@@ -265,9 +275,14 @@ export default {
             },
             deliveryId: 0,
             processes: [],
+            indicators: [],
         };
     },
     methods: {
+        openIndicatorsModal(indicators) {
+            this.indicators = indicators;
+            $("#indModal").modal("show");
+        },
         openModalTask(deliveryId) {
             this.deliveryId = deliveryId;
             $("#newTaskModal").modal("show");
