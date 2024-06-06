@@ -15,12 +15,7 @@
             >
                 Enviar a revisión
             </button>
-            <p
-                class="text-warning"
-                v-if="activity.status == 4 && activity.type != 1"
-            >
-                En revisión
-            </p>
+            <p class="text-warning" v-if="activity.status == 4">En revisión</p>
             <button
                 @click="openIndicatorsModal"
                 class="btn btn-sm btn-danger"
@@ -29,12 +24,12 @@
                 Rechazada
             </button>
             <button
-                class="btn btn-sm btn-warning"
+                class="btn btn-sm btn-warning mt-2"
                 v-if="
                     store.authUser.roles[0].name == 'CoordAcad' &&
                     activity.status == 3
                 "
-                @click="openModelIndicators(activity)"
+                @click="openIndicatorsModal(activity)"
             >
                 Evaluar
             </button>
