@@ -46,6 +46,26 @@
                                 {{ task.name }}
                             </option>
                         </select>
+                        <div class="mb-3" v-show="showProcessPicker">
+                            <label for="" class="form-label"
+                                >Proceso académico</label
+                            >
+                            <select
+                                v-if="processes.length > 1"
+                                v-model="processSelected"
+                                class="form-control"
+                            >
+                                <option
+                                    :value="process.id"
+                                    v-for="process in processes"
+                                >
+                                    {{ process.name }}
+                                </option>
+                            </select>
+                            <p v-if="processes.length == 1">
+                                {{ processes[0].name }}
+                            </p>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="firstMeetingDetails" class="form-label"
@@ -120,6 +140,9 @@ export default {
             tasksFounded: [],
             taskPicked: 0,
             showTaskPicker: false,
+            showProcessPicker: false,
+            processes: [],
+            processSelected: 0,
         };
     },
     props: {
@@ -141,8 +164,13 @@ export default {
             var taskSelected = this.tasksFounded.find(
                 (task) => task.id == this.taskPicked
             );
+            this.processes = taskSelected.academic_processes;
+            if (this.processes.length == 1) {
+                this.processSelected = this.processes[0].id;
+            }
             this.name = taskSelected.name;
             this.showTaskPicker = false;
+            this.showProcessPicker = true;
             taskSelected.acceptance_indicators.forEach((indicator) => {
                 var newIndicator = {
                     value: indicator.name,
@@ -158,6 +186,7 @@ export default {
             fd.append("date", this.date);
             fd.append("indicators", JSON.stringify(this.indicators));
             fd.append("deliveryId", this.deliveryId);
+            fd.append("academic_process_id", this.processSelected);
             axios
                 .post("/api/assigned-activity", fd)
                 .then((res) => {

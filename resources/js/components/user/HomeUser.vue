@@ -1,160 +1,118 @@
 <template>
     <div class="bg-user">
-        <div class="container pt-5 px-0">
+        <div class="px-0">
             <div class="row">
-                <div class="col-2">
-                    <img src="https://jairpl.com/pdf-sys/logo.png" class="main-logo mb-3">
-                    <ul class="mt-5 menu-inner">
-                        <li class="menu-item text-white">
-                            <i class="menu-icon tf-icons bx bx-upload"></i>
-                            Mis Proyectos
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-10">
-                    <div class="glass d-flex">
-                        <ul class="navbar-nav flex-row align-items-center ms-auto">
-                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                                <a class="nav-link dropdown-toggle hide-arrow pt-0 pe-3" href="javascript:void(0);"
-                                    data-bs-toggle="dropdown">
-                                    <div class="avatar">
-                                        <div class="flex-shrink-0 me-3">
-                                            <div class="avatar avatar-md me-4">
-                                                <img src="https://inbestiga.com/inbestiga/public/files/1709671609.png"
-                                                    alt="Avatar" class="rounded-circle">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <!-- <li>
-                                        <a class="dropdown-item">
-                                            <div class="d-flex">
-                                                <div class="flex-grow-1 cursor-pointer">
-                                                    <span class="fw-semibold d-block">{{ }}</span>
-                                                    <small class="text-muted">{{ }}</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li> -->
-                                    <!-- <li>
-                                        <div class="dropdown-divider"></div>
-                                    </li> -->
-                                    <li>
-                                        <a class="dropdown-item cursor-pointer" @click="logout">
-                                            <i class="bx bx-power-off me-2"></i>
-                                            <span class="align-middle">Salir</span>
-                                        </a>
-                                    </li>
-                                </ul>
+                <Sidebar :hidden="hidden" />
+                <div :class="hidden ? 'col-9' : 'col-12'" class="px-4">
+                    <Navbar @toggleSidebar="toggleSidebar" />
+                    <div class="row px-3">
+                        <div class="col-6 ps-5">
+                            <h1 class="text-white title">
+                                ¡Inbestiga te da la bienvenida!
+                            </h1>
+                            <p class="text-white">
+                                Bienvenido a tu aula virtual de Inbestiga, el
+                                lugar para administrar y monitorear tus
+                                proyectos de investigación
+                            </p>
+                            <li class="menu-item text-white mb-2 w-50">
+                                Experiencia de Usuario
                             </li>
-                        </ul>
-                    </div>
-                    <template v-for="quotation in info.quotations">
-                        <div class="col-4" v-for="project in projects">
-                            <div class="card bg-card glass mt-4 cursor-pointer"
-                                @click="showCustomerModal(quotation.id)">
-
-                                <div class="card-header pb-0">
-                                    <img src="https://st.depositphotos.com/1380064/2259/i/450/depositphotos_22598471-stock-photo-abstract-technology-background-illustration.jpg"
-                                        class="w-25 mb-2 rounded">
-                                    <h4 class="text-white">{{ project.title }}</h4>
-                                    <p class="text-white" v-for="customer in quotation.customers">{{ customer.name }}
-                                    </p>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="card shadow-none bg-transparent border border-ligth mb-3">
-                                                <div class="card-body">
-                                                    <h5 class="card-title text-white">{{ convertDate(project.created_at)
-                                                        }}</h5>
-                                                    <p class="card-text text-white">
-                                                        Inicio
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="card shadow-none bg-transparent border border-ligth mb-3">
-                                                <div class="card-body">
-                                                    <h5 class="card-title text-white">{{ project.deadline ?
-                                            project.deadline : 'Sin asignar' }}</h5>
-                                                    <p class="card-text text-white">
-                                                        Culminación
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="px-3">
-                                            <div class="progress w-100 ps-0" style="height: 8px;">
-                                                <div class="progress-bar bg-info" style="width: 78%" role="progressbar"
-                                                    aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center avatar-group mt-3">
-                                            <div class="avatar avatar-sm me-2" v-for="user in project.team.users"
-                                                :title="user.name">
-                                                <span class="avatar-initial rounded-circle bg-primary">{{
-                                            user.name[0]
-                                        }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                    </template>
+                        <div class="col-6">
+                            <img
+                                src="https://inbestiga.com/inbestiga/public/img/homeImg.png"
+                                alt=""
+                                srcset=""
+                                class="w-100"
+                            />
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row justify-content-around w-100">
+                        <Card
+                            :imageUrl="'https://inbestiga.com/inbestiga/public/img/slider1.png'"
+                        />
+                        <Card
+                            :imageUrl="'https://inbestiga.com/inbestiga/public/img/slider2.png'"
+                        />
+                        <Card
+                            :imageUrl="'https://inbestiga.com/inbestiga/public/img/slider3.png'"
+                        />
+                        <Card
+                            :imageUrl="'https://inbestiga.com/inbestiga/public/img/slider4.png'"
+                        />
+                        <Card
+                            :imageUrl="'https://inbestiga.com/inbestiga/public/img/slider5.png'"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
-import moment from 'moment'
+import moment from "moment";
+import Sidebar from "./Sidebar.vue";
+import Navbar from "./Navbar.vue";
+import Card from "./Card.vue";
 
 export default {
+    components: { Sidebar, Navbar, Card },
     data() {
         return {
             info: {},
-            projects: []
-        }
+            projects: [],
+            hidden: false,
+        };
     },
     methods: {
+        toggleSidebar() {
+            this.hidden = !this.hidden;
+        },
         convertDate(date) {
-            return moment(date).format('DD/MM/YYYY')
+            return moment(date).format("DD/MM/YYYY");
         },
         showCustomerModal(quotationId) {
-            this.$router.push({ name: 'user-documentation', params: { quotationId: quotationId } })
+            this.$router.push({
+                name: "user-documentation",
+                params: { quotationId: quotationId },
+            });
         },
         logout() {
-            this.$router.push({ name: 'user-login' })
+            this.$router.push({ name: "user-login" });
         },
         getUserInfo() {
-            axios.get('/api/customer-by-id/' + this.$route.params.customerId)
+            axios
+                .get("/api/customer-by-id/" + this.$route.params.customerId)
                 .then((result) => {
-                    this.info = result.data
-                    result.data.quotations.forEach(quotation => {
-                        quotation.contract.projects.forEach(project => {
-                            this.projects.push(project)
-                        })
+                    this.info = result.data;
+                    result.data.quotations.forEach((quotation) => {
+                        quotation.contract.projects.forEach((project) => {
+                            this.projects.push(project);
+                        });
                     });
-                }).catch((err) => {
-                    console.log(err)
+                })
+                .catch((err) => {
+                    console.log(err);
                 });
-        }
+        },
     },
     mounted() {
-        this.getUserInfo()
+        this.getUserInfo();
     },
-}
+};
 </script>
 <style scoped>
 .bg-user {
     width: 100%;
-    height: 100vh;
-    background-image: url('https://inbestiga.com/inbestiga/public/img/cuadros.png'), linear-gradient(67deg, rgba(38, 20, 38, 1) 19%, rgba(41, 21, 41, 1) 30%, rgba(95, 29, 95, 1) 64%);
-    ;
+    height: 140vh;
+    background-image: url("https://inbestiga.com/inbestiga/public/img/cuadros.png"),
+        linear-gradient(
+            67deg,
+            rgba(38, 20, 38, 1) 19%,
+            rgba(41, 21, 41, 1) 30%,
+            rgba(95, 29, 95, 1) 64%
+        );
     background-size: cover;
 }
 
@@ -180,7 +138,7 @@ export default {
     width: 100%;
     padding: 5px;
     list-style: none;
-    border: 3px solid #fb15d7;
+    border: 1px solid #fb15d7;
     border-radius: 5px;
     font-size: 20px;
     text-align: center;
@@ -193,9 +151,8 @@ export default {
 
 .menu-item:hover {
     background-position: 100% 100%;
-    border: 3px solid #7f21fb;
+    border: 1px solid #7f21fb;
 }
-
 
 .timeline .timeline-item .timeline-point-wrapper {
     position: absolute;
@@ -222,10 +179,18 @@ export default {
 
 .timeline .timeline-point-primary {
     background-color: #696cff !important;
-    box-shadow: 0 0 0 0.1875rem rgba(105, 108, 255, .16);
+    box-shadow: 0 0 0 0.1875rem rgba(105, 108, 255, 0.16);
 }
 
 .progress {
     background: #ffffff49;
+}
+.title {
+    font-size: 50px;
+    font-weight: 500;
+    margin: 7rem 5rem 3rem 0rem;
+}
+p {
+    margin: 2rem 16rem 3rem 0rem;
 }
 </style>
