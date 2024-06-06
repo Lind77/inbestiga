@@ -37,13 +37,15 @@ class AssignedActivityController extends Controller
      */
     public function store(Request $request)
     {
+
         $assigned_activity = Assigned_activity::create([
             'assigned_activitiable_type' => 'App\Models\Delivery',
             'assigned_activitiable_id' => $request->get('deliveryId'),
             'name' => $request->get('name'),
             'date' => $request->get('date'),
             'status' => null,
-            'type' => 0
+            'type' => 0,
+            'academic_process_id' => $request->get('academic_process_id')
         ]);
 
         $indicators = json_decode($request->get('indicators'), true);
@@ -139,9 +141,15 @@ class AssignedActivityController extends Controller
 
     public function revision()
     {
-        $assigned_activity = Assigned_activity::where('status', 4)->whereNull('type')->orWhere('type', 1)->with(['user', 'quality_indicators', 'assigned_activitiable', 'assigned_activitiable.project'])->get();
+        $assignedActivities = Assigned_activity::where(function ($query) {
+            $query->where('status', 4)
+                ->whereNull('type');
+        })->orWhere(function ($query) {
+            $query->where('status', 4)
+                ->where('type', 1);
+        })->with(['user', 'quality_indicators', 'assigned_activitiable', 'assigned_activitiable.project'])->get();
 
-        return response()->json($assigned_activity);
+        return response()->json($assignedActivities);
     }
 
     public function points($id, $points)

@@ -55,6 +55,7 @@
                 :tasks="done"
                 :status="3"
                 @updateTask="updateTask"
+                @openModalIndicators="openModalIndicators"
             />
             <DragArea
                 :title="'Verified'"

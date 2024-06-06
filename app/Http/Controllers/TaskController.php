@@ -184,7 +184,7 @@ class TaskController extends Controller
 
     public function searchTask($name)
     {
-        $academic_products = Academic_product::with('acceptance_indicators')->where('name', 'like', '%' . $name . '%')->get();
+        $academic_products = Academic_product::with(['acceptance_indicators', 'academic_processes'])->where('name', 'like', '%' . $name . '%')->get();
         return response()->json($academic_products);
     }
 }
