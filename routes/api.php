@@ -378,6 +378,7 @@ Route::get('/assigned-activity-user/{id}/{uid}', [AssignedActivityController::cl
 Route::delete('/assigned-activity/{id}', [AssignedActivityController::class, 'destroy']);
 
 Route::get('/approve-activities/{id}', [AssignedActivityController::class, 'approve']);
+Route::get('/approved-activities/{id}', [AssignedActivityController::class, 'approved']);
 
 Route::get('/process-sprint/{pid}/{id}', [DeliveryController::class, 'processSprint']);
 Route::get('/search-task/{name}', [TaskController::class, 'searchTask']);
