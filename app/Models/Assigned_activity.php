@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Assigned_activity extends Model
 {
     use HasFactory;
-    protected $fillable = ['assigned_activitiable_id', 'assigned_activitiable_type', 'name', 'date', 'academic_date', 'type', 'progress', 'status', 'priority', 'user_id', 'points','academic_process_id','type','verified_date'];
+    protected $fillable = ['assigned_activitiable_id', 'assigned_activitiable_type', 'name', 'start_date', 'end_date', 'type', 'progress', 'status', 'priority', 'user_id', 'points','academic_process_id','type','verified_date'];
     //relacion muchos amuchos morfeable_qualityindicators_(project,delivery,assigned_task,assigned_activity)
     /* public function quality_indicators()
     {
