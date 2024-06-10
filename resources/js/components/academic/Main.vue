@@ -8,7 +8,32 @@
             Te damos la bienvenida,
             {{ store.authUser ? store.authUser.name : "" }}
         </h3>
-        <h4 class="fw-normal pt-3">Tareas pendientes de revisión</h4>
+        <h4
+            v-if="store.authUser.roles[0].name == 'CoordAcad'"
+            class="fw-normal pt-3"
+        >
+            Tareas pendientes de revisión
+        </h4>
+        <div class="row" v-else>
+            <div class="col-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div
+                            class="card-title d-flex align-items-start justify-content-between fw-semibold"
+                        >
+                            Mi Puntaje Mensual
+                        </div>
+                        <!-- <span class="d-block mb-1">Puntaje mensual</span> -->
+                        <h3 class="card-title text-nowrap mb-2">
+                            {{ points }}
+                        </h3>
+                        <small class="text-danger fw-medium"
+                            ><i class="bx bx-down-arrow-alt"></i> -14.82%</small
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row" v-if="store.authUser.roles[0].name == 'CoordAcad'">
             <div class="col-lg-3 col-sm-6 mb-4" v-for="task in tasksToRevision">
                 <div class="card">
@@ -54,6 +79,7 @@
                     </div>
                 </div>
             </div>
+            <h4 class="fw-normal pt-3">Tabla de puntaje de mi Equipo</h4>
         </div>
     </div>
     <IndicatorsModal
@@ -80,9 +106,20 @@ export default {
         return {
             indicators: [],
             tasksToRevision: [],
+            points: 0,
         };
     },
     methods: {
+        getTaskApproved() {
+            axios
+                .get("/api/approved-activities/" + this.store.authUser.id)
+                .then((result) => {
+                    this.points = result.data.points;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         getRevisionTaks() {
             axios
                 .get("/api/assigned-activities-revision")
@@ -110,6 +147,7 @@ export default {
     },
     mounted() {
         this.getRevisionTaks();
+        this.getTaskApproved();
     },
 };
 </script>

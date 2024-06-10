@@ -180,7 +180,8 @@ class AssignedActivityController extends Controller
     {
         $assigned_activity = Assigned_activity::find($id);
         $assigned_activity->update([
-            'status' => 1
+            'status' => 1,
+            'start_date' => now()
         ]);
 
         return response()->json([
@@ -218,10 +219,26 @@ class AssignedActivityController extends Controller
     {
         $assigned_activity = Assigned_activity::find($id);
         $assigned_activity->update([
-            'status' => 5
+            'status' => 5,
+            'verified_date' => now()
         ]);
         return response()->json([
             'msg' => 'success'
+        ]);
+    }
+
+    public function approved($user_id)
+    {
+        $assignedActivities = Assigned_activity::where('status', '5')->where('user_id', $user_id)->where('updated_at', 'like', '%-' . date('m') . '-%')->get();
+
+        $totalPoints = 0;
+
+        foreach ($assignedActivities as $activity) {
+            $totalPoints += $activity->points;
+        }
+
+        return response()->json([
+            'points' => $totalPoints
         ]);
     }
 
