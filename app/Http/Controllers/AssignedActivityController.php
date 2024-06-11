@@ -229,7 +229,7 @@ class AssignedActivityController extends Controller
 
     public function approved($user_id)
     {
-        $assignedActivities = Assigned_activity::where('status', '5')->where('user_id', $user_id)->where('updated_at', 'like', '%-' . date('m') . '-%')->get();
+        $assignedActivities = Assigned_activity::where('user_id', $user_id)->where('verified_date', 'like', date("Y-m-d") . "%")->get();
 
         $totalPoints = 0;
 
@@ -239,6 +239,27 @@ class AssignedActivityController extends Controller
 
         return response()->json([
             'points' => $totalPoints
+        ]);
+    }
+
+    public function pointsByTeam($team_id)
+    {
+        $users = User::where('team_id', $team_id)->with(['assigned_activities' => function ($query) {
+            $query->where('verified_date', 'like', date('m-d') . '%')->get();
+        }])->get();
+
+        $totalPoints = 0;
+
+        foreach ($users as $user) {
+            foreach ($user->assigned_activities as $activity) {
+                $totalPoints += $activity->points;
+            }
+            $user->points = $totalPoints;
+            $totalPoints = 0;
+        }
+
+        return response()->json([
+            'usersAndPoints' => $users
         ]);
     }
 

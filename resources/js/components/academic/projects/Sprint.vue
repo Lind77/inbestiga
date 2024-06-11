@@ -58,6 +58,7 @@
                                 <th>Tarea</th>
                                 <th>Dueño</th>
                                 <th>Prioridad</th>
+                                <th>Fecha límite</th>
                                 <th>Puntos</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
@@ -145,6 +146,14 @@
                                             </li>
                                         </ul>
                                     </div>
+                                </td>
+                                <td>
+                                    <input
+                                        type="date"
+                                        name=""
+                                        id=""
+                                        class="form-control"
+                                    />
                                 </td>
                                 <td>
                                     <Pointer
