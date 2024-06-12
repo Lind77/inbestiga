@@ -42,10 +42,10 @@ class AssignedActivityController extends Controller
             'assigned_activitiable_type' => 'App\Models\Delivery',
             'assigned_activitiable_id' => $request->get('deliveryId'),
             'name' => $request->get('name'),
-            'date' => $request->get('date'),
+            'end_date' => $request->get('end_date'),
             'status' => null,
             'type' => 0,
-            'academic_process_id' => $request->get('academic_process_id')
+            'academic_process_id' => $request->get('academic_process_id') ? $request->get('academic_process_id') : null
         ]);
 
         $indicators = json_decode($request->get('indicators'), true);
@@ -139,15 +139,17 @@ class AssignedActivityController extends Controller
         ]);
     }
 
-    public function revision()
+    public function revision($team_id)
     {
+        $users = User::where('team_id', $team_id)->pluck('id');
+
         $assignedActivities = Assigned_activity::where(function ($query) {
             $query->where('status', 4)
                 ->whereNull('type');
         })->orWhere(function ($query) {
             $query->where('status', 4)
                 ->where('type', 1);
-        })->with(['user', 'quality_indicators', 'assigned_activitiable', 'assigned_activitiable.project'])->get();
+        })->whereIn('user_id', $users)->with(['user', 'quality_indicators', 'assigned_activitiable', 'assigned_activitiable.project'])->orderBy('updated_at', 'desc')->get();
 
         return response()->json($assignedActivities);
     }
@@ -229,7 +231,7 @@ class AssignedActivityController extends Controller
 
     public function approved($user_id)
     {
-        $assignedActivities = Assigned_activity::where('status', '5')->where('user_id', $user_id)->where('updated_at', 'like', '%-' . date('m') . '-%')->get();
+        $assignedActivities = Assigned_activity::where('user_id', $user_id)->where('verified_date', 'like', date("Y-m-d") . "%")->get();
 
         $totalPoints = 0;
 
@@ -239,6 +241,27 @@ class AssignedActivityController extends Controller
 
         return response()->json([
             'points' => $totalPoints
+        ]);
+    }
+
+    public function pointsByTeam($team_id)
+    {
+        $users = User::where('team_id', $team_id)->with(['assigned_activities' => function ($query) {
+            $query->where('verified_date', 'like', date('m-d') . '%')->get();
+        }])->get();
+
+        $totalPoints = 0;
+
+        foreach ($users as $user) {
+            foreach ($user->assigned_activities as $activity) {
+                $totalPoints += $activity->points;
+            }
+            $user->points = $totalPoints;
+            $totalPoints = 0;
+        }
+
+        return response()->json([
+            'usersAndPoints' => $users
         ]);
     }
 
@@ -261,6 +284,19 @@ class AssignedActivityController extends Controller
                 'status' => $indicator['status']
             ]);
         }
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function updEndDate(Request $request)
+    {
+        $assigned_activity = Assigned_activity::find($request->get('assignedActivtyId'));
+
+        $assigned_activity->update([
+            'end_date' => $request->get('end_date')
+        ]);
 
         return response()->json([
             'msg' => 'success'

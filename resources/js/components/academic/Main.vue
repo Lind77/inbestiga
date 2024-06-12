@@ -14,26 +14,6 @@
         >
             Tareas pendientes de revisión
         </h4>
-        <div class="row" v-else>
-            <div class="col-3 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div
-                            class="card-title d-flex align-items-start justify-content-between fw-semibold"
-                        >
-                            Mi Puntaje Mensual
-                        </div>
-                        <!-- <span class="d-block mb-1">Puntaje mensual</span> -->
-                        <h3 class="card-title text-nowrap mb-2">
-                            {{ points }}
-                        </h3>
-                        <small class="text-danger fw-medium"
-                            ><i class="bx bx-down-arrow-alt"></i> -14.82%</small
-                        >
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row" v-if="store.authUser.roles[0].name == 'CoordAcad'">
             <div class="col-lg-3 col-sm-6 mb-4" v-for="task in tasksToRevision">
                 <div class="card">
@@ -80,6 +60,44 @@
                 </div>
             </div>
             <h4 class="fw-normal pt-3">Tabla de puntaje de mi Equipo</h4>
+            <div class="card">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Puntaje</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="pointUser in pointsByUsers">
+                                <td>{{ pointUser.name }}</td>
+                                <td>{{ pointUser.points }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row" v-else>
+            <div class="col-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div
+                            class="card-title d-flex align-items-start justify-content-between fw-semibold"
+                        >
+                            Mi Puntaje Diario
+                        </div>
+                        <!-- <span class="d-block mb-1">Puntaje mensual</span> -->
+                        <h3 class="card-title text-nowrap mb-2">
+                            {{ points }}
+                        </h3>
+                        <small class="text-success fw-medium"
+                            ><i class="bx bx-up-arrow-alt"></i>
+                        </small>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <IndicatorsModal
@@ -107,9 +125,20 @@ export default {
             indicators: [],
             tasksToRevision: [],
             points: 0,
+            pointsByUsers: [],
         };
     },
     methods: {
+        getPointsByTeam() {
+            axios
+                .get("/api/points-by-team/" + this.store.authUser.team_id)
+                .then((result) => {
+                    this.pointsByUsers = result.data.usersAndPoints;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         getTaskApproved() {
             axios
                 .get("/api/approved-activities/" + this.store.authUser.id)
@@ -122,7 +151,10 @@ export default {
         },
         getRevisionTaks() {
             axios
-                .get("/api/assigned-activities-revision")
+                .get(
+                    "/api/assigned-activities-revision/" +
+                        this.store.authUser.team_id
+                )
                 .then((result) => {
                     this.tasksToRevision = result.data;
                 })
@@ -148,6 +180,7 @@ export default {
     mounted() {
         this.getRevisionTaks();
         this.getTaskApproved();
+        this.getPointsByTeam();
     },
 };
 </script>

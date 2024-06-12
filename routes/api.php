@@ -369,16 +369,18 @@ Route::get('/chart-attendance-values', [AttendanceController::class, 'chartValue
 Route::post('/send-welcome-email', [EmailController::class, 'sendWelcomeEmail']);
 
 Route::post('/assigned-activity', [AssignedActivityController::class, 'store']);
-Route::get('/assigned-activities-revision', [AssignedActivityController::class, 'revision']);
+Route::get('/assigned-activities-revision/{id}', [AssignedActivityController::class, 'revision']);
 Route::get('/assigned-activity-points/{id}/{points}', [AssignedActivityController::class, 'points']);
 Route::get('/assigned-activity-priority/{id}/{priority}', [AssignedActivityController::class, 'priority']);
 Route::get('/assigned-activity-kanban/{id}', [AssignedActivityController::class, 'kanban']);
 Route::get('/assigned-activity-name/{id}/{name}', [AssignedActivityController::class, 'updateName']);
 Route::get('/assigned-activity-user/{id}/{uid}', [AssignedActivityController::class, 'updateUser']);
+Route::put('/assigned-activity-limit-date', [AssignedActivityController::class, 'updEndDate']);
 Route::delete('/assigned-activity/{id}', [AssignedActivityController::class, 'destroy']);
 
 Route::get('/approve-activities/{id}', [AssignedActivityController::class, 'approve']);
 Route::get('/approved-activities/{id}', [AssignedActivityController::class, 'approved']);
+Route::get('/points-by-team/{id}', [AssignedActivityController::class, 'pointsByTeam']);
 
 Route::get('/process-sprint/{pid}/{id}', [DeliveryController::class, 'processSprint']);
 Route::get('/search-task/{name}', [TaskController::class, 'searchTask']);
