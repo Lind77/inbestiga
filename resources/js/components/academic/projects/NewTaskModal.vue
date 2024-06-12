@@ -69,7 +69,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="firstMeetingDetails" class="form-label"
-                            >Fecha</label
+                            >Fecha límite</label
                         >
                         <input
                             type="date"
@@ -183,7 +183,7 @@ export default {
             const fd = new FormData();
 
             fd.append("name", this.name);
-            fd.append("date", this.date);
+            fd.append("end_date", this.date);
             fd.append("indicators", JSON.stringify(this.indicators));
             fd.append("deliveryId", this.deliveryId);
             fd.append("academic_process_id", this.processSelected);
