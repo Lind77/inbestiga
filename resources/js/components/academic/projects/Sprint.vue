@@ -56,7 +56,6 @@
                         <thead>
                             <tr>
                                 <th>Tarea</th>
-                                <th>Dueño</th>
                                 <th>Prioridad</th>
                                 <th>Fecha límite</th>
                                 <th>Puntos</th>
@@ -73,8 +72,6 @@
                                         :id="assignedActivity.id"
                                         :name="assignedActivity.name"
                                     />
-                                </td>
-                                <td>
                                     <UserTask
                                         :assignedActivity="assignedActivity"
                                         :team="team"
@@ -148,11 +145,9 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <input
-                                        type="date"
-                                        name=""
-                                        id=""
-                                        class="form-control"
+                                    <LimitDate
+                                        :dateSprint="delivery.date"
+                                        :activityId="assignedActivity.id"
                                     />
                                 </td>
                                 <td>
@@ -250,9 +245,10 @@ import Pointer from "./Pointer.vue";
 import TaskName from "./TaskName.vue";
 import IndicatorsModal from "./IndicatorsModal.vue";
 import UserTask from "./UserTask.vue";
+import LimitDate from "./LimitDate.vue";
 
 export default {
-    components: { Pointer, TaskName, IndicatorsModal, UserTask },
+    components: { Pointer, TaskName, IndicatorsModal, UserTask, LimitDate },
     props: {
         deliveries: Array,
         productsFiltered: Array,

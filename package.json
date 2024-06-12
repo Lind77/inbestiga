@@ -19,6 +19,7 @@
         "@fullcalendar/interaction": "^6.1.1",
         "@fullcalendar/vue3": "^6.1.8",
         "@vitejs/plugin-vue": "^3.2.0",
+        "@vuepic/vue-datepicker": "^8.8.0",
         "apexcharts": "^3.36.3",
         "conversor-numero-a-letras-es-ar": "^1.0.3",
         "html-to-image": "^1.11.11",
