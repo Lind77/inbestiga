@@ -25,28 +25,26 @@ export default {
                     moment(this.date),
                     "days"
                 );
+                const fd = new FormData();
 
-                if (days < 0) {
+                fd.append("assignedActivtyId", this.activityId);
+                fd.append("end_date", this.date);
+                fd.append("_method", "put");
+
+                axios
+                    .post("/api/assigned-activity-limit-date", fd)
+                    .then((result) => {
+                        this.$swal("Fecha límite actualizada correctamente.");
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+                /* if (days < 0) {
                     this.$swal("No te pases el límite de Sprint.");
                     this.date = null;
                 } else {
-                    const fd = new FormData();
-
-                    fd.append("assignedActivtyId", this.activityId);
-                    fd.append("end_date", this.date);
-                    fd.append("_method", "put");
-
-                    axios
-                        .post("/api/assigned-activity-limit-date", fd)
-                        .then((result) => {
-                            this.$swal(
-                                "Fecha límite actualizada correctamente."
-                            );
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-                }
+                } */
             } else {
                 this.$swal("Asigna una fecha límite al Sprint.");
                 this.date = null;

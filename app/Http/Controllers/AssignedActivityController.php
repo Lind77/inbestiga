@@ -143,13 +143,8 @@ class AssignedActivityController extends Controller
     {
         $users = User::where('team_id', $team_id)->pluck('id');
 
-        $assignedActivities = Assigned_activity::where(function ($query) {
-            $query->where('status', 4)
-                ->whereNull('type');
-        })->orWhere(function ($query) {
-            $query->where('status', 4)
-                ->where('type', 1);
-        })->whereIn('user_id', $users)->with(['user', 'quality_indicators', 'assigned_activitiable', 'assigned_activitiable.project'])->orderBy('updated_at', 'desc')->get();
+        $assignedActivities = Assigned_activity::whereIn('user_id', $users)->where('status', 4)
+            ->with(['user', 'quality_indicators', 'assigned_activitiable', 'assigned_activitiable.project'])->orderBy('updated_at', 'desc')->get();
 
         return response()->json($assignedActivities);
     }
