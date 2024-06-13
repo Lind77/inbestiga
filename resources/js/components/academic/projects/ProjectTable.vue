@@ -6,7 +6,6 @@
                     <th>#</th>
                     <th>Proyecto</th>
                     <th>Equipo</th>
-                    <th>Cliente</th>
                     <th>Fechas</th>
                     <th>Estado</th>
                     <th></th>
@@ -24,7 +23,11 @@
                     </td>
                     <td>
                         <!-- <span class="fw-semibold" @click="editProjectTitle(project)">{{ project.title }}</span> -->
-                        <ProjectName :id="project.id" :title="project.title" />
+                        <ProjectName
+                            :id="project.id"
+                            :title="project.title"
+                            :customers="project.projectable.quotation.customers"
+                        />
                     </td>
                     <td>
                         <div class="btn-group">
@@ -50,23 +53,6 @@
                                     </a>
                                 </li>
                             </ul>
-                        </div>
-                    </td>
-                    <td>
-                        <div
-                            class="d-flex align-items-center avatar-group my-3"
-                        >
-                            <div
-                                class="avatar avatar-sm me-2"
-                                v-for="customer in project.projectable.quotation
-                                    .customers"
-                                :title="customer.name"
-                            >
-                                <span
-                                    class="avatar-initial rounded-circle bg-primary"
-                                    >{{ customer.name[0] }}</span
-                                >
-                            </div>
                         </div>
                     </td>
                     <td>

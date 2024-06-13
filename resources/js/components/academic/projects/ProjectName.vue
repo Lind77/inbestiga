@@ -1,13 +1,14 @@
 <template>
     <div>
         <p
-            class="mb-0"
+            class="mb-0 fw-bold"
             v-show="!showField"
             @click="showInput"
             :title="projectName"
         >
-            {{ projectName }}
+            {{ projectName.substring(0, 23) + "..." }}
         </p>
+        <small v-for="customer in customers">{{ customer.name }} <br /></small>
         <input
             v-show="showField"
             type="text"
@@ -29,6 +30,7 @@ export default {
     props: {
         id: Number,
         title: String,
+        customers: Array,
     },
     methods: {
         hideInput() {
