@@ -195,6 +195,9 @@ export default {
                     this.date = "";
                     this.indicators = [];
                     this.tasksFounded = [];
+                    this.processes = [];
+                    this.processSelected = 0;
+                    this.showProcessPicker = false;
                     $("#newTaskModal").modal("hide");
                 })
                 .catch((err) => {

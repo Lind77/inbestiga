@@ -146,8 +146,11 @@
                                 </td>
                                 <td>
                                     <LimitDate
+                                        :activity="assignedActivity"
                                         :dateSprint="delivery.date"
                                         :activityId="assignedActivity.id"
+                                        :endDate="assignedActivity.end_date"
+                                        @updateLimitDate="updateLimitDate"
                                     />
                                 </td>
                                 <td>
@@ -289,6 +292,9 @@ export default {
         };
     },
     methods: {
+        updateLimitDate(newEndDate, activity) {
+            activity.end_date = newEndDate;
+        },
         setProcess(deliveryId) {
             this.$swal
                 .fire({

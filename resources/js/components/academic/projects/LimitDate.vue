@@ -1,5 +1,7 @@
 <template>
+    <p v-if="endDate">{{ formatDate(endDate) }}</p>
     <input
+        v-if="!endDate"
         type="date"
         v-model="date"
         class="form-control"
@@ -12,13 +14,19 @@ export default {
     props: {
         dateSprint: Date,
         activityId: Number,
+        endDate: String,
+        activity: Object,
     },
     data() {
         return {
             date: {},
+            showDate: true,
         };
     },
     methods: {
+        formatDate(date) {
+            return moment(date).format("DD/MM/YYYY");
+        },
         setLimitDate() {
             if (this.dateSprint != "0000-00-00") {
                 var days = moment(this.dateSprint, "YYYY-MM-DD").diff(
@@ -35,6 +43,7 @@ export default {
                     .post("/api/assigned-activity-limit-date", fd)
                     .then((result) => {
                         this.$swal("Fecha límite actualizada correctamente.");
+                        this.$emit("updateLimitDate", this.date, this.activity);
                     })
                     .catch((err) => {
                         console.log(err);
