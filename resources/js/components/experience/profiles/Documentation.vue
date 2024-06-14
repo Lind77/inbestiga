@@ -537,11 +537,19 @@
                         <p>{{ postFile.body }}</p>
                         <p>{{ formatDate(postFile.created_at) }}</p>
                         <button
+                            :disabled="postFile.files[0].type == 3"
                             v-if="postFile.files[0]"
                             class="btn btn-warning"
                             @click="downloadFile(postFile.files[0].url)"
                         >
                             Descargar
+                        </button>
+                        <button
+                            v-if="store.authUser.roles[0].name == 'Experience'"
+                            @click="enableDownload(postFile)"
+                            class="btn btn-icon btn-primary ms-1"
+                        >
+                            <i class="bx bx-check"></i>
                         </button>
                     </div>
                 </div>
@@ -651,6 +659,16 @@ export default {
         };
     },
     methods: {
+        enableDownload(post) {
+            axios
+                .get("/api/enable-file/" + post.files[0].id)
+                .then((result) => {
+                    post.files[0].type = 2;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         toCalendly() {
             var team = this.quotation.contract.projects[0].team;
 
