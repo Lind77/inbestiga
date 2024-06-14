@@ -396,3 +396,4 @@ Route::post('/reject-assigned-activity', [AssignedActivityController::class, 're
 
 Route::post('/file-archive', [FileController::class, 'fileArchive']);
 Route::post('/file-post', [FileController::class, 'filePost']);
+Route::get('/enable-file/{id}', [FileController::class, 'enableFilePost']);
