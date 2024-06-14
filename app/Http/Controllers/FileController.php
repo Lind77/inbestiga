@@ -161,11 +161,20 @@ class FileController extends Controller
                 'fileable_id' => $post->id,
                 'fileable_type' => 'App\\Models\\Post',
                 'url' => $fileName,
-                'type' => 2,
+                'type' => 3,
                 'status' => 0
             ]);
         }
 
+        return response()->json(['success' => 'You have successfully upload file.']);
+    }
+
+    public function enableFilePost($id)
+    {
+        $file = File::find($id);
+        $file->update([
+            'type' => 3
+        ]);
         return response()->json(['success' => 'You have successfully upload file.']);
     }
 }
