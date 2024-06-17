@@ -1,6 +1,21 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">Mis Proyectos</h4>
+        <h4 class="fw-bold py-3 mb-4 text-center">Mis Proyectos</h4>
+        <div class="row mb-3">
+            <input
+                type="text"
+                class="form-control w-50 me-3"
+                @keyup.enter="searchProject"
+                v-model="searchWord"
+            />
+            <select class="form-control w-25">
+                <option value="1">To Do</option>
+                <option value="2">Doing</option>
+                <option value="3">Done</option>
+                <option value="4">Verified</option>
+            </select>
+        </div>
+
         <div class="row g-4">
             <div class="col-xl-4 col-lg-6 col-md-6" v-for="project in projects">
                 <div class="card">
@@ -150,6 +165,7 @@ export default {
     data() {
         return {
             projects: [],
+            searchWord: "",
         };
     },
     setup() {
@@ -162,6 +178,31 @@ export default {
         moment.locale("es", localeData);
     },
     methods: {
+        searchProject() {
+            axios
+                .get("/api/projects-search/" + this.searchWord)
+                .then((result) => {
+                    this.projects = result.data.projects;
+                    var numTasks = 0;
+                    var numTasksCompleted = 0;
+                    this.projects.forEach((project) => {
+                        project.deliveries.forEach((delivery) => {
+                            numTasks =
+                                numTasks + delivery.assigned_activities.length;
+                            delivery.assigned_activities.forEach((assigned) => {
+                                if (assigned.status == 5) {
+                                    numTasksCompleted++;
+                                }
+                            });
+                        });
+                        project.numTasks = numTasks;
+                        project.numTasksCompleted = numTasksCompleted;
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         toProject(project) {
             this.$router.push({
                 name: "project",
