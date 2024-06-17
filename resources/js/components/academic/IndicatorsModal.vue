@@ -138,6 +138,7 @@ export default {
                 )
                 .then((result) => {
                     this.$emit("getRevisionTaks");
+                    this.$emit("getProject");
                     $("#indModal").modal("hide");
                 })
                 .catch((err) => {
@@ -157,6 +158,7 @@ export default {
                 .post("/api/reject-assigned-activity", fd)
                 .then((result) => {
                     this.$emit("getRevisionTaks");
+                    this.$emit("getProject");
                     $("#indModal").modal("hide");
                 })
                 .catch((err) => {

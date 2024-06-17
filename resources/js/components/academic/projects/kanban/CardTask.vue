@@ -43,9 +43,10 @@
             <p class="card-text" v-if="activity.user_id">
                 {{ activity.user.name }}
             </p>
+            <p>Fecha límite: {{ newFormatDate(activity.end_date) }}</p>
         </div>
     </div>
-    {{}}
+
     <!-- <div class="item-badges" v-if="task.fixed_task.fixed_activity">
                     <p class="h5">Actividad: {{ task.fixed_task.fixed_activity.title }}</p>
                     <p class="h6">Tarea: {{ task.fixed_task.title }}</p>
@@ -78,6 +79,9 @@ export default {
         };
     },
     methods: {
+        newFormatDate(datetime) {
+            return moment(datetime).format("DD/MM/YYYY");
+        },
         openIndicatorsModal() {
             this.$emit("openModalIndicators", this.activity.quality_indicators);
         },
