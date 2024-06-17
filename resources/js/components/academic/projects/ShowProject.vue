@@ -235,7 +235,7 @@
     <TeamModal :contract="contractId" />
     <ModalFiles :files="files" @updateFilesModal="updateFilesModal" />
     <NewTaskModal @getProject="getProject" :deliveryId="deliveryId" />
-    <IndicatorsModal :indicators="indicators" />
+    <IndicatorsModal :indicators="indicators" @getProject="getProject" />
 </template>
 
 <script>
