@@ -454,11 +454,8 @@ class ProjectController extends Controller
 
     public function search($search)
     {
-        /* $contracts = Contract::with(['quotation', 'quotation.customers'])->whereHas('quotation.customers', function ($query) use ($search) {
-            $query->where('name', 'like', '%' . $search . '%');
-        })->get();
- */
-        $customers = Customer::with(['quotations', 'quotations.order', 'quotations.contract', 'quotations.order.projects', 'quotations.contract.projects', 'quotations.order.projects.deliveries', 'quotations.contract.projects.deliveries'])->whereHas('quotations')->where('name', 'like', '%' . $search . '%')->get();
+
+        $customers = Customer::with(['quotations', 'quotations.order', 'quotations.contract', 'quotations.contract.projects', 'quotations.contract.projects.projectable', 'quotations.contract.projects.projectable.properties', 'quotations.contract.projects.deliveries', 'quotations.contract.projects.projectable.quotation.customers'])->whereHas('quotations')->where('name', 'like', '%' . $search . '%')->get();
 
         $contracts = [];
         $orders = [];
