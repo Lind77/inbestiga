@@ -6,26 +6,43 @@
                 <div :class="hidden ? 'col-9' : 'col-12'" class="px-4">
                     <Navbar @toggleSidebar="toggleSidebar" />
                     <div class="row px-3">
-                        <div class="col-6 ps-5">
+                        <div class="col-6 ps-5 d-none d-lg-block">
                             <h1 class="text-white title">
-                                ¡Inbestiga te da la bienvenida!
+                                {{ store.authUser.name }}, ¡Inbestiga te da la
+                                bienvenida!
                             </h1>
                             <p class="text-white">
-                                Bienvenido a tu aula virtual de Inbestiga, el
-                                lugar para administrar y monitorear tus
-                                proyectos de investigación
+                                Gestiona tus proyectos y vive una experiencia
+                                innolvidable
                             </p>
                             <li class="menu-item text-white mb-2 w-50">
                                 Experiencia de Usuario
                             </li>
                         </div>
-                        <div class="col-6">
+                        <div class="col-12 col-lg-6 order-first order-lg-last">
                             <img
                                 src="https://inbestiga.com/inbestiga/public/img/homeImg.png"
                                 alt=""
                                 srcset=""
-                                class="w-100"
+                                class="img-main"
                             />
+                            <img
+                                src="https://jairpl.com/pdf-sys/logo.png"
+                                class="mb-3 w-50 d-block d-lg-none m-auto mt-n5"
+                            />
+                            <h2
+                                class="d-block d-lg-none text-center text-white fw-normal"
+                            >
+                                Bienvenido a tu aula virtual
+                            </h2>
+                            <div class="row my-4 d-block d-lg-none">
+                                <li class="menu-item text-white mb-2 w-50">
+                                    Experiencia de Usuario
+                                </li>
+                                <li class="menu-item text-white mb-2 w-50">
+                                    Experiencia de Usuario
+                                </li>
+                            </div>
                         </div>
                     </div>
                     <div class="d-flex flex-row justify-content-around w-100">
@@ -55,9 +72,14 @@ import moment from "moment";
 import Sidebar from "./Sidebar.vue";
 import Navbar from "./Navbar.vue";
 import Card from "./Card.vue";
+import { userStore } from "../../stores/UserStore";
 
 export default {
     components: { Sidebar, Navbar, Card },
+    setup() {
+        const store = userStore();
+        return { store };
+    },
     data() {
         return {
             info: {},
@@ -192,5 +214,19 @@ export default {
 }
 p {
     margin: 2rem 16rem 3rem 0rem;
+}
+
+.img-main {
+    margin-top: -20px;
+    width: 100%;
+    padding-right: 0%;
+}
+
+@media only screen and (max-width: 576px) {
+    .menu-item {
+        margin: 0px 10px;
+        width: 45% !important;
+        font-size: 1em;
+    }
 }
 </style>
