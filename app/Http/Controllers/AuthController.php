@@ -50,7 +50,10 @@ class AuthController extends Controller
             ]);
         }
 
-        return response()->json($customer);
+        return response()->json([
+            'user' => $customer,
+            'token' => $customer->createToken($request->device_name)->plainTextToken
+        ]);
     }
 
     public function logout(Request $request)

@@ -8,13 +8,15 @@
             class="main-logo mb-3 w-100"
         />
         <ul class="mt-2 menu-inner d-flex flex-column">
-            <li class="menu-item text-white mb-2">
+            <li class="menu-item text-white d-flex flex-row align-items-center">
                 <i class="menu-icon tf-icons bx bx-home"></i>
-                Inicio
+                <p class="mb-0">Inicio</p>
             </li>
-            <li class="menu-item text-white mb-2">
+            <li
+                class="menu-item text-white d-flex flex-row align-items-center mt-2"
+            >
                 <i class="menu-icon tf-icons bx bx-upload"></i>
-                Mis Proyectos
+                <p class="mb-0">Mis Proyectos</p>
             </li>
         </ul>
     </aside>
@@ -58,5 +60,19 @@ export default {
 }
 aside {
     transition: all 0.4s !important;
+}
+
+@media only screen and (max-width: 576px) {
+    aside {
+        padding: 10px 5px 0px 20px !important;
+    }
+    .menu-item > p {
+        font-size: 8px;
+    }
+
+    .main-logo {
+        width: 100% !important;
+        margin-bottom: 20px;
+    }
 }
 </style>
