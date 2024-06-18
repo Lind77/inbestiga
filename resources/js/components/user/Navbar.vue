@@ -11,12 +11,12 @@
                     class="nav-item nav-link px-0 me-xl-4"
                     href="javascript:void(0)"
                 >
-                    <i class="bx bx-menu bx-sm"></i>
+                    <i class="bx bx-menu bx-sm text-white"></i>
                 </a>
             </div>
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a
-                    class="nav-link dropdown-toggle hide-arrow pt-0 pe-3"
+                    class="nav-link dropdown-toggle hide-arrow pt-2"
                     href="javascript:void(0);"
                     data-bs-toggle="dropdown"
                 >
@@ -53,4 +53,14 @@ export default {
     },
 };
 </script>
-<style lang=""></style>
+<style scoped>
+@media only screen and (max-width: 576px) {
+    .glass {
+        height: 6.5% !important;
+    }
+    .avatar {
+        height: 2.3rem;
+        width: 2.3rem;
+    }
+}
+</style>

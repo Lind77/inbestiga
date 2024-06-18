@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Customer extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens;
 
-    protected $fillable = ['name','password' ,'cell', 'dni', 'address', 'university', 'career', 'status', 'email', 'user_id', 'origin', 'time', 'needs', 'interest', 'attitude', 'userregister_id','birth_date','type'];
+    protected $fillable = ['name', 'password', 'cell', 'dni', 'address', 'university', 'career', 'status', 'email', 'user_id', 'origin', 'time', 'needs', 'interest', 'attitude', 'userregister_id', 'birth_date', 'type'];
 
 
     //Relacion muchos a muchos Customer-Quotations
@@ -28,7 +30,8 @@ class Customer extends Model
         return $this->hasOne("App\Models\Origin");
     }
     //Relacion uno a muchos user -customer
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('App\Models\User');
     }
     //realcion polimorfica muchos a muchos user-meetings
@@ -37,11 +40,13 @@ class Customer extends Model
         return $this->morphToMany('App\Models\Meeting', 'meetingable');
     }
     //relación uno a muchos Customer-External_voucher
-    public function external_vouchers(){
+    public function external_vouchers()
+    {
         return $this->hasMany('App\Models\External_voucher');
     }
     //Relación polimorfica uno a muchos (User-Customer-Post)
-    public function posts(){
-        return $this->morphMany('App\Models\Post','postable');
+    public function posts()
+    {
+        return $this->morphMany('App\Models\Post', 'postable');
     }
 }

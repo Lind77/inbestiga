@@ -699,6 +699,9 @@ export default {
                     this.newUpdate.question = "";
                     this.newUpdate.answer = "";
                     this.filePostUploaded = {};
+                    $("#btnFilePost").removeClass("btn-success");
+                    $("#btnFilePost").addClass("btn-secondary");
+                    $("#btnFilePost").html("Adjuntar archivo");
                     this.getQuotation();
                 })
                 .catch((err) => {

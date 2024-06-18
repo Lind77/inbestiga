@@ -2,17 +2,34 @@
     <div class="bg-login-user">
         <div class="container glass">
             <form class="p-2" autocomplete="off">
-                <h5 class="fw-bold text-white pt-5 pb-2">¡Bienvenido a InBESTiga 2024!</h5>
+                <h5 class="fw-bold text-white pt-5 pb-2">
+                    ¡Bienvenido a InBESTiga 2024!
+                </h5>
                 <div class="form-group">
                     <label for="">Ingresa tu email</label>
-                    <input type="email" class="form-control" autocomplete="off" v-model="email">
+                    <input
+                        type="email"
+                        class="form-control"
+                        autocomplete="off"
+                        v-model="email"
+                    />
                 </div>
                 <div class="form-group mt-3">
                     <label for="">Contraseña</label>
-                    <input type="password" class="form-control" autocomplete="off" v-model="password">
+                    <input
+                        type="password"
+                        class="form-control"
+                        autocomplete="off"
+                        v-model="password"
+                    />
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Ingresar" class="btn-submit" @click="login">
+                    <input
+                        type="submit"
+                        value="Ingresar"
+                        class="btn-submit"
+                        @click="login"
+                    />
                 </div>
             </form>
         </div>
@@ -20,35 +37,46 @@
 </template>
 
 <script>
+import { userStore } from "../../stores/UserStore";
+
 export default {
+    setup() {
+        const store = userStore();
+        return { store };
+    },
     data() {
         return {
-            email: '',
-            password: ''
-        }
+            email: "",
+            password: "",
+        };
     },
     methods: {
         login(e) {
-            e.preventDefault()
-            const fd = new FormData()
-            fd.append('email', this.email)
-            fd.append('password', this.password)
-            fd.append('device_name', 'browser')
+            e.preventDefault();
+            const fd = new FormData();
+            fd.append("email", this.email);
+            fd.append("password", this.password);
+            fd.append("device_name", "browser");
 
-            axios.post('/api/login-user', fd)
+            axios
+                .post("/api/login-user", fd)
                 .then((result) => {
-                    console.log(result.data)
-                    this.$router.push({ path: '/home-user/' + result.data.id })
-                }).catch((err) => {
+                    localStorage.setItem("token", result.data.token);
+                    this.store.setUser(result.data.user);
+                    this.$router.push({
+                        path: "/home-user/" + result.data.user.id,
+                    });
+                })
+                .catch((err) => {
                     this.$swal({
-                        icon: 'error',
-                        title: 'Credenciales incorrectas'
-                    })
-                    console.error(err)
+                        icon: "error",
+                        title: "Credenciales incorrectas",
+                    });
+                    console.error(err);
                 });
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style scoped>
@@ -61,7 +89,7 @@ label {
 }
 
 .bg-login-user {
-    background-image: url('/inbestiga/public/img/loginUser.jpg');
+    background-image: url("/inbestiga/public/img/loginUser.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -79,7 +107,11 @@ label {
 }
 
 .glass {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.191), rgba(255, 255, 255, 0));
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.191),
+        rgba(255, 255, 255, 0)
+    );
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
