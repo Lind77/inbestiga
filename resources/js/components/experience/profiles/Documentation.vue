@@ -537,7 +537,6 @@
                         <p>{{ postFile.body }}</p>
                         <p>{{ formatDate(postFile.created_at) }}</p>
                         <button
-                            :disabled="postFile.files[0].type == 3"
                             v-if="postFile.files[0]"
                             class="btn btn-warning"
                             @click="downloadFile(postFile.files[0].url)"
