@@ -276,25 +276,27 @@ class ProjectController extends Controller
     {
         $user = User::find($id);
         $projects = Project::with(['projectable', 'projectable.properties', 'projectable.quotation', 'projectable.quotation.customers', 'deliveries', 'deliveries.assigned_activities', 'team'])->where('team_id', '!=', null)->where('team_id', $user->team_id)->orderBy('updated_at', 'desc')->get();
-        return response()->json($projects);
 
-        /* $user = User::find($id);
-        $projects = Project::where('team_id', $user->memoir->team_id)->with(['customer', 'activities', 'activities.tasks', 'activities.tasks.progress', 'order', 'order.quotation', 'order.quotation.details', 'order.quotation.details.product'])->get();
         $numTasks = 0;
         $numTasksCompleted = 0;
         foreach ($projects as $project) {
-            $project->num_activities = count($project->activities);
-            foreach ($project->activities as $activity) {
-                $numTasks += count($activity->tasks);
-                foreach ($activity->tasks as $task) {
-                    if ($task->status == 2) {
+            foreach ($project->deliveries as $delivery) {
+                foreach ($delivery->assigned_activities as $activity) {
+                    $numTasks = $numTasks + 1;
+                    if ($activity->status == 5) {
                         $numTasksCompleted++;
                     }
                 }
             }
+
             $project->num_tasks = $numTasks;
             $project->num_tasks_completed = $numTasksCompleted;
-        } */
+
+            $numTasks = 0;
+            $numTasksCompleted = 0;
+        }
+
+        return response()->json($projects);
     }
 
     public function setProject(Request $request)
