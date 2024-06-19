@@ -113,6 +113,10 @@
                         <ul class="nav nav-pills mb-1" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button
+                                    v-if="
+                                        store.authUser.roles[0].name ==
+                                        'CoordAcad'
+                                    "
                                     type="button"
                                     class="nav-link active"
                                     role="tab"
@@ -129,19 +133,12 @@
                                 <button
                                     type="button"
                                     class="nav-link"
-                                    role="tab"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#navs-pills-top-home"
-                                    aria-controls="navs-pills-top-home"
-                                    aria-selected="false"
-                                >
-                                    Tabla
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button
-                                    type="button"
-                                    class="nav-link"
+                                    :class="
+                                        store.authUser.roles[0].name ==
+                                        'CoordAcad'
+                                            ? ''
+                                            : 'active'
+                                    "
                                     role="tab"
                                     data-bs-toggle="tab"
                                     data-bs-target="#navs-pills-top-profile"
@@ -152,6 +149,20 @@
                                     Kanban
                                 </button>
                             </li>
+                            <li class="nav-item" role="presentation">
+                                <button
+                                    type="button"
+                                    class="nav-link"
+                                    role="tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#navs-pills-top-home"
+                                    aria-controls="navs-pills-top-home"
+                                    aria-selected="false"
+                                >
+                                    Tabla
+                                </button>
+                            </li>
+
                             <li class="nav-item" role="presentation">
                                 <button
                                     type="button"
@@ -188,7 +199,12 @@
         <div class="nav-align-top mb-4 pt-2">
             <div class="card tab-content">
                 <div
-                    class="tab-pane fade active show"
+                    class="tab-pane fade"
+                    :class="
+                        store.authUser.roles[0].name == 'CoordAcad'
+                            ? 'active show'
+                            : ''
+                    "
                     id="navs-pills-top-sprints"
                     role="tabpanel"
                 >
@@ -204,14 +220,11 @@
                 </div>
                 <div
                     class="tab-pane fade"
-                    id="navs-pills-top-home"
-                    role="tabpanel"
-                >
-                    <p>Tabla</p>
-                </div>
-
-                <div
-                    class="tab-pane fade"
+                    :class="
+                        store.authUser.roles[0].name == 'Acad'
+                            ? 'active show'
+                            : ''
+                    "
                     id="navs-pills-top-profile"
                     role="tabpanel"
                 >
@@ -221,6 +234,13 @@
                         @openIndicatorsModal="openIndicatorsModal"
                         v-if="deliveries"
                     />
+                </div>
+                <div
+                    class="tab-pane fade"
+                    id="navs-pills-top-home"
+                    role="tabpanel"
+                >
+                    <p>Tabla</p>
                 </div>
                 <div
                     class="tab-pane fade"
@@ -247,8 +267,15 @@ import TeamModal from "./TeamModal.vue";
 import ModalFiles from "./ModalFiles.vue";
 import NewTaskModal from "./NewTaskModal.vue";
 import IndicatorsModal from "../IndicatorsModal.vue";
+import { userStore } from "../../../stores/UserStore";
 
 export default {
+    setup() {
+        const store = userStore();
+        return {
+            store,
+        };
+    },
     components: {
         Sprint,
         Kanban,

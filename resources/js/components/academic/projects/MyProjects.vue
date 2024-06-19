@@ -118,8 +118,8 @@
                             class="d-flex justify-content-between align-items-center mb-1"
                         >
                             <small
-                                >Tareas: {{ project.numTasksCompleted }}/{{
-                                    project.numTasks
+                                >Tareas: {{ project.num_tasks_completed }}/{{
+                                    project.num_tasks
                                 }}</small
                             >
                             <small
@@ -187,8 +187,7 @@ export default {
                     var numTasksCompleted = 0;
                     this.projects.forEach((project) => {
                         project.deliveries.forEach((delivery) => {
-                            numTasks =
-                                numTasks + delivery.assigned_activities.length;
+                            numTasks = +delivery.assigned_activities.length;
                             delivery.assigned_activities.forEach((assigned) => {
                                 if (assigned.status == 5) {
                                     numTasksCompleted++;
@@ -222,21 +221,6 @@ export default {
                 .get("/api/projects-user/" + this.store.authUser.id)
                 .then((res) => {
                     this.projects = res.data;
-                    var numTasks = 0;
-                    var numTasksCompleted = 0;
-                    this.projects.forEach((project) => {
-                        project.deliveries.forEach((delivery) => {
-                            numTasks =
-                                numTasks + delivery.assigned_activities.length;
-                            delivery.assigned_activities.forEach((assigned) => {
-                                if (assigned.status == 5) {
-                                    numTasksCompleted++;
-                                }
-                            });
-                        });
-                        project.numTasks = numTasks;
-                        project.numTasksCompleted = numTasksCompleted;
-                    });
                 })
                 .catch((err) => {});
         },
@@ -247,9 +231,13 @@ export default {
             return moment(date).endOf("day").fromNow();
         },
         percentageProject(project) {
-            return parseFloat(
-                (100 / project.numTasks) * project.numTasksCompleted
-            ).toFixed(2);
+            if (project.num_tasks == 0) {
+                return 0;
+            } else {
+                return parseFloat(
+                    (100 / project.num_tasks) * project.num_tasks_completed
+                ).toFixed(2);
+            }
         },
     },
     mounted() {
