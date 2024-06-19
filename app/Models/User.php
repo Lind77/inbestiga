@@ -159,4 +159,8 @@ class User extends Authenticatable
     public function posts(){
         return $this->morphMany('App\Models\Post','postable');
     }
+    //relación uno a uno user-contract
+    public function contracts(){
+        return $this->hasMany('App\Models\Contract');
+    }
 }
