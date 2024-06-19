@@ -9,7 +9,7 @@ class Contract extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['quotation_id', 'amount', 'amount_text', 'cent_text', 'date', 'advance', 'percentage', 'third_article','third_article_place','status', 'fifth_article','third_article_ppts','fragment'];
+    protected $fillable = ['quotation_id', 'amount', 'amount_text', 'cent_text', 'date', 'advance', 'percentage', 'third_article','third_article_place','status', 'fifth_article','third_article_ppts','fragment','user_id'];
 
     //Relacion inversa uno  a uno Contract-Quotation
     public function quotation()
@@ -43,5 +43,9 @@ class Contract extends Model
     //relación uno a muchos Contract-External_voucher
     public function external_vouchers(){
         return $this->hasMany('App\Models\External_voucher');
+    }
+    //relación uno a uno user-contract inversa
+    public function user(){
+        return $this->belongsTo('App\Models\User');
     }
 }
