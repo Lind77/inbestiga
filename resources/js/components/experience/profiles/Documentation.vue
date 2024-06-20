@@ -228,193 +228,10 @@
             </div>
 
             <div class="col-lg-6 col-12 mb-lg-0 mb-4">
-                <div class="card invoice-preview-card mt-2">
-                    <div class="card-body">
-                        <div
-                            class="d-flex align-items-center justify-content-between mb-2"
-                        >
-                            <div>
-                                <span class="h5 m-2 demo text-body fw-bold"
-                                    >Información Académica
-                                </span>
-                                <span> </span>
-                            </div>
-                            <div>
-                                <span
-                                    v-if="customer.user"
-                                    class="bg-info rounded w-auto p-2 text-white fw-bold"
-                                >
-                                    <i class="bx bx-user-pin"></i>
-                                    {{ customer.user.name }}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md mb-md-0 mb-2">
-                                <div
-                                    class="form-check custom-option custom-option-icon"
-                                >
-                                    <label
-                                        class="form-check-label custom-option-content"
-                                        for="customRadioBuilder"
-                                    >
-                                        <span class="custom-option-body">
-                                            <i class="bx bx-building-house"></i>
-                                            <span class="custom-option-title"
-                                                >T. sin avance</span
-                                            >
-                                        </span>
-                                        <input
-                                            name="plUserType"
-                                            class="form-check-input"
-                                            type="radio"
-                                            value="1"
-                                            id="customRadioBuilder"
-                                            v-model="typeQuiz"
-                                        />
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md mb-md-0 mb-2">
-                                <div
-                                    class="form-check custom-option custom-option-icon"
-                                >
-                                    <label
-                                        class="form-check-label custom-option-content"
-                                        for="customRadioOwner"
-                                    >
-                                        <span class="custom-option-body">
-                                            <i class="bx bx-crown"></i>
-                                            <span class="custom-option-title">
-                                                T. con avance
-                                            </span>
-                                        </span>
-                                        <input
-                                            name="plUserType"
-                                            class="form-check-input"
-                                            type="radio"
-                                            value="2"
-                                            id="customRadioOwner"
-                                            v-model="typeQuiz"
-                                        />
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md mb-md-0 mb-2">
-                                <div
-                                    class="form-check custom-option custom-option-icon"
-                                >
-                                    <label
-                                        class="form-check-label custom-option-content"
-                                        for="customRadioBroker"
-                                    >
-                                        <span class="custom-option-body">
-                                            <i class="bx bx-briefcase-alt"></i>
-                                            <span class="custom-option-title">
-                                                Art. Científico
-                                            </span>
-                                        </span>
-                                        <input
-                                            name="plUserType"
-                                            class="form-check-input"
-                                            type="radio"
-                                            value="3"
-                                            id="customRadioBroker"
-                                            v-model="typeQuiz"
-                                        />
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md mb-md-0 mb-2">
-                                <div
-                                    class="form-check custom-option custom-option-icon"
-                                >
-                                    <label
-                                        class="form-check-label custom-option-content"
-                                        for="customRadioBroker"
-                                    >
-                                        <span class="custom-option-body">
-                                            <i class="bx bx-briefcase-alt"></i>
-                                            <span class="custom-option-title">
-                                                Otra modalidad
-                                            </span>
-                                        </span>
-                                        <input
-                                            name="plUserType"
-                                            class="form-check-input"
-                                            type="radio"
-                                            value="4"
-                                            id="customRadioBroker"
-                                            v-model="typeQuiz"
-                                        />
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-12">
-                                <template v-for="newQuestion in questions">
-                                    <template v-if="newQuestion.type == 4">
-                                        <div class="d-flex mb-2">
-                                            <label
-                                                class="form-check-label"
-                                                for="flexSwitchCheckDefault"
-                                                >{{
-                                                    newQuestion.question
-                                                }}</label
-                                            >
-                                            <div
-                                                class="form-check form-switch ps-5"
-                                            >
-                                                <input
-                                                    class="form-check-input"
-                                                    type="checkbox"
-                                                    id="flexSwitchCheckDefault"
-                                                    v-model="newQuestion.answer"
-                                                />
-                                            </div>
-                                        </div>
-                                    </template>
-                                    <template v-if="newQuestion.type == 3">
-                                        <p class="mb-1">
-                                            {{ newQuestion.question }}
-                                        </p>
-                                        <textarea
-                                            v-model="newQuestion.answer"
-                                            class="form-control mb-4"
-                                        ></textarea>
-                                    </template>
-                                    <template v-if="newQuestion.type == 6">
-                                        <div class="col-12 px-1">
-                                            <p class="mb-1">
-                                                {{ newQuestion.question }}
-                                            </p>
-                                            <select
-                                                v-model="newQuestion.answer"
-                                                class="form-select"
-                                            >
-                                                <option
-                                                    :value="`${index + 1}`"
-                                                    v-for="(
-                                                        option, index
-                                                    ) in newQuestion.options"
-                                                >
-                                                    {{ option }}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </template>
-                                </template>
-                                <button
-                                    class="btn btn-success w-100 mt-2"
-                                    @click="saveFields"
-                                >
-                                    Insertar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <AcademicInfo
+                    :academicType="typeQuiz"
+                    :newQuestions="questions"
+                />
                 <div class="card invoice-preview-card mt-2">
                     <div class="card-body">
                         <span class="h5 m-2 demo text-body fw-bold"
@@ -433,7 +250,7 @@
                                     <File
                                         v-if="file.complete == false"
                                         :file="file"
-                                        :projectId="projectId"
+                                        :projectId="project.id"
                                         @getQuotation="getQuotation"
                                         :status="file.status"
                                     />
@@ -582,6 +399,7 @@ import ComunicationsModal from "./ComunicationsModal.vue";
 import customerModal from "../../sales/customers/customerModal.vue";
 import Documentary from "./Documentary.vue";
 import File from "./File.vue";
+import AcademicInfo from "./AcademicInfo.vue";
 import { userStore } from "../../../stores/UserStore";
 
 export default {
@@ -597,10 +415,13 @@ export default {
         customerModal,
         Documentary,
         File,
+        AcademicInfo,
     },
     data() {
         return {
             quotation: {},
+            contract: {},
+            project: {},
             customer: {},
             selectedDoc: {
                 propertiable_id: 0,
@@ -628,7 +449,9 @@ export default {
             typeQuiz: 0,
             forms: [],
             documentaryTags: [],
-            projectId: 0,
+            project: {
+                id: 0,
+            },
             filesProject: [],
             postFiles: [],
             filesRequired: [
@@ -727,7 +550,7 @@ export default {
             fd.append("title", this.newUpdate.question);
             fd.append("body", this.newUpdate.answer);
             fd.append("file", this.filePostUploaded);
-            fd.append("project_id", this.projectId);
+            fd.append("project_id", this.project.id);
             fd.append("user_id", this.store.authUser.id);
 
             axios
@@ -765,22 +588,6 @@ export default {
                 $("#btnFilePost").html(file.name);
             };
             reader.readAsText(file);
-            /* const fd = new FormData();
-            fd.append("file", e.target.files[0]);
-            fd.append("project_id", this.projectId);
-
-            axios
-                .post("/api/file-post", fd, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .then((result) => {
-                    this.getQuotation();
-                })
-                .catch((err) => {
-                    console.log(err);
-                }); */
         },
         chooseFile() {
             this.$refs.inputHidden.click();
@@ -844,26 +651,23 @@ export default {
                 .get("/api/quotations/" + this.$route.params.quotationId)
                 .then((result) => {
                     this.quotation = result.data;
-                    /*  console.log(this.quotation); */
-                    this.projectId = this.quotation.contract.projects[0].id;
+                    this.contract = this.quotation.contract;
+                    this.project = this.quotation.contract.projects[0];
+                    this.posts = this.project.posts;
 
-                    this.posts = this.quotation.contract.projects[0].posts;
-
-                    this.quotation.contract.projects[0].files.forEach(
-                        (file) => {
-                            if (file.type == 1) {
-                                this.filesProject.push(file);
-                                var fileRequiredFound = this.filesRequired.find(
-                                    (fileRequired) =>
-                                        fileRequired.status == file.status
-                                );
-                                fileRequiredFound.complete = true;
-                                file.label = fileRequiredFound.label;
-                            } else if (file.type == 2) {
-                                this.postFiles.push(file);
-                            }
+                    this.project.files.forEach((file) => {
+                        if (file.type == 1) {
+                            this.filesProject.push(file);
+                            var fileRequiredFound = this.filesRequired.find(
+                                (fileRequired) =>
+                                    fileRequired.status == file.status
+                            );
+                            fileRequiredFound.complete = true;
+                            file.label = fileRequiredFound.label;
+                        } else if (file.type == 2) {
+                            this.postFiles.push(file);
                         }
-                    );
+                    });
 
                     this.filesProject.forEach((file) => {
                         if (file.type == 1) {
@@ -877,77 +681,23 @@ export default {
                             var indexFile = this.filesProject.findIndex(
                                 (fileProject) => fileProject.id == file.id
                             );
-
-                            //this.postFiles.push(file);
                             this.filesProject.splice(indexFile, 1);
                         }
                     });
 
                     this.customerSelected = this.quotation.customers[0];
-                    this.comunications = this.customer.comunications;
 
-                    if (
-                        this.quotation.contract &&
-                        this.quotation.contract.properties[0]
-                    ) {
-                        var propertiesArr = this.quotation.contract.properties;
+                    this.documentaryTags = JSON.parse(
+                        this.contract.properties[0].documentary_processing
+                    );
 
-                        propertiesArr.sort(
-                            (a, b) =>
-                                Date.parse(b.created_at) -
-                                Date.parse(a.created_at)
-                        );
+                    this.typeQuiz =
+                        this.contract.properties[0].project_situation_id;
 
-                        this.questions = JSON.parse(
-                            this.quotation.contract.properties[0].properties
-                        );
+                    this.questions = JSON.parse(
+                        this.contract.properties[0].properties
+                    );
 
-                        if (
-                            this.quotation.contract.properties[0]
-                                .documentary_processing
-                        ) {
-                            this.documentaryTags = JSON.parse(
-                                this.quotation.contract.properties[0]
-                                    .documentary_processing
-                            );
-                        }
-
-                        this.typeQuiz = this.quotation.contract.properties[0]
-                            .project_situation_id
-                            ? this.quotation.contract.properties[0]
-                                  .project_situation_id
-                            : "";
-
-                        this.docType = 2;
-                        var findDriveField = this.questions.find(
-                            (question) => question.type == 5
-                        );
-                        var findBranchInvestigation = this.questions.find(
-                            (question) => question.type == 6
-                        );
-
-                        if (!findDriveField) {
-                            this.questions.push({
-                                question: "Link de Drive",
-                                answer: "",
-                                type: 5,
-                            });
-                        }
-
-                        if (!findBranchInvestigation) {
-                            this.questions.push({
-                                question: "Rama de investigación",
-                                answer: 0,
-                                type: 6,
-                            });
-                        }
-                    } else if (this.quotation.order) {
-                        if (this.quotation.order.properties[0]) {
-                            this.questions = JSON.parse(
-                                this.quotation.order.properties[0].properties
-                            );
-                        }
-                    }
                     this.$swal.close();
                 })
                 .catch((err) => {
@@ -1040,20 +790,6 @@ export default {
                     this.doc = this.quotation.order;
                     return "Orden";
                 }
-            }
-        },
-    },
-    watch: {
-        typeQuiz(val) {
-            console.log(val);
-            var formSelected = this.forms.find(
-                (f) => f.project_situation_id == val
-            );
-            if (formSelected) {
-                this.questions = JSON.parse(formSelected.forms);
-            } else {
-                this.$swal("Aun no hay un form para esta modalidad");
-                this.questions = [];
             }
         },
     },
