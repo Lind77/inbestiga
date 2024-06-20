@@ -6,6 +6,7 @@ use App\Models\Assigned_activity;
 use App\Models\Quality_indicator;
 use App\Models\User;
 use Illuminate\Http\Request;
+use stdClass;
 
 class AssignedActivityController extends Controller
 {
@@ -241,19 +242,51 @@ class AssignedActivityController extends Controller
 
     public function pointsByTeam($team_id)
     {
-        $users = User::where('team_id', $team_id)->with(['assigned_activities' => function ($query) {
-            $query->where('verified_date', 'like', date('m-d') . '%')->get();
+
+        $sunday = date('Y-m-d', strtotime('last Sunday'));
+        $saturday = date('Y-m-d', strtotime('saturday this week'));
+
+        $users = User::where('team_id', $team_id)->with(['assigned_activities' => function ($query) use ($sunday, $saturday) {
+            $query->whereBetween('verified_date', [$sunday, $saturday])->get();
         }])->get();
 
-        $totalPoints = 0;
+        $dates = array();
+
+        for ($i = 0; $i < 7; $i++) {
+            $timestamp = strtotime($sunday . ' +' . $i . ' day');
+            $formatTime = date('Y-m-d', $timestamp);
+
+            $dayAndPoints = new stdClass();
+            $dayAndPoints->date = $formatTime;
+            $dayAndPoints->points = 0;
+            $dayAndPoints->foundedActivities = array();
+
+            array_push($dates, $dayAndPoints);
+        }
+
 
         foreach ($users as $user) {
-            foreach ($user->assigned_activities as $activity) {
-                $totalPoints += $activity->points;
-            }
-            $user->points = $totalPoints;
-            $totalPoints = 0;
+            $user->datesAndpoints = $dates;
         }
+
+        foreach ($users as $user) {
+
+            $tempDatesAndPoints = $user->datesAndpoints;
+
+            foreach ($user->assigned_activities as $assigned_activity) {
+                $formattedDate = date('Y-m-d', strtotime($assigned_activity->verified_date));
+
+                /* $dateFoundedIndex = array_search($formattedDate, array_column($tempDatesAndPoints, 'date'));
+
+                if ($dateFoundedIndex) {
+                    $tempDatesAndPoints[$dateFoundedIndex]->points += $assigned_activity->points;
+                    array_push($tempDatesAndPoints[$dateFoundedIndex]->foundedActivities, $assigned_activity);
+                } */
+            }
+
+            $user->datesAndpoints = $tempDatesAndPoints;
+        }
+
 
         return response()->json([
             'usersAndPoints' => $users

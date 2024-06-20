@@ -41,7 +41,8 @@ class PropertiesController extends Controller
         $property = Property::create([
             'propertiable_id' => $request->get('propertiable_id'),
             'propertiable_type' => $request->get('propertiable_type'),
-            'properties' => $request->get('properties')
+            'properties' => $request->get('properties'),
+            'documentary_processing' => $request->get('documentary_processing')
         ]);
 
         $project = Project::where('projectable_id', $request->get('propertiable_id'))->where('projectable_type', $request->get('propertiable_type'))->get();
@@ -90,7 +91,8 @@ class PropertiesController extends Controller
         $property = Property::where('propertiable_id', $request->get('propertiable_id'))->where('propertiable_type', $request->get('propertiable_type'))->first();
 
         $property->update([
-            'properties' => $request->get('properties')
+            'properties' => $request->get('properties'),
+            'documentary_processing' => $request->get('documentary_processing')
         ]);
 
         return response()->json([
