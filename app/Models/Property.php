@@ -13,4 +13,8 @@ class Property extends Model
     public function propertiable(){
         return $this->morphTo();
     }
+    //Relación polimorfica inversa uno a muchos project_situation-property
+    public function project_situation(){
+        return $this->belongsTo('App\Models\Project_situation');
+    }
 }
