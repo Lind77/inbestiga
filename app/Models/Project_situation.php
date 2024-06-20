@@ -13,4 +13,8 @@ class Project_situation extends Model
      public function forms(){
         return $this->hasMany("App\Models\Form");
     }
+    //relación uno a muchos 
+    public function properties(){
+        return $this->hasMany("App\Models\Property");
+    }
 }

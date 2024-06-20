@@ -655,6 +655,49 @@ export default {
             ],
             filePostUploaded: {},
             posts: [],
+            documentaryTags: [
+                { question: "Tema", answer: false, type: 2 },
+                {
+                    question: "Plan de Tesis",
+                    answer: false,
+                    type: 2,
+                },
+                {
+                    question: "Observaciones del Plan de Tesis",
+                    answer: false,
+                    type: 2,
+                },
+                {
+                    question: "Aprobación del Plan de Tesis",
+                    answer: false,
+                    type: 2,
+                },
+                {
+                    question: "Aplicación de instrumentos",
+                    answer: false,
+                    type: 2,
+                },
+                {
+                    question: "Elaboración de Informe Final",
+                    answer: false,
+                    type: 2,
+                },
+                {
+                    question: "Observaciones del informe final",
+                    answer: false,
+                    type: 2,
+                },
+                {
+                    question: "Revisión de jurados",
+                    answer: false,
+                    type: 2,
+                },
+                {
+                    question: "Sustentación Final",
+                    answer: false,
+                    type: 2,
+                },
+            ],
         };
     },
     methods: {
@@ -842,49 +885,7 @@ export default {
 
                     this.customerSelected = this.quotation.customers[0];
                     this.comunications = this.customer.comunications;
-                    this.documentaryTags = [
-                        { question: "Tema", answer: false, type: 2 },
-                        {
-                            question: "Plan de Tesis",
-                            answer: false,
-                            type: 2,
-                        },
-                        {
-                            question: "Observaciones del Plan de Tesis",
-                            answer: false,
-                            type: 2,
-                        },
-                        {
-                            question: "Aprobación del Plan de Tesis",
-                            answer: false,
-                            type: 2,
-                        },
-                        {
-                            question: "Aplicación de instrumentos",
-                            answer: false,
-                            type: 2,
-                        },
-                        {
-                            question: "Elaboración de Informe Final",
-                            answer: false,
-                            type: 2,
-                        },
-                        {
-                            question: "Observaciones del informe final",
-                            answer: false,
-                            type: 2,
-                        },
-                        {
-                            question: "Revisión de jurados",
-                            answer: false,
-                            type: 2,
-                        },
-                        {
-                            question: "Sustentación Final",
-                            answer: false,
-                            type: 2,
-                        },
-                    ];
+
                     if (
                         this.quotation.contract &&
                         this.quotation.contract.properties[0]
@@ -901,11 +902,15 @@ export default {
                             this.quotation.contract.properties[0].properties
                         );
 
-                        this.questions.forEach((question) => {
-                            if (question.type == 2) {
-                                this.documentaryTags.push(question);
-                            }
-                        });
+                        if (
+                            this.quotation.contract.properties[0]
+                                .documentary_processing
+                        ) {
+                            this.documentaryTags = JSON.parse(
+                                this.quotation.contract.properties[0]
+                                    .documentary_processing
+                            );
+                        }
 
                         this.docType = 2;
                         var findDriveField = this.questions.find(
@@ -949,6 +954,10 @@ export default {
             fd.append("propertiable_id", this.selectedDoc.propertiable_id);
             fd.append("propertiable_type", this.selectedDoc.propertiable_type);
             fd.append("properties", JSON.stringify(this.newQuestions));
+            fd.append(
+                "documentary_processing",
+                JSON.stringify(this.documentaryTags)
+            );
             fd.append("_method", "put");
 
             axios
@@ -973,6 +982,10 @@ export default {
             fd.append("propertiable_id", this.selectedDoc.propertiable_id);
             fd.append("propertiable_type", this.selectedDoc.propertiable_type);
             fd.append("properties", JSON.stringify(this.questions));
+            fd.append(
+                "documentary_processing",
+                JSON.stringify(this.documentaryTags)
+            );
 
             axios
                 .post("/api/properties", fd)
