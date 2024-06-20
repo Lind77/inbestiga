@@ -912,6 +912,12 @@ export default {
                             );
                         }
 
+                        this.typeQuiz = this.quotation.contract.properties[0]
+                            .project_situation_id
+                            ? this.quotation.contract.properties[0]
+                                  .project_situation_id
+                            : "";
+
                         this.docType = 2;
                         var findDriveField = this.questions.find(
                             (question) => question.type == 5
@@ -958,6 +964,7 @@ export default {
                 "documentary_processing",
                 JSON.stringify(this.documentaryTags)
             );
+            fd.append("project_situation_id", this.typeQuiz);
             fd.append("_method", "put");
 
             axios
@@ -986,6 +993,7 @@ export default {
                 "documentary_processing",
                 JSON.stringify(this.documentaryTags)
             );
+            fd.append("project_situation_id", this.typeQuiz);
 
             axios
                 .post("/api/properties", fd)
