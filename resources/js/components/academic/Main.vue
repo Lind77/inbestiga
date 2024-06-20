@@ -66,13 +66,21 @@
                         <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Puntaje</th>
+                                <th v-for="weekday in currentWeek">
+                                    {{ formatDate(weekday) }}
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="pointUser in pointsByUsers">
                                 <td>{{ pointUser.name }}</td>
-                                <td>{{ pointUser.points }}</td>
+                                <td v-for="weekday in currentWeek">
+                                    {{
+                                        pointUser.datesAndpoints.find(
+                                            (point) => point.date == weekday
+                                        ).points
+                                    }}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -107,6 +115,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import axios from "axios";
 import { userStore } from "../../stores/UserStore";
 import CardTask from "./projects/kanban/CardTask.vue";
@@ -126,9 +135,21 @@ export default {
             tasksToRevision: [],
             points: 0,
             pointsByUsers: [],
+            currentWeek: [],
         };
     },
     methods: {
+        formatDate(date) {
+            return moment(date).format("DD/MM/YYYY");
+        },
+        weekDays() {
+            for (let index = 0; index < 7; index++) {
+                this.currentWeek.push(
+                    moment().weekday(index).format("YYYY-MM-DD").toString()
+                );
+            }
+            console.log(this.currentWeek);
+        },
         getPointsByTeam() {
             axios
                 .get("/api/points-by-team/" + this.store.authUser.team_id)
@@ -181,6 +202,7 @@ export default {
         this.getRevisionTaks();
         this.getTaskApproved();
         this.getPointsByTeam();
+        this.weekDays();
     },
 };
 </script>

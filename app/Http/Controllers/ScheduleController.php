@@ -21,8 +21,8 @@ class ScheduleController extends Controller
 
         $newSchedule = new stdClass();
 
-
         $newSchedules = collect();
+
         for ($i = 1; $i < 7; $i++) {
             $scheduleByDay = $schedules->where('day', $i)->where('type', 1);
             $min = $scheduleByDay->where('admission_time', $scheduleByDay->min('admission_time'))->first();
