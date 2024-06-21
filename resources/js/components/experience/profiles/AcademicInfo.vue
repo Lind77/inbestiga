@@ -178,6 +178,7 @@ export default {
         academicType: Number,
         newQuestions: Array,
         propertiableId: Number,
+        documentaryTags: Array,
     },
     data() {
         return {
@@ -193,6 +194,10 @@ export default {
             fd.append("propertiable_type", "App\\Models\\Contract");
             fd.append("properties", JSON.stringify(this.newQuestions));
             fd.append("project_situation_id", this.typeQuiz);
+            fd.append(
+                "documentary_processing",
+                JSON.stringify(this.documentaryTags)
+            );
 
             axios
                 .post("/api/properties", fd)

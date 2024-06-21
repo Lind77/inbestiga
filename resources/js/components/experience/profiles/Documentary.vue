@@ -1,29 +1,38 @@
 <template lang="">
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <template v-for="newQuestion in questions">
-                        <td v-if="newQuestion.type == 2">
-                            {{ newQuestion.question }}
-                        </td>
-                    </template>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <template v-for="newQuestion in questions">
-                        <td v-if="newQuestion.type == 2">
-                            <input
-                                type="checkbox"
-                                class="form-check-input"
-                                v-model="newQuestion.answer"
-                            />
-                        </td>
-                    </template>
-                </tr>
-            </tbody>
-        </table>
+    <div class="card invoice-preview-card mt-2">
+        <div class="card-body">
+            <div class="row">
+                <span class="h5 mt-2 demo text-body fw-bold"
+                    >Estado del trámite universitario</span
+                >
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <template v-for="newQuestion in questions">
+                                    <td v-if="newQuestion.type == 2">
+                                        {{ newQuestion.question }}
+                                    </td>
+                                </template>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <template v-for="newQuestion in questions">
+                                    <td v-if="newQuestion.type == 2">
+                                        <input
+                                            type="checkbox"
+                                            class="form-check-input"
+                                            v-model="newQuestion.answer"
+                                        />
+                                    </td>
+                                </template>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
