@@ -162,10 +162,18 @@
                         </template>
                     </template>
                     <button
+                        v-if="typeQuiz == 0"
                         class="btn btn-success w-100 mt-2"
                         @click="saveFields"
                     >
                         Insertar
+                    </button>
+                    <button
+                        v-else
+                        class="btn btn-success w-100 mt-2"
+                        @click="saveFields"
+                    >
+                        Actualizar
                     </button>
                 </div>
             </div>
@@ -204,6 +212,35 @@ export default {
                 .then((result) => {
                     this.$swal(
                         "Documentación de proyecto almacenada correctamente"
+                    );
+                })
+                .catch((err) => {
+                    this.$swal("Hubo un error");
+                });
+        },
+        updateFields() {
+            const fd = new FormData();
+
+            fd.append("propertiable_id", this.selectedDoc.propertiable_id);
+            fd.append("propertiable_type", this.selectedDoc.propertiable_type);
+            fd.append("properties", JSON.stringify(this.newQuestions));
+            fd.append(
+                "documentary_processing",
+                JSON.stringify(this.documentaryTags)
+            );
+            fd.append("project_situation_id", this.typeQuiz);
+            fd.append("_method", "put");
+
+            axios
+                .post("/api/properties", fd)
+                .then((result) => {
+                    this.newUpdate = {
+                        question: "",
+                        answer: "",
+                        type: 0,
+                    };
+                    this.$swal(
+                        "Documentación de proyecto actualizada correctamente"
                     );
                 })
                 .catch((err) => {
