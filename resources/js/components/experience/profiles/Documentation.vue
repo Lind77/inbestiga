@@ -334,42 +334,11 @@
                         <p>{{ formatDate(quotation.created_at) }}</p>
                     </div>
                 </div> -->
-
-                <template
-                    v-for="(newQuestion, index) in questions.slice().reverse()"
-                >
-                    <div class="col-12 mt-2" v-if="newQuestion.type == 0">
-                        <div class="card bg-warning p-2 shadow">
-                            <div class="card-body text-white">
-                                <h4 class="text-white">
-                                    {{ newQuestion.question }}
-                                </h4>
-                                <p>{{ newQuestion.answer }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </template>
-                <div class="card mt-2 bg-success" v-for="postFile in posts">
-                    <div class="card-body text-white">
-                        <h4 class="text-white">{{ postFile.title }}</h4>
-                        <p>{{ postFile.body }}</p>
-                        <p>{{ formatDate(postFile.created_at) }}</p>
-                        <button
-                            v-if="postFile.files[0]"
-                            class="btn btn-warning"
-                            @click="downloadFile(postFile.files[0].url)"
-                        >
-                            Descargar
-                        </button>
-                        <button
-                            v-if="store.authUser.roles[0].name == 'Experience'"
-                            @click="enableDownload(postFile)"
-                            class="btn btn-icon btn-primary ms-1"
-                        >
-                            <i class="bx bx-check"></i>
-                        </button>
-                    </div>
-                </div>
+                <Post
+                    :post="post"
+                    v-for="post in posts"
+                    @getQuotation="getQuotation"
+                />
                 <div
                     class="card mt-2 bg-success"
                     v-for="comunication in customer.comunications"
@@ -401,6 +370,7 @@ import customerModal from "../../sales/customers/customerModal.vue";
 import Documentary from "./Documentary.vue";
 import File from "./File.vue";
 import AcademicInfo from "./AcademicInfo.vue";
+import Post from "./Post.vue";
 import { userStore } from "../../../stores/UserStore";
 
 export default {
@@ -417,6 +387,7 @@ export default {
         Documentary,
         File,
         AcademicInfo,
+        Post,
     },
     data() {
         return {
@@ -525,16 +496,6 @@ export default {
         };
     },
     methods: {
-        enableDownload(post) {
-            axios
-                .get("/api/enable-file/" + post.files[0].id)
-                .then((result) => {
-                    post.files[0].type = 2;
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
         toCalendly() {
             var team = this.quotation.contract.projects[0].team;
 
@@ -573,9 +534,6 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 });
-        },
-        downloadFile(url) {
-            window.open("https://inbestiga.com/inbestiga/public/files/" + url);
         },
         archivePost(event) {
             var file = event.target.files[0];

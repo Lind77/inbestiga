@@ -26,6 +26,7 @@ use App\Http\Controllers\ObservationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PaymentsController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProgressController;
@@ -397,3 +398,4 @@ Route::post('/reject-assigned-activity', [AssignedActivityController::class, 're
 Route::post('/file-archive', [FileController::class, 'fileArchive']);
 Route::post('/file-post', [FileController::class, 'filePost']);
 Route::get('/enable-file/{id}', [FileController::class, 'enableFilePost']);
+Route::delete('/post/{id}', [PostController::class, 'destroy']);
