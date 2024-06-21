@@ -6,70 +6,22 @@
                 :questions="documentaryTags"
                 @setCleanDocumentary="setCleanDocumentary"
             />
-            <div class="col-lg-6 col-12 mb-lg-0 mb-4">
+            <div class="col-lg-6 col-12 mb-lg-0 mb-4 px-1 mt-2">
                 <AcademicInfo
                     :academicType="typeQuiz"
                     :newQuestions="questions"
                     :propertiableId="contract.id"
                     :documentaryTags="documentaryTags"
                 />
-                <div class="card invoice-preview-card mt-2">
-                    <div class="card-body">
-                        <span class="h5 m-2 demo text-body fw-bold"
-                            >Documentos necesarios
-                        </span>
-                        <div class="row">
-                            <div class="col-12">
-                                <div v-for="file in filesProject">
-                                    <File
-                                        :file="file"
-                                        :projectId="projectId"
-                                        @getQuotation="getQuotation"
-                                    />
-                                </div>
-                                <div v-for="file in filesRequired">
-                                    <File
-                                        v-if="file.complete == false"
-                                        :file="file"
-                                        :projectId="project.id"
-                                        @getQuotation="getQuotation"
-                                        :status="file.status"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <FilesRequired
+                    :filesProject="filesProject"
+                    :filesRequired="filesRequired"
+                    :project="project"
+                    @getQuotation="getQuotation"
+                />
             </div>
-            <div class="col-lg-6">
-                <div class="card bg-info mt-2">
-                    <div class="card-body">
-                        <h4 class="text-white">Separa tu reunión.</h4>
-                        <button
-                            class="btn btn-warning"
-                            v-if="
-                                quotation.contract &&
-                                quotation.contract.projects[0] &&
-                                quotation.contract.projects[0].team &&
-                                quotation.contract.projects[0].team.name
-                            "
-                            @click="toCalendly"
-                        >
-                            CLICK AQUÍ <i class="bx bx-headphone"></i>
-                        </button>
-                        <h6
-                            class="text-white mt-2"
-                            v-if="quotation && quotation.contract"
-                        >
-                            Equipo asignado:
-                            {{
-                                quotation.contract.projects[0].team
-                                    ? quotation.contract.projects[0].team.name
-                                    : "Sin asignar"
-                            }}
-                        </h6>
-                    </div>
-                </div>
+            <div class="col-lg-6 px-1 mt-2">
+                <CardMeetings :quotation="quotation" />
                 <div class="card invoice-preview-card mt-2">
                     <div class="card-body">
                         <label for="">Nuevo Post</label>
@@ -145,6 +97,8 @@
 import moment from "moment";
 import axios from "axios";
 import FrontPage from "./FrontPage.vue";
+import FilesRequired from "./FilesRequired.vue";
+import CardMeetings from "./CardMeetings.vue";
 import Attrib from "./Attrib.vue";
 import ComunicationsModal from "./ComunicationsModal.vue";
 import customerModal from "../../sales/customers/customerModal.vue";
@@ -170,6 +124,8 @@ export default {
         AcademicInfo,
         Post,
         FrontPage,
+        FilesRequired,
+        CardMeetings,
     },
     data() {
         return {
@@ -442,35 +398,7 @@ export default {
                     console.error(err);
                 });
         },
-        updateFields() {
-            const fd = new FormData();
-            this.newQuestions.push({ ...this.newUpdate });
-            fd.append("propertiable_id", this.selectedDoc.propertiable_id);
-            fd.append("propertiable_type", this.selectedDoc.propertiable_type);
-            fd.append("properties", JSON.stringify(this.newQuestions));
-            fd.append(
-                "documentary_processing",
-                JSON.stringify(this.documentaryTags)
-            );
-            fd.append("project_situation_id", this.typeQuiz);
-            fd.append("_method", "put");
 
-            axios
-                .post("/api/properties", fd)
-                .then((result) => {
-                    this.newUpdate = {
-                        question: "",
-                        answer: "",
-                        type: 0,
-                    };
-                    this.$swal(
-                        "Documentación de proyecto actualizada correctamente"
-                    );
-                })
-                .catch((err) => {
-                    this.$swal("Hubo un error");
-                });
-        },
         saveFields() {
             const fd = new FormData();
 
