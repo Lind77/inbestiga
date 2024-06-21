@@ -42,7 +42,8 @@ class PropertiesController extends Controller
             'propertiable_id' => $request->get('propertiable_id'),
             'propertiable_type' => $request->get('propertiable_type'),
             'properties' => $request->get('properties'),
-            'project_situation_id' => $request->get('project_situation_id')
+            'project_situation_id' => $request->get('project_situation_id'),
+            'documentary_processing' => $request->get('documentary_processing'),
         ]);
 
         $project = Project::where('projectable_id', $request->get('propertiable_id'))->where('projectable_type', $request->get('propertiable_type'))->get();
