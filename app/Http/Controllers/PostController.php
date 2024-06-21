@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -79,6 +81,20 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+
+        $file = File::where('fileable_type', 'App\\Models\\Post')->where('fileable_id', $post->id)->first();
+
+        if (file_exists(public_path('files') . '/' . $file->url)) {
+            unlink(public_path('files') . '/' . $file->url);
+        }
+
+        $file->delete();
+
+        $post->delete();
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }
