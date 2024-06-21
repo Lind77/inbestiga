@@ -231,6 +231,7 @@
                 <AcademicInfo
                     :academicType="typeQuiz"
                     :newQuestions="questions"
+                    :propertiableId="contract.id"
                 />
                 <div class="card invoice-preview-card mt-2">
                     <div class="card-body">
@@ -687,16 +688,18 @@ export default {
 
                     this.customerSelected = this.quotation.customers[0];
 
-                    this.documentaryTags = JSON.parse(
-                        this.contract.properties[0].documentary_processing
-                    );
+                    if (this.contract.properties[0]) {
+                        this.documentaryTags = JSON.parse(
+                            this.contract.properties[0].documentary_processing
+                        );
 
-                    this.typeQuiz =
-                        this.contract.properties[0].project_situation_id;
+                        this.typeQuiz =
+                            this.contract.properties[0].project_situation_id;
 
-                    this.questions = JSON.parse(
-                        this.contract.properties[0].properties
-                    );
+                        this.questions = JSON.parse(
+                            this.contract.properties[0].properties
+                        );
+                    }
 
                     this.$swal.close();
                 })

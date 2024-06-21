@@ -177,6 +177,7 @@ export default {
     props: {
         academicType: Number,
         newQuestions: Array,
+        propertiableId: Number,
     },
     data() {
         return {
@@ -188,13 +189,9 @@ export default {
         saveFields() {
             const fd = new FormData();
 
-            fd.append("propertiable_id", this.selectedDoc.propertiable_id);
-            fd.append("propertiable_type", this.selectedDoc.propertiable_type);
-            fd.append("properties", JSON.stringify(this.questions));
-            fd.append(
-                "documentary_processing",
-                JSON.stringify(this.documentaryTags)
-            );
+            fd.append("propertiable_id", this.propertiableId);
+            fd.append("propertiable_type", "App\\Models\\Contract");
+            fd.append("properties", JSON.stringify(this.newQuestions));
             fd.append("project_situation_id", this.typeQuiz);
 
             axios
