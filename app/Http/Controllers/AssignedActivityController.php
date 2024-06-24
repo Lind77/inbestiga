@@ -247,7 +247,7 @@ class AssignedActivityController extends Controller
         $saturday = date('Y-m-d', strtotime('saturday this week'));
 
         $users = User::where('team_id', $team_id)->with(['assigned_activities' => function ($query) use ($sunday, $saturday) {
-            $query->whereBetween('verified_date', [$sunday, $saturday])->get();
+            $query->whereBetween('verified_date', [$sunday, $saturday])->orderBy('verified_date', 'asc')->get();
         }])->get();
 
         $dates = array();
@@ -264,29 +264,23 @@ class AssignedActivityController extends Controller
             array_push($dates, $dayAndPoints);
         }
 
-
         foreach ($users as $user) {
-            $user->datesAndpoints = $dates;
-        }
-
-        foreach ($users as $user) {
-
-            $tempDatesAndPoints = $user->datesAndpoints;
+            // Clona el array $dates para el usuario actual
+            $userDates = array_map(function ($date) {
+                return (object) ['date' => $date->date, 'points' => $date->points];
+            }, $dates);
 
             foreach ($user->assigned_activities as $assigned_activity) {
                 $formattedDate = date('Y-m-d', strtotime($assigned_activity->verified_date));
-
-                /* $dateFoundedIndex = array_search($formattedDate, array_column($tempDatesAndPoints, 'date'));
-
-                if ($dateFoundedIndex) {
-                    $tempDatesAndPoints[$dateFoundedIndex]->points += $assigned_activity->points;
-                    array_push($tempDatesAndPoints[$dateFoundedIndex]->foundedActivities, $assigned_activity);
-                } */
+                $dateFounded = array_search($formattedDate, array_column($userDates, 'date'));
+                if ($dateFounded !== false) {
+                    $userDates[$dateFounded]->points += $assigned_activity->points;
+                }
             }
 
-            $user->datesAndpoints = $tempDatesAndPoints;
+            // Asigna la copia del array $dates al usuario
+            $user->datesAndpoints = $userDates;
         }
-
 
         return response()->json([
             'usersAndPoints' => $users
