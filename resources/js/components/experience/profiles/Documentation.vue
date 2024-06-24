@@ -234,17 +234,6 @@ export default {
         };
     },
     methods: {
-        toCalendly() {
-            var team = this.quotation.contract.projects[0].team;
-
-            var coordSelected = team.users.find(
-                (user) => user.roles[0].name == "CoordAcad"
-            );
-
-            console.log(coordSelected);
-
-            window.open(coordSelected.calendly_user);
-        },
         postNewUpdate() {
             const fd = new FormData();
             fd.append("title", this.newUpdate.question);
