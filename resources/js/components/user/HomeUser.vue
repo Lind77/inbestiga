@@ -15,15 +15,22 @@
                                 Gestiona tus proyectos y vive una experiencia
                                 innolvidable
                             </p>
-                            <li class="menu-item text-white mb-2 w-50">
-                                Experiencia de Usuario
-                            </li>
+                            <div class="d-flex w-50 mt-5">
+                                <button class="menu-item text-white mb-2">
+                                    <i class="bx bx-diamond"></i>
+                                    Experiencia de Usuario
+                                </button>
+                                <button class="menu-item text-white mb-2 ms-1">
+                                    <i class="bx bx-play-circle"></i>
+                                    User Experience
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-12 col-lg-6 order-first order-lg-last">
+                        <div
+                            class="col-12 col-lg-6 order-first order-lg-last mt-5"
+                        >
                             <img
                                 src="https://inbestiga.com/inbestiga/public/img/homeImg.png"
-                                alt=""
-                                srcset=""
                                 class="img-main"
                             />
                             <img
@@ -45,22 +52,55 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex flex-row justify-content-around w-100">
-                        <Card
-                            :imageUrl="'https://inbestiga.com/inbestiga/public/img/slider1.png'"
-                        />
-                        <Card
-                            :imageUrl="'https://inbestiga.com/inbestiga/public/img/slider2.png'"
-                        />
-                        <Card
-                            :imageUrl="'https://inbestiga.com/inbestiga/public/img/slider3.png'"
-                        />
-                        <Card
-                            :imageUrl="'https://inbestiga.com/inbestiga/public/img/slider4.png'"
-                        />
-                        <Card
-                            :imageUrl="'https://inbestiga.com/inbestiga/public/img/slider5.png'"
-                        />
+                    <div class="row mt-5">
+                        <div class="col-4 ps-5">
+                            <h3 class="mt-n5 text-center text-white">
+                                Experiencia de usuario
+                            </h3>
+                            <img
+                                src="https://inbestiga.com/inbestiga/public/img/resource2.png"
+                                class="ms-5"
+                            />
+                        </div>
+                        <div class="col-8">
+                            <div
+                                class="d-flex flex-row justify-content-around w-100"
+                            >
+                                <Card
+                                    :imageUrl="'https://i.pinimg.com/564x/63/a7/05/63a7058d7ab2fc4dbfe9540960b96aa2.jpg  '"
+                                    :text="'Comienza tu tesis'"
+                                />
+                                <Card
+                                    :imageUrl="'https://i.pinimg.com/564x/dd/d1/8a/ddd18a24e555b6b976810ca407dbcc7b.jpg'"
+                                    :text="'Informes'"
+                                />
+                                <Card
+                                    :imageUrl="'https://i.pinimg.com/564x/ab/d6/a1/abd6a1374a9bff8b84f107c9e944ea39.jpg'"
+                                    :text="'Canal oficial'"
+                                />
+                                <Card
+                                    :imageUrl="'https://i.pinimg.com/736x/0f/f8/c6/0ff8c6d78cc203314698f3d660de989a.jpg'"
+                                    :text="'Reuniones infinitas'"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-5 pt-5 pb-5">
+                        <h3 class="mt-n5 text-center text-white">
+                            Mis proyectos
+                        </h3>
+                        <div class="col-8 ps-5 mt-2">
+                            <ProjectCard />
+                        </div>
+                        <div class="col-4 mt-5">
+                            <h3 class="mt-n5 text-center text-white">
+                                Información académica
+                            </h3>
+                            <img
+                                src="https://inbestiga.com/inbestiga/public/img/bottle.png"
+                                class="ms-5"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -72,10 +112,11 @@ import moment from "moment";
 import Sidebar from "./Sidebar.vue";
 import Navbar from "./Navbar.vue";
 import Card from "./Card.vue";
+import ProjectCard from "./ProjectCard.vue";
 import { userStore } from "../../stores/UserStore";
 
 export default {
-    components: { Sidebar, Navbar, Card },
+    components: { Sidebar, Navbar, Card, ProjectCard },
     setup() {
         const store = userStore();
         return { store };
@@ -127,7 +168,7 @@ export default {
 <style scoped>
 .bg-user {
     width: 100%;
-    height: 140vh;
+    height: auto;
     background-image: url("https://inbestiga.com/inbestiga/public/img/cuadros.png"),
         linear-gradient(
             67deg,
@@ -217,8 +258,9 @@ p {
 }
 
 .img-main {
-    margin-top: -20px;
-    width: 100%;
+    margin-top: -8em;
+    margin-left: -8em;
+    width: 140%;
     padding-right: 0%;
 }
 
