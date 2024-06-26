@@ -1,6 +1,6 @@
 <template>
     <aside
-        class="col-3 vh-100 px-5 pt-3 glass"
+        class="col-2 vh-100 px-5 pt-3 glass"
         :class="{ 'hide-aside': !hidden }"
     >
         <img

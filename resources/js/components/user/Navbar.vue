@@ -45,10 +45,36 @@
     </div>
 </template>
 <script>
+import { userStore } from "../../stores/UserStore";
+
 export default {
+    setup() {
+        const store = userStore();
+        return { store };
+    },
+    data() {
+        return {
+            token: localStorage.getItem("token"),
+        };
+    },
     methods: {
         toggleAside() {
             this.$emit("toggleSidebar");
+        },
+        logout() {
+            window.axios.defaults.headers.common[
+                "Authorization"
+            ] = `Bearer ${this.token}`;
+            this.axios
+                .post("/api/logout-customer")
+                .then((res) => {
+                    localStorage.removeItem("token");
+                    this.store.authUser = null;
+                    this.$router.push({ name: "user-login" });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
     },
 };
@@ -56,7 +82,7 @@ export default {
 <style scoped>
 @media only screen and (max-width: 576px) {
     .glass {
-        height: 6.5% !important;
+        height: 3% !important;
     }
     .avatar {
         height: 2.3rem;
