@@ -1,5 +1,5 @@
 <template>
-    <div class="glass-card col-4 p-4">
+    <div class="glass-card col-12 col-lg-4 p-4">
         <img
             src="https://i.pinimg.com/564x/8f/ee/ec/8feeec43a7ff61f24e2b7fd3791ed5b5.jpg"
             alt=""

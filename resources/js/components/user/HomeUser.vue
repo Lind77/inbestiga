@@ -3,7 +3,7 @@
         <div class="px-0">
             <div class="row">
                 <Sidebar :hidden="hidden" />
-                <div :class="hidden ? 'col-9' : 'col-12'" class="px-4">
+                <div :class="hidden ? 'col-10' : 'col-12'" class="px-4">
                     <Navbar @toggleSidebar="toggleSidebar" />
                     <div class="row px-3">
                         <div class="col-6 ps-5 d-none d-lg-block">
@@ -42,24 +42,28 @@
                             >
                                 Bienvenido a tu aula virtual
                             </h2>
-                            <div class="row my-4 d-block d-lg-none">
-                                <li class="menu-item text-white mb-2 w-50">
+                            <div
+                                class="row my-4 d-flex justify-content-center d-lg-none"
+                            >
+                                <li class="menu-item text-white mb-2">
+                                    <i class="bx bx-diamond"></i>
                                     Experiencia de Usuario
                                 </li>
-                                <li class="menu-item text-white mb-2 w-50">
+                                <li class="menu-item text-white mb-2">
+                                    <i class="bx bx-play-circle"></i>
                                     Experiencia de Usuario
                                 </li>
                             </div>
                         </div>
                     </div>
                     <div class="row mt-5">
-                        <div class="col-4 ps-5">
+                        <div class="col-12 col-lg-4 ps-5">
                             <h3 class="mt-n5 text-center text-white">
                                 Experiencia de usuario
                             </h3>
                             <img
                                 src="https://inbestiga.com/inbestiga/public/img/resource2.png"
-                                class="ms-5"
+                                class="ms-5 d-none d-lg-block"
                             />
                         </div>
                         <div class="col-8">
@@ -89,10 +93,10 @@
                         <h3 class="mt-n5 text-center text-white">
                             Mis proyectos
                         </h3>
-                        <div class="col-8 ps-5 mt-2">
+                        <div class="col-12 col-lg-8 px-5 mt-2">
                             <ProjectCard />
                         </div>
-                        <div class="col-4 mt-5">
+                        <div class="col-4 mt-5 d-none d-lg-block">
                             <h3 class="mt-n5 text-center text-white">
                                 Información académica
                             </h3>
@@ -267,8 +271,17 @@ p {
 @media only screen and (max-width: 576px) {
     .menu-item {
         margin: 0px 10px;
-        width: 45% !important;
+        width: 40% !important;
         font-size: 1em;
+    }
+    .img-main {
+        margin-left: -6em;
+    }
+
+    h3 {
+        font-size: 2em;
+        margin-bottom: 1.4em;
+        margin-top: 1.4em !important;
     }
 }
 </style>

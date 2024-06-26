@@ -63,4 +63,13 @@ class AuthController extends Controller
             'msg' => 'Logout successfull'
         ]);
     }
+
+    public function logoutCustomer(Request $request)
+    {
+        return $request;
+        $request->customer()->currentAccessToken()->delete();
+        return response()->json([
+            'msg' => 'Logout successfull'
+        ]);
+    }
 }
