@@ -1,6 +1,6 @@
 <template>
     <aside
-        class="col-2 vh-100 px-5 pt-3 glass"
+        class="col-2 vh-100 px-4 pt-3 glass position-fixed"
         :class="{ 'hide-aside': !hidden }"
     >
         <img
@@ -35,11 +35,10 @@ export default {
 .menu-item {
     height: auto;
     width: 100%;
-    padding: 5px;
+    padding: 3px 5px;
     list-style: none;
-    border: 1px solid #fb15d7;
     border-radius: 5px;
-    font-size: 20px;
+    font-size: 18px;
     text-align: center;
     cursor: pointer;
     background: linear-gradient(0deg, #7f21fb 64%, rgba(127, 33, 251, 0) 64%);
@@ -60,6 +59,7 @@ export default {
 }
 aside {
     transition: all 0.4s !important;
+    z-index: 99;
 }
 
 @media only screen and (max-width: 576px) {
