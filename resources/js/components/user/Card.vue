@@ -1,7 +1,7 @@
 <template>
-    <div class="glass-card">
+    <div class="glass-card mx-2 pb-2">
         <img :src="imageUrl" alt="" srcset="" class="img-card cursor-pointer" />
-        <p class="fw-semibold text-center text-white mt-3">{{ text }}</p>
+        <p class="fw-semibold text-center text-white mt-3 mb-3">{{ text }}</p>
     </div>
 </template>
 <script>
@@ -14,10 +14,11 @@ export default {
 </script>
 <style scoped>
 .img-card {
-    height: 22em;
-    width: 14em;
+    height: 19em;
+    width: 100%;
     object-fit: cover;
     border-radius: 8px 8px 0px 0px;
+    transition: 1s;
 }
 
 .img-card:hover {
