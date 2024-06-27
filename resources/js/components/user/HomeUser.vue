@@ -3,13 +3,13 @@
         <div class="px-0">
             <div class="row">
                 <Sidebar :hidden="hidden" />
+                <div class="col-2"></div>
                 <div :class="hidden ? 'col-10' : 'col-12'" class="px-4">
                     <Navbar @toggleSidebar="toggleSidebar" />
                     <div class="row px-3">
                         <div class="col-6 ps-5 d-none d-lg-block">
                             <h1 class="text-white title">
-                                {{ store.authUser.name }}, ¡Inbestiga te da la
-                                bienvenida!
+                                ¡Inbestiga te da la bienvenida!
                             </h1>
                             <p class="text-white">
                                 Gestiona tus proyectos y vive una experiencia
@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div
-                            class="col-12 col-lg-6 order-first order-lg-last mt-5"
+                            class="col-12 col-lg-6 d-flex flex-column justify-content-center d-lg-block order-first order-lg-last mt-5"
                         >
                             <img
                                 src="https://inbestiga.com/inbestiga/public/img/homeImg.png"
@@ -56,7 +56,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-5">
+                    <div class="row mt-5 pb-5">
                         <div class="col-12 col-lg-4 ps-5">
                             <h3 class="mt-n5 text-center text-white">
                                 Experiencia de usuario
@@ -66,27 +66,9 @@
                                 class="ms-5 d-none d-lg-block"
                             />
                         </div>
-                        <div class="col-8">
-                            <div
-                                class="d-flex flex-row justify-content-around w-100"
-                            >
-                                <Card
-                                    :imageUrl="'https://i.pinimg.com/564x/63/a7/05/63a7058d7ab2fc4dbfe9540960b96aa2.jpg  '"
-                                    :text="'Comienza tu tesis'"
-                                />
-                                <Card
-                                    :imageUrl="'https://i.pinimg.com/564x/dd/d1/8a/ddd18a24e555b6b976810ca407dbcc7b.jpg'"
-                                    :text="'Informes'"
-                                />
-                                <Card
-                                    :imageUrl="'https://i.pinimg.com/564x/ab/d6/a1/abd6a1374a9bff8b84f107c9e944ea39.jpg'"
-                                    :text="'Canal oficial'"
-                                />
-                                <Card
-                                    :imageUrl="'https://i.pinimg.com/736x/0f/f8/c6/0ff8c6d78cc203314698f3d660de989a.jpg'"
-                                    :text="'Reuniones infinitas'"
-                                />
-                            </div>
+                        <div class="col-12 col-lg-8">
+                            <!--  <Carousel /> -->
+                            <CarouselTest />
                         </div>
                     </div>
                     <div class="row mt-5 pt-5 pb-5">
@@ -94,7 +76,12 @@
                             Mis proyectos
                         </h3>
                         <div class="col-12 col-lg-8 px-5 mt-2">
-                            <ProjectCard />
+                            <div class="row">
+                                <ProjectCard
+                                    :project="project"
+                                    v-for="project in projects"
+                                />
+                            </div>
                         </div>
                         <div class="col-4 mt-5 d-none d-lg-block">
                             <h3 class="mt-n5 text-center text-white">
@@ -117,10 +104,13 @@ import Sidebar from "./Sidebar.vue";
 import Navbar from "./Navbar.vue";
 import Card from "./Card.vue";
 import ProjectCard from "./ProjectCard.vue";
+import Carousel from "./Carousel.vue";
+import CarouselTest from "./CarouselTest.vue";
+
 import { userStore } from "../../stores/UserStore";
 
 export default {
-    components: { Sidebar, Navbar, Card, ProjectCard },
+    components: { Sidebar, Navbar, Card, ProjectCard, Carousel, CarouselTest },
     setup() {
         const store = userStore();
         return { store };
@@ -275,7 +265,7 @@ p {
         font-size: 1em;
     }
     .img-main {
-        margin-left: -6em;
+        margin: -6em -18%;
     }
 
     h3 {
