@@ -136,6 +136,7 @@ Route::post('/insertFixedTask', [FixedTaskController::class, 'store']);
 //Customers
 
 Route::get('/customers', [CustomerController::class, 'index']);
+Route::get('/customers-filter/{id}', [CustomerController::class, 'filterCustomer']);
 Route::post('/customers', [CustomerController::class, 'store']);
 Route::put('/customers/{id}', [CustomerController::class, 'update']);
 Route::post('/customers/verify', [CustomerController::class, 'verifyCustomer']);
