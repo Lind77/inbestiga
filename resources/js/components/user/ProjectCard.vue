@@ -4,7 +4,12 @@
             src="https://i.pinimg.com/564x/8f/ee/ec/8feeec43a7ff61f24e2b7fd3791ed5b5.jpg"
             alt=""
         />
-        <h4 class="fw-normal text-white">{{ project.title }}</h4>
+        <h4
+            class="fw-normal text-white cursor-pointer"
+            @click="toDocumentation(project)"
+        >
+            {{ project.title }}
+        </h4>
         <p class="text-white">
             Fecha de Inicio:
             {{ project.deadline ? formatDate(project.deadline) : "-" }}
@@ -17,10 +22,17 @@ import moment from "moment";
 export default {
     props: {
         project: Object,
+        quotation: Object,
     },
     methods: {
         formatDate(date) {
             return moment(date).format("DD/MM/YYYY");
+        },
+        toDocumentation(project) {
+            this.$router.push({
+                name: "user-documentation",
+                params: { quotationId: this.quotation.id },
+            });
         },
     },
 };

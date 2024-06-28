@@ -517,4 +517,10 @@ class CustomerController extends Controller
         $customers = Customer::with(['quotations', 'quotations.details', 'quotations.details.product', 'quotations.order', 'quotations.order.payments', 'quotations.contract.payments'])->where('status', 11)->get();
         return response()->json($customers);
     }
+
+    public function filterCustomer($user_id)
+    {
+        $customers = Customer::where('user_id', $user_id)->with(['comunications', 'quotations', 'quotations.order', 'user'])->orderBy('updated_at', 'desc')->take(10)->get();
+        return response()->json($customers);
+    }
 }

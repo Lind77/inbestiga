@@ -77,10 +77,14 @@
                         </h3>
                         <div class="col-12 col-lg-8 px-5 mt-2">
                             <div class="row">
-                                <ProjectCard
-                                    :project="project"
-                                    v-for="project in projects"
-                                />
+                                <template v-for="quotation in quotations">
+                                    <ProjectCard
+                                        :project="project"
+                                        :quotation="quotation"
+                                        v-for="project in quotation.contract
+                                            .projects"
+                                    />
+                                </template>
                             </div>
                         </div>
                         <div class="col-4 mt-5 d-none d-lg-block">
@@ -120,6 +124,7 @@ export default {
             info: {},
             projects: [],
             hidden: false,
+            quotations: [],
         };
     },
     methods: {
@@ -143,6 +148,7 @@ export default {
                 .get("/api/customer-by-id/" + this.$route.params.customerId)
                 .then((result) => {
                     this.info = result.data;
+                    this.quotations = result.data.quotations;
                     result.data.quotations.forEach((quotation) => {
                         quotation.contract.projects.forEach((project) => {
                             this.projects.push(project);
