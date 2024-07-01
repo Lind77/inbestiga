@@ -487,6 +487,12 @@
                             <!-- <label for="salesperson" class="form-label">Tiempo de Ejecucion<span
                                     class="text-danger">*</span>:</label>
                             <input type="text" class="form-control" v-model="quotation.term"> -->
+                            <label for="salesperson" class="form-label"
+                                >Cuenta:</label
+                            >
+                            <select name="" id="" class="form-control">
+                                <option value=""></option>
+                            </select>
 
                             <label for="salesperson" class="form-label"
                                 >Fecha de contrato<span class="text-danger"
