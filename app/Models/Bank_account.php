@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Bank_account extends Model
 {
     use HasFactory;
-    protected $fillable = ['account_number','account_holder','type','bank_entity_id'];
+    protected $fillable = ['account_number','account_holder','type','bank_entity_id','cci'];
     //Relación inversa uno a muchos bank_entity-bank_account
     public function bank_entity(){
         return $this->belongsTo('App\Models\Bank_entity');
