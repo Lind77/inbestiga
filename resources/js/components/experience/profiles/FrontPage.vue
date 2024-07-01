@@ -12,24 +12,25 @@
         >
             <div class="px-4 pt-4 w-100">
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+                    <div class="col-lg-6 col-md-4 col-sm-6 col-6">
                         <span class="h5 mt-2 demo text-body fw-bold"
                             >Información General
                         </span>
-                        <div class="card bg-warning p-3 text-white mt-2">
-                            <p class="mb-2">
-                                <span class="fw-bold">Documento Firmado:</span>
-                                Contrato
-                            </p>
-
+                        <div class="mt-2">
                             <p class="mb-2">
                                 <span class="fw-bold"
                                     >Servicio Contratado
                                 </span>
                             </p>
-                            <p v-for="detail in quotation.details">
-                                - {{ detail.name }}
-                            </p>
+                            <div class="list-group">
+                                <a
+                                    v-for="detail in quotation.details"
+                                    href="javascript:void(0);"
+                                    class="list-group-item list-group-item-action"
+                                >
+                                    {{ detail.name }}</a
+                                >
+                            </div>
                         </div>
                         <div class="mt-3" v-if="quotation.contract">
                             <button
@@ -183,14 +184,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-6"></div>
+                    <div class="col-lg-6 col-md-4 col-sm-6 col-6">
+                        <span class="h5 mt-2 demo text-body fw-bold">
+                            Estado de Trámite
+                        </span>
+                        <Chart />
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+import Chart from "./Chart.vue";
+
 export default {
+    components: { Chart },
     data() {
         return {
             customerSelected: {},
