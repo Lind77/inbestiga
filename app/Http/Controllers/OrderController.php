@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Bank_account;
 use App\Models\Comission;
 use App\Models\Contract;
 use App\Models\Customer;
@@ -212,12 +213,15 @@ class OrderController extends Controller
     public function generateContract($id)
     {
         $contract = Contract::with(['quotation', 'quotation.details', 'quotation.details.product', 'quotation.customers', 'payments', 'projects', 'projects.deliveries'])->find($id);
+
+        $bank_accounts = Bank_account::where('type', $contract->bank_account_type)->with('bank_entity')->get();
+
         /* $customer = Customer::with(['quotations' => function ($query) {
             $query->orderBy('id', 'desc')->with(['contract' => function ($query2) {
                 $query2->orderBy('id', 'desc')->with(['payments', 'deliveries'])->first();
             }])->first();
         }])->find($id); */
-        $pdf = PDF::loadView('contract', compact('contract'));
+        $pdf = PDF::loadView('contract', compact('contract', 'bank_accounts'));
         return $pdf->stream('prueba.pdf');
     }
 

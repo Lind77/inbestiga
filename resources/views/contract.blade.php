@@ -295,66 +295,22 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($bank_accounts as $account)
                         <tr>
-                            <td>BCP</td>
+                            <td>{{$account->bank_entity->name}}</td>
                             <td>soles</td>
                             <td>
                                 <ul style=" margin-bottom: 5px; margin-top: -4px;">
                                     <li style="margin-bottom: -5px;">
-                                        Inbestiga SAC N°355-9862526-0-30
+                                        Inbestiga SAC N°{{$account->account_number}}
                                     </li>
                                     <li style="margin-bottom: -5px;">
-                                        CCI: 00235500986252603066
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td rowspan="2">Interbank</td>
-                            <td>soles</td>
-                            <td>                           
-                                <ul style=" margin-bottom: 5px; margin-top: -4px;">
-                                    <li style="margin-bottom: -5px;">
-                                        Inbestiga SAC N°500-3004188829
-                                    </li>                                   
-                                    <li style="margin-bottom: -5px;">
-                                        CCI: 00350000300418882965
+                                        CCI: {{$account->cci}}
                                     </li>
                                 </ul>
                             </td>
                         </tr>
-                        <tr>                            
-                            <td>dolares</td>
-                            <td>
-                                <ul style=" margin-bottom: 5px; margin-top: -4px;">
-                                    <li style="margin-bottom: -5px;">
-                                        Inbestiga SAC N°500-3004188836
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>BBVA</td>
-                            <td>soles</td>
-                            <td>
-                                <ul style=" margin-bottom: 5px; margin-top: -4px;">
-                                    <li style="margin-bottom: -5px;">
-                                        Inbestiga SAC N°0011-0235-0201838132
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Yape</td>
-                            <td>soles</td>
-                            <td>
-                                <ul style=" margin-bottom: 5px; margin-top: -4px; ">
-                                    <li style="margin-bottom: -5px;">
-                                        Inbestiga SAC - 926708058
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
                {{--  <div class="page-break"></div> --}}

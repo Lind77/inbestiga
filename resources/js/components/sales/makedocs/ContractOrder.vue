@@ -488,10 +488,14 @@
                                     class="text-danger">*</span>:</label>
                             <input type="text" class="form-control" v-model="quotation.term"> -->
                             <label for="salesperson" class="form-label"
-                                >Cuenta:</label
+                                >Cuenta</label
                             >
-                            <select name="" id="" class="form-control">
-                                <option value=""></option>
+                            <select
+                                v-model="bankAccountSelected"
+                                class="form-control"
+                            >
+                                <option value="1">Principal</option>
+                                <option value="2">Secundaria</option>
                             </select>
 
                             <label for="salesperson" class="form-label"
@@ -688,6 +692,8 @@ export default {
             contractExistent: [],
             action: 1,
             ordersExistent: [],
+            bankAccounts: [],
+            bankAccountSelected: 0,
         };
     },
     methods: {
@@ -787,6 +793,16 @@ export default {
                     } else {
                         this.customers.push(this.customer);
                     }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        getBankAccounts() {
+            axios
+                .get("/api/bank-accounts")
+                .then((res) => {
+                    this.bankAccounts = res.data;
                 })
                 .catch((err) => {
                     console.log(err);
@@ -938,6 +954,8 @@ export default {
             fd.append("third_article_place", thirdArticlePlaceValue);
             fd.append("third_article_ppts", thirdArticlePptsValue);
             fd.append("fragment", fragmentedValue);
+            fd.append("bank_account_type", this.bankAccountSelected);
+
             axios
                 .post("/api/contracts", fd)
                 .then((res) => {
@@ -1020,6 +1038,7 @@ export default {
     mounted() {
         this.getCustomer();
         this.getAllNewProducts();
+        this.getBankAccounts();
     },
 };
 </script>
