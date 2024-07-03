@@ -302,7 +302,10 @@
                             <td>
                                 <ul style=" margin-bottom: 5px; margin-top: -4px;">
                                     <li style="margin-bottom: -5px;">
-                                        Inbestiga SAC N°{{$account->account_number}}
+                                        {{$account->account_holder}}
+                                    </li>
+                                    <li style="margin-bottom: -5px;">
+                                       SAC N°{{$account->account_number}}
                                     </li>
                                     <li style="margin-bottom: -5px;">
                                         CCI: {{$account->cci}}
