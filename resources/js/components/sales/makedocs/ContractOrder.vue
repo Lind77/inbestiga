@@ -494,6 +494,9 @@
                                 v-model="bankAccountSelected"
                                 class="form-control"
                             >
+                                <option disabled value="0">
+                                    Seleccione una cuenta
+                                </option>
                                 <option value="1">Principal</option>
                                 <option value="2">Secundaria</option>
                             </select>
