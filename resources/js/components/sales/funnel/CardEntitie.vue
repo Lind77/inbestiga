@@ -152,7 +152,13 @@ export default {
     },
     methods: {
         assendContract(quotation) {
-            this.$emit("updateInBd", quotation.id, 11);
+            if (
+                confirm(
+                    "¿Tienes la seguridad de convertir a este lead en cliente?"
+                )
+            ) {
+                this.$emit("updateInBd", quotation.id, 11);
+            }
         },
         dropSpace(e) {
             var customerId = e.dataTransfer.getData("customerId");
