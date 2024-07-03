@@ -8,6 +8,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\AssignedActivityController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\ComissionController;
 use App\Http\Controllers\ComunicationController;
 use App\Http\Controllers\ContractController;
@@ -401,3 +402,5 @@ Route::post('/file-archive', [FileController::class, 'fileArchive']);
 Route::post('/file-post', [FileController::class, 'filePost']);
 Route::get('/enable-file/{id}', [FileController::class, 'enableFilePost']);
 Route::delete('/post/{id}', [PostController::class, 'destroy']);
+
+Route::get('/bank-accounts', [BankAccountController::class, 'index']);
