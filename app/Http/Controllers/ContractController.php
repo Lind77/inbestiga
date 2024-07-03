@@ -330,7 +330,7 @@ class ContractController extends Controller
                 $rules_customer = [
                     'dni' => 'required',
                     'address' => 'required',
-                    'name' => 'required'
+                    'name' => 'required',
                     // Otras reglas de validación para el elemento del array
                 ];
 
@@ -368,7 +368,8 @@ class ContractController extends Controller
             'date' => 'required',
             'payments' => 'required',
             'deliveries' => 'required',
-            'payments.*.date' => 'required'
+            'payments.*.date' => 'required',
+            'bank_account_type' => 'required|numeric|min:0|not_in:0'
             /*  'deliveries.date' => 'required', */
             /* 'deliveries.advance' => 'required' */
         ]);
