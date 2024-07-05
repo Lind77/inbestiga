@@ -2,9 +2,15 @@
     <div>
         <nav class="navbar navbar-dark bg-purple">
             <div class="row w-100 px-4 py-3">
-                <div class="col-12 d-flex align-items-center justify-content-around">
+                <div
+                    class="col-12 d-flex align-items-center justify-content-around"
+                >
                     <h2 class="fw-bolder text-white mb-0">COTIZACIÓN</h2>
-                    <img src="https://jairpl.com/pdf-sys/logo.png" alt="" class="main-logo mb-3">
+                    <img
+                        src="https://jairpl.com/pdf-sys/logo.png"
+                        alt=""
+                        class="main-logo mb-3"
+                    />
                 </div>
             </div>
         </nav>
@@ -15,36 +21,47 @@
                     <thead v-if="quotation && quotation.customers">
                         <tr>
                             <th>
-                                <h2 class="name-customer">COTIZACIÓN DE: </h2>
+                                <h2 class="name-customer">COTIZACIÓN DE:</h2>
                             </th>
                             <th>
-                                <template v-for="customer in quotation.customers">
-                                    <span class="name">{{ customer.name }}</span>
+                                <template
+                                    v-for="customer in quotation.customers"
+                                >
+                                    <span class="name">{{
+                                        customer.name
+                                    }}</span>
                                 </template>
                             </th>
                         </tr>
                         <tr>
                             <th>
-                                <h2 class="info-user">Teléfono: </h2>
+                                <h2 class="info-user">Teléfono:</h2>
                             </th>
                             <th>
-
-                                <template v-for="customer in quotation.customers">
+                                <template
+                                    v-for="customer in quotation.customers"
+                                >
                                     <span>{{ customer.cell }}</span>
                                 </template>
                             </th>
                         </tr>
                         <tr>
                             <th>
-                                <h2 class="info-user">Carrera o mención: </h2>
+                                <h2 class="info-user">Carrera o mención:</h2>
                             </th>
-                            <th><span>{{ quotation.customers[0].career }}</span></th>
+                            <th>
+                                <span>{{ quotation.customers[0].career }}</span>
+                            </th>
                         </tr>
                         <tr>
                             <th>
-                                <h2 class="info-user">Universidad: </h2>
+                                <h2 class="info-user">Universidad:</h2>
                             </th>
-                            <th><span>{{ quotation.customers[0].university }}</span></th>
+                            <th>
+                                <span>{{
+                                    quotation.customers[0].university
+                                }}</span>
+                            </th>
                         </tr>
                     </thead>
                 </table>
@@ -53,61 +70,95 @@
             <div class="col-4 info-doc py-3" v-if="quotation">
                 <p class="info-doc-p">COTIZACIÓN N°: 01-EN-VL</p>
                 <p class="info-doc-p">FECHA: {{ quotation.date }}</p>
-                <p class="info-doc-p">VALIDEZ: {{ quotation.expiration_date }}</p>
-                <p class="info-doc-p">IMPORTE: S./ {{ Number(quotation.amount).toFixed(2) }}</p>
+                <p class="info-doc-p">
+                    VALIDEZ: {{ quotation.expiration_date }}
+                </p>
+                <p class="info-doc-p">
+                    IMPORTE: S./ {{ Number(quotation.amount).toFixed(2) }}
+                </p>
                 <p class="info-doc-p">EJECUCIÓN: {{ quotation.term }}</p>
             </div>
         </section>
         <section class="px-3">
-
             <table class="main-table mt-3">
                 <thead class="mx-5">
                     <tr class="table-header">
-                        <th class="text-white fw-bolder py-3 ps-2">PRODUCTO / SERVICIO</th>
+                        <th class="text-white fw-bolder py-3 ps-2">
+                            PRODUCTO / SERVICIO
+                        </th>
                         <th class="text-white fw-bolder py-3 ps-1">TIPO</th>
                         <th class="text-white fw-bolder py-3 ps-1">TOTAL</th>
                     </tr>
                 </thead>
-                <div style="height: 10px;"></div>
+                <div style="height: 10px"></div>
                 <tbody v-if="quotation">
                     <tr v-for="detail in quotation.details" class="text-dark">
-                        <th class="table-item fw-normal ps-2">{{ detail.name }}
+                        <th class="table-item fw-normal ps-2">
+                            {{ detail.name }}
 
-                            <template v-if="detail.product_id == 113 || detail.product_id == 58">
-                                <br>
+                            <template
+                                v-if="
+                                    detail.product_id == 113 ||
+                                    detail.product_id == 58
+                                "
+                            >
+                                <br />
                                 - 02 propuestas de tema (opcional)
-                                <br>
+                                <br />
                                 - Plan de tesis o proyecto de investigación
-                                <br>
+                                <br />
                                 - Informe final de tesis o Tesis Final
-                                <br>
-                                - Orientación y/o asesoría extraordinaria en cualquier etapa de la tesis.
-                                <br>
+                                <br />
+                                - Orientación y/o asesoría extraordinaria en
+                                cualquier etapa de la tesis.
+                                <br />
                                 - Plantilla de diapositivas
-                                <br>
+                                <br />
                                 - Reporte de similitud TURNITIN
-                                <br>
+                                <br />
                                 - E-book para la sustentación
-                                <br>
+                                <br />
                                 - Balotario de preguntas
-                                <br>
+                                <br />
                                 - Simulación de sustentación
-                                <br>
+                                <br />
                                 - Levantamiento de observaciones
                             </template>
                         </th>
-                        <th class="table-item fw-normal" style="white-space: pre; text-align: center;">
-                            {{ detail.type == 1 ? 'Normal' : 'Sugerido' }}</th>
-                        <th class="table-item fw-normal" style="text-align: center;" v-if="detail.extra_price">S./{{
-                        Number(parseFloat(detail.price) +
-                            parseFloat(detail.extra_price)).toLocaleString('en-US')
-                    }}</th>
-                        <th class="table-item fw-normal" style="text-align: center;" v-else>S./{{
-                            Number(parseFloat(detail.price)).toLocaleString('en-US')
-                        }}</th>
+                        <th
+                            class="table-item fw-normal"
+                            style="white-space: pre; text-align: center"
+                        >
+                            {{ detail.type == 1 ? "Normal" : "Sugerido" }}
+                        </th>
+                        <th
+                            class="table-item fw-normal"
+                            style="text-align: center"
+                            v-if="detail.extra_price"
+                        >
+                            S./{{
+                                Number(
+                                    parseFloat(detail.price) +
+                                        parseFloat(detail.extra_price)
+                                ).toLocaleString("en-US")
+                            }}
+                        </th>
+                        <th
+                            class="table-item fw-normal"
+                            style="text-align: center"
+                            v-else
+                        >
+                            S./{{
+                                Number(parseFloat(detail.price)).toLocaleString(
+                                    "en-US"
+                                )
+                            }}
+                        </th>
                     </tr>
                     <tr class="sugested-title mt-3">
-                        <th class="text-white sugested py-3 px-3" colspan="3">PRECIO FINAL</th>
+                        <th class="text-white sugested py-3 px-3" colspan="3">
+                            PRECIO FINAL
+                        </th>
                     </tr>
                     <!-- <tr>
                         <th></th>
@@ -128,10 +179,18 @@
                     <div class="col-md-3"></div>
                     <div class="col-md-3"></div>
                     <div class="col-md-3">
-                        <p style="background-color: #f1f2f0;">DESCUENTO: S./{{
-                        Number(quotation.discount).toLocaleString('en-US') }}</p>
-                        <p style="background-color: #f1f2f0;">PRECIO FINAL: S./{{
-                        Number(quotation.amount).toLocaleString('en-US') }}</p>
+                        <p style="background-color: #f1f2f0">
+                            DESCUENTO: S./{{
+                                Number(quotation.discount).toLocaleString(
+                                    "en-US"
+                                )
+                            }}
+                        </p>
+                        <p style="background-color: #f1f2f0">
+                            PRECIO FINAL: S./{{
+                                Number(quotation.amount).toLocaleString("en-US")
+                            }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -143,18 +202,32 @@
             <p>{{ quotation[0].note }}</p>
         </div> -->
         <section class="last">
-            <div class="d-flex justify-content-around">
-                <div class="d-flex w-50">
-                    <img src="https://jairpl.com/pdf-sys/circle.png" width="150">
-                    <p class="ps-3 pig-text">Recuerda que puedes hacer el pago en CUOTAS!</p>
-                </div>
-                <img src="https://jairpl.com/pdf-sys/square.png" width="120" height="70">
+            <div class="consideration-title text-white py-3 px-3 mb-3">
+                CONSIDERACIONES
             </div>
+            <div class="ps-5">
+                <p class="ps-2 mb-0 fw-semibold text-dark">
+                    *Formalizamos los servicios con un contrato.
+                </p>
+                <p class="ps-2 mb-0 fw-semibold text-dark">
+                    *El contrato finaliza cuando el tesista se titula.
+                </p>
+                <p class="ps-2 mb-0 fw-semibold text-dark">
+                    *Todos los derechos de la tesis pasan a ser del tesista.
+                </p>
+                <p class="ps-2 mb-0 fw-semibold text-dark">
+                    *Protegemos tu identidad, nuestros servicios son
+                    confindenciales.
+                </p>
+            </div>
+
             <footer class="mt-3">
-                <p>Gracias por brindarnos tu confianza. Contáctanos si tienes alguna duda acerca de esta cotización.</p>
+                <p>
+                    Gracias por brindarnos tu confianza. Contáctanos si tienes
+                    alguna duda acerca de esta cotización.
+                </p>
             </footer>
         </section>
-
     </div>
 </template>
 
@@ -162,61 +235,63 @@
 export default {
     data() {
         return {
-            quotation: []
-        }
+            quotation: [],
+        };
     },
     methods: {
         getQuotationInfo() {
-            axios.get(`/api/quotations/${this.$route.params.id}`)
+            axios
+                .get(`/api/quotations/${this.$route.params.id}`)
                 .then((res) => {
-                    this.quotation = res.data
-                    this.print()
+                    this.quotation = res.data;
+                    this.print();
                 })
-                .catch(err => console.error(err))
+                .catch((err) => console.error(err));
         },
         print() {
-            setTimeout(() => { window.print() }, 1000);
-
-        }
+            setTimeout(() => {
+                window.print();
+            }, 1000);
+        },
     },
     mounted() {
-        this.getQuotationInfo()
+        this.getQuotationInfo();
     },
     computed: {
         subTotalProds() {
             if (this.quotation[0]) {
-                var total = 0
-                this.quotation[0].details.forEach(detail => {
+                var total = 0;
+                this.quotation[0].details.forEach((detail) => {
                     if (detail.type == 1) {
-                        total = total + parseFloat(detail.price)
+                        total = total + parseFloat(detail.price);
                     }
                 });
-                return total
+                return total;
             }
         },
         subTotalProdsSugest() {
             if (this.quotation[0]) {
-                var total = 0
-                this.quotation[0].details.forEach(detail => {
+                var total = 0;
+                this.quotation[0].details.forEach((detail) => {
                     if (detail.type == 2) {
-                        total = total + parseFloat(detail.price)
+                        total = total + parseFloat(detail.price);
                     }
                 });
-                return total
+                return total;
             }
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style scoped>
 * {
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: "Montserrat", sans-serif !important;
 }
 
 .bg-purple {
     background: rgb(0, 164, 148);
-    background: linear-gradient(90deg, rgba(0, 164, 148, 1) 35%, rgba(87, 72, 152, 1) 100%);
+    background: linear-gradient(180deg, #fb15d7 10%, #7f21fb 100%);
     border-radius: 0px 0px 10px 10px;
 }
 
@@ -232,7 +307,7 @@ export default {
 }
 
 .header-text {
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: "Montserrat", sans-serif !important;
     font-weight: 700;
     font-size: 12px;
     color: #fff;
@@ -240,7 +315,7 @@ export default {
 }
 
 .name-customer {
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-weight: 900;
     color: #000;
     font-size: 14px;
@@ -254,7 +329,7 @@ export default {
 }
 
 .info-user {
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-weight: 700;
     color: #000;
     font-size: 12px;
@@ -267,7 +342,7 @@ export default {
 }
 
 th span {
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-weight: 700;
     color: #000;
     padding: 0px 0px 0px 10px;
@@ -324,7 +399,7 @@ th {
 }
 
 .main-table thead {
-    background: linear-gradient(90deg, rgba(0, 164, 148, 1) 35%, rgba(87, 72, 152, 1) 100%);
+    background: linear-gradient(180deg, #fb15d7 10%, #7f21fb 100%);
     border-radius: 10px;
     font-weight: 700;
 }
@@ -357,11 +432,17 @@ th {
 }
 
 .sugested-title {
-    background: linear-gradient(90deg, rgba(0, 164, 148, 1) 35%, rgba(87, 72, 152, 1) 100%);
+    background: linear-gradient(180deg, #fb15d7 10%, #7f21fb 100%);
+}
+
+.consideration-title {
+    background: linear-gradient(180deg, #fb15d7 10%, #7f21fb 100%);
+    border-radius: 10px 10px 10px 10px;
+    margin: 0px 15px 0px 50px;
+    font-weight: 900;
 }
 
 .discount-total {
-
     font-weight: bold;
     color: #000;
     display: flex;
@@ -376,7 +457,11 @@ th {
 }
 
 .title-note {
-    background: linear-gradient(90deg, rgba(0, 164, 148, 1) 35%, rgba(87, 72, 152, 1) 100%);
+    background: linear-gradient(
+        90deg,
+        rgba(0, 164, 148, 1) 35%,
+        rgba(87, 72, 152, 1) 100%
+    );
     width: 130px;
     font-weight: bold;
     padding: 3px 0px 3px 0px;
