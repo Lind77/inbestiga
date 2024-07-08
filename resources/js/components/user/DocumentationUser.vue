@@ -13,8 +13,13 @@
 import moment from "moment";
 import axios from "axios";
 import Documentation from "../experience/profiles/Documentation.vue";
+import { userStore } from "../../stores/UserStore";
 
 export default {
+    setup() {
+        const store = userStore();
+        return { store };
+    },
     components: { Documentation },
     data() {
         return {
@@ -317,7 +322,9 @@ export default {
                 .get("/api/quotations/" + this.$route.params.quotationId)
                 .then((result) => {
                     this.quotation = result.data;
-                    console.log(this.quotation);
+
+                    console.log(this.store.authUser);
+
                     this.customer = this.quotation.customers[0];
                     this.comunications = this.customer.comunications;
                     if (
@@ -414,7 +421,20 @@ export default {
             this.newFields.push({ ...newField });
         },
         getDocumentation() {
-            return "Documentation";
+            var quotationFounded = this.store.authUser.quotations.find(
+                (quotation) => quotation.id == this.$route.params.quotationId
+            );
+
+            console.log(quotationFounded === undefined);
+
+            if (quotationFounded === undefined) {
+                this.$swal({
+                    title: "Esta cotización no te pertenece ...",
+                });
+                this.$router.back();
+            } else {
+                return "Documentation";
+            }
         },
     },
     computed: {

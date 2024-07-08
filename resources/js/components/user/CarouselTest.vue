@@ -9,11 +9,17 @@
         @slideChange="onSlideChange"
     >
         <swiper-slide v-for="card in cards">
-            <Card :imageUrl="card.imageUrl" :text="card.text"
+            <Card
+                :imageUrl="card.imageUrl"
+                :text="card.text"
+                :link="card.link"
+                @openVideoModal="openVideoModal"
         /></swiper-slide>
     </swiper>
+    <VideoModal :videoSrc="linkSelected" />
 </template>
 <script>
+import VideoModal from "./VideoModal.vue";
 import Card from "./Card.vue";
 // import Swiper core and required modules
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
@@ -33,6 +39,7 @@ export default {
         Swiper,
         SwiperSlide,
         Card,
+        VideoModal,
     },
     setup() {
         const onSwiper = (swiper) => {
@@ -52,26 +59,91 @@ export default {
             cards: [
                 {
                     imageUrl:
-                        "https://i.pinimg.com/564x/63/a7/05/63a7058d7ab2fc4dbfe9540960b96aa2.jpg",
-                    text: "Comienza tu tesis",
+                        "https://inbestiga.com/inbestiga/public/img/1.png",
+                    text: "Bienvenida",
+                    link: "https://youtu.be/P3H5DwGXUh8",
                 },
                 {
                     imageUrl:
-                        "https://i.pinimg.com/564x/dd/d1/8a/ddd18a24e555b6b976810ca407dbcc7b.jpg",
-                    text: "Informes",
+                        "https://inbestiga.com/inbestiga/public/img/2.png",
+                    text: "Canal oficial de comunicación",
+                    link: "https://youtu.be/6Me92Ga7SfI",
                 },
                 {
                     imageUrl:
-                        "https://i.pinimg.com/564x/ab/d6/a1/abd6a1374a9bff8b84f107c9e944ea39.jpg",
-                    text: "Canal oficial",
+                        "https://inbestiga.com/inbestiga/public/img/3.png",
+                    text: "Leer con atención el contrato",
+                    link: "https://youtu.be/_kmmTqjIOtQ",
                 },
                 {
                     imageUrl:
-                        "https://i.pinimg.com/736x/0f/f8/c6/0ff8c6d78cc203314698f3d660de989a.jpg",
-                    text: "Reuniones infinitas",
+                        "https://inbestiga.com/inbestiga/public/img/4.png",
+                    text: "Horario de atención",
+                    link: "https://youtu.be/fff_oGT3wvg",
+                },
+                {
+                    imageUrl:
+                        "https://inbestiga.com/inbestiga/public/img/5.png",
+                    text: "Reuniones cuando se requiera",
+                    link: "https://youtu.be/O1h-PK20vcM",
+                },
+                {
+                    imageUrl:
+                        "https://inbestiga.com/inbestiga/public/img/6.png",
+                    text: "Todos los archivos deben ser enviados a través del formulario",
+                    link: "https://youtu.be/dOHOa2XGJ4M",
+                },
+                {
+                    imageUrl:
+                        "https://inbestiga.com/inbestiga/public/img/7.png",
+                    text: "Trabajos serán descargados a través del aula",
+                    link: "https://youtu.be/TF_TKaFo8NM",
+                },
+                {
+                    imageUrl:
+                        "https://inbestiga.com/inbestiga/public/img/8.png",
+                    text: "Toda descarga de archivos es validada primero por el pago",
+                    link: "https://youtu.be/zPGjQkIJ_M0",
+                },
+                {
+                    imageUrl:
+                        "https://inbestiga.com/inbestiga/public/img/9.png",
+                    text: "Levantamiento de observaciones tiene un plazo de 7 días hábiles ",
+                    link: "",
+                },
+                {
+                    imageUrl:
+                        "https://inbestiga.com/inbestiga/public/img/10.png",
+                    text: "Si necesitas en menos tiempo, agenda una reunión y coméntalo allí ",
+                    link: "https://youtu.be/upDmBlrd1is",
+                },
+                {
+                    imageUrl:
+                        "https://inbestiga.com/inbestiga/public/img/11.png",
+                    text: "Solo se levantan observaciones de revisores académicos de la universidad ",
+                    link: "https://youtu.be/758Y_RGou7Y",
+                },
+                {
+                    imageUrl:
+                        "https://inbestiga.com/inbestiga/public/img/12.png",
+                    text: "Se te anexará un informe de levantamiento de observaciones para verificar los cambios ",
+                    link: "https://youtu.be/42eepglyqGI",
+                },
+                {
+                    imageUrl:
+                        "https://inbestiga.com/inbestiga/public/img/13.png",
+                    text: "Antes de reunirte con tu asesor, revisa el documento a detalle",
+                    link: "https://youtu.be/uN6UrUNGwk0",
                 },
             ],
+            linkSelected: "",
         };
+    },
+    methods: {
+        openVideoModal(link) {
+            this.linkSelected = link;
+            $("#videoModal").modal("show");
+        },
     },
 };
 </script>
