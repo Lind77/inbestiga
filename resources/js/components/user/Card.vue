@@ -1,6 +1,12 @@
 <template>
     <div class="glass-card mx-2 pb-2">
-        <img :src="imageUrl" alt="" srcset="" class="img-card cursor-pointer" />
+        <img
+            :src="imageUrl"
+            alt=""
+            srcset=""
+            class="img-card cursor-pointer"
+            @click="openModalVideo"
+        />
         <p class="fw-semibold text-center text-white mt-3 mb-3">{{ text }}</p>
     </div>
 </template>
@@ -9,6 +15,12 @@ export default {
     props: {
         imageUrl: String,
         text: String,
+        link: String,
+    },
+    methods: {
+        openModalVideo() {
+            this.$emit("openVideoModal", this.link);
+        },
     },
 };
 </script>
