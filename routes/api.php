@@ -406,3 +406,4 @@ Route::delete('/post/{id}', [PostController::class, 'destroy']);
 Route::get('/bank-accounts', [BankAccountController::class, 'index']);
 
 Route::get('/filter-quotations', [QuotationController::class, 'filterQuotations']);
+Route::post('/filter-dates', [QuotationController::class, 'filterDates']);
