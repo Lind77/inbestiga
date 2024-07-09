@@ -140,6 +140,8 @@ import Notifications from '../components/layout/Notifications.vue'
 //Profile
 import Profile from '../components/profile/Home.vue'
 
+import Report from '../components/admin/report/Home.vue'
+
 //Trabajos
 import Jobs from '../components/jobs/Home.vue'
 
@@ -381,6 +383,11 @@ export const routes = [
                 path: 'sandbox',
                 component: Sandbox,
                 name: 'sandbox'
+            },
+            {
+                path: 'report',
+                component: Report,
+                name: 'report'
             }
         ]
     },
