@@ -5,7 +5,25 @@
         </h4>
         <h3>Bienvenido, Admind</h3>
         <h4>Cotizaciones de clientes entre 30 a 60 días</h4>
-
+        <div class="d-flex flex-row align-items-center justify-content-between">
+            <div class="d-flex">
+                <div class="mb-3">
+                    <label for="">Desde</label>
+                    <input
+                        type="date"
+                        class="form-control"
+                        v-model="startDate"
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="">Hasta</label>
+                    <input type="date" class="form-control" v-model="endDate" />
+                </div>
+            </div>
+            <button class="btn btn-success h-25" @click="filterByDates">
+                Buscar
+            </button>
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -23,7 +41,7 @@
                         </p>
                     </td>
                     <td>{{ quotation.date }}</td>
-                    <td>{{ quotation.amount }}</td>
+                    <td>S./{{ quotation.amount }}</td>
                     <td>
                         <router-link
                             :to="{
@@ -45,12 +63,29 @@ export default {
     data() {
         return {
             quotations: [],
+            startDate: null,
+            endDate: null,
         };
     },
     methods: {
         getQuotations() {
             axios
                 .get("/api/filter-quotations")
+                .then((result) => {
+                    this.quotations = result.data.quotations.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        filterByDates() {
+            const fd = new FormData();
+
+            fd.append("startDate", this.startDate);
+            fd.append("endDate", this.endDate);
+
+            axios
+                .post("/api/filter-dates", fd)
                 .then((result) => {
                     this.quotations = result.data.quotations.data;
                 })

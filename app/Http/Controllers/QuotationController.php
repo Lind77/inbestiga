@@ -445,4 +445,16 @@ class QuotationController extends Controller
             'quotations' => $quotations
         ]);
     }
+
+    public function filterDates(Request $request)
+    {
+
+        $from = $request->get('startDate');
+        $to = $request->get('endDate');
+
+        $quotations = Quotation::with('customers')->whereBetween('date', [$from, $to])->where('status', '!=', 11)->orderBy('id', 'desc')->paginate(300);
+        return response()->json([
+            'quotations' => $quotations
+        ]);
+    }
 }
