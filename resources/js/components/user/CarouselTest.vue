@@ -4,6 +4,7 @@
         :slides-per-view="3"
         :space-between="10"
         navigation
+        delay
         :loop="true"
         @swiper="onSwiper"
         @slideChange="onSlideChange"

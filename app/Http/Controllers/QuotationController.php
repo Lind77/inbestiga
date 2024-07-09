@@ -437,4 +437,12 @@ class QuotationController extends Controller
             'contracts' => $contracts
         ]);
     }
+
+    public function filterQuotations()
+    {
+        $quotations = Quotation::with('customers')->where('status', '!=', 11)->orderBy('id', 'desc')->paginate(300);
+        return response()->json([
+            'quotations' => $quotations
+        ]);
+    }
 }
