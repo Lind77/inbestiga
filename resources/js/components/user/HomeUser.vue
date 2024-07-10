@@ -1,10 +1,10 @@
 <template>
     <div class="bg-user">
         <div class="px-0">
-            <div class="row">
+            <div class="row w-100">
                 <Sidebar :hidden="hidden" />
                 <div :class="hidden ? 'col-2' : 'col-1'"></div>
-                <div :class="hidden ? 'col-10' : 'col-11'" class="px-4">
+                <div :class="hidden ? 'col-10' : 'col-11'">
                     <Navbar @toggleSidebar="toggleSidebar" />
                     <div class="row px-3">
                         <div class="col-6 ps-5 d-none d-lg-block">
@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div
-                            class="col-12 col-lg-6 d-flex flex-column justify-content-center d-lg-block order-first order-lg-last mt-5"
+                            class="col-12 col-lg-6 d-flex flex-column justify-content-center d-lg-block order-first order-lg-last mt-5 pe-0"
                         >
                             <img
                                 src="https://inbestiga.com/inbestiga/public/img/homeImg.png"
@@ -66,16 +66,16 @@
                                 class="ms-5 d-none d-lg-block"
                             />
                         </div>
-                        <div class="col-12 col-lg-8">
+                        <div class="col-12 col-lg-8 mb-n5">
                             <!--  <Carousel /> -->
                             <CarouselTest />
                         </div>
                     </div>
-                    <div class="row mt-5 pt-5 pb-5">
+                    <div class="row mt-n5 pt-5 pb-5">
                         <h3 class="mt-n5 text-center text-white">
                             Mis proyectos
                         </h3>
-                        <div class="col-12 col-lg-8 px-5 mt-2">
+                        <div class="col-10 col-lg-8 px-5 mt-2">
                             <div class="row">
                                 <template v-for="quotation in quotations">
                                     <ProjectCard
