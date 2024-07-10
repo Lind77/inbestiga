@@ -3,8 +3,8 @@
         <div class="px-0">
             <div class="row">
                 <Sidebar :hidden="hidden" />
-                <div class="col-2"></div>
-                <div :class="hidden ? 'col-10' : 'col-12'" class="px-4">
+                <div :class="hidden ? 'col-2' : 'col-1'"></div>
+                <div :class="hidden ? 'col-10' : 'col-11'" class="px-4">
                     <Navbar @toggleSidebar="toggleSidebar" />
                     <div class="row px-3">
                         <div class="col-6 ps-5 d-none d-lg-block">
@@ -35,7 +35,7 @@
                             />
                             <img
                                 src="https://jairpl.com/pdf-sys/logo.png"
-                                class="mb-3 w-50 d-block d-lg-none m-auto mt-n5"
+                                class="text-logo mb-3 w-50 d-block d-lg-none m-auto mt-n5"
                             />
                             <h2
                                 class="d-block d-lg-none text-center text-white fw-normal"
@@ -166,15 +166,19 @@ export default {
 };
 </script>
 <style scoped>
+.effect-transition {
+    transition: 1s;
+}
+
 .bg-user {
     width: 100%;
     height: auto;
     background-image: url("https://inbestiga.com/inbestiga/public/img/cuadros.png"),
         linear-gradient(
-            67deg,
-            rgba(38, 20, 38, 1) 19%,
-            rgba(41, 21, 41, 1) 30%,
-            rgba(95, 29, 95, 1) 64%
+            135deg,
+            rgba(38, 20, 38, 1) 22%,
+            rgba(41, 21, 41, 1) 75%,
+            rgba(95, 29, 95, 1) 92%
         );
     background-size: cover;
 }
@@ -271,7 +275,12 @@ p {
         font-size: 1em;
     }
     .img-main {
-        margin: -6em -18%;
+        margin: -4em auto;
+        width: 98%;
+    }
+
+    .text-logo {
+        margin-top: 2em !important;
     }
 
     h3 {
