@@ -1,9 +1,6 @@
 <template>
     <transition name="fade">
-        <aside
-            class="d-none d-lg-block col-2 vh-100 px-4 pt-3 position-fixed"
-            v-if="hidden"
-        >
+        <aside class="col-2 vh-100 px-4 pt-3 position-fixed" v-if="hidden">
             <div class="d-flex align-items-center">
                 <img
                     src="https://inbestiga.com/inbestiga/public/img/ib_newlogo.png"
