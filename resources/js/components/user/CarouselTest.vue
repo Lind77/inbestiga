@@ -89,13 +89,13 @@ export default {
                 {
                     imageUrl:
                         "https://inbestiga.com/inbestiga/public/img/2.png",
-                    text: "Canal oficial de comunicación",
+                    text: "Conoce el Aula virtual",
                     link: "https://www.youtube.com/embed/6Me92Ga7SfI",
                 },
                 {
                     imageUrl:
                         "https://inbestiga.com/inbestiga/public/img/3.png",
-                    text: "Leer con atención el contrato",
+                    text: "Lee con atención tu contrato",
                     link: "https://www.youtube.com/embed/_kmmTqjIOtQ",
                 },
                 {
@@ -107,55 +107,55 @@ export default {
                 {
                     imageUrl:
                         "https://inbestiga.com/inbestiga/public/img/5.png",
-                    text: "Reuniones cuando se requiera",
+                    text: "Acerca de las reuniones",
                     link: "https://www.youtube.com/embed/O1h-PK20vcM",
                 },
                 {
                     imageUrl:
                         "https://inbestiga.com/inbestiga/public/img/6.png",
-                    text: "Todos los archivos deben ser enviados a través del formulario",
+                    text: "Acerca de los archivos requeridos",
                     link: "https://www.youtube.com/embed/dOHOa2XGJ4M",
                 },
                 {
                     imageUrl:
                         "https://inbestiga.com/inbestiga/public/img/7.png",
-                    text: "Trabajos serán descargados a través del aula",
+                    text: "Descargar archivos",
                     link: "https://www.youtube.com/embed/TF_TKaFo8NM",
                 },
                 {
                     imageUrl:
                         "https://inbestiga.com/inbestiga/public/img/8.png",
-                    text: "Toda descarga de archivos es validada primero por el pago",
+                    text: "⁠Validación de pagos para descargas",
                     link: "https://www.youtube.com/embed/zPGjQkIJ_M0",
                 },
                 {
                     imageUrl:
                         "https://inbestiga.com/inbestiga/public/img/9.png",
-                    text: "Levantamiento de observaciones tiene un plazo de 7 días hábiles ",
+                    text: "⁠Plazo de levantamiento de observaciones",
                     link: "https://www.youtube.com/embed/upDmBlrd1is",
                 },
                 {
                     imageUrl:
                         "https://inbestiga.com/inbestiga/public/img/10.png",
-                    text: "Si necesitas en menos tiempo, agenda una reunión y coméntalo allí ",
+                    text: "Si necesitas tus observaciones en menos tiempo",
                     link: "https://www.youtube.com/embed/758Y_RGou7Y",
                 },
                 {
                     imageUrl:
                         "https://inbestiga.com/inbestiga/public/img/11.png",
-                    text: "Solo se levantan observaciones de revisores académicos de la universidad ",
+                    text: "Observaciones de revisores universitarios",
                     link: "https://www.youtube.com/embed/42eepglyqGI",
                 },
                 {
                     imageUrl:
                         "https://inbestiga.com/inbestiga/public/img/12.png",
-                    text: "Se te anexará un informe de levantamiento de observaciones para verificar los cambios ",
+                    text: "Informe de levantamiento de observaciones",
                     link: "https://www.youtube.com/embed/uN6UrUNGwk0",
                 },
                 {
                     imageUrl:
                         "https://inbestiga.com/inbestiga/public/img/13.png",
-                    text: "Antes de reunirte con tu asesor, revisa el documento a detalle",
+                    text: "Sugerencia antes de reunirte con tu asesor",
                     link: "https://www.youtube.com/embed/DR9ZJ53uqO8",
                 },
             ],
