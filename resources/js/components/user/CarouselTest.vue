@@ -1,11 +1,25 @@
 <template>
     <swiper
         :modules="modules"
-        :slides-per-view="3"
+        :breakpoints="{
+            '0': {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            '768': {
+                slidesPerView: 2,
+                spaceBetween: 40,
+            },
+            '1024': {
+                slidesPerView: 3,
+                spaceBetween: 20,
+            },
+        }"
         :space-between="10"
         navigation
         delay
         :loop="true"
+        :autoplay="{ delay: 2000 }"
         @swiper="onSwiper"
         @slideChange="onSlideChange"
     >
@@ -23,7 +37,13 @@
 import VideoModal from "./VideoModal.vue";
 import Card from "./Card.vue";
 // import Swiper core and required modules
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import {
+    Navigation,
+    Pagination,
+    Scrollbar,
+    A11y,
+    Autoplay,
+} from "swiper/modules";
 
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -33,6 +53,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import "swiper/css/autoplay";
 
 // Import Swiper styles
 export default {
@@ -41,6 +62,7 @@ export default {
         SwiperSlide,
         Card,
         VideoModal,
+        Autoplay,
     },
     setup() {
         const onSwiper = (swiper) => {
@@ -52,7 +74,7 @@ export default {
         return {
             onSwiper,
             onSlideChange,
-            modules: [Navigation, Pagination, Scrollbar, A11y],
+            modules: [Navigation, Pagination, Scrollbar, A11y, Autoplay],
         };
     },
     data() {
