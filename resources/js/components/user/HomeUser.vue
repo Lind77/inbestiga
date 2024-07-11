@@ -71,14 +71,14 @@
                         <div class="col-12 col-lg-8 mb-n5">
                             <!--  <Carousel /> -->
                             <h3
-                                class="d-block d-xs-none d-sm-none d-md-none d-lg-none mt-n5 ps-5 text-white fw-semibold subtext-1 pb-5 text-center"
+                                class="d-block d-xs-none d-sm-none d-md-none d-lg-none mt-n5 ps-5 text-white fw-semibold subtext-1 pb-2 text-center"
                             >
                                 Experiencia de usuario
                             </h3>
                             <CarouselTest />
                         </div>
                     </div>
-                    <div class="row mt-n5 pt-5 pb-5">
+                    <div class="row mt-n5 pt-5 pb-5 project-section">
                         <h3 class="mt-n5 text-center text-white">
                             Mis proyectos
                         </h3>
@@ -299,8 +299,9 @@ p {
         margin-bottom: 1.4em;
         margin-top: 1.4em !important;
     }
-    .subtext-1 {
-        margin: 0px 0px -65% 0px;
+
+    .project-section {
+        margin-top: -80% !important;
     }
 }
 </style>
