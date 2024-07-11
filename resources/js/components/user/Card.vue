@@ -7,7 +7,7 @@
             class="img-card cursor-pointer"
             @click="openModalVideo"
         />
-        <p class="fw-semibold text-center text-white mt-3 mb-3">{{ text }}</p>
+        <p class="fw-normal text-center text-white mt-3 mb-3">{{ text }}</p>
     </div>
 </template>
 <script>

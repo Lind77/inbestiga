@@ -1,5 +1,5 @@
 <template>
-    <div class="glass d-flex mt-2">
+    <div class="sticky-top glass d-flex mt-2">
         <ul
             class="navbar-nav d-flex flex-row justify-content-between align-items-center mx-4 w-100"
         >

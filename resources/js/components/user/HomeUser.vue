@@ -56,14 +56,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-5 pb-5">
+                    <div class="row vh-100 mt-5 pb-5">
+                        <h3 class="mt-n5 ps-5 text-white fw-semibold">
+                            Experiencia de usuario
+                        </h3>
                         <div class="col-12 col-lg-4 ps-5">
-                            <h3 class="mt-n5 text-center text-white">
-                                Experiencia de usuario
-                            </h3>
                             <img
                                 src="https://inbestiga.com/inbestiga/public/img/resource2.png"
-                                class="ms-5 d-none d-lg-block"
+                                class="ms-2 d-none d-lg-block mt-n5"
                             />
                         </div>
                         <div class="col-12 col-lg-8 mb-n5">
@@ -75,7 +75,7 @@
                         <h3 class="mt-n5 text-center text-white">
                             Mis proyectos
                         </h3>
-                        <div class="col-10 col-lg-8 px-5 mt-2">
+                        <div class="col-11 col-lg-8 px-5 mt-2">
                             <div class="row">
                                 <template v-for="quotation in quotations">
                                     <ProjectCard
@@ -166,6 +166,10 @@ export default {
 };
 </script>
 <style scoped>
+.swiper-button-prev {
+    padding-right: 30px !important; /* Ajusta el valor del padding según tus necesidades */
+}
+
 .effect-transition {
     transition: 1s;
 }
