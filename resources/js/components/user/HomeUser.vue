@@ -71,7 +71,7 @@
                         <div class="col-12 col-lg-8 mb-n5">
                             <!--  <Carousel /> -->
                             <h3
-                                class="d-block d-xs-none d-sm-none d-md-none d-lg-none mt-n5 ps-5 text-white fw-semibold subtext-1 pb-2 text-center"
+                                class="d-block d-xs-none d-sm-none d-md-none d-lg-none mt-n5 ps-1 text-white fw-semibold subtext-1 pb-2 text-center"
                             >
                                 Experiencia de usuario
                             </h3>
