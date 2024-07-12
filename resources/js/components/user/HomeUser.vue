@@ -1,108 +1,38 @@
 <template>
-    <div class="bg-user">
-        <div class="px-0">
-            <div class="row w-100">
-                <Sidebar :hidden="hidden" />
-                <div :class="hidden ? 'col-2' : 'col-1'"></div>
-                <div :class="hidden ? 'col-10' : 'col-11'">
-                    <Navbar @toggleSidebar="toggleSidebar" />
-                    <div class="row px-3">
-                        <div class="col-6 ps-5 d-none d-lg-block">
-                            <h1 class="text-white title">
-                                ¡Inbestiga te da la bienvenida!
-                            </h1>
-                            <p class="text-white">
-                                Gestiona tus proyectos y vive una experiencia
-                                innolvidable
-                            </p>
-                            <div class="d-flex w-50 mt-5">
-                                <button class="menu-item text-white mb-2">
-                                    <i class="bx bx-diamond"></i>
-                                    Experiencia de Usuario
-                                </button>
-                                <button class="menu-item text-white mb-2 ms-1">
-                                    <i class="bx bx-play-circle"></i>
-                                    User Experience
-                                </button>
-                            </div>
-                        </div>
-                        <div
-                            class="col-12 col-lg-6 d-flex flex-column justify-content-center d-lg-block order-first order-lg-last mt-5 pe-0"
-                        >
-                            <img
-                                src="https://inbestiga.com/inbestiga/public/img/homeImg.png"
-                                class="img-main"
-                            />
-                            <img
-                                src="https://jairpl.com/pdf-sys/logo.png"
-                                class="text-logo mb-3 w-50 d-block d-lg-none m-auto mt-n5"
-                            />
-                            <h2
-                                class="d-block d-lg-none text-center text-white fw-normal"
+    <div class="bg-user pt-5">
+        <div class="container">
+            <Navbar />
+            <div class="row">
+                <div class="col-12">
+                    <div
+                        class="main d-flex justify-content-center flex-column mt-5"
+                    >
+                        <img
+                            src="https://inbestiga.com/inbestiga/public/img/ib_newlogo.png"
+                            class="main-logo mb-3 mx-auto"
+                        />
+                        <h2 class="main-text text-white text-center mt-5">
+                            ¡Hola <span class="main-text-bold">Nombre</span>!
+                        </h2>
+                        <h2 class="main-text text-white text-center mt-3">
+                            <span class="main-text-bold">Bienvenido</span> a
+                            <br />
+                            tu <span class="main-text-bold">aula virtual</span>
+                        </h2>
+
+                        <img
+                            src="https://inbestiga.com/inbestiga/public/img/videoyt.png"
+                            class="main-video mb-3 mt-5 mx-auto"
+                        />
+
+                        <h2 class="sub-text text-white text-center mt-5 mb-5">
+                            <span class="sub-text-bold">Encuentra</span> el
+                            <span class="sub-text-bold">resumen</span><br />
+                            del
+                            <span class="sub-text-bold"
+                                >video <span class="pink">aquí</span></span
                             >
-                                Bienvenido a tu aula virtual
-                            </h2>
-                            <div
-                                class="row my-4 d-flex justify-content-center d-lg-none"
-                            >
-                                <li class="menu-item text-white mb-2">
-                                    <i class="bx bx-diamond"></i>
-                                    Experiencia de Usuario
-                                </li>
-                                <li class="menu-item text-white mb-2">
-                                    <i class="bx bx-play-circle"></i>
-                                    Experiencia de Usuario
-                                </li>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row vh-100 mt-5 pb-5">
-                        <h3
-                            class="d-none d-lg-block mt-n5 ps-5 text-white fw-semibold subtext-1"
-                        >
-                            Experiencia de usuario
-                        </h3>
-                        <div class="d-none d-lg-block col-12 col-lg-4 ps-5">
-                            <img
-                                src="https://inbestiga.com/inbestiga/public/img/resource2.png"
-                                class="ms-2 mt-n5"
-                            />
-                        </div>
-                        <div class="col-12 col-lg-8 mb-n5">
-                            <!--  <Carousel /> -->
-                            <h3
-                                class="d-block d-xs-none d-sm-none d-md-none d-lg-none mt-n5 ps-1 text-white fw-semibold subtext-1 pb-2 text-center"
-                            >
-                                Experiencia de usuario
-                            </h3>
-                            <CarouselTest />
-                        </div>
-                    </div>
-                    <div class="row mt-n5 pt-5 pb-5 project-section">
-                        <h3 class="mt-n5 text-center text-white">
-                            Mis proyectos
-                        </h3>
-                        <div class="col-11 col-lg-8 px-5 mt-2">
-                            <div class="row">
-                                <template v-for="quotation in quotations">
-                                    <ProjectCard
-                                        :project="project"
-                                        :quotation="quotation"
-                                        v-for="project in quotation.contract
-                                            .projects"
-                                    />
-                                </template>
-                            </div>
-                        </div>
-                        <div class="col-4 mt-5 d-none d-lg-block">
-                            <h3 class="mt-n5 text-center text-white">
-                                Información académica
-                            </h3>
-                            <img
-                                src="https://inbestiga.com/inbestiga/public/img/bottle.png"
-                                class="ms-5"
-                            />
-                        </div>
+                        </h2>
                     </div>
                 </div>
             </div>
@@ -173,6 +103,37 @@ export default {
 };
 </script>
 <style scoped>
+.main-logo {
+    width: 64%;
+}
+
+.main-text {
+    font-size: 45px;
+    font-weight: 300;
+}
+
+.main-text-bold {
+    font-weight: 600;
+}
+
+.main-video {
+    width: 100%;
+}
+
+.sub-text {
+    font-size: 38px;
+    font-weight: 300;
+}
+
+.sub-text-bold {
+    font-weight: 600;
+}
+
+.pink {
+    color: #fb15d7;
+    font-weight: 700;
+}
+
 .swiper-button-prev {
     padding-right: 30px !important; /* Ajusta el valor del padding según tus necesidades */
 }
@@ -184,18 +145,14 @@ export default {
 .bg-user {
     width: 100%;
     height: auto;
-    background-image: url("https://inbestiga.com/inbestiga/public/img/cuadros.png"),
-        linear-gradient(
-            135deg,
-            rgba(38, 20, 38, 1) 22%,
-            rgba(41, 21, 41, 1) 75%,
-            rgba(95, 29, 95, 1) 92%
-        );
+    background-image: linear-gradient(
+        135deg,
+        rgba(95, 29, 95, 1) 2%,
+        rgba(41, 21, 41, 1) 25%,
+        rgba(41, 21, 41, 1) 57%,
+        rgba(95, 29, 95, 1) 92%
+    );
     background-size: cover;
-}
-
-.main-logo {
-    width: 100%;
 }
 
 .bg-card {

@@ -1,19 +1,45 @@
 <template>
-    <div class="sticky-top glass d-flex mt-2">
+    <div class="sticky-top glass-bg d-flex">
         <ul
             class="navbar-nav d-flex flex-row justify-content-between align-items-center mx-4 w-100"
         >
-            <div
-                class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0"
-            >
+            <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a
-                    @click="toggleAside"
-                    class="nav-item nav-link px-0 me-xl-4"
-                    href="javascript:void(0)"
+                    class="nav-link dropdown-toggle hide-arrow pt-2"
+                    href="javascript:void(0);"
+                    data-bs-toggle="dropdown"
                 >
-                    <i class="bx bx-menu bx-sm text-white"></i>
+                    <i class="bx bx-grid-alt text-white"></i>
                 </a>
-            </div>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item cursor-pointer">
+                            <span class="align-middle">Mi estación</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item cursor-pointer">
+                            <span class="align-middle">Mi experiencia</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item cursor-pointer">
+                            <span class="align-middle">Mis proyectos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item cursor-pointer">
+                            <span class="align-middle">Mis cursos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item cursor-pointer">
+                            <span class="align-middle">Facturación</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a
                     class="nav-link dropdown-toggle hide-arrow pt-2"
@@ -80,6 +106,23 @@ export default {
 };
 </script>
 <style scoped>
+i {
+    font-size: 2.3rem;
+}
+.glass-bg {
+    padding: 5px 0px;
+    background: rgba(255, 255, 255, 0.112);
+    backdrop-filter: blur(5px);
+    border-radius: 10px !important;
+}
+
+.dropdown-menu {
+    background: rgba(255, 255, 255, 0.112);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: #fff;
+}
+
 @media only screen and (max-width: 576px) {
     .glass {
         height: 3% !important;
