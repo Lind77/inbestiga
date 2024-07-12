@@ -465,7 +465,7 @@
                                 />
                             </p>
                             <p
-                                title="Si usted marca esta opción, el cliente deberá encargarse de este aspecto."
+                                title="Si usted marca esta opción, Inbestiga ofrecerá beneficios."
                             >
                                 5to art.(Considerar Entregas)
                                 <input
