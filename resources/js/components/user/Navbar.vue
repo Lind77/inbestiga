@@ -11,33 +11,7 @@
                 >
                     <i class="bx bx-grid-alt text-white"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                        <a class="dropdown-item cursor-pointer">
-                            <span class="align-middle">Mi estación</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item cursor-pointer">
-                            <span class="align-middle">Mi experiencia</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item cursor-pointer">
-                            <span class="align-middle">Mis proyectos</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item cursor-pointer">
-                            <span class="align-middle">Mis cursos</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item cursor-pointer">
-                            <span class="align-middle">Facturación</span>
-                        </a>
-                    </li>
-                </ul>
+                <Dropdown :customerId="store.authUser.id" />
             </li>
 
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -72,8 +46,10 @@
 </template>
 <script>
 import { userStore } from "../../stores/UserStore";
+import Dropdown from "./Dropdown.vue";
 
 export default {
+    components: { Dropdown },
     setup() {
         const store = userStore();
         return { store };
@@ -102,6 +78,12 @@ export default {
                     console.log(err);
                 });
         },
+        toMyProjects() {
+            this.$router.push({
+                name: "project-user",
+                params: { customerId: this.store.authUser.id },
+            });
+        },
     },
 };
 </script>
@@ -112,15 +94,16 @@ i {
 .glass-bg {
     padding: 5px 0px;
     background: rgba(255, 255, 255, 0.112);
-    backdrop-filter: blur(5px);
     border-radius: 10px !important;
 }
 
-.dropdown-menu {
-    background: rgba(255, 255, 255, 0.112);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    color: #fff;
+.glass-bg::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(10px);
+    z-index: -1;
 }
 
 @media only screen and (max-width: 576px) {

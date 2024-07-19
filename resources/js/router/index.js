@@ -133,6 +133,7 @@ import HomeForms from '../components/experience/forms/Home.vue'
 //Área para los usuarios
 import UsersLogin from '../components/user/Login.vue'
 import HomeUser from '../components/user/HomeUser.vue'
+import ProjectUser from '../components/user/ProjectUser.vue'
 import DocumentationUser from '../components/user/DocumentationUser.vue'
 
 //Notifications
@@ -163,6 +164,12 @@ export const routes = [
         path: '/home-user/:customerId',
         component: HomeUser,
         name: 'home-user',
+        props: true
+    },
+    {
+        path: '/project-user/:customerId',
+        component: ProjectUser,
+        name: 'project-user',
         props: true
     },
     {

@@ -457,4 +457,14 @@ class QuotationController extends Controller
             'quotations' => $quotations
         ]);
     }
+
+    public function customersLobo()
+    {
+
+        $quotations = Customer::where('user_id', 72)->whereHas('quotations', function ($query) {
+            $query->where('status', '!=', 11);
+        })->get();
+
+        return response()->json($quotations);
+    }
 }
