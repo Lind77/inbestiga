@@ -7,36 +7,23 @@
                     <div
                         class="main d-flex justify-content-center flex-column mt-5"
                     >
-                        <img
-                            src="https://inbestiga.com/inbestiga/public/img/ib_newlogo.png"
-                            class="main-logo mb-5 mx-auto"
-                        />
-                        <h2 class="main-text text-white text-center mt-5">
-                            ¡Hola
-                            <span class="main-text-bold">{{ info.name }}</span
-                            >!
-                        </h2>
                         <h2
                             class="main-text subtext text-white text-center mt-4"
                         >
-                            <span class="main-text-bold">Bienvenido</span> a
-                            <br />
-                            tu <span class="main-text-bold">aula virtual</span>
+                            Mis<span class="main-text-bold"> proyectos</span>
                         </h2>
-
-                        <img
-                            src="https://inbestiga.com/inbestiga/public/img/valeria.png"
-                            class="main-video mb-3 mt-5 mx-auto"
+                        <div class="input-icons">
+                            <i class="bx bx-search"></i>
+                            <input
+                                type="text"
+                                class="search form-control glass my-5"
+                                placeholder="Buscar"
+                            />
+                        </div>
+                        <CardProject
+                            v-for="project in projects"
+                            :project="project"
                         />
-
-                        <h2 class="sub-text text-white text-center mt-5 mb-5">
-                            <span class="sub-text-bold">Encuentra</span> el
-                            <span class="sub-text-bold">resumen</span><br />
-                            del
-                            <span class="sub-text-bold"
-                                >video <span class="pink">aquí</span></span
-                            >
-                        </h2>
                     </div>
                 </div>
             </div>
@@ -51,11 +38,19 @@ import Card from "./Card.vue";
 import ProjectCard from "./ProjectCard.vue";
 import Carousel from "./Carousel.vue";
 import CarouselTest from "./CarouselTest.vue";
-
 import { userStore } from "../../stores/UserStore";
+import CardProject from "./CardProject.vue";
 
 export default {
-    components: { Sidebar, Navbar, Card, ProjectCard, Carousel, CarouselTest },
+    components: {
+        Sidebar,
+        Navbar,
+        Card,
+        ProjectCard,
+        Carousel,
+        CarouselTest,
+        CardProject,
+    },
     setup() {
         const store = userStore();
         return { store };
@@ -107,6 +102,27 @@ export default {
 };
 </script>
 <style scoped>
+.input-icons {
+    display: flex;
+    align-items: center;
+}
+
+.input-icons i {
+    position: absolute;
+    color: #fff;
+    margin-left: 2rem;
+    z-index: 99;
+}
+
+.search {
+    border-radius: 10px;
+    color: #fff;
+    padding: 10px 35px !important;
+    width: 90%;
+    margin: 0px auto;
+    border: none;
+}
+
 .main-logo {
     width: 50%;
 }
@@ -267,6 +283,15 @@ p {
 
     .project-section {
         margin-top: -80% !important;
+    }
+}
+
+@media (min-width: 600px) {
+    .input-icons i {
+        position: absolute;
+        color: #fff;
+        margin-left: 4rem;
+        z-index: 99;
     }
 }
 </style>
