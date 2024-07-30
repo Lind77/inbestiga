@@ -135,6 +135,7 @@ import UsersLogin from '../components/user/Login.vue'
 import HomeUser from '../components/user/HomeUser.vue'
 import ProjectUser from '../components/user/ProjectUser.vue'
 import DocumentationUser from '../components/user/DocumentationUser.vue'
+import ShowProjectUser from '../components/user/ShowProjectUser.vue'
 
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
@@ -176,6 +177,12 @@ export const routes = [
         path: '/user-documentation/:quotationId',
         component: DocumentationUser,
         name: 'user-documentation',
+        props: true
+    },
+    {
+        path: '/show-project-user/:projectId',
+        component: ShowProjectUser,
+        name: 'show-project-user',
         props: true
     },
     {

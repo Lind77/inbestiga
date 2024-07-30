@@ -175,9 +175,9 @@ export default {
                 });
             }
         },
-        noConnect(customer) {
+        /* noConnect(customer) {
             this.entitieStatus = 0;
-        },
+        }, */
         showModalUpdateData(customer) {
             console.log("cardentitie", customer);
             this.$emit("showModalUpdateData", customer);
