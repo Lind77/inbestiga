@@ -210,9 +210,7 @@ export default {
     },
     methods: {
         updateCustomer(customer) {
-            this.customerSelected = customer;
-            this.action = 2;
-            $("#customerModal").modal("show");
+            this.$emit("updateCustomer", customer);
         },
         selectCustomer(customer) {
             this.customerSelected = customer;

@@ -1,7 +1,10 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row invoice-add">
-            <FrontPage :quotation="quotation" />
+            <FrontPage
+                :quotation="quotation"
+                @updateCustomer="updateCustomer"
+            />
             <Documentary
                 :questions="documentaryTags"
                 @setCleanDocumentary="setCleanDocumentary"
@@ -234,6 +237,12 @@ export default {
         };
     },
     methods: {
+        updateCustomer(customer) {
+            console.log(customer);
+            this.customerSelected = customer;
+            this.action = 2;
+            $("#customerModal").modal("show");
+        },
         postNewUpdate() {
             const fd = new FormData();
             fd.append("title", this.newUpdate.question);
