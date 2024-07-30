@@ -3,7 +3,12 @@
         <div class="row">
             <div class="col-8">
                 <div class="card-header">
-                    {{ project.title }}
+                    <h5
+                        class="text-white fw-bold cursor-pointer"
+                        @click="toProject"
+                    >
+                        {{ project.title }}
+                    </h5>
                     <p class="fw-normal">
                         Fecha de inicio:
                         {{
@@ -38,6 +43,15 @@
 export default {
     props: {
         project: Object,
+    },
+    methods: {
+        toProject() {
+            console.log(this.project);
+            this.$router.push({
+                name: "show-project-user",
+                params: { projectId: this.project.id },
+            });
+        },
     },
 };
 </script>

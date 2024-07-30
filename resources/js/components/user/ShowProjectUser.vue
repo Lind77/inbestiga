@@ -8,27 +8,36 @@
                         class="main d-flex justify-content-center flex-column mt-5"
                     >
                         <h2
-                            class="main-text subtext text-white text-center mt-4"
+                            class="main-text subtext text-white text-center mt-4 mb-5"
                         >
-                            Mis<span class="main-text-bold"> proyectos</span>
+                            <span class="main-text-bold">
+                                {{ project.title }}</span
+                            >
                         </h2>
-                        <div class="input-icons">
-                            <i class="bx bx-search"></i>
-                            <input
-                                type="text"
-                                class="search form-control glass my-5"
-                                placeholder="Buscar"
-                            />
-                        </div>
-                        <CardProject
-                            v-for="project in projects"
+
+                        <CollapseCard
+                            :title="'Linea del tiempo'"
+                            :componentSelected="'TimeLine'"
+                            :project="project"
+                            @openModal="openModal"
+                        />
+
+                        <!--   
+                        <CollapseCard
+                            :title="'Integrantes'"
+                            :componentSelected="'CustomerCard'"
                             :project="project"
                         />
+                        <CollapseCard
+                            :title="'Información académica'"
+                            :componentSelected="'FormCard'"
+                        /> -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <Postmodal :project="project" />
 </template>
 <script>
 import moment from "moment";
@@ -39,7 +48,9 @@ import ProjectCard from "./ProjectCard.vue";
 import Carousel from "./Carousel.vue";
 import CarouselTest from "./CarouselTest.vue";
 import { userStore } from "../../stores/UserStore";
-import CardProject from "./CardProject.vue";
+import CollapseCard from "./CollapseCard.vue";
+import FormCard from "./FormCard.vue";
+import Postmodal from "./Postmodal.vue";
 
 export default {
     components: {
@@ -49,7 +60,9 @@ export default {
         ProjectCard,
         Carousel,
         CarouselTest,
-        CardProject,
+        CollapseCard,
+        FormCard,
+        Postmodal,
     },
     setup() {
         const store = userStore();
@@ -61,9 +74,13 @@ export default {
             projects: [],
             hidden: false,
             quotations: [],
+            project: {},
         };
     },
     methods: {
+        openModal() {
+            $("#postModal").modal("show");
+        },
         toggleSidebar() {
             this.hidden = !this.hidden;
         },
@@ -79,18 +96,11 @@ export default {
         logout() {
             this.$router.push({ name: "user-login" });
         },
-        getUserInfo() {
+        getProjectInfo() {
             axios
-                .get("/api/customer-by-id/" + this.$route.params.customerId)
+                .get("/api/projects/" + this.$route.params.projectId)
                 .then((result) => {
-                    this.info = result.data;
-                    this.quotations = result.data.quotations;
-                    result.data.quotations.forEach((quotation) => {
-                        quotation.contract.projects.forEach((project) => {
-                            project.quotation = quotation;
-                            this.projects.push(project);
-                        });
-                    });
+                    this.project = result.data;
                 })
                 .catch((err) => {
                     console.log(err);
@@ -98,7 +108,7 @@ export default {
         },
     },
     mounted() {
-        this.getUserInfo();
+        this.getProjectInfo();
     },
 };
 </script>
