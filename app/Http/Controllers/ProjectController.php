@@ -166,7 +166,9 @@ class ProjectController extends Controller
 
         $total_time = $total_maxtime + $total_mintime / 2; */
 
-        $project = Project::with(['deliveries', 'projectable', 'projectable.quotation', 'projectable.quotation.details', 'projectable.quotation.customers', 'posts'])->find($id);
+        $project = Project::with(['deliveries', 'projectable', 'projectable.quotation', 'projectable.quotation.details', 'projectable.quotation.customers', 'posts' => function ($query) {
+            $query->orderBy('created_at', 'desc')->get();
+        }, 'posts.postable', 'posts.files'])->find($id);
         return response()->json($project);
     }
 
