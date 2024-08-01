@@ -244,11 +244,18 @@ export default {
             $("#customerModal").modal("show");
         },
         postNewUpdate() {
+            if (this.store.authUser.subarea) {
+                var postable_type = "App\\Models\\User";
+            } else {
+                var postable_type = "App\\Models\\Customer";
+            }
+
             const fd = new FormData();
             fd.append("title", this.newUpdate.question);
             fd.append("body", this.newUpdate.answer);
             fd.append("file", this.filePostUploaded);
             fd.append("project_id", this.project.id);
+            fd.append("postable_type", postable_type);
             fd.append("user_id", this.store.authUser.id);
 
             axios
