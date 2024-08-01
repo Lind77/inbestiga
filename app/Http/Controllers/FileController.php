@@ -148,7 +148,7 @@ class FileController extends Controller
 
         $post = Post::create([
             'postable_id' => $request->get('user_id'),
-            'postable_type' => 'App\\Models\\User',
+            'postable_type' => $request->get('postable_type'),
             'title' => $request->get('title'),
             'body' => $request->get('body'),
             'project_id' => $request->get('project_id'),

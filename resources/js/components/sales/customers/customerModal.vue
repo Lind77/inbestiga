@@ -115,6 +115,25 @@
                             />
                         </div>
                     </div>
+                    <div class="row g-2">
+                        <div class="col mb-0" v-if="action == 2">
+                            <label for="dobBasic" class="form-label"
+                                >Fecha de nacimiento</label
+                            >
+                            <input
+                                type="date"
+                                v-if="action == 2"
+                                v-model="customer.birth_date"
+                                class="form-control"
+                            />
+                            <input
+                                type="date"
+                                v-else
+                                v-model="birth_date"
+                                class="form-control"
+                            />
+                        </div>
+                    </div>
                     <!-- <div class="row g-2">
                         <div class="col mb-0">
                             <label for="dobBasic" class="form-label">Actitud</label>
@@ -122,7 +141,7 @@
                             <input type="text" v-else v-model="attitude" class="form-control" />
                         </div>
                     </div> -->
-                    <div class="row g-2 mt-3">
+                    <div class="row g-2 mt-0">
                         <div class="col mb-0">
                             <label for="dobBasic" class="form-label"
                                 >Universidad</label

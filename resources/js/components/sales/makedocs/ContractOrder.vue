@@ -788,11 +788,26 @@ export default {
                 .then((res) => {
                     this.quotation = res.data;
                     if (this.quotation) {
+                        console.log(this.quotation);
                         this.customers = res.data.customers;
 
                         this.details = this.quotation.details;
 
                         this.documentType = 3;
+                        this.thirdArticle = this.numberToBoolean(
+                            this.quotation.contract.third_article
+                        );
+                        this.thirdArticlePlace = this.numberToBoolean(
+                            this.quotation.contract.third_article_place
+                        );
+                        this.thirdArticlePpts = this.numberToBoolean(
+                            this.quotation.contract.third_article_ppts
+                        );
+                        this.fifthArticle = this.numberToBoolean(
+                            this.quotation.contract.fifth_article
+                        );
+                        this.contract.date = this.quotation.contract.date;
+                        this.discount = this.quotation.discount;
                     } else {
                         this.customers.push(this.customer);
                     }
