@@ -25,12 +25,21 @@ class External_voucher extends Model
     public function bank_account(){
         return $this->belongsTo('App\Models\Bank_account');
     }
+    //Relación inversa uno a muchos Bank_account-Contract
+    public function cpe(){
+        return $this->belongsTo('App\Models\Cpe');
+    }
+    //Relación inversa uno a muchos Bank_account-Contract
+    public function earn_type(){
+        return $this->belongsTo('App\Models\Earn_type');
+    }
     //Relación polimorfica uno a muchos (Entities-Images)
     public function images(){
         return $this->morphMany('App\Models\Image','imageable');
     }
-    //Relacion morfeable uno a muchos (orders-contracts-payments-payment_proofs)
+    //Relacion morfeable uno a muchos (External_voucher-payments-payment_proofs)
     public function payment_proofs(){
          return $this->morphMany('App\Models\Payment_proof', 'payment_proofable');
     }
+    
 }

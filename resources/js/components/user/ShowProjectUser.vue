@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-user pt-5">
+    <div id="bg-user" class="bg-user pt-5">
         <div class="container">
             <Navbar />
             <div class="row">
@@ -16,10 +16,13 @@
                         </h2>
 
                         <CollapseCard
-                            :title="'Linea del tiempo'"
+                            class="mb-5"
+                            :title="'Historial de mi proyecto'"
                             :componentSelected="'TimeLine'"
                             :project="project"
                             @openModal="openModal"
+                            @openModalAcademic="openModalAcademic"
+                            @changeBackground="changeBackground"
                         />
 
                         <!--   
@@ -38,6 +41,7 @@
         </div>
     </div>
     <Postmodal :project="project" />
+    <AcademicModal :project="project" />
 </template>
 <script>
 import moment from "moment";
@@ -51,6 +55,7 @@ import { userStore } from "../../stores/UserStore";
 import CollapseCard from "./CollapseCard.vue";
 import FormCard from "./FormCard.vue";
 import Postmodal from "./Postmodal.vue";
+import AcademicModal from "./AcademicModal.vue";
 
 export default {
     components: {
@@ -63,6 +68,7 @@ export default {
         CollapseCard,
         FormCard,
         Postmodal,
+        AcademicModal,
     },
     setup() {
         const store = userStore();
@@ -78,6 +84,16 @@ export default {
         };
     },
     methods: {
+        openModalAcademic() {
+            $("#academicModal").modal("show");
+        },
+        changeBackground(collapsed) {
+            if (!collapsed) {
+                $("#bg-user").addClass("auto-height");
+            } else {
+                $("#bg-user").removeClass("auto-height");
+            }
+        },
         openModal() {
             $("#postModal").modal("show");
         },
@@ -101,6 +117,9 @@ export default {
                 .get("/api/projects/" + this.$route.params.projectId)
                 .then((result) => {
                     this.project = result.data;
+                    if (this.project.posts.length == 0) {
+                        $("#bg-user").addClass("auto-height");
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
@@ -113,6 +132,10 @@ export default {
 };
 </script>
 <style scoped>
+.auto-height {
+    height: 100vh !important;
+}
+
 .input-icons {
     display: flex;
     align-items: center;

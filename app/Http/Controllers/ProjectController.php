@@ -136,39 +136,9 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        /* $project = Project::with(['projectable', 'projectable.quotation'])->find($id); */
-
-        /* $quotation = $project->order->quotation;
-
-        $projectDetails = $quotation->details;
-
-        $total_mintime = 0;
-        $total_maxtime = 0;
-
-
-
-        foreach ($projectDetails as $detail) {
-            if ($detail->product_id == 34) {
-                $times = Time::where('product_id', '<', 34)->get();
-                foreach ($times as $time) {
-                    $total_mintime = $total_mintime + $time->min_time;
-                    $total_maxtime = $total_mintime + $time->max_time;
-                }
-            } else {
-                $price = Price::where('product_id', $detail->product_id)->where('price', $detail->price)->first();
-                $time = Time::where('product_id', $detail->product_id)->where('level', $price->level)->get();
-                $total_mintime = $total_mintime + $time->min_time;
-                $total_maxtime = $total_mintime + $time->max_time;
-            }
-        }
-
-
-
-        $total_time = $total_maxtime + $total_mintime / 2; */
-
-        $project = Project::with(['deliveries', 'projectable', 'projectable.quotation', 'projectable.quotation.details', 'projectable.quotation.customers', 'posts' => function ($query) {
+        $project = Project::with(['deliveries', 'projectable', 'projectable.properties', 'projectable.quotation', 'projectable.quotation.details', 'projectable.quotation.customers', 'posts' => function ($query) {
             $query->orderBy('created_at', 'desc')->get();
-        }, 'posts.postable', 'posts.files'])->find($id);
+        }, 'posts.postable', 'posts.files', 'team', 'team.users', 'team.users.roles'])->find($id);
         return response()->json($project);
     }
 

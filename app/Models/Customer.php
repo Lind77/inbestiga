@@ -11,7 +11,7 @@ class Customer extends Authenticatable
 {
     use HasFactory, HasApiTokens;
 
-    protected $fillable = ['name', 'password', 'cell', 'dni', 'address', 'university', 'career', 'status', 'email', 'user_id', 'origin', 'time', 'needs', 'interest', 'attitude', 'userregister_id', 'birth_date', 'type'];
+    protected $fillable = ['name', 'password', 'cell', 'dni', 'address', 'university', 'career', 'status', 'email', 'user_id', 'origin', 'time', 'needs', 'interest', 'attitude', 'userregister_id', 'birth_date', 'type','province_id'];
 
 
     //Relacion muchos a muchos Customer-Quotations
@@ -48,5 +48,10 @@ class Customer extends Authenticatable
     public function posts()
     {
         return $this->morphMany('App\Models\Post', 'postable');
+    }
+    //Relacion inversa uno a muchos province-customer
+    public function province()
+    {
+        return $this->belongsTo('App\Models\Province');
     }
 }

@@ -4,13 +4,15 @@
             class="d-flex justify-content-around text-white button-multiple py-2"
         >
             <div
-                class="d-flex flex-row justify-content-center align-items-center"
+                @click="openModalAcademic"
+                class="d-flex flex-row justify-content-center align-items-center cursor-pointer"
             >
                 Información <br />
                 académica <i class="bx bx-book-open ms-3"></i>
             </div>
             <div
-                class="d-flex flex-row justify-content-center align-items-center"
+                @click="toCalendly"
+                class="d-flex flex-row justify-content-center align-items-center cursor-pointer"
             >
                 Agenda <br />
                 tu reunión <i class="bx bx-video-plus ms-3"></i>
@@ -34,8 +36,22 @@ export default {
         project: Object,
     },
     methods: {
+        openModalAcademic() {
+            this.$emit("openModalAcademic");
+        },
         openModalPost() {
             this.$emit("openModal");
+        },
+        toCalendly() {
+            var team = this.project.team;
+
+            var coordSelected = team.users.find(
+                (user) => user.roles[0].name == "CoordAcad"
+            );
+
+            console.log(coordSelected);
+
+            window.open(coordSelected.calendly_user);
         },
     },
 };
