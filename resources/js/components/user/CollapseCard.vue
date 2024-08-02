@@ -29,6 +29,7 @@
                         :is="componentSelected"
                         :project="project"
                         @openModal="openModal"
+                        @openModalAcademic="openModalAcademic"
                     ></component>
                 </div>
             </div>
@@ -49,14 +50,18 @@ export default {
     },
     data() {
         return {
-            collapse: true,
+            collapse: false,
         };
     },
     methods: {
+        openModalAcademic() {
+            this.$emit("openModalAcademic");
+        },
         openModal() {
             this.$emit("openModal");
         },
         collapseCard() {
+            this.$emit("changeBackground", this.collapse);
             this.collapse = !this.collapse;
         },
     },
