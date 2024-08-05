@@ -14,4 +14,9 @@ class Department extends Model
     {
         return $this->hasMany('App\Models\Province');
     }
+    // Relación uno a muchos Departmet-district´
+    public function districts()
+    {
+        return $this->hasMany('App\Models\District');
+    }
 }
