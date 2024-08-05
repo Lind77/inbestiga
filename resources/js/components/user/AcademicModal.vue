@@ -168,20 +168,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <button
-                                v-if="typeQuiz == 0"
-                                class="btn btn-success w-100 mt-2"
-                                @click="saveFields"
-                            >
-                                Insertar
-                            </button>
-                            <button
-                                v-else
-                                class="btn btn-success w-25 mt-2"
-                                @click="saveFields"
-                            >
-                                Actualizar
-                            </button>
+                            <div class="d-flex justify-content-center">
+                                <button
+                                    v-if="typeQuiz == 0"
+                                    class="btn btn-gradient w-100 mt-2"
+                                    @click="saveFields"
+                                >
+                                    Insertar
+                                </button>
+                                <button
+                                    v-else
+                                    class="btn btn-gradient w-25 mt-2"
+                                    @click="saveFields"
+                                >
+                                    Actualizar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -295,5 +297,16 @@ select,
 textarea {
     background: none !important;
     color: #fff !important;
+}
+
+.btn-gradient {
+    background: linear-gradient(
+        22deg,
+        rgba(251, 21, 215, 1) 0%,
+        rgba(127, 33, 251, 1) 73%
+    );
+    border: none;
+    color: #fff;
+    margin: 0px auto;
 }
 </style>
