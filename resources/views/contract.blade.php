@@ -282,8 +282,7 @@
                 <p style="margin-top: -3px; margin-bottom: -5px;">El pago será abonado bajo las siguientes modalidades:</p>
                 
                 <ul style="margin-top: -5px;">
-                    <li> En efectivo: Exclusivamente en las instalaciones de la empresa, durante las horas hábiles de atención.</li>
-                    <li><span>Beneficios por pago en efectivo:</span> Para pagos en efectivo se hará descuento del 5%.</li>
+                    <li> En efectivo: Exclusivamente en las instalaciones de la empresa, durante las horas hábiles de atención.<span> Beneficios por pago en efectivo:</span> Para pagos en efectivo se hará descuento del 5%.</li>
                     <li> Link de pago: Este método se facilitará mediante plataformas seguras y confiables como Izi Pay y Niubiz, garantizando así la protección de sus datos financieros. El link para el pago se generará y enviará al cliente después de una coordinación previa con el asesor comercial asignado, ofreciendo una solución práctica y segura para realizar su pago.</li> 
                     <li>Transferencias Bancarias: Los pagos también podrán ser realizados a través de transferencias bancarias hacia cuentas específicamente autorizadas por la organización.</li>     
                 </ul>
