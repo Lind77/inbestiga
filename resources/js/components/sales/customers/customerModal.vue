@@ -377,6 +377,7 @@ export default {
             departmentSelectedId: 0,
             provinces: [],
             provinceSelectedId: 0,
+            birth_date: null,
         };
     },
     methods: {
