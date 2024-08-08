@@ -460,7 +460,7 @@ export default {
             fd.append("channel", this.channel);
             fd.append("user_id", 12);
             fd.append("userregister_id", this.store.authUser.id);
-            fd.append("birth_date", this.birth_date);
+            /* fd.append("birth_date", this.birth_date); */
             fd.append("province_id", this.provinceSelectedId);
             fd.append("type", this.type);
 

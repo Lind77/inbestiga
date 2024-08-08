@@ -73,7 +73,7 @@ class CustomerController extends Controller
                 'dni' => $request->get('dni'),
                 'address' => $request->get('address'),
                 'userregister_id' => $request->get('userregister_id'),
-                'birth_date' => $request->get('birth_date'),
+                /* 'birth_date' => $request->get('birth_date'), */
                 'province_id' => $request->get('province_id')
             ]);
             return response()->json([
