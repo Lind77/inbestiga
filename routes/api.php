@@ -14,6 +14,7 @@ use App\Http\Controllers\ComunicationController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliveryController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FixedActivityController;
@@ -408,3 +409,5 @@ Route::get('/bank-accounts', [BankAccountController::class, 'index']);
 Route::get('/filter-quotations', [QuotationController::class, 'filterQuotations']);
 Route::post('/filter-dates', [QuotationController::class, 'filterDates']);
 Route::get('/customers-lobo', [QuotationController::class, 'customersLobo']);
+
+Route::get('/addressData', [DepartmentController::class, 'addressData']);

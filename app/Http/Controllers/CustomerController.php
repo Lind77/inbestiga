@@ -72,7 +72,9 @@ class CustomerController extends Controller
                 'status' => $request->get('status'),
                 'dni' => $request->get('dni'),
                 'address' => $request->get('address'),
-                'userregister_id' => $request->get('userregister_id')
+                'userregister_id' => $request->get('userregister_id'),
+                'birth_date' => $request->get('birth_date'),
+                'province_id' => $request->get('province_id')
             ]);
             return response()->json([
                 'msg' => 'success'
@@ -121,7 +123,9 @@ class CustomerController extends Controller
             'career' => $request->get('career'),
             'email' => $request->get('email'),
             'dni' => $request->get('dni'),
-            'address' => $request->get('address')
+            'address' => $request->get('address'),
+            'birth_date' => $request->get('birth_date'),
+            'province_id' => $request->get('province_id')
         ]);
 
         return response()->json([
