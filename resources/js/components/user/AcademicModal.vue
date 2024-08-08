@@ -186,6 +186,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <FilesRequired
+                            :filesProject="filesProject"
+                            :filesRequired="filesRequired"
+                            :project="project"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
@@ -193,7 +200,12 @@
 </template>
 <script>
 import { userStore } from "../../stores/UserStore";
+import FilesRequired from "./FilesRequired.vue";
+
 export default {
+    components: {
+        FilesRequired,
+    },
     setup() {
         const store = userStore();
         return { store };
@@ -213,6 +225,29 @@ export default {
             },
             actualProject: {},
             typeQuiz: 0,
+            filesProject: [],
+            filesRequired: [
+                {
+                    label: "Reglamento / lineamientos de investigación",
+                    status: 1,
+                    complete: false,
+                },
+                {
+                    label: "Estructura de plan de tesis/ informe final",
+                    status: 2,
+                    complete: false,
+                },
+                {
+                    label: "Plantilla de tesis o ejemplo de tesis",
+                    status: 3,
+                    complete: false,
+                },
+                {
+                    label: "Manual de redacción de su universidad (APA, ISO, Vancouver)",
+                    status: 4,
+                    complete: false,
+                },
+            ],
         };
     },
     methods: {
@@ -271,6 +306,7 @@ export default {
     },
     watch: {
         project(val) {
+            console.log(val);
             this.actualProject = val;
             this.typeQuiz =
                 this.actualProject.projectable.properties[0].project_situation_id;

@@ -1,6 +1,6 @@
 <template>
     <div class="modal fade" id="customerModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5
@@ -22,118 +22,249 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col">
-                            <label for="nameBasic" class="form-label"
-                                >Nombre</label
-                            >
-                            <input
-                                type="text"
-                                v-if="action == 2"
-                                v-model="customer.name"
-                                class="form-control"
-                            />
-                            <input
-                                type="text"
-                                v-else
-                                v-model="name"
-                                class="form-control"
-                            />
+                        <div class="col-12 col-lg-4">
+                            <div class="col">
+                                <label for="nameBasic" class="form-label"
+                                    >Nombre</label
+                                >
+                                <input
+                                    type="text"
+                                    v-if="action == 2"
+                                    v-model="customer.name"
+                                    class="form-control"
+                                />
+                                <input
+                                    type="text"
+                                    v-else
+                                    v-model="name"
+                                    class="form-control"
+                                />
+                            </div>
+
+                            <div class="row g-2">
+                                <div class="col mb-0">
+                                    <label for="nameBasic" class="form-label"
+                                        >Celular</label
+                                    >
+                                    <input
+                                        type="text"
+                                        v-if="action == 2"
+                                        v-model="customer.cell"
+                                        class="form-control"
+                                    />
+                                    <input
+                                        type="text"
+                                        v-else
+                                        v-model="cell"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col mb-0" v-if="action == 2">
+                                    <label for="nameBasic" class="form-label"
+                                        >Email</label
+                                    >
+                                    <input
+                                        type="email"
+                                        v-if="action == 2"
+                                        v-model="customer.email"
+                                        class="form-control"
+                                    />
+                                    <input
+                                        type="text"
+                                        v-else
+                                        v-model="email"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="row g-2">
+                                <div class="col mb-0" v-if="action == 2">
+                                    <label for="dobBasic" class="form-label"
+                                        >DNI</label
+                                    >
+                                    <input
+                                        type="text"
+                                        v-if="action == 2"
+                                        v-model="customer.dni"
+                                        class="form-control"
+                                    />
+                                    <input
+                                        type="text"
+                                        v-else
+                                        v-model="dni"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col mb-0" v-if="action == 2">
+                                    <label for="dobBasic" class="form-label"
+                                        >Dirección</label
+                                    >
+                                    <input
+                                        type="text"
+                                        v-if="action == 2"
+                                        v-model="customer.address"
+                                        class="form-control"
+                                    />
+                                    <input
+                                        type="text"
+                                        v-else
+                                        v-model="address"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col mb-0" v-if="action == 2">
+                                    <label for="dobBasic" class="form-label"
+                                        >Fecha de nacimiento</label
+                                    >
+                                    <input
+                                        type="date"
+                                        v-if="action == 2"
+                                        v-model="customer.birth_date"
+                                        class="form-control"
+                                    />
+                                    <input
+                                        type="date"
+                                        v-else
+                                        v-model="birth_date"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col mb-0">
-                            <label for="nameBasic" class="form-label"
-                                >Celular</label
-                            >
-                            <input
-                                type="text"
-                                v-if="action == 2"
-                                v-model="customer.cell"
-                                class="form-control"
-                            />
-                            <input
-                                type="text"
-                                v-else
-                                v-model="cell"
-                                class="form-control"
-                            />
+                        <div class="col-12 col-lg-4">
+                            <div class="row g-2 mt-0">
+                                <div class="col mb-0 mt-0">
+                                    <label for="dobBasic" class="form-label"
+                                        >Universidad</label
+                                    >
+                                    <input
+                                        type="text"
+                                        v-if="action == 2"
+                                        v-model="customer.university"
+                                        class="form-control"
+                                    />
+                                    <input
+                                        type="text"
+                                        v-else
+                                        v-model="university"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col mb-0">
+                                    <label for="emailBasic" class="form-label"
+                                        >Carrera o mención</label
+                                    >
+                                    <input
+                                        type="text"
+                                        v-if="action == 2"
+                                        v-model="customer.career"
+                                        class="form-control"
+                                    />
+                                    <input
+                                        type="text"
+                                        v-else
+                                        v-model="career"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row g-2" v-if="action == 2">
+                                <div class="col mb-0">
+                                    <label class="form-label">Situación</label>
+                                    <select
+                                        class="form-select"
+                                        v-model="customer.type"
+                                    >
+                                        <option value="1" default>
+                                            Tesis sin avance
+                                        </option>
+                                        <option value="2">
+                                            Tesis con avance
+                                        </option>
+                                        <option value="3">
+                                            Artículo Científico
+                                        </option>
+                                        <option value="4">
+                                            Otra Modalidad de Titulación
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col mb-0" v-if="action == 2">
-                            <label for="nameBasic" class="form-label"
-                                >Email</label
+                        <div class="col-12 col-lg-4">
+                            <label for="emailBasic" class="form-label"
+                                >Departamento</label
                             >
-                            <input
-                                type="email"
-                                v-if="action == 2"
-                                v-model="customer.email"
+                            <select
+                                v-if="
+                                    action == 2 && customer && customer.province
+                                "
                                 class="form-control"
-                            />
-                            <input
-                                type="text"
+                                @change="selectProvinces"
+                                v-model="customer.province.department_id"
+                            >
+                                <option
+                                    :value="department.id"
+                                    v-for="department in departments"
+                                >
+                                    {{ department.name }}
+                                </option>
+                            </select>
+                            <select
                                 v-else
-                                v-model="email"
                                 class="form-control"
-                            />
+                                @change="selectProvinces"
+                                v-model="departmentSelectedId"
+                            >
+                                <option
+                                    :value="department.id"
+                                    v-for="department in departments"
+                                >
+                                    {{ department.name }}
+                                </option>
+                            </select>
+                            <label for="emailBasic" class="form-label"
+                                >Provincia</label
+                            >
+                            <select
+                                v-if="
+                                    action == 2 && customer && customer.province
+                                "
+                                class="form-control"
+                                v-model="customer.province_id"
+                            >
+                                <option
+                                    :value="province.id"
+                                    v-for="province in customer.province
+                                        .department.provinces"
+                                >
+                                    {{ province.name }}
+                                </option>
+                            </select>
+                            <select
+                                v-else
+                                class="form-control"
+                                v-model="provinceSelectedId"
+                            >
+                                <option
+                                    :value="province.id"
+                                    v-for="province in provinces"
+                                >
+                                    {{ province.name }}
+                                </option>
+                            </select>
                         </div>
                     </div>
 
-                    <div class="row g-2">
-                        <div class="col mb-0" v-if="action == 2">
-                            <label for="dobBasic" class="form-label">DNI</label>
-                            <input
-                                type="text"
-                                v-if="action == 2"
-                                v-model="customer.dni"
-                                class="form-control"
-                            />
-                            <input
-                                type="text"
-                                v-else
-                                v-model="dni"
-                                class="form-control"
-                            />
-                        </div>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col mb-0" v-if="action == 2">
-                            <label for="dobBasic" class="form-label"
-                                >Dirección</label
-                            >
-                            <input
-                                type="text"
-                                v-if="action == 2"
-                                v-model="customer.address"
-                                class="form-control"
-                            />
-                            <input
-                                type="text"
-                                v-else
-                                v-model="address"
-                                class="form-control"
-                            />
-                        </div>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col mb-0" v-if="action == 2">
-                            <label for="dobBasic" class="form-label"
-                                >Fecha de nacimiento</label
-                            >
-                            <input
-                                type="date"
-                                v-if="action == 2"
-                                v-model="customer.birth_date"
-                                class="form-control"
-                            />
-                            <input
-                                type="date"
-                                v-else
-                                v-model="birth_date"
-                                class="form-control"
-                            />
-                        </div>
-                    </div>
                     <!-- <div class="row g-2">
                         <div class="col mb-0">
                             <label for="dobBasic" class="form-label">Actitud</label>
@@ -141,59 +272,7 @@
                             <input type="text" v-else v-model="attitude" class="form-control" />
                         </div>
                     </div> -->
-                    <div class="row g-2 mt-0">
-                        <div class="col mb-0">
-                            <label for="dobBasic" class="form-label"
-                                >Universidad</label
-                            >
-                            <input
-                                type="text"
-                                v-if="action == 2"
-                                v-model="customer.university"
-                                class="form-control"
-                            />
-                            <input
-                                type="text"
-                                v-else
-                                v-model="university"
-                                class="form-control"
-                            />
-                        </div>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col mb-0">
-                            <label for="emailBasic" class="form-label"
-                                >Carrera o mención</label
-                            >
-                            <input
-                                type="text"
-                                v-if="action == 2"
-                                v-model="customer.career"
-                                class="form-control"
-                            />
-                            <input
-                                type="text"
-                                v-else
-                                v-model="career"
-                                class="form-control"
-                            />
-                        </div>
-                    </div>
-                    <div class="row g-2" v-if="action == 2">
-                        <div class="col mb-0">
-                            <label class="form-label">Situación</label>
-                            <select class="form-select" v-model="customer.type">
-                                <option value="1" default>
-                                    Tesis sin avance
-                                </option>
-                                <option value="2">Tesis con avance</option>
-                                <option value="3">Artículo Científico</option>
-                                <option value="4">
-                                    Otra Modalidad de Titulación
-                                </option>
-                            </select>
-                        </div>
-                    </div>
+
                     <!-- <div class="row g-2" v-if="action != 2">
                         <div class="col mb-0">
                             <label for="emailBasic" class="form-label">Origen</label>
@@ -294,9 +373,21 @@ export default {
             channel: 0,
             status: 1,
             attitude: "",
+            departments: [],
+            departmentSelectedId: 0,
+            provinces: [],
+            provinceSelectedId: 0,
         };
     },
     methods: {
+        selectProvinces() {
+            var provinces = this.departments.find(
+                (d) => d.id == this.departmentSelectedId
+            ).provinces;
+            console.log(provinces);
+
+            this.provinces = provinces;
+        },
         updateCustomer() {
             const fd = new FormData();
             fd.append("_method", "put");
@@ -309,6 +400,8 @@ export default {
             fd.append("dni", this.customer.dni);
             fd.append("address", this.customer.address);
             fd.append("attitude", this.customer.attitude);
+            fd.append("birth_date", this.customer.birth_date);
+            fd.append("province_id", this.provinceSelectedId);
             fd.append("type", this.customer.type);
             axios
                 .post(`/api/customers/${this.customer.id}`, fd)
@@ -366,6 +459,8 @@ export default {
             fd.append("channel", this.channel);
             fd.append("user_id", 12);
             fd.append("userregister_id", this.store.authUser.id);
+            fd.append("birth_date", this.birth_date);
+            fd.append("province_id", this.provinceSelectedId);
             fd.append("type", this.type);
 
             axios
@@ -415,9 +510,20 @@ export default {
                     console.log(err.response.data);
                 });
         },
+        getDataAddress() {
+            axios
+                .get("/api/addressData")
+                .then((result) => {
+                    this.departments = result.data.departments;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
     },
     mounted() {
         this.getAllUsers();
+        this.getDataAddress();
     },
 };
 </script>

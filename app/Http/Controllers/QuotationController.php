@@ -188,7 +188,7 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        $quotation = Quotation::where('id', $id)->with(['customers', 'customers.user', 'customers.comunications', 'details', 'details.product', 'order', 'contract', 'contract.projects', 'contract.projects.team', 'contract.projects.team.users', 'contract.projects.team.users.roles', 'contract.projects.files', 'contract.projects.posts' => function ($query) {
+        $quotation = Quotation::where('id', $id)->with(['customers', 'customers.province', 'customers.province.department', 'customers.province.department.provinces', 'customers.user', 'customers.comunications', 'details', 'details.product', 'order', 'contract', 'contract.projects', 'contract.projects.team', 'contract.projects.team.users', 'contract.projects.team.users.roles', 'contract.projects.files', 'contract.projects.posts' => function ($query) {
             $query->orderBy('id', 'desc')->get();
         }, 'contract.projects.posts.files', 'contract.properties' => function ($query) {
             $query->orderBy('id', 'desc')->first();
