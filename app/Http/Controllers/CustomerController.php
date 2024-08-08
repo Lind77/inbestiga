@@ -124,7 +124,7 @@ class CustomerController extends Controller
             'email' => $request->get('email'),
             'dni' => $request->get('dni'),
             'address' => $request->get('address'),
-            'birth_date' => $request->get('birth_date'),
+            /* 'birth_date' => $request->get('birth_date'), */
             'province_id' => $request->get('province_id')
         ]);
 
