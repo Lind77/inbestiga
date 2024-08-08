@@ -204,6 +204,7 @@
                             <label for="emailBasic" class="form-label"
                                 >Departamento</label
                             >
+
                             <select
                                 v-if="
                                     action == 2 && customer && customer.province
@@ -264,24 +265,6 @@
                             </select>
                         </div>
                     </div>
-
-                    <!-- <div class="row g-2">
-                        <div class="col mb-0">
-                            <label for="dobBasic" class="form-label">Actitud</label>
-                            <input type="text" v-if="action == 2" v-model="customer.attitude" class="form-control" />
-                            <input type="text" v-else v-model="attitude" class="form-control" />
-                        </div>
-                    </div> -->
-
-                    <!-- <div class="row g-2" v-if="action != 2">
-                        <div class="col mb-0">
-                            <label for="emailBasic" class="form-label">Origen</label>
-                            <select class="form-select" v-model="origin">
-                                <option value="1">Marketing</option>
-                                <option value="2">Referido</option>
-                            </select>
-                        </div>
-                    </div> -->
 
                     <div v-show="origin == 1" class="row g-2">
                         <div class="col mb-0">
