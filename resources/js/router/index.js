@@ -135,6 +135,7 @@ import UsersLogin from '../components/user/Login.vue'
 import HomeUser from '../components/user/HomeUser.vue'
 import ProjectUser from '../components/user/ProjectUser.vue'
 import DocumentationUser from '../components/user/DocumentationUser.vue'
+import ExperienceUser from '../components/user/ExperienceUser.vue'
 import ShowProjectUser from '../components/user/ShowProjectUser.vue'
 
 //Notifications
@@ -172,6 +173,11 @@ export const routes = [
         component: ProjectUser,
         name: 'project-user',
         props: true
+    },
+    {
+        path: '/experience-user',
+        component: ExperienceUser,
+        name: 'experience-user'
     },
     {
         path: '/user-documentation/:quotationId',

@@ -6,7 +6,7 @@
             </a>
         </li>
         <li>
-            <a class="dropdown-item cursor-pointer">
+            <a class="dropdown-item cursor-pointer" @click="toExperienceUser">
                 <span class="align-middle">Mi experiencia</span>
             </a>
         </li>
@@ -33,6 +33,9 @@ export default {
         customerId: Number,
     },
     methods: {
+        toExperienceUser() {
+            this.$router.push({ name: "experience-user" });
+        },
         toMyProjects() {
             this.$router.push({
                 name: "project-user",

@@ -1,5 +1,5 @@
 <template>
-    <div class="glass-card mx-2 pb-2">
+    <div class="glass-card mx-2 pb-2 my-4">
         <img
             :src="imageUrl"
             alt=""
@@ -7,7 +7,7 @@
             class="img-card cursor-pointer"
             @click="openModalVideo"
         />
-        <p class="fw-normal text-center text-white mt-3 mb-3">{{ text }}</p>
+        <p class="fw-bold text-center text-white mt-3 mb-3">{{ text }}</p>
     </div>
 </template>
 <script>
