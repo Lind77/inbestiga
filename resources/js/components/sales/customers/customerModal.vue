@@ -204,24 +204,7 @@
                             <label for="emailBasic" class="form-label"
                                 >Departamento</label
                             >
-
                             <select
-                                v-if="
-                                    action == 2 && customer && customer.province
-                                "
-                                class="form-control"
-                                @change="selectProvinces"
-                                v-model="customer.province.department_id"
-                            >
-                                <option
-                                    :value="department.id"
-                                    v-for="department in departments"
-                                >
-                                    {{ department.name }}
-                                </option>
-                            </select>
-                            <select
-                                v-else
                                 class="form-control"
                                 @change="selectProvinces"
                                 v-model="departmentSelectedId"
@@ -233,26 +216,11 @@
                                     {{ department.name }}
                                 </option>
                             </select>
+
                             <label for="emailBasic" class="form-label"
                                 >Provincia</label
                             >
                             <select
-                                v-if="
-                                    action == 2 && customer && customer.province
-                                "
-                                class="form-control"
-                                v-model="customer.province_id"
-                            >
-                                <option
-                                    :value="province.id"
-                                    v-for="province in customer.province
-                                        .department.provinces"
-                                >
-                                    {{ province.name }}
-                                </option>
-                            </select>
-                            <select
-                                v-else
                                 class="form-control"
                                 v-model="provinceSelectedId"
                             >
@@ -365,6 +333,8 @@ export default {
     },
     methods: {
         selectProvinces() {
+            console.log(this.departmentSelectedId);
+
             var provinces = this.departments.find(
                 (d) => d.id == this.departmentSelectedId
             ).provinces;
@@ -508,6 +478,16 @@ export default {
     mounted() {
         this.getAllUsers();
         this.getDataAddress();
+    },
+    watch: {
+        customer(val) {
+            console.log(val);
+            if (val.province) {
+                this.departmentSelectedId = val.province.department_id;
+                this.provinces = val.province.department.provinces;
+                this.provinceSelectedId = val.province_id;
+            }
+        },
     },
 };
 </script>
