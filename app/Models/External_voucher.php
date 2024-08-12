@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class External_voucher extends Model
 {
     use HasFactory;
-    protected $fillable = ['operation_code','amount','payment_concept','date','status','observation','contract_id','customer_id','bank_account_id','payment_method_id'];
+    protected $fillable = ['operation_code','amount','payment_concept','date','status','observation','contract_id','customer_id','bank_account_id','payment_method_id','external_discount','internal_discount','partial_amount','taxes','net_profit'];
     //Relación uno a muchos inverso Payment_method-External_voucher
     public function payment_method(){
         return $this->belongsTo('App\Models\Payment_method');
