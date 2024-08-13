@@ -21,7 +21,7 @@
             </a>
         </li>
         <li>
-            <a class="dropdown-item cursor-pointer">
+            <a class="dropdown-item cursor-pointer" @click="toBilling">
                 <span class="align-middle">Facturación</span>
             </a>
         </li>
@@ -33,6 +33,12 @@ export default {
         customerId: Number,
     },
     methods: {
+        toBilling() {
+            this.$router.push({
+                name: "billing-user",
+                params: { customerId: this.customerId },
+            });
+        },
         toExperienceUser() {
             this.$router.push({ name: "experience-user" });
         },
