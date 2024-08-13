@@ -28,6 +28,7 @@
                     <component
                         :is="componentSelected"
                         :project="project"
+                        :quotations="quotations"
                         @openModal="openModal"
                         @openModalAcademic="openModalAcademic"
                     ></component>
@@ -40,13 +41,15 @@
 import ContractCard from "./ContractCard.vue";
 import CustomerCard from "./CustomerCard.vue";
 import TimeLine from "./TimeLine.vue";
+import TablePayment from "./TablePayments.vue";
 
 export default {
-    components: { ContractCard, CustomerCard, TimeLine },
+    components: { ContractCard, CustomerCard, TimeLine, TablePayment },
     props: {
         title: String,
         componentSelected: String,
         project: Object,
+        quotations: Array,
     },
     data() {
         return {

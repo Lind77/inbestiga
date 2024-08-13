@@ -137,6 +137,7 @@ import ProjectUser from '../components/user/ProjectUser.vue'
 import DocumentationUser from '../components/user/DocumentationUser.vue'
 import ExperienceUser from '../components/user/ExperienceUser.vue'
 import ShowProjectUser from '../components/user/ShowProjectUser.vue'
+import BillingUser from '../components/user/BillingUser.vue'
 
 //Notifications
 import Notifications from '../components/layout/Notifications.vue'
@@ -189,6 +190,12 @@ export const routes = [
         path: '/show-project-user/:projectId',
         component: ShowProjectUser,
         name: 'show-project-user',
+        props: true
+    },
+    {
+        path: '/billing-user/:customerId',
+        component: BillingUser,
+        name: 'billing-user',
         props: true
     },
     {
