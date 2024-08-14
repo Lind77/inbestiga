@@ -8,9 +8,11 @@
             </tr>
         </thead>
         <tbody>
-            {{
-                project
-            }}
+            <tr v-for="payment in project.payments">
+                <td>S./ {{ payment.amount }}</td>
+                <td>{{ payment.date }}</td>
+                <td>{{ payment.status }}</td>
+            </tr>
         </tbody>
     </table>
 </template>
@@ -23,6 +25,10 @@ export default {
 </script>
 <style scoped>
 th {
+    color: #fff;
+    text-align: center;
+}
+td {
     color: #fff;
     text-align: center;
 }
