@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     use HasFactory;
-    protected $fillable = ['paymentable_id', 'paymentable_type','date','amount', 'advance', 'percentage','status','amount_remain'];
+    protected $fillable = ['paymentable_id', 'paymentable_type','date','amount', 'advance', 'percentage','status','amount_remain','amount_payed'];
     //Relacion polimorfica uno a muchos inversa contract_orders-payments
     public function paymentable(){
         return $this->morphTo();
