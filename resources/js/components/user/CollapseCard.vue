@@ -31,6 +31,7 @@
                         :quotations="quotations"
                         @openModal="openModal"
                         @openModalAcademic="openModalAcademic"
+                        @showModalVouchers="showModalVouchers"
                     ></component>
                 </div>
             </div>
@@ -44,7 +45,12 @@ import TimeLine from "./TimeLine.vue";
 import TablePayment from "./TablePayments.vue";
 
 export default {
-    components: { ContractCard, CustomerCard, TimeLine, TablePayment },
+    components: {
+        ContractCard,
+        CustomerCard,
+        TimeLine,
+        TablePayment,
+    },
     props: {
         title: String,
         componentSelected: String,
@@ -54,9 +60,13 @@ export default {
     data() {
         return {
             collapse: false,
+            projectSelected: {},
         };
     },
     methods: {
+        showModalVouchers() {
+            this.$emit("showModalVouchers", this.project);
+        },
         openModalAcademic() {
             this.$emit("openModalAcademic");
         },

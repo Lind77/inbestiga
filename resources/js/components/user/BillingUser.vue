@@ -18,12 +18,14 @@
                             :quotations="quotations"
                             :title="'Pagos de ' + project.title"
                             :componentSelected="'TablePayment'"
+                            @showModalVouchers="showModalVouchers"
                         />
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <VouchersModal :project="projectSelected" />
 </template>
 <script>
 import moment from "moment";
@@ -34,6 +36,7 @@ import ProjectCard from "./ProjectCard.vue";
 import Carousel from "./Carousel.vue";
 import CarouselTest from "./CarouselTest.vue";
 import CollapseCard from "./CollapseCard.vue";
+import VouchersModal from "./VouchersModal.vue";
 
 import { userStore } from "../../stores/UserStore";
 
@@ -46,6 +49,7 @@ export default {
         Carousel,
         CarouselTest,
         CollapseCard,
+        VouchersModal,
     },
     setup() {
         const store = userStore();
@@ -57,9 +61,14 @@ export default {
             projects: [],
             hidden: false,
             quotations: [],
+            projectSelected: {},
         };
     },
     methods: {
+        showModalVouchers(project) {
+            this.projectSelected = project;
+            $("#vouchersModal").modal("show");
+        },
         toggleSidebar() {
             this.hidden = !this.hidden;
         },
@@ -83,7 +92,9 @@ export default {
                     this.quotations = result.data.quotations;
                     result.data.quotations.forEach((quotation) => {
                         quotation.contract.projects.forEach((project) => {
-                            project.contracts = quotation.contracts;
+                            project.payment_proofs =
+                                quotation.contract.payment_proofs;
+                            project.payments = quotation.contract.payments;
                             this.projects.push(project);
                         });
                     });
