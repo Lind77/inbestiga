@@ -16,10 +16,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="payment in project.payment_proofs">
-                                <td>{{ payment.date }}</td>
-                                <td>S./ {{ payment.total_price }}</td>
-                                <td>{{ payment.type }}</td>
+                            <tr v-for="voucher in project.vouchers">
+                                <td>{{ voucher.date }}</td>
+                                <td>S./ {{ voucher.amount }}</td>
+                                <td>{{ voucher.status }}</td>
                                 <td>
                                     <button class="btn btn-icon btn-success">
                                         <i class="bx bx-file"></i>
