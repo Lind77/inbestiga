@@ -36,6 +36,7 @@ class VoucherController extends Controller
      */
     public function store(Request $request)
     {
+
         $payment_proof = Payment_proof::create([
             'payment_proofable_id' => $request->get('payment_proofable_id'),
             'payment_proofable_type' => $request->get('payment_proofable_type'),

@@ -16,6 +16,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\ExternalVoucherController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
@@ -343,6 +344,8 @@ Route::get('/projects-properties', [PropertiesController::class, 'properties']);
 
 Route::get('/vouchers', [VoucherController::class, 'index']);
 Route::post('/voucher', [VoucherController::class, 'store']);
+
+Route::post('/external-voucher', [ExternalVoucherController::class, 'store']);
 
 Route::get('/chats/{id}', [ChatController::class, 'show']);
 Route::get('/contacts/{id}', [ChatController::class, 'contacts']);
