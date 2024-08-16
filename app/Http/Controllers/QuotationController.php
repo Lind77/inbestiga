@@ -18,6 +18,7 @@ use App\Models\Seen;
 use App\Models\User;
 use Illuminate\Http\Request;
 use PDF;
+use Illuminate\Support\Facades\Hash;
 
 class QuotationController extends Controller
 {
@@ -390,6 +391,16 @@ class QuotationController extends Controller
 
             $user = User::find($request->get('user_id'));
         }
+
+        if ($status == 11) {
+            $quotation->customers->each(function ($customer) use ($quotation) {
+                $customer->update([
+                    'password' => Hash::make($quotation->customer->dni)
+                ]);
+            });
+        }
+
+
 
         broadcast(new NewCustomer($user));
 
