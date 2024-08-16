@@ -27,23 +27,73 @@
         <button class="btn btn-gradient" @click="showModalVouchers">
             Ver vouchers
         </button>
-        <button class="btn btn-gradient ms-2">Subir voucher</button>
+        <input
+            type="file"
+            id="uploadVoucherInput"
+            accept="image/x-png,image/gif,image/jpeg"
+            hidden
+            @change="postVoucher"
+        />
+        <button class="btn btn-gradient ms-2" @click="uploadVoucher">
+            Subir voucher
+        </button>
     </div>
 </template>
 <script>
+import { userStore } from "../../stores/UserStore";
+
 export default {
+    setup() {
+        const store = userStore();
+        return { store };
+    },
     props: {
         project: Object,
+        userId: Number,
     },
     data() {
         return {
             projectSelected: {},
+            filePostUploaded: {},
         };
     },
     methods: {
+        uploadVoucher() {
+            $("#uploadVoucherInput").click();
+        },
         showModalVouchers() {
             console.log(this.project);
             this.$emit("showModalVouchers", this.project);
+        },
+        postVoucher(event) {
+            var file = event.target.files[0];
+            this.filePostUploaded = file;
+
+            var reader = new FileReader();
+            reader.onload = async (event) => {
+                this.storeVoucher();
+            };
+            reader.readAsText(file);
+        },
+        storeVoucher() {
+            const fd = new FormData();
+
+            fd.append("customerId", this.userId);
+            fd.append("contractId", this.project.contract.id);
+            fd.append("file", this.filePostUploaded);
+
+            axios
+                .post("/api/external-voucher", fd, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                .then((result) => {
+                    this.$swal("Voucher subido correctamente");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
     },
     computed: {

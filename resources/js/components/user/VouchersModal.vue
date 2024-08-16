@@ -21,7 +21,10 @@
                                 <td>S./ {{ voucher.amount }}</td>
                                 <td>{{ voucher.status }}</td>
                                 <td>
-                                    <button class="btn btn-icon btn-success">
+                                    <button
+                                        class="btn btn-icon btn-success"
+                                        @click="showVoucherImage(voucher)"
+                                    >
                                         <i class="bx bx-file"></i>
                                     </button>
                                 </td>
@@ -37,6 +40,15 @@
 export default {
     props: {
         project: Object,
+    },
+    methods: {
+        showVoucherImage(voucher) {
+            var imageUrl = voucher.images[0].url;
+
+            window.open(
+                "https://inbestiga.com/inbestiga/public/files/" + imageUrl
+            );
+        },
     },
 };
 </script>

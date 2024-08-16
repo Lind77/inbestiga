@@ -29,6 +29,7 @@
                         :is="componentSelected"
                         :project="project"
                         :quotations="quotations"
+                        :userId="userId"
                         @openModal="openModal"
                         @openModalAcademic="openModalAcademic"
                         @showModalVouchers="showModalVouchers"
@@ -56,6 +57,7 @@ export default {
         componentSelected: String,
         project: Object,
         quotations: Array,
+        userId: Number,
     },
     data() {
         return {
