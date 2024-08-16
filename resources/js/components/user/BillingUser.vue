@@ -14,11 +14,13 @@
                         </h2>
                         <CollapseCard
                             v-for="project in projects"
+                            :userId="store.authUser.id"
                             :project="project"
                             :quotations="quotations"
                             :title="'Pagos de ' + project.title"
                             :componentSelected="'TablePayment'"
                             @showModalVouchers="showModalVouchers"
+                            @getUserInfo="getUserInfo"
                         />
                     </div>
                 </div>
@@ -92,6 +94,7 @@ export default {
                     this.quotations = result.data.quotations;
                     result.data.quotations.forEach((quotation) => {
                         quotation.contract.projects.forEach((project) => {
+                            project.contract = quotation.contract;
                             project.vouchers =
                                 quotation.contract.external_vouchers;
                             project.payments = quotation.contract.payments;
