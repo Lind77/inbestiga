@@ -395,7 +395,7 @@ class QuotationController extends Controller
         if ($status == 11) {
             $quotation->customers->each(function ($customer) use ($quotation) {
                 $customer->update([
-                    'password' => Hash::make($quotation->customer->dni)
+                    'password' => Hash::make($customer->dni)
                 ]);
             });
         }
