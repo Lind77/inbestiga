@@ -97,7 +97,7 @@ export default {
                     $("#btnFilePost").removeClass("btn-success");
                     $("#btnFilePost").addClass("btn-secondary");
                     $("#btnFilePost").html("Adjuntar archivo");
-                    this.getQuotation();
+                    this.$emit("getProjectInfo");
                 })
                 .catch((err) => {
                     console.log(err);

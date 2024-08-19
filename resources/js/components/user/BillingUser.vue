@@ -158,7 +158,7 @@ export default {
 
 .bg-user {
     width: 100%;
-    height: 150vh;
+    height: auto;
     background-image: linear-gradient(
         135deg,
         rgba(95, 29, 95, 1) 2%,
