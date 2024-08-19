@@ -90,7 +90,7 @@ export default {
                 })
                 .then((result) => {
                     this.$swal("Voucher subido correctamente");
-                    this.$emit("getProjectInfo");
+                    this.$emit("updateModalVouchers", result.data);
                 })
                 .catch((err) => {
                     console.log(err);
