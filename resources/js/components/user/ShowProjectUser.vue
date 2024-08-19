@@ -23,6 +23,7 @@
                             @openModal="openModal"
                             @openModalAcademic="openModalAcademic"
                             @changeBackground="changeBackground"
+                            @getProjectInfo="getProjectInfo"
                         />
 
                         <!--   
@@ -40,7 +41,7 @@
             </div>
         </div>
     </div>
-    <Postmodal :project="project" />
+    <Postmodal :project="project" @getProjectInfo="getProjectInfo" />
     <AcademicModal :project="project" />
 </template>
 <script>

@@ -33,6 +33,7 @@
                         @openModal="openModal"
                         @openModalAcademic="openModalAcademic"
                         @showModalVouchers="showModalVouchers"
+                        @getProjectInfo="getProjectInfo"
                     ></component>
                 </div>
             </div>
@@ -66,6 +67,9 @@ export default {
         };
     },
     methods: {
+        getProjectInfo() {
+            this.$emit("getProjectInfo");
+        },
         showModalVouchers() {
             this.$emit("showModalVouchers", this.project);
         },
