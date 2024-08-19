@@ -33,7 +33,7 @@
                         @openModal="openModal"
                         @openModalAcademic="openModalAcademic"
                         @showModalVouchers="showModalVouchers"
-                        @getProjectInfo="getProjectInfo"
+                        @updateModalVouchers="updateModalVouchers"
                     ></component>
                 </div>
             </div>
@@ -67,8 +67,8 @@ export default {
         };
     },
     methods: {
-        getProjectInfo() {
-            this.$emit("getProjectInfo");
+        updateModalVouchers(voucher) {
+            this.$emit("updateModalVouchers", voucher);
         },
         showModalVouchers() {
             this.$emit("showModalVouchers", this.project);

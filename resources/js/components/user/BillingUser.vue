@@ -20,7 +20,7 @@
                             :title="'Pagos de ' + project.title"
                             :componentSelected="'TablePayment'"
                             @showModalVouchers="showModalVouchers"
-                            @getUserInfo="getUserInfo"
+                            @updateModalVouchers="updateModalVouchers"
                         />
                     </div>
                 </div>
@@ -63,10 +63,16 @@ export default {
             projects: [],
             hidden: false,
             quotations: [],
-            projectSelected: {},
+            projectSelected: {
+                vouchers: [],
+            },
         };
     },
     methods: {
+        updateModalVouchers(voucher) {
+            console.log(voucher);
+            this.projectSelected.vouchers.push({ ...voucher });
+        },
         showModalVouchers(project) {
             this.projectSelected = project;
             $("#vouchersModal").modal("show");
