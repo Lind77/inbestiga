@@ -90,6 +90,7 @@ export default {
                 })
                 .then((result) => {
                     this.$swal("Voucher subido correctamente");
+                    this.$emit("getProjectInfo");
                 })
                 .catch((err) => {
                     console.log(err);
