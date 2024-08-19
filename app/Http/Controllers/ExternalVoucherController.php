@@ -53,7 +53,7 @@ class ExternalVoucherController extends Controller
             ]);
         }
 
-        return response()->json($external_voucher);
+        return response()->json($external_voucher->load('images'));
     }
 
     /**
