@@ -11,6 +11,7 @@ use App\Models\Comission;
 use App\Models\Contract;
 use App\Models\Customer;
 use App\Models\Detail;
+use App\Models\External_voucher;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Promotion;
@@ -477,5 +478,25 @@ class QuotationController extends Controller
         })->get();
 
         return response()->json($quotations);
+    }
+
+    public function quotationVouchers()
+    {
+        $quotations = Quotation::with(['contract', 'contract.external_vouchers', 'contract.external_vouchers.images', 'contract.projects', 'customers'])->whereHas('contract.external_vouchers')->where('status', 11)->orderBy('updated_at', 'desc')->paginate(20);
+
+        return response()->json($quotations);
+    }
+
+    public function statusVoucher($voucherStatus, $voucherId)
+    {
+        $external_voucher = External_voucher::find($voucherId);
+
+        $external_voucher->update([
+            'status' => $voucherStatus
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 }

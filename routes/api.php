@@ -345,6 +345,7 @@ Route::get('/projects-properties', [PropertiesController::class, 'properties']);
 Route::get('/vouchers', [VoucherController::class, 'index']);
 Route::post('/voucher', [VoucherController::class, 'store']);
 
+Route::get('/external-voucher', [ExternalVoucherController::class, 'index']);
 Route::post('/external-voucher', [ExternalVoucherController::class, 'store']);
 
 Route::get('/chats/{id}', [ChatController::class, 'show']);
@@ -414,3 +415,6 @@ Route::post('/filter-dates', [QuotationController::class, 'filterDates']);
 Route::get('/customers-lobo', [QuotationController::class, 'customersLobo']);
 
 Route::get('/addressData', [DepartmentController::class, 'addressData']);
+
+Route::get('/quotation-vouchers', [QuotationController::class, 'quotationVouchers']);
+Route::get('/status-voucher/{voucherStatus}/{voucherId}', [QuotationController::class, 'statusVoucher']);

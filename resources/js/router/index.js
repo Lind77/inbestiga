@@ -152,6 +152,10 @@ import Jobs from '../components/jobs/Home.vue'
 //SandBox
 import Sandbox from '../components/admin/sandbox/Home.vue'
 
+//Finance
+import MainFinance from '../components/finance/Main.vue'
+import Earnings from '../components/finance/Earnings.vue'
+
 export const routes = [
     {
         path: '/',
@@ -204,6 +208,16 @@ export const routes = [
         name: 'home',
         meta: {requiresAuth:true},
         children:[
+            {
+                path: 'finance',
+                component: MainFinance,
+                name: 'main-finance'
+            },
+            {
+                path: 'earnings',
+                component: Earnings,
+                name: 'earnings'
+            },
             {
                 path: 'sales',
                 component: MainSales,

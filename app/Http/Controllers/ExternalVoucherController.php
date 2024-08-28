@@ -15,7 +15,8 @@ class ExternalVoucherController extends Controller
      */
     public function index()
     {
-        //
+        $external_vouchers = External_voucher::with(['contract', 'contract.projects', 'contract.quotation', 'contract.quotation.customers', 'images'])->get();
+        return response()->json($external_vouchers);
     }
 
     /**
