@@ -19,7 +19,7 @@
                             <tr v-for="voucher in project.vouchers">
                                 <td>{{ voucher.date }}</td>
                                 <td>S./ {{ voucher.amount }}</td>
-                                <td>{{ voucher.status }}</td>
+                                <td>{{ statusByNumber[voucher.status] }}</td>
                                 <td>
                                     <button
                                         class="btn btn-icon btn-success"
@@ -38,6 +38,15 @@
 </template>
 <script>
 export default {
+    data() {
+        return {
+            statusByNumber: {
+                1: "Pendiente",
+                2: "Aprobado",
+                3: "Rechazado",
+            },
+        };
+    },
     props: {
         project: Object,
     },
