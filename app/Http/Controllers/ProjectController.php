@@ -36,7 +36,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::orderBy('updated_at')->with(['customer', 'activities', 'activities.progresses', 'team', 'product'])->get();
+        $projects = Project::orderBy('updated_at')->with(['activities', 'activities.progresses', 'team', 'product'])->get();
 
         foreach ($projects as $project) {
             foreach ($project->activities as $activity) {
