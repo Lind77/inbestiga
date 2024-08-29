@@ -126,7 +126,7 @@ class ComunicationController extends Controller
         if ($id_user == 22) {
             $comunications = Comunication::with(['customer', 'customer.user'])
                 ->where('next_management', date('Y-m-d'))
-                ->whereHas('customer', function ($query) {
+                ->('customer', function ($query) {
                     $query->where('user_id', null);
                 })
                 ->orderBy('time')
