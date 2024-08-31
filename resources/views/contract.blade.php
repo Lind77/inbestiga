@@ -423,7 +423,7 @@
                     <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($contract->date))}}</p>
                     <div class="signatures">
                         <div class="col-signature">
-                            <img src="https://jairpl.com/pdf-sys/firmaBere.jpg" width="200">
+                            <img src="https://inbestiga.com/inbestiga/public/img/contract/firmaBere.jpg" width="200">
                             <div class="locator">
                                 <p>__________________________</p>
                                 <p>EL LOCADOR</p>
