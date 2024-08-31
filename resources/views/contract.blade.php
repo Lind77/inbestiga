@@ -140,11 +140,11 @@
     <body>
         <!-- Define header and footer blocks before your content -->
         <header>
-            <img src="https://jairpl.com/pdf-sys/contract/contractHeader.png" alt="">
+            <img src="https://inbestiga.com/inbestiga/public/img/contract/contractHeader.png" alt="">
         </header>
 
         <footer>
-            <img src="https://jairpl.com/pdf-sys/contract/contractFooter.png" alt="">
+            <img src="https://inbestiga.com/inbestiga/public/img/contract/contractFooter.png" alt="">
         </footer>
 
             <img src="" alt="">
