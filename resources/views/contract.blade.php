@@ -378,10 +378,13 @@
                     total que EL ASESORADO estuviera pendiente de abonar, según el cronograma de la cláusula cuarta de EL 
                     CONTRATO.<br>
                     8.3. Sobre las entregas<br>
-                    EL LOCADOR tendrá una prórroga de hasta dos días hábiles para la entrega de los avances contenidos en la 
+                    EL LOCADOR tendrá una prórroga de hasta dos días hábiles para la entrega de los avances contenidos en la
                     cláusula quinta de EL CONTRATO. En caso de que EL LOCADOR cumpla tardíamente y sin justificación 
                     razonable con la entrega, EL ASESORADO tendrá la posibilidad de exigir un reembolso de S/15.00 (quince soles) 
-                    diarios por cada día de retraso en la entrega del producto académico correspondiente.
+                    diarios por cada día de retraso en la entrega del producto académico correspondiente. Asimismo, si EL ASESORADO
+                    no proporciona la información requerida para el desarrollo del trabajo dentro del plazo establecido, las fechas
+                    de entrega de los productos académicos se ajustarán proporcionalmente al tiempo de demora en la entrega de dicha
+                    información.
                 </p>
                 <div class="page-break"></div>
                 <span>NOVENO: CONFIDENCIALIDAD </span>
