@@ -11,6 +11,12 @@
                 académica <i class="bx bx-book-open ms-3"></i>
             </div>
             <div
+                @click="openModalFiles"
+                class="d-flex flex-row justify-content-center align-items-center cursor-pointer"
+            >
+                Documentos <i class="bx bx-file ms-3"></i>
+            </div>
+            <div
                 @click="toCalendly"
                 class="d-flex flex-row justify-content-center align-items-center cursor-pointer"
             >
@@ -26,16 +32,27 @@
 
         <Post v-for="post in project.posts" :post="post" class="mt-3" />
     </div>
+    <FilesModal :files="files" />
 </template>
 <script>
 import Post from "./Post.vue";
+import FilesModal from "./FilesModal.vue";
 
 export default {
-    components: { Post },
+    components: { Post, FilesModal },
+    data() {
+        return {
+            files: [],
+        };
+    },
     props: {
         project: Object,
     },
     methods: {
+        openModalFiles() {
+            this.files = this.project.posts.filter((post) => post.files);
+            $("#filesModal").modal("show");
+        },
         openModalAcademic() {
             this.$emit("openModalAcademic");
         },
