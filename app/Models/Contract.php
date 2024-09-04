@@ -9,7 +9,7 @@ class Contract extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['quotation_id', 'amount', 'amount_text', 'cent_text', 'date', 'advance', 'percentage', 'third_article','third_article_place','status', 'fifth_article','third_article_ppts','fragment','user_id','bank_account_type'];
+    protected $fillable = ['quotation_id', 'amount', 'amount_text', 'cent_text', 'date', 'advance', 'percentage', 'third_article', 'third_article_place', 'status', 'fifth_article', 'third_article_ppts', 'fragment', 'user_id', 'bank_account_type', 'degree_modality_id'];
 
     //Relacion inversa uno  a uno Contract-Quotation
     public function quotation()
@@ -37,15 +37,18 @@ class Contract extends Model
         return $this->morphMany('App\Models\Project', 'projectable');
     }
     //Relación polimorfica uno a mucho (Contrato-Orden->Properties())
-    public function properties(){
+    public function properties()
+    {
         return $this->morphMany('App\Models\Property', 'propertiable');
     }
     //relación uno a muchos Contract-External_voucher
-    public function external_vouchers(){
+    public function external_vouchers()
+    {
         return $this->hasMany('App\Models\External_voucher');
     }
     //relación uno a uno user-contract inversa
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('App\Models\User');
     }
     //Relacion inversa uno a muchos Degree-modality-Contract
