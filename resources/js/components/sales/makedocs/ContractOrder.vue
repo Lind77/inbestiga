@@ -488,6 +488,29 @@
                                     class="text-danger">*</span>:</label>
                             <input type="text" class="form-control" v-model="quotation.term"> -->
                             <label for="salesperson" class="form-label"
+                                >Modalidades de Titulación</label
+                            >
+                            <select
+                                v-model="degreeModality"
+                                class="form-control"
+                            >
+                                <option disabled value="0">
+                                    Seleccione una opción
+                                </option>
+                                <option value="1">Tesis</option>
+                                <option value="2">
+                                    Trabajo de suficiencica profesional
+                                </option>
+                                <option value="3">
+                                    ⁠Publicación de Artículo
+                                </option>
+                                <option value="4">⁠Curso de titulación</option>
+                                <option value="5">
+                                    Examen de suficiencia profesional
+                                </option>
+                            </select>
+
+                            <label for="salesperson" class="form-label"
                                 >Cuenta</label
                             >
                             <select
@@ -697,6 +720,7 @@ export default {
             ordersExistent: [],
             bankAccounts: [],
             bankAccountSelected: 0,
+            degreeModality: 0,
         };
     },
     methods: {
@@ -973,6 +997,7 @@ export default {
             fd.append("third_article_ppts", thirdArticlePptsValue);
             fd.append("fragment", fragmentedValue);
             fd.append("bank_account_type", this.bankAccountSelected);
+            fd.append("degree_modality_id", this.degreeModality);
 
             axios
                 .post("/api/contracts", fd)
