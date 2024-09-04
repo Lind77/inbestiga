@@ -48,4 +48,9 @@ class Contract extends Model
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
+    //Relacion inversa uno a muchos Degree-modality-Contract
+    public function degree_modality()
+    {
+        return $this->belongsTo('App\Models\Degree_modality');
+    }
 }
