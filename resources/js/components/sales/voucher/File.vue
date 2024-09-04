@@ -1,28 +1,40 @@
 <template>
     <div class="voucher">
         <div class="row voucher-header">
-            <img src="https://jairpl.com/pdf-sys/header_boleta.png" alt="" srcset="">
+            <img
+                src="https://inbestiga.com/inbestiga/public/img/voucher/header_boleta.png"
+                alt=""
+                srcset=""
+            />
         </div>
         <div class="row ms-5">
             <div class="col">
-                <p class="title voucher-important-data" v-if="paymentProof.customer">SEÑOR(A): <span
-                        v-for="customer in paymentProof.payment_proofable.quotation.customers">{{ customer.name + ' / '
-                        }}
+                <p
+                    class="title voucher-important-data"
+                    v-if="paymentProof.customer"
+                >
+                    SEÑOR(A):
+                    <span
+                        v-for="customer in paymentProof.payment_proofable
+                            .quotation.customers"
+                        >{{ customer.name + " / " }}
                     </span>
                 </p>
-                <p class="title voucher-important-data">TIPO DE MONEDA: <span>NUEVOS SOLES</span></p>
+                <p class="title voucher-important-data">
+                    TIPO DE MONEDA: <span>NUEVOS SOLES</span>
+                </p>
             </div>
             <div class="col">
-                <p class="title voucher-important-data">FECHA DE EMISIÓN: <span>{{ formatDate(paymentProof.date)
-                        }}</span>
+                <p class="title voucher-important-data">
+                    FECHA DE EMISIÓN:
+                    <span>{{ formatDate(paymentProof.date) }}</span>
                 </p>
-                <p class="title voucher-important-data">N° DE RECIBO: <span>{{ paymentProof.id }}</span></p>
+                <p class="title voucher-important-data">
+                    N° DE RECIBO: <span>{{ paymentProof.id }}</span>
+                </p>
             </div>
         </div>
-        <div class="voucher-important-data ps-5">
-
-
-        </div>
+        <div class="voucher-important-data ps-5"></div>
         <div class="row">
             <div class="voucher-body">
                 <table>
@@ -34,12 +46,20 @@
                     </thead>
                     <tbody>
                         <tr class="details">
-                            <td class="detail-description ps-3" v-if="paymentProof.payment_proofable">
-                                <template v-for="detail in paymentProof.payment_proofable.quotation.details ">
+                            <td
+                                class="detail-description ps-3"
+                                v-if="paymentProof.payment_proofable"
+                            >
+                                <template
+                                    v-for="detail in paymentProof
+                                        .payment_proofable.quotation.details"
+                                >
                                     <p>{{ detail.name }}</p>
                                 </template>
                             </td>
-                            <td class="detail-import"> S/.{{ paymentProof.subtotal }}</td>
+                            <td class="detail-import">
+                                S/.{{ paymentProof.subtotal }}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -50,48 +70,60 @@
                 Detalle: {{ paymentProof.pay_detail }}
             </div>
             <div class="col-md-6 buttons-container">
-                <p class="buttons button-gray">SUBTOTAL S/.{{ paymentProof.subtotal }}</p>
-                <p class="buttons button-white">DESCUENTO S/.{{ paymentProof.discount }}</p>
-                <p class="buttons button-green">TOTAL S/.{{ paymentProof.total_price }}</p>
+                <p class="buttons button-gray">
+                    SUBTOTAL S/.{{ paymentProof.subtotal }}
+                </p>
+                <p class="buttons button-white">
+                    DESCUENTO S/.{{ paymentProof.discount }}
+                </p>
+                <p class="buttons button-green">
+                    TOTAL S/.{{ paymentProof.total_price }}
+                </p>
             </div>
         </div>
         <footer class="footer">
-            <img src="https://jairpl.com/pdf-sys/footer_boleta.png" class="w-100">
+            <img
+                src="https://inbestiga.com/inbestiga/public/img/voucher/footer_boleta.png"
+                class="w-100"
+            />
         </footer>
     </div>
 </template>
 <script>
-import moment from 'moment';
+import moment from "moment";
 
 export default {
     data() {
         return {
-            paymentProof: {}
-        }
+            paymentProof: {},
+        };
     },
     methods: {
         formatDate(date) {
-            return moment(date).format('DD/MM/YYYY')
+            return moment(date).format("DD/MM/YYYY");
         },
         getPaymentProof() {
-            axios.get('/api/payment-proof/' + this.$route.params.voucherId)
+            axios
+                .get("/api/payment-proof/" + this.$route.params.voucherId)
                 .then((result) => {
-                    this.paymentProof = result.data
-                    setTimeout(() => { window.print() }, 1000);
-                }).catch((err) => {
+                    this.paymentProof = result.data;
+                    setTimeout(() => {
+                        window.print();
+                    }, 1000);
+                })
+                .catch((err) => {
                     console.log(err);
                 });
-        }
+        },
     },
     mounted() {
-        this.getPaymentProof()
-    }
-
-}
+        this.getPaymentProof();
+    },
+};
 </script>
 <style>
 * {
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: "Montserrat", sans-serif !important;
 }
 
 .ruc {
@@ -136,7 +168,12 @@ export default {
     /*background-color: #f4f4f3;*/
 
     background: rgb(87, 108, 179);
-    background: linear-gradient(149deg, rgba(87, 108, 179, 1) 0%, rgba(19, 177, 223, 1) 49%, rgba(92, 194, 166, 1) 100%);
+    background: linear-gradient(
+        149deg,
+        rgba(87, 108, 179, 1) 0%,
+        rgba(19, 177, 223, 1) 49%,
+        rgba(92, 194, 166, 1) 100%
+    );
     color: #fff;
     font-weight: bold;
     font-size: 18px;
@@ -180,7 +217,8 @@ table {
     background-color: #f4f4f3;
 }
 
-.button-white {}
+.button-white {
+}
 
 .button-green {
     background-color: #36bebf;
