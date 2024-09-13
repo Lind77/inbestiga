@@ -23,6 +23,7 @@
         @getEvents="getEvents"
         @getDeliveries="getDeliveries"
         @changeEventColor="changeEventColor"
+        :acadUsers="acadUsers"
     />
 </template>
 <script>
@@ -71,9 +72,20 @@ export default {
             ableDeliveries: true,
             colorMeetings: "primary",
             typeMeeting: 1,
+            acadUsers: [],
         };
     },
     methods: {
+        getAcadUsers() {
+            axios
+                .get("/api/color-academic-users")
+                .then((result) => {
+                    this.acadUsers = result.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         permitNotifications() {
             Notification.requestPermission()
                 .then((result) => {
@@ -173,8 +185,12 @@ export default {
                     this.deliveries = result.data.deliveries;
                     this.deliveries.forEach((delivery) => {
                         if (delivery.project && delivery.project.projectable) {
-                            var backgroundColor = "#2c3e50";
-                            var borderColor = "#2c3e50";
+                            var backgroundColor = delivery.user
+                                ? delivery.user.color
+                                : "#2c3e50";
+                            var borderColor = delivery.user
+                                ? delivery.user.color
+                                : "#2c3e50";
                             var textColor = "#fff";
                             var nameCustomers = "";
 
@@ -264,6 +280,7 @@ export default {
         this.permitNotifications();
         this.getEvents();
         this.getDeliveries();
+        this.getAcadUsers();
     },
 };
 </script>

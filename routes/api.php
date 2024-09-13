@@ -278,6 +278,7 @@ Route::post('/permission-sync', [UserController::class, 'syncPermission']);
 Route::post('/permission-sync-role', [UserController::class, 'syncRole']);
 Route::post('/permission-sync-user', [UserController::class, 'syncPermissionUser']);
 Route::get('/academic-users', [UserController::class, 'academicUsers']);
+Route::get('/color-academic-users', [UserController::class, 'academicColors']);
 
 Route::get('/meetings', [MeetingController::class, 'index']);
 Route::post('/meetings', [MeetingController::class, 'store']);
@@ -418,3 +419,4 @@ Route::get('/addressData', [DepartmentController::class, 'addressData']);
 
 Route::get('/quotation-vouchers', [QuotationController::class, 'quotationVouchers']);
 Route::get('/status-voucher/{voucherStatus}/{voucherId}', [QuotationController::class, 'statusVoucher']);
+Route::get('/change-color-event/{deliveryId}/{userId}', [DeliveryController::class, 'changeColorEvent']);

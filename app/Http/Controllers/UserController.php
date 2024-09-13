@@ -158,6 +158,13 @@ class UserController extends Controller
         return response()->json($users);
     }
 
+    public function academicColors()
+    {
+        $users = User::where('subarea_id', 4)->orderBy('color', 'desc')->get();
+
+        return response()->json($users);
+    }
+
     public function updatePhoto(Request $request)
     {
         $photoExistent = Image::where('imageable_id', $request->get('imageable_id'))->where('imageable_type', 'App\\Models\\User')->first();
