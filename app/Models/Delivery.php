@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Delivery extends Model
 {
     use HasFactory;
-    protected $fillable = ['deliverable_id', 'deliverable_type', 'date', 'academic_date', 'advance', 'progress', 'type', 'status', 'project_id','complexity'];
+    protected $fillable = ['deliverable_id', 'deliverable_type', 'date', 'academic_date', 'advance', 'progress', 'type', 'status', 'project_id','complexity','user_id'];
     //Relacion inversa uno amuchos Project-Delivery
     public function project()
     {
@@ -69,5 +69,10 @@ class Delivery extends Model
     public function deliverable()
     {
         return $this->morphTo();
+    }
+    //relación uno a muchos inverso User-Delivery
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
     }
 }
