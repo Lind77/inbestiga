@@ -19,7 +19,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password', 'subarea_id', 'team_id','calendly_user'];
+    protected $fillable = ['name', 'email', 'password', 'subarea_id', 'team_id','calendly_user','color'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -121,7 +121,7 @@ class User extends Authenticatable
     }
     //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
     public function deliveries(){
-        return $this->morphedByMany('App\Models\Delivery','userable');
+        return $this->hasMany('App\Models\Delivery');
     }
    /*  //Relación polimorfica uno a muchos (Usuario-(Status)(notes-))
     public function assigned_activities(){
