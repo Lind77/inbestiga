@@ -80,14 +80,18 @@ export default {
         acadUsers: Array,
     },
     methods: {
-        changeEventColor(userId) {
+        changeEventColor(userId, userColor) {
+            console.log(this.info.event);
             axios
                 .get(
                     `/api/change-color-event/${this.info.event.extendedProps.deliveryId}/${userId}`
                 )
                 .then((result) => {
-                    this.$emit("getEvents");
-                    this.$emit("getDeliveries");
+                    this.$emit(
+                        "changeEventColor",
+                        this.info.event.extendedProps.deliveryId,
+                        result.data.user
+                    );
                 })
                 .catch((err) => {
                     console.log(err);

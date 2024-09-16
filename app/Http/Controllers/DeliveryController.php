@@ -10,6 +10,7 @@ use App\Models\Assigned_activity;
 use App\Models\Payment;
 use App\Models\Project;
 use App\Models\Quality_indicator;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DeliveryController extends Controller
@@ -147,10 +148,10 @@ class DeliveryController extends Controller
         ]);
     }
 
-    public function deliveriesMonth()
+    public function deliveriesMonth($month)
     {
         /* $deliveries = Project::with('deliveries')->get(); */
-        $deliveries = Delivery::has('project')->with(['project', 'project.projectable', 'project.projectable.quotation', 'project.projectable.quotation.customers', 'user'])->get();
+        $deliveries = Delivery::has('project')->where('date', 'like', $month . '-%')->with(['project', 'project.projectable', 'project.projectable.quotation', 'project.projectable.quotation.customers', 'user'])->get();
 
         return response()->json([
             'deliveries' => $deliveries
@@ -192,8 +193,11 @@ class DeliveryController extends Controller
             'user_id' => $userId
         ]);
 
+        $user = User::find($userId);
+
         return response()->json([
-            'msg' => 'success'
+            'msg' => 'success',
+            'user' => $user
         ]);
     }
 }

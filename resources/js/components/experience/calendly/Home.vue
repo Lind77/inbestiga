@@ -6,7 +6,11 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                        <FullCalendar :options="calendarOptions" />
+                        <FullCalendar
+                            :options="calendarOptions"
+                            @datesSet="handleDatesSet"
+                            ref="fullCalendar"
+                        />
                     </div>
                 </div>
             </div>
@@ -48,6 +52,21 @@ export default {
             collection: [],
             calendarOptions: {
                 plugins: [dayGridPlugin, interactionPlugin],
+                customButtons: {
+                    customprev: {
+                        text: "<<",
+                        click: this.handlePrevMonth,
+                    },
+                    customnext: {
+                        text: ">>",
+                        click: this.handleNextMonth,
+                    },
+                },
+                headerToolbar: {
+                    left: "",
+                    center: "title",
+                    right: "customprev,customnext",
+                },
                 editable: true,
                 initialView: "dayGridMonth",
                 locale: esLocale,
@@ -73,9 +92,26 @@ export default {
             colorMeetings: "primary",
             typeMeeting: 1,
             acadUsers: [],
+            dateString: "",
         };
     },
     methods: {
+        handlePrevMonth() {
+            const date = moment(this.dateString)
+                .subtract(1, "months")
+                .format("YYYY-MM");
+            this.dateString = date;
+            this.getEventsFromBd(date);
+            this.$refs.fullCalendar.getApi().prev();
+        },
+        handleNextMonth() {
+            const date = moment(this.dateString)
+                .add(1, "months")
+                .format("YYYY-MM");
+            this.dateString = date;
+            this.getEventsFromBd(date);
+            this.$refs.fullCalendar.getApi().next();
+        },
         getAcadUsers() {
             axios
                 .get("/api/color-academic-users")
@@ -97,13 +133,13 @@ export default {
                 })
                 .catch((err) => {});
         },
-        changeEventColor(eventId) {
-            console.log(eventId);
-            var eventSelected = this.calendarOptions.events.find(
-                (event) => event.id == eventId
+        changeEventColor(deliveryId, user) {
+            var deliverySelected = this.calendarOptions.events.find(
+                (event) => event.deliveryId == deliveryId
             );
 
-            eventSelected.color = "#71dd37";
+            deliverySelected.backgroundColor = user.color;
+            deliverySelected.borderColor = user.color;
             $("#offcanvasEvent").offcanvas("hide");
         },
         changeColor(type) {
@@ -178,9 +214,19 @@ export default {
                 });
         },
         getDeliveries() {
+            const date = new Date();
+
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const formattedDate = `${year}-${month}`;
+            this.dateString = formattedDate;
+
+            this.getEventsFromBd();
+        },
+        getEventsFromBd() {
             this.calendarOptions.events = [];
             axios
-                .get("/api/deliveries-month")
+                .get("/api/deliveries-month/" + this.dateString)
                 .then((result) => {
                     this.deliveries = result.data.deliveries;
                     this.deliveries.forEach((delivery) => {
