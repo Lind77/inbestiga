@@ -150,7 +150,7 @@ class DeliveryController extends Controller
     public function deliveriesMonth()
     {
         /* $deliveries = Project::with('deliveries')->get(); */
-        $deliveries = Delivery::has('project')->with(['project', 'project.projectable', 'project.projectable.quotation', 'project.projectable.quotation.customers'])->get();
+        $deliveries = Delivery::has('project')->with(['project', 'project.projectable', 'project.projectable.quotation', 'project.projectable.quotation.customers', 'user'])->get();
 
         return response()->json([
             'deliveries' => $deliveries
@@ -179,6 +179,18 @@ class DeliveryController extends Controller
                 ]);
             }
         }
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function changeColorEvent($deliveryId, $userId)
+    {
+        $delivery = Delivery::find($deliveryId);
+        $delivery->update([
+            'user_id' => $userId
+        ]);
 
         return response()->json([
             'msg' => 'success'

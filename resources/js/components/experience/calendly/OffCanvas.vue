@@ -32,7 +32,10 @@
             </h5>
             <div class="mb-3">
                 <label for="">Responsable</label>
-                <Select />
+                <Select
+                    :users="acadUsers"
+                    @changeEventColor="changeEventColor"
+                />
             </div>
             <p>Estado: {{ statusByNumber[info.event.extendedProps.status] }}</p>
             <p class="text-danger cursor-pointer">
@@ -74,9 +77,22 @@ export default {
     },
     props: {
         info: Object,
+        acadUsers: Array,
     },
     methods: {
-        changeColorEvent() {},
+        changeEventColor(userId) {
+            axios
+                .get(
+                    `/api/change-color-event/${this.info.event.extendedProps.deliveryId}/${userId}`
+                )
+                .then((result) => {
+                    this.$emit("getEvents");
+                    this.$emit("getDeliveries");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         formatDate(date) {
             return moment(date).format("DD/MM/YYYY");
         },
