@@ -1,16 +1,30 @@
 <template>
     <div class="select" @click="showOptions">Selecciona un responsable</div>
     <li class="list w-100 bg-ligth" v-if="showDropdown">
-        <ul @click="clickOption">
-            <span class="badge badge-dot bg-warning me-2"> </span>
-            test
+        <ul
+            @click="clickOption(user)"
+            class="mb-0 ps-2"
+            v-for="user in users"
+            :id="user.id"
+        >
+            <span
+                class="badge badge-dot me-2"
+                v-if="user.color"
+                :style="`background-color:${user.color}`"
+            >
+            </span>
+            {{
+                user.name
+            }}
         </ul>
     </li>
 </template>
 <script>
 export default {
     methods: {
-        clickOption() {
+        clickOption(user) {
+            this.$emit("changeEventColor", user.id);
+            $(".select").html($("#" + user.id));
             this.showDropdown = false;
         },
         showOptions() {
@@ -21,6 +35,9 @@ export default {
         return {
             showDropdown: false,
         };
+    },
+    props: {
+        users: Array,
     },
 };
 </script>
@@ -33,7 +50,7 @@ export default {
 }
 
 .list {
-    border: 1px solid #696cff;
+    box-shadow: 0px 4px 20px -1px rgba(0, 0, 0, 0.165);
     border-radius: 5px;
     list-style: none;
 }
@@ -44,7 +61,7 @@ export default {
 }
 
 .list ul:hover {
-    background-color: #a5a5a5;
+    background-color: #dadada;
 }
 
 .badge.badge-dot {
