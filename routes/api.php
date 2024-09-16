@@ -256,7 +256,7 @@ Route::get('/profiles', [CustomerController::class, 'getProfiles']);
 Route::get('/profiles-search/{search}', [CustomerController::class, 'searchProfiles']);
 
 Route::get('/deliveries', [DeliveryController::class, 'index']);
-Route::get('/deliveries-month', [DeliveryController::class, 'deliveriesMonth']);
+Route::get('/deliveries-month/{month}', [DeliveryController::class, 'deliveriesMonth']);
 Route::post('/delivery', [DeliveryController::class, 'store']);
 Route::get('/deliveries-date/{date}', [DeliveryController::class, 'getDeliveriesByDate']);
 Route::get('/deliveries-search/{search}', [DeliveryController::class, 'search']);

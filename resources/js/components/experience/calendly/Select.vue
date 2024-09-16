@@ -23,7 +23,7 @@
 export default {
     methods: {
         clickOption(user) {
-            this.$emit("changeEventColor", user.id);
+            this.$emit("changeEventColor", user.id, user.color);
             $(".select").html($("#" + user.id));
             this.showDropdown = false;
         },
