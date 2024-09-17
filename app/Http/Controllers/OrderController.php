@@ -218,13 +218,20 @@ class OrderController extends Controller
             $bank_accounts = Bank_account::where('type', $contract->bank_account_type)->with('bank_entity')->get();
         }
 
+        return response()->json([
+            'contract' => $contract,
+            'bank_accounts' => $bank_accounts
+        ]);
+    }
 
+    public function generateContractPDF($id)
+    {
+        $contract = Contract::with(['quotation', 'quotation.details', 'quotation.details.product', 'quotation.customers', 'payments', 'projects', 'projects.deliveries'])->find($id);
 
-        /* $customer = Customer::with(['quotations' => function ($query) {
-            $query->orderBy('id', 'desc')->with(['contract' => function ($query2) {
-                $query2->orderBy('id', 'desc')->with(['payments', 'deliveries'])->first();
-            }])->first();
-        }])->find($id); */
+        if ($contract->bank_account_type) {
+            $bank_accounts = Bank_account::where('type', $contract->bank_account_type)->with('bank_entity')->get();
+        }
+
         $pdf = PDF::loadView('contract', compact('contract', 'bank_accounts'));
         return $pdf->stream('prueba.pdf');
     }

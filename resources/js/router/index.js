@@ -52,6 +52,7 @@ import HomeMyLeads from '../components/sales/myleads/Home.vue'
 //Área de ventas - Voucher
 import HomeVoucher from '../components/sales/voucher/Home.vue'
 import FileVoucher from '../components/sales/voucher/File.vue'
+import ContractVoucher from '../components/sales/makedocs/File.vue'
 
 // Área Académica
 import HomeAcad from '../components/academic/Home.vue'
@@ -468,6 +469,12 @@ export const routes = [
         path: '/voucher-file/:voucherId',
         component: FileVoucher,
         name: 'voucher-file',
+        props: true
+    },
+    {
+        path: '/contract-file/:contractId',
+        component: ContractVoucher,
+        name: 'contract-file',
         props: true
     }
 ]

@@ -63,9 +63,9 @@ export default {
                     },
                 },
                 headerToolbar: {
-                    left: "",
+                    left: "customprev",
                     center: "title",
-                    right: "customprev,customnext",
+                    right: "customnext",
                 },
                 editable: true,
                 initialView: "dayGridMonth",
