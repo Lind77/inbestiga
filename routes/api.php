@@ -203,7 +203,8 @@ Route::get('/comunications', [ComunicationController::class, 'comunicationsClien
 Route::post('/contracts', [ContractController::class, 'insertContract']);
 Route::delete('/contracts/{id}', [ContractController::class, 'destroy']);
 Route::get('/getAllContracts', [ContractController::class, 'index']);
-Route::get('/generateContract/{id}', [OrderController::class, 'generateContract']);
+Route::get('/contract-file/{id}', [OrderController::class, 'generateContract']);
+Route::get('/generateContract/{id}', [OrderController::class, 'generateContractPDF']);
 
 Route::post('/updateContract', [ContractController::class, 'updateContract']);
 
