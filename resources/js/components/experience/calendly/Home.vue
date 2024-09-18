@@ -262,6 +262,8 @@ export default {
                                 color: textColor,
                                 type: delivery.type,
                                 deliveryId: delivery.id,
+                                user: delivery.user,
+                                description: delivery.description,
                             };
                             this.calendarOptions.events.push({ ...newEvt });
                         }

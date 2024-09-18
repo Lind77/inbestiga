@@ -101,6 +101,21 @@ class DeliveryController extends Controller
         ]);
     }
 
+    public function updateInfo(Request $request, $id)
+    {
+
+        $delivery = Delivery::find($id);
+
+        $delivery->update([
+            'date' => $request->get('date'),
+            'description' => $request->get('description')
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

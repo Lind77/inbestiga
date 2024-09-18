@@ -6,9 +6,9 @@
         aria-labelledby="offcanvasEndLabel"
     >
         <div class="offcanvas-header" v-if="info.event">
-            <h3 id="offcanvasEndLabel" class="offcanvas-title">
-                Evento {{ info.event.title }}
-                <i
+            <h5 id="offcanvasEndLabel" class="offcanvas-title">
+                {{ info.event.title }}
+                <!--  <i
                     v-if="info.event.extendedProps.type == 1"
                     @click="deleteEvent(info.event.extendedProps.deliveryId)"
                     class="bx bx-trash text-danger cursor-pointer"
@@ -17,8 +17,8 @@
                     v-else
                     @click="deleteDelivery(info.event.extendedProps.deliveryId)"
                     class="bx bx-trash text-danger cursor-pointer"
-                ></i>
-            </h3>
+                ></i> -->
+            </h5>
             <button
                 type="button"
                 class="btn-close text-reset"
@@ -26,38 +26,43 @@
                 aria-label="Close"
             ></button>
         </div>
+
         <div class="offcanvas-body mx-0 flex-grow-0" v-if="info.event">
-            <h5 @dblclick="pickDeadline">
-                Comentario: {{ info.event.extendedProps.comment }}
-            </h5>
             <div class="mb-3">
-                <label for="">Responsable</label>
+                <label for="" class="form-label">Entregable</label>
+                <p>
+                    {{ info.event.extendedProps.comment }}
+                </p>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Responsable</label>
                 <Select
+                    :userSelected="info.event.extendedProps.user"
                     :users="acadUsers"
                     @changeEventColor="changeEventColor"
                 />
             </div>
-            <p>Estado: {{ statusByNumber[info.event.extendedProps.status] }}</p>
-            <p class="text-danger cursor-pointer">
-                Fecha: {{ formatDate(info.event.start) }}
-            </p>
-            <a
-                target="_blank"
-                v-if="info.event.extendedProps.link"
-                class="btn btn-primary"
-                :href="info.event.extendedProps.link"
-                >Reunión Meet</a
-            >
-            <p>
-                <!-- <span class="badge badge-center rounded-pill bg-secondary"><i class='bx bx-pause'></i></span> -->
-                <span
-                    v-if="info.event.extendedProps.status == 0"
-                    class="badge badge-center rounded-pill bg-success ms-1"
-                    @click="completeMeeting(info.event.id)"
-                    ><i class="bx bx-check"></i
-                ></span>
-                <!-- <span class="badge badge-center rounded-pill bg-danger ms-1">4</span> -->
-            </p>
+            <!-- <p>Estado: {{ statusByNumber[info.event.extendedProps.status] }}</p> -->
+            <div class="mb-3">
+                <label for="" class="form-label">Fecha de Inicio</label>
+                <input
+                    type="date"
+                    name=""
+                    id=""
+                    class="form-control"
+                    v-model="dateFormatted"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Descripción</label>
+                <textarea v-model="description" class="form-control"></textarea>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary" @click="updateInfoEvent">
+                    Guardar
+                </button>
+                <button class="btn btn-success mx-2">Aprobar</button>
+            </div>
         </div>
     </div>
 </template>
@@ -73,6 +78,8 @@ export default {
                 0: "No realizado",
                 1: "Realizado",
             },
+            dateFormatted: "",
+            description: "",
         };
     },
     props: {
@@ -80,6 +87,25 @@ export default {
         acadUsers: Array,
     },
     methods: {
+        updateInfoEvent() {
+            const fd = new FormData();
+
+            fd.append("date", this.dateFormatted);
+            fd.append("description", this.description);
+            fd.append("_method", "put");
+            axios
+                .post(
+                    "/api/delivery-info/" +
+                        this.info.event.extendedProps.deliveryId,
+                    fd
+                )
+                .then((result) => {
+                    this.$emit("getDeliveries");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         changeEventColor(userId, userColor) {
             console.log(this.info.event);
             axios
@@ -150,6 +176,22 @@ export default {
                     .catch((err) => {
                         console.error(err);
                     });
+            }
+        },
+    },
+    watch: {
+        info() {
+            if (this.info.event.start) {
+                const formattedDate = moment(this.info.event.start).format(
+                    "YYYY-MM-DD"
+                );
+                this.dateFormatted = formattedDate;
+            }
+            console.log(this.info.event.extendedProps.description);
+            if (this.info.event.extendedProps.description != null) {
+                this.description = this.info.event.extendedProps.description;
+            } else {
+                this.description = "";
             }
         },
     },
