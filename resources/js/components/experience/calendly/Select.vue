@@ -1,5 +1,16 @@
 <template>
-    <div class="select" @click="showOptions">Selecciona un responsable</div>
+    <div class="select" tabindex="0" @click="showOptions" @blur="hideOptions">
+        <template v-if="userSelected">
+            <span
+                class="badge badge-dot me-2"
+                v-if="userSelected.color"
+                :style="`background-color:${userSelected.color}`"
+            >
+            </span>
+            {{ userSelected.name }}
+        </template>
+        <template v-else> Selecciona un responsable </template>
+    </div>
     <li class="list w-100 bg-ligth" v-if="showDropdown">
         <ul
             @click="clickOption(user)"
@@ -30,6 +41,9 @@ export default {
         showOptions() {
             this.showDropdown = !this.showDropdown;
         },
+        hideOptions() {
+            this.showDropdown = false;
+        },
     },
     data() {
         return {
@@ -38,15 +52,20 @@ export default {
     },
     props: {
         users: Array,
+        userSelected: Object,
     },
 };
 </script>
 <style scoped>
 .select {
-    border: 2px solid #696cff;
-    border-radius: 5px;
-    padding: 10px 15px;
+    border: 1px solid #d9dee3;
+    border-radius: 7px;
+    padding: 7px 15px;
     cursor: pointer;
+}
+
+.select:focus {
+    border: 2px solid #696cff;
 }
 
 .list {
