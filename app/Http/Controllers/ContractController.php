@@ -229,24 +229,38 @@ class ContractController extends Controller
      */
     public function destroy($id)
     {
-        $contract = Contract::with(['payments', 'projects', 'projects.deliveries', 'projects.posts'])->find($id);
+        $contract = Contract::with(['payments', 'projects.deliveries', 'projects.posts'])->find($id);
 
-        if ($contract->payments) {
+        // Eliminar pagos asociados
+        if ($contract->payments->isNotEmpty()) {
             $contract->payments->each->delete();
         }
 
-        $contract->projects->each->deliveries->each->delete();
+        // Iterar sobre cada proyecto
+        $contract->projects->each(function ($project) {
 
-        $contract->projects->each->posts->each->delete();
+            // Eliminar las entregas del proyecto
+            if ($project->deliveries->isNotEmpty()) {
+                $project->deliveries->each->delete();
+            }
 
-        $contract->projects->each->delete();
+            // Eliminar los posts del proyecto
+            if ($project->posts->isNotEmpty()) {
+                $project->posts->each->delete();
+            }
 
+            // Eliminar el proyecto
+            $project->delete();
+        });
+
+        // Finalmente, eliminar el contrato
         $contract->delete();
 
         return response()->json([
             'msg' => 'success'
         ]);
     }
+
 
     public function updateContract(Request $request)
     {
