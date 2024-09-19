@@ -495,7 +495,7 @@ class CustomerController extends Controller
                     ->orWhereHas('order');
             })
             ->whereHas('customers', function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%');
+                $query->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%');
             })
             ->with(['contract', 'customers', 'contract.projects', 'contract.properties'])
             ->orderBy('id', 'desc')
