@@ -31,7 +31,7 @@ class ContractController extends Controller
      */
     public function index()
     {
-        $contracts = Contract::with(['quotation', 'quotation.customers'])->orderBy('id', 'desc')->get();
+        $contracts = Contract::with(['quotation', 'quotation.customers'])->orderBy('id', 'desc')->paginate(20);
         return response()->json($contracts);
     }
 
@@ -319,6 +319,18 @@ class ContractController extends Controller
         }
 
         return $contract;
+    }
+
+    public function search($search)
+    {
+        $contracts = Contract::with(['quotation', 'quotation.customers'])
+            ->whereHas('quotation.customers', function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%');
+            })
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        return response()->json($contracts);
     }
 
     public function insertContract(Request $request)

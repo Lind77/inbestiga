@@ -206,7 +206,9 @@ Route::get('/getAllContracts', [ContractController::class, 'index']);
 Route::get('/contract-file/{id}', [OrderController::class, 'generateContract']);
 Route::get('/generateContract/{id}', [OrderController::class, 'generateContractPDF']);
 
+
 Route::post('/updateContract', [ContractController::class, 'updateContract']);
+Route::get('/searchContracts/{word}', [ContractController::class, 'search']);
 
 Route::get('/promotions/{code}', [PromotionController::class, 'discount']);
 Route::post('/insertCode', [PriceController::class, 'insertCode']);
