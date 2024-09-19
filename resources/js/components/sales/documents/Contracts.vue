@@ -5,6 +5,28 @@
         role="tabpanel"
     >
         <h5 class="card-header">Contratos</h5>
+        <div class="col-6">
+            <div class="input-group ps-3">
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Nombre de cliente"
+                    aria-label="Recipient's username"
+                    v-model="searchWord"
+                    @keyup.enter="searchContract"
+                    aria-describedby="button-addon2"
+                />
+                <button
+                    class="btn btn-outline-primary"
+                    @click="searchContract"
+                    type="button"
+                    id="button-addon2"
+                >
+                    Buscar
+                </button>
+            </div>
+        </div>
+
         <div class="table-responsive text-nowrap">
             <table class="table">
                 <thead>
@@ -58,9 +80,21 @@ export default {
         return {
             appUrl: import.meta.env.VITE_AXIOS_URL,
             contracts: [],
+            searchWord: "",
         };
     },
     methods: {
+        searchContract() {
+            axios
+                .get(`/api/searchContracts/${this.searchWord}`)
+                .then((res) => {
+                    console.log(res);
+                    this.contracts = res.data;
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        },
         newDoc(contractId) {
             this.$router.push({
                 name: "contract-file",
@@ -84,8 +118,8 @@ export default {
             axios
                 .get("/api/getAllContracts")
                 .then((res) => {
-                    console.log(res);
-                    this.contracts = res.data;
+                    console.log(res.data);
+                    this.contracts = res.data.data;
                 })
                 .catch((err) => {
                     console.log(err.response.data);
