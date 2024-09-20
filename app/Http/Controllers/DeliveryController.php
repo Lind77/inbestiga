@@ -156,7 +156,7 @@ class DeliveryController extends Controller
     {
         $delivery = Delivery::find($id);
         $delivery->update([
-            'type' => 1
+            'type' => 2
         ]);
         return response()->json([
             'msg' => 'success'

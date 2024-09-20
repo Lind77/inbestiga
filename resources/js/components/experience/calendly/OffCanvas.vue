@@ -61,7 +61,9 @@
                 <button class="btn btn-primary" @click="updateInfoEvent">
                     Guardar
                 </button>
-                <button class="btn btn-success mx-2">Aprobar</button>
+                <button class="btn btn-success mx-2" @click="approveEvent">
+                    Aprobar
+                </button>
             </div>
         </div>
     </div>
@@ -87,6 +89,19 @@ export default {
         acadUsers: Array,
     },
     methods: {
+        approveEvent() {
+            axios
+                .get(
+                    "/api/check-delivery/" +
+                        this.info.event.extendedProps.deliveryId
+                )
+                .then((result) => {
+                    this.$emit("getDeliveries");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         updateInfoEvent() {
             const fd = new FormData();
 
