@@ -82,6 +82,17 @@ export default {
                     omitZeroMinute: true,
                     meridiem: "short",
                 },
+                eventContent: (arg) => {
+                    if (arg.event.extendedProps.type == 2) {
+                        return {
+                            html: `<del>${arg.event.title}<del>`,
+                        };
+                    } else {
+                        return {
+                            html: `${arg.event.title}`,
+                        };
+                    }
+                },
                 dayMaxEvents: 3,
             },
             info: {},
