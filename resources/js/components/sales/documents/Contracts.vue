@@ -45,6 +45,10 @@
                             >
                                 {{ customer.name }}
                             </p>
+                            <i
+                                class="bx bx-star"
+                                v-if="contract.quotation.status == 11"
+                            ></i>
                         </td>
                         <td>{{ contract.date ? contract.date : "" }}</td>
                         <td>
@@ -116,7 +120,7 @@ export default {
         },
         getAllContracts() {
             axios
-                .get("/api/getAllContracts")
+                .get("/api/contracts")
                 .then((res) => {
                     console.log(res.data);
                     this.contracts = res.data.data;
