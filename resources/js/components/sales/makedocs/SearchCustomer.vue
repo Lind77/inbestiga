@@ -3,7 +3,7 @@
         <input
             type="text"
             v-model="search"
-            placeholder="Buscar cliente..."
+            placeholder="Buscar usuario..."
             class="form-control mt-2"
             @keyup.enter="searchCustomer"
         />
