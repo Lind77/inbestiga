@@ -7,7 +7,7 @@
                         class="d-flex align-items-center justify-content-between"
                     >
                         <h5 class="card-title text-info fw-bold mb-0">
-                            Generar Contrato
+                            Usuarios
                         </h5>
                         <button
                             @click="addNewCustomer"
@@ -19,7 +19,9 @@
                     <div class="w-100">
                         <SearchCustomer @addCustomer="addCustomer" />
                     </div>
-                    <label class="form-label mb-0 mt-4">Clientes</label>
+                    <label class="form-label mb-0 mt-4"
+                        >Usuarios actuales</label
+                    >
                     <div class="list-group" role="tablist">
                         <a
                             class="list-group-item list-group-item-action"
