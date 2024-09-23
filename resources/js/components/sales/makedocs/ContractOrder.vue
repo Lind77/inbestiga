@@ -2,117 +2,12 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row invoice-add">
             <div class="col-lg-9 col-12 mb-lg-0 mb-4">
-                <div class="card invoice-preview-card">
-                    <div class="card-body">
-                        <div class="row p-sm-1 p-0">
-                            <div class="col-md-6 mb-md-0 mb-4">
-                                <div class="d-flex svg-illustration gap-2">
-                                    <span
-                                        class="h5 mt-2 demo text-body fw-bold"
-                                        >{{ titleByType[documentType] }}</span
-                                    >
-
-                                    <!-- <button @click="changeDocumentType" class="btn btn-success btn-icon">
-                                        <i class='bx bx-chevrons-right'></i>
-                                    </button> -->
-
-                                    <label
-                                        for="file-upload"
-                                        class="btn btn-dark btn-icon"
-                                    >
-                                        <i class="bx bx-save"></i>
-                                    </label>
-                                    <input
-                                        id="file-upload"
-                                        type="file"
-                                        class="d-none"
-                                        @change="uploadContract"
-                                    />
-
-                                    <button
-                                        @click="addNewCustomer"
-                                        class="btn btn-info btn-icon"
-                                    >
-                                        <i class="bx bx-user-plus"></i>
-                                    </button>
-
-                                    <!-- <button><i class='bx bx-save'></i></button> -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="w-100">
-                                    <input
-                                        type="text"
-                                        v-model="search"
-                                        placeholder="Buscar cliente..."
-                                        class="form-control"
-                                        v-on:keyup.enter="searchCustomer"
-                                    />
-
-                                    <ul class="list-group">
-                                        <li
-                                            class="list-group-item bg-white d-flex justify-content-between align-items-center cursor-pointer"
-                                            v-for="customerFound in customersFound"
-                                            @click="addCustomer(customerFound)"
-                                        >
-                                            {{ customerFound.name }} -
-                                            {{
-                                                dateFormatted(
-                                                    customerFound.created_at
-                                                )
-                                            }}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div
-                                class="col-lg-4 mt-2"
-                                v-for="customer in customers"
-                            >
-                                <Customer
-                                    :customer="customer"
-                                    @deleteCustomer="deleteCustomer"
-                                    @getCustomer="getCustomer"
-                                    @openModalCustomerEdit="
-                                        openModalCustomerEdit
-                                    "
-                                />
-                            </div>
-                            <div
-                                v-if="documentType == 1"
-                                class="bg-success rounded text-white text-center my-1 p-1"
-                                @click="pickQuotation(quotation)"
-                                v-for="quotation in quotationsExistent"
-                            >
-                                {{ formatTime(quotation.created_at) }}
-                                <i
-                                    class="bx bx-trash"
-                                    @click="deleteQuotaion(quotation.id)"
-                                ></i>
-                            </div>
-                            <button
-                                v-if="documentType == 2"
-                                class="btn btn-info m-1"
-                                @click="pickOrder(order)"
-                                v-for="order in ordersExistent"
-                            >
-                                {{ formatTime(order.created_at) }}
-                            </button>
-                            <button
-                                v-if="documentType == 3"
-                                class="btn btn-info m-1"
-                                @click="pickContract(contract)"
-                                v-for="contract in contractExistent"
-                            >
-                                {{ contract.date }}
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <CustomersCard
+                    :customers="customers"
+                    :quotationId="$route.params.quotationId"
+                    @openModalCustomerEdit="openModalCustomerEdit"
+                    @deleteCustomer="deleteCustomer"
+                />
                 <div class="card invoice-preview-card mt-2">
                     <div class="card-body">
                         <div class="row">
@@ -120,7 +15,6 @@
                                 <span class="h5 mt-2 demo text-body fw-bold"
                                     >Detalles</span
                                 >
-
                                 <button
                                     type="button"
                                     class="btn btn-primary btn-icon ms-2"
@@ -655,6 +549,7 @@ import Customer from "./Customer.vue";
 import Detail from "./Detail.vue";
 import Payment from "./Payment.vue";
 import Delivery from "./Delivery.vue";
+import CustomersCard from "./CustomersCard.vue";
 import customerModal from "../customers/customerModal.vue";
 import { userStore } from "../../../stores/UserStore";
 import axios from "axios";
@@ -666,7 +561,14 @@ export default {
             store,
         };
     },
-    components: { Customer, Detail, Payment, Delivery, customerModal },
+    components: {
+        Customer,
+        Detail,
+        Payment,
+        Delivery,
+        customerModal,
+        CustomersCard,
+    },
     data() {
         return {
             appUrl: import.meta.env.VITE_AXIOS_URL,
@@ -849,21 +751,6 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 });
-        },
-        searchCustomer() {
-            axios
-                .get(`/api/customers/search/${this.search}`)
-                .then((res) => {
-                    this.customersFound = res.data.customers;
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
-        addCustomer(customer) {
-            this.customers.push(customer);
-            this.customersFound = [];
-            this.search = "";
         },
         booleanToNumber(value) {
             return value ? 1 : 0;

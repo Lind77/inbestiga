@@ -425,13 +425,34 @@ class ContractController extends Controller
         $customers = json_decode($request->get('customers'), true);
 
         // Asociar clientes con la cotización
-        $quotation = Quotation::find($request->get('quotation_id'));
+        $quotation = Quotation::with(['details'])->find($request->get('quotation_id'));
         $quotation->customers()->sync(array_column($customers, 'id'));
 
         // Actualizar estado de la cotización
         $contract->quotation->update([
             'status' => 9
         ]);
+
+        // Actualizar details de cotización
+        $quotation->details->each(function ($detail) {
+            $detail->delete();
+        });
+
+        $products =  json_decode($request->get('products'), true);
+
+        foreach ($products as $product) {
+            $detail = Detail::create([
+                'quotation_id' => $quotation->id,
+                'product_id' => $product['product_id'],
+                'type' => $product['type'],
+                'description' => '-',
+                'price' => $product['price'],
+                'level' => intval($product['level']) - 1,
+                'mode' => $product['mode'],
+                'extra_price' => $product['extra_price'],
+                'name' => $product['product']['name']
+            ]);
+        }
 
         //Create project
 

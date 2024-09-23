@@ -9,70 +9,52 @@
                                 <div class="d-flex svg-illustration gap-2">
                                     <span
                                         class="h5 mt-2 demo text-body fw-bold"
-                                        >{{ titleByType[documentType] }}</span
                                     >
-
-                                    <!-- <button @click="changeDocumentType" class="btn btn-success btn-icon">
-                                        <i class='bx bx-chevrons-right'></i>
-                                    </button> -->
-
-                                    <label
-                                        for="file-upload"
-                                        class="btn btn-dark btn-icon"
-                                    >
-                                        <i class="bx bx-save"></i>
-                                    </label>
-                                    <input
-                                        id="file-upload"
-                                        type="file"
-                                        class="d-none"
-                                        @change="uploadContract"
-                                    />
-
+                                        {{ titleByType[documentType] }}
+                                    </span>
                                     <button
                                         @click="addNewCustomer"
                                         class="btn btn-info btn-icon"
+                                        aria-label="Agregar nuevo cliente"
                                     >
                                         <i class="bx bx-user-plus"></i>
                                     </button>
-
-                                    <!-- <button><i class='bx bx-save'></i></button> -->
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Sección de búsqueda de cliente -->
                         <div class="row">
                             <div class="col-lg-4">
-                                <div class="w-100">
-                                    <input
-                                        type="text"
-                                        v-model="search"
-                                        placeholder="Buscar cliente..."
-                                        class="form-control"
-                                        v-on:keyup.enter="searchCustomer"
-                                    />
-
-                                    <ul class="list-group">
-                                        <li
-                                            class="list-group-item bg-white d-flex justify-content-between align-items-center cursor-pointer"
-                                            v-for="customerFound in customersFound"
-                                            @click="addCustomer(customerFound)"
-                                        >
-                                            {{ customerFound.name }} -
-                                            {{
-                                                dateFormatted(
-                                                    customerFound.created_at
-                                                )
-                                            }}
-                                        </li>
-                                    </ul>
-                                </div>
+                                <h5>Buscar Cliente</h5>
+                                <input
+                                    type="text"
+                                    v-model="search"
+                                    placeholder="Buscar cliente..."
+                                    class="form-control"
+                                    @keyup.enter="searchCustomer"
+                                    aria-label="Campo de búsqueda de cliente"
+                                />
+                                <ul class="list-group mt-2">
+                                    <li
+                                        class="list-group-item bg-white d-flex justify-content-between align-items-center cursor-pointer"
+                                        v-for="customerFound in customersFound"
+                                        @click="addCustomer(customerFound)"
+                                    >
+                                        {{ customerFound.name }} -
+                                        {{
+                                            dateFormatted(
+                                                customerFound.created_at
+                                            )
+                                        }}
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                        <div class="row">
-                            <div
-                                class="col-lg-4 mt-2"
-                                v-for="customer in customers"
-                            >
+
+                        <!-- Sección de clientes seleccionados -->
+                        <div class="row mt-4">
+                            <div class="col-lg-4" v-for="customer in customers">
                                 <Customer
                                     :customer="customer"
                                     @deleteCustomer="deleteCustomer"
@@ -82,18 +64,31 @@
                                     "
                                 />
                             </div>
+                        </div>
+
+                        <!-- Sección de cotizaciones existentes -->
+                        <div class="row mt-4">
+                            <h5 v-if="documentType == 1">
+                                Cotizaciones Existentes
+                            </h5>
                             <div
                                 v-if="documentType == 1"
-                                class="bg-success rounded text-white text-center my-1 p-1"
-                                @click="pickQuotation(quotation)"
+                                class="bg-success rounded text-white text-center my-1 p-1 cursor-pointer"
                                 v-for="quotation in quotationsExistent"
+                                @click="pickQuotation(quotation)"
                             >
                                 {{ formatTime(quotation.created_at) }}
                                 <i
                                     class="bx bx-trash"
-                                    @click="deleteQuotaion(quotation.id)"
+                                    @click.stop="deleteQuotaion(quotation.id)"
+                                    aria-label="Eliminar cotización"
                                 ></i>
                             </div>
+                        </div>
+
+                        <!-- Sección de órdenes existentes -->
+                        <div class="row mt-4">
+                            <h5 v-if="documentType == 2">Órdenes Existentes</h5>
                             <button
                                 v-if="documentType == 2"
                                 class="btn btn-info m-1"
@@ -102,6 +97,13 @@
                             >
                                 {{ formatTime(order.created_at) }}
                             </button>
+                        </div>
+
+                        <!-- Sección de contratos existentes -->
+                        <div class="row mt-4">
+                            <h5 v-if="documentType == 3">
+                                Contratos Existentes
+                            </h5>
                             <button
                                 v-if="documentType == 3"
                                 class="btn btn-info m-1"
@@ -113,6 +115,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="card invoice-preview-card mt-2">
                     <div class="card-body">
                         <div class="row">
