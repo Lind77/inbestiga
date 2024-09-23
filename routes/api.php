@@ -163,7 +163,8 @@ Route::get('/quotationByOrder/{id}', [QuotationController::class, 'getQuotationB
 Route::post('/updateQuotation', [QuotationController::class, 'updateQuotation']);
 Route::get('/searchQuotations/{search}', [QuotationController::class, 'search']);
 Route::get('/searchQuotationsByDate/{date}', [QuotationController::class, 'searchQuotationsByDate']);
-
+Route::get('/quotation-customer/{customerId}/{quotationId}',  [QuotationController::class, 'quotationCustomer']);
+Route::delete('/quotation-customer/{customerId}/{quotationId}',  [QuotationController::class, 'deleteQuotationCustomer']);
 
 Route::get('/getAllOwners', [OwnerController::class, 'index']);
 Route::get('/verifyOwner/{id}', [OwnerController::class, 'verifyOwner']);

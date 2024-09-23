@@ -18,6 +18,7 @@ use App\Models\Promotion;
 use App\Models\Seen;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PDF;
 use Illuminate\Support\Facades\Hash;
 
@@ -351,6 +352,25 @@ class QuotationController extends Controller
     {
         $quotations = Quotation::with('customer')->where('date', $date)->get();
         return response()->json($quotations);
+    }
+
+    public function quotationCustomer($customerId, $quotationId)
+    {
+        DB::table('customer_quotation')->insert([
+            'customer_id' => $customerId,
+            'quotation_id' => $quotationId
+        ]);
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function deleteQuotationCustomer($customerId, $quotationId)
+    {
+        $relationship = DB::table('customer_quotation')->where('customer_id', $customerId)->where('quotation_id', $quotationId)->delete();
+        return response()->json([
+            'msg' => 'success'
+        ]);
     }
 
     public function getQuotationsFunnel($id)
