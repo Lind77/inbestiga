@@ -3,10 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+/**
+ * Controlador para la gestión de aichats.
+ *
+ * Este controlador maneja las operaciones CRUD (Crear, Leer, Actualizar, Eliminar)
+ * para las actividades dentro de un proyecto.
+ *
+ * @category Controller
+ * @package  App\Http\Controllers
+ */
 class AichatController extends Controller
 {
-
+     /**
+     * Verificación del webhook de Facebook.
+     * 
+     * Este método gestiona la verificación de un webhook de Facebook. Cuando se configura
+     * un webhook en el panel de Facebook, ellos envían un token de verificación (hub_verify_token) y 
+     * un desafío (hub_challenge). Si el token coincide con el que tenemos configurado en nuestro servidor, 
+     * se debe devolver el desafío para confirmar la autenticación del webhook.
+     *
+     * @return void
+     */
     //VERIFICACION DE FACEBOOK
     public function webhook(){
         // Toquen
@@ -21,7 +38,17 @@ class AichatController extends Controller
             exit;
         }
     }
-
+    /**
+     * Recepción de mensajes de WhatsApp.
+     * 
+     * Este método recibe datos JSON enviados por la API de WhatsApp. La función decodifica
+     * la información del cuerpo del mensaje recibido, incluyendo el texto del mensaje,
+     * el número de teléfono del cliente, el ID del mensaje y la marca de tiempo. Estos datos 
+     * pueden ser procesados para realizar acciones automáticas, como respuestas a mensajes 
+     * o el almacenamiento en la base de datos para su posterior análisis.
+     *
+     * @return void
+     */
     //RECEPCIÓN DE MENSAJES
     public function recibe(){
         //Leemos los datos enviados por whatssap

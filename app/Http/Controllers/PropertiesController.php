@@ -31,9 +31,9 @@ class PropertiesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena una nueva propiedad en la base de datos.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request  Datos de la solicitud de creación.
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -58,9 +58,9 @@ class PropertiesController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra la propiedad especificada.
      *
-     * @param  int  $id
+     * @param  int  $id  ID de la propiedad a mostrar.
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -81,10 +81,9 @@ class PropertiesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza la propiedad especificada en la base de datos.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request  Datos de la solicitud de actualización.
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
@@ -112,7 +111,11 @@ class PropertiesController extends Controller
     {
         //
     }
-
+    /**
+     * Devuelve una lista de proyectos con sus propiedades asociadas.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function properties()
     {
         /* $properties = Property::orderBy('id', 'desc')->with(['propertiable', 'propertiable.projects', 'propertiable.projects.team', 'propertiable.quotation', 'propertiable.quotation.customers'])->get(); */

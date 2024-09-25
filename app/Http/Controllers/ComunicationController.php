@@ -14,6 +14,9 @@ class ComunicationController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * This method retrieves and displays a list of all communications.
+     * Currently, the implementation is not provided.
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -67,8 +70,9 @@ class ComunicationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateComunicationRequest  $request
-     * @param  \App\Models\Comunication  $comunication
+     * This method updates the specified communication based on the provided request.
+     *
+     * @param  \Illuminate\Http\Request  $request  The request containing updated communication data.
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
@@ -98,7 +102,14 @@ class ComunicationController extends Controller
     {
         //
     }
-
+    /**
+     * Insert a new communication record in storage.
+     *
+     * This method creates a new communication entry with the provided request data.
+     *
+     * @param  \Illuminate\Http\Request  $request  The request containing communication data to be inserted.
+     * @return \Illuminate\Http\Response
+     */
     public function insertComunication(Request $request)
     {
 
@@ -120,7 +131,15 @@ class ComunicationController extends Controller
             'comunication' => $comunication
         ]);
     }
-
+    /**
+     * Retrieve communications scheduled for today based on user ID.
+     *
+     * This method retrieves communications for the specified user,
+     * filtering by today's date. It handles specific conditions based on user ID.
+     *
+     * @param  int  $id_user  The ID of the user for whom to retrieve communications.
+     * @return \Illuminate\Http\Response
+     */
     public function getComunicationsByToday($id_user)
     {
         if ($id_user == 22) {
@@ -144,7 +163,14 @@ class ComunicationController extends Controller
 
         return response()->json($comunications);
     }
-
+     /**
+     * Update the attended status of a communication.
+     *
+     * This method marks the specified communication as attended.
+     *
+     * @param  int  $comunicationId  The ID of the communication to be updated.
+     * @return \Illuminate\Http\Response
+     */
     public function updateComunication($comunicationId)
     {
         $comunication = Comunication::find($comunicationId);
@@ -157,7 +183,13 @@ class ComunicationController extends Controller
             'msg' => 'Comunicación actualizada'
         ]);
     }
-
+    /**
+     * Retrieve communications related to clients.
+     *
+     * This method retrieves communications for clients that have a specific status.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function comunicationsClient()
     {
         $comunications = Comunication::with(['customer', 'customer.comunications' => function ($secondQuery) {

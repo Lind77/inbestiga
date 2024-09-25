@@ -7,7 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFixedActivityRequest;
 use App\Http\Requests\UpdateFixedActivityRequest;
 use Illuminate\Http\Request;
-
+/**
+ * Class FixedActivityController
+ *
+ * Controlador para gestionar actividades fijas. Proporciona métodos para listar, crear, mostrar, actualizar y eliminar actividades fijas asociadas a productos.
+ *
+ * @package App\Http\Controllers
+ */
 class FixedActivityController extends Controller
 {
     /**
@@ -30,11 +36,11 @@ class FixedActivityController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
+     /**
+     * Almacena una nueva actividad fija en la base de datos.
      *
-     * @param  \App\Http\Requests\StoreFixedActivityRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request  La solicitud que contiene los datos de la actividad fija a crear.
+     * @return \Illuminate\Http\Response  La respuesta HTTP con el resultado del almacenamiento.
      */
     public function store(Request $request)
     {

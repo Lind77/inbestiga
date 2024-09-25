@@ -4,7 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+/**
+ * Controlador para la gestión de indicadores de aceptación.
+ *
+ * Este controlador maneja las operaciones CRUD (Crear, Leer, Actualizar, Eliminar)
+ * para los indicadores de aceptación.
+ *
+ * @category Controller
+ * @package  App\Http\Controllers
+ */
 class AcceptanceIndicatorController extends Controller
 {
     /**

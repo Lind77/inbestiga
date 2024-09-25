@@ -88,14 +88,24 @@ class OwnerController extends Controller
     {
         //
     }
-
+     /**
+     * Verify the progress of a task by its ID.
+     *
+     * @param  int  $id  The ID of the task to verify.
+     * @return \Illuminate\Http\Response
+     */
     public function verifyOwner($id){
         $task = Task::find($id);
         $progress = $task->progress;
 
         return response()->json($progress);
     }
-
+     /**
+     * Update the owner of a customer.
+     *
+     * @param  \Illuminate\Http\Request  $request  The request containing the customer and user IDs.
+     * @return \Illuminate\Http\Response
+     */
     public function updateOwner(Request $request){
         $customer = Customer::find($request->get('customer_id'));
 

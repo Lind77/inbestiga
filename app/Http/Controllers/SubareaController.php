@@ -28,11 +28,11 @@ class SubareaController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
+     /**
+     * Almacena un nuevo recurso en la base de datos.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request La solicitud con los datos del recurso.
+     * @return \Illuminate\Http\Response Mensaje de éxito.
      */
     public function store(Request $request)
     {
@@ -77,10 +77,10 @@ class SubareaController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina un recurso específico de la base de datos.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $id El ID del recurso a eliminar.
+     * @return \Illuminate\Http\Response Mensaje de éxito.
      */
     public function destroy($id)
     {

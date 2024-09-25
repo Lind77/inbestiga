@@ -8,10 +8,19 @@ use App\Models\Acceptance_indicator;
 use App\Models\Assigned_activity;
 use Illuminate\Http\Request;
 
+/**
+ * Controlador para la gestión de productos académicos.
+ *
+ * Este controlador maneja las operaciones CRUD (Crear, Leer, Actualizar, Eliminar)
+ * para los productos académicos y está relacionado con los procesos académicos.
+ *
+ * @category Controller
+ * @package  App\Http\Controllers
+ */
 class AcademicProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de productos académicos y procesos académicos.
      *
      * @return \Illuminate\Http\Response
      */
