@@ -5,7 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Addendum;
 use App\Http\Requests\StoreAddendumRequest;
 use App\Http\Requests\UpdateAddendumRequest;
-
+/**
+ * Controlador para la gestión de addendums.
+ *
+ * Este controlador maneja las operaciones CRUD (Crear, Leer, Actualizar, Eliminar)
+ * para los addendums dentro de la aplicación.
+ *
+ * @category Controller
+ * @package  App\Http\Controllers
+ */
 class AddendumController extends Controller
 {
     /**

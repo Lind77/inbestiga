@@ -7,7 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFixedTaskRequest;
 use App\Http\Requests\UpdateFixedTaskRequest;
 use Illuminate\Http\Request;
-
+/**
+ * Class FixedTaskController
+ *
+ * Controlador para gestionar tareas fijas. Proporciona métodos para listar, crear, mostrar, actualizar y eliminar tareas fijas asociadas a actividades fijas.
+ *
+ * @package App\Http\Controllers
+ */
 class FixedTaskController extends Controller
 {
     /**
@@ -31,10 +37,10 @@ class FixedTaskController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena una nueva tarea fija en la base de datos.
      *
-     * @param  \App\Http\Requests\StoreFixedTaskRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request  La solicitud que contiene los datos de la tarea fija a crear.
+     * @return \Illuminate\Http\Response  La respuesta HTTP con el resultado del almacenamiento.
      */
     public function store(Request $request)
     {

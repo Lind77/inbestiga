@@ -69,10 +69,9 @@ class ProgressController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar el recurso especificado en almacenamiento.
      *
-     * @param  \App\Http\Requests\UpdateProgressRequest  $request
-     * @param  \App\Models\Progress  $progress
+     * @param  \Illuminate\Http\Request  $request  La solicitud que contiene los datos actualizados del progreso.
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
@@ -135,7 +134,12 @@ class ProgressController extends Controller
     {
         //
     }
-
+     /**
+     * Insertar detalles de la primera reunión.
+     *
+     * @param  \Illuminate\Http\Request  $request  La solicitud que contiene los datos de la reunión.
+     * @return \Illuminate\Http\Response
+     */
     public function insertDetailsFirstMeeting(Request $request){
         $progress = Progress::where('progressable_id', $request->get('activityId'))->where('progressable_type','App\Models\Activity')->get();
 
@@ -148,7 +152,12 @@ class ProgressController extends Controller
             'msg' => 'progress updated successfully'
         ]);
     }
-
+    /**
+     * Actualizar el progreso de la actividad.
+     *
+     * @param  int  $id  El ID de la actividad a actualizar.
+     * @return \Illuminate\Http\Response
+     */
     public function updateActivityProgress($id){
         $activity = Activity::find($id);
         $progress = $activity->progresses[0];
@@ -160,7 +169,12 @@ class ProgressController extends Controller
             'msg' => 'progress updated successfully'
         ]);
     }
-
+    /**
+     * Remover el progreso de la actividad.
+     *
+     * @param  int  $id  El ID de la actividad a remover.
+     * @return \Illuminate\Http\Response
+     */
     public function removeActivityProgress($id){
         $activity = Activity::find($id);
         $progress = $activity->progresses[0];
@@ -171,8 +185,13 @@ class ProgressController extends Controller
         return response()->json([
             'msg' => 'progress updated successfully'
         ]);
-    }
-
+    }   
+    /**
+     * Eliminar el progreso de la actividad.
+     *
+     * @param  \Illuminate\Http\Request  $request  La solicitud que contiene los datos de la actividad.
+     * @return \Illuminate\Http\Response
+     */
     public function deleteActivityProgress(Request $request){
 
         $activity = Activity::find($request->get('id'));
@@ -214,7 +233,12 @@ class ProgressController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Actualizar la calidad de la actividad.
+     *
+     * @param  int  $id  El ID de la actividad a actualizar.
+     * @return \Illuminate\Http\Response
+     */
     public function updateQualityActivity($id){
         $activity = Activity::find($id);
 
@@ -226,7 +250,12 @@ class ProgressController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Remover la calidad de la actividad.
+     *
+     * @param  int  $id  El ID de la actividad a remover.
+     * @return \Illuminate\Http\Response
+     */
     public function removeQualityActivity($id){
         $activity = Activity::find($id);
 

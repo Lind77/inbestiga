@@ -45,7 +45,7 @@ class ContractController extends Controller
         //
     }
 
-    /**
+   /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreContractRequest  $request
@@ -261,7 +261,12 @@ class ContractController extends Controller
         ]);
     }
 
-
+      /**
+     * Update the contract with new details.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function updateContract(Request $request)
     {
 
@@ -336,7 +341,12 @@ class ContractController extends Controller
 
         return $contract;
     }
-
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $search
+     * @return \Illuminate\Http\Response
+     */
     public function search($search)
     {
         $contracts = Contract::with(['quotation', 'quotation.customers'])
@@ -348,7 +358,12 @@ class ContractController extends Controller
 
         return response()->json($contracts);
     }
-
+    /**
+     * Update the contract with new details.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function insertContract(Request $request)
     {
         // Validación de datos de clientes
@@ -527,7 +542,12 @@ class ContractController extends Controller
 
         return response()->json($contract->id);
     }
-
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $quotationId
+     * @return \Illuminate\Http\Response
+     */
     private function verifyQuotation($quotationId)
     {
         $quotation = Quotation::find($quotationId);
@@ -593,7 +613,12 @@ class ContractController extends Controller
             }
         } */
     }
-
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $search
+     * @return \Illuminate\Http\Response
+     */
     public function searchContract($search)
     {
         $contracts = Contract::with(['quotation', 'quotation.customers'])->whereHas('quotation.customers', function ($query) use ($search) {
@@ -610,7 +635,12 @@ class ContractController extends Controller
             'orders' => $orders
         ]);
     }
-
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $customerId,$quotationId
+     * @return \Illuminate\Http\Response
+     */
     public function deleteCustomer($customerId, $quotationId)
     {
         $relationship = DB::table('customer_quotation')->where('customer_id', $customerId)->where('quotation_id', $quotationId)->delete();

@@ -24,9 +24,10 @@ class TeamController extends Controller
         return response()->json($teams);
     }
 
-    /**
-     * Show the form for creating a new resource.
+     /**
+     * Muestra el formulario para crear un nuevo recurso.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
@@ -86,10 +87,10 @@ class TeamController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina un recurso específico de la base de datos.
      *
-     * @param  \App\Models\Team  $team
-     * @return \Illuminate\Http\Response
+     * @param  int  $id ID del equipo a eliminar.
+     * @return \Illuminate\Http\Response Mensaje de éxito.
      */
     public function destroy($id)
     {
@@ -99,7 +100,12 @@ class TeamController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Asigna un equipo a un proyecto específico.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response Mensaje de éxito y datos del proyecto actualizado.
+     */
     public function assignTeam(Request $request)
     {
         $project =  Project::find($request->get('contract_id'));
@@ -113,7 +119,12 @@ class TeamController extends Controller
             'project' => $project
         ]);
     }
-
+    /**
+     * Actualiza el equipo de un usuario específico.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response Mensaje de éxito.
+     */
     public function updateUserTeam(Request $request)
     {
         $user = User::find($request->get('userId'));

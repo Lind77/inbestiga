@@ -10,16 +10,20 @@ use Spatie\Permission\Models\Role;
 class RoleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de los roles disponibles con sus permisos asociados.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response Lista de roles.
      */
     public function index()
     {
         $roles = Role::with('permissions')->get();
         return $roles;
     }
-
+    /**
+     * Muestra los roles ordenados por jerarquía.
+     *
+     * @return \Illuminate\Http\Response Lista de roles ordenados por jerarquía.
+     */
     public function hierarchy()
     {
         $roles = Role::with('permissions')->orderBy('hierarchy')->get();
@@ -37,10 +41,10 @@ class RoleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un nuevo rol en la base de datos.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request La solicitud con los datos del nuevo rol.
+     * @return \Illuminate\Http\Response El rol creado.
      */
     public function store(Request $request)
     {
@@ -79,11 +83,11 @@ class RoleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el rol especificado en la base de datos.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request La solicitud con los datos a actualizar.
+     * @param  int  $id El ID del usuario cuyo rol se va a actualizar.
+     * @return \Illuminate\Http\Response Mensaje de éxito.
      */
     public function update(Request $request, $id)
     {
@@ -112,7 +116,11 @@ class RoleController extends Controller
     {
         //
     }
-
+    /**
+     * Obtiene todos los roles disponibles en la base de datos.
+     *
+     * @return \Illuminate\Http\Response Lista de roles.
+     */
     public function getAllRoles()
     {
         $roles = Role::all();

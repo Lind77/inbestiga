@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostrar una lista de los recursos.
      *
      * @return \Illuminate\Http\Response
      */
@@ -38,9 +38,9 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacenar un nuevo recurso en almacenamiento.
      *
-     * @param  \App\Http\Requests\StoreProductRequest  $request
+     * @param  \App\Http\Requests\StoreProductRequest  $request  La solicitud que contiene los datos del nuevo producto.
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -106,9 +106,9 @@ class ProductController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar el recurso especificado de almacenamiento.
      *
-     * @param  \App\Models\Product  $product
+     * @param  int  $id  El ID del producto a eliminar.
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -119,7 +119,12 @@ class ProductController extends Controller
             'msg' => 'success'
         ]);
     }
-
+     /**
+     * Asignar un producto a un cliente y crear un proyecto asociado.
+     *
+     * @param  \Illuminate\Http\Request  $request  La solicitud que contiene los datos del cliente y del producto.
+     * @return \Illuminate\Http\Response
+     */
     public function assignProduct(Request $request)
     {
 
@@ -141,7 +146,11 @@ class ProductController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Obtener todos los productos con sus precios.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getAllProductsWithPrices()
     {
         $newProducts = Product::with('levels')->get();
@@ -149,7 +158,12 @@ class ProductController extends Controller
 
         return response()->json($newProducts);
     }
-
+    /**
+     * Insertar un nuevo producto y sus precios.
+     *
+     * @param  \Illuminate\Http\Request  $request  La solicitud que contiene los datos del nuevo producto.
+     * @return \Illuminate\Http\Response
+     */
     public function insertNewProduct(Request $request)
     {
         $product = Product::create([

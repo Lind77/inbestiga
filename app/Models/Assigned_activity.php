@@ -4,32 +4,86 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+/**
+ * Modelo que representa una Actividad Asignada.
+ * 
+ * Este modelo permite la asignación de actividades a diferentes entidades (proyectos, entregas, tareas, etc.) mediante relaciones polimórficas.
+ * 
+ * @category Model
+ * @package  App\Models
+ *
+ * @property int $id
+ * @property int $assigned_activitiable_id
+ * @property string $assigned_activitiable_type
+ * @property string $name
+ * @property \Illuminate\Support\Carbon $start_date
+ * @property \Illuminate\Support\Carbon $end_date
+ * @property string $type
+ * @property float $progress
+ * @property string $status
+ * @property string $priority
+ * @property int $user_id
+ * @property int $points
+ * @property int $academic_process_id
+ * @property \Illuminate\Support\Carbon|null $verified_date
+ * @property string $complexity
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ */
 class Assigned_activity extends Model
 {
     use HasFactory;
+       /**
+     * Los atributos que son asignables en masa.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = ['assigned_activitiable_id', 'assigned_activitiable_type', 'name', 'start_date', 'end_date', 'type', 'progress', 'status', 'priority', 'user_id', 'points','academic_process_id','type','verified_date','complexity'];
     //relacion muchos amuchos morfeable_qualityindicators_(project,delivery,assigned_task,assigned_activity)
     /* public function quality_indicators()
     {
         return $this->morphToMany('App\Models\Quality_indicator', 'quality_indicable');
     } */
-    //Relacion  inversa morfeable uno a muchos delivery-assigned activity
+     /**
+     * Relación polimórfica inversa uno a muchos.
+     * 
+     * Permite que una actividad asignada pertenezca a diferentes entidades (proyecto, entrega, tarea, etc.).
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
     public function assigned_activitiable()
     {
         return $this->morphTo();
     }
-    //relacion uno a muchos morfeable morfeable(project,delivery,assigned_task,assigned_activity)
+     /**
+     * Relación polimórfica uno a muchos para progreso.
+     * 
+     * Registra el progreso relacionado con diferentes entidades.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function progress()
     {
         return $this->morphMany('App\Models\Progress', 'progressable');
     }
-    //Relacion morfeable uno a muchos project,deliveris,assigned_activities,assigned_task)
+     /**
+     * Relación polimórfica uno a muchos para observaciones.
+     * 
+     * Registra observaciones sobre diferentes entidades.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function observations()
     {
         return $this->morphMany('App\Models\Observation', 'observable');
     }
-    //Relación polimorfica uno a muchos (Status-Entities)
+      /**
+     * Relación polimórfica uno a muchos para estados.
+     * 
+     * Define los estados relacionados con la entidad asignada.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
     public function statuses()
     {
         return $this->morphToMany('App\Models\Status', 'statusable');
@@ -38,46 +92,90 @@ class Assigned_activity extends Model
      public function users(){
         return $this->morphToMany('App\Models\User', 'userable');
     } */
-    //Relación inversa unoa a muchos (User-Assigned activity)
+     /**
+     * Relación inversa uno a muchos con User.
+     * 
+     * Relaciona la actividad asignada con un usuario.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo('App\Models\User');
     }
-    //Relación inversa uno a muchos  (users-assignedactivitiy)
-    public function assigned_activity()
-    {
-        return $this->belongsTo('App\Models\User');
-    }
-    //Relacion morfeable uno a muchos (Assigned_Activity-NOTES-NTASK)
+      /**
+     * Relación polimórfica uno a muchos para tareas (ntasks).
+     * 
+     * Define las tareas (ntasks) relacionadas con la actividad asignada.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function ntasks()
     {
         return $this->morphMany('App\Models\Ntask', 'ntaskable');
     }
+    /**
+     * Relación polimórfica uno a muchos para enlaces.
+     * 
+     * Define los enlaces asociados con la actividad asignada.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function links()
     {
         return $this->morphMany('App\Models\Links', 'linkable');
     }
-    //Relación polimorfica uno a muchos (Entities-Images)
+    /**
+     * Relación polimórfica uno a muchos para imágenes.
+     * 
+     * Define las imágenes relacionadas con la actividad asignada.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function images()
     {
         return $this->morphMany('App\Models\Image', 'imageable');
     }
-    //Relación polimorfica uno a muchos (Entities-Icon)
+     /**
+     * Relación polimórfica uno a muchos para íconos.
+     * 
+     * Define los íconos relacionados con la actividad asignada.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function icons()
     {
         return $this->morphMany('App\Models\Icon', 'iconable');
     }
-    //Relación polimorfica uno a mucho (Entities-File)
+     /**
+     * Relación polimórfica uno a muchos para archivos.
+     * 
+     * Define los archivos relacionados con la actividad asignada.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function files()
     {
         return $this->mophMany('App\Models\File', 'fileable');
     }
-    //Relacion morfeable uno a muchos (Project-delivery-assigned_activity-ntasks--quality_indicators)
+    /**
+     * Relación polimórfica uno a muchos para indicadores de calidad.
+     * 
+     * Define los indicadores de calidad relacionados con la actividad asignada.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function quality_indicators()
     {
         return $this->morphMany('App\Models\Quality_indicator', 'quality_indicable');
     }
-    //Relación uno a muchos inversa Academic_process-Assisgned_activity
+    /**
+     * Relación inversa uno a muchos con Academic_process.
+     * 
+     * Relaciona la actividad asignada con un proceso académico.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function academic_process(){
         return $this->belongsTo('App\Models\Academic_process');
     }

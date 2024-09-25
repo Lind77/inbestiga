@@ -421,10 +421,14 @@
                     según desee el interesado.</p> 
                     
             <span>DÉCIMO TERCERO: BONIFICACIONES</span><br>
-               <p style="margin-top: -5px;">En caso de que EL ASESORADO refiera a EL LOCADOR y este celebre un contrato de índole similar al presente
-                  contrato, EL LOCADOR otorgará a EL ASESORADO una bonificación cuyo monto será evaluado y determinado por el área financiera de EL LOCADOR. Esta bonificación variará hasta un máximo de S/ 1,000.00 y será comunicada expresamente por el personal de ventas al ASESORADO.</p>
-                 <p>La evaluación para determinar el monto de la bonificación considerará varios factores, entre ellos el porcentaje de avance de pago del cliente que ya contrató, la dificultad de realización de los trabajos, los tiempos de entrega y el cumplimiento en los pagos, así como otros factores que EL LOCADOR considere pertinentes. EL LOCADOR se reserva el derecho de realizar las verificaciones necesarias para asegurar la autenticidad y la legitimidad de cada contrato referido antes de emitir cualquier bonificación.</p>
-                 <p>Este esquema de bonificaciones se aplicará por cada contrato referido que cumpla con los criterios de ingreso especificados anteriormente, y será efectivo una vez que se haya confirmado la celebración del contrato y se haya verificado el cumplimiento de todas las condiciones pertinentes. Ambas partes aceptan estos términos mediante la firma del presente contrato.</p>
+                <p style="margin-top: -5px;">En caso de que EL ASESORADO refiera a EL LOCADOR y este celebre un contrato de índole similar al presente contrato, EL LOCADOR otorgará a EL ASESORADO una bonificación equivalente a S/ 80 por cada S/ 1,000 del valor total del contrato del referido. Esta bonificación se hará efectiva de la siguiente manera:</p>
+                <ul style="margin-top: -10px;">   
+                    <li>Para clientes con proyectos en curso: Si EL ASESORADO tiene un contrato activo y pendiente de pago, el bono será aplicado como descuento en la última cuota del contrato en curso.</li> 
+                    <li>Para clientes que ya terminaron de pagar: El bono se hará efectivo de la siguiente forma:
+                       <br> 50% del bono cuando el referido pague en su totalidad su primera cuota.50% restante del bono cuando el referido termine de pagar la segunda cuota
+                    </li>
+                    </ul>
+                    <p>EL LOCADOR se reserva el derecho de realizar las verificaciones necesarias para asegurar la autenticidad y la legitimidad de cada contrato referido antes de emitir cualquier bonificación.</p>
                 <div class="page-break"></div>                 
                     <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
                     <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($contract->date))}}</p>

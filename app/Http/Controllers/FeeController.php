@@ -5,7 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Fee;
 use App\Http\Requests\StoreFeeRequest;
 use App\Http\Requests\UpdateFeeRequest;
-
+/**
+ * Class FeeController
+ *
+ * Controlador para la gestión de tarifas (fees). Proporciona métodos para listar, crear, mostrar, editar y eliminar tarifas.
+ *
+ * @package App\Http\Controllers
+ */
 class FeeController extends Controller
 {
     /**

@@ -110,7 +110,12 @@ class TaskController extends Controller
             'activity' => $activity
         ]);
     }
-
+    /**
+     * Inserta el tiempo de finalización de una tarea.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response Mensaje de éxito y datos de la tarea.
+     */
     public function insertEndTimeTask(Request $request)
     {
 
@@ -132,7 +137,12 @@ class TaskController extends Controller
             'task' => $task
         ]);
     }
-
+     /**
+     * Inserta el tiempo de inicio de una tarea específica.
+     *
+     * @param  int  $id ID de la tarea.
+     * @return \Illuminate\Http\Response Mensaje de éxito.
+     */
     public function insertStartTimeTask($id)
     {
         $task = Task::find($id);
@@ -144,7 +154,12 @@ class TaskController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Cambia el estado de una actividad asignada.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response Mensaje de éxito.
+     */
     public function changeStatus(Request $request)
     {
 
@@ -182,6 +197,12 @@ class TaskController extends Controller
         ]);
     }
 
+    /**
+     * Busca tareas por nombre.
+     *
+     * @param  string  $name Nombre de la tarea a buscar.
+     * @return \Illuminate\Http\Response Lista de productos académicos que coinciden.
+     */
     public function searchTask($name)
     {
         $academic_products = Academic_product::with(['acceptance_indicators', 'academic_processes'])->where('name', 'like', '%' . $name . '%')->get();
