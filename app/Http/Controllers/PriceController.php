@@ -87,7 +87,12 @@ class PriceController extends Controller
     {
         //
     }
-
+    /**
+     * Actualizar los precios de un producto específico.
+     *
+     * @param  \Illuminate\Http\Request  $request  La solicitud que contiene los IDs de producto y precios.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updatePrices(Request $request)
     {
         $product = Product::find($request->get('productId'));
@@ -104,7 +109,12 @@ class PriceController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Insertar un nuevo código de promoción en la base de datos.
+     *
+     * @param  \Illuminate\Http\Request  $request  La solicitud que contiene los datos del nuevo código de promoción.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function insertCode(Request $request)
     {
         $request->validate([
@@ -122,6 +132,11 @@ class PriceController extends Controller
         return response()->json($promotion->code);
     }
 
+    /**
+     * Obtener el último código de promoción insertado.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getPromotionCode()
     {
         $promotion = Promotion::orderBy('id', 'desc')->first();

@@ -5,13 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Form;
 use App\Models\Project_situation;
 use Illuminate\Http\Request;
-
+/**
+ * Class FormController
+ *
+ * Controlador para gestionar formularios. Proporciona métodos para listar, crear, mostrar, actualizar y eliminar formularios asociados a situaciones de proyecto.
+ *
+ * @package App\Http\Controllers
+ */
 class FormController extends Controller
 {
-    /**
-     * Display a listing of the resource.
+      /**
+     * Muestra una lista de todos los formularios y situaciones de proyecto.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response  La respuesta HTTP con la lista de formularios y situaciones de proyecto.
      */
     public function index()
     {
@@ -35,10 +41,10 @@ class FormController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un nuevo formulario en la base de datos.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request  La solicitud que contiene los datos del formulario a crear.
+     * @return \Illuminate\Http\Response  La respuesta HTTP con el resultado del almacenamiento.
      */
     public function store(Request $request)
     {
@@ -76,11 +82,11 @@ class FormController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza un formulario existente en la base de datos.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request  La solicitud que contiene los datos actualizados del formulario.
+     * @param  int  $id  El ID del formulario que se va a actualizar.
+     * @return \Illuminate\Http\Response  La respuesta HTTP con el resultado de la actualización.
      */
     public function update(Request $request, $id)
     {

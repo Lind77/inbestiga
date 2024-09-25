@@ -7,7 +7,15 @@ use App\Http\Requests\StoreActivityRequest;
 use App\Http\Requests\UpdateActivityRequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
-
+/**
+ * Controlador para la gestión de actividades.
+ *
+ * Este controlador maneja las operaciones CRUD (Crear, Leer, Actualizar, Eliminar)
+ * para las actividades dentro de un proyecto.
+ *
+ * @category Controller
+ * @package  App\Http\Controllers
+ */
 class ActivityController extends Controller
 {
     /**
@@ -30,10 +38,10 @@ class ActivityController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
+     /**
+     * Almacena una nueva actividad en la base de datos.
      *
-     * @param  \App\Http\Requests\StoreActivityRequest  $request
+     * @param  \Illuminate\Http\Request  $request  Datos enviados para la creación de la actividad.
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -82,9 +90,9 @@ class ActivityController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina una actividad específica de la base de datos.
      *
-     * @param  \App\Models\Activity  $activity
+     * @param  int  $id  El identificador de la actividad a eliminar.
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -95,7 +103,12 @@ class ActivityController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Cambia el estado de un proyecto a '1'.
+     *
+     * @param  int  $id  El identificador del proyecto.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function changeStatus($id){
         $project = Project::find($id);
         
@@ -107,7 +120,12 @@ class ActivityController extends Controller
             'msg' => 'success'
         ]);
     }   
-
+    /**
+     * Obtiene las actividades de un proyecto específico.
+     *
+     * @param  int  $id  El identificador del proyecto.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getActivitiesPerId($id){
         $activities = Activity::where('project_id', $id)
                                 ->where('type', '==', 0)

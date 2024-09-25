@@ -8,7 +8,11 @@ use Illuminate\Http\Request;
 class BankAccountController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the bank accounts.
+     *
+     * This method retrieves all bank accounts from the database,
+     * along with their associated bank entities, and returns them
+     * as a JSON response.
      *
      * @return \Illuminate\Http\Response
      */

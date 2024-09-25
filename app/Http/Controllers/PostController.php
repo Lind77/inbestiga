@@ -73,10 +73,10 @@ class PostController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
+     /**
+     * Eliminar el recurso especificado de almacenamiento.
      *
-     * @param  int  $id
+     * @param  int  $id  El ID del recurso a eliminar.
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

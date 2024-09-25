@@ -5,13 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\External_voucher;
 use App\Models\Image;
 use Illuminate\Http\Request;
-
+/**
+ * Class ExternalVoucherController
+ *
+ * Controlador para gestionar los vales externos.
+ * Incluye métodos para listar, crear, y gestionar los vales externos.
+ *
+ * @package App\Http\Controllers
+ */
 class ExternalVoucherController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de los vales externos.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse  La respuesta JSON con la lista de vales externos.
      */
     public function index()
     {
@@ -30,10 +37,10 @@ class ExternalVoucherController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un nuevo vale externo en la base de datos.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request  La solicitud que contiene los datos del nuevo vale.
+     * @return \Illuminate\Http\JsonResponse  La respuesta JSON con el vale externo creado.
      */
     public function store(Request $request)
     {

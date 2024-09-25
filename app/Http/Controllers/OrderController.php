@@ -55,7 +55,7 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreOrderRequest  $request
+     * @param  \Illuminate\Http\Requests\StoreOrderRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -137,7 +137,7 @@ class OrderController extends Controller
         //
     }
 
-    /**
+   /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateOrderRequest  $request
@@ -209,7 +209,12 @@ class OrderController extends Controller
     {
         //
     }
-
+    /**
+     * Generate a contract for the specified order.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function generateContract($id)
     {
         $contract = Contract::with(['quotation', 'quotation.details', 'quotation.details.product', 'quotation.customers', 'payments', 'projects', 'projects.deliveries'])->find($id);
@@ -223,7 +228,12 @@ class OrderController extends Controller
             'bank_accounts' => $bank_accounts
         ]);
     }
-
+    /**
+     * Generate a PDF for the specified contract.
+     *
+     * @param  int  $id
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
     public function generateContractPDF($id)
     {
         $contract = Contract::with(['quotation', 'quotation.details', 'quotation.details.product', 'quotation.customers', 'payments', 'projects', 'projects.deliveries'])->find($id);
@@ -235,7 +245,12 @@ class OrderController extends Controller
         $pdf = PDF::loadView('contract', compact('contract', 'bank_accounts'));
         return $pdf->stream('prueba.pdf');
     }
-
+     /**
+     * Insert a new order and related data.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function insertOrder(Request $request)
     {
         $payments = json_decode($request->get('payments'), true);

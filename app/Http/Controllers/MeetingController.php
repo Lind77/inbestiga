@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 class MeetingController extends Controller
 {
+       /**
+     * Muestra una lista de todas las reuniones.
+     *
+     * Recorre todas las reuniones, y si la reunión tiene un valor para 'time', 
+     * concatena 'date' y 'time' en un único valor y asigna ese valor a 'start' y 'end'.
+     * Devuelve un JSON con las reuniones.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         $meetings = Meeting::all();
@@ -19,7 +28,14 @@ class MeetingController extends Controller
         }
         return response()->json($meetings);
     }
-
+    /**
+     * Almacena una nueva reunión en la base de datos.
+     *
+     * Crea una reunión con los datos proporcionados en la solicitud y la asocia a los usuarios.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         $meeting = Meeting::create([
@@ -37,7 +53,14 @@ class MeetingController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Elimina una reunión especificada por su ID.
+     *
+     * Busca la reunión por su ID y la elimina de la base de datos.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id)
     {
         $meeting = Meeting::find($id);
@@ -48,7 +71,15 @@ class MeetingController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Actualiza la fecha de una reunión existente.
+     *
+     * Busca la reunión por su ID y actualiza la fecha con el nuevo valor proporcionado.
+     *
+     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update($id, Request $request)
     {
         $meeting = Meeting::find($id);
@@ -59,7 +90,14 @@ class MeetingController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Marca una reunión como completada.
+     *
+     * Cambia el estado de la reunión especificada a 1 (completada).
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function complete($id)
     {
         $meeting = Meeting::find($id);

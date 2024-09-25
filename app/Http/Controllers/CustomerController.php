@@ -17,7 +17,15 @@ use App\Models\Quotation;
 use App\Models\Seen;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+/**
+ * Class CustomerController
+ *
+ * Controlador para manejar las operaciones relacionadas con los clientes.
+ * Este controlador incluye métodos para crear, leer, actualizar y eliminar
+ * clientes, así como para gestionar su estado y comisiones.
+ *
+ * @package App\Http\Controllers
+ */
 class CustomerController extends Controller
 {
     /**
@@ -85,7 +93,7 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Customer  $customer
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -105,11 +113,11 @@ class CustomerController extends Controller
         //
     }
 
-    /**
+     /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateCustomerRequest  $request
-     * @param  \App\Models\Customer  $customer
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -134,10 +142,10 @@ class CustomerController extends Controller
         ]);
     }
 
-    /**
+     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Customer  $customer
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -148,7 +156,12 @@ class CustomerController extends Controller
             'msg' => 'deleted'
         ]);
     }
-
+    /**
+     * Update the customer's grade/status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function updateCustomerGrade(Request $request)
     {
 
@@ -231,7 +244,12 @@ class CustomerController extends Controller
             'eleventhCustomer' => $eleventhCustomer
         ]);
     }
-
+    /**
+     * Set the customer status to standby.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function standByCustomer($id)
     {
 
@@ -244,13 +262,22 @@ class CustomerController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Get all customers on standby.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getAllStandByCustomers()
     {
         $customers = Customer::where('status', '=', null)->with(['project', 'project.product'])->get();
         return response()->json($customers);
     }
-
+    /**
+     * Reactivate a customer by setting their status to reactive.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function reactivateCustomer($id)
     {
         $customer = Customer::find($id);
@@ -261,7 +288,13 @@ class CustomerController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function updateDniCustomer(Request $request)
     {
 
@@ -273,7 +306,11 @@ class CustomerController extends Controller
 
         return response()->json($customer);
     }
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getAllPreleads()
     {
         $totalCustomers = collect();
@@ -288,7 +325,11 @@ class CustomerController extends Controller
 
         return response()->json($totalCustomers);
     }
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getAllLeads($id)
     {
         $customers = Customer::where('user_id', $id)->orderBy('updated_at', 'desc')->take(10)->get();
@@ -313,7 +354,12 @@ class CustomerController extends Controller
             'contracts' => $contracts
         ]);
     }
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function assignOwner(Request $request)
     {
         $customer = Customer::find($request->get('customer_id'));
@@ -352,7 +398,12 @@ class CustomerController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function searchCustomers($search)
     {
         $customers = Customer::with(['user', 'comunications', 'quotations'])->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%')->orWhere('career', 'like', '%' . $search . '%')->orWhere('university', 'like', '%' . $search . '%')->take(10)->get();
@@ -361,7 +412,12 @@ class CustomerController extends Controller
             'quotations' => $customers->map->only(['quotations'])
         ]);
     }
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function searchPreleads($search)
     {
         $customers = Customer::with('comunications')->where(function ($query) use ($search) {
@@ -370,7 +426,12 @@ class CustomerController extends Controller
         })->where('status', '<=', 4)->get();
         return response()->json($customers);
     }
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request,$cell
+     * @return \Illuminate\Http\Response
+     */
     private function verifyCustomer($name, $cell)
     {
         if ($name != null) {
@@ -413,7 +474,12 @@ class CustomerController extends Controller
 
         return $verifiedTotal;
     }
-
+    /**
+     * Obtiene los leads (clientes) asociados a una fecha específica.
+     *
+     * @param  string  $date  La fecha para filtrar los leads.
+     * @return \Illuminate\Http\Response
+     */
     public function getLeadsByDate($date)
     {
         $customers = Customer::with(['comunications', 'quotations', 'user'])->whereHas('comunications', function ($query) use ($date) {
@@ -421,7 +487,12 @@ class CustomerController extends Controller
         })->get();
         return response()->json($customers);
     }
-
+    /**
+     * Obtiene todos los leads asociados a un usuario específico.
+     *
+     * @param  int  $id  El ID del usuario.
+     * @return \Illuminate\Http\Response
+     */
     public function getAllMyLeads($id)
     {
         $today = date('Y-m-d');
@@ -446,7 +517,13 @@ class CustomerController extends Controller
             'leadsFirstTen' => $leadsFirstTen
         ]);
     }
-
+    /**
+     * Cambia el interés de una cotización específica.
+     *
+     * @param  int  $quotationId  El ID de la cotización.
+     * @param  mixed  $interest  El nuevo interés a establecer.
+     * @return \Illuminate\Http\Response
+     */
     public function changeInterest($quotationId, $interest)
     {
         $quotation = Quotation::find($quotationId);
@@ -457,13 +534,24 @@ class CustomerController extends Controller
 
         return response()->json($quotation);
     }
-
+    /**
+     * Busca clientes y sus comunicaciones basándose en un término de búsqueda.
+     *
+     * @param  string  $search  El término de búsqueda.
+     * @return \Illuminate\Http\Response
+     */
     public function searchCustomersComunications($search)
     {
         $customers = Customer::with(['user', 'comunications'])->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%')->get();
         return response()->json($customers);
     }
-
+     /**
+     * Actualiza la próxima comunicación de un cliente.
+     *
+     * @param  int  $id  El ID de la comunicación.
+     * @param  \Illuminate\Http\Request  $request  La solicitud que contiene los nuevos datos.
+     * @return \Illuminate\Http\Response
+     */
     public function updateNextComunication($id, Request $request)
     {
         $dateTime = date_create($request->get('newDateTime'));
@@ -477,7 +565,11 @@ class CustomerController extends Controller
             'newComunication' => $comunication
         ]);
     }
-
+     /**
+     * Obtiene todos los perfiles de clientes con un estatus específico.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getProfiles()
     {
         /* $customers = Customer::where('status', 11)->with(['comunications', 'quotations' => function ($query) {
@@ -487,7 +579,12 @@ class CustomerController extends Controller
 
         return response()->json($quotations);
     }
-
+       /**
+     * Busca perfiles de clientes basándose en un término de búsqueda.
+     *
+     * @param  string  $search  El término de búsqueda.
+     * @return \Illuminate\Http\Response
+     */
     public function searchProfiles($search)
     {
         $quotations = Quotation::where('status', 11)
@@ -504,25 +601,44 @@ class CustomerController extends Controller
 
         return response()->json($quotations);
     }
-
+     /**
+     * Busca clientes creados en una fecha específica.
+     *
+     * @param  string  $date  La fecha para filtrar los clientes.
+     * @return \Illuminate\Http\Response
+     */
     public function searchCustomersByDate($date)
     {
         $customers = Customer::with(['user', 'comunications'])->where('status', '>', 0)->where('status', '<=', 3)->where('created_at', 'like', '%' . $date . '%')->get();
         return response()->json($customers);
     }
-
+    /**
+     * Busca un cliente por su ID específico.
+     *
+     * @param  int  $id  El ID del cliente.
+     * @return \Illuminate\Http\Response
+     */
     public function searchCustomersById($id)
     {
         $customer = Customer::with(['user', 'comunications', 'quotations.customers', 'quotations.contract.projects', 'quotations.contract.payments', 'quotations.contract.external_vouchers', 'quotations.contract.external_vouchers.images', 'quotations.contract.projects.team.users.images'])->find($id);
         return response()->json($customer);
     }
-
+     /**
+     * Obtiene todos los clientes con un estatus de cliente.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function clients()
     {
         $customers = Customer::with(['quotations', 'quotations.details', 'quotations.details.product', 'quotations.order', 'quotations.order.payments', 'quotations.contract.payments'])->where('status', 11)->get();
         return response()->json($customers);
     }
-
+    /**
+     * Filtra clientes por ID de usuario.
+     *
+     * @param  int  $user_id  El ID del usuario para filtrar clientes.
+     * @return \Illuminate\Http\Response
+     */
     public function filterCustomer($user_id)
     {
         $customers = Customer::where('user_id', $user_id)->with(['comunications', 'quotations', 'quotations.order', 'user'])->orderBy('updated_at', 'desc')->take(10)->get();

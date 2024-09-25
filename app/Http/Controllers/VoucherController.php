@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class VoucherController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de todos los comprobantes de pago.
      *
      * @return \Illuminate\Http\Response
      */
@@ -29,7 +29,7 @@ class VoucherController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un nuevo comprobante de pago en la base de datos.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -53,8 +53,8 @@ class VoucherController extends Controller
         return response()->json($payment_proof->id);
     }
 
-    /**
-     * Display the specified resource.
+   /**
+     * Muestra un comprobante de pago específico.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

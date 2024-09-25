@@ -84,7 +84,12 @@ class SeenController extends Controller
     {
         //
     }
-
+    /**
+     * Registra que un recurso ha sido visto.
+     *
+     * @param  int  $id El ID del recurso a marcar como visto.
+     * @return \Illuminate\Http\Response Mensaje de éxito.
+     */
     public function registerSeen($id){
         $seen = Seen::find($id);
 

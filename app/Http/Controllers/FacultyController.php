@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+/**
+ * Class FacultyController
+ *
+ * Controlador para la gestión de facultades. Proporciona métodos para listar, crear, mostrar, editar y eliminar facultades.
+ *
+ * @package App\Http\Controllers
+ */
 class FacultyController extends Controller
 {
     /**

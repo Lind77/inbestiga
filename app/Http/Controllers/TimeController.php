@@ -85,7 +85,12 @@ class TimeController extends Controller
     {
         //
     }
-
+     /**
+     * Inserta múltiples tiempos en la base de datos.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response Mensaje de éxito.
+     */
     public function insertTimes(Request $request){
         
         $times = json_decode($request->get('times'));
