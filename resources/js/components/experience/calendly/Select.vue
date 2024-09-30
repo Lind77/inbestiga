@@ -1,5 +1,5 @@
 <template>
-    <div class="select" tabindex="0" @click="showOptions" @blur="hideOptions">
+    <div class="select" tabindex="0" @click="showOptions">
         <template v-if="userSelected">
             <span
                 class="badge badge-dot me-2"
@@ -34,8 +34,11 @@
 export default {
     methods: {
         clickOption(user) {
+            console.log("id");
             this.$emit("changeEventColor", user.id, user.color);
-            $(".select").html($("#" + user.id));
+            $(".select")
+                .empty()
+                .html($("#" + user.id).clone(false));
             this.showDropdown = false;
         },
         showOptions() {

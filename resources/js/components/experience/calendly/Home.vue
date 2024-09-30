@@ -145,6 +145,12 @@ export default {
                 .catch((err) => {});
         },
         changeEventColor(deliveryId, user) {
+            this.$swal.fire({
+                title: "Cargando...",
+                allowOutsideClick: false,
+                showConfirmButton: false,
+            });
+
             var deliverySelected = this.calendarOptions.events.find(
                 (event) => event.deliveryId == deliveryId
             );
@@ -152,6 +158,8 @@ export default {
             deliverySelected.backgroundColor = user.color;
             deliverySelected.borderColor = user.color;
             $("#offcanvasEvent").offcanvas("hide");
+
+            this.$swal.close();
         },
         changeColor(type) {
             if (this.typeMeeting == 4) {
