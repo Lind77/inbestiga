@@ -84,7 +84,7 @@ class AttendanceController extends Controller
      */
     public function show($id)
     {
-        $attendancePermits = Attendance_permit::where('user_id', $id)->where('miss_date', 'like', '%-' . date('m') . '-%')->get();
+        $attendancePermits = Attendance_permit::where('user_id', $id)->where('miss_date', 'like', '%-' . date('Y-m') . '-%')->get();
 
         return response()->json(count($attendancePermits));
     }
