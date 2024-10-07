@@ -178,7 +178,7 @@
                     <span>PRIMERO: OBJETO DEL CONTRATO.</span><br>
                 EL CONTRATO se celebra con el objeto de que EL LOCADOR entregue a favor de EL ASESORADO los productos académicos que corresponden a 
                 @foreach($contract->quotation->details as $detail)
-                    {{$detail->product->name}}, 
+                    {{$detail->name}}, 
                 @endforeach
                 según los parámetros del contrato y la observancia del reglamento de la {{$contract->quotation->customers[0]->university}} y la carrera o mención de {{$contract->quotation->customers[0]->career}} - N{{$contract->quotation->details[0]->level}}.
                 </p>
