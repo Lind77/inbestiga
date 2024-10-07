@@ -15,41 +15,17 @@
                         </h2>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-6" v-for="video in videoList">
                     <Card
-                        :text="'Preguntas financieras'"
+                        :text="video.text"
                         :imageUrl="'https://inbestiga.com/inbestiga/public/img/valeCard.jpg'"
-                    />
-                    <Card
-                        :text="'Reuniones'"
-                        :imageUrl="'https://inbestiga.com/inbestiga/public/img/valeCard.jpg'"
-                    />
-                    <Card
-                        :text="'Beneficios'"
-                        :imageUrl="'https://inbestiga.com/inbestiga/public/img/valeCard.jpg'"
-                    />
-                    <Card
-                        :text="'Deberes del usuario'"
-                        :imageUrl="'https://inbestiga.com/inbestiga/public/img/valeCard.jpg'"
-                    />
-                </div>
-                <div class="col-6">
-                    <Card
-                        :text="'Entrega / Recepción de documentos'"
-                        :imageUrl="'https://inbestiga.com/inbestiga/public/img/valeCard.jpg'"
-                    />
-                    <Card
-                        :text="'Comunicación'"
-                        :imageUrl="'https://inbestiga.com/inbestiga/public/img/valeCard.jpg'"
-                    />
-                    <Card
-                        :text="'Programación de entregas'"
-                        :imageUrl="'https://inbestiga.com/inbestiga/public/img/valeCard.jpg'"
+                        @openModalVideo="openModalVideo(video.srcVideo)"
                     />
                 </div>
             </div>
         </div>
     </div>
+    <VideoModal :videoSrc="srcVideoSelected" />
 </template>
 <script>
 import moment from "moment";
@@ -59,11 +35,20 @@ import Card from "./Card.vue";
 import ProjectCard from "./ProjectCard.vue";
 import Carousel from "./Carousel.vue";
 import CarouselTest from "./CarouselTest.vue";
+import VideoModal from "./VideoModal.vue";
 
 import { userStore } from "../../stores/UserStore";
 
 export default {
-    components: { Sidebar, Navbar, Card, ProjectCard, Carousel, CarouselTest },
+    components: {
+        Sidebar,
+        Navbar,
+        Card,
+        ProjectCard,
+        Carousel,
+        CarouselTest,
+        VideoModal,
+    },
     setup() {
         const store = userStore();
         return { store };
@@ -74,9 +59,112 @@ export default {
             projects: [],
             hidden: false,
             quotations: [],
+            srcVideoSelected: "",
+            videoList: [
+                {
+                    id: 1,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015724224",
+                    text: "¿Qué sucede si mi asesor universitario rechaza el tema propuesto?",
+                },
+                {
+                    id: 2,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015724185",
+                    text: "¿Qué beneficios tengo al usar el aula virtual?",
+                },
+                {
+                    id: 3,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015724151",
+                    text: "¿Qué recursos me brindan para ayudarme en la defensa de mi tesis?",
+                },
+                {
+                    id: 4,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015724105",
+                    text: "¿Qué debo hacer después de que mis jurados aprueben mi tesis?",
+                },
+                {
+                    id: 5,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015724063",
+                    text: "¿Cuanto tiempo tardan el levantar una observación?",
+                },
+                {
+                    id: 6,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015724016",
+                    text: "¿Cómo puedo conocer el progreso de mi proyecto y recibir los documentos?",
+                },
+                {
+                    id: 7,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015723836",
+                    text: "¿Cuándo se agenda la primera reunión y por qué es importante?",
+                },
+                {
+                    id: 8,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015723802",
+                    text: "¿Puedo elegir entre reuniones presenciales o virtuales?",
+                },
+                {
+                    id: 9,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015723761",
+                    text: "¿Cómo puedo resolver mis dudas sobre mi proyecto?",
+                },
+                {
+                    id: 10,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015723725",
+                    text: "¿Es posible realizar mi pago personalmente en la oficina?",
+                },
+                {
+                    id: 11,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015723685",
+                    text: "¿Hasta cuándo es el acompañamiento una vez realizado el último pago?",
+                },
+                {
+                    id: 12,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015723641",
+                    text: "¿Es posible revisar mi proyecto antes de realizar el pago?",
+                },
+                {
+                    id: 13,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015723597",
+                    text: "¿Qué actitud debo tener si surgen obstáculos?",
+                },
+                {
+                    id: 14,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015723541",
+                    text: "¿Cuál es mi compromiso como usuario durante el proceso?",
+                },
+                {
+                    id: 15,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015723497",
+                    text: "Bienvenido a inbestiga",
+                },
+                {
+                    id: 16,
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    srcVideo: "https://player.vimeo.com/video/1015723450",
+                    text: "¿Hasta cuándo me ayudarán con las observaciones?",
+                },
+            ],
         };
     },
     methods: {
+        openModalVideo(srcVideo) {
+            this.srcVideoSelected = srcVideo;
+            $("#videoModal").modal("show");
+        },
         toggleSidebar() {
             this.hidden = !this.hidden;
         },
@@ -110,7 +198,7 @@ export default {
         },
     },
     mounted() {
-        this.getUserInfo();
+        //this.getUserInfo();
     },
 };
 </script>

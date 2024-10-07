@@ -7,6 +7,7 @@
             class="img-card cursor-pointer"
             @click="openModalVideo"
         />
+        <!--  <video src="https://vimeo.com/1015724224"></video> -->
         <p class="fw-bold text-center text-white mt-3 mb-3">{{ text }}</p>
     </div>
 </template>
@@ -19,7 +20,7 @@ export default {
     },
     methods: {
         openModalVideo() {
-            this.$emit("openVideoModal", this.link);
+            this.$emit("openModalVideo", this.link);
         },
     },
 };
