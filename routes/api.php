@@ -896,12 +896,16 @@ Route::get('/accept-permit/{id}/{status}', [AttendanceController::class, 'accept
  */
 Route::get('/reject-permit/{id}', [AttendanceController::class, 'rejectPermit']);
 
+Route::get('/justifications', [JustificationController::class, 'index']);
+
+
 /**
  * Rutas para manejar archivos de asistencia.
  */
 /**
  * Almacena un archivo JSON de asistencia.
  */
+
 Route::post('/json-file', [AttendanceController::class, 'jsonFile']);
 
 /**
