@@ -4,7 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use Illuminate\Http\Request;
-
+/**
+ * Class DepartmentController
+ *
+ * Controlador para gestionar departamentos en el sistema.
+ * Incluye métodos para crear, actualizar, eliminar y listar departamentos.
+ *
+ * @package App\Http\Controllers
+ */
 class DepartmentController extends Controller
 {
     /**
@@ -82,7 +89,11 @@ class DepartmentController extends Controller
     {
         //
     }
-
+    /**
+     * Obtiene la lista de departamentos junto con sus provincias.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function addressData()
     {
         $departments = Department::with('provinces')->get();

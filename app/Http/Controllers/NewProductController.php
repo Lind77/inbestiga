@@ -85,13 +85,22 @@ class NewProductController extends Controller
     {
         //
     }
-
+     /**
+     * Obtiene todos los nuevos productos con sus niveles.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAllNewProducts()
     {
         $products = Product::with('levels')->get();
         return response()->json($products);
     }
-
+    /**
+     * Obtiene los nuevos productos del cliente especificado por su ID.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getNewProductsById($id)
     {
         $customer = Customer::with(['quotations' => function ($query) {

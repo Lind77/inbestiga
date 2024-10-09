@@ -30,10 +30,10 @@ class ObservationController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
+   /**
+     * Almacena una nueva observación en almacenamiento.
      *
-     * @param  \App\Http\Requests\StoreObservationRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)

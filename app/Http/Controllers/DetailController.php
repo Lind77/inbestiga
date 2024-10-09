@@ -5,7 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Detail;
 use App\Http\Requests\StoreDetailRequest;
 use App\Http\Requests\UpdateDetailRequest;
-
+/**
+ * Class DetailController
+ *
+ * Controlador para gestionar los detalles en el sistema.
+ * Incluye métodos para crear, actualizar, eliminar y listar detalles.
+ *
+ * @package App\Http\Controllers
+ */
 class DetailController extends Controller
 {
     /**

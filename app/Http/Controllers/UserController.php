@@ -14,20 +14,34 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-
+    /**
+     * Muestra una lista de todos los usuarios.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $users = User::with(['roles', 'subarea', 'subarea.area', 'permissions', 'attendances'])->get();
         return response()->json($users);
     }
-
+    /**
+     * Muestra un usuario específico.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
         $user = User::with(['roles', 'permissions', 'schedules', 'images'])->find($id);
         /* $progress = Progress::where('owner', '=', $user->name)->with(['progressable', 'progressable.activity'])->get(); */
         return response()->json($user);
     }
-
+    /**
+     * Almacena un nuevo usuario en la base de datos.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $user = User::create([
@@ -43,7 +57,12 @@ class UserController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Elimina un usuario específico de la base de datos.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
 
@@ -54,7 +73,12 @@ class UserController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Asigna un equipo a un usuario específico.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function assignTeam(Request $request)
     {
         $user = User::find($request->get('owner_id'));
@@ -68,13 +92,22 @@ class UserController extends Controller
             'msg' => 'success'
         ]);
     }
-
+     /**
+     * Obtiene todos los vendedores.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getSellers()
     {
         $users = User::where('subarea_id', 2)->get();
         return response()->json($users);
     }
-
+     /**
+     * Crea un nuevo permiso.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function createPermission(Request $request)
     {
         $permission = Permission::create([
@@ -87,13 +120,23 @@ class UserController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Obtiene todos los permisos.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getPermissions()
     {
         $permissions = Permission::with('roles')->get();
         return response()->json($permissions);
     }
-
+     /**
+     * Actualiza un permiso específico.
+     *
+     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function updatePermission($id, Request $request)
     {
         $permission = Permission::find($id);
@@ -107,7 +150,12 @@ class UserController extends Controller
             'msg' => 'success'
         ]);
     }
-
+      /**
+     * Sincroniza permisos de un rol específico.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function syncPermission(Request $request)
     {
         $permission = Permission::find($request->get('permission_id'));
@@ -117,7 +165,12 @@ class UserController extends Controller
             'msg' => 'success'
         ]);
     }
-
+     /**
+     * Sincroniza permisos de un rol específico.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function syncRole(Request $request)
     {
         $role = Role::where('name', $request->get('role'))->first();
@@ -127,7 +180,12 @@ class UserController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Sincroniza permisos de un usuario específico.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function syncPermissionUser(Request $request)
     {
         $user = User::find($request->get('user_id'));
@@ -138,6 +196,13 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Actualiza la información de acceso de un usuario específico.
+     *
+     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function access($id, Request $request)
     {
         $user = User::find($id);
@@ -149,7 +214,11 @@ class UserController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Obtiene usuarios académicos que no pertenecen a un equipo.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function academicUsers()
     {
 
@@ -157,14 +226,23 @@ class UserController extends Controller
 
         return response()->json($users);
     }
-
+    /**
+     * Obtiene usuarios académicos ordenados por color.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function academicColors()
     {
         $users = User::where('subarea_id', 4)->orderBy('color', 'desc')->get();
 
         return response()->json($users);
     }
-
+     /**
+     * Actualiza la foto de un usuario.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function updatePhoto(Request $request)
     {
         $photoExistent = Image::where('imageable_id', $request->get('imageable_id'))->where('imageable_type', 'App\\Models\\User')->first();

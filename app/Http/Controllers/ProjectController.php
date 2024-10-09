@@ -30,7 +30,7 @@ use Illuminate\Http\Request;
 class ProjectController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de los recursos.
      *
      * @return \Illuminate\Http\Response
      */
@@ -50,7 +50,11 @@ class ProjectController extends Controller
 
         return $projects;
     }
-
+     /**
+     * Obtiene todos los proyectos académicos.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAllProjectsAcad()
     {
         $projects = Project::with('team')->get();
@@ -86,8 +90,8 @@ class ProjectController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
+   /**
+     * Almacena un nuevo recurso en el almacenamiento.
      *
      * @param  \App\Http\Requests\StoreProjectRequest  $request
      * @return \Illuminate\Http\Response
@@ -128,10 +132,10 @@ class ProjectController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
+     /**
+     * Muestra el recurso especificado.
      *
-     * @param  \App\Models\Project  $project
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -166,9 +170,9 @@ class ProjectController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina el recurso especificado del almacenamiento.
      *
-     * @param  \App\Models\Project  $project
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -181,7 +185,12 @@ class ProjectController extends Controller
             'msg' => 'success'
         ]);
     }
-
+     /**
+     * Cambia el estado de un proyecto.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function changeStatus(Request $request)
     {
         $project = Project::find($request->get('project_id'));
@@ -211,7 +220,12 @@ class ProjectController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Actualiza la calidad del proyecto.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateQuality($id)
     {
         $project = Project::find($id);
@@ -243,7 +257,12 @@ class ProjectController extends Controller
             'msg' => 'success'
         ]);
     }
-
+     /**
+     * Obtiene los proyectos asignados al usuario especificado.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getMyProjects($id)
     {
         $user = User::find($id);
@@ -270,7 +289,12 @@ class ProjectController extends Controller
 
         return response()->json($projects);
     }
-
+    /**
+     * Establece un nuevo proyecto a partir de una cotización.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function setProject(Request $request)
     {
 
@@ -425,7 +449,12 @@ class ProjectController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Busca proyectos y clientes según el criterio de búsqueda.
+     *
+     * @param  string  $search  Criterio de búsqueda para el nombre del cliente.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function search($search)
     {
 
@@ -477,7 +506,11 @@ class ProjectController extends Controller
             'projectable.quotation.customers'
         ])->get(); */
     }
-
+    /**
+     * Cuenta cuántos contratos están pendientes.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function projectPendings()
     {
         $number_contracts =  Quotation::whereHas('contract')->where('status', 11)->get();
@@ -487,7 +520,12 @@ class ProjectController extends Controller
         /* $contracts = Contract::doesntHave('properties')->get();
         return response()->json(count($contracts)); */
     }
-
+     /**
+     * Habilita un proyecto asociado a un contrato.
+     *
+     * @param  int  $id  ID del contrato.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function enable($id)
     {
         $contract = Contract::with('projects')->find($id);
@@ -499,13 +537,23 @@ class ProjectController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Muestra la información de un proyecto específico y sus entregas.
+     *
+     * @param  int  $id  ID del proyecto.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sprints($id)
     {
         $project = Project::with(['deliveries', 'deliveries.assigned_activities', 'deliveries.assigned_activities.user', 'deliveries.assigned_activities.quality_indicators', 'projectable', 'projectable.quotation', 'projectable.quotation.customers', 'team', 'team.users', 'files'])->find($id);
         return response()->json($project);
     }
-
+    /**
+     * Muestra la información de un proyecto específico y sus entregas.
+     *
+     * @param  int  $id  ID del proyecto.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function searchProject($search)
     {
 
@@ -531,7 +579,13 @@ class ProjectController extends Controller
 
         return response()->json($projects);
     }
-
+    /**
+     * Actualiza el título de un proyecto.
+     *
+     * @param  int  $id    ID del proyecto.
+     * @param  string  $name  Nuevo título del proyecto.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateProjectTitle($id, $name)
     {
         Project::find($id)->update([
@@ -542,7 +596,13 @@ class ProjectController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Actualiza el estado de un proyecto.
+     *
+     * @param  int  $id      ID del proyecto.
+     * @param  int  $status  Nuevo estado del proyecto.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateProjectStatus($id, $status)
     {
         Project::find($id)->update([

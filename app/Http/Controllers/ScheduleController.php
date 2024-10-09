@@ -12,7 +12,12 @@ class ScheduleController extends Controller
     public function index()
     {
     }
-
+      /**
+     * Muestra los horarios de un usuario específico.
+     *
+     * @param  int  $id El ID del usuario cuyas citas se van a mostrar.
+     * @return \Illuminate\Http\Response Información del usuario y sus horarios.
+     */
     public function show($id)
     {
         $user = User::with(['attendances', 'schedules'])->find($id);
@@ -43,7 +48,12 @@ class ScheduleController extends Controller
             'newSchedules' => $newSchedules
         ]);
     }
-
+    /**
+     * Almacena nuevos horarios en la base de datos.
+     *
+     * @param  \Illuminate\Http\Request  $request La solicitud que contiene los datos de los horarios.
+     * @return \Illuminate\Http\Response Mensaje de éxito.
+     */
     public function store(Request $request)
     {
 
@@ -98,6 +108,13 @@ class ScheduleController extends Controller
         ]);
     }
 
+    /**
+     * Actualiza un horario específico en la base de datos.
+     *
+     * @param  \Illuminate\Http\Request  $request La solicitud con los datos a actualizar.
+     * @param  int  $id El ID del horario a actualizar.
+     * @return \Illuminate\Http\Response Mensaje de éxito.
+     */
     public function update(Request $request, $id)
     {
         $firstSchedule = Schedule::find($id);
@@ -125,6 +142,12 @@ class ScheduleController extends Controller
             'msg' => 'success'
         ]);
     }
+    /**
+     * Elimina un horario específico de la base de datos.
+     *
+     * @param  int  $id El ID del horario a eliminar.
+     * @return \Illuminate\Http\Response Mensaje de éxito.
+     */
     public function destroy($id)
     {
         $user = Schedule::find($id);
@@ -133,7 +156,13 @@ class ScheduleController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Actualiza el tipo de un horario específico.
+     *
+     * @param  \Illuminate\Http\Request  $request La solicitud con el nuevo tipo.
+     * @param  int  $id El ID del horario a actualizar.
+     * @return \Illuminate\Http\Response Mensaje de éxito.
+     */
     public function updateType(Request $request, $id)
     {
         $schedule = Schedule::find($id);
@@ -144,14 +173,24 @@ class ScheduleController extends Controller
             'msg' => 'success'
         ]);
     }
-
+     /**
+     * Obtiene los horarios de un usuario específico por día.
+     *
+     * @param  \Illuminate\Http\Request  $request La solicitud con el día y el ID del usuario.
+     * @return \Illuminate\Http\Response Lista de horarios.
+     */
     public function schedulesByDay(Request $request)
     {
 
         $schedules = Schedule::where('day', $request->get('day'))->where('user_id', $request->get('user_id'))->get();
         return response()->json($schedules);
     }
-
+    /**
+     * Elimina todos los horarios de un usuario específico.
+     *
+     * @param  int  $id El ID del usuario cuyas citas se van a eliminar.
+     * @return \Illuminate\Http\Response Mensaje de éxito.
+     */
     public function destroyAll($id)
     {
         $schedules = Schedule::where('user_id', $id)->get();
@@ -160,7 +199,13 @@ class ScheduleController extends Controller
             'msg' => 'success'
         ]);
     }
-
+     /**
+     * Actualiza la hora de admisión de un horario específico.
+     *
+     * @param  int  $id El ID del horario a actualizar.
+     * @param  \Illuminate\Http\Request  $request La solicitud con la nueva hora de admisión.
+     * @return \Illuminate\Http\Response Mensaje de éxito.
+     */
     public function updateHour($id, Request $request)
     {
         $schedule = Schedule::find($id);
@@ -171,7 +216,12 @@ class ScheduleController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Actualiza los horarios anteriores y sus tiempos de salida.
+     *
+     * @param  \Illuminate\Http\Request  $request La solicitud con los horarios y tiempos a actualizar.
+     * @return \Illuminate\Http\Response Mensaje de éxito.
+     */
     public function updateTimes(Request $request)
     {
         $past_times = json_decode($request->get('pastHours'), true);
@@ -200,7 +250,12 @@ class ScheduleController extends Controller
             'msg' => 'success'
         ]);
     }
-
+       /**
+     * Actualiza los próximos horarios y sus tiempos de admisión.
+     *
+     * @param  \Illuminate\Http\Request  $request La solicitud con los próximos horarios y tiempos a actualizar.
+     * @return \Illuminate\Http\Response Mensaje de éxito.
+     */
     public function updateNextTimes(Request $request)
     {
         $next_times  = json_decode($request->get('nextHours'), true);

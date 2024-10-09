@@ -14,8 +14,8 @@ use Excel;
 
 class AttendanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
+   /**
+     * Display a listing of the attendance records.
      *
      * @return \Illuminate\Http\Response
      */
@@ -35,10 +35,10 @@ class AttendanceController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
+     /**
+     * Store a newly created attendance record in storage.
      *
-     * @param  \App\Http\Requests\StoreAttendanceRequest  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -76,10 +76,10 @@ class AttendanceController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
+     /**
+     * Display the attendance permits for a specific user.
      *
-     * @param  \App\Models\Attendance  $attendance
+     * @param int $id User ID
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -122,7 +122,12 @@ class AttendanceController extends Controller
     {
         //
     }
-
+    /**
+     * Import attendance records from a JSON file.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function jsonFile(Request $request)
     {
         // Verificar si se ha enviado un archivo llamado 'file'
@@ -174,7 +179,12 @@ class AttendanceController extends Controller
             ]);
         }
     }
-
+    /**
+     * Import attendance records from an Excel file.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function excelFile(Request $request)
     {
         $fileName = time() . '.' . $request->file->getClientOriginalExtension();
@@ -184,7 +194,12 @@ class AttendanceController extends Controller
 
         return response()->json(['success' => 'You have successfully upload file.']);
     }
-
+    /**
+     * Store attendance permits and related recovery dates.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function attendancePermits(Request $request)
     {
         $attendancePermit = Attendance_permit::create($request->all());
@@ -208,7 +223,11 @@ class AttendanceController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Retrieve attendance permit requests with user and recovery date information.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getPermissionsRequest()
     {
         $attendancePermits = Attendance_permit::with(['user', 'recovery_dates'])
@@ -217,7 +236,13 @@ class AttendanceController extends Controller
             ->get();
         return response()->json($attendancePermits);
     }
-
+    /**
+     * Accept an attendance permit request.
+     *
+     * @param int $id Attendance permit ID
+     * @param int $status New status
+     * @return \Illuminate\Http\Response
+     */
     public function acceptPermit($id, $status)
     {
         $attendancePermit = Attendance_permit::find($id);
@@ -227,7 +252,12 @@ class AttendanceController extends Controller
 
         return response()->json($attendancePermit->status);
     }
-
+    /**
+     * Reject an attendance permit request.
+     *
+     * @param int $id Attendance permit ID
+     * @return \Illuminate\Http\Response
+     */
     public function rejectPermit($id)
     {
         $attendancePermit = Attendance_permit::find($id);
@@ -237,7 +267,11 @@ class AttendanceController extends Controller
 
         return response()->json($attendancePermit->status);
     }
-
+    /**
+     * Retrieve chart values for attendance records in the current month.
+     *
+     * @return void
+     */
     public function chartValues()
     {
         $actualMonth = date('Y') . '-' . date('m');

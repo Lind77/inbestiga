@@ -74,9 +74,9 @@ class PromotionController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina la promoción especificada de la base de datos.
      *
-     * @param  \App\Models\Promotion  $promotion
+     * @param  int  $id  ID de la promoción a eliminar.
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -88,7 +88,12 @@ class PromotionController extends Controller
             'msg' => 'success'
         ]);
     }
-
+    /**
+     * Busca y devuelve una promoción por su código.
+     *
+     * @param  string  $code  Código de la promoción.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function discount($code)
     {
         $promotion = Promotion::where('code', $code)->first();

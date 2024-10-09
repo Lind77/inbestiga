@@ -12,6 +12,9 @@ class ComissionController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * This method is intended to retrieve a list of all comissions.
+     * Currently, the implementation is not provided.
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -84,7 +87,14 @@ class ComissionController extends Controller
     {
         //
     }
-
+    /**
+     * Get all comissions for users with the 'Seller' role.
+     *
+     * This method retrieves all users who have the 'Seller' role,
+     * along with their customers who are in status 11 and their associated comissions.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAllComissions(){
         $users = User::with(['customers' => function ($query) {
             $query->where('status', 11);
