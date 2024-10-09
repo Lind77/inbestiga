@@ -58,6 +58,6 @@ class Justification extends Model
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function files(){
-        return $this->mophMany('App\Models\File','fileable');        
+        return $this->morphMany('App\Models\File','fileable');        
     }
 }

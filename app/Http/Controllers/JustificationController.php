@@ -22,7 +22,9 @@ class JustificationController extends Controller
      */
     public function index()
     {
-        //
+        $justifications = Justification::with(['user', 'files'])->where('created_at', 'like', date('Y-m') . '%')->get();
+
+        return response()->json($justifications);
     }
 
     /**
