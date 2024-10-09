@@ -316,6 +316,8 @@ Route::post('/attendance-permits', [AttendanceController::class, 'attendancePerm
 Route::get('/accept-permit/{id}/{status}', [AttendanceController::class, 'acceptPermit']);
 Route::get('/reject-permit/{id}', [AttendanceController::class, 'rejectPermit']);
 
+Route::get('/justifications', [JustificationController::class, 'index']);
+
 Route::post('/json-file', [AttendanceController::class, 'jsonFile']);
 Route::post('/excel-file', [AttendanceController::class, 'excelFile']);
 Route::post('/files', [FileController::class, 'store']);

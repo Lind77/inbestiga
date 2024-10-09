@@ -76,6 +76,40 @@
                         </div>
                     </div>
                 </div>
+                <div class="card mt-3">
+                    <div
+                        class="card-header d-flex align-items-center justify-content-between"
+                    >
+                        <h5 class="card-title m-0 me-2">
+                            Justificaciones
+                            <!-- <span @click="showModalNote"
+                class="badge bg-label-primary me-1 cursor-pointer">+</span> -->
+                        </h5>
+                    </div>
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <template v-for="justification in justifications">
+                                <div
+                                    class="card bg-warning text-white"
+                                    v-if="justification.status == 0"
+                                >
+                                    <div class="card-header">
+                                        Justificación de
+                                        {{ justification.user.name }}
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title text-white">
+                                            {{ justification.miss_date }}
+                                        </h5>
+                                        <p class="card-text">
+                                            {{ justification.reason }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-12 col-lg-6 order-4 order-lg-3">
                 <div class="card">
@@ -139,11 +173,22 @@ export default {
             notes: [],
             permissions: [],
             numDocs: 0,
+            justifications: [],
         };
     },
     methods: {
         showModalNote() {
             $("#deliveryModal").modal("show");
+        },
+        getJustifications() {
+            axios
+                .get("/api/justifications")
+                .then((result) => {
+                    this.justifications = result.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
         getPermissionsRequest() {
             axios
@@ -185,6 +230,7 @@ export default {
         this.getPermissionsRequest();
         this.getAllDeliveries();
         this.pendingDocuments();
+        this.getJustifications();
     },
 };
 </script>
