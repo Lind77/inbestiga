@@ -896,6 +896,11 @@ Route::get('/accept-permit/{id}/{status}', [AttendanceController::class, 'accept
  */
 Route::get('/reject-permit/{id}', [AttendanceController::class, 'rejectPermit']);
 
+
+/**
+ * Obtiene las justificaciones del mes de todos los usuarios.
+ */
+
 Route::get('/justifications', [JustificationController::class, 'index']);
 
 

@@ -109,16 +109,20 @@ export default {
             return moment(date).fromNow();
         },
         addCustomer(customer) {
-            axios
-                .get(
-                    `/api/quotation-customer/${customer.id}/${this.quotationId}`
-                )
-                .then((result) => {
-                    this.customers.push(customer);
-                })
-                .catch((err) => {
-                    alert("Hubo un error");
-                });
+            if (!this.quotationId) {
+                this.customers.push(customer);
+            } else {
+                axios
+                    .get(
+                        `/api/quotation-customer/${customer.id}/${this.quotationId}`
+                    )
+                    .then((result) => {
+                        this.customers.push(customer);
+                    })
+                    .catch((err) => {
+                        alert("Hubo un error");
+                    });
+            }
         },
         deleteCustomer(customerId) {
             axios
