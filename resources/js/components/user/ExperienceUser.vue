@@ -10,17 +10,19 @@
                         <h2
                             class="main-text subtext text-white text-center mt-4"
                         >
-                            Mi
-                            <span class="main-text-bold">Experiencia</span>
+                            Mi viaje
+                            <span class="main-text-bold">con Inbestiga</span>
                         </h2>
                     </div>
                 </div>
-                <div class="col-6" v-for="video in videoList">
+                <div class="col-6" v-for="topic in topics">
                     <Card
-                        :text="video.text"
+                        :text="topic"
                         :imageUrl="'https://inbestiga.com/inbestiga/public/img/valeCard.jpg'"
-                        @openModalVideo="openModalVideo(video.srcVideo)"
                     />
+                    <!--  <div class="card glass p-4 my-2 cursor-pointer">
+                        <h3 class="text-white">{{ topic }}</h3>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -157,6 +159,13 @@ export default {
                     srcVideo: "https://player.vimeo.com/video/1015723450",
                     text: "¿Hasta cuándo me ayudarán con las observaciones?",
                 },
+            ],
+            topics: [
+                "Mis beneficios",
+                "Progreso académico",
+                "Comunícate con nosotros",
+                "Mi inversión y pagos",
+                "Mi compromiso",
             ],
         };
     },
