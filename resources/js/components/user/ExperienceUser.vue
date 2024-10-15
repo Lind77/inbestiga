@@ -19,6 +19,7 @@
                     <Card
                         :text="topic"
                         :imageUrl="'https://inbestiga.com/inbestiga/public/img/valeCard.jpg'"
+                        @click="openModalVideo"
                     />
                     <!--  <div class="card glass p-4 my-2 cursor-pointer">
                         <h3 class="text-white">{{ topic }}</h3>

@@ -7,7 +7,7 @@
         </li>
         <li>
             <a class="dropdown-item cursor-pointer" @click="toExperienceUser">
-                <span class="align-middle">Mi experiencia</span>
+                <span class="align-middle">Mi viaje con Inbestiga</span>
             </a>
         </li>
         <li>
