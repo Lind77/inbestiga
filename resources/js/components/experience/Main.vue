@@ -227,6 +227,13 @@ export default {
         },
     },
     mounted() {
+        Echo.private("posts").listen("NewPost", (e) => {
+            alert(
+                `El usuario ${e.post.postable.name} ha creado un nuevo post en su proyecto`
+            );
+            console.log(e);
+        });
+
         this.getPermissionsRequest();
         this.getAllDeliveries();
         this.pendingDocuments();

@@ -15,7 +15,7 @@
                         </h2>
                     </div>
                 </div>
-                <div class="col-6" v-for="topic in topics">
+                <div class="col-3 mt-5" v-for="topic in topics">
                     <Card
                         :text="topic"
                         :imageUrl="'https://inbestiga.com/inbestiga/public/img/valeCard.jpg'"

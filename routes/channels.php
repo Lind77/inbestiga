@@ -47,3 +47,7 @@ Broadcast::channel('customers', function ($id) {
 Broadcast::channel('leads.{id}', function ($user, $id) {
     return (int) $user->id == (int) $id;
 });
+
+Broadcast::channel('posts', function ($id) {
+    return true;
+});
