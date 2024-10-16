@@ -3,12 +3,40 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body p-0">
-                    <div class="embed-responsive embed-responsive-16by9 pt-2">
-                        <iframe
-                            class="embed-responsive-item w-100 vh-75"
-                            :src="videoSrc"
-                            allowfullscreen
-                        ></iframe>
+                    <div class="row p-2">
+                        <div class="col-4">
+                            <div
+                                class="embed-responsive embed-responsive-16by9 pt-2"
+                            >
+                                <iframe
+                                    class="embed-responsive-item"
+                                    src="https://player.vimeo.com/video/1015724224"
+                                    allowfullscreen
+                                ></iframe>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div
+                                class="embed-responsive embed-responsive-16by9 pt-2"
+                            >
+                                <iframe
+                                    class="embed-responsive-item"
+                                    src="https://player.vimeo.com/video/1015724224"
+                                    allowfullscreen
+                                ></iframe>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div
+                                class="embed-responsive embed-responsive-16by9 pt-2"
+                            >
+                                <iframe
+                                    class="embed-responsive-item"
+                                    src="https://player.vimeo.com/video/1015724224"
+                                    allowfullscreen
+                                ></iframe>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -40,6 +68,9 @@ export default {
 </script>
 <style scoped>
 iframe {
-    padding-bottom: -20px !important;
+    width: 100%;
+    height: 20em;
+    padding: 0px !important;
+    border-radius: 30px;
 }
 </style>

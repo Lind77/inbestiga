@@ -1,14 +1,15 @@
 <template>
-    <div class="glass-card mx-2 pb-2 my-4">
+    <div class="card-container w-100">
         <img
             :src="imageUrl"
             alt=""
             srcset=""
-            class="img-card cursor-pointer"
+            class="img-card cursor-pointer mb-4"
             @click="openModalVideo"
         />
-        <!--  <video src="https://vimeo.com/1015724224"></video> -->
-        <p class="fw-bold text-center text-white mt-3 mb-3">{{ text }}</p>
+        <div class="glass-card pb-2 w-100">
+            <p class="fw-bold text-center text-white pt-1">{{ text }}</p>
+        </div>
     </div>
 </template>
 <script>
@@ -30,21 +31,30 @@ export default {
     height: 19em;
     width: 100%;
     object-fit: cover;
-    border-radius: 8px 8px 0px 0px;
+    border-radius: 8px;
     transition: 1s;
+    filter: brightness(0.5);
 }
 
 .img-card:hover {
     transition: 0.5s;
-    opacity: 0.8;
+    filter: brightness(1);
+}
+
+.card-container:hover .glass-card {
+    opacity: 1;
+    transition: 0.5s;
 }
 
 .glass-card {
     background: rgba(255, 255, 255, 0.112);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    border-radius: 8px;
-
+    border-radius: 0px 0px 8px 8px;
     padding: 0px;
+    position: relative;
+    bottom: 73px;
+    opacity: 0;
+    transition: 0.5s;
 }
 </style>

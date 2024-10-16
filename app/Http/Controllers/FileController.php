@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewPost;
 use App\Models\File;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -144,8 +145,6 @@ class FileController extends Controller
 
     public function filePost(Request $request)
     {
-
-
         $post = Post::create([
             'postable_id' => $request->get('user_id'),
             'postable_type' => $request->get('postable_type'),
@@ -165,6 +164,10 @@ class FileController extends Controller
                 'status' => 0
             ]);
         }
+
+        $post->load('postable');
+
+        broadcast(new NewPost($post));
 
         return response()->json(['success' => 'You have successfully upload file.']);
     }
