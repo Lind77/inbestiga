@@ -153,14 +153,16 @@
         </div>
     </div>
     <NoteModal @getAllDeliveries="getAllDeliveries" />
+    <ToastPost :post="postNotification" />
 </template>
 <script>
 import axios from "axios";
 import { userStore } from "../../stores/UserStore";
 import NoteModal from "../experience/NoteModal.vue";
+import ToastPost from "./ToastPost.vue";
 
 export default {
-    components: { NoteModal },
+    components: { NoteModal, ToastPost },
     setup() {
         const store = userStore();
         return {
@@ -174,6 +176,7 @@ export default {
             permissions: [],
             numDocs: 0,
             justifications: [],
+            postNotification: {},
         };
     },
     methods: {
@@ -228,10 +231,9 @@ export default {
     },
     mounted() {
         Echo.private("posts").listen("NewPost", (e) => {
-            alert(
-                `El usuario ${e.post.postable.name} ha creado un nuevo post en su proyecto`
-            );
-            console.log(e);
+            console.log(e.post);
+            this.postNotification = e.post;
+            $("#toastPost").toast("show");
         });
 
         this.getPermissionsRequest();

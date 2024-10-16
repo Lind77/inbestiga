@@ -45,6 +45,9 @@ export default {
             $(".menu-link").addClass("text-dark");
         },
     },
+    mounted() {
+        console.log("mounted exp");
+    },
 };
 </script>
 <style scoped>
