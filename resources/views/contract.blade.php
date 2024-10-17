@@ -391,6 +391,11 @@
                     información.
                 </p>
                 <div class="page-break"></div>
+                
+                <p>
+                El levantamiento de observaciones estará sujeto a la actividad de EL ASESORADO. Aquellos usuarios que se mantengan activos y participen de manera constante en el proceso recibirán atención prioritaria, con un plazo máximo de hasta 21 días hábiles para el levantamiento de observaciones por parte de EL LOCADOR. En caso de que EL ASESORADO sea considerado inactivo, es decir, que haya dejado de utilizar el servicio por un periodo superior a tres meses, el plazo máximo para el levantamiento de observaciones será de hasta 45 días hábiles. En todos los casos, EL LOCADOR tomará en cuenta la complejidad de las observaciones para determinar los plazos correspondientes, salvo excepciones.
+                </p>
+                
                 <span>NOVENO: CONFIDENCIALIDAD </span>
                 <p>EL LOCADOR se compromete a mantener en reserva todos los datos de EL ASESORADO, incluso después de que las demás obligaciones de EL CONTRATO se hayan extinguido; a excepción de aquellos casos que la ley exija lo contrario.</p>
                
@@ -419,7 +424,7 @@
                     En caso de presentarse cualquier asunto dudoso o litigioso derivado de la interpretación, aplicación o 
                     ejecución del presente contrato, las partes se someterán al fuero arbitral de la Cámara de Comercio de Lima 
                     según desee el interesado.</p> 
-                    
+                    <div class="page-break"></div>
             <span>DÉCIMO TERCERO: BONIFICACIONES</span><br>
                 <p style="margin-top: -5px;">En caso de que EL ASESORADO refiera a EL LOCADOR y este celebre un contrato de índole similar al presente contrato, EL LOCADOR otorgará a EL ASESORADO una bonificación equivalente a S/ 80 por cada S/ 1,000 del valor total del contrato del referido. Esta bonificación se hará efectiva de la siguiente manera:</p>
                 <ul style="margin-top: -10px;">   
@@ -429,7 +434,7 @@
                     </li>
                     </ul>
                     <p>EL LOCADOR se reserva el derecho de realizar las verificaciones necesarias para asegurar la autenticidad y la legitimidad de cada contrato referido antes de emitir cualquier bonificación.</p>
-                <div class="page-break"></div>                 
+                              
                     <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
                     <p>Las partes declaran haber leído el contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($contract->date))}}</p>
                     <div class="signatures">
