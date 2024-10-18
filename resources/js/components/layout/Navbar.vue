@@ -272,7 +272,10 @@
                         href="javascript:void(0);"
                         data-bs-toggle="dropdown"
                     >
-                        <div class="avatar avatar-online" v-if="store.authUser">
+                        <div
+                            class="avatar avatar-online"
+                            v-if="store.authUser && store.authUser.images"
+                        >
                             <div
                                 class="flex-shrink-0 me-3"
                                 v-if="store.authUser.images[0]"
@@ -309,7 +312,10 @@
                   </div> -->
                                     <div
                                         class="flex-grow-1 cursor-pointer"
-                                        v-if="store.authUser"
+                                        v-if="
+                                            store.authUser &&
+                                            store.authUser.roles
+                                        "
                                     >
                                         <span class="fw-semibold d-block">{{
                                             store.authUser.name

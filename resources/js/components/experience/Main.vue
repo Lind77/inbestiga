@@ -230,11 +230,11 @@ export default {
         },
     },
     mounted() {
-        Echo.private("posts").listen("NewPost", (e) => {
+        /* Echo.private("posts").listen("NewPost", (e) => {
             console.log(e.post);
             this.postNotification = e.post;
             $("#toastPost").toast("show");
-        });
+        }); */
 
         this.getPermissionsRequest();
         this.getAllDeliveries();

@@ -47,6 +47,11 @@ export default {
     },
     mounted() {
         console.log("mounted exp");
+        Echo.private("posts").listen("NewPost", (e) => {
+            console.log(e.post);
+            /*  this.postNotification = e.post;
+            $("#toastPost").toast("show"); */
+        });
     },
 };
 </script>

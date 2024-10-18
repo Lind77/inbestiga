@@ -61,9 +61,13 @@ export default {
         showVoucherImage(voucher) {
             var imageUrl = voucher.images[0].url;
 
-            window.open(
-                "https://inbestiga.com/inbestiga/public/files/" + imageUrl
-            );
+            if (imageUrl) {
+                window.open(
+                    "https://inbestiga.com/inbestiga/public/files/" + imageUrl
+                );
+            } else {
+                this.$swal("Este voucher no contiene imagen");
+            }
         },
         changeStatusVoucher(voucher) {
             var newStatus = voucher.status + 1;
