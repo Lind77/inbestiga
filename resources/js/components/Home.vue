@@ -2,7 +2,7 @@
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             <Sidebar
-                v-if="store.authUser"
+                v-if="store.authUser && store.authUser.subarea"
                 :hidden="hidden"
                 :user="store.authUser"
                 :role="store.authUser.subarea.name"
@@ -125,6 +125,14 @@ export default {
         var theme = localStorage.getItem("theme");
 
         this.theme(theme);
+
+        if (this.store.authUser.roles[0].name == "Experience") {
+            Echo.private("posts").listen("NewPost", (e) => {
+                console.log(e.post);
+                this.postNotification = e.post;
+                $("#toastPost").toast("show");
+            });
+        }
 
         /* if (localStorage.getItem('reloaded')) {
             localStorage.removeItem('reloaded');
