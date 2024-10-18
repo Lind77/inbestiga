@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Hash;
 
 class QuotationController extends Controller
 {
-     /**
+    /**
      * Muestra una lista de las cotizaciones.
      *
      * @return \Illuminate\Http\Response
@@ -45,7 +45,7 @@ class QuotationController extends Controller
         //
     }
 
-     /**
+    /**
      * Almacena una nueva cotización en la base de datos.
      *
      * @param  \App\Http\Requests\StoreQuotationRequest  $request
@@ -188,7 +188,7 @@ class QuotationController extends Controller
         return view('quotation', compact('quotation', 'customer', 'details'));
     }
 
-     /**
+    /**
      * Muestra la cotización especificada.
      *
      * @param  int  $id
@@ -230,7 +230,7 @@ class QuotationController extends Controller
         //
     }
 
-   /**
+    /**
      * Elimina la cotización especificada de la base de datos.
      *
      * @param  int  $id
@@ -247,7 +247,7 @@ class QuotationController extends Controller
             'msg' => 'No existe cotización'
         ]);
     }
-     /**
+    /**
      * Obtiene la cotización asociada al ID del cliente.
      *
      * @param  int  $id
@@ -358,11 +358,11 @@ class QuotationController extends Controller
         ]);
     }
     /**
- * Busca cotizaciones basadas en el nombre del cliente.
- *
- * @param string $search El término de búsqueda.
- * @return \Illuminate\Http\JsonResponse La respuesta JSON con las cotizaciones encontradas.
- */
+     * Busca cotizaciones basadas en el nombre del cliente.
+     *
+     * @param string $search El término de búsqueda.
+     * @return \Illuminate\Http\JsonResponse La respuesta JSON con las cotizaciones encontradas.
+     */
     public function search($search)
     {
         $quotations = Quotation::with('customers')
@@ -581,9 +581,11 @@ class QuotationController extends Controller
      */
     public function quotationVouchers()
     {
-        $quotations = Quotation::with(['contract', 'contract.external_vouchers', 'contract.external_vouchers.images', 'contract.projects', 'customers'])->whereHas('contract.external_vouchers')->where('status', 11)->orderBy('updated_at', 'desc')->paginate(20);
+        /* $quotations = Quotation::with(['contract', 'contract.external_vouchers', 'contract.external_vouchers.images', 'contract.projects', 'customers'])->whereHas('contract.external_vouchers')->where('status', 11)->orderBy('updated_at', 'desc')->paginate(20); */
 
-        return response()->json($quotations);
+        $external_vouchers = External_voucher::with(['customer', 'contract', 'contract.user', 'images'])->orderBy('created_at', 'asc')->get();
+
+        return response()->json($external_vouchers);
     }
     /**
      * Actualiza el estado de un voucher externo.
