@@ -8,7 +8,7 @@
             @click="openModalVideo"
         />
         <div class="glass-card pb-2 w-100">
-            <p class="fw-bold text-center text-white pt-1">{{ text }}</p>
+            <p class="fw-bold text-center text-white pt-1 mb-0">{{ text }}</p>
         </div>
     </div>
 </template>
@@ -41,6 +41,11 @@ export default {
     filter: brightness(1);
 }
 
+.card-container:hover {
+    transform: scale(1.2);
+    transition: 0.5s;
+}
+
 .card-container:hover .glass-card {
     opacity: 1;
     transition: 0.5s;
@@ -54,7 +59,14 @@ export default {
     padding: 0px;
     position: relative;
     bottom: 73px;
-    opacity: 0;
     transition: 0.5s;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.glass-card p {
+    font-size: 15px;
 }
 </style>
