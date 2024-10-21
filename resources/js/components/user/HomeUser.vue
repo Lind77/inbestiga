@@ -29,14 +29,22 @@
                             class="main-video mb-3 mt-5 mx-auto"
                         />
 
-                        <h2 class="sub-text text-white text-center mt-5 mb-5">
+                        <p class="sub-text text-white text-center mx-auto">
+                            En Inbestiga, sabemos que tu tesis es el siguiente
+                            gran paso hacia tu éxito profesional. Te acompañamos
+                            con asesores expertos y herramientas diseñadas para
+                            que avances con confianza hacia tus metas.
+                            ¡Bienvenido a tu viaje con Inbestiga!
+                        </p>
+
+                        <!-- <h2 class="sub-text text-white text-center mt-5 mb-5">
                             <span class="sub-text-bold">Encuentra</span> el
                             <span class="sub-text-bold">resumen</span><br />
                             del
                             <span class="sub-text-bold"
                                 >video <span class="pink">aquí</span></span
                             >
-                        </h2>
+                        </h2> -->
                     </div>
                 </div>
             </div>
