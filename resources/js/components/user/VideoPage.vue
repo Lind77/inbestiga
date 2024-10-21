@@ -8,23 +8,48 @@
                         class="main d-flex justify-content-center flex-column mt-5"
                     >
                         <h2
-                            class="main-text subtext text-white text-center mt-4"
+                            class="main-text-bold subtext text-white text-center mt-4"
                         >
-                            Mi viaje
-                            <span class="main-text-bold">con Inbestiga</span>
+                            {{
+                                topics[parseInt($route.params.categoryId) - 1]
+                                    .title
+                            }}
                         </h2>
-                        <h3 class="mx-auto text-white mt-4 fw-normal">
+                        <!-- <h3 class="mx-auto text-white mt-4 fw-normal">
                             ¡Tienes a tu disposición recursos diseñados
                             especialmente para ti!
-                        </h3>
+                        </h3> -->
                     </div>
                 </div>
-                <div class="col-6 col-lg mt-5" v-for="topic in topics">
-                    <Card
-                        :text="topic.title"
-                        :imageUrl="'https://inbestiga.com/inbestiga/public/img/valeCard.jpg'"
-                        @click="toVideos(topic.id)"
-                    />
+                <div class="col-12 mt-5" v-for="video in videosFiltered">
+                    <div class="glass">
+                        <div class="row">
+                            <div class="col-3">
+                                <img
+                                    :src="video.imgUrl"
+                                    alt=""
+                                    class="video__image"
+                                />
+                            </div>
+                            <div class="col-9">
+                                <h5 class="text-white fw-bold mt-4">
+                                    {{ video.text }}
+                                </h5>
+                                <button
+                                    class="btn btn-primary"
+                                    @click="openVideoModal(video.srcVideo)"
+                                >
+                                    <i class="bx bx-play-circle"></i>
+                                    Ver ahora
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  <Card
+                        :text="video.text"
+                        :imageUrl="'https://inbestiga.com/inbestiga/public/img/video-layers/2.png'"
+                        
+                    /> -->
                     <!--  <div class="card glass p-4 my-2 cursor-pointer">
                         <h3 class="text-white">{{ topic }}</h3>
                     </div> -->
@@ -70,99 +95,108 @@ export default {
             videoList: [
                 {
                     id: 1,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
-                    srcVideo: "https://player.vimeo.com/video/1015724224",
-                    text: "¿Qué sucede si mi asesor universitario rechaza el tema propuesto?",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/2.png",
+                    srcVideo: "https://player.vimeo.com/video/1015724185",
+                    text: "¿Qué beneficios tengo al usar el aula virtual?",
+                    type: 1,
                 },
                 {
                     id: 2,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
-                    srcVideo: "https://player.vimeo.com/video/1015724185",
-                    text: "¿Qué beneficios tengo al usar el aula virtual?",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/3.png",
+                    srcVideo: "https://player.vimeo.com/video/1015724224",
+                    text: "¿Qué sucede si mi asesor universitario rechaza el tema propuesto?",
+                    type: 1,
                 },
                 {
                     id: 3,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
-                    srcVideo: "https://player.vimeo.com/video/1015724151",
-                    text: "¿Qué recursos me brindan para ayudarme en la defensa de mi tesis?",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/4.png",
+                    srcVideo: "https://player.vimeo.com/video/1015723450",
+                    text: "¿Hasta cuándo me ayudarán con las observaciones?",
+                    type: 1,
                 },
                 {
                     id: 4,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
-                    srcVideo: "https://player.vimeo.com/video/1015724105",
-                    text: "¿Qué debo hacer después de que mis jurados aprueben mi tesis?",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/5.png",
+                    srcVideo: "https://player.vimeo.com/video/1015724151",
+                    text: "¿Qué recursos me brindan para ayudarme en la defensa de mi tesis?",
+                    type: 1,
                 },
                 {
                     id: 5,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
-                    srcVideo: "https://player.vimeo.com/video/1015724063",
-                    text: "¿Cuanto tiempo tardan el levantar una observación?",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/6.png",
+                    srcVideo: "https://player.vimeo.com/video/1015723836",
+                    text: "¿Cuándo se agenda la primera reunión y por qué es importante?",
+                    type: 2,
                 },
                 {
                     id: 6,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/7.png",
                     srcVideo: "https://player.vimeo.com/video/1015724016",
                     text: "¿Cómo puedo conocer el progreso de mi proyecto y recibir los documentos?",
+                    type: 2,
                 },
                 {
                     id: 7,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
-                    srcVideo: "https://player.vimeo.com/video/1015723836",
-                    text: "¿Cuándo se agenda la primera reunión y por qué es importante?",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/8.png",
+                    srcVideo: "https://player.vimeo.com/video/1015724063",
+                    text: "¿Cuánto tiempo tardan el levantar una observación?",
+                    type: 2,
                 },
                 {
                     id: 8,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
-                    srcVideo: "https://player.vimeo.com/video/1015723802",
-                    text: "¿Puedo elegir entre reuniones presenciales o virtuales?",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/9.png",
+                    srcVideo: "https://player.vimeo.com/video/1015724105",
+                    text: "¿Qué debo hacer después de que mis jurados aprueben mi tesis?",
+                    type: 2,
                 },
                 {
                     id: 9,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
-                    srcVideo: "https://player.vimeo.com/video/1015723761",
-                    text: "¿Cómo puedo resolver mis dudas sobre mi proyecto?",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/10.png",
+                    srcVideo: "https://player.vimeo.com/video/1015723802",
+                    text: "¿Puedo elegir si mis reuniones serán presenciales o virtuales?",
+                    type: 3,
                 },
                 {
                     id: 10,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
-                    srcVideo: "https://player.vimeo.com/video/1015723725",
-                    text: "¿Es posible realizar mi pago personalmente en la oficina?",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/11.png",
+                    srcVideo: "https://player.vimeo.com/video/1015723761",
+                    text: "¿Cómo puedo resolver mis dudas sobre mi proyecto?",
+                    type: 3,
                 },
                 {
                     id: 11,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
-                    srcVideo: "https://player.vimeo.com/video/1015723685",
-                    text: "¿Hasta cuándo es el acompañamiento una vez realizado el último pago?",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/12.png",
+                    srcVideo: "https://player.vimeo.com/video/1015723725",
+                    text: "¿Es posible realizar mi pago personalmente en la oficina?",
+                    type: 4,
                 },
                 {
                     id: 12,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/13.png",
                     srcVideo: "https://player.vimeo.com/video/1015723641",
                     text: "¿Es posible revisar mi proyecto antes de realizar el pago?",
+                    type: 4,
                 },
                 {
                     id: 13,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
-                    srcVideo: "https://player.vimeo.com/video/1015723597",
-                    text: "¿Qué actitud debo tener si surgen obstáculos?",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/14.png",
+                    srcVideo: "https://player.vimeo.com/video/1015723685",
+                    text: "¿Hasta cuándo es el acompañamiento una vez realizado el último pago?",
+                    type: 4,
                 },
                 {
                     id: 14,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/15.png",
                     srcVideo: "https://player.vimeo.com/video/1015723541",
                     text: "¿Cuál es mi compromiso como usuario durante el proceso?",
+                    type: 5,
                 },
                 {
                     id: 15,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
-                    srcVideo: "https://player.vimeo.com/video/1015723497",
-                    text: "Bienvenido a inbestiga",
-                },
-                {
-                    id: 16,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/valeCard.jpg",
-                    srcVideo: "https://player.vimeo.com/video/1015723450",
-                    text: "¿Hasta cuándo me ayudarán con las observaciones?",
+                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/16.png",
+                    srcVideo: "https://player.vimeo.com/video/1015723597",
+                    text: "¿Qué actitud debo tener si surgen obstáculos?",
+                    type: 5,
                 },
             ],
             topics: [
@@ -175,11 +209,9 @@ export default {
         };
     },
     methods: {
-        toVideos(videosCategory) {
-            this.$router.push({
-                name: "video-page",
-                params: { categoryId: videosCategory },
-            });
+        openVideoModal(videoSrc) {
+            this.srcVideoSelected = videoSrc;
+            $("#videoModal").modal("show");
         },
         toggleSidebar() {
             this.hidden = !this.hidden;
@@ -215,6 +247,13 @@ export default {
     },
     mounted() {
         //this.getUserInfo();
+    },
+    computed: {
+        videosFiltered: function () {
+            return this.videoList.filter(
+                (video) => video.type == this.$route.params.categoryId
+            );
+        },
     },
 };
 </script>
@@ -285,7 +324,7 @@ export default {
     -webkit-backdrop-filter: blur(5px);
     border-radius: 5px;
 
-    padding: 10px 0px;
+    padding: 0px 0px;
 }
 
 .menu-item {
@@ -354,6 +393,12 @@ p {
     margin-left: -8em;
     width: 140%;
     padding-right: 0%;
+}
+
+.video__image {
+    width: 95%;
+    margin: 0px auto;
+    border-radius: 5px 0px 0px 5px;
 }
 
 @media only screen and (max-width: 576px) {
