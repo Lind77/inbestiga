@@ -24,10 +24,24 @@
                             tu <span class="main-text-bold">aula virtual</span>
                         </h2>
 
-                        <img
-                            src="https://inbestiga.com/inbestiga/public/img/valeria.png"
-                            class="main-video mb-3 mt-5 mx-auto"
-                        />
+                        <div
+                            style="padding: 56.25% 0 0 0; position: relative"
+                            class="mt-5"
+                        >
+                            <iframe
+                                src="https://player.vimeo.com/video/1021820378?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                                frameborder="0"
+                                allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                                style="
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                "
+                                title="1021"
+                            ></iframe>
+                        </div>
 
                         <p class="sub-text text-white text-center mx-auto">
                             En Inbestiga, sabemos que tu tesis es el siguiente
