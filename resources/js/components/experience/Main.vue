@@ -153,7 +153,6 @@
         </div>
     </div>
     <NoteModal @getAllDeliveries="getAllDeliveries" />
-    <ToastPost :post="postNotification" />
 </template>
 <script>
 import axios from "axios";
