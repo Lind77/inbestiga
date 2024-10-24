@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Events\NewPost;
 use App\Models\File;
+use App\Models\Notification;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use FileFacade;
 
@@ -165,7 +167,21 @@ class FileController extends Controller
             ]);
         }
 
-        $post->load('postable');
+        $post->load(['postable', 'project', 'project.projectable']);
+
+        $notification = $post->postable->notifications()->create([
+            'content' => 'envió un nuevo post en su timeline.',
+            'type' => 1
+        ]);
+
+        $experience_users = User::where('subarea_id', 3)->get();
+
+        $experience_users->each(function ($user) use ($notification) {
+            $user->seens()->create([
+                'notification_id' => $notification->id,
+                'seen' => 0
+            ]);
+        });
 
         broadcast(new NewPost($post));
 

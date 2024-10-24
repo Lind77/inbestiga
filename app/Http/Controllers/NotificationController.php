@@ -18,9 +18,13 @@ class NotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $notifications = Notification::with('user')->orderBy('id', 'desc')->take(5)->get();
+        $user = User::with(['seens' => function ($query) {
+            $query->orderBy('id', 'desc');
+        }, 'seens.notification', 'seens.notification.notificable'])->find($id);
+
+        $notifications = $user->seens;
 
         return response()->json($notifications);
     }
