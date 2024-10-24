@@ -91,16 +91,21 @@ class User extends Authenticatable
     public function subarea(){
         return $this->belongsTo('App\Models\Subarea');
     }
-      /**
-     * Relación muchos a muchos user-notifications.
+     /**
+     * Relacion morfeable uno a muchos (Customer-User-Notification).
      *
-     * Este método define la relación donde un usuario puede tener múltiples notificaciones.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function notifications()
-    {
-        return $this->belongsToMany('App\Models\Notification', 'seens');
+    public function notifications(){
+        return $this->morphMany('App\Models\Notification', 'notificable');
+    }
+     /**
+     * Relacion morfeable uno a muchos (User customer-Seen).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function seens(){
+        return $this->morphMany('App\Models\Seen', 'seenable');
     }
      /**
      * Relación polimorfica muchos a muchos user-meetings.

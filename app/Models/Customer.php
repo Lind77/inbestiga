@@ -137,4 +137,21 @@ class Customer extends Authenticatable
     {
         return $this->belongsTo('App\Models\Province');
     }
+
+    /**
+     * Relacion morfeable uno a muchos (Customer-User-Notification).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function notifications(){
+        return $this->morphMany('App\Models\Notification', 'notificable');
+    }
+     /**
+     * Relacion morfeable uno a muchos (User customer-Seen).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function seens(){
+        return $this->morphMany('App\Models\Seen', 'seenable');
+    }
 }
