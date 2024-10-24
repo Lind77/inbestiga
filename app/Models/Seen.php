@@ -30,5 +30,26 @@ class Seen extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['user_id', 'notification_id','seen'];
+    protected $fillable = ['seenable_id','seenable_type', 'notification_id','seen'];
+    
+    /**
+     * Relacion polimorfica uno a muchos inversa polimorfica uno a muchos .
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function seenable(){
+        return $this->morphTo();
+    } 
+
+    /**
+     * Relacion inversa uno a muchos Ntofications-Seens.
+     * 
+     * Seen de una notification.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function notification()
+    {
+        return $this->belongsTo('App\Models\Notification');
+    }
 }
