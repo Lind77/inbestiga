@@ -187,7 +187,7 @@
                             </div>
                         </li>
                         <li
-                            class="dropdown-notifications-list scrollable-container ps"
+                            class="dropdown-notifications-list scrollable-container"
                         >
                             <ul class="list-group list-group-flush">
                                 <template v-for="notification in notifications">
@@ -223,20 +223,12 @@
                                                     )
                                                 }}</small>
                                             </div>
-                                            <!-- <div class="flex-grow-1">
+                                            <div class="flex-grow-1">
                                                 <i
-                                                    @click="
-                                                        confirmSeen(
-                                                            notification
-                                                                .users[0].pivot
-                                                                .id,
-                                                            notification.id
-                                                        )
-                                                    "
-                                                    :id="`checkNot${notification.users[0].pivot.id}`"
+                                                    :id="`checkNot${notification.id}`"
                                                     class="bx bx-check-circle text-secondary"
                                                 ></i>
-                                            </div> -->
+                                            </div>
                                         </div>
                                     </li>
                                 </template>
@@ -624,6 +616,11 @@ export default {
 };
 </script>
 <style scoped>
+.scrollable-container {
+    overflow-y: auto;
+    height: 50vh;
+}
+
 .badge-notifications {
     font-size: 0.582rem;
     line-height: 0.55rem;
