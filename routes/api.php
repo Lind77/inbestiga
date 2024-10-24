@@ -546,7 +546,7 @@ Route::delete('/teams/{id}', [TeamController::class, 'destroy']);
 /**
  * Obtiene todas las notificaciones.
  */
-Route::get('/getNotifications', [NotificationController::class, 'index']);
+Route::get('/notifications/{id}', [NotificationController::class, 'index']);
 
 /**
  * Obtiene todas las notificaciones asociadas a un ID de usuario.
@@ -565,7 +565,7 @@ Route::post('/insertReject', [NotificationController::class, 'insertReject']);
  * 
  * @param int $id ID del usuario.
  */
-Route::get('/notifications/{id}', [NotificationController::class, 'getNoSeenNotifications']);
+Route::get('/noseen-notifications/{id}', [NotificationController::class, 'getNoSeenNotifications']);
 
 /**
  * Registra una notificación como vista para un usuario.

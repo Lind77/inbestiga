@@ -194,22 +194,36 @@
                                     <li
                                         class="list-group-item list-group-item-action dropdown-notifications-item"
                                         :id="`notification${notification.id}`"
+                                        @click="
+                                            toProject(
+                                                notification.notification
+                                                    .quotationId
+                                            )
+                                        "
                                     >
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <h6 class="mb-1">
                                                     {{
-                                                        notification.emisor.name
+                                                        notification
+                                                            .notification
+                                                            .notificable.name
                                                     }}
-                                                    {{ notification.content }}
+                                                    {{
+                                                        notification
+                                                            .notification
+                                                            .content
+                                                    }}
                                                 </h6>
                                                 <small class="text-muted">{{
                                                     dateFormatted(
-                                                        notification.created_at
+                                                        notification
+                                                            .notification
+                                                            .created_at
                                                     )
                                                 }}</small>
                                             </div>
-                                            <div class="flex-grow-1">
+                                            <!-- <div class="flex-grow-1">
                                                 <i
                                                     @click="
                                                         confirmSeen(
@@ -222,7 +236,7 @@
                                                     :id="`checkNot${notification.users[0].pivot.id}`"
                                                     class="bx bx-check-circle text-secondary"
                                                 ></i>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </li>
                                 </template>
@@ -370,6 +384,9 @@ import { userStore } from "../../stores/UserStore";
 export default {
     components: { Toast },
     emits: ["hideSidebar"],
+    props: {
+        notifications: Array,
+    },
     setup() {
         const store = userStore();
         return { store };
@@ -381,7 +398,6 @@ export default {
             numberNotifications: 0,
             toggle: true,
             cantNotifications: 0,
-            notifications: [],
             seens: [],
             numberMessages: 0,
             messages: [],
@@ -440,6 +456,12 @@ export default {
         toProfile(id) {
             this.$router.push({ name: "profile", params: { idUser: id } });
         },
+        toProject(quotationId) {
+            this.$router.push({
+                name: "home-documentation",
+                params: { quotationId: quotationId },
+            });
+        },
         clearCantNotifications() {
             this.cantNotifications = 0;
             if (this.notifications.length > 0) {
@@ -483,21 +505,6 @@ export default {
         },
         dateFormatted(date) {
             return moment(date).fromNow();
-        },
-        getNotifications() {
-            this.axios
-                .get("/api/getNotifications")
-                .then((res) => {
-                    var filteredNotifications = res.data.filter(
-                        (notification) =>
-                            notification.user.id != this.store.authUser.id
-                    );
-                    this.notifications = filteredNotifications;
-                    this.cantNotifications = this.notifications.length;
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
         },
         getNoSeenNotifications() {
             this.axios
@@ -550,7 +557,7 @@ export default {
     mounted() {
         this.getAllMessages();
         this.getUsers();
-        this.getNoSeenNotifications();
+        //this.getNoSeenNotifications();
 
         Echo.private(`message.${this.store.authUser.id}`).listen(
             "NewMessage",

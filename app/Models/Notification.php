@@ -30,21 +30,22 @@ class Notification extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['emisor_id', 'content', 'type','extra'];
+    protected $fillable = ['notificable_id','notificable_type','content', 'type','extra'];
     /**
-     * Realción muchos a muchos users-notifications.
+     * Relacion polimorfica uno a muchos inversa contract_orders-payments.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function users(){
-        return $this->belongsToMany('App\Models\User','seens')->withPivot('id','seen');
-    }
-     /**
-     * Relación uno a uno user notificaation
+    public function notificable(){
+        return $this->morphTo();
+    } 
+    /**
+     * Relacion uno a muchos notificaciomseens.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function emisor(){
-        return $this->belongsTo('App\Models\User', 'emisor_id');
+    public function seens()
+    {
+        return $this->hasMany("App\Models\Seen");
     }
 }
