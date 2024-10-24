@@ -10,7 +10,11 @@
                 :bgColor="bg"
             />
             <div class="layout-page">
-                <Navbar @hideSidebar="hideSidebar" @theme="theme" />
+                <Navbar
+                    @hideSidebar="hideSidebar"
+                    @theme="theme"
+                    :notifications="notifications"
+                />
                 <div class="content-wrapper">
                     <component
                         v-if="$route.path == '/home'"
@@ -46,6 +50,7 @@ export default {
             hidden: true,
             bg: "bg-primary",
             postNotification: {},
+            notifications: [],
         };
     },
     components: {
@@ -102,6 +107,17 @@ export default {
             this.hidden = !this.hidden;
             /* $('body').css('transform', `translate(265px, 0)`) */
         },
+        getNotifications() {
+            this.axios
+                .get("/api/notifications/" + this.store.authUser.id)
+                .then((res) => {
+                    this.notifications = res.data;
+                    this.cantNotifications = 5;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
     },
     computed: {
         getComponentMain() {
@@ -130,9 +146,25 @@ export default {
 
         this.theme(theme);
 
+        this.getNotifications();
+
         if (this.store.authUser.roles[0].name == "Experience") {
             Echo.private("posts").listen("NewPost", (e) => {
-                console.log(e.post);
+                //this.getNotifications();
+
+                var newNotification = {
+                    notification: {
+                        notificable: {
+                            name: e.post.postable.name,
+                        },
+                        content: "envió un nuevo post en su timeline.",
+                        created_at: e.post.created_at,
+                        quotationId: e.post.project.projectable.quotation_id,
+                    },
+                };
+
+                this.notifications.unshift(newNotification);
+
                 this.postNotification = e.post;
                 $("#toastPost").toast("show");
             });

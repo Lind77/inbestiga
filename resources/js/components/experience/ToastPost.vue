@@ -33,7 +33,9 @@ export default {
         toProject() {
             this.$router.push({
                 name: "home-documentation",
-                params: { quotationId: 633 },
+                params: {
+                    quotationId: this.post.project.projectable.quotationId,
+                },
             });
         },
     },

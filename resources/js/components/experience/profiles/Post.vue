@@ -44,7 +44,7 @@ export default {
     },
     methods: {
         formatDate(date) {
-            return moment(date).format("DD/MM/YYYY");
+            return moment(date).format("DD/MM/YYYY HH:mm:ss a");
         },
         downloadFile(url) {
             window.open("https://inbestiga.com/inbestiga/public/files/" + url);
