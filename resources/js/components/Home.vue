@@ -22,6 +22,7 @@
             </div>
         </div>
     </div>
+    <ToastPost :post="postNotification" />
 </template>
 <script>
 import { userStore } from "../stores/UserStore";
@@ -33,6 +34,7 @@ import ExperienceMain from "./experience/Main.vue";
 import AcademicMain from "./academic/Main.vue";
 import MarketingMain from "./marketing/Main.vue";
 import FinanceMain from "./finance/Main.vue";
+import ToastPost from "./experience/ToastPost.vue";
 
 export default {
     setup() {
@@ -43,6 +45,7 @@ export default {
         return {
             hidden: true,
             bg: "bg-primary",
+            postNotification: {},
         };
     },
     components: {
@@ -54,6 +57,7 @@ export default {
         MarketingMain,
         AcademicMain,
         FinanceMain,
+        ToastPost,
     },
     methods: {
         theme(theme) {
@@ -133,6 +137,10 @@ export default {
                 $("#toastPost").toast("show");
             });
         }
+        /* 
+        if (this.store.authUser) {
+            Echo.private().listen();
+        } */
 
         /* if (localStorage.getItem('reloaded')) {
             localStorage.removeItem('reloaded');

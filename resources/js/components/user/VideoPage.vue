@@ -21,7 +21,10 @@
                         </h3> -->
                     </div>
                 </div>
-                <div class="col-12 mt-5" v-for="video in videosFiltered">
+                <div
+                    class="col-12 col-lg-6 mt-5"
+                    v-for="video in videosFiltered"
+                >
                     <div class="glass">
                         <div class="row">
                             <div class="col-3">
