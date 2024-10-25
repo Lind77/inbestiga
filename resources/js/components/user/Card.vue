@@ -1,15 +1,14 @@
 <template>
-    <div class="card-container w-100">
+    <div class="card-container glass-card w-100 mt-5">
         <img
             :src="imageUrl"
-            alt=""
-            srcset=""
-            class="img-card cursor-pointer mb-4"
+            alt="icon-image"
+            class="img-card cursor-pointer"
             @click="openModalVideo"
         />
-        <div class="glass-card pb-2 w-100">
-            <p class="fw-bold text-center text-white pt-1 mb-0">{{ text }}</p>
-        </div>
+        <p class="fw-bold text-center text-white mb-0 pb-4">
+            {{ text }}
+        </p>
     </div>
 </template>
 <script>
@@ -29,7 +28,6 @@ export default {
 <style scoped>
 .img-card {
     height: 19em;
-    width: 100%;
     object-fit: cover;
     border-radius: 8px;
     transition: 1s;
@@ -55,15 +53,16 @@ export default {
     background: rgba(255, 255, 255, 0.112);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    border-radius: 0px 0px 8px 8px;
+    border-radius: 8px 8px 8px 8px;
     padding: 0px;
     position: relative;
     bottom: 73px;
     transition: 0.5s;
-    height: 50px;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 .glass-card p {

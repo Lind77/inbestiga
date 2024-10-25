@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div
-                    class="col-12 col-lg-6 mt-5"
+                    class="col-12 col-lg-6 mt-3 mb-3 pb-5"
                     v-for="video in videosFiltered"
                 >
                     <div class="glass">

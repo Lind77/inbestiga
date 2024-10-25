@@ -19,10 +19,10 @@
                         </h3>
                     </div>
                 </div>
-                <div class="col-6 col-lg mt-5" v-for="topic in topics">
+                <div class="col-12 col-lg mt-5" v-for="topic in topics">
                     <Card
                         :text="topic.title"
-                        :imageUrl="'https://inbestiga.com/inbestiga/public/img/valeCard.jpg'"
+                        :imageUrl="topic.img"
                         @click="toVideos(topic.id)"
                     />
                     <!--  <div class="card glass p-4 my-2 cursor-pointer">
@@ -166,11 +166,31 @@ export default {
                 },
             ],
             topics: [
-                { id: 1, title: "Mis beneficios" },
-                { id: 2, title: "Progreso académico" },
-                { id: 3, title: "Comunícate con nosotros" },
-                { id: 4, title: "Mi inversión y pagos" },
-                { id: 5, title: "Mi compromiso" },
+                {
+                    id: 1,
+                    title: "Mis beneficios",
+                    img: "https://inbestiga.com/inbestiga/public/img/user/benefits.png",
+                },
+                {
+                    id: 2,
+                    title: "Progreso académico",
+                    img: "https://inbestiga.com/inbestiga/public/img/user/progress.png",
+                },
+                {
+                    id: 3,
+                    title: "Comunícate con nosotros",
+                    img: "https://inbestiga.com/inbestiga/public/img/user/comunicate.png",
+                },
+                {
+                    id: 4,
+                    title: "Mi inversión y pagos",
+                    img: "https://inbestiga.com/inbestiga/public/img/user/payments.png",
+                },
+                {
+                    id: 5,
+                    title: "Mi compromiso",
+                    img: "https://inbestiga.com/inbestiga/public/img/user/compromise.png",
+                },
             ],
         };
     },
