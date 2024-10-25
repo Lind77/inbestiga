@@ -45,7 +45,7 @@ class ContractController extends Controller
         //
     }
 
-   /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreContractRequest  $request
@@ -261,7 +261,7 @@ class ContractController extends Controller
         ]);
     }
 
-      /**
+    /**
      * Update the contract with new details.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -393,7 +393,6 @@ class ContractController extends Controller
             foreach ($payments as $payment) {
                 $rules = [
                     'date' => 'required',
-                    // Otras reglas de validación para el elemento del array
                 ];
 
                 $validator = Validator::make($payment, $rules);
@@ -482,13 +481,26 @@ class ContractController extends Controller
         $deliveries = json_decode($request->get('deliveries'), true);
 
         foreach ($deliveries as $delivery) {
-            Delivery::create([
-                'advance' => $delivery['advance'],
-                'status' => 0,
-                'project_id' => $project->id,
-                'date' => $delivery['date'] ?: null,
-                'type' => 1
-            ]);
+
+            $rules = [
+                'date' => 'required',
+            ];
+
+            $validator = Validator::make($delivery, $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Asegurate de que todas las fechas de Entregas estén completadas'
+                ], 405);
+            } else {
+                Delivery::create([
+                    'advance' => $delivery['advance'],
+                    'status' => 0,
+                    'project_id' => $project->id,
+                    'date' => $delivery['date'] ?: null,
+                    'type' => 1
+                ]);
+            }
         }
 
         $payments = json_decode($request->get('payments'), true);

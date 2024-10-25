@@ -290,7 +290,7 @@ export default {
     },
     mounted() {
         this.startInterval();
-        this.getComunicationsByToday();
+        //this.getComunicationsByToday();
     },
 };
 </script>
