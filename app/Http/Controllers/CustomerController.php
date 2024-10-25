@@ -17,6 +17,7 @@ use App\Models\Quotation;
 use App\Models\Seen;
 use App\Models\User;
 use Illuminate\Http\Request;
+
 /**
  * Class CustomerController
  *
@@ -113,7 +114,7 @@ class CustomerController extends Controller
         //
     }
 
-     /**
+    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateCustomerRequest  $request
@@ -142,7 +143,7 @@ class CustomerController extends Controller
         ]);
     }
 
-     /**
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -288,7 +289,7 @@ class CustomerController extends Controller
             'msg' => 'success'
         ]);
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -380,7 +381,7 @@ class CustomerController extends Controller
             'user_id' => $request->get('user_id')
         ]);
 
-        $notification = Notification::create([
+        /* $notification = Notification::create([
             'emisor_id' => $request->get('user_id'),
             'content' => 'te asignó un nuevo lead ' . $customer->name,
             'type' => 1
@@ -392,7 +393,7 @@ class CustomerController extends Controller
             'seen' => 0
         ]);
 
-        broadcast(new NewLead($customer));
+        broadcast(new NewLead($customer)); */
 
         return response()->json([
             'msg' => 'success'
@@ -545,7 +546,7 @@ class CustomerController extends Controller
         $customers = Customer::with(['user', 'comunications'])->where('name', 'like', '%' . $search . '%')->orWhere('cell', 'like', '%' . $search . '%')->get();
         return response()->json($customers);
     }
-     /**
+    /**
      * Actualiza la próxima comunicación de un cliente.
      *
      * @param  int  $id  El ID de la comunicación.
@@ -565,7 +566,7 @@ class CustomerController extends Controller
             'newComunication' => $comunication
         ]);
     }
-     /**
+    /**
      * Obtiene todos los perfiles de clientes con un estatus específico.
      *
      * @return \Illuminate\Http\Response
@@ -579,7 +580,7 @@ class CustomerController extends Controller
 
         return response()->json($quotations);
     }
-       /**
+    /**
      * Busca perfiles de clientes basándose en un término de búsqueda.
      *
      * @param  string  $search  El término de búsqueda.
@@ -601,7 +602,7 @@ class CustomerController extends Controller
 
         return response()->json($quotations);
     }
-     /**
+    /**
      * Busca clientes creados en una fecha específica.
      *
      * @param  string  $date  La fecha para filtrar los clientes.
@@ -623,7 +624,7 @@ class CustomerController extends Controller
         $customer = Customer::with(['user', 'comunications', 'quotations.customers', 'quotations.contract.projects', 'quotations.contract.payments', 'quotations.contract.external_vouchers', 'quotations.contract.external_vouchers.images', 'quotations.contract.projects.team.users.images'])->find($id);
         return response()->json($customer);
     }
-     /**
+    /**
      * Obtiene todos los clientes con un estatus de cliente.
      *
      * @return \Illuminate\Http\Response
