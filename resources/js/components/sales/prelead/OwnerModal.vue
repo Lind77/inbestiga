@@ -3,15 +3,30 @@
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel2">Asignar dueño del Lead</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="exampleModalLabel2">
+                        Asignar dueño del Lead
+                    </h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col mb-3">
-                            <label for="nameSmall" class="form-label">Dueño del Lead</label>
-                            <select v-model="seller_selected" class="form-select">
-                                <option :value="seller.id" v-for="seller in sellers">
+                            <label for="nameSmall" class="form-label"
+                                >Dueño del Lead</label
+                            >
+                            <select
+                                v-model="seller_selected"
+                                class="form-select"
+                            >
+                                <option
+                                    :value="seller.id"
+                                    v-for="seller in sellers"
+                                >
                                     {{ seller.name }}
                                 </option>
                             </select>
@@ -19,104 +34,123 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal"
+                    >
                         Salir
                     </button>
-                    <button type="button" class="btn btn-primary" @click="assignSeller">Asignar</button>
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        @click="assignSeller"
+                    >
+                        Asignar
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
-import axios from 'axios'
-import { userStore } from '../../../stores/UserStore'
+import axios from "axios";
+import { userStore } from "../../../stores/UserStore";
 
 export default {
     setup() {
-        const store = userStore()
+        const store = userStore();
         return {
-            store
-        }
+            store,
+        };
     },
     props: {
-        customerId: Number
+        customerId: Number,
     },
     data() {
         return {
             level: 0,
-            seller_selected: '',
+            seller_selected: "",
             sellers: [],
-            search: '',
+            search: "",
             products: [],
             filteredProducts: [],
             selectedProducts: [],
-            needs: ''
-        }
+            needs: "",
+        };
     },
     methods: {
         pickProduct(product) {
-            var prodLevel = { id: product.id, name: product.name, level: this.level }
-            this.selectedProducts.push(prodLevel)
-            this.filteredProducts = []
-            this.search = ''
+            var prodLevel = {
+                id: product.id,
+                name: product.name,
+                level: this.level,
+            };
+            this.selectedProducts.push(prodLevel);
+            this.filteredProducts = [];
+            this.search = "";
         },
         removeProduct(product) {
-            let index = this.selectedProducts.indexOf(product.id == product.id)
-            this.selectedProducts.splice(index, 1)
+            let index = this.selectedProducts.indexOf(product.id == product.id);
+            this.selectedProducts.splice(index, 1);
         },
         searchProduct() {
-            if (this.search != '') {
-                this.filteredProducts = this.products.filter(product => product.name.toLowerCase().includes(this.search))
+            if (this.search != "") {
+                this.filteredProducts = this.products.filter((product) =>
+                    product.name.toLowerCase().includes(this.search)
+                );
             } else {
-                this.filteredProducts = []
+                this.filteredProducts = [];
             }
-
         },
         assignSeller() {
-            const fd = new FormData()
-            fd.append('needs', this.needs)
-            fd.append('customer_id', this.customerId)
-            fd.append('seller_selected', this.seller_selected)
-            fd.append('user_id', this.store.authUser.id)
+            const fd = new FormData();
+            fd.append("needs", this.needs);
+            fd.append("customer_id", this.customerId);
+            fd.append("seller_selected", this.seller_selected);
+            fd.append("user_id", this.store.authUser.id);
 
-            var token = localStorage.getItem('token')
-            window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-            axios.post('/api/assignOwner', fd)
-                .then(res => {
-                    $('#ownerModal').modal('hide')
-                    this.selectedProducts = []
-                    var ownerSelected = this.sellers.find(seller => seller.id == this.seller_selected)
-                    this.$emit('cleanLead', this.customerId, ownerSelected)
+            var token = localStorage.getItem("token");
+            window.axios.defaults.headers.common[
+                "Authorization"
+            ] = `Bearer ${token}`;
+            axios
+                .post("/api/assign-owner", fd)
+                .then((res) => {
+                    $("#ownerModal").modal("hide");
+                    this.selectedProducts = [];
+                    var ownerSelected = this.sellers.find(
+                        (seller) => seller.id == this.seller_selected
+                    );
+                    this.$emit("cleanLead", this.customerId, ownerSelected);
                 })
-                .catch(err => {
-                    console.error(err)
-                })
-
-
+                .catch((err) => {
+                    console.error(err);
+                });
         },
         getAllSellers() {
-            axios.get('/api/sellers')
-                .then(res => {
-                    this.sellers = res.data
+            axios
+                .get("/api/sellers")
+                .then((res) => {
+                    this.sellers = res.data;
                 })
-                .catch(err => {
-                    console.error(err)
-                })
+                .catch((err) => {
+                    console.error(err);
+                });
         },
         getAllProducts() {
-            axios.get('/api/getAllNewProducts')
-                .then(res => {
-                    this.products = res.data
+            axios
+                .get("/api/getAllNewProducts")
+                .then((res) => {
+                    this.products = res.data;
                 })
-                .catch(err => {
-                    console.error(err)
-                })
-        }
+                .catch((err) => {
+                    console.error(err);
+                });
+        },
     },
     mounted() {
-        this.getAllSellers()
-    }
-
-}
+        this.getAllSellers();
+    },
+};
 </script>

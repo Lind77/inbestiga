@@ -230,7 +230,7 @@ Route::get('/leads/{id}', [CustomerController::class, 'getAllLeads']);
  *
  * @return \Illuminate\Http\Response
  */
-Route::post('/assignOwner', [CustomerController::class, 'assignOwner'])->middleware('auth:sanctum');
+Route::post('/assign-owner', [CustomerController::class, 'assignOwner'])->middleware('auth:sanctum');
 
 /**
  * Obtener leads por fecha.
