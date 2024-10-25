@@ -52,7 +52,7 @@
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Dueño</th>
-                                    <th>Celular</th>
+                                    <!--  <th>Celular</th> -->
                                     <th>Fecha de Registro</th>
                                     <!-- <th>Universidad</th>
                   <th>Carrera</th> -->
@@ -71,6 +71,8 @@
                                             v-show="customer.user_id == null"
                                             class="bx bxs-user-x text-danger"
                                         ></i>
+                                        <br />
+                                        <small>{{ customer.cell }}</small>
                                     </td>
                                     <td>
                                         {{
@@ -79,7 +81,7 @@
                                                 : "Sin asignar"
                                         }}
                                     </td>
-                                    <td>{{ customer.cell }}</td>
+                                    <!-- <td>{{ customer.cell }}</td> -->
                                     <td>
                                         {{ formatDate(customer.created_at) }}
                                     </td>
@@ -131,7 +133,7 @@
 <script>
 import moment from "moment";
 import customerModal from "./customerModal.vue";
-import OwnerModal from "../prelead/OwnerModal.vue";
+import OwnerModal from "./OwnerModal.vue";
 import { userStore } from "../../../stores/UserStore";
 
 export default {

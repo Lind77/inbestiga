@@ -375,7 +375,7 @@ import Toast from "./Toast.vue";
 import { userStore } from "../../stores/UserStore";
 export default {
     components: { Toast },
-    emits: ["hideSidebar"],
+    emits: ["hideSidebar", "theme"],
     props: {
         notifications: Array,
     },
