@@ -125,6 +125,7 @@
                             <img
                                 src="https://jairpl.com/mario/pngegg.png"
                                 width="50px"
+                                alt="star"
                             />
                         </h4>
 
