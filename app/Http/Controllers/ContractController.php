@@ -480,9 +480,18 @@ class ContractController extends Controller
 
         $deliveries = json_decode($request->get('deliveries'), true);
 
+
         foreach ($deliveries as $delivery) {
 
-            $rules = [
+            Delivery::create([
+                'advance' => $delivery['advance'],
+                'status' => 0,
+                'project_id' => $project->id,
+                'date' => $delivery['date'] ?: null,
+                'type' => 1
+            ]);
+
+            /*  $rules = [
                 'date' => 'required',
             ];
 
@@ -493,14 +502,8 @@ class ContractController extends Controller
                     'message' => 'Asegurate de que todas las fechas de Entregas estén completadas'
                 ], 405);
             } else {
-                Delivery::create([
-                    'advance' => $delivery['advance'],
-                    'status' => 0,
-                    'project_id' => $project->id,
-                    'date' => $delivery['date'] ?: null,
-                    'type' => 1
-                ]);
-            }
+                
+            } */
         }
 
         $payments = json_decode($request->get('payments'), true);
