@@ -11,10 +11,11 @@ use App\Models\Recovery_date;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Excel;
+use App\Imports\SheetImport;
 
 class AttendanceController extends Controller
 {
-   /**
+    /**
      * Display a listing of the attendance records.
      *
      * @return \Illuminate\Http\Response
@@ -35,7 +36,7 @@ class AttendanceController extends Controller
         //
     }
 
-     /**
+    /**
      * Store a newly created attendance record in storage.
      *
      * @param \Illuminate\Http\Request $request
@@ -76,7 +77,7 @@ class AttendanceController extends Controller
         ]);
     }
 
-     /**
+    /**
      * Display the attendance permits for a specific user.
      *
      * @param int $id User ID
@@ -188,7 +189,10 @@ class AttendanceController extends Controller
     public function excelFile(Request $request)
     {
         $fileName = time() . '.' . $request->file->getClientOriginalExtension();
-        $request->file->move(public_path('files'), $fileName);
+        $file = $request->file->move(public_path('files'), $fileName);
+        /* $data = Excel::toCollection(new SheetImport, $file);
+
+        return $data; */
 
         Excel::import(new AttendancesImport, public_path('files/' . $fileName));
 

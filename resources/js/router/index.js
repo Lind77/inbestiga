@@ -130,6 +130,8 @@ import HomeRequests from '../components/experience/requests/Home.vue'
 import HomeDocumentation from '../components/experience/profiles/Documentation.vue'
 //Area de Experiencia - Formularios
 import HomeForms from '../components/experience/forms/Home.vue'
+//Area de Experiencia - Justificaciones
+import HomeJustifications from '../components/experience/justifications/Home.vue'
 
 //Área para los usuarios
 import UsersLogin from '../components/user/Login.vue'
@@ -351,6 +353,11 @@ export const routes = [
                 path: 'requests',
                 component:  HomeRequests,
                 name: 'home-requests'
+            },
+            {
+                path: 'justifications',
+                component: HomeJustifications,
+                name: 'home-justifications'
             },
             {
                 path:'schedule',

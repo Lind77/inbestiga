@@ -261,6 +261,16 @@ export default {
 };
 </script>
 <style scoped>
+button {
+    background: linear-gradient(
+        25deg,
+        rgba(244, 21, 217, 1) 0%,
+        rgba(127, 33, 251, 1) 100%
+    );
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem 0 rgba(127, 33, 251, 1, 0.4);
+}
+
 .main-logo {
     width: 50%;
 }

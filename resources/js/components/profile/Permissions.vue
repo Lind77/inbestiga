@@ -107,7 +107,7 @@
         </div>
         <div class="col">
             <label for="">Archivo de prueba</label>
-            <input type="file" name="" id="" class="form-control" />
+            <input type="file" @change="selectFile" class="form-control" />
         </div>
     </div>
     <div class="row">
@@ -143,6 +143,7 @@ export default {
                 status: 0,
                 userId: this.store.authUser.id,
             },
+            file: null,
         };
     },
     props: {
@@ -163,13 +164,21 @@ export default {
                 }
             } */
         },
+        selectFile(event) {
+            this.file = event.target.files[0];
+        },
         postJustification() {
             const fd = new FormData();
 
             fd.append("justification", JSON.stringify(this.justification));
+            fd.append("file", this.file);
 
             axios
-                .post("/api/justification", fd)
+                .post("/api/justification", fd, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
                 .then((result) => {
                     this.$swal("Justificación enviada para revisión");
                 })

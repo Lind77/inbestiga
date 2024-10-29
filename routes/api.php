@@ -1152,6 +1152,11 @@ Route::post('/update-times-next', [ScheduleController::class, 'updateNextTimes']
 Route::post('/justification', [JustificationController::class, 'store']);
 
 /**
+ * Obtiene justificaciones del mes actual.
+ */
+Route::get('/justifications', [JustificationController::class, 'justificationsPerMonth']);
+
+/**
  * Rutas para manejar fotos de perfil.
  */
 /**
