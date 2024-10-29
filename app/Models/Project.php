@@ -34,13 +34,13 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     use HasFactory;
-     /**
+    /**
      * Los atributos que son asignables en masa.
      *
      * @var array<int, string>
      */
-    protected $fillable = ['projectable_id', 'projectable_type', 'title', 'team_id', 'user_id', 'status','start_date', 'deadline', 'academic_date', 'aditional', 'academic_level_id','type','complexity'];
-     /**
+    protected $fillable = ['projectable_id', 'projectable_type', 'title', 'team_id', 'user_id', 'status', 'start_date', 'deadline', 'academic_date', 'aditional', 'academic_level_id', 'type', 'complexity'];
+    /**
      * Relacion  inversa morfeable uno a muchos order,contract-project.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
@@ -49,7 +49,7 @@ class Project extends Model
     {
         return $this->morphTo();
     }
-     /**
+    /**
      * Relacion inversa  uno a muchos Team-project.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -65,9 +65,9 @@ class Project extends Model
      */
     public function user()
     {
-        return $this->belongsTo("App\Models\Team");
+        return $this->belongsTo("App\Models\User");
     }
-     /**
+    /**
      * Relación uno a muchos Project_Delivery.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -81,7 +81,8 @@ class Project extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function posts(){
+    public function posts()
+    {
         return $this->hasMany("App\Models\Post");
     }
     /**
@@ -112,8 +113,9 @@ class Project extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function quality_indicators(){
-        return $this->morphMany('App\Models\Quality_indicator','quality_indicable');
+    public function quality_indicators()
+    {
+        return $this->morphMany('App\Models\Quality_indicator', 'quality_indicable');
     }
     /**
      * Relacion morfeable uno a muchos project,deliveris,assigned_activities,assigned_task)
@@ -169,7 +171,7 @@ class Project extends Model
     {
         return $this->morphMany('App\Models\Icon', 'iconable');
     }
-     /**
+    /**
      * Relación polimorfica uno a mucho (Entities-File).
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany

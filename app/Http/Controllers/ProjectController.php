@@ -50,7 +50,7 @@ class ProjectController extends Controller
 
         return $projects;
     }
-     /**
+    /**
      * Obtiene todos los proyectos académicos.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -90,7 +90,7 @@ class ProjectController extends Controller
         //
     }
 
-   /**
+    /**
      * Almacena un nuevo recurso en el almacenamiento.
      *
      * @param  \App\Http\Requests\StoreProjectRequest  $request
@@ -132,7 +132,7 @@ class ProjectController extends Controller
         ]);
     }
 
-     /**
+    /**
      * Muestra el recurso especificado.
      *
      * @param  int  $id
@@ -185,7 +185,7 @@ class ProjectController extends Controller
             'msg' => 'success'
         ]);
     }
-     /**
+    /**
      * Cambia el estado de un proyecto.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -257,7 +257,7 @@ class ProjectController extends Controller
             'msg' => 'success'
         ]);
     }
-     /**
+    /**
      * Obtiene los proyectos asignados al usuario especificado.
      *
      * @param  int  $id
@@ -520,7 +520,7 @@ class ProjectController extends Controller
         /* $contracts = Contract::doesntHave('properties')->get();
         return response()->json(count($contracts)); */
     }
-     /**
+    /**
      * Habilita un proyecto asociado a un contrato.
      *
      * @param  int  $id  ID del contrato.
@@ -607,6 +607,18 @@ class ProjectController extends Controller
     {
         Project::find($id)->update([
             'status' => $status
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function updUserProject($userId, $projectId)
+    {
+        $project = Project::find($projectId);
+        $project->update([
+            'user_id' => $userId
         ]);
 
         return response()->json([
