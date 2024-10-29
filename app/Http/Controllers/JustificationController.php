@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\File;
 use App\Models\Justification;
 use Illuminate\Http\Request;
+
 /**
  * Class JustificationController
  *
@@ -56,6 +58,16 @@ class JustificationController extends Controller
             'miss_time_departure' => $justification['departure_time']
         ]);
 
+        if ($request->hasFile('file')) {
+            $fileName = $request->file->getClientOriginalName();
+            $url = $request->file->move(public_path('files'), $fileName);
+            $newJustification->files()->create([
+                'url' => $fileName,
+                'type' => 3,
+                'status' => 0
+            ]);
+        }
+
         return response()->json([
             'msg' => 'success'
         ]);
@@ -104,5 +116,18 @@ class JustificationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Display a listing of the resource per month.
+     *
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function justificationsPerMonth()
+    {
+        $justifications = Justification::with(['user', 'files'])->orderBy('id', 'desc')->get();
+
+        return response()->json($justifications);
     }
 }
