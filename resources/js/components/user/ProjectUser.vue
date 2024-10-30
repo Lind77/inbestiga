@@ -85,12 +85,15 @@ export default {
                 .then((result) => {
                     this.info = result.data;
                     this.quotations = result.data.quotations;
+
                     result.data.quotations.forEach((quotation) => {
                         quotation.contract.projects.forEach((project) => {
                             project.quotation = quotation;
                             this.projects.push(project);
                         });
                     });
+
+                    console.log(this.projects);
                 })
                 .catch((err) => {
                     console.log(err);

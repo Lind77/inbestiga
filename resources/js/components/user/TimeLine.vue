@@ -5,25 +5,24 @@
         >
             <div
                 @click="openModalAcademic"
-                class="d-flex w-50 flex-row justify-content-center align-items-center cursor-pointer"
+                class="d-flex flex-row justify-content-center align-items-center cursor-pointer"
             >
                 Información <br />
                 académica <i class="bx bx-book-open ms-3"></i>
             </div>
-            <div class="separator-vertical"></div>
             <div
                 @click="openModalFiles"
-                class="d-flex w-50 flex-row justify-content-center align-items-center cursor-pointer"
+                class="d-flex flex-row justify-content-center align-items-center cursor-pointer"
             >
                 Documentos <i class="bx bx-file ms-3"></i>
             </div>
-            <!-- <div
+            <div
                 @click="toCalendly"
                 class="d-flex flex-row justify-content-center align-items-center cursor-pointer"
             >
                 Agenda <br />
                 tu reunión <i class="bx bx-video-plus ms-3"></i>
-            </div> -->
+            </div>
         </div>
 
         <button class="btn bg-none w-100 mt-3" @click="openModalPost">
@@ -61,15 +60,13 @@ export default {
             this.$emit("openModal");
         },
         toCalendly() {
-            var team = this.project.team;
-
-            var coordSelected = team.users.find(
-                (user) => user.roles[0].name == "CoordAcad"
-            );
-
-            console.log(coordSelected);
-
-            window.open(coordSelected.calendly_user);
+            try {
+                this.project.user.calendly_user
+                    ? window.open(this.project.user.calendly_user)
+                    : this.$swal("Este proyecto no ha sido asignado aun");
+            } catch (e) {
+                this.$swal("Este proyecto no ha sido asignado aun");
+            }
         },
     },
 };

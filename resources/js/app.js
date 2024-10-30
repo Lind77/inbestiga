@@ -55,6 +55,9 @@ router.beforeEach((to, from, next) => {
             query: { redirect: to.fullPath }
             })
         } else {
+           /*  Echo.private(`message.${userId}`).listen('EventName', (event) => {
+                console.log(event);
+            }); */
             next()
         }
     } else if(to.matched.some(record => record.meta.guest)){
