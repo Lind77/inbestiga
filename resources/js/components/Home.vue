@@ -24,6 +24,9 @@
                     <router-view v-else> </router-view>
                 </div>
             </div>
+            <!-- <div class="presence pt-3">
+                <h6>Online</h6>
+            </div> -->
         </div>
     </div>
     <ToastPost :post="postNotification" />
@@ -169,6 +172,28 @@ export default {
                 $("#toastPost").toast("show");
             });
         }
+
+        if (this.store.authUser) {
+            Echo.private(`message.${this.store.authUser.id}`).listen(
+                "NewMessage",
+                (e) => {
+                    alert(e.message.message);
+                    console.log(e.message);
+                    this.getNewMessages();
+                    /*  this.numberMessages = this.numberMessages + 1;
+                    Notification.requestPermission()
+                        .then((result) => {
+                            if (result === "granted") {
+                                new Notification("Tienes un nuevo mensaje", {
+                                    body: e.message.message,
+                                });
+                            }
+                        })
+                        .catch((err) => {}); */
+                }
+            );
+        }
+
         /* 
         if (this.store.authUser) {
             Echo.private().listen();

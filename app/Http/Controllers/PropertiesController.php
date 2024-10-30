@@ -121,7 +121,7 @@ class PropertiesController extends Controller
         /* $properties = Property::orderBy('id', 'desc')->with(['propertiable', 'propertiable.projects', 'propertiable.projects.team', 'propertiable.quotation', 'propertiable.quotation.customers'])->get(); */
         /* $quotations =  Quotation::where('status', 11)->whereHas('contract')->with(['customers', 'contract', 'contract.properties', 'contract.projects'])->orderBy('id', 'desc')->paginate(8); */
 
-        $projects = Project::with(['projectable', 'projectable.properties', 'projectable.quotation', 'projectable.quotation.customers', 'team'])
+        $projects = Project::with(['projectable', 'projectable.properties', 'projectable.quotation', 'projectable.quotation.customers', 'team', 'user'])
             ->whereHas('projectable', function ($query) {
                 $query->whereHas('quotation', function ($secondquery) {
                     $secondquery->where('status', 11);

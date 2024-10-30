@@ -551,24 +551,6 @@ export default {
         this.getUsers();
         //this.getNoSeenNotifications();
 
-        Echo.private(`message.${this.store.authUser.id}`).listen(
-            "NewMessage",
-            (e) => {
-                console.log(e.message);
-                this.getNewMessages();
-                this.numberMessages = this.numberMessages + 1;
-                Notification.requestPermission()
-                    .then((result) => {
-                        if (result === "granted") {
-                            new Notification("Tienes un nuevo mensaje", {
-                                body: e.message.message,
-                            });
-                        }
-                    })
-                    .catch((err) => {});
-            }
-        );
-
         if (this.store.authUser.roles[0].name == "Experience") {
             console.log("test exp");
             Echo.private("customers").listen("NewCustomer", (e) => {
