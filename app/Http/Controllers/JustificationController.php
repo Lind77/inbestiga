@@ -126,7 +126,7 @@ class JustificationController extends Controller
      */
     public function justificationsPerMonth()
     {
-        $justifications = Justification::with(['user', 'files'])->orderBy('id', 'desc')->get();
+        $justifications = Justification::with(['user', 'files'])->where('created_at', 'like', date('Y-m') . '%')->orderBy('id', 'desc')->get();
 
         return response()->json($justifications);
     }

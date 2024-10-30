@@ -86,11 +86,11 @@
                 class="badge bg-label-primary me-1 cursor-pointer">+</span> -->
                         </h5>
                     </div>
-                    <div class="card mb-2">
+                    <div class="card">
                         <div class="card-body">
                             <template v-for="justification in justifications">
                                 <div
-                                    class="card bg-warning text-white"
+                                    class="card mb-2 bg-warning text-white"
                                     v-if="justification.status == 0"
                                 >
                                     <div class="card-header">

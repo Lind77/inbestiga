@@ -26,6 +26,16 @@
             <div class="card w-100 my-2">
                 <div class="row px-3">
                     <div class="col">
+                        <label for="">Buscador</label>
+                        <input
+                            type="text"
+                            v-model="search"
+                            class="form-control"
+                            placeholder="Buscar..."
+                            @keyup.enter="searchProjectByWord"
+                        />
+                    </div>
+                    <div class="col">
                         <label for="">Categoría</label>
                         <select
                             class="form-control"
@@ -36,16 +46,6 @@
                                 {{ team.name }}
                             </option>
                         </select>
-                    </div>
-                    <div class="col">
-                        <label for="">Buscador</label>
-                        <input
-                            type="text"
-                            v-model="search"
-                            class="form-control"
-                            placeholder="Buscar..."
-                            @keyup.enter="searchProjectByWord"
-                        />
                     </div>
                     <div class="col">
                         <label for="">Estado</label>

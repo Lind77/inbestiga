@@ -817,6 +817,9 @@ Route::get('/projects-user/{id}', [ProjectController::class, 'getMyProjects']);
  */
 Route::get('/projects-pending', [ProjectController::class, 'projectPendings']);
 
+
+Route::get('/update-user-project/{userId}/{projectId}', [ProjectController::class, 'updUserProject']);
+
 /**
  * Cambia el estado de un proyecto.
  */

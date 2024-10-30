@@ -184,12 +184,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-4 col-sm-6 col-6">
+                    <!-- <div class="col-lg-6 col-md-4 col-sm-6 col-6">
                         <span class="h5 mt-2 demo text-body fw-bold">
                             Estado de Trámite
                         </span>
                         <Chart />
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

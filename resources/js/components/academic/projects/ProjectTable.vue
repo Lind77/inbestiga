@@ -5,8 +5,8 @@
                 <tr>
                     <th>#</th>
                     <th>Proyecto</th>
-                    <th>Equipo</th>
-                    <th>Fechas</th>
+                    <th>Autoasignar</th>
+                    <!--  <th>Fechas</th> -->
                     <th>Estado</th>
                     <th></th>
                 </tr>
@@ -30,34 +30,23 @@
                         />
                     </td>
                     <td>
-                        <div class="btn-group">
-                            <button
-                                type="button"
-                                :class="`btn btn-primary dropdown-toggle hide-arrow`"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                            >
-                                {{
-                                    project.team
-                                        ? project.team.name
-                                        : "Sin asignar"
-                                }}
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li v-for="team in teams">
-                                    <a
-                                        class="dropdown-item"
-                                        @click="updateTeam(project, team)"
-                                        href="javascript:void(0);"
-                                        >{{ team.name }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        <button
+                            class="btn btn-primary"
+                            v-if="store.authUser.subarea_id == 2"
+                        >
+                            {{ project.user.name }}
+                        </button>
+                        <button
+                            v-else-if="store.authUser.subarea_id == 4"
+                            class="btn btn-icon btn-success"
+                            @click="updateUser(project)"
+                        >
+                            <i class="bx bx-user-check"></i>
+                        </button>
                     </td>
-                    <td>
+                    <!--  <td>
                         <p>{{ project.deadline }}</p>
-                    </td>
+                    </td> -->
                     <td>
                         <div class="btn-group">
                             <button
@@ -148,8 +137,15 @@
 </template>
 <script>
 import ProjectName from "./ProjectName.vue";
+import { userStore } from "../../../stores/UserStore";
 
 export default {
+    setup() {
+        const store = userStore();
+        return {
+            store,
+        };
+    },
     data() {
         return {
             showField: false,
@@ -181,6 +177,25 @@ export default {
         teams: Array,
     },
     methods: {
+        updateUser(project) {
+            if (this.store.authUser.subarea_id == 4) {
+                axios
+                    .get(
+                        "/api/update-user-project/" +
+                            this.store.authUser.id +
+                            "/" +
+                            project.id
+                    )
+                    .then((result) => {
+                        project.user = this.store.authUser;
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    });
+            } else {
+                this.$swal("No tienes permisos para realizar esta acción");
+            }
+        },
         showTeamModal(project) {
             this.$emit("showTeamModal", project);
         },
