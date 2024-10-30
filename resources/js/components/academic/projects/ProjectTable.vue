@@ -31,17 +31,17 @@
                     </td>
                     <td>
                         <button
-                            class="btn btn-primary"
-                            v-if="store.authUser.subarea_id == 2"
-                        >
-                            {{ project.user.name }}
-                        </button>
-                        <button
-                            v-else-if="store.authUser.subarea_id == 4"
+                            v-if="
+                                store.authUser.subarea_id == 4 &&
+                                project.user.subarea_id != 4
+                            "
                             class="btn btn-icon btn-success"
                             @click="updateUser(project)"
                         >
                             <i class="bx bx-user-check"></i>
+                        </button>
+                        <button class="btn btn-primary" v-else>
+                            {{ project.user.name }}
                         </button>
                     </td>
                     <!--  <td>
