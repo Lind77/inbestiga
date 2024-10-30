@@ -621,7 +621,20 @@ class CustomerController extends Controller
      */
     public function searchCustomersById($id)
     {
-        $customer = Customer::with(['user', 'comunications', 'quotations.customers', 'quotations.contract.projects', 'quotations.contract.payments', 'quotations.contract.external_vouchers', 'quotations.contract.external_vouchers.images', 'quotations.contract.projects.team.users.images'])->find($id);
+        $customer = Customer::with([
+            'user:id,name,email', // Selecciona solo los campos necesarios
+            'comunications',
+            'quotations.customers:id,name',
+            'quotations.contract.projects',
+            'quotations.contract.payments',
+            'quotations.contract.external_vouchers.images',
+            'quotations.contract.projects.user:id,name,calendly_user'
+        ])->find($id);
+
+        if (!$customer) {
+            return response()->json(['error' => 'Customer not found'], 404);
+        }
+
         return response()->json($customer);
     }
     /**
