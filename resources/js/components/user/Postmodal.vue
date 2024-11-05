@@ -23,7 +23,7 @@
                     >
                         <button
                             id="btnFilePost"
-                            class="btn btn-secondary w-100"
+                            class="btn btn-secondary w-50"
                             @click="chooseFile"
                         >
                             <i class="bx bxs-cloud-upload"></i>
@@ -34,9 +34,10 @@
                             ref="inputHidden"
                             hidden
                             @change="archivePost"
+                            accept=".doc,.docx,.xls,.xlsx,.pdf"
                         />
                         <button
-                            class="btn btn-info w-100"
+                            class="btn btn-info ms-2 w-50"
                             @click="postNewUpdate"
                         >
                             Enviar
@@ -100,6 +101,7 @@ export default {
                     this.$emit("getProjectInfo");
                 })
                 .catch((err) => {
+                    this.$swal("Error");
                     console.log(err);
                 });
         },
@@ -107,14 +109,26 @@ export default {
             var file = event.target.files[0];
             this.filePostUploaded = file;
 
+            var size = this.formatBytes(file.size);
+
             var reader = new FileReader();
             reader.onload = function (event) {
                 // El texto del archivo se mostrará por consola aquí
                 $("#btnFilePost").removeClass("btn-secondary");
                 $("#btnFilePost").addClass("btn-success");
-                $("#btnFilePost").html(file.name);
+                $("#btnFilePost").html(file.name + " - " + size);
             };
             reader.readAsText(file);
+        },
+        formatBytes(bytes) {
+            const units = ["Bytes", "KB", "MB", "GB", "TB"];
+
+            if (bytes === 0) return "0 Bytes";
+
+            const index = Math.floor(Math.log(bytes) / Math.log(1024));
+            const formattedSize = (bytes / Math.pow(1024, index)).toFixed(2);
+
+            return `${formattedSize} ${units[index]}`;
         },
         chooseFile() {
             this.$refs.inputHidden.click();

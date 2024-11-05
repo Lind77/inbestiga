@@ -147,6 +147,11 @@ class FileController extends Controller
 
     public function filePost(Request $request)
     {
+
+        $validated = $request->validate([
+            'file' => 'required|file|mimes:doc,docx,xls,xlsx,pdf|max:5120', // max:5120 es para 5 MB
+        ]);
+
         $post = Post::create([
             'postable_id' => $request->get('user_id'),
             'postable_type' => $request->get('postable_type'),
@@ -154,6 +159,8 @@ class FileController extends Controller
             'body' => $request->get('body'),
             'project_id' => $request->get('project_id'),
         ]);
+
+
 
         if ($request->hasFile('file')) {
             $fileName = $request->file->getClientOriginalName();

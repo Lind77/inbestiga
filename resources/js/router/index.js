@@ -177,7 +177,7 @@ export const routes = [
         component: Layout,
         children:[
             {
-                path: 'home/:customerId',
+                path: ':customerId',
                 name: 'home-user',
                 component: HomeUser,
                 props: true
