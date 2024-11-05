@@ -32,7 +32,7 @@ class Post extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['postable_id', 'postable_type','title','body', 'project_id'];
+    protected $fillable = ['postable_id', 'postable_type','title','body', 'project_id','post_type_id'];
     /**
      * Relación polimorfica inversa uno a muchos CUSTOMER-USER-POST.
      *
@@ -56,5 +56,15 @@ class Post extends Model
      */
     public function files(){
         return $this->morphMany('App\Models\File', 'fileable');
+    }
+
+      /**
+     * Relacion inversa uno a muchos Post_type - Posts.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+    public function post_type()
+    {
+        return $this->belongsTo("App\Models\Post_type");
     }
 }
