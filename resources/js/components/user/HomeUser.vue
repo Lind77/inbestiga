@@ -1,57 +1,45 @@
 <template>
-    <div class="bg-user pt-5">
-        <div class="container">
-            <Navbar />
-            <div class="row">
-                <div class="col-12">
-                    <div
-                        class="main d-flex justify-content-center flex-column mt-5"
-                    >
-                        <img
-                            src="https://inbestiga.com/inbestiga/public/img/ib_newlogo.png"
-                            class="main-logo mb-5 mx-auto"
-                        />
-                        <h2 class="main-text text-white text-center mt-5">
-                            ¡Hola
-                            <span class="main-text-bold">{{ info.name }}</span
-                            >!
-                        </h2>
-                        <h2
-                            class="main-text subtext text-white text-center mt-4"
-                        >
-                            <span class="main-text-bold">Bienvenido</span> a
-                            <br />
-                            tu <span class="main-text-bold">aula virtual</span>
-                        </h2>
+    <div class="col-12">
+        <div class="main d-flex justify-content-center flex-column mt-5">
+            <img
+                src="https://inbestiga.com/inbestiga/public/img/ib_newlogo.png"
+                class="main-logo mb-5 mx-auto"
+            />
+            <h2 class="main-text text-white text-center mt-5">
+                ¡Hola
+                <span class="main-text-bold">{{ info.name }}</span
+                >!
+            </h2>
+            <h2 class="main-text subtext text-white text-center mt-4">
+                <span class="main-text-bold">Bienvenido</span> a
+                <br />
+                tu <span class="main-text-bold">aula virtual</span>
+            </h2>
 
-                        <div
-                            style="padding: 56.25% 0 0 0; position: relative"
-                            class="mt-5"
-                        >
-                            <iframe
-                                src="https://player.vimeo.com/video/1021820378?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
-                                frameborder="0"
-                                allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-                                style="
-                                    position: absolute;
-                                    top: 0;
-                                    left: 0;
-                                    width: 100%;
-                                    height: 100%;
-                                "
-                                title="1021"
-                            ></iframe>
-                        </div>
+            <div style="padding: 56.25% 0 0 0; position: relative" class="mt-5">
+                <iframe
+                    src="https://player.vimeo.com/video/1021820378?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                    frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                    style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                    "
+                    title="1021"
+                ></iframe>
+            </div>
 
-                        <p class="sub-text text-white text-center mx-auto">
-                            En Inbestiga, sabemos que tu tesis es el siguiente
-                            gran paso hacia tu éxito profesional. Te acompañamos
-                            con asesores expertos y herramientas diseñadas para
-                            que avances con confianza hacia tus metas.
-                            ¡Bienvenido a tu viaje con Inbestiga!
-                        </p>
+            <p class="sub-text text-white text-center mx-auto">
+                En Inbestiga, sabemos que tu tesis es el siguiente gran paso
+                hacia tu éxito profesional. Te acompañamos con asesores expertos
+                y herramientas diseñadas para que avances con confianza hacia
+                tus metas. ¡Bienvenido a tu viaje con Inbestiga!
+            </p>
 
-                        <!-- <h2 class="sub-text text-white text-center mt-5 mb-5">
+            <!-- <h2 class="sub-text text-white text-center mt-5 mb-5">
                             <span class="sub-text-bold">Encuentra</span> el
                             <span class="sub-text-bold">resumen</span><br />
                             del
@@ -59,9 +47,6 @@
                                 >video <span class="pink">aquí</span></span
                             >
                         </h2> -->
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </template>
