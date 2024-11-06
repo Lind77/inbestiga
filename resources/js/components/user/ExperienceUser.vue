@@ -1,36 +1,25 @@
 <template>
-    <div class="bg-user pt-5">
-        <div class="container">
-            <Navbar />
-            <div class="row">
-                <div class="col-12">
-                    <div
-                        class="main d-flex justify-content-center flex-column mt-5"
-                    >
-                        <h2
-                            class="main-text subtext text-white text-center mt-4"
-                        >
-                            Mi viaje
-                            <span class="main-text-bold">con Inbestiga</span>
-                        </h2>
-                        <h3 class="mx-auto text-white mt-4 fw-normal">
-                            ¡Tienes a tu disposición recursos diseñados
-                            especialmente para ti!
-                        </h3>
-                    </div>
-                </div>
-                <div class="col-12 col-lg mt-5" v-for="topic in topics">
-                    <Card
-                        :text="topic.title"
-                        :imageUrl="topic.img"
-                        @click="toVideos(topic.id)"
-                    />
-                    <!--  <div class="card glass p-4 my-2 cursor-pointer">
+    <div class="col-12">
+        <div class="main d-flex justify-content-center flex-column mt-5">
+            <h2 class="main-text subtext text-white text-center mt-4">
+                Mi viaje
+                <span class="main-text-bold">con Inbestiga</span>
+            </h2>
+            <h3 class="mx-auto text-white mt-4 fw-normal">
+                ¡Tienes a tu disposición recursos diseñados especialmente para
+                ti!
+            </h3>
+        </div>
+    </div>
+    <div class="col-12 col-lg mt-5" v-for="topic in topics">
+        <Card
+            :text="topic.title"
+            :imageUrl="topic.img"
+            @click="toVideos(topic.id)"
+        />
+        <!--  <div class="card glass p-4 my-2 cursor-pointer">
                         <h3 class="text-white">{{ topic }}</h3>
                     </div> -->
-                </div>
-            </div>
-        </div>
     </div>
     <VideoModal :videoSrc="srcVideoSelected" />
 </template>

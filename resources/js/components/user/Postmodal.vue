@@ -6,12 +6,25 @@
                     <label for="" class="text-white fw-bold"
                         >Ingrese nuevo post</label
                     >
-                    <input
-                        type="text"
-                        v-model="newUpdate.question"
-                        placeholder="Ingrese un título para el post"
-                        class="form-control"
-                    />
+                    <div class="row">
+                        <div class="col">
+                            <input
+                                type="text"
+                                v-model="newUpdate.question"
+                                placeholder="Ingrese un título para el post"
+                                class="form-control"
+                            />
+                        </div>
+                        <div class="col">
+                            <select class="form-control" name="" id="">
+                                <option disabled>Seleccionar tipo</option>
+                                <option value="1">Académico</option>
+                                <option value="2">Experiencia</option>
+                                <option value="3">Finanzas</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <textarea
                         placeholder="Ingrese alguna descripción de post"
                         v-model="newUpdate.answer"
@@ -23,7 +36,7 @@
                     >
                         <button
                             id="btnFilePost"
-                            class="btn btn-secondary w-100"
+                            class="btn btn-secondary w-50"
                             @click="chooseFile"
                         >
                             <i class="bx bxs-cloud-upload"></i>
@@ -34,9 +47,10 @@
                             ref="inputHidden"
                             hidden
                             @change="archivePost"
+                            accept=".doc,.docx,.xls,.xlsx,.pdf"
                         />
                         <button
-                            class="btn btn-info w-100"
+                            class="btn btn-info ms-2 w-50"
                             @click="postNewUpdate"
                         >
                             Enviar
@@ -100,6 +114,7 @@ export default {
                     this.$emit("getProjectInfo");
                 })
                 .catch((err) => {
+                    this.$swal("Error");
                     console.log(err);
                 });
         },
@@ -107,14 +122,26 @@ export default {
             var file = event.target.files[0];
             this.filePostUploaded = file;
 
+            var size = this.formatBytes(file.size);
+
             var reader = new FileReader();
             reader.onload = function (event) {
                 // El texto del archivo se mostrará por consola aquí
                 $("#btnFilePost").removeClass("btn-secondary");
                 $("#btnFilePost").addClass("btn-success");
-                $("#btnFilePost").html(file.name);
+                $("#btnFilePost").html(file.name + " - " + size);
             };
             reader.readAsText(file);
+        },
+        formatBytes(bytes) {
+            const units = ["Bytes", "KB", "MB", "GB", "TB"];
+
+            if (bytes === 0) return "0 Bytes";
+
+            const index = Math.floor(Math.log(bytes) / Math.log(1024));
+            const formattedSize = (bytes / Math.pow(1024, index)).toFixed(2);
+
+            return `${formattedSize} ${units[index]}`;
         },
         chooseFile() {
             this.$refs.inputHidden.click();
@@ -133,8 +160,13 @@ export default {
 }
 
 input[type="text"],
+select,
 textarea {
     background: none !important;
     color: #fff !important;
+}
+
+option {
+    color: #000;
 }
 </style>

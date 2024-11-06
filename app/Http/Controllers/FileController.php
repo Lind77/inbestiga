@@ -147,6 +147,13 @@ class FileController extends Controller
 
     public function filePost(Request $request)
     {
+        if ($request->hasFile('file')) {
+            $validated = $request->validate([
+                'file' => 'file|mimes:doc,docx,xls,xlsx,pdf|max:5120', // max:5120 es para 5 MB
+            ]);
+        }
+
+
         $post = Post::create([
             'postable_id' => $request->get('user_id'),
             'postable_type' => $request->get('postable_type'),
@@ -183,7 +190,9 @@ class FileController extends Controller
             ]);
         });
 
-        broadcast(new NewPost($post));
+        if ($request->get('postable_type') == 'App\\Models\\Customer') {
+            broadcast(new NewPost($post));
+        }
 
         return response()->json(['success' => 'You have successfully upload file.']);
     }

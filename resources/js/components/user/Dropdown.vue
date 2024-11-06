@@ -50,7 +50,7 @@ export default {
         },
         toHome() {
             this.$router.push({
-                path: "/home-user/" + this.customerId,
+                path: "/user/home/" + this.customerId,
             });
         },
     },

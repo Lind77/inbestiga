@@ -1,10 +1,10 @@
 <template>
-    <div class="card mb-2 px-0">
+    <div class="card mb-2 p-2">
         <div class="user-profile-header-banner">
             <img
                 src="https://inbestiga.com/ficha_proyecto.jpg"
                 alt="Banner image"
-                class="rounded-top w-100"
+                class="rounded w-100"
             />
         </div>
         <div

@@ -1,30 +1,19 @@
 <template>
-    <div class="bg-user pt-5">
-        <div class="container">
-            <Navbar />
-            <div class="row">
-                <div class="col-12">
-                    <div
-                        class="main d-flex justify-content-center flex-column mt-5"
-                    >
-                        <h2
-                            class="main-text subtext text-white text-center mt-4"
-                        >
-                            <span class="main-text-bold">Facturación</span>
-                        </h2>
-                        <CollapseCard
-                            v-for="project in projects"
-                            :userId="store.authUser.id"
-                            :project="project"
-                            :quotations="quotations"
-                            :title="'Pagos de ' + project.title"
-                            :componentSelected="'TablePayment'"
-                            @showModalVouchers="showModalVouchers"
-                            @updateModalVouchers="updateModalVouchers"
-                        />
-                    </div>
-                </div>
-            </div>
+    <div class="col-12">
+        <div class="main d-flex justify-content-center flex-column mt-5">
+            <h2 class="main-text subtext text-white text-center mt-4">
+                <span class="main-text-bold">Facturación</span>
+            </h2>
+            <CollapseCard
+                v-for="project in projects"
+                :userId="store.authUser.id"
+                :project="project"
+                :quotations="quotations"
+                :title="'Pagos de ' + project.title"
+                :componentSelected="'TablePayment'"
+                @showModalVouchers="showModalVouchers"
+                @updateModalVouchers="updateModalVouchers"
+            />
         </div>
     </div>
     <VouchersModal :project="projectSelected" />

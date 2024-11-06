@@ -67,7 +67,7 @@ export default {
                     localStorage.setItem("token", result.data.token);
                     this.store.setUser(result.data.user);
                     this.$router.push({
-                        path: "/home-user/" + result.data.user.id,
+                        path: "/user/" + result.data.user.id,
                     });
                 })
                 .catch((err) => {
