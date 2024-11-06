@@ -6,12 +6,25 @@
                     <label for="" class="text-white fw-bold"
                         >Ingrese nuevo post</label
                     >
-                    <input
-                        type="text"
-                        v-model="newUpdate.question"
-                        placeholder="Ingrese un título para el post"
-                        class="form-control"
-                    />
+                    <div class="row">
+                        <div class="col">
+                            <input
+                                type="text"
+                                v-model="newUpdate.question"
+                                placeholder="Ingrese un título para el post"
+                                class="form-control"
+                            />
+                        </div>
+                        <div class="col">
+                            <select class="form-control" name="" id="">
+                                <option disabled>Seleccionar tipo</option>
+                                <option value="1">Académico</option>
+                                <option value="2">Experiencia</option>
+                                <option value="3">Finanzas</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <textarea
                         placeholder="Ingrese alguna descripción de post"
                         v-model="newUpdate.answer"
@@ -147,8 +160,13 @@ export default {
 }
 
 input[type="text"],
+select,
 textarea {
     background: none !important;
     color: #fff !important;
+}
+
+option {
+    color: #000;
 }
 </style>
