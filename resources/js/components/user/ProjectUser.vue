@@ -1,31 +1,19 @@
 <template>
-    <div class="bg-user pt-5">
-        <div class="container">
-            <Navbar />
+    <div class="col-12">
+        <div class="main d-flex justify-content-center flex-column mt-5">
+            <h2 class="main-text subtext text-white text-center mt-4">
+                Mis<span class="main-text-bold"> proyectos</span>
+            </h2>
+            <div class="input-icons">
+                <i class="bx bx-search"></i>
+                <input
+                    type="text"
+                    class="search form-control glass my-5"
+                    placeholder="Buscar"
+                />
+            </div>
             <div class="row">
-                <div class="col-12">
-                    <div
-                        class="main d-flex justify-content-center flex-column mt-5"
-                    >
-                        <h2
-                            class="main-text subtext text-white text-center mt-4"
-                        >
-                            Mis<span class="main-text-bold"> proyectos</span>
-                        </h2>
-                        <div class="input-icons">
-                            <i class="bx bx-search"></i>
-                            <input
-                                type="text"
-                                class="search form-control glass my-5"
-                                placeholder="Buscar"
-                            />
-                        </div>
-                        <CardProject
-                            v-for="project in projects"
-                            :project="project"
-                        />
-                    </div>
-                </div>
+                <CardProject v-for="project in projects" :project="project" />
             </div>
         </div>
     </div>
