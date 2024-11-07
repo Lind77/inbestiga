@@ -385,7 +385,7 @@
                     EL LOCADOR tendrá una prórroga de hasta dos días hábiles para la entrega de los avances contenidos en la
                     cláusula quinta de EL CONTRATO. En caso de que EL LOCADOR cumpla tardíamente y sin justificación 
                     razonable con la entrega, EL ASESORADO tendrá la posibilidad de exigir un reembolso de S/15.00 (quince soles) 
-                    diarios por cada día de retraso en la entrega del producto académico correspondiente. Asimismo, si EL ASESORADO
+                    diarios por cada día de retraso en la entrega del producto académico correspondiente, a menos que EL LOCADOR se haya comunicado previamente con EL ASESORADO para el aplazamiento de la entrega. Asimismo, si EL ASESORADO
                     no proporciona la información requerida para el desarrollo del trabajo dentro del plazo establecido, las fechas
                     de entrega de los productos académicos se ajustarán proporcionalmente al tiempo de demora en la entrega de dicha
                     información.
