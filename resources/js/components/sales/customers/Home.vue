@@ -127,7 +127,11 @@
             :allUsers="allUsers"
             @getAllCustomers="getAllCustomers"
         />
-        <OwnerModal :customerId="customerId" @cleanLead="cleanLead" />
+        <OwnerModal
+            :customerId="customerId"
+            @cleanLead="cleanLead"
+            @getAllCustomers="getAllCustomers"
+        />
     </div>
 </template>
 <script>
@@ -202,7 +206,7 @@ export default {
             return moment(date).format("DD/MM/YYYY");
         },
         cleanLead(customerId, seller) {
-            var customerSelected = this.customersPag.find(
+            var customerSelected = this.customers.find(
                 (customer) => customer.id == customerId
             );
             customerSelected.user_id = seller;
