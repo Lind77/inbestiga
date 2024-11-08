@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <div class="card invoice-preview-card mt-2">
         <div class="card-body">
             <div class="d-flex align-items-center justify-content-between mb-2">

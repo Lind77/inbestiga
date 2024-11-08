@@ -4,14 +4,29 @@
             <h2 class="main-text subtext text-white text-center mt-4">
                 Mis<span class="main-text-bold"> proyectos</span>
             </h2>
-            <div class="input-icons">
+            <div class="my-5" style="padding: 56.25% 0 0 0; position: relative">
+                <iframe
+                    src="https://player.vimeo.com/video/1027491607?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                    frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                    style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                    "
+                    title="video vale 2"
+                ></iframe>
+            </div>
+            <!-- <div class="input-icons">
                 <i class="bx bx-search"></i>
                 <input
                     type="text"
                     class="search form-control glass my-5"
                     placeholder="Buscar"
                 />
-            </div>
+            </div> -->
             <div class="row">
                 <CardProject v-for="project in projects" :project="project" />
             </div>

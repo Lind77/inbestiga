@@ -123,6 +123,7 @@ export default {
                         (seller) => seller.id == this.seller_selected
                     );
                     this.$emit("cleanLead", this.customerId, ownerSelected);
+                    this.$emit("getAllCustomers");
                 })
                 .catch((err) => {
                     console.error(err);
