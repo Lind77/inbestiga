@@ -199,10 +199,7 @@ export default {
         return { store };
     },
     props: {
-        project: {
-            type: Object,
-            required: true,
-        },
+        project: Object,
     },
     data() {
         return {
@@ -342,6 +339,9 @@ export default {
                 this.questions = JSON.parse(
                     this.actualProject.projectable.properties[0].properties
                 );
+                console.log(this.questions);
+            } else {
+                console.log("nani nani");
             }
         },
         typeQuiz(val) {
@@ -349,9 +349,7 @@ export default {
                 (form) => form.project_situation_id == val
             );
 
-            console.log(filteredQuestions);
-
-            if (filteredQuestions) {
+            if (filteredQuestions && this.questions.length == 0) {
                 this.questions = JSON.parse(filteredQuestions.forms);
             }
         },
