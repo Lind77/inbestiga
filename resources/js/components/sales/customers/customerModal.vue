@@ -480,14 +480,14 @@ export default {
         this.getDataAddress();
     },
     watch: {
-        /* customer(val) {
+        customer(val) {
             console.log("watcher", val);
             if (val.province) {
                 this.departmentSelectedId = val.province.department_id;
                 this.provinces = val.province.department.provinces;
                 this.provinceSelectedId = val.province_id;
             }
-        }, */
+        },
     },
 };
 </script>
