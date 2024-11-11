@@ -114,11 +114,7 @@
                                 project.projectable.properties[0].properties
                             "
                         >
-                            <div
-                                v-for="newQuestion in JSON.parse(
-                                    project.projectable.properties[0].properties
-                                )"
-                            >
+                            <div v-for="newQuestion in questions">
                                 <div v-if="newQuestion.type == 4">
                                     <div class="d-flex mb-2">
                                         <label
@@ -248,9 +244,35 @@ export default {
                     complete: false,
                 },
             ],
+            questions: [],
+            documentaryTags: [],
         };
     },
     methods: {
+        saveFields() {
+            const fd = new FormData();
+
+            fd.append("propertiable_id", this.project.projectable.id);
+            fd.append("propertiable_type", "App\\Models\\Contract");
+            fd.append("properties", JSON.stringify(this.questions));
+            fd.append("project_situation_id", this.typeQuiz);
+            fd.append(
+                "documentary_processing",
+                JSON.stringify(this.documentaryTags)
+            );
+
+            axios
+                .post("/api/properties", fd)
+                .then((result) => {
+                    $("#academicModal").modal("hide");
+                    this.$swal(
+                        "Documentación de proyecto almacenada correctamente"
+                    );
+                })
+                .catch((err) => {
+                    this.$swal("Hubo un error");
+                });
+        },
         postNewUpdate() {
             if (this.store.authUser.subarea) {
                 var postable_type = "App\\Models\\User";
@@ -310,6 +332,9 @@ export default {
             this.actualProject = val;
             this.typeQuiz =
                 this.actualProject.projectable.properties[0].project_situation_id;
+            this.questions = JSON.parse(
+                this.actualProject.projectable.properties[0].properties
+            );
         },
     },
 };
@@ -344,5 +369,9 @@ textarea {
     border: none;
     color: #fff;
     margin: 0px auto;
+}
+
+option {
+    color: #000;
 }
 </style>
