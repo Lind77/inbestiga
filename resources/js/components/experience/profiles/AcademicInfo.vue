@@ -4,7 +4,7 @@
             <div class="d-flex align-items-center justify-content-between mb-2">
                 <div>
                     <span class="h5 my-2 demo text-body fw-bold"
-                        >Información Académica Test
+                        >Información Académica
                     </span>
                 </div>
                 <div>
@@ -201,7 +201,7 @@ export default {
 
             fd.append("propertiable_id", this.propertiableId);
             fd.append("propertiable_type", "App\\Models\\Contract");
-            fd.append("properties", JSON.stringify(this.newQuestions));
+            fd.append("properties", JSON.stringify(this.questions));
             fd.append("project_situation_id", this.typeQuiz);
             fd.append(
                 "documentary_processing",
@@ -224,7 +224,7 @@ export default {
 
             fd.append("propertiable_id", this.selectedDoc.propertiable_id);
             fd.append("propertiable_type", this.selectedDoc.propertiable_type);
-            fd.append("properties", JSON.stringify(this.newQuestions));
+            fd.append("properties", JSON.stringify(this.questions));
             fd.append(
                 "documentary_processing",
                 JSON.stringify(this.documentaryTags)
@@ -261,11 +261,11 @@ export default {
                     (form) => form.project_situation_id == val
                 );
 
-                console.log(filteredQuestions);
-
                 if (filteredQuestions) {
                     this.questions = JSON.parse(filteredQuestions.forms);
                 }
+            } else {
+                this.questions = this.newQuestions;
             }
         },
     },
