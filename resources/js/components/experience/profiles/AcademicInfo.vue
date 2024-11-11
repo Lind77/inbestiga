@@ -4,7 +4,7 @@
             <div class="d-flex align-items-center justify-content-between mb-2">
                 <div>
                     <span class="h5 my-2 demo text-body fw-bold"
-                        >Información Académica
+                        >Información Académica Test
                     </span>
                 </div>
                 <div>
