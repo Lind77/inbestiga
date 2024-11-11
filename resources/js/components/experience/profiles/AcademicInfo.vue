@@ -255,10 +255,13 @@ export default {
             this.questions = this.newQuestions;
         },
         typeQuiz(val) {
-            if (this.newQuestions == []) {
+            console.log(this.newQuestions);
+            if (this.newQuestions.length == 0) {
                 var filteredQuestions = this.forms.find(
                     (form) => form.project_situation_id == val
                 );
+
+                console.log(filteredQuestions);
 
                 if (filteredQuestions) {
                     this.questions = JSON.parse(filteredQuestions.forms);
