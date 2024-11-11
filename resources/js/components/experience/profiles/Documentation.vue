@@ -25,6 +25,12 @@
                     :documentaryTags="documentaryTags"
                     :forms="forms"
                 />
+                <FilesRequired
+                    :filesProject="filesProject"
+                    :filesRequired="filesRequired"
+                    :project="project"
+                    @getQuotation="getQuotation"
+                />
             </div>
             <div class="col-6 px-0 ps-2">
                 <FormPost
