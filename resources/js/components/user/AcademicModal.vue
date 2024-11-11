@@ -105,15 +105,7 @@
                         </div>
                     </div>
                     <div class="row mt-2 text-white">
-                        <div
-                            class="col-12"
-                            v-if="
-                                project &&
-                                project.projectable &&
-                                project.projectable.properties[0] &&
-                                project.projectable.properties[0].properties
-                            "
-                        >
+                        <div class="col-12" v-if="questions">
                             <div v-for="newQuestion in questions">
                                 <div v-if="newQuestion.type == 4">
                                     <div class="d-flex mb-2">
@@ -246,6 +238,7 @@ export default {
             ],
             questions: [],
             documentaryTags: [],
+            forms: [],
         };
     },
     methods: {
@@ -325,17 +318,46 @@ export default {
         chooseFile() {
             this.$refs.inputHidden.click();
         },
+        getForms() {
+            axios
+                .get("/api/forms")
+                .then((result) => {
+                    this.forms = result.data.forms;
+                })
+                .catch((err) => {
+                    console.error(error);
+                });
+        },
     },
     watch: {
         project(val) {
             console.log(val);
             this.actualProject = val;
-            this.typeQuiz =
-                this.actualProject.projectable.properties[0].project_situation_id;
-            this.questions = JSON.parse(
-                this.actualProject.projectable.properties[0].properties
-            );
+            if (
+                this.actualProject.projectable &&
+                this.actualProject.projectable.properties[0]
+            ) {
+                this.typeQuiz =
+                    this.actualProject.projectable.properties[0].project_situation_id;
+                this.questions = JSON.parse(
+                    this.actualProject.projectable.properties[0].properties
+                );
+            }
         },
+        typeQuiz(val) {
+            var filteredQuestions = this.forms.find(
+                (form) => form.project_situation_id == val
+            );
+
+            console.log(filteredQuestions);
+
+            if (filteredQuestions) {
+                this.questions = JSON.parse(filteredQuestions.forms);
+            }
+        },
+    },
+    mounted() {
+        this.getForms();
     },
 };
 </script>
