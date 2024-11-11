@@ -113,7 +113,7 @@
             </div>
             <div class="row mt-2">
                 <div class="col-12">
-                    <template v-for="newQuestion in newQuestions">
+                    <template v-for="newQuestion in questions">
                         <template v-if="newQuestion.type == 4">
                             <div class="d-flex mb-2">
                                 <label
@@ -187,11 +187,12 @@ export default {
         newQuestions: Array,
         propertiableId: Number,
         documentaryTags: Array,
+        forms: Array,
     },
     data() {
         return {
             typeQuiz: 0,
-            questions: this.newQuestions,
+            questions: [],
         };
     },
     methods: {
@@ -251,6 +252,18 @@ export default {
     watch: {
         academicType(val) {
             this.typeQuiz = val;
+            this.questions = this.newQuestions;
+        },
+        typeQuiz(val) {
+            if (this.newQuestions == []) {
+                var filteredQuestions = this.forms.find(
+                    (form) => form.project_situation_id == val
+                );
+
+                if (filteredQuestions) {
+                    this.questions = JSON.parse(filteredQuestions.forms);
+                }
+            }
         },
     },
 };

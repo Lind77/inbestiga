@@ -23,6 +23,7 @@
                     :newQuestions="questions"
                     :propertiableId="contract.id"
                     :documentaryTags="documentaryTags"
+                    :forms="forms"
                 />
             </div>
             <div class="col-6 px-0 ps-2">
