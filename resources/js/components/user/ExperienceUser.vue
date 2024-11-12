@@ -381,8 +381,8 @@ p {
     }
 
     h3 {
-        font-size: 2em;
-        margin: 1.4em auto;
+        font-size: 1.2em;
+        text-align: center;
     }
 
     .project-section {

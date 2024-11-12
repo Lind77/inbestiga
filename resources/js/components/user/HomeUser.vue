@@ -275,5 +275,9 @@ p {
     .project-section {
         margin-top: -80% !important;
     }
+
+    .sub-text {
+        font-size: 1em;
+    }
 }
 </style>
