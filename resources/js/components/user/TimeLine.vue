@@ -1,27 +1,29 @@
 <template>
     <div class="col-12 d-flex flex-column justify-content-center">
-        <div
-            class="d-flex flex-row justify-content-around text-white button-multiple py-2"
-        >
-            <div
-                @click="openModalAcademic"
-                class="d-flex flex-row justify-content-center align-items-center cursor-pointer"
-            >
-                Información <br />
-                académica <i class="bx bx-book-open ms-3"></i>
+        <div class="row">
+            <div class="col-12 col-md-4 py-1">
+                <div
+                    @click="openModalAcademic"
+                    class="d-flex flex-row justify-content-center align-items-center cursor-pointer button-multiple text-white"
+                >
+                    Información académica <i class="bx bx-book-open ms-3"></i>
+                </div>
             </div>
-            <div
-                @click="openModalFiles"
-                class="d-flex flex-row justify-content-center align-items-center cursor-pointer"
-            >
-                Documentos <i class="bx bx-file ms-3"></i>
+            <div class="col-12 col-md-4 py-1">
+                <div
+                    @click="openModalFiles"
+                    class="d-flex flex-row justify-content-center align-items-center cursor-pointer button-multiple text-white"
+                >
+                    Documentos <i class="bx bx-file ms-3"></i>
+                </div>
             </div>
-            <div
-                @click="toCalendly"
-                class="d-flex flex-row justify-content-center align-items-center cursor-pointer"
-            >
-                Agenda <br />
-                tu reunión <i class="bx bx-video-plus ms-3"></i>
+            <div class="col-12 col-md-4 py-1">
+                <div
+                    @click="toCalendly"
+                    class="d-flex flex-row justify-content-center align-items-center cursor-pointer button-multiple text-white"
+                >
+                    Agenda tu reunión <i class="bx bx-video-plus ms-3"></i>
+                </div>
             </div>
         </div>
 
