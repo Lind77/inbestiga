@@ -19,14 +19,7 @@
                     title="video vale 2"
                 ></iframe>
             </div>
-            <!-- <div class="input-icons">
-                <i class="bx bx-search"></i>
-                <input
-                    type="text"
-                    class="search form-control glass my-5"
-                    placeholder="Buscar"
-                />
-            </div> -->
+
             <div class="row">
                 <CardProject v-for="project in projects" :project="project" />
             </div>
