@@ -61,7 +61,7 @@ export default {
     position: absolute;
     background: rgba(255, 255, 255, 0.112);
     /*  backdrop-filter: blur(20px); */
-    -webkit-backdrop-filter: blur(5px) contrast(60%);
+    -webkit-backdrop-filter: blur(5px) contrast(10%);
     color: #fff;
 }
 .dropdown-menu::before {
@@ -70,7 +70,7 @@ export default {
     width: 100%;
     height: 100%;
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px) contrast(60%);
+    -webkit-backdrop-filter: blur(10px) contrast(10%);
     z-index: -1;
 }
 </style>
