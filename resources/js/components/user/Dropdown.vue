@@ -70,6 +70,7 @@ export default {
     width: 100%;
     height: 100%;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     z-index: -1;
 }
 </style>
