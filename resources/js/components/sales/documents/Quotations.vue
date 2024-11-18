@@ -25,9 +25,14 @@
                             <i
                                 class="fab fa-angular fa-lg text-danger me-3"
                             ></i>
-                            <strong v-for="customer in quotation.customers">{{
-                                customer.name
-                            }}</strong>
+                            <template v-for="customer in quotation.customers">
+                                <div>
+                                    <strong>{{ customer.name }}</strong>
+                                    <br />
+                                    <small>{{ customer.cell }}</small>
+                                </div>
+                            </template>
+
                             <i
                                 class="bx bx-star"
                                 v-if="quotation.status == 11"
