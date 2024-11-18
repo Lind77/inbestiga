@@ -367,7 +367,7 @@ class QuotationController extends Controller
     {
         $quotations = Quotation::with('customers')
             ->whereHas('customers', function ($query) use ($search) {
-                $query->whereRaw('LOWER(name) like ?', ['%' . strtolower($search) . '%']);
+                $query->where('name', 'like', '%' . $search)->orWhere('cell', 'like', '%' . $search);
             })->get();
 
         return response()->json($quotations);
