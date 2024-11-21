@@ -4,6 +4,7 @@
             <h2 class="main-text subtext text-white text-center mt-4">
                 <span class="main-text-bold">Facturación</span>
             </h2>
+            
             <CollapseCard
                 v-for="project in projects"
                 :userId="store.authUser.id"
@@ -15,6 +16,12 @@
                 @updateModalVouchers="updateModalVouchers"
             />
         </div>
+        <p class="sub-text text-white text-center mx-auto">
+                En esta sección podrás cargar tus vouchers 
+                de pago de forma rápida y sencilla. También tendrás la posibilidad 
+                de revisar y gestionar tus pagos con precisión, 
+                manteniendo tus transacciones organizadas y al día.
+        </p>
     </div>
     <VouchersModal :project="projectSelected" />
 </template>
@@ -268,6 +275,9 @@ p {
 
     .project-section {
         margin-top: -80% !important;
+    }
+    .sub-text {
+        font-size: 1em;
     }
 }
 </style>

@@ -2,7 +2,7 @@
     <ul class="dropdown-menu dropdown-menu-end mt-2">
         <li>
             <a class="dropdown-item cursor-pointer" @click="toHome">
-                <span class="align-middle">Mi estación</span>
+                <span class="align-middle">Bienvenida</span>
             </a>
         </li>
         <li>
@@ -15,11 +15,11 @@
                 <span class="align-middle">Mis proyectos</span>
             </a>
         </li>
-        <li>
+       <!--  <li>
             <a class="dropdown-item cursor-pointer">
                 <span class="align-middle">Mis cursos</span>
             </a>
-        </li>
+        </li> -->
         <li>
             <a class="dropdown-item cursor-pointer" @click="toBilling">
                 <span class="align-middle">Facturación</span>
