@@ -4,6 +4,12 @@
             <h2 class="main-text subtext text-white text-center mt-4">
                 Mis<span class="main-text-bold"> proyectos</span>
             </h2>
+            <p class="sub-text text-white text-center mx-auto my-2">
+                Sigue el avance de tu proyecto académico en tiempo real,
+                 carga documentos y deja tus comentarios para mantener una
+                  comunicación fluida con tu asesor. ¡Cada acción te acerca 
+                  más a tu objetivo!
+            </p>
             <div class="my-5" style="padding: 56.25% 0 0 0; position: relative">
                 <iframe
                     src="https://player.vimeo.com/video/1027491607?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
@@ -283,6 +289,9 @@ p {
 
     .project-section {
         margin-top: -80% !important;
+    }
+    .sub-text {
+        font-size: 1em;
     }
 }
 
