@@ -9,6 +9,21 @@
                 ¡Tienes a tu disposición recursos diseñados especialmente para
                 ti!
             </h3>
+            <div class="my-3" style="padding: 56.25% 0 0 0; position: relative">
+                <iframe
+                    src="https://player.vimeo.com/video/1033152049?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                    frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                    style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                    "
+                    title="video vale 2"
+                ></iframe>
+            </div>
             <div class="input-icons">
                 <!-- <i class="bx bx-search"></i> -->
                 <input
