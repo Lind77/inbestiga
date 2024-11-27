@@ -1,6 +1,9 @@
 <template>
     <div class="card mt-2 bg-success">
         <div class="card-body text-white">
+            <p class="fw-bold">
+                {{ post.postable ? post.postable.name : "Desconocido" }}
+            </p>
             <p class="fw-semibold">{{ post.title }}</p>
             <p>{{ post.body }}</p>
             <p>{{ formatDate(post.created_at) }}</p>
