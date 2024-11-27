@@ -69,6 +69,19 @@
                         </tr>
                     </tbody>
                 </table>
+                <div
+                    class="bg-success rounded p-2 text-white"
+                    v-if="quotation && quotation.contract"
+                >
+                    <p v-if="quotation.contract.user">
+                        Contrato generado por:
+                        {{
+                            quotation.contract.user
+                                ? quotation.contract.user.name
+                                : "Sin asignar"
+                        }}
+                    </p>
+                </div>
             </div>
         </div>
     </div>
