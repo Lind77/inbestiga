@@ -9,10 +9,8 @@ use stdClass;
 
 class ScheduleController extends Controller
 {
-    public function index()
-    {
-    }
-      /**
+    public function index() {}
+    /**
      * Muestra los horarios de un usuario específico.
      *
      * @param  int  $id El ID del usuario cuyas citas se van a mostrar.
@@ -56,37 +54,44 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-
         $weekdays = json_decode($request->get('weekdays'), true);
-
         $admission_time = $request->get('admission_time');
         $departure_time = $request->get('departure_time');
-
+        $type = $request->get('type');
+        $user_id = $request->get('user_id');
 
         $chunksTimes = [];
+        $current_time = $admission_time;
 
-        do {
-            $new_departure_time = date("H:i", strtotime('+60 minutes', strtotime($admission_time)));
-            $newSchedule = (object)[];
-            $newSchedule->admission_time = $admission_time;
-            $newSchedule->departure_time = $new_departure_time;
-            array_push($chunksTimes, $newSchedule);
-            $admission_time = $new_departure_time;
-        } while ($new_departure_time != $departure_time);
+        // Generar los rangos de tiempo en un solo ciclo
+        while ($current_time < $departure_time) {
+            $new_departure_time = date("H:i", strtotime('+60 minutes', strtotime($current_time)));
+            $chunksTimes[] = [
+                'admission_time' => $current_time,
+                'departure_time' => $new_departure_time
+            ];
+            $current_time = $new_departure_time;
+        }
 
-
+        // Construir las filas a insertar
+        $schedules = [];
         foreach ($weekdays as $weekday) {
             foreach ($chunksTimes as $chunk) {
-                $schedule = Schedule::create([
-                    'admission_time' => $chunk->admission_time,
-                    'departure_time' => $chunk->departure_time,
-                    'type' => $request->get('type'),
+                $schedules[] = [
+                    'admission_time' => $chunk['admission_time'],
+                    'departure_time' => $chunk['departure_time'],
+                    'type' => $type,
                     'day' => $weekday,
                     'week' => 1,
-                    'user_id' => $request->get('user_id')
-                ]);
+                    'user_id' => $user_id,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
             }
         }
+
+        // Inserción masiva
+        Schedule::insert($schedules);
 
         /*  do {
             $new_departure_time = date("H:i", strtotime('+60 minutes', strtotime($admission_time)));
@@ -173,7 +178,7 @@ class ScheduleController extends Controller
             'msg' => 'success'
         ]);
     }
-     /**
+    /**
      * Obtiene los horarios de un usuario específico por día.
      *
      * @param  \Illuminate\Http\Request  $request La solicitud con el día y el ID del usuario.
@@ -199,7 +204,7 @@ class ScheduleController extends Controller
             'msg' => 'success'
         ]);
     }
-     /**
+    /**
      * Actualiza la hora de admisión de un horario específico.
      *
      * @param  int  $id El ID del horario a actualizar.
@@ -250,7 +255,7 @@ class ScheduleController extends Controller
             'msg' => 'success'
         ]);
     }
-       /**
+    /**
      * Actualiza los próximos horarios y sus tiempos de admisión.
      *
      * @param  \Illuminate\Http\Request  $request La solicitud con los próximos horarios y tiempos a actualizar.
