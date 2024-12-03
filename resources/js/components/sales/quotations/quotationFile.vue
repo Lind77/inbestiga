@@ -124,6 +124,29 @@
                                 <br />
                                 - Levantamiento de observaciones
                             </template>
+                            <template v-else-if="detail.product_id == 154">
+                                <br />
+                                - Levantamiento de observaciones del plan de
+                                tesis
+                                <br />
+                                - Elaboración del informe final de tesis o tesis
+                                final
+                                <br />
+                                - Levantamiento de observaciones final
+                                <br />
+                                - Orientación y/o asesoría extraordinaria en
+                                cualquier etapa de la tesis
+                                <br />
+                                - Plantilla de diapositivas
+                                <br />
+                                - Reporte de similitud Turnitin
+                                <br />
+                                - E-book para la sustentación
+                                <br />
+                                - Balotario de preguntas
+                                <br />
+                                - Simulación de sustentación
+                            </template>
                         </th>
                         <th
                             class="table-item fw-normal"
