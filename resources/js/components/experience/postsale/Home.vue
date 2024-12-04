@@ -14,7 +14,11 @@
                     <tbody>
                         <tr v-for="postsale in postSales">
                             <td>
-                                <p class="fw-bold">{{ postsale.name }}</p>
+                                <p class="fw-bold mb-0">{{ postsale.name }}</p>
+                                <small>
+                                    {{ postsale.email }} - {{ postsale.dni }} -
+                                    {{ postsale.cell }}
+                                </small>
                             </td>
                             <td></td>
                             <td></td>
