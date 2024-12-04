@@ -1,16 +1,19 @@
 <template>
     <div>
         <nav class="navbar navbar-dark bg-purple">
-            <div class="row w-100 px-4 py-3">
+            <div class="row w-100 px-4 py-1">
                 <div
                     class="col-12 d-flex align-items-center justify-content-around"
                 >
                     <h2 class="fw-bolder text-white mb-0">COTIZACIÓN</h2>
-                    <img
-                        src="https://jairpl.com/pdf-sys/logo.png"
-                        alt=""
-                        class="main-logo mb-3"
-                    />
+                    <div class="">
+                        <img
+                            src="https://jairpl.com/pdf-sys/logo.png"
+                            alt=""
+                            class="main-logo"
+                        />
+                        <p class="mt-1 fw-bold">RUC No. 20609545535</p>
+                    </div>
                 </div>
             </div>
         </nav>

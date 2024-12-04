@@ -132,6 +132,8 @@ import HomeDocumentation from '../components/experience/profiles/Documentation.v
 import HomeForms from '../components/experience/forms/Home.vue'
 //Area de Experiencia - Justificaciones
 import HomeJustifications from '../components/experience/justifications/Home.vue'
+//Area de Experiencia - PstVenta
+import HomePostSale from '../components/experience/postsale/Home.vue'
 
 //Área para los usuarios
 import Layout from '../components/user/Layout.vue'
@@ -451,6 +453,11 @@ export const routes = [
                 path: 'report',
                 component: Report,
                 name: 'report'
+            },
+            {
+                path: 'postsale',
+                component: HomePostSale,
+                name: 'postsale'
             }
         ]
     },
