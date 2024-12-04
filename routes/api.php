@@ -1421,3 +1421,12 @@ Route::get('/status-voucher/{voucherStatus}/{voucherId}', [QuotationController::
  * @param int $userId ID del usuario.
  */
 Route::get('/change-color-event/{deliveryId}/{userId}', [DeliveryController::class, 'changeColorEvent']);
+
+/**
+ * Rutas para manejar in formación de postventas.
+ */
+/**
+ * Obtiene todos los clientes que son clientes.
+ * 
+ */
+Route::get('/post-sales', [CustomerController::class, 'postSales']);
