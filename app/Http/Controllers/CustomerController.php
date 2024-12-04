@@ -658,4 +658,10 @@ class CustomerController extends Controller
         $customers = Customer::where('user_id', $user_id)->with(['comunications', 'quotations', 'quotations.order', 'user'])->orderBy('updated_at', 'desc')->take(10)->get();
         return response()->json($customers);
     }
+
+    public function postSales()
+    {
+        $customers = Customer::where('password', '!=', null)->paginate(20);
+        return response()->json($customers);
+    }
 }
