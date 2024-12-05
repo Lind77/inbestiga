@@ -433,7 +433,9 @@ class ContractController extends Controller
             'fragment' => $request->get('fragment'),
             'user_id' => $request->get('user_id'),
             'bank_account_type' => $request->get('bank_account_type'),
-            'degree_modality_id' => $request->get('degree_modality_id')
+            'degree_modality_id' => $request->get('degree_modality_id'),
+            'thesis_type_id' => $request->get('thesis_type_id'),
+            'thesis_degree_id' => $request->get('thesis_degree_id')
         ]);
 
         $customers = json_decode($request->get('customers'), true);
