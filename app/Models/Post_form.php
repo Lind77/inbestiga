@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Post_form extends Model
 {
     use HasFactory;
-    public function post_formable()
+    protected $fillable = ['contract_id', 'comunication_channel_id', 'study_place_id', 'marketing_surce_id','hire_factor_id','contract_mode_id','academic_situation_id','professional_status_id','participation_id'];
+    public function contract()
     {
-        return $this->morphTo();
+        return $this->belongsTo('App\Models\Contract');
     }
     public function comunication_channel()
     {
