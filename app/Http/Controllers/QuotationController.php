@@ -14,6 +14,7 @@ use App\Models\Detail;
 use App\Models\External_voucher;
 use App\Models\Notification;
 use App\Models\Order;
+use App\Models\Post_form;
 use App\Models\Promotion;
 use App\Models\Seen;
 use App\Models\User;
@@ -453,9 +454,9 @@ class QuotationController extends Controller
      */
     public function updateCustomerGrade(Request $request)
     {
-        $status = $request->get('status');
-        $quotation = Quotation::find($request->get('quotation_id'));
 
+        $status = $request->get('status');
+        $quotation = Quotation::with('contract')->find($request->get('quotation_id'));
 
         if ($status >= 3) {
             $quotation->update([
@@ -466,6 +467,32 @@ class QuotationController extends Controller
         }
 
         if ($status == 11) {
+
+            $quotation->contract->post_forms()->create([
+                'comunication_channel_id' => null,
+                'study_place_id' => null,
+                'marketing_source_id' => null,
+                'hire_factor_id' => null,
+                'contract_mode_id' => null,
+                'academic_situation_id' => null,
+                'professional_status_id' => null,
+                'participation_id' => null
+            ]);
+
+            $year = date('Y');
+            $month = date('m');
+
+            $mostActualContracts = Contract::where('created_at', 'like', '%' . date('Y-m'))->orderBy('id', 'desc')->get();
+
+            $contractsNumber = count($mostActualContracts);
+
+            $codeGenerated =  date('Y-m') . str_pad($contractsNumber, 3, '0', STR_PAD_LEFT);
+
+            $quotation->contract->update([
+                'code' => $codeGenerated
+            ]);
+
+
             $quotation->customers->each(function ($customer) use ($quotation) {
                 $customer->update([
                     'password' => Hash::make($customer->dni)

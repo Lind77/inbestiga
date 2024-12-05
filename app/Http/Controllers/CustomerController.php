@@ -661,7 +661,10 @@ class CustomerController extends Controller
 
     public function postSales()
     {
-        $customers = Customer::where('password', '!=', null)->paginate(20);
+        $customers = Customer::with(['quotations' => function ($query) {
+            $query->orderBy('id', 'desc')->get();
+        }, 'quotations.contract', 'province'])->where('password', '!=', null)->whereHas('quotations.contract')->paginate(20);
+
         return response()->json($customers);
     }
 }

@@ -100,6 +100,22 @@
                                 </div>
                             </div>
                             <div class="row g-2">
+                                <div class="row g-2" v-if="action == 2">
+                                    <div class="col mb-0">
+                                        <label class="form-label">Género</label>
+                                        <select
+                                            class="form-select"
+                                            v-model="customer.gender"
+                                        >
+                                            <option value="1" default>
+                                                Masculino
+                                            </option>
+                                            <option value="2">Femenino</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-2">
                                 <div class="col mb-0" v-if="action == 2">
                                     <label for="dobBasic" class="form-label"
                                         >Dirección</label
