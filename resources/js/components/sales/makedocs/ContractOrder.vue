@@ -381,6 +381,29 @@
                             <!-- <label for="salesperson" class="form-label">Tiempo de Ejecucion<span
                                     class="text-danger">*</span>:</label>
                             <input type="text" class="form-control" v-model="quotation.term"> -->
+                            <label for="thesisType" class="form-label"
+                                >Tipo de tesis</label
+                            >
+                            <select v-model="thesisType" class="form-control">
+                                <option
+                                    :value="type.id"
+                                    v-for="type in thesisTypes"
+                                >
+                                    {{ type.name }}
+                                </option>
+                            </select>
+
+                            <label for="thesisType" class="form-label"
+                                >Grado</label
+                            >
+                            <select v-model="thesisDegree" class="form-control">
+                                <option
+                                    :value="degree.id"
+                                    v-for="degree in thesisDegrees"
+                                >
+                                    {{ degree.name }}
+                                </option>
+                            </select>
                             <label for="salesperson" class="form-label"
                                 >Modalidades de Titulación</label
                             >
@@ -623,6 +646,10 @@ export default {
             bankAccounts: [],
             bankAccountSelected: 0,
             degreeModality: 0,
+            thesisTypes: [],
+            thesisDegrees: [],
+            thesisType: 0,
+            thesisDegree: 0,
         };
     },
     methods: {
@@ -746,7 +773,9 @@ export default {
             axios
                 .get("/api/bank-accounts")
                 .then((res) => {
-                    this.bankAccounts = res.data;
+                    this.bankAccounts = res.data.bank_accounts;
+                    this.thesisTypes = res.data.thesis_types;
+                    this.thesisDegrees = res.data.thesis_degrees;
                 })
                 .catch((err) => {
                     console.log(err);
@@ -885,6 +914,8 @@ export default {
             fd.append("fragment", fragmentedValue);
             fd.append("bank_account_type", this.bankAccountSelected);
             fd.append("degree_modality_id", this.degreeModality);
+            fd.append("thesis_degree_id", this.thesisDegree);
+            fd.append("thesis_type_id", this.thesisType);
 
             axios
                 .post("/api/contracts", fd)

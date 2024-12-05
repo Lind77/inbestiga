@@ -6,13 +6,21 @@ use App\Events\NewLead;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\Academic_situation;
 use App\Models\Comission;
 use App\Models\Comunication;
+use App\Models\Comunication_channel;
 use App\Models\Contract;
+use App\Models\Contract_mode;
 use App\Models\Detail;
+use App\Models\Hire_factor;
+use App\Models\Marketing_source;
 use App\Models\NewProduct;
 use App\Models\Notification;
 use App\Models\Origin;
+use App\Models\Participation;
+use App\Models\Post_form;
+use App\Models\Professional_status;
 use App\Models\Quotation;
 use App\Models\Seen;
 use App\Models\User;
@@ -661,7 +669,65 @@ class CustomerController extends Controller
 
     public function postSales()
     {
-        $customers = Customer::where('password', '!=', null)->paginate(20);
+        $customers = Customer::with(['quotations' => function ($query) {
+            $query->orderBy('id', 'desc')->get();
+        }, 'quotations.contract', 'province'])->where('password', '!=', null)->whereHas('quotations.contract')->orderBy('updated_at', 'desc')->paginate(20);
+
         return response()->json($customers);
+    }
+
+    public function selectsInfo()
+    {
+        $comunicationChanels = Comunication_channel::all();
+        $mktSources = Marketing_source::all();
+        $hireFactors = Hire_factor::all();
+        $contractModes = Contract_mode::all();
+        $academicSituations = Academic_situation::all();
+        $professionalStatuses = Professional_status::all();
+        $participations = Participation::all();
+
+        return response()->json([
+            'comunicationChanels' => $comunicationChanels,
+            'mktSources' => $mktSources,
+            'hireFactors' => $hireFactors,
+            'contractModes' => $contractModes,
+            'academicSituations' => $academicSituations,
+            'professionalStatuses' => $professionalStatuses,
+            'participations' => $participations
+        ]);
+    }
+
+    public function registerPostsales(Request $request)
+    {
+        $post_form = Post_form::find($request->get('contract_id'));
+
+        if (!$post_form) {
+            $post_form = Post_form::create([
+                'contract_id' => $request->get('contract_id'),
+                'comunication_channel_id' => $request->get('comunicationChanelId'),
+                'marketing_source_id' => $request->get('mktSourceId'),
+                'hire_factor_id' => $request->get('hireFactorId'),
+                'contract_mode_id' => $request->get('contractModeId'),
+                'academic_situation_id' => $request->get('academicSituationId'),
+                'professional_status_id' => $request->get('professionalStatusId'),
+                'participation_id' => $request->get('participationId'),
+                'study_place_id' => $request->get('studyPlaceId'),
+            ]);
+        } else {
+            $post_form->update([
+                'comunication_channel_id' => $request->get('comunicationChanelId'),
+                'marketing_source_id' => $request->get('mktSourceId'),
+                'hire_factor_id' => $request->get('hireFactorId'),
+                'contract_mode_id' => $request->get('contractModeId'),
+                'academic_situation_id' => $request->get('academicSituationId'),
+                'professional_status_id' => $request->get('professionalStatusId'),
+                'participation_id' => $request->get('participationId'),
+                'study_place_id' => $request->get('studyPlaceId'),
+            ]);
+        }
+
+        return response()->json([
+            'msg' => 'Successfully updated'
+        ]);
     }
 }

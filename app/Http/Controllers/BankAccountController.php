@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bank_account;
+use App\Models\Thesis_degree;
+use App\Models\Thesis_type;
 use Illuminate\Http\Request;
 
 class BankAccountController extends Controller
@@ -19,8 +21,14 @@ class BankAccountController extends Controller
     public function index()
     {
         $bank_accounts = Bank_account::with('bank_entity')->get();
+        $thesisTypes = Thesis_type::all();
+        $thesisDegree = Thesis_degree::all();
 
-        return response()->json($bank_accounts);
+        return response()->json([
+            'bank_accounts' => $bank_accounts,
+            'thesis_types' => $thesisTypes,
+            'thesis_degrees' => $thesisDegree,
+        ]);
     }
 
     /**
