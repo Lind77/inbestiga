@@ -143,4 +143,30 @@ class Contract extends Model
     {
         return $this->belongsTo('App\Models\Degree_modality');
     }
+       /**
+     * Relacion inversa uno a muchos Degree-modality-Contract.
+     * 
+     * Un contrato pertenece a una modalidad de grado específica.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function thesis_type()
+    {
+        return $this->belongsTo('App\Models\Thesis_type');
+    }
+       /**
+     * Relacion inversa uno a muchos Degree-modality-Contract.
+     * 
+     * Un contrato pertenece a una modalidad de grado específica.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function thesis_degree()
+    {
+        return $this->belongsTo('App\Models\Thesis_degree');
+    }
+    public function post_form()
+    {
+        return $this->hasOne('App\Models\Post_form');
+    }
 }
