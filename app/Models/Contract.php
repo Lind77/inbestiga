@@ -165,8 +165,8 @@ class Contract extends Model
     {
         return $this->belongsTo('App\Models\Thesis_degree');
     }
-    public function post_forms()
+    public function post_form()
     {
-        return $this->morphMany('App\Models\Post_form', 'post_formable');
+        return $this->hasOne('App\Models\Post_form');
     }
 }
