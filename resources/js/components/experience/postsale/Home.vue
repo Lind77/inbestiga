@@ -39,7 +39,11 @@
                                 <br />
                                 <small
                                     >Fecha de nacimiento:
-                                    {{ postsale.birth_date }}</small
+                                    {{
+                                        postsale.birth_date
+                                            ? postsale.birth_date
+                                            : "Sin asignar"
+                                    }}</small
                                 >
                             </td>
                             <td>
@@ -76,15 +80,45 @@
                                     {{ postsale.career }}
                                 </small>
                                 <br />
-                                <small> Tipo de Tesis: </small>
+                                <small>
+                                    Tipo de Tesis:
+                                    {{
+                                        postsale.quotations
+                                            ? postsale.quotations[0].contract
+                                                ? postsale.quotations[0]
+                                                      .contract.thesis_type_id
+                                                    ? postsale.quotations[0]
+                                                          .contract
+                                                          .thesis_type_id
+                                                    : "Sin asignar"
+                                                : "Sin contrato"
+                                            : "Sin cotización"
+                                    }}</small
+                                >
+                                <br />
+                                <small>
+                                    Grado:
+                                    {{
+                                        postsale.quotations
+                                            ? postsale.quotations[0].contract
+                                                ? postsale.quotations[0]
+                                                      .contract.thesis_degree_id
+                                                    ? postsale.quotations[0]
+                                                          .contract
+                                                          .thesis_degree_id
+                                                    : "Sin asignar"
+                                                : "Sin contrato"
+                                            : "Sin cotización"
+                                    }}</small
+                                >
                                 <br />
                                 <small>
                                     Monto contratado:
-                                    <!-- {{
+                                    {{
                                         postsale.quotations
                                             ? `S./ ${postsale.quotations[0].amount}`
                                             : "Sin cotización"
-                                    }} -->
+                                    }}
                                 </small>
                             </td>
                             <td>

@@ -1430,3 +1430,14 @@ Route::get('/change-color-event/{deliveryId}/{userId}', [DeliveryController::cla
  * 
  */
 Route::get('/post-sales', [CustomerController::class, 'postSales']);
+
+/**
+ * Obtiene informacion para los selects del form de postventas.
+ * 
+ */
+Route::get('/selects-info', [CustomerController::class, 'selectsInfo']);
+/**
+ * Almacena la información del form de postventas.
+ * 
+ */
+Route::post('/form-sales-posts', [CustomerController::class, 'registerPostsales']);

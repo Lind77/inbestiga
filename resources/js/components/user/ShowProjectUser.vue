@@ -28,7 +28,10 @@
                                                 >Canal de comunicación
                                                 preferido</label
                                             >
-                                            <select class="form-control">
+                                            <select
+                                                class="form-control"
+                                                v-model="comunicationChanelId"
+                                            >
                                                 <option
                                                     :value="
                                                         comunicationChanel.id
@@ -46,7 +49,10 @@
                                                 >¿Cómo te enteraste de nuestros
                                                 servicios?</label
                                             >
-                                            <select class="form-control">
+                                            <select
+                                                class="form-control"
+                                                v-model="mktSourceId"
+                                            >
                                                 <option
                                                     :value="mktSource.id"
                                                     v-for="mktSource in mktSources"
@@ -61,7 +67,10 @@
                                                 contratación de nuestros
                                                 servicios?</label
                                             >
-                                            <select class="form-control">
+                                            <select
+                                                class="form-control"
+                                                v-model="contractModeId"
+                                            >
                                                 <option
                                                     :value="contractMode.id"
                                                     v-for="contractMode in contractModes"
@@ -74,14 +83,19 @@
                                             <label for=""
                                                 >Estado profesional</label
                                             >
-                                            <select class="form-control">
+                                            <select
+                                                class="form-control"
+                                                v-model="professionalStatusId"
+                                            >
                                                 <option
                                                     :value="
-                                                        academicSituation.id
+                                                        professionalStatus.id
                                                     "
-                                                    v-for="academicSituation in academicSituations"
+                                                    v-for="professionalStatus in professionalStatuses"
                                                 >
-                                                    {{ academicSituation.name }}
+                                                    {{
+                                                        professionalStatus.name
+                                                    }}
                                                 </option>
                                             </select>
                                         </div>
@@ -101,7 +115,8 @@
                                                         type="radio"
                                                         name="inlineRadioOptions"
                                                         id="inlineRadio1"
-                                                        value="option1"
+                                                        value="1"
+                                                        v-model="studyPlaceId"
                                                     />
                                                     <label
                                                         class="form-check-label"
@@ -117,7 +132,8 @@
                                                         type="radio"
                                                         name="inlineRadioOptions"
                                                         id="inlineRadio2"
-                                                        value="option2"
+                                                        value="2"
+                                                        v-model="studyPlaceId"
                                                     />
                                                     <label
                                                         class="form-check-label"
@@ -137,7 +153,10 @@
                                                     servicios?
                                                 </small>
                                             </label>
-                                            <select class="form-control">
+                                            <select
+                                                class="form-control"
+                                                v-model="hireFactorId"
+                                            >
                                                 <option
                                                     :value="hireFactor.id"
                                                     v-for="hireFactor in hireFactors"
@@ -152,16 +171,17 @@
                                                 >¿Cuál es tu situación académica
                                                 actual?</label
                                             >
-                                            <select class="form-control">
+                                            <select
+                                                class="form-control"
+                                                v-model="academicSituationId"
+                                            >
                                                 <option
                                                     :value="
-                                                        professionalStatus.id
+                                                        academicSituation.id
                                                     "
-                                                    v-for="professionalStatus in professionalStatuses"
+                                                    v-for="academicSituation in academicSituations"
                                                 >
-                                                    {{
-                                                        professionalStatus.name
-                                                    }}
+                                                    {{ academicSituation.name }}
                                                 </option>
                                             </select>
                                         </div>
@@ -172,7 +192,10 @@
                                                 la elaboración de tu
                                                 tesis?</label
                                             >
-                                            <select class="form-control">
+                                            <select
+                                                class="form-control"
+                                                v-model="participationId"
+                                            >
                                                 <option
                                                     :value="participation.id"
                                                     v-for="participation in participations"
@@ -181,6 +204,16 @@
                                                 </option>
                                             </select>
                                         </div>
+                                    </div>
+                                    <div
+                                        class="w-full d-flex justify-content-center"
+                                    >
+                                        <button
+                                            @click="saveFormPostSales"
+                                            class="btn btn-primary w-75 mt-3"
+                                        >
+                                            Enviar
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -260,6 +293,14 @@ export default {
             academicSituations: [],
             professionalStatuses: [],
             participations: [],
+            comunicationChanelId: 0,
+            mktSourceId: 0,
+            hireFactorId: 0,
+            contractModeId: 0,
+            academicSituationId: 0,
+            professionalStatusId: 0,
+            participationId: 0,
+            studyPlaceId: 0,
         };
     },
     methods: {
@@ -304,21 +345,49 @@ export default {
                     console.log(err);
                 });
         },
-        getFormPostSales() {
-            axios
-                .get("/api/posts/formPostSales")
-                .then((result) => {})
-                .catch((err) => {});
-        },
         saveFormPostSales() {
+            const fd = new FormData();
+
+            fd.append("contract_id", this.project.projectable.id);
+            fd.append("comunicationChanelId", this.comunicationChanelId);
+            fd.append("mktSourceId", this.mktSourceId);
+            fd.append("hireFactorId", this.hireFactorId);
+            fd.append("contractModeId", this.contractModeId);
+            fd.append("academicSituationId", this.academicSituationId);
+            fd.append("professionalStatusId", this.professionalStatusId);
+            fd.append("participationId", this.participationId);
+            fd.append("studyPlaceId", this.studyPlaceId);
+
             axios
-                .post("/api/form-sales-posts")
-                .then((result) => {})
-                .catch((err) => {});
+                .post("/api/form-sales-posts", fd)
+                .then((result) => {
+                    this.$swal("Formulario enviado correctamente");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        getSelectsInfo() {
+            axios
+                .get("/api/selects-info")
+                .then((result) => {
+                    this.comunicationChanels = result.data.comunicationChanels;
+                    this.mktSources = result.data.mktSources;
+                    this.hireFactors = result.data.hireFactors;
+                    this.contractModes = result.data.contractModes;
+                    this.academicSituations = result.data.academicSituations;
+                    this.professionalStatuses =
+                        result.data.professionalStatuses;
+                    this.participations = result.data.participations;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
     },
     mounted() {
         this.getProjectInfo();
+        this.getSelectsInfo();
     },
 };
 </script>

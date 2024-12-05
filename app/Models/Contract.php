@@ -43,7 +43,7 @@ class Contract extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['quotation_id', 'amount', 'amount_text', 'cent_text', 'date', 'advance', 'percentage', 'third_article', 'third_article_place', 'status', 'fifth_article', 'third_article_ppts', 'fragment', 'user_id', 'bank_account_type', 'degree_modality_id'];
+    protected $fillable = ['quotation_id', 'amount', 'amount_text', 'cent_text', 'date', 'advance', 'percentage', 'third_article', 'third_article_place', 'status', 'fifth_article', 'third_article_ppts', 'fragment', 'user_id', 'bank_account_type', 'degree_modality_id', 'code', 'registration_date', 'thesis_type_id', 'thesis_degree_id'];
     /**
      * Relacion inversa uno  a uno Contract-Quotation.
      * 
@@ -77,7 +77,7 @@ class Contract extends Model
     {
         return $this->morphMany('App\Models\Addendum', 'addendumable');
     }
-     /**
+    /**
      * Relacion morfeable uno a muchos (orders-contracts-payments-payment_proofs).
      * 
      * Un contrato puede tener múltiples comprobantes de pago.
@@ -99,7 +99,7 @@ class Contract extends Model
     {
         return $this->morphMany('App\Models\Project', 'projectable');
     }
-     /**
+    /**
      * Relación polimorfica uno a mucho (Contrato-Orden->Properties()).
      * 
      * Un contrato puede tener múltiples propiedades asociadas.
@@ -110,7 +110,7 @@ class Contract extends Model
     {
         return $this->morphMany('App\Models\Property', 'propertiable');
     }
-     /**
+    /**
      * Relación uno a muchos Contract-External_voucher.
      * 
      * Un contrato puede tener múltiples vouchers externos asociados.
@@ -132,7 +132,7 @@ class Contract extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
-     /**
+    /**
      * Relacion inversa uno a muchos Degree-modality-Contract.
      * 
      * Un contrato pertenece a una modalidad de grado específica.
@@ -143,7 +143,7 @@ class Contract extends Model
     {
         return $this->belongsTo('App\Models\Degree_modality');
     }
-       /**
+    /**
      * Relacion inversa uno a muchos Degree-modality-Contract.
      * 
      * Un contrato pertenece a una modalidad de grado específica.
@@ -154,7 +154,7 @@ class Contract extends Model
     {
         return $this->belongsTo('App\Models\Thesis_type');
     }
-       /**
+    /**
      * Relacion inversa uno a muchos Degree-modality-Contract.
      * 
      * Un contrato pertenece a una modalidad de grado específica.

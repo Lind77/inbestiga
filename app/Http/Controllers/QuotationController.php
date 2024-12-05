@@ -468,7 +468,8 @@ class QuotationController extends Controller
 
         if ($status == 11) {
 
-            $quotation->contract->post_forms()->create([
+            $post_form = Post_form::create([
+                'contract_id' => $quotation->contract->id,
                 'comunication_channel_id' => null,
                 'study_place_id' => null,
                 'marketing_source_id' => null,
@@ -482,14 +483,21 @@ class QuotationController extends Controller
             $year = date('Y');
             $month = date('m');
 
-            $mostActualContracts = Contract::where('created_at', 'like', '%' . date('Y-m'))->orderBy('id', 'desc')->get();
+            $mostActualContracts = Contract::where('code', 'like', '%' . $year . $month . '%')->get();
 
             $contractsNumber = count($mostActualContracts);
 
-            $codeGenerated =  date('Y-m') . str_pad($contractsNumber, 3, '0', STR_PAD_LEFT);
+            if ($contractsNumber == 0) {
+                $contractsNumber = 1;
+            }
+
+            $contractsNumber++;
+
+            $codeGenerated =  str_pad($contractsNumber, 3, '0', STR_PAD_LEFT);
 
             $quotation->contract->update([
-                'code' => $codeGenerated
+                'code' => $year . $month . $codeGenerated,
+                'registration_date' => date('Y-m-d')
             ]);
 
 
