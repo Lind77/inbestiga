@@ -3,7 +3,9 @@
         <h4 class="fw-bold">Post venta</h4>
         <div class="card pt-2">
             <div class="w-full p-2">
-                <button class="btn btn-success">Descargar</button>
+                <button class="btn btn-success" @click="downloadExcel">
+                    Descargar
+                </button>
             </div>
             <div class="table-responsive text-nowrap">
                 <table class="table">
@@ -51,10 +53,11 @@
                                     >Fecha de registro:
                                     {{
                                         postsale.quotations
-                                            ? formatDate(
-                                                  postsale.quotations[0]
-                                                      .created_at
-                                              )
+                                            ? postsale.quotations[0].contract
+                                                ? postsale.quotations[0]
+                                                      .contract
+                                                      .registration_date
+                                                : "Sin asignar"
                                             : "Sin cotización"
                                     }}</small
                                 >
@@ -171,11 +174,14 @@ export default {
             axios
                 .get("/api/post-sales")
                 .then((result) => {
-                    this.postSales = result.data.data;
+                    this.postSales = result.data;
                 })
                 .catch((err) => {
                     console.log(err);
                 });
+        },
+        downloadExcel() {
+            window.open("/inbestiga/public/api/export-post-sales").focus();
         },
     },
     mounted() {

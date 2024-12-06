@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\NewLead;
+use App\Exports\CustomersExport;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
@@ -25,6 +26,7 @@ use App\Models\Quotation;
 use App\Models\Seen;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
  * Class CustomerController
@@ -669,9 +671,15 @@ class CustomerController extends Controller
 
     public function postSales()
     {
+        /* $contract = Contract::with(['quotation', 'quotation.customers' => function ($query) {
+            $query->whereColumn('customers.id', 'quotation.customer_id');
+        }])->where('registration_date', 'like', '%' . date('Y-m') . '%')->get(); */
+
         $customers = Customer::with(['quotations' => function ($query) {
             $query->orderBy('id', 'desc')->get();
-        }, 'quotations.contract', 'province'])->where('password', '!=', null)->whereHas('quotations.contract')->orderBy('updated_at', 'desc')->paginate(20);
+        }, 'quotations.contract', 'province'])->where('password', '!=', null)->whereHas('quotations.contract', function ($q) {
+            $q->where('registration_date', 'like', '%' . date('Y-m') . '%');
+        })->orderBy('updated_at', 'desc')->get();
 
         return response()->json($customers);
     }
@@ -699,7 +707,7 @@ class CustomerController extends Controller
 
     public function registerPostsales(Request $request)
     {
-        $post_form = Post_form::find($request->get('contract_id'));
+        $post_form = Post_form::where('contract_id', $request->get('contract_id'))->first();
 
         if (!$post_form) {
             $post_form = Post_form::create([
@@ -729,5 +737,10 @@ class CustomerController extends Controller
         return response()->json([
             'msg' => 'Successfully updated'
         ]);
+    }
+
+    public function export()
+    {
+        return Excel::download(new CustomersExport, 'customers.xlsx');
     }
 }
