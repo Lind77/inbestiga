@@ -393,7 +393,7 @@ export default {
 </script>
 <style scoped>
 .auto-height {
-    height: 100vh !important;
+    height: auto !important;
 }
 
 .input-icons {
