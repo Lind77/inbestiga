@@ -46,7 +46,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with(['comunications', 'quotations', 'quotations.order', 'user'])->orderBy('updated_at', 'desc')->take(10)->get();
+        $customers = Customer::with(['comunications', 'quotations', 'quotations.order', 'user', 'province', 'province.department', 'province.department.provinces'])->orderBy('updated_at', 'desc')->take(10)->get();
         return response()->json($customers);
     }
 
