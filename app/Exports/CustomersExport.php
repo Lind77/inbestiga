@@ -38,14 +38,14 @@ class CustomersExport implements FromCollection, WithHeadings
                     'Tipo de Tesis' => $customer->quotations->first()->contract->thesis_type_id,
                     'Grado' => $customer->quotations->first()->contract->thesis_degree_id,
                     'Monto contratado' => $customer->quotations->first()->amount,
-                    'Canal de comunicación preferido' => $customer->quotations->first()->contract->post_form->comunication_channel->name,
-                    'Cuenta con lugar de estudio' => $customer->quotations->first()->contract->post_form->study_place->name,
-                    '¿Cómo te enteraste de nuestros servicios?' => $customer->quotations->first()->contract->post_form->marketing_source->name,
-                    '¿Cuál fue el factor principal que te llevó a contratar nuestros servicios?' => $customer->quotations->first()->contract->post_form->hire_factor->name,
-                    '¿Cómo realizaste la contratación de nuestros servicios?' => $customer->quotations->first()->contract->post_form->contract_mode->name,
-                    '¿Cuál es tu situación académica actual?' => $customer->quotations->first()->contract->post_form->academic_situation->name,
-                    'Estado profesional' => $customer->quotations->first()->contract->post_form->professional_status->name,
-                    '¿Qué tanto deseas participar en la elaboración de tu tesis?' => $customer->quotations->first()->contract->post_form->participation->name
+                    'Canal de comunicación preferido' => $customer->quotations->first()->contract->post_form ? $customer->quotations->first()->contract->post_form->comunication_channel->name : 'N/A',
+                    'Cuenta con lugar de estudio' => $customer->quotations->first()->contract->post_form ? $customer->quotations->first()->contract->post_form->study_place->name : 'N/A',
+                    '¿Cómo te enteraste de nuestros servicios?' => $customer->quotations->first()->contract->post_form ? $customer->quotations->first()->contract->post_form->marketing_source->name : 'N/A',
+                    '¿Cuál fue el factor principal que te llevó a contratar nuestros servicios?' => $customer->quotations->first()->contract->post_form ? $customer->quotations->first()->contract->post_form->hire_factor->name : 'N/A',
+                    '¿Cómo realizaste la contratación de nuestros servicios?' => $customer->quotations->first()->contract->post_form ? $customer->quotations->first()->contract->post_form->contract_mode->name : 'N/A',
+                    '¿Cuál es tu situación académica actual?' => $customer->quotations->first()->contract->post_form ? $customer->quotations->first()->contract->post_form->academic_situation->name : 'N/A',
+                    'Estado profesional' => $customer->quotations->first()->contract->post_form ? $customer->quotations->first()->contract->post_form->professional_status->name : 'N/A',
+                    '¿Qué tanto deseas participar en la elaboración de tu tesis?' => $customer->quotations->first()->contract->post_form ? $customer->quotations->first()->contract->post_form->participation->name : 'N/A'
                 ];
             });
     }
