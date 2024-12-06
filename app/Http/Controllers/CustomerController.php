@@ -143,8 +143,9 @@ class CustomerController extends Controller
             'email' => $request->get('email'),
             'dni' => $request->get('dni'),
             'address' => $request->get('address'),
-            /* 'birth_date' => $request->get('birth_date'), */
+            'birth_date' => $request->get('birth_date'),
             'province_id' => $request->get('province_id'),
+            'gender' => $request->get('gender'),
             'type' => $request->get('type')
         ]);
 
@@ -343,7 +344,7 @@ class CustomerController extends Controller
      */
     public function getAllLeads($id)
     {
-        $customers = Customer::where('user_id', $id)->orderBy('updated_at', 'desc')->take(10)->get();
+        $customers = Customer::with(['province', 'province.department', 'province.department.provinces'])->where('user_id', $id)->orderBy('updated_at', 'desc')->take(10)->get();
 
         $quotations = Quotation::with('customers')->whereHas('customers', function ($query) use ($id) {
             $query->where('user_id', $id);
