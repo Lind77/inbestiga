@@ -143,7 +143,7 @@ class CustomerController extends Controller
             'email' => $request->get('email'),
             'dni' => $request->get('dni'),
             'address' => $request->get('address'),
-            'birth_date' => $request->get('birth_date') ?? '0000-00-00',
+            'birth_date' => $request->get('birth_date') ?? null,
             'province_id' => $request->get('province_id'),
             'gender' => $request->get('gender'),
             'type' => $request->get('type')
