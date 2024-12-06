@@ -1441,3 +1441,9 @@ Route::get('/selects-info', [CustomerController::class, 'selectsInfo']);
  * 
  */
 Route::post('/form-sales-posts', [CustomerController::class, 'registerPostsales']);
+/**
+ * Exporta la informacion de postventas en un archivo XLSX.
+ * 
+ */
+
+Route::get('/export-post-sales', [CustomerController::class, 'export']);
