@@ -139,7 +139,12 @@
                                                   .post_form
                                                 ? postsale.quotations[0]
                                                       .contract.post_form
-                                                      .comunication_channel.name
+                                                      .comunication_channel
+                                                    ? postsale.quotations[0]
+                                                          .contract.post_form
+                                                          .comunication_channel
+                                                          .name
+                                                    : "No contestado"
                                                 : "Formulario no contestado"
                                             : "Sin contrato"
                                         : "Sin cotización"
@@ -153,7 +158,11 @@
                                                   .post_form
                                                 ? postsale.quotations[0]
                                                       .contract.post_form
-                                                      .study_place.name
+                                                      .study_place
+                                                    ? postsale.quotations[0]
+                                                          .contract.post_form
+                                                          .study_place.name
+                                                    : "No contestado"
                                                 : "Formulario no contestado"
                                             : "Sin contrato"
                                         : "Sin cotización"
@@ -167,7 +176,11 @@
                                                   .post_form
                                                 ? postsale.quotations[0]
                                                       .contract.post_form
-                                                      .marketing_source.name
+                                                      .marketing_source
+                                                    ? postsale.quotations[0]
+                                                          .contract.post_form
+                                                          .marketing_source.name
+                                                    : "No contestado"
                                                 : "Formulario no contestado"
                                             : "Sin contrato"
                                         : "Sin cotización"
@@ -181,7 +194,11 @@
                                                   .post_form
                                                 ? postsale.quotations[0]
                                                       .contract.post_form
-                                                      .hire_factor.name
+                                                      .hire_factor
+                                                    ? postsale.quotations[0]
+                                                          .contract.post_form
+                                                          .hire_factor.name
+                                                    : "No contestado"
                                                 : "Formulario no contestado"
                                             : "Sin contrato"
                                         : "Sin cotización"
@@ -195,7 +212,11 @@
                                                   .post_form
                                                 ? postsale.quotations[0]
                                                       .contract.post_form
-                                                      .contract_mode.name
+                                                      .contract_mode
+                                                    ? postsale.quotations[0]
+                                                          .contract.post_form
+                                                          .contract_mode.name
+                                                    : "No contestado"
                                                 : "Formulario no contestado"
                                             : "Sin contrato"
                                         : "Sin cotización"
@@ -209,7 +230,12 @@
                                                   .post_form
                                                 ? postsale.quotations[0]
                                                       .contract.post_form
-                                                      .academic_situation.name
+                                                      .academic_situation
+                                                    ? postsale.quotations[0]
+                                                          .contract.post_form
+                                                          .academic_situation
+                                                          .name
+                                                    : "No contestado"
                                                 : "Formulario no contestado"
                                             : "Sin contrato"
                                         : "Sin cotización"
@@ -223,7 +249,12 @@
                                                   .post_form
                                                 ? postsale.quotations[0]
                                                       .contract.post_form
-                                                      .professional_status.name
+                                                      .professional_status
+                                                    ? postsale.quotations[0]
+                                                          .contract.post_form
+                                                          .professional_status
+                                                          .name
+                                                    : "No contestado"
                                                 : "Formulario no contestado"
                                             : "Sin contrato"
                                         : "Sin cotización"
@@ -237,7 +268,11 @@
                                                   .post_form
                                                 ? postsale.quotations[0]
                                                       .contract.post_form
-                                                      .participation.name
+                                                      .participation
+                                                    ? postsale.quotations[0]
+                                                          .contract.post_form
+                                                          .participation.name
+                                                    : "No contestado"
                                                 : "Formulario no contestado"
                                             : "Sin contrato"
                                         : "Sin cotización"
