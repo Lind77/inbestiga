@@ -678,7 +678,7 @@ class CustomerController extends Controller
 
         $customers = Customer::with(['quotations' => function ($query) {
             $query->orderBy('id', 'desc')->get();
-        }, 'quotations.contract', 'province'])->where('password', '!=', null)->whereHas('quotations.contract', function ($q) {
+        }, 'quotations.contract', 'quotations.contract.post_form', 'quotations.contract.post_form.comunication_channel', 'quotations.contract.post_form.study_place', 'quotations.contract.post_form.marketing_source', 'quotations.contract.post_form.hire_factor', 'quotations.contract.post_form.contract_mode', 'quotations.contract.post_form.academic_situation', 'quotations.contract.post_form.professional_status', 'quotations.contract.post_form.participation', 'province'])->where('password', '!=', null)->whereHas('quotations.contract', function ($q) {
             $q->where('registration_date', 'like', '%' . date('Y-m') . '%');
         })->orderBy('updated_at', 'desc')->get();
 
