@@ -81,7 +81,9 @@ class JustificationController extends Controller
      */
     public function show($id)
     {
-        //
+        $justifications = Justification::where('user_id', $id)->where('created_at', 'like', date('Y-m') . '%')->get();
+
+        return response()->json($justifications);
     }
 
     /**

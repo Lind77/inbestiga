@@ -906,6 +906,10 @@ Route::get('/reject-permit/{id}', [AttendanceController::class, 'rejectPermit'])
 
 Route::get('/justifications', [JustificationController::class, 'index']);
 
+/**
+ * Obtiene las justificaciones del mes de un solo usuarios.
+ */
+Route::get('/justifications/{id}', [JustificationController::class, 'show']);
 
 /**
  * Rutas para manejar archivos de asistencia.
