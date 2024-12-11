@@ -1,5 +1,5 @@
-import * as swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 export function closeLoader() {
-    return swal.close();
+    return Swal.close();
 }
