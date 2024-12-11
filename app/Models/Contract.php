@@ -43,7 +43,7 @@ class Contract extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['quotation_id', 'amount', 'amount_text', 'cent_text', 'date', 'advance', 'percentage', 'third_article', 'third_article_place', 'status', 'fifth_article', 'third_article_ppts', 'fragment', 'user_id', 'bank_account_type', 'degree_modality_id', 'code', 'registration_date', 'thesis_type_id', 'thesis_degree_id'];
+    protected $fillable = ['quotation_id', 'amount', 'amount_text', 'cent_text', 'date', 'advance', 'percentage', 'third_article', 'third_article_place', 'status', 'fifth_article', 'third_article_ppts', 'fragment', 'user_id', 'bank_account_type', 'degree_modality_id', 'code', 'registration_date', 'thesis_type_id', 'thesis_degree_id','cash_payment_discount'];
     /**
      * Relacion inversa uno  a uno Contract-Quotation.
      * 
