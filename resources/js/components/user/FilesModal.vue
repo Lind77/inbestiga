@@ -13,6 +13,9 @@
                             @click="showVoucherImage(file)"
                         >
                             <div class="card-body">
+                                <small>{{
+                                    formatDate(file.files[0].created_at)
+                                }}</small>
                                 <h5
                                     class="card-title text-white"
                                     v-if="file && file.files[0]"
@@ -28,6 +31,8 @@
     </div>
 </template>
 <script>
+import moment from "moment";
+
 export default {
     data() {
         return {
@@ -48,6 +53,9 @@ export default {
             window.open(
                 "https://inbestiga.com/inbestiga/public/files/" + fileUrl
             );
+        },
+        formatDate(date) {
+            return moment(date).format("DD/MM/YYYY");
         },
     },
 };

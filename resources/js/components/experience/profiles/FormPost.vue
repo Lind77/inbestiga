@@ -1,17 +1,19 @@
 <template>
     <div class="card invoice-preview-card">
         <div class="card-header">
-            <span class="h5 mt-2 demo text-body fw-bold">Nuevo Post </span>
+            <span class="h5 mt-2 demo text-body fw-bold"
+                >Enviar un documento o mensaje</span
+            >
         </div>
         <div class="card-body">
             <input
                 type="text"
                 v-model="newUpdate.question"
-                placeholder="Título"
+                placeholder="Título o asunto"
                 class="form-control"
             />
             <textarea
-                placeholder="Cuerpo"
+                placeholder="Descripción"
                 v-model="newUpdate.answer"
                 class="form-control mt-2"
                 rows="5"

@@ -80,7 +80,7 @@
                                 <i class="bx bx-phone"></i>
                                 {{ customerSelected.cell }}
                             </li>
-                            <li class="list-inline-item fw-medium">
+                            <!--  <li class="list-inline-item fw-medium">
                                 <i class="bx bx-street-view"></i>
                                 Actitud:
                                 {{
@@ -88,7 +88,7 @@
                                         ? customerSelected.attitude
                                         : "-"
                                 }}
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
