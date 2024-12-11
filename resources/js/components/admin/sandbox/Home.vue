@@ -94,14 +94,14 @@
             <tbody>
                 <tr>
                     <td>
-                        <Slider
+                        <!-- <Slider
                             orientation="vertical"
                             v-model="value"
                             :step="5"
                             :min="750"
                             :max="1350"
                             :format="formatTime"
-                        />
+                        /> -->
                     </td>
                     <!--  <td>
                         <Slider
@@ -147,13 +147,13 @@
     </div>
 </template>
 <script>
-import Slider from "@vueform/slider";
+/* import Slider from "@vueform/slider"; */
 import moment from "moment";
 
 export default {
-    components: {
+    /* components: {
         Slider,
-    },
+    }, */
     data() {
         return {
             content: "",
@@ -209,4 +209,4 @@ export default {
     },
 };
 </script>
-<style src="@vueform/slider/themes/default.css"></style>
+<!-- <style src="@vueform/slider/themes/default.css"></style> -->
