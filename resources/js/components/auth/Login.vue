@@ -202,9 +202,9 @@
     </div>
 </template>
 <script>
-import { userStore } from "../../stores/UserStore";
-import { showLoader } from "../../utils/Loader";
-import { closeLoader } from "../../utils/CloseLoader";
+import { userStore } from "../../stores/UserStore.js";
+import { showLoader } from "../../utils/Loader.js";
+import { closeLoader } from "../../utils/CloseLoader.js";
 export default {
     data() {
         return {
