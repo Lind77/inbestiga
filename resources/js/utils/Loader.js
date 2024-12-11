@@ -1,7 +1,7 @@
-import * as swal from 'sweetalert2';
+import Swal from 'sweetalert2'
 
 export function showLoader(mensaje = "Cargando...", width = 600, padding = "3em", color = "#716add") {
-    return swal.fire({
+    return Swal.fire({
         title: mensaje,
         width: width,
         padding: padding,
@@ -18,5 +18,5 @@ export function showLoader(mensaje = "Cargando...", width = 600, padding = "3em"
 }
 
 export function closeLoader() {
-    return swal.close();
+    return Swal.close();
 }

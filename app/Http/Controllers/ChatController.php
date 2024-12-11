@@ -59,6 +59,8 @@ class ChatController extends Controller
             'viewed' => 0
         ]);
 
+        $chat->load('emisor');
+
         /* $notification = Notification::create([
             'emisor_id' => Auth::id(),
             'content' => ' te ha enviado un mensaje',
@@ -168,7 +170,7 @@ class ChatController extends Controller
         $message = Chat::where('receptor_id', $id)->with('emisor')->latest('id')->first();
         return response()->json($message);
     }
-     /**
+    /**
      * Retrieve a list of contacts for the authenticated user.
      *
      * This method retrieves all users except the authenticated user

@@ -21,7 +21,7 @@
                                     Hay
                                     <span class="fw-bold">{{
                                         deliveries.length
-                                    }}</span>
+                                        }}</span>
                                     entregas para hoy, te recomendamos
                                     revisarlas.
                                 </p>
@@ -29,13 +29,10 @@
                         </div>
                         <div class="col-sm-5 text-center text-sm-left">
                             <div class="card-body pb-0 px-0 px-md-4">
-                                <img
-                                    src="https://themeselection-cdn.b-cdn.net/wp-content/uploads/2022/05/github-img.png"
-                                    height="140"
-                                    alt="View Badge User"
+                                <img src="https://themeselection-cdn.b-cdn.net/wp-content/uploads/2022/05/github-img.png"
+                                    height="140" alt="View Badge User"
                                     data-app-dark-img="illustrations/man-with-laptop-dark.png"
-                                    data-app-light-img="illustrations/man-with-laptop-light.png"
-                                />
+                                    data-app-light-img="illustrations/man-with-laptop-light.png" />
                             </div>
                         </div>
                     </div>
@@ -43,9 +40,7 @@
             </div>
             <div class="col-md-12 col-lg-6 order-4 order-lg-3">
                 <div class="card">
-                    <div
-                        class="card-header d-flex align-items-center justify-content-between"
-                    >
+                    <div class="card-header d-flex align-items-center justify-content-between">
                         <h5 class="card-title m-0 me-2">
                             Permisos Solicitados
                             <!-- <span @click="showModalNote"
@@ -56,10 +51,7 @@
                         <div class="card-body">
                             <!-- Activity Timeline -->
                             <template v-for="permission in permissions">
-                                <div
-                                    class="card bg-success text-white"
-                                    v-if="permission.status == 0"
-                                >
+                                <div class="card bg-success text-white" v-if="permission.status == 0">
                                     <div class="card-header">
                                         Solicitud de {{ permission.user.name }}
                                     </div>
@@ -77,9 +69,7 @@
                     </div>
                 </div>
                 <div class="card mt-3">
-                    <div
-                        class="card-header d-flex align-items-center justify-content-between"
-                    >
+                    <div class="card-header d-flex align-items-center justify-content-between">
                         <h5 class="card-title m-0 me-2">
                             Justificaciones
                             <!-- <span @click="showModalNote"
@@ -89,10 +79,7 @@
                     <div class="card">
                         <div class="card-body">
                             <template v-for="justification in justifications">
-                                <div
-                                    class="card mb-2 bg-warning text-white"
-                                    v-if="justification.status == 0"
-                                >
+                                <div class="card mb-2 bg-warning text-white" v-if="justification.status == 0">
                                     <div class="card-header">
                                         Justificación de
                                         {{ justification.user.name }}
@@ -113,28 +100,21 @@
             </div>
             <div class="col-md-12 col-lg-6 order-4 order-lg-3">
                 <div class="card">
-                    <div
-                        class="card-header d-flex align-items-center justify-content-between"
-                    >
+                    <div class="card-header d-flex align-items-center justify-content-between">
                         <h5 class="card-title m-0 me-2">Entregas para hoy</h5>
                     </div>
                     <div class="card-body">
                         <!-- Activity Timeline -->
-                        <div
-                            class="card bg-success text-white mb-3"
-                            v-for="delivery in deliveries"
-                        >
+                        <div class="card bg-success text-white mb-3" v-for="delivery in deliveries">
                             <div class="card-header">
                                 Entrega de
                                 {{ delivery.type == 1 ? "Contrato" : "Orden" }}
                             </div>
                             <div class="card-body">
-                                <template
-                                    v-if="
-                                        delivery.project &&
-                                        delivery.project.projectable
-                                    "
-                                >
+                                <template v-if="
+                                    delivery.project &&
+                                    delivery.project.projectable
+                                ">
                                     <h5 class="card-title text-white">
                                         {{
                                             delivery.project.projectable
@@ -229,11 +209,11 @@ export default {
         },
     },
     mounted() {
-        /* Echo.private("posts").listen("NewPost", (e) => {
+        Echo.private("posts").listen("NewPost", (e) => {
             console.log(e.post);
             this.postNotification = e.post;
             $("#toastPost").toast("show");
-        }); */
+        });
 
         this.getPermissionsRequest();
         this.getAllDeliveries();

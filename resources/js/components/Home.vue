@@ -1,26 +1,12 @@
 <template>
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
-            <Sidebar
-                v-if="store.authUser && store.authUser.subarea"
-                :hidden="hidden"
-                :user="store.authUser"
-                :role="store.authUser.subarea.name"
-                :permissions="store.authUser.roles[0].permissions"
-                :bgColor="bg"
-            />
+            <Sidebar v-if="store.authUser && store.authUser.subarea" :hidden="hidden" :user="store.authUser"
+                :role="store.authUser.subarea.name" :permissions="store.authUser.roles[0].permissions" :bgColor="bg" />
             <div class="layout-page">
-                <Navbar
-                    @hideSidebar="hideSidebar"
-                    @theme="theme"
-                    :notifications="notifications"
-                />
+                <Navbar @hideSidebar="hideSidebar" @theme="theme" :notifications="notifications" />
                 <div class="content-wrapper">
-                    <component
-                        v-if="$route.path == '/home'"
-                        :is="getComponentMain"
-                        :bg="bg"
-                    ></component>
+                    <component v-if="$route.path == '/home'" :is="getComponentMain" :bg="bg"></component>
                     <router-view v-else> </router-view>
                 </div>
             </div>
@@ -126,22 +112,16 @@ export default {
         getComponentMain() {
             const subareaName = this.store.authUser.subarea.name;
 
-            switch (subareaName) {
-                case "sales":
-                    return "SalesMain";
-                case "acad":
-                    return "AcademicMain";
-                case "admin":
-                    return "AdminMain";
-                case "experience":
-                    return "ExperienceMain";
-                case "marketing":
-                    return "MarketingMain";
-                case "finance":
-                    return "FinanceMain";
-                default:
-                    return "DefaultComponent"; // Puedes definir un componente por defecto
-            }
+            const componentMap = {
+                sales: "SalesMain",
+                acad: "AcademicMain",
+                admin: "AdminMain",
+                experience: "ExperienceMain",
+                marketing: "MarketingMain",
+                finance: "FinanceMain"
+            };
+
+            return componentMap[subareaName] || "DefaultComponent";
         },
     },
     mounted() {
@@ -173,14 +153,14 @@ export default {
             });
         }
 
-        if (this.store.authUser) {
+        /* if (this.store.authUser) {
             Echo.private(`message.${this.store.authUser.id}`).listen(
                 "NewMessage",
                 (e) => {
                     alert(e.message.message);
                     console.log(e.message);
                     this.getNewMessages();
-                    /*  this.numberMessages = this.numberMessages + 1;
+                      this.numberMessages = this.numberMessages + 1;
                     Notification.requestPermission()
                         .then((result) => {
                             if (result === "granted") {
@@ -189,10 +169,10 @@ export default {
                                 });
                             }
                         })
-                        .catch((err) => {}); */
+                        .catch((err) => {}); 
                 }
             );
-        }
+        } */
 
         /* 
         if (this.store.authUser) {

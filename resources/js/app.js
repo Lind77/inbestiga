@@ -32,6 +32,19 @@ function loggedIn(){
     return localStorage.getItem('token')
 }
 
+const pinia = createPinia()
+  pinia.use(piniaPluginPersistedstate)
+  const app = createApp(App)
+app.use(pinia)
+
+import { userStore } from './stores/UserStore'
+import { useNotificationStore  } from './stores/Notifications'
+import { useMessageStore } from './stores/MessageStore'
+
+const store = userStore();
+const notificationStore = useNotificationStore();
+const messageStore = useMessageStore();
+
 //Set the router
 const router = createRouter({
     history: createWebHistory(import.meta.env.VITE_ROOT_VUE),
@@ -55,6 +68,16 @@ router.beforeEach((to, from, next) => {
             query: { redirect: to.fullPath }
             })
         } else {
+            console.log("test");
+            Echo.private(`message.${store.authUser.id}`).listen(
+                "NewMessage",
+                (e) => {
+                    messageStore.addMessage({
+                        message: e.message,
+                        type: 'info', // o el tipo de notificación que desees manejar
+                    });
+                }
+            );
             next()
         }
     } else if(to.matched.some(record => record.meta.guest)){
@@ -71,13 +94,11 @@ router.beforeEach((to, from, next) => {
     }
   })
 
-  const pinia = createPinia()
-  pinia.use(piniaPluginPersistedstate)
-  const app = createApp(App)
+  
 
   app.use(VueApexCharts)
   app.use(VueSweetalert2)
-  app.use(pinia)
+  
   app.use(router)
   app.use(VueAxios, axios)
 
