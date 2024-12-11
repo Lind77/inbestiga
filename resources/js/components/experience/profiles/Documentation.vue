@@ -1,20 +1,29 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="row invoice-add">
-            <FrontPage
-                :quotation="quotation"
-                @updateCustomer="updateCustomer"
-            />
-            <Documentary
-                :questions="documentaryTags"
-                @setCleanDocumentary="setCleanDocumentary"
-            />
-            <div class="col-lg-6 col-12 mb-lg-0 mb-4 px-1 mt-2">
+        <div class="row">
+            <div class="card mb-2 p-2">
+                <div class="user-profile-header-banner">
+                    <img
+                        src="https://inbestiga.com/ficha_proyecto.jpg"
+                        alt="Banner image"
+                        class="rounded w-100"
+                    />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 px-0">
+                <GeneralInformation :quotation="quotation" />
+                <Customers
+                    :quotation="quotation"
+                    @updateCustomer="updateCustomer"
+                />
                 <AcademicInfo
                     :academicType="typeQuiz"
                     :newQuestions="questions"
                     :propertiableId="contract.id"
                     :documentaryTags="documentaryTags"
+                    :forms="forms"
                 />
                 <FilesRequired
                     :filesProject="filesProject"
@@ -23,73 +32,16 @@
                     @getQuotation="getQuotation"
                 />
             </div>
-            <div class="col-lg-6 px-1 mt-2">
-                <CardMeetings :quotation="quotation" />
-                <div class="card invoice-preview-card mt-2">
-                    <div class="card-body">
-                        <label for="">Nuevo Post</label>
-                        <input
-                            type="text"
-                            v-model="newUpdate.question"
-                            placeholder="Título"
-                            class="form-control"
-                        />
-                        <textarea
-                            placeholder="Cuerpo"
-                            v-model="newUpdate.answer"
-                            class="form-control mt-2"
-                            rows="5"
-                        ></textarea>
-                        <div class="mt-2">
-                            <button
-                                id="btnFilePost"
-                                class="btn btn-secondary w-100"
-                                @click="chooseFile"
-                            >
-                                Adjuntar archivo <i class="bx bx-paperclip"></i>
-                            </button>
-                            <input
-                                type="file"
-                                ref="inputHidden"
-                                hidden
-                                @change="archivePost"
-                            />
-                            <button
-                                class="btn btn-info mt-2 w-100"
-                                @click="postNewUpdate"
-                            >
-                                Publicar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="card mt-2 bg-success">
-                    <div class="card-body text-white">
-                        <h4 class="text-white">Cotización</h4>
-                        <p>{{ formatDate(quotation.created_at) }}</p>
-                    </div>
-                </div> -->
+            <div class="col-6 px-0 ps-2">
+                <FormPost
+                    :projectId="project.id"
+                    @getQuotation="getQuotation"
+                />
                 <Post
                     :post="post"
                     v-for="post in posts"
                     @getQuotation="getQuotation"
                 />
-                <div
-                    class="card mt-2 bg-success"
-                    v-for="comunication in customer.comunications"
-                >
-                    <div class="card-body text-white">
-                        <h4 class="text-white">Comunicación con ventas</h4>
-                        <p>{{ comunication.comment }}</p>
-                        {{ formatDate(comunication.created_at) }}
-                    </div>
-                </div>
-                <div class="card mt-2 bg-info text-white">
-                    <div class="card-body">
-                        <h4 class="text-white">Registro inicial</h4>
-                        {{ formatDate(customer.created_at) }}
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -99,6 +51,9 @@
 <script>
 import moment from "moment";
 import axios from "axios";
+import GeneralInformation from "./GeneralInformation.vue";
+import Customers from "./Customers.vue";
+import FormPost from "./FormPost.vue";
 import FrontPage from "./FrontPage.vue";
 import FilesRequired from "./FilesRequired.vue";
 import CardMeetings from "./CardMeetings.vue";
@@ -129,6 +84,9 @@ export default {
         FrontPage,
         FilesRequired,
         CardMeetings,
+        GeneralInformation,
+        Customers,
+        FormPost,
     },
     data() {
         return {
@@ -189,7 +147,6 @@ export default {
                     complete: false,
                 },
             ],
-            filePostUploaded: {},
             posts: [],
             documentaryTags: [
                 { question: "Tema", answer: false, type: 2 },
@@ -243,57 +200,7 @@ export default {
             this.action = 2;
             $("#customerModal").modal("show");
         },
-        postNewUpdate() {
-            if (this.store.authUser.subarea) {
-                var postable_type = "App\\Models\\User";
-            } else {
-                var postable_type = "App\\Models\\Customer";
-            }
 
-            const fd = new FormData();
-            fd.append("title", this.newUpdate.question);
-            fd.append("body", this.newUpdate.answer);
-            fd.append("file", this.filePostUploaded);
-            fd.append("project_id", this.project.id);
-            fd.append("postable_type", postable_type);
-            fd.append("user_id", this.store.authUser.id);
-
-            axios
-                .post("/api/file-post", fd, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .then((result) => {
-                    this.$swal("Post publicado correctamente");
-                    this.newUpdate.question = "";
-                    this.newUpdate.answer = "";
-                    this.filePostUploaded = {};
-                    $("#btnFilePost").removeClass("btn-success");
-                    $("#btnFilePost").addClass("btn-secondary");
-                    $("#btnFilePost").html("Adjuntar archivo");
-                    this.getQuotation();
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
-        archivePost(event) {
-            var file = event.target.files[0];
-            this.filePostUploaded = file;
-
-            var reader = new FileReader();
-            reader.onload = function (event) {
-                // El texto del archivo se mostrará por consola aquí
-                $("#btnFilePost").removeClass("btn-secondary");
-                $("#btnFilePost").addClass("btn-success");
-                $("#btnFilePost").html(file.name);
-            };
-            reader.readAsText(file);
-        },
-        chooseFile() {
-            this.$refs.inputHidden.click();
-        },
         selectForm() {
             console.log(this.formSelected);
         },

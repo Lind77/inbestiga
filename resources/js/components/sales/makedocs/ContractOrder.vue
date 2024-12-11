@@ -378,9 +378,42 @@
                                     v-model="fragmented"
                                 />
                             </p>
+                            <p
+                                title="Si usted marca esta opción se descontará 5% por pago en efectivo"
+                            >
+                                Pago en efectivo
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    v-model="cashPaymentDiscount"
+                                />
+                            </p>
                             <!-- <label for="salesperson" class="form-label">Tiempo de Ejecucion<span
                                     class="text-danger">*</span>:</label>
                             <input type="text" class="form-control" v-model="quotation.term"> -->
+                            <label for="thesisType" class="form-label"
+                                >Tipo de tesis</label
+                            >
+                            <select v-model="thesisType" class="form-control">
+                                <option
+                                    :value="type.id"
+                                    v-for="type in thesisTypes"
+                                >
+                                    {{ type.name }}
+                                </option>
+                            </select>
+
+                            <label for="thesisType" class="form-label"
+                                >Grado</label
+                            >
+                            <select v-model="thesisDegree" class="form-control">
+                                <option
+                                    :value="degree.id"
+                                    v-for="degree in thesisDegrees"
+                                >
+                                    {{ degree.name }}
+                                </option>
+                            </select>
                             <label for="salesperson" class="form-label"
                                 >Modalidades de Titulación</label
                             >
@@ -623,6 +656,11 @@ export default {
             bankAccounts: [],
             bankAccountSelected: 0,
             degreeModality: 0,
+            thesisTypes: [],
+            thesisDegrees: [],
+            thesisType: 0,
+            thesisDegree: 0,
+            cashPaymentDiscount: false,
         };
     },
     methods: {
@@ -746,7 +784,9 @@ export default {
             axios
                 .get("/api/bank-accounts")
                 .then((res) => {
-                    this.bankAccounts = res.data;
+                    this.bankAccounts = res.data.bank_accounts;
+                    this.thesisTypes = res.data.thesis_types;
+                    this.thesisDegrees = res.data.thesis_degrees;
                 })
                 .catch((err) => {
                     console.log(err);
@@ -858,6 +898,10 @@ export default {
 
             var fragmentedValue = this.booleanToNumber(this.fragmented);
 
+            var cashPaymentDiscountValue = this.booleanToNumber(
+                this.cashPaymentDiscount
+            );
+
             let conversorClass = conversor.conversorNumerosALetras;
             let myConverter = new conversorClass();
 
@@ -885,6 +929,9 @@ export default {
             fd.append("fragment", fragmentedValue);
             fd.append("bank_account_type", this.bankAccountSelected);
             fd.append("degree_modality_id", this.degreeModality);
+            fd.append("thesis_degree_id", this.thesisDegree);
+            fd.append("thesis_type_id", this.thesisType);
+            fd.append("cash_payment_discount", cashPaymentDiscountValue);
 
             axios
                 .post("/api/contracts", fd)

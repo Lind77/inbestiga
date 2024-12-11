@@ -1,7 +1,10 @@
 <template>
     <div class="card mt-2 bg-success">
         <div class="card-body text-white">
-            <h4 class="text-white">{{ post.title }}</h4>
+            <p class="fw-bold">
+                {{ post.postable ? post.postable.name : "Desconocido" }}
+            </p>
+            <p class="fw-semibold">{{ post.title }}</p>
             <p>{{ post.body }}</p>
             <p>{{ formatDate(post.created_at) }}</p>
             <button
@@ -9,7 +12,7 @@
                 class="btn btn-warning"
                 @click="downloadFile(post.files[0].url)"
             >
-                Descargar
+                Descargar <i class="bx bxs-download"></i>
             </button>
             <button
                 v-if="store.authUser.roles[0]"
@@ -60,14 +63,16 @@ export default {
                 });
         },
         deletePost(post) {
-            axios
-                .delete("/api/post/" + post.id)
-                .then((result) => {
-                    this.$emit("getQuotation");
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+            if (confirm("Tienes la seguridad de eliminar este post?")) {
+                axios
+                    .delete("/api/post/" + post.id)
+                    .then((result) => {
+                        this.$emit("getQuotation");
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }
         },
     },
 };

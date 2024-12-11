@@ -140,7 +140,9 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::with(['deliveries', 'projectable', 'files', 'projectable.properties', 'projectable.quotation', 'projectable.quotation.details', 'projectable.quotation.customers', 'posts' => function ($query) {
+        $project = Project::with(['deliveries', 'user', 'projectable', 'files', 'projectable.properties' => function ($query) {
+            $query->orderBy('id', 'desc')->get();
+        }, 'projectable.quotation', 'projectable.quotation.details', 'projectable.quotation.customers', 'posts' => function ($query) {
             $query->orderBy('created_at', 'desc')->get();
         }, 'posts.postable', 'posts.files', 'team', 'team.users', 'team.users.roles'])->find($id);
         return response()->json($project);
@@ -557,9 +559,9 @@ class ProjectController extends Controller
     public function searchProject($search)
     {
 
-        $projects = Project::with(['projectable', 'projectable.quotation',])->get();
+        $projects = Project::with(['projectable', 'projectable.quotation', 'user'])->get();
 
-        $customers = Customer::with(['quotations', 'quotations.contract', 'quotations.contract.projects', 'quotations.contract.projects.deliveries', 'quotations.contract.projects.projectable.quotation.customers', 'quotations.contract.projects.team'])
+        $customers = Customer::with(['quotations', 'quotations.contract', 'quotations.contract.projects', 'quotations.contract.projects.user', 'quotations.contract.projects.deliveries', 'quotations.contract.projects.projectable.quotation.customers', 'quotations.contract.projects.team'])
             ->where('name', 'like', '%' . $search . '%')
             ->whereHas('quotations.contract.projects')
             ->get();

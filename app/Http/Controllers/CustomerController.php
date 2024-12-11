@@ -3,20 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Events\NewLead;
+use App\Exports\CustomersExport;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\Academic_situation;
 use App\Models\Comission;
 use App\Models\Comunication;
+use App\Models\Comunication_channel;
 use App\Models\Contract;
+use App\Models\Contract_mode;
 use App\Models\Detail;
+use App\Models\Hire_factor;
+use App\Models\Marketing_source;
 use App\Models\NewProduct;
 use App\Models\Notification;
 use App\Models\Origin;
+use App\Models\Participation;
+use App\Models\Post_form;
+use App\Models\Professional_status;
 use App\Models\Quotation;
 use App\Models\Seen;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
  * Class CustomerController
@@ -36,7 +46,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with(['comunications', 'quotations', 'quotations.order', 'user'])->orderBy('updated_at', 'desc')->take(10)->get();
+        $customers = Customer::with(['comunications', 'quotations', 'quotations.order', 'user', 'province', 'province.department', 'province.department.provinces'])->orderBy('updated_at', 'desc')->take(10)->get();
         return response()->json($customers);
     }
 
@@ -133,8 +143,9 @@ class CustomerController extends Controller
             'email' => $request->get('email'),
             'dni' => $request->get('dni'),
             'address' => $request->get('address'),
-            /* 'birth_date' => $request->get('birth_date'), */
+            'birth_date' => $request->get('birth_date') ?? null,
             'province_id' => $request->get('province_id'),
+            'gender' => $request->get('gender'),
             'type' => $request->get('type')
         ]);
 
@@ -333,7 +344,7 @@ class CustomerController extends Controller
      */
     public function getAllLeads($id)
     {
-        $customers = Customer::where('user_id', $id)->orderBy('updated_at', 'desc')->take(10)->get();
+        $customers = Customer::with(['province', 'province.department', 'province.department.provinces'])->where('user_id', $id)->orderBy('updated_at', 'desc')->take(10)->get();
 
         $quotations = Quotation::with('customers')->whereHas('customers', function ($query) use ($id) {
             $query->where('user_id', $id);
@@ -621,7 +632,20 @@ class CustomerController extends Controller
      */
     public function searchCustomersById($id)
     {
-        $customer = Customer::with(['user', 'comunications', 'quotations.customers', 'quotations.contract.projects', 'quotations.contract.payments', 'quotations.contract.external_vouchers', 'quotations.contract.external_vouchers.images', 'quotations.contract.projects.team.users.images'])->find($id);
+        $customer = Customer::with([
+            'user:id,name,email', // Selecciona solo los campos necesarios
+            'comunications',
+            'quotations.customers:id,name',
+            'quotations.contract.projects',
+            'quotations.contract.payments',
+            'quotations.contract.external_vouchers.images',
+            'quotations.contract.projects.user:id,name,calendly_user'
+        ])->find($id);
+
+        if (!$customer) {
+            return response()->json(['error' => 'Customer not found'], 404);
+        }
+
         return response()->json($customer);
     }
     /**
@@ -644,5 +668,80 @@ class CustomerController extends Controller
     {
         $customers = Customer::where('user_id', $user_id)->with(['comunications', 'quotations', 'quotations.order', 'user'])->orderBy('updated_at', 'desc')->take(10)->get();
         return response()->json($customers);
+    }
+
+    public function postSales()
+    {
+        /* $contract = Contract::with(['quotation', 'quotation.customers' => function ($query) {
+            $query->whereColumn('customers.id', 'quotation.customer_id');
+        }])->where('registration_date', 'like', '%' . date('Y-m') . '%')->get(); */
+
+        $customers = Customer::with(['quotations' => function ($query) {
+            $query->orderBy('id', 'desc')->get();
+        }, 'quotations.contract', 'quotations.contract.post_form', 'quotations.contract.post_form.comunication_channel', 'quotations.contract.post_form.study_place', 'quotations.contract.post_form.marketing_source', 'quotations.contract.post_form.hire_factor', 'quotations.contract.post_form.contract_mode', 'quotations.contract.post_form.academic_situation', 'quotations.contract.post_form.professional_status', 'quotations.contract.post_form.participation', 'province'])->where('password', '!=', null)->whereHas('quotations.contract', function ($q) {
+            $q->where('registration_date', 'like', '%' . date('Y-m') . '%');
+        })->orderBy('updated_at', 'desc')->get();
+
+        return response()->json($customers);
+    }
+
+    public function selectsInfo()
+    {
+        $comunicationChanels = Comunication_channel::all();
+        $mktSources = Marketing_source::all();
+        $hireFactors = Hire_factor::all();
+        $contractModes = Contract_mode::all();
+        $academicSituations = Academic_situation::all();
+        $professionalStatuses = Professional_status::all();
+        $participations = Participation::all();
+
+        return response()->json([
+            'comunicationChanels' => $comunicationChanels,
+            'mktSources' => $mktSources,
+            'hireFactors' => $hireFactors,
+            'contractModes' => $contractModes,
+            'academicSituations' => $academicSituations,
+            'professionalStatuses' => $professionalStatuses,
+            'participations' => $participations
+        ]);
+    }
+
+    public function registerPostsales(Request $request)
+    {
+        $post_form = Post_form::where('contract_id', $request->get('contract_id'))->first();
+
+        if (!$post_form) {
+            $post_form = Post_form::create([
+                'contract_id' => $request->get('contract_id'),
+                'comunication_channel_id' => $request->get('comunicationChanelId'),
+                'marketing_source_id' => $request->get('mktSourceId'),
+                'hire_factor_id' => $request->get('hireFactorId'),
+                'contract_mode_id' => $request->get('contractModeId'),
+                'academic_situation_id' => $request->get('academicSituationId'),
+                'professional_status_id' => $request->get('professionalStatusId'),
+                'participation_id' => $request->get('participationId'),
+                'study_place_id' => $request->get('studyPlaceId'),
+            ]);
+        } else {
+            $post_form->update([
+                'comunication_channel_id' => $request->get('comunicationChanelId'),
+                'marketing_source_id' => $request->get('mktSourceId'),
+                'hire_factor_id' => $request->get('hireFactorId'),
+                'contract_mode_id' => $request->get('contractModeId'),
+                'academic_situation_id' => $request->get('academicSituationId'),
+                'professional_status_id' => $request->get('professionalStatusId'),
+                'participation_id' => $request->get('participationId'),
+                'study_place_id' => $request->get('studyPlaceId'),
+            ]);
+        }
+
+        return response()->json([
+            'msg' => 'Successfully updated'
+        ]);
+    }
+
+    public function export()
+    {
+        return Excel::download(new CustomersExport, 'customers.xlsx');
     }
 }

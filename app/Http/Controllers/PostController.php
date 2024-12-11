@@ -73,7 +73,7 @@ class PostController extends Controller
         //
     }
 
-     /**
+    /**
      * Eliminar el recurso especificado de almacenamiento.
      *
      * @param  int  $id  El ID del recurso a eliminar.
@@ -85,11 +85,13 @@ class PostController extends Controller
 
         $file = File::where('fileable_type', 'App\\Models\\Post')->where('fileable_id', $post->id)->first();
 
-        if (file_exists(public_path('files') . '/' . $file->url)) {
-            unlink(public_path('files') . '/' . $file->url);
-        }
 
-        $file->delete();
+        if ($file) {
+            if (file_exists(public_path('files') . '/' . $file->url)) {
+                unlink(public_path('files') . '/' . $file->url);
+            }
+            $file->delete();
+        }
 
         $post->delete();
 

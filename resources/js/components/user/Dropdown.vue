@@ -2,7 +2,7 @@
     <ul class="dropdown-menu dropdown-menu-end mt-2">
         <li>
             <a class="dropdown-item cursor-pointer" @click="toHome">
-                <span class="align-middle">Mi estación</span>
+                <span class="align-middle">Bienvenida</span>
             </a>
         </li>
         <li>
@@ -15,11 +15,11 @@
                 <span class="align-middle">Mis proyectos</span>
             </a>
         </li>
-        <li>
+       <!--  <li>
             <a class="dropdown-item cursor-pointer">
                 <span class="align-middle">Mis cursos</span>
             </a>
-        </li>
+        </li> -->
         <li>
             <a class="dropdown-item cursor-pointer" @click="toBilling">
                 <span class="align-middle">Facturación</span>
@@ -50,7 +50,7 @@ export default {
         },
         toHome() {
             this.$router.push({
-                path: "/home-user/" + this.customerId,
+                path: "/user/" + this.customerId,
             });
         },
     },
@@ -61,7 +61,7 @@ export default {
     position: absolute;
     background: rgba(255, 255, 255, 0.112);
     /*  backdrop-filter: blur(20px); */
-    -webkit-backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px) contrast(10%);
     color: #fff;
 }
 .dropdown-menu::before {
@@ -70,6 +70,7 @@ export default {
     width: 100%;
     height: 100%;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px) contrast(10%);
     z-index: -1;
 }
 </style>

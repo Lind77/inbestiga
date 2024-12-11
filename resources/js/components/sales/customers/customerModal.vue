@@ -100,6 +100,22 @@
                                 </div>
                             </div>
                             <div class="row g-2">
+                                <div class="row g-2" v-if="action == 2">
+                                    <div class="col mb-0">
+                                        <label class="form-label">Género</label>
+                                        <select
+                                            class="form-select"
+                                            v-model="customer.gender"
+                                        >
+                                            <option value="1" default>
+                                                Masculino
+                                            </option>
+                                            <option value="2">Femenino</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-2">
                                 <div class="col mb-0" v-if="action == 2">
                                     <label for="dobBasic" class="form-label"
                                         >Dirección</label
@@ -356,6 +372,7 @@ export default {
             fd.append("attitude", this.customer.attitude);
             fd.append("birth_date", this.customer.birth_date);
             fd.append("province_id", this.provinceSelectedId);
+            fd.append("gender", this.customer.gender);
             fd.append("type", this.customer.type);
             axios
                 .post(`/api/customers/${this.customer.id}`, fd)
@@ -413,7 +430,7 @@ export default {
             fd.append("channel", this.channel);
             fd.append("user_id", 12);
             fd.append("userregister_id", this.store.authUser.id);
-            /* fd.append("birth_date", this.birth_date); */
+            fd.append("birth_date", this.birth_date);
             fd.append("province_id", this.provinceSelectedId);
             fd.append("type", this.type);
 
@@ -452,6 +469,8 @@ export default {
                                 }
                             });
                     }
+
+                    this.$swal.fire(err.response.data.message);
                 });
         },
         getAllUsers() {
@@ -479,15 +498,29 @@ export default {
         this.getAllUsers();
         this.getDataAddress();
     },
+    created() {
+        console.log("action", this.action);
+        if (this.action == 2) {
+            console.log(this.customer);
+        }
+    },
     watch: {
-        /* customer(val) {
-            console.log("watcher", val);
-            if (val.province) {
+        customer(val) {
+            console.log("customer", val);
+            if (val && val.province_id) {
                 this.departmentSelectedId = val.province.department_id;
                 this.provinces = val.province.department.provinces;
                 this.provinceSelectedId = val.province_id;
             }
-        }, */
+        },
+        departmentSelectedId(val) {
+            if (this.action == 1) {
+                var provincesFiltered = this.provinces.filter(
+                    (province) => province.department_id == val
+                );
+                this.provinces = provincesFiltered;
+            }
+        },
     },
 };
 </script>

@@ -132,8 +132,11 @@ import HomeDocumentation from '../components/experience/profiles/Documentation.v
 import HomeForms from '../components/experience/forms/Home.vue'
 //Area de Experiencia - Justificaciones
 import HomeJustifications from '../components/experience/justifications/Home.vue'
+//Area de Experiencia - PstVenta
+import HomePostSale from '../components/experience/postsale/Home.vue'
 
 //Área para los usuarios
+import Layout from '../components/user/Layout.vue'
 import UsersLogin from '../components/user/Login.vue'
 import HomeUser from '../components/user/HomeUser.vue'
 import ProjectUser from '../components/user/ProjectUser.vue'
@@ -172,21 +175,33 @@ export const routes = [
         name: 'user-login'
     },
     {
-        path: '/home-user/:customerId',
-        component: HomeUser,
-        name: 'home-user',
-        props: true
-    },
-    {
-        path: '/project-user/:customerId',
-        component: ProjectUser,
-        name: 'project-user',
-        props: true
-    },
-    {
-        path: '/experience-user',
-        component: ExperienceUser,
-        name: 'experience-user'
+        path: '/user',
+        component: Layout,
+        children:[
+            {
+                path: ':customerId',
+                name: 'home-user',
+                component: HomeUser,
+                props: true
+            },
+            {
+                path: 'experience',
+                component: ExperienceUser,
+                name: 'experience-user'
+            },
+            {
+                path: 'project/:customerId',
+                name: 'project-user',
+                component: ProjectUser,
+                props: true
+            },
+            {
+                path: 'billing-user/:customerId',
+                component: BillingUser,
+                name: 'billing-user',
+                props: true
+            },
+        ]
     },
     {
         path: '/user-documentation/:quotationId',
@@ -198,12 +213,6 @@ export const routes = [
         path: '/show-project-user/:projectId',
         component: ShowProjectUser,
         name: 'show-project-user',
-        props: true
-    },
-    {
-        path: '/billing-user/:customerId',
-        component: BillingUser,
-        name: 'billing-user',
         props: true
     },
     {
@@ -444,6 +453,11 @@ export const routes = [
                 path: 'report',
                 component: Report,
                 name: 'report'
+            },
+            {
+                path: 'postsale',
+                component: HomePostSale,
+                name: 'postsale'
             }
         ]
     },

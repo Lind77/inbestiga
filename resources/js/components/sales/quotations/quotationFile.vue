@@ -1,16 +1,19 @@
 <template>
     <div>
         <nav class="navbar navbar-dark bg-purple">
-            <div class="row w-100 px-4 py-3">
+            <div class="row w-100 px-4 py-1">
                 <div
                     class="col-12 d-flex align-items-center justify-content-around"
                 >
                     <h2 class="fw-bolder text-white mb-0">COTIZACIÓN</h2>
-                    <img
-                        src="https://jairpl.com/pdf-sys/logo.png"
-                        alt=""
-                        class="main-logo mb-3"
-                    />
+                    <div class="">
+                        <img
+                            src="https://jairpl.com/pdf-sys/logo.png"
+                            alt=""
+                            class="main-logo"
+                        />
+                        <p class="mt-1 fw-bold">RUC No. 20609545535</p>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -123,6 +126,29 @@
                                 - Simulación de sustentación
                                 <br />
                                 - Levantamiento de observaciones
+                            </template>
+                            <template v-else-if="detail.product_id == 154">
+                                <br />
+                                - Levantamiento de observaciones del plan de
+                                tesis
+                                <br />
+                                - Elaboración del informe final de tesis o tesis
+                                final
+                                <br />
+                                - Levantamiento de observaciones final
+                                <br />
+                                - Orientación y/o asesoría extraordinaria en
+                                cualquier etapa de la tesis
+                                <br />
+                                - Plantilla de diapositivas
+                                <br />
+                                - Reporte de similitud Turnitin
+                                <br />
+                                - E-book para la sustentación
+                                <br />
+                                - Balotario de preguntas
+                                <br />
+                                - Simulación de sustentación
                             </template>
                         </th>
                         <th

@@ -1,30 +1,25 @@
 <template>
-    <div class="bg-user pt-5">
-        <div class="container">
-            <Navbar />
-            <div class="row">
-                <div class="col-12">
-                    <div
-                        class="main d-flex justify-content-center flex-column mt-5"
-                    >
-                        <h2
-                            class="main-text subtext text-white text-center mt-4"
-                        >
-                            <span class="main-text-bold">Facturación</span>
-                        </h2>
-                        <CollapseCard
-                            v-for="project in projects"
-                            :userId="store.authUser.id"
-                            :project="project"
-                            :quotations="quotations"
-                            :title="'Pagos de ' + project.title"
-                            :componentSelected="'TablePayment'"
-                            @showModalVouchers="showModalVouchers"
-                            @updateModalVouchers="updateModalVouchers"
-                        />
-                    </div>
-                </div>
-            </div>
+    <div class="col-12">
+        <div class="main d-flex justify-content-center flex-column mt-5">
+            <h2 class="main-text subtext text-white text-center mt-4">
+                <span class="main-text-bold">Facturación</span>
+            </h2>
+            <p class="sub-text text-white mx-auto my-3">
+                En esta sección podrás cargar tus vouchers de pago de forma
+                rápida y sencilla. También tendrás la posibilidad de revisar y
+                gestionar tus pagos con precisión, manteniendo tus transacciones
+                organizadas y al día.
+            </p>
+            <CollapseCard
+                v-for="project in projects"
+                :userId="store.authUser.id"
+                :project="project"
+                :quotations="quotations"
+                :title="'Pagos de ' + project.title"
+                :componentSelected="'TablePayment'"
+                @showModalVouchers="showModalVouchers"
+                @updateModalVouchers="updateModalVouchers"
+            />
         </div>
     </div>
     <VouchersModal :project="projectSelected" />
@@ -141,8 +136,9 @@ export default {
 }
 
 .sub-text {
-    font-size: 30px;
+    font-size: 15px;
     font-weight: 300;
+    text-align: justify;
 }
 
 .sub-text-bold {
@@ -279,6 +275,9 @@ p {
 
     .project-section {
         margin-top: -80% !important;
+    }
+    .sub-text {
+        font-size: 1em;
     }
 }
 </style>

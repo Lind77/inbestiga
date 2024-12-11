@@ -66,10 +66,94 @@
         >
             Popover on right
         </button>
+
+        <h1>Schedules</h1>
+
+        <input type="range" list="tickmarks" step="20" />
+
+        <datalist id="tickmarks">
+            <option value="0"></option>
+            <option value="20"></option>
+            <option value="40"></option>
+            <option value="60"></option>
+            <option value="80"></option>
+            <option value="100"></option>
+        </datalist>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Lunes</th>
+                    <th>Martes</th>
+                    <th>Miercoles</th>
+                    <th>Jueves</th>
+                    <th>Viernes</th>
+                    <th>Sabado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <Slider
+                            orientation="vertical"
+                            v-model="value"
+                            :step="5"
+                            :min="750"
+                            :max="1350"
+                            :format="formatTime"
+                        />
+                    </td>
+                    <!--  <td>
+                        <Slider
+                            orientation="vertical"
+                            v-model="value"
+                            step="10"
+                        />
+                    </td>
+                    <td>
+                        <Slider
+                            orientation="vertical"
+                            v-model="value"
+                            step="10"
+                        />
+                    </td>
+                    <td>
+                        <Slider
+                            orientation="vertical"
+                            v-model="value"
+                            step="10"
+                        />
+                    </td>
+                    <td>
+                        <Slider
+                            orientation="vertical"
+                            v-model="value"
+                            step="10"
+                        />
+                    </td>
+                    <td>
+                        <Slider
+                            orientation="vertical"
+                            v-model="value"
+                            step="10"
+                        />
+                    </td> -->
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 <script>
+import Slider from "@vueform/slider";
+import moment from "moment";
+
 export default {
+    components: {
+        Slider,
+    },
     data() {
         return {
             content: "",
@@ -77,6 +161,10 @@ export default {
             showField: false,
             name: "Julio",
             customersLobo: [],
+            value: [20, 40],
+            formatTime(value) {
+                return moment.utc(value * 3600 * 10).format("HH:mm a");
+            },
         };
     },
     methods: {
@@ -121,4 +209,4 @@ export default {
     },
 };
 </script>
-<style></style>
+<style src="@vueform/slider/themes/default.css"></style>

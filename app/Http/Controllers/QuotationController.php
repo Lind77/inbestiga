@@ -14,6 +14,7 @@ use App\Models\Detail;
 use App\Models\External_voucher;
 use App\Models\Notification;
 use App\Models\Order;
+use App\Models\Post_form;
 use App\Models\Promotion;
 use App\Models\Seen;
 use App\Models\User;
@@ -196,9 +197,9 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        $quotation = Quotation::where('id', $id)->with(['customers', 'customers.province', 'customers.province.department', 'customers.province.department.provinces', 'customers.user', 'customers.comunications', 'details', 'details.product', 'order', 'contract', 'contract.projects', 'contract.projects.team', 'contract.projects.team.users', 'contract.projects.team.users.roles', 'contract.projects.files', 'contract.projects.posts' => function ($query) {
+        $quotation = Quotation::where('id', $id)->with(['customers', 'customers.province', 'customers.province.department', 'customers.province.department.provinces', 'customers.user', 'customers.comunications', 'details', 'details.product', 'order', 'contract', 'contract.user', 'contract.projects', 'contract.projects.team', 'contract.projects.team.users', 'contract.properties', 'contract.projects.team.users.roles', 'contract.projects.files', 'contract.projects.posts' => function ($query) {
             $query->orderBy('id', 'desc')->get();
-        }, 'contract.projects.posts.files', 'contract.properties' => function ($query) {
+        }, 'contract.projects.posts.postable', 'contract.projects.posts.files', 'contract.properties' => function ($query) {
             $query->orderBy('id', 'desc')->first();
         }])->orderBy('created_at', 'desc')->first();
 
@@ -367,7 +368,7 @@ class QuotationController extends Controller
     {
         $quotations = Quotation::with('customers')
             ->whereHas('customers', function ($query) use ($search) {
-                $query->whereRaw('LOWER(name) like ?', ['%' . strtolower($search) . '%']);
+                $query->where('name', 'like', '%' . $search)->orWhere('cell', 'like', '%' . $search);
             })->get();
 
         return response()->json($quotations);
@@ -453,9 +454,9 @@ class QuotationController extends Controller
      */
     public function updateCustomerGrade(Request $request)
     {
-        $status = $request->get('status');
-        $quotation = Quotation::find($request->get('quotation_id'));
 
+        $status = $request->get('status');
+        $quotation = Quotation::with('contract')->find($request->get('quotation_id'));
 
         if ($status >= 3) {
             $quotation->update([
@@ -466,6 +467,40 @@ class QuotationController extends Controller
         }
 
         if ($status == 11) {
+
+            $post_form = Post_form::create([
+                'contract_id' => $quotation->contract->id,
+                'comunication_channel_id' => null,
+                'study_place_id' => null,
+                'marketing_source_id' => null,
+                'hire_factor_id' => null,
+                'contract_mode_id' => null,
+                'academic_situation_id' => null,
+                'professional_status_id' => null,
+                'participation_id' => null
+            ]);
+
+            $year = date('Y');
+            $month = date('m');
+
+            $mostActualContracts = Contract::where('code', 'like', '%' . $year . $month . '%')->get();
+
+            $contractsNumber = count($mostActualContracts);
+
+            if ($contractsNumber == 0) {
+                $contractsNumber = 1;
+            }
+
+            $contractsNumber++;
+
+            $codeGenerated =  str_pad($contractsNumber, 3, '0', STR_PAD_LEFT);
+
+            $quotation->contract->update([
+                'code' => $year . $month . $codeGenerated,
+                'registration_date' => date('Y-m-d')
+            ]);
+
+
             $quotation->customers->each(function ($customer) use ($quotation) {
                 $customer->update([
                     'password' => Hash::make($customer->dni)

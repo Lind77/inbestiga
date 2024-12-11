@@ -15,6 +15,210 @@
                             >
                         </h2>
 
+                        <div class="card glass p-2 text-white">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h5 class="text-white">
+                                        Porfavor rellena el formulario a
+                                        continuación
+                                    </h5>
+                                    <div class="col-12 col-lg-6">
+                                        <div class="mb-2">
+                                            <label for=""
+                                                >Canal de comunicación
+                                                preferido</label
+                                            >
+                                            <select
+                                                class="form-control"
+                                                v-model="comunicationChanelId"
+                                            >
+                                                <option
+                                                    :value="
+                                                        comunicationChanel.id
+                                                    "
+                                                    v-for="comunicationChanel in comunicationChanels"
+                                                >
+                                                    {{
+                                                        comunicationChanel.name
+                                                    }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for=""
+                                                >¿Cómo te enteraste de nuestros
+                                                servicios?</label
+                                            >
+                                            <select
+                                                class="form-control"
+                                                v-model="mktSourceId"
+                                            >
+                                                <option
+                                                    :value="mktSource.id"
+                                                    v-for="mktSource in mktSources"
+                                                >
+                                                    {{ mktSource.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for=""
+                                                >¿Cómo realizaste la
+                                                contratación de nuestros
+                                                servicios?</label
+                                            >
+                                            <select
+                                                class="form-control"
+                                                v-model="contractModeId"
+                                            >
+                                                <option
+                                                    :value="contractMode.id"
+                                                    v-for="contractMode in contractModes"
+                                                >
+                                                    {{ contractMode.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for=""
+                                                >Estado profesional</label
+                                            >
+                                            <select
+                                                class="form-control"
+                                                v-model="professionalStatusId"
+                                            >
+                                                <option
+                                                    :value="
+                                                        professionalStatus.id
+                                                    "
+                                                    v-for="professionalStatus in professionalStatuses"
+                                                >
+                                                    {{
+                                                        professionalStatus.name
+                                                    }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-6">
+                                        <div class="mb-2">
+                                            <label for=""
+                                                >¿Cuenta con lugar de
+                                                estudio?</label
+                                            >
+                                            <div class="flex">
+                                                <div
+                                                    class="form-check form-check-inline mt-1"
+                                                >
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="radio"
+                                                        name="inlineRadioOptions"
+                                                        id="inlineRadio1"
+                                                        value="1"
+                                                        v-model="studyPlaceId"
+                                                    />
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="inlineRadio1"
+                                                        >Si</label
+                                                    >
+                                                </div>
+                                                <div
+                                                    class="form-check form-check-inline mt-3"
+                                                >
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="radio"
+                                                        name="inlineRadioOptions"
+                                                        id="inlineRadio2"
+                                                        value="2"
+                                                        v-model="studyPlaceId"
+                                                    />
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="inlineRadio2"
+                                                        >No</label
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-2">
+                                            <label for="">
+                                                <small>
+                                                    ¿Cuál fue el factor
+                                                    principal que te llevó a
+                                                    contratar nuestros
+                                                    servicios?
+                                                </small>
+                                            </label>
+                                            <select
+                                                class="form-control"
+                                                v-model="hireFactorId"
+                                            >
+                                                <option
+                                                    :value="hireFactor.id"
+                                                    v-for="hireFactor in hireFactors"
+                                                >
+                                                    {{ hireFactor.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-2">
+                                            <label for=""
+                                                >¿Cuál es tu situación académica
+                                                actual?</label
+                                            >
+                                            <select
+                                                class="form-control"
+                                                v-model="academicSituationId"
+                                            >
+                                                <option
+                                                    :value="
+                                                        academicSituation.id
+                                                    "
+                                                    v-for="academicSituation in academicSituations"
+                                                >
+                                                    {{ academicSituation.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-2">
+                                            <label for=""
+                                                >¿Qué tanto deseas participar en
+                                                la elaboración de tu
+                                                tesis?</label
+                                            >
+                                            <select
+                                                class="form-control"
+                                                v-model="participationId"
+                                            >
+                                                <option
+                                                    :value="participation.id"
+                                                    v-for="participation in participations"
+                                                >
+                                                    {{ participation.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="w-full d-flex justify-content-center"
+                                    >
+                                        <button
+                                            @click="saveFormPostSales"
+                                            class="btn btn-primary w-75 mt-3"
+                                        >
+                                            Enviar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <CollapseCard
                             class="mb-5"
                             :title="'Historial de mi proyecto'"
@@ -82,6 +286,21 @@ export default {
             hidden: false,
             quotations: [],
             project: {},
+            comunicationChanels: [],
+            mktSources: [],
+            hireFactors: [],
+            contractModes: [],
+            academicSituations: [],
+            professionalStatuses: [],
+            participations: [],
+            comunicationChanelId: 0,
+            mktSourceId: 0,
+            hireFactorId: 0,
+            contractModeId: 0,
+            academicSituationId: 0,
+            professionalStatusId: 0,
+            participationId: 0,
+            studyPlaceId: 0,
         };
     },
     methods: {
@@ -126,15 +345,55 @@ export default {
                     console.log(err);
                 });
         },
+        saveFormPostSales() {
+            const fd = new FormData();
+
+            fd.append("contract_id", this.project.projectable.id);
+            fd.append("comunicationChanelId", this.comunicationChanelId);
+            fd.append("mktSourceId", this.mktSourceId);
+            fd.append("hireFactorId", this.hireFactorId);
+            fd.append("contractModeId", this.contractModeId);
+            fd.append("academicSituationId", this.academicSituationId);
+            fd.append("professionalStatusId", this.professionalStatusId);
+            fd.append("participationId", this.participationId);
+            fd.append("studyPlaceId", this.studyPlaceId);
+
+            axios
+                .post("/api/form-sales-posts", fd)
+                .then((result) => {
+                    this.$swal("Formulario enviado correctamente");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        getSelectsInfo() {
+            axios
+                .get("/api/selects-info")
+                .then((result) => {
+                    this.comunicationChanels = result.data.comunicationChanels;
+                    this.mktSources = result.data.mktSources;
+                    this.hireFactors = result.data.hireFactors;
+                    this.contractModes = result.data.contractModes;
+                    this.academicSituations = result.data.academicSituations;
+                    this.professionalStatuses =
+                        result.data.professionalStatuses;
+                    this.participations = result.data.participations;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
     },
     mounted() {
         this.getProjectInfo();
+        this.getSelectsInfo();
     },
 };
 </script>
 <style scoped>
 .auto-height {
-    height: 100vh !important;
+    height: auto !important;
 }
 
 .input-icons {

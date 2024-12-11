@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <div class="card invoice-preview-card mt-2">
         <div class="card-body">
             <div class="d-flex align-items-center justify-content-between mb-2">
@@ -113,7 +113,7 @@
             </div>
             <div class="row mt-2">
                 <div class="col-12">
-                    <template v-for="newQuestion in newQuestions">
+                    <template v-for="newQuestion in questions">
                         <template v-if="newQuestion.type == 4">
                             <div class="d-flex mb-2">
                                 <label
@@ -187,11 +187,12 @@ export default {
         newQuestions: Array,
         propertiableId: Number,
         documentaryTags: Array,
+        forms: Array,
     },
     data() {
         return {
             typeQuiz: 0,
-            questions: this.newQuestions,
+            questions: [],
         };
     },
     methods: {
@@ -200,7 +201,7 @@ export default {
 
             fd.append("propertiable_id", this.propertiableId);
             fd.append("propertiable_type", "App\\Models\\Contract");
-            fd.append("properties", JSON.stringify(this.newQuestions));
+            fd.append("properties", JSON.stringify(this.questions));
             fd.append("project_situation_id", this.typeQuiz);
             fd.append(
                 "documentary_processing",
@@ -223,7 +224,7 @@ export default {
 
             fd.append("propertiable_id", this.selectedDoc.propertiable_id);
             fd.append("propertiable_type", this.selectedDoc.propertiable_type);
-            fd.append("properties", JSON.stringify(this.newQuestions));
+            fd.append("properties", JSON.stringify(this.questions));
             fd.append(
                 "documentary_processing",
                 JSON.stringify(this.documentaryTags)
@@ -251,6 +252,21 @@ export default {
     watch: {
         academicType(val) {
             this.typeQuiz = val;
+            this.questions = this.newQuestions;
+        },
+        typeQuiz(val) {
+            console.log(this.newQuestions);
+            if (this.newQuestions.length == 0) {
+                var filteredQuestions = this.forms.find(
+                    (form) => form.project_situation_id == val
+                );
+
+                if (filteredQuestions) {
+                    this.questions = JSON.parse(filteredQuestions.forms);
+                }
+            } else {
+                this.questions = this.newQuestions;
+            }
         },
     },
 };

@@ -906,6 +906,10 @@ Route::get('/reject-permit/{id}', [AttendanceController::class, 'rejectPermit'])
 
 Route::get('/justifications', [JustificationController::class, 'index']);
 
+/**
+ * Obtiene las justificaciones del mes de un solo usuarios.
+ */
+Route::get('/justifications/{id}', [JustificationController::class, 'show']);
 
 /**
  * Rutas para manejar archivos de asistencia.
@@ -1421,3 +1425,29 @@ Route::get('/status-voucher/{voucherStatus}/{voucherId}', [QuotationController::
  * @param int $userId ID del usuario.
  */
 Route::get('/change-color-event/{deliveryId}/{userId}', [DeliveryController::class, 'changeColorEvent']);
+
+/**
+ * Rutas para manejar in formación de postventas.
+ */
+/**
+ * Obtiene todos los clientes que son clientes.
+ * 
+ */
+Route::get('/post-sales', [CustomerController::class, 'postSales']);
+
+/**
+ * Obtiene informacion para los selects del form de postventas.
+ * 
+ */
+Route::get('/selects-info', [CustomerController::class, 'selectsInfo']);
+/**
+ * Almacena la información del form de postventas.
+ * 
+ */
+Route::post('/form-sales-posts', [CustomerController::class, 'registerPostsales']);
+/**
+ * Exporta la informacion de postventas en un archivo XLSX.
+ * 
+ */
+
+Route::get('/export-post-sales', [CustomerController::class, 'export']);

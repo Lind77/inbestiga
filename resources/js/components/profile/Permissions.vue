@@ -69,6 +69,17 @@
         </button>
     </div>
     <h4 class="mt-3">Justificaciones</h4>
+    <div class="alert alert-warning" role="alert">
+        Justificaciones enviadas
+        <br />
+        <button
+            class="btn btn-warning mx-1"
+            v-for="justification in justifications"
+            :title="justification.reason"
+        >
+            {{ justification.miss_date }}
+        </button>
+    </div>
     <div class="row">
         <div class="col">
             <label for="">Fecha de inasistencia</label>
@@ -144,6 +155,7 @@ export default {
                 userId: this.store.authUser.id,
             },
             file: null,
+            justifications: [],
         };
     },
     props: {
@@ -151,6 +163,16 @@ export default {
     },
     components: { Recovery },
     methods: {
+        getJustifications() {
+            axios
+                .get("/api/justifications/" + this.store.authUser.id)
+                .then((result) => {
+                    this.justifications = result.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         testDateJustification() {
             var today = moment().format("YYYY-MM-DD");
             if (moment(this.justification.miss_date).diff(today) > 0) {
@@ -181,6 +203,7 @@ export default {
                 })
                 .then((result) => {
                     this.$swal("Justificación enviada para revisión");
+                    this.getJustifications();
                 })
                 .catch((err) => {
                     this.$swal("Error");
@@ -293,6 +316,9 @@ export default {
             var diffTimes = departureTime.diff(admissionTime);
             return moment.duration(diffTimes).asMinutes();
         },
+    },
+    mounted() {
+        this.getJustifications();
     },
 };
 </script>

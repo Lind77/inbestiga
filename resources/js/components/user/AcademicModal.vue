@@ -105,20 +105,8 @@
                         </div>
                     </div>
                     <div class="row mt-2 text-white">
-                        <div
-                            class="col-12"
-                            v-if="
-                                project &&
-                                project.projectable &&
-                                project.projectable.properties[0] &&
-                                project.projectable.properties[0].properties
-                            "
-                        >
-                            <div
-                                v-for="newQuestion in JSON.parse(
-                                    project.projectable.properties[0].properties
-                                )"
-                            >
+                        <div class="col-12" v-if="questions">
+                            <div v-for="newQuestion in questions">
                                 <div v-if="newQuestion.type == 4">
                                     <div class="d-flex mb-2">
                                         <label
@@ -211,10 +199,7 @@ export default {
         return { store };
     },
     props: {
-        project: {
-            type: Object,
-            required: true,
-        },
+        project: Object,
     },
     data() {
         return {
@@ -248,9 +233,36 @@ export default {
                     complete: false,
                 },
             ],
+            questions: [],
+            documentaryTags: [],
+            forms: [],
         };
     },
     methods: {
+        saveFields() {
+            const fd = new FormData();
+
+            fd.append("propertiable_id", this.project.projectable.id);
+            fd.append("propertiable_type", "App\\Models\\Contract");
+            fd.append("properties", JSON.stringify(this.questions));
+            fd.append("project_situation_id", this.typeQuiz);
+            fd.append(
+                "documentary_processing",
+                JSON.stringify(this.documentaryTags)
+            );
+
+            axios
+                .post("/api/properties", fd)
+                .then((result) => {
+                    $("#academicModal").modal("hide");
+                    this.$swal(
+                        "Documentación de proyecto almacenada correctamente"
+                    );
+                })
+                .catch((err) => {
+                    this.$swal("Hubo un error");
+                });
+        },
         postNewUpdate() {
             if (this.store.authUser.subarea) {
                 var postable_type = "App\\Models\\User";
@@ -303,14 +315,47 @@ export default {
         chooseFile() {
             this.$refs.inputHidden.click();
         },
+        getForms() {
+            axios
+                .get("/api/forms")
+                .then((result) => {
+                    this.forms = result.data.forms;
+                })
+                .catch((err) => {
+                    console.error(error);
+                });
+        },
     },
     watch: {
         project(val) {
             console.log(val);
             this.actualProject = val;
-            this.typeQuiz =
-                this.actualProject.projectable.properties[0].project_situation_id;
+            if (
+                this.actualProject.projectable &&
+                this.actualProject.projectable.properties[0]
+            ) {
+                this.typeQuiz =
+                    this.actualProject.projectable.properties[0].project_situation_id;
+                this.questions = JSON.parse(
+                    this.actualProject.projectable.properties[0].properties
+                );
+                console.log(this.questions);
+            } else {
+                console.log("nani nani");
+            }
         },
+        typeQuiz(val) {
+            var filteredQuestions = this.forms.find(
+                (form) => form.project_situation_id == val
+            );
+
+            if (filteredQuestions && this.questions.length == 0) {
+                this.questions = JSON.parse(filteredQuestions.forms);
+            }
+        },
+    },
+    mounted() {
+        this.getForms();
     },
 };
 </script>
@@ -344,5 +389,9 @@ textarea {
     border: none;
     color: #fff;
     margin: 0px auto;
+}
+
+option {
+    color: #000;
 }
 </style>

@@ -1,31 +1,32 @@
 <template>
-    <div class="bg-user pt-5">
-        <div class="container">
-            <Navbar />
+    <div class="col-12">
+        <div class="main d-flex justify-content-center flex-column mt-5">
+            <h2 class="main-text subtext text-white text-center mt-4">
+                Mis<span class="main-text-bold"> proyectos</span>
+            </h2>
+
+            <div class="my-3" style="padding: 56.25% 0 0 0; position: relative">
+                <iframe
+                    src="https://player.vimeo.com/video/1027491607?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                    frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                    style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                    "
+                    title="video vale 2"
+                ></iframe>
+            </div>
+            <p class="sub-text text-white mx-auto my-1">
+                Sigue el avance de tu proyecto académico en tiempo real, carga
+                documentos y deja tus comentarios para mantener una comunicación
+                fluida con tu asesor. ¡Cada acción te acerca más a tu objetivo!
+            </p>
             <div class="row">
-                <div class="col-12">
-                    <div
-                        class="main d-flex justify-content-center flex-column mt-5"
-                    >
-                        <h2
-                            class="main-text subtext text-white text-center mt-4"
-                        >
-                            Mis<span class="main-text-bold"> proyectos</span>
-                        </h2>
-                        <div class="input-icons">
-                            <i class="bx bx-search"></i>
-                            <input
-                                type="text"
-                                class="search form-control glass my-5"
-                                placeholder="Buscar"
-                            />
-                        </div>
-                        <CardProject
-                            v-for="project in projects"
-                            :project="project"
-                        />
-                    </div>
-                </div>
+                <CardProject v-for="project in projects" :project="project" />
             </div>
         </div>
     </div>
@@ -85,12 +86,15 @@ export default {
                 .then((result) => {
                     this.info = result.data;
                     this.quotations = result.data.quotations;
+
                     result.data.quotations.forEach((quotation) => {
                         quotation.contract.projects.forEach((project) => {
                             project.quotation = quotation;
                             this.projects.push(project);
                         });
                     });
+
+                    console.log(this.projects);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -146,8 +150,9 @@ export default {
 }
 
 .sub-text {
-    font-size: 30px;
+    font-size: 15px;
     font-weight: 300;
+    text-align: justify;
 }
 
 .sub-text-bold {
@@ -284,6 +289,9 @@ p {
 
     .project-section {
         margin-top: -80% !important;
+    }
+    .sub-text {
+        font-size: 1em;
     }
 }
 

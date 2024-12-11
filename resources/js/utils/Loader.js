@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2'
 
+
 export function showLoader(mensaje = "Cargando...", width = 600, padding = "3em", color = "#716add") {
     return Swal.fire({
         title: mensaje,
