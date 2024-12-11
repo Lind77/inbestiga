@@ -287,7 +287,7 @@
                 
                 <ul style="margin-top: -5px;">
                     <li> En efectivo: Exclusivamente en las instalaciones de la empresa, durante las horas hábiles de atención.
-                        @if($contract->cash_payment_discount == 1 && $contract->cash_payment_discount == null)
+                        @if($contract->cash_payment_discount == 1 || $contract->cash_payment_discount == null)
                         <span> Beneficios por pago en efectivo:</span> Para pagos en efectivo se hará descuento del 5%.
                         @endif
                 </li>
