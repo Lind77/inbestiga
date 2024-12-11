@@ -931,7 +931,7 @@ export default {
             fd.append("degree_modality_id", this.degreeModality);
             fd.append("thesis_degree_id", this.thesisDegree);
             fd.append("thesis_type_id", this.thesisType);
-            fd.append("cash_payment_discount", this.cashPaymentDiscountValue);
+            fd.append("cash_payment_discount", cashPaymentDiscountValue);
 
             axios
                 .post("/api/contracts", fd)
