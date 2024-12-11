@@ -378,6 +378,16 @@
                                     v-model="fragmented"
                                 />
                             </p>
+                            <p
+                                title="Si usted marca esta opción se descontará 5% por pago en efectivo"
+                            >
+                                Pago en efectivo
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    v-model="cashPaymentDiscount"
+                                />
+                            </p>
                             <!-- <label for="salesperson" class="form-label">Tiempo de Ejecucion<span
                                     class="text-danger">*</span>:</label>
                             <input type="text" class="form-control" v-model="quotation.term"> -->
@@ -650,6 +660,7 @@ export default {
             thesisDegrees: [],
             thesisType: 0,
             thesisDegree: 0,
+            cashPaymentDiscount: false,
         };
     },
     methods: {
@@ -887,6 +898,10 @@ export default {
 
             var fragmentedValue = this.booleanToNumber(this.fragmented);
 
+            var cashPaymentDiscountValue = this.booleanToNumber(
+                this.cashPaymentDiscount
+            );
+
             let conversorClass = conversor.conversorNumerosALetras;
             let myConverter = new conversorClass();
 
@@ -916,6 +931,7 @@ export default {
             fd.append("degree_modality_id", this.degreeModality);
             fd.append("thesis_degree_id", this.thesisDegree);
             fd.append("thesis_type_id", this.thesisType);
+            fd.append("cash_payment_discount", this.cashPaymentDiscountValue);
 
             axios
                 .post("/api/contracts", fd)
