@@ -52,7 +52,7 @@
                 @getAllCustomers="getAllCustomers"
                 @updateInBd="updateInBd"
             />
-            <DraggableArea
+            <!-- <DraggableArea
                 @updateStatusSpace="updateStatusSpace"
                 @transformQuotation="transformQuotation"
                 :entities="contracts"
@@ -62,7 +62,7 @@
                 @showModalQuotationFunnel="showModalQuotationFunnel"
                 @getAllCustomers="getAllCustomers"
                 @updateInBd="updateInBd"
-            />
+            /> -->
         </div>
         <!-- <button
             type="button"
@@ -186,7 +186,7 @@ export default {
         },
         moveFunnelRigth() {
             console.log("nani");
-            if (this.initialPage < 3) {
+            if (this.initialPage < 2) {
                 this.initialPage++;
                 var percent = this.initialPage * 25 * -1;
                 console.log(percent);
@@ -690,7 +690,7 @@ export default {
 <style scoped>
 .container-override {
     z-index: 2;
-    width: 105vw;
+    width: 100vw;
     padding: 2px;
     display: inline-flex;
     align-items: center;
