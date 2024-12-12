@@ -92,7 +92,7 @@ class UserController extends Controller
             'msg' => 'success'
         ]);
     }
-     /**
+    /**
      * Obtiene todos los vendedores.
      *
      * @return \Illuminate\Http\Response
@@ -102,7 +102,7 @@ class UserController extends Controller
         $users = User::where('subarea_id', 2)->get();
         return response()->json($users);
     }
-     /**
+    /**
      * Crea un nuevo permiso.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -130,7 +130,7 @@ class UserController extends Controller
         $permissions = Permission::with('roles')->get();
         return response()->json($permissions);
     }
-     /**
+    /**
      * Actualiza un permiso específico.
      *
      * @param  int  $id
@@ -150,7 +150,7 @@ class UserController extends Controller
             'msg' => 'success'
         ]);
     }
-      /**
+    /**
      * Sincroniza permisos de un rol específico.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -165,7 +165,7 @@ class UserController extends Controller
             'msg' => 'success'
         ]);
     }
-     /**
+    /**
      * Sincroniza permisos de un rol específico.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -190,7 +190,7 @@ class UserController extends Controller
     {
         $user = User::find($request->get('user_id'));
         $permissions = json_decode($request->get('permissions'), true);
-        $user->givePermissionTo($permissions);
+        $user->syncPermissions($permissions);
         return response()->json([
             'msg' => 'success'
         ]);
@@ -237,7 +237,7 @@ class UserController extends Controller
 
         return response()->json($users);
     }
-     /**
+    /**
      * Actualiza la foto de un usuario.
      *
      * @param  \Illuminate\Http\Request  $request
