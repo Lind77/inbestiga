@@ -106,7 +106,7 @@
                     </div>
                     <div class="row mt-2 text-white">
                         <div class="col-12" v-if="questions">
-                            <div v-for="newQuestion in questions">
+                            <div v-for="(newQuestion, index) in questions">
                                 <div v-if="newQuestion.type == 4">
                                     <div class="d-flex mb-2">
                                         <label
@@ -133,6 +133,7 @@
                                     <textarea
                                         v-model="newQuestion.answer"
                                         class="form-control mb-4"
+                                        :disabled="isDisabled(index)"
                                     ></textarea>
                                 </div>
                                 <div v-if="newQuestion.type == 6">
@@ -239,6 +240,19 @@ export default {
         };
     },
     methods: {
+        isDisabled(index) {
+            if (this.typeQuiz == 1 && index === 1) {
+                return !this.questions[0].answer; // Si la pregunta 1 es "No", deshabilitar la 2
+            } else if (index === 2) {
+                return this.questions[0].answer; // Si la pregunta 1 es "Sí", deshabilitar la 3
+            } else if (index === 4) {
+                return !this.questions[3].answer; // Si la pregunta 4 es "No", habilitar la 6
+            } else if (index === 5) {
+                return this.questions[3].answer;
+            }
+
+            return false;
+        },
         saveFields() {
             const fd = new FormData();
 
