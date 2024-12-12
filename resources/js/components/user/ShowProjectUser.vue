@@ -14,7 +14,6 @@
                                 {{ project.title }}</span
                             >
                         </h2>
-
                         <div class="card glass p-2 text-white">
                             <div class="card-body">
                                 <div class="row">
@@ -337,6 +336,22 @@ export default {
                 .get("/api/projects/" + this.$route.params.projectId)
                 .then((result) => {
                     this.project = result.data;
+                    var post_form = this.project.projectable.post_form;
+
+                    if (post_form) {
+                        this.comunicationChanelId =
+                            post_form.comunication_channel_id;
+                        this.mktSourceId = post_form.marketing_source_id;
+                        this.hireFactorId = post_form.hire_factor_id;
+                        this.contractModeId = post_form.contract_mode_id;
+                        this.academicSituationId =
+                            post_form.academic_situation_id;
+                        this.professionalStatusId =
+                            post_form.professional_status_id;
+                        this.participationId = post_form.participation_id;
+                        this.studyPlaceId = post_form.study_place_id;
+                    }
+
                     if (this.project.posts.length == 0) {
                         $("#bg-user").addClass("auto-height");
                     }
