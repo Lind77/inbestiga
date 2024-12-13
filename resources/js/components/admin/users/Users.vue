@@ -44,7 +44,7 @@
                             <td>{{ user.email }}</td>
                             <td>
                                 <span
-                                    v-if="user.id != 1"
+                                    v-if="user.id != 1 || user.id != 24"
                                     @click="deleteUser(user.id)"
                                     class="badge bg-label-danger me-1 cursor-pointer"
                                     ><i class="bx bx-trash"></i>
