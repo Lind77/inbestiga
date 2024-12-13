@@ -50,13 +50,13 @@
                                     ><i class="bx bx-trash"></i>
                                 </span>
                                 <span
-                                    v-if="user.id != 1"
+                                    v-if="user.id != 1 || user.id != 24"
                                     class="badge bg-label-primary me-1 cursor-pointer"
                                     @click="showPermissionModal(user)"
                                     ><i class="bx bx-dialpad-alt"></i>
                                 </span>
                                 <span
-                                    v-if="user.id != 1"
+                                    v-if="user.id != 1 || user.id != 24"
                                     class="badge bg-label-primary me-1 cursor-pointer"
                                     @click="showRoleUpdate(user)"
                                     ><i class="bx bx-edit"></i>
