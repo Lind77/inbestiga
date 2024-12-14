@@ -89,8 +89,10 @@ export default {
 
                     result.data.quotations.forEach((quotation) => {
                         quotation.contract.projects.forEach((project) => {
-                            project.quotation = quotation;
-                            this.projects.push(project);
+                            if (project != null) {
+                                project.quotation = quotation;
+                                this.projects.push(project);
+                            }
                         });
                     });
 
