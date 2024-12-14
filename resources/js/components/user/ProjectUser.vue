@@ -86,14 +86,17 @@ export default {
                 .then((result) => {
                     this.info = result.data;
                     this.quotations = result.data.quotations;
+                    console.log(this.quotations);
 
-                    result.data.quotations.forEach((quotation) => {
-                        quotation.contract.projects.forEach((project) => {
-                            if (project != null) {
-                                project.quotation = quotation;
-                                this.projects.push(project);
-                            }
-                        });
+                    this.quotations.forEach((quotation) => {
+                        if (quotation.contract != null) {
+                            quotation.contract.projects.forEach((project) => {
+                                if (project != null) {
+                                    project.quotation = quotation;
+                                    this.projects.push(project);
+                                }
+                            });
+                        }
                     });
 
                     console.log(this.projects);
