@@ -30,6 +30,11 @@
                         />
                     </td>
                     <td>
+                        <UpdateUser
+                            :project="project"
+                            :acadUsers="acadUsers"
+                            v-if="store.authUser.roles[0].name == 'AdminAcad'"
+                        />
                         <button
                             v-if="
                                 store.authUser.subarea_id == 4 &&
@@ -138,6 +143,7 @@
 <script>
 import ProjectName from "./ProjectName.vue";
 import { userStore } from "../../../stores/UserStore";
+import UpdateUser from "./UpdateUser.vue";
 
 export default {
     setup() {
@@ -169,9 +175,11 @@ export default {
             },
             teamSelected: 0,
             showSelectTeam: true,
+            acadUsers: [],
+            newAcadUserSelected: 0,
         };
     },
-    components: { ProjectName },
+    components: { ProjectName, UpdateUser },
     props: {
         projects: Array,
         teams: Array,
@@ -238,7 +246,19 @@ export default {
                 params: { idProject: projectId },
             });
         },
+        getAcadUsers() {
+            axios
+                .get("/api/acad-users")
+                .then((response) => {
+                    this.acadUsers = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+    },
+    mounted() {
+        this.getAcadUsers();
     },
 };
 </script>
-<style lang=""></style>
