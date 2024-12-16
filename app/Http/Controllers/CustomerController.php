@@ -710,6 +710,12 @@ class CustomerController extends Controller
     {
         $post_form = Post_form::where('contract_id', $request->get('contract_id'))->first();
 
+        $contract = Contract::with(['quotation', 'quotation.customers'])->find('contract_id');
+
+        $contract->quotation->customers->each->update([
+            'property_fill' => 1
+        ]);
+
         if (!$post_form) {
             $post_form = Post_form::create([
                 'contract_id' => $request->get('contract_id'),

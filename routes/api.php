@@ -73,6 +73,13 @@ Route::get('/migrate', function () {
     \Artisan::call('migrate');
     dd('migrated!');
 });
+
+Route::get('/sendEmails', function () {
+    \Artisan::call('email:send');
+    dd('emails sended!');
+});
+
+
 // Rutas de autenticación
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('login-user', [AuthController::class, 'loginUser']);
