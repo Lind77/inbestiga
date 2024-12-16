@@ -49,7 +49,7 @@ class PropertiesController extends Controller
         $contract = Contract::with('quotation', 'quotation.customers')->find($request->get('propertiable_type'));
 
         $contract->quotation->customers->each->update([
-            'property_field' => 1
+            'property_fill' => 1
         ]);
 
         $project = Project::where('projectable_id', $request->get('propertiable_id'))->where('projectable_type', $request->get('propertiable_type'))->get();
