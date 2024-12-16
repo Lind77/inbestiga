@@ -48,7 +48,7 @@ class Customer extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'password', 'cell', 'dni', 'address', 'university', 'career', 'status', 'email', 'user_id', 'origin', 'time', 'needs', 'interest', 'attitude', 'userregister_id', 'birth_date', 'type','province_id','gender'];
+    protected $fillable = ['name', 'password', 'cell', 'dni', 'address', 'university', 'career', 'status', 'email', 'user_id', 'origin', 'time', 'needs', 'interest', 'attitude', 'userregister_id', 'birth_date', 'type','province_id','gender','property_fill'];
     /**
      * Relacion muchos a muchos Customer-Quotations.
      * 
