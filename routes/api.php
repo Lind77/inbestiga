@@ -49,6 +49,7 @@ use App\Http\Controllers\VoucherController;
 use App\Models\Assigned_activity;
 use App\Models\Comission;
 use App\Models\User;
+use Google\Service\CloudSourceRepositories\ProjectConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -1451,3 +1452,5 @@ Route::post('/form-sales-posts', [CustomerController::class, 'registerPostsales'
  */
 
 Route::get('/export-post-sales', [CustomerController::class, 'export']);
+
+Route::get('/acad-users', [UserController::class, 'acadUsers']);

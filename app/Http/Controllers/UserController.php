@@ -265,4 +265,10 @@ class UserController extends Controller
             return response()->json($image);
         }
     }
+
+    public function acadUsers()
+    {
+        $users = User::where('subarea_id', 4)->get();
+        return response()->json($users);
+    }
 }
