@@ -46,10 +46,10 @@ class PropertiesController extends Controller
             'documentary_processing' => $request->get('documentary_processing'),
         ]);
 
-        $contract = Contract::with('quotation', 'quotation.customers')->find($request->get('propertiable_type'));
+        $contract = Contract::with(['quotation', 'quotation.customers'])->find($request->get('propertiable_id'));
 
         $contract->quotation->customers->each->update([
-            'property_fill' => 1
+            'property_fill' => 0
         ]);
 
         $project = Project::where('projectable_id', $request->get('propertiable_id'))->where('projectable_type', $request->get('propertiable_type'))->get();

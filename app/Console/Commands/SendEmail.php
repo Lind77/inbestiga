@@ -30,11 +30,11 @@ class SendEmail extends Command
      */
     public function handle()
     {
-        $emails = ['riuyagami@gmail.com', 'lindltaylor60@gmail.com'];
+        $customers = Customer::where('property_fill', 0)->get();
 
-        Mail::raw('Estimado usuario se le recuerda porfavor completar los datos necesario, para empezar el proceso de Investigación', function ($message) use ($emails) {
-            foreach ($emails as $email) {
-                $message->to($email)
+        Mail::raw('Estimado usuario se le recuerda porfavor completar los datos necesario, para empezar el proceso de Investigación', function ($message) use ($customers) {
+            foreach ($customers as $customer) {
+                $message->to($customer->email)
                     ->subject('Notificación Inbestiga Tesis');
             }
         });
