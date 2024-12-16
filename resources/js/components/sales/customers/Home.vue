@@ -121,6 +121,20 @@
                 </div>
             </div>
         </div>
+        <button
+            class="btn btn-primary btn-icon"
+            @click="prevPage"
+            v-if="prevPageUrl != null"
+        >
+            <i class="bx bx-chevron-left"></i>
+        </button>
+        <button
+            class="btn btn-primary btn-icon"
+            v-if="nextPageUrl != null"
+            @click="nextPage"
+        >
+            <i class="bx bx-chevron-right"></i>
+        </button>
         <customerModal
             :customer="customer_selected"
             :action="action"
@@ -171,9 +185,37 @@ export default {
                 10: "Seguimiento de cierre",
                 11: "Cliente",
             },
+            nextPageUrl: null,
+            prevPageUrl: null,
+            currentPage: 1,
+            pageSize: 10,
         };
     },
     methods: {
+        nextPage() {
+            axios
+                .get(this.nextPageUrl)
+                .then((result) => {
+                    this.nextPageUrl = result.data.next_page_url;
+                    this.prevPageUrl = result.data.prev_page_url;
+                    this.customers = result.data.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        prevPage() {
+            axios
+                .get(this.prevPageUrl)
+                .then((result) => {
+                    this.nextPageUrl = result.data.next_page_url;
+                    this.prevPageUrl = result.data.prev_page_url;
+                    this.customers = result.data.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         openOwnerModal(customerId) {
             this.customerId = customerId;
             $("#ownerModal").modal("show");
@@ -273,7 +315,9 @@ export default {
         },
         getAllCustomers() {
             axios.get("/api/customers").then((res) => {
-                this.customers = res.data;
+                this.customers = res.data.data;
+                this.prevPageUrl = res.data.prev_page_url;
+                this.nextPageUrl = res.data.next_page_url;
             });
         },
         filterOwn() {
