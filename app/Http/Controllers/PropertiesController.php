@@ -104,6 +104,12 @@ class PropertiesController extends Controller
             'project_situation_id' => $request->get('project_situation_id')
         ]);
 
+        $contract = Contract::with(['quotation', 'quotation.customers'])->find($request->get('propertiable_id'));
+
+        $contract->quotation->customers->each->update([
+            'property_fill' => 1
+        ]);
+
         return response()->json([
             'msg' => 'success'
         ]);
