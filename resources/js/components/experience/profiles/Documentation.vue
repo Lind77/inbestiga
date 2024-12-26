@@ -37,6 +37,17 @@
                     :projectId="project.id"
                     @getQuotation="getQuotation"
                 />
+                <div
+                    class="card bg-warning my-2 text-white"
+                    v-for="delivery in deliveries"
+                >
+                    <div class="card-header">
+                        {{ formatDate(delivery.date) }}
+                    </div>
+                    <div class="card-body">
+                        {{ delivery.advance }}
+                    </div>
+                </div>
                 <Post
                     :post="post"
                     v-for="post in posts"
@@ -191,6 +202,7 @@ export default {
                     type: 2,
                 },
             ],
+            deliveries: [],
         };
     },
     methods: {
@@ -254,6 +266,8 @@ export default {
                     this.quotation = result.data;
                     this.contract = this.quotation.contract;
                     this.project = this.quotation.contract.projects[0];
+                    this.deliveries =
+                        this.quotation.contract.projects[0].deliveries;
                     this.posts = this.project.posts;
 
                     this.project.files.forEach((file) => {
