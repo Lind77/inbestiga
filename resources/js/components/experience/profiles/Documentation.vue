@@ -48,6 +48,15 @@
                         {{ delivery.advance }}
                     </div>
                 </div>
+                <div
+                    class="card bg-primary my-2 text-white"
+                    v-for="payment in payments"
+                >
+                    <div class="card-header">
+                        {{ formatDate(payment.date) }}
+                    </div>
+                    <div class="card-body">S./ {{ payment.amount }}</div>
+                </div>
                 <Post
                     :post="post"
                     v-for="post in posts"
@@ -203,6 +212,7 @@ export default {
                 },
             ],
             deliveries: [],
+            payments: [],
         };
     },
     methods: {
@@ -268,6 +278,7 @@ export default {
                     this.project = this.quotation.contract.projects[0];
                     this.deliveries =
                         this.quotation.contract.projects[0].deliveries;
+                    this.payments = this.quotation.contract.payments;
                     this.posts = this.project.posts;
 
                     this.project.files.forEach((file) => {
