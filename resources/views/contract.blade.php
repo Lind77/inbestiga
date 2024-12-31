@@ -326,7 +326,7 @@
                 </table>
                {{--  <div class="page-break"></div> --}}
                 <span>QUINTO: ENTREGAS Y FORMA DE ENTREGAS.</span>
-                <p style="margin-top: -7px;">Las entregas que EL LOCADOR otorgará a favor de EL ASESORADO serán cargadas al correo y/o grupo de WhatsApp creado en los siguientes términos: </p>
+                <p style="margin-top: -7px;">Las entregas que EL LOCADOR otorgará a favor de EL ASESORADO serán cargadas al aula virtual en los siguientes términos: </p>
                 <table class="delivery-table" style="margin-top: -10px;">
                     <thead>
                         <tr>
@@ -407,7 +407,7 @@
                 @if ($contract->fragment != 1)
                 <p>EL CONTRATO no tiene una cláusula de prescripción de obligaciones por parte de EL LOCADOR  que se rija 
                     por el tiempo, sino que las obligaciones de este se extinguen únicamente cuando EL ASESORADO haya obtenido 
-                    el informe aprobatorio de los tres jurados revisores de la tesis; tanto sobre el documento, como en la sustentación.
+                    el informe aprobatorio de los jurados revisores de la tesis; tanto sobre el documento, como en la sustentación.
                 </p>
                 @endif
                 <p>
