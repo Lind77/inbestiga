@@ -57,6 +57,22 @@
                     </div>
                     <div class="card-body">S./ {{ payment.amount }}</div>
                 </div>
+                <div
+                    class="card bg-secondary my-2 text-white"
+                    v-for="voucher in externalVouchers"
+                >
+                    <div class="card-header">
+                        Voucher Externo {{ formatDate(voucher.created_at) }}
+                    </div>
+                    <div class="card-body">
+                        <button
+                            class="btn btn-icon btn-success"
+                            @click="showVoucherImage(voucher)"
+                        >
+                            <i class="bx bx-file text-white"></i>
+                        </button>
+                    </div>
+                </div>
                 <Post
                     :post="post"
                     v-for="post in posts"
@@ -213,9 +229,17 @@ export default {
             ],
             deliveries: [],
             payments: [],
+            externalVouchers: [],
         };
     },
     methods: {
+        showVoucherImage(voucher) {
+            var imageUrl = voucher.images[0].url;
+
+            window.open(
+                "https://inbestiga.com/inbestiga/public/files/" + imageUrl
+            );
+        },
         updateCustomer(customer) {
             console.log(customer);
             this.customerSelected = customer;
@@ -280,6 +304,8 @@ export default {
                         this.quotation.contract.projects[0].deliveries;
                     this.payments = this.quotation.contract.payments;
                     this.posts = this.project.posts;
+                    this.externalVouchers =
+                        this.quotation.contract.external_vouchers;
 
                     this.project.files.forEach((file) => {
                         if (file.type == 1) {
