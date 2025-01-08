@@ -8,6 +8,13 @@
                 >
                     Información académica <i class="bx bx-book-open ms-3"></i>
                 </div>
+
+                <div
+                    @click="openModalAddendums"
+                    class="d-flex flex-row justify-content-center align-items-center cursor-pointer button-multiple text-white my-2"
+                >
+                    Adendas <i class="bx bx-file ms-3"></i>
+                </div>
             </div>
             <div class="col-12 col-md-4 py-1">
                 <div
@@ -51,6 +58,9 @@ export default {
         project: Object,
     },
     methods: {
+        openModalAddendums() {
+            $("#adendumsUserModal").modal("show");
+        },
         openModalFiles() {
             this.files = this.project.posts.filter((post) => post.files);
             $("#filesModal").modal("show");

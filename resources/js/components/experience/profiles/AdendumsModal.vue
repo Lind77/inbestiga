@@ -160,6 +160,7 @@ export default {
     props: {
         contract: Object,
         payments: Array,
+        project_id: Number,
     },
     components: { Payment, Delivery },
     methods: {
@@ -167,9 +168,12 @@ export default {
             const fd = new FormData();
 
             fd.append("contract_id", this.contract.id);
+            fd.append("project_id", this.project_id);
             fd.append("object", this.adendum.object);
             fd.append("clausule", this.adendum.clausule);
             fd.append("amount", this.finalPrice);
+            fd.append("deliveries", JSON.stringify(this.deliveries));
+            fd.append("payments", JSON.stringify(this.newPayments));
             fd.append("user_id", this.store.authUser.id);
 
             axios

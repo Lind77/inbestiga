@@ -493,20 +493,6 @@ class ContractController extends Controller
                 'date' => $delivery['date'] ?: null,
                 'type' => 1
             ]);
-
-            /*  $rules = [
-                'date' => 'required',
-            ];
-
-            $validator = Validator::make($delivery, $rules);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'message' => 'Asegurate de que todas las fechas de Entregas estén completadas'
-                ], 405);
-            } else {
-                
-            } */
         }
 
         $payments = json_decode($request->get('payments'), true);

@@ -225,6 +225,7 @@
                             :project="project"
                             @openModal="openModal"
                             @openModalAcademic="openModalAcademic"
+                            @openModalAddendums="openModalAddendums"
                             @changeBackground="changeBackground"
                             @getProjectInfo="getProjectInfo"
                         />
@@ -246,6 +247,7 @@
     </div>
     <Postmodal :project="project" @getProjectInfo="getProjectInfo" />
     <AcademicModal :project="project" />
+    <AddendumsModal :addendums="addendums" />
 </template>
 <script>
 import moment from "moment";
@@ -260,6 +262,7 @@ import CollapseCard from "./CollapseCard.vue";
 import FormCard from "./FormCard.vue";
 import Postmodal from "./Postmodal.vue";
 import AcademicModal from "./AcademicModal.vue";
+import AddendumsModal from "./AddendumsModal.vue";
 
 export default {
     components: {
@@ -273,6 +276,7 @@ export default {
         FormCard,
         Postmodal,
         AcademicModal,
+        AddendumsModal,
     },
     setup() {
         const store = userStore();
@@ -300,10 +304,14 @@ export default {
             professionalStatusId: 0,
             participationId: 0,
             studyPlaceId: 0,
+            addendums: [],
         };
     },
     methods: {
         openModalAcademic() {
+            $("#academicModal").modal("show");
+        },
+        openModalAddendums() {
             $("#academicModal").modal("show");
         },
         changeBackground(collapsed) {
@@ -336,6 +344,7 @@ export default {
                 .get("/api/projects/" + this.$route.params.projectId)
                 .then((result) => {
                     this.project = result.data;
+                    this.addendums = this.project.projectable.addendums;
                     var post_form = this.project.projectable.post_form;
 
                     if (post_form) {
