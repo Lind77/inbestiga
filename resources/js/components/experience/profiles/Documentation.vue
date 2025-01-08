@@ -93,6 +93,7 @@
         :contract="contract"
         :payments="payments"
         @getQuotation="getQuotation"
+        :project_id="project.id"
     />
 </template>
 <script>

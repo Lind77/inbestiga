@@ -6,6 +6,7 @@ use App\Models\Addendum;
 use App\Http\Requests\StoreAddendumRequest;
 use App\Http\Requests\UpdateAddendumRequest;
 use App\Models\Contract;
+use App\Models\Delivery;
 use Illuminate\Http\Request;
 
 /**
@@ -49,7 +50,11 @@ class AddendumController extends Controller
     {
         $contract = Contract::find($request->contract_id);
 
-        $contract->addendums()->create([
+        $payments = json_decode($request->get('payments'), true);
+
+        $deliveries = json_decode($request->get('deliveries'), true);
+
+        $addendum = $contract->addendums()->create([
             "date" => date('Y-m-d'),
             "object" => $request->object,
             "clausule" => $request->clausule,
@@ -57,6 +62,27 @@ class AddendumController extends Controller
             "amount" => $request->amount,
             "user_id" => $request->user_id
         ]);
+
+        foreach ($payments as $payment) {
+            $addendum->payments()->create([
+                "date" => $payment['date'],
+                "amount" => $payment['amount'],
+                "percentage" =>  $payment['percentage'],
+                "status" => 2,
+            ]);
+        }
+
+        foreach ($deliveries as $delivery) {
+
+            Delivery::create([
+                'advance' => $delivery['advance'],
+                'status' => 0,
+                'project_id' => $request->project_id,
+                'date' => $delivery['date'] ?: null,
+                'type' => 1,
+                'addendum_id' => $addendum->id
+            ]);
+        }
 
         return $contract;
     }
