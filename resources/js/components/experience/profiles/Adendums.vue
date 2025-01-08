@@ -22,11 +22,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr v-for="addendum in addendums">
+                        <td>{{ addendum.date }}</td>
+                        <td>{{ addendum.user_id }}</td>
+                        <td>{{ addendum.status }}</td>
+                        <td>
+                            <button class="btn btn-info btn-icon">
+                                <i class="bx bx-file"></i>
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -35,6 +39,9 @@
 </template>
 <script>
 export default {
+    props: {
+        addendums: Array,
+    },
     methods: {
         openAdendumsModal() {
             this.$emit("openAdendumsModal");

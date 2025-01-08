@@ -18,7 +18,10 @@
                     :quotation="quotation"
                     @updateCustomer="updateCustomer"
                 />
-                <Adendums @openAdendumsModal="openAdendumsModal" />
+                <Adendums
+                    @openAdendumsModal="openAdendumsModal"
+                    :addendums="addendums"
+                />
                 <AcademicInfo
                     :academicType="typeQuiz"
                     :newQuestions="questions"
@@ -86,7 +89,11 @@
     </div>
     <ComunicationsModal :comunications="customer.comunications" />
     <customerModal :action="action" :customer="customerSelected" />
-    <AdendumsModal :contract="contract" :payments="payments" />
+    <AdendumsModal
+        :contract="contract"
+        :payments="payments"
+        @getQuotation="getQuotation"
+    />
 </template>
 <script>
 import moment from "moment";
@@ -238,6 +245,7 @@ export default {
             deliveries: [],
             payments: [],
             externalVouchers: [],
+            addendums: [],
         };
     },
     methods: {
@@ -310,6 +318,7 @@ export default {
                 .then((result) => {
                     this.quotation = result.data;
                     this.contract = this.quotation.contract;
+                    this.addendums = this.contract.addendums;
                     this.project = this.quotation.contract.projects[0];
                     this.deliveries =
                         this.quotation.contract.projects[0].deliveries;

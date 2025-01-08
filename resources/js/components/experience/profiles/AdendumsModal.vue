@@ -71,6 +71,7 @@
                                     </template>
                                 </tbody>
                             </table>
+                            <p class="h5">Monto final: S./{{ finalPrice }}</p>
                         </div>
                     </div>
                     <div class="col-12">
@@ -134,8 +135,15 @@
 <script>
 import Payment from "../../sales/makedocs/Payment.vue";
 import Delivery from "../../sales/makedocs/Delivery.vue";
+import { userStore } from "../../../stores/UserStore";
 
 export default {
+    setup() {
+        const store = userStore();
+        return {
+            store,
+        };
+    },
     data() {
         return {
             adendum: {
@@ -161,11 +169,15 @@ export default {
             fd.append("contract_id", this.contract.id);
             fd.append("object", this.adendum.object);
             fd.append("clausule", this.adendum.clausule);
-            fd.append("amount", this.amount);
+            fd.append("amount", this.finalPrice);
+            fd.append("user_id", this.store.authUser.id);
 
             axios
                 .post("/api/addendums", fd)
-                .then((result) => {})
+                .then((result) => {
+                    this.$emit("getQuotation");
+                    $("#adendumsModal").modal("hide");
+                })
                 .catch((err) => {
                     console.log(err);
                 });
@@ -220,6 +232,14 @@ export default {
         },
         contract(value) {
             this.finalPrice = value.amount;
+        },
+    },
+    computed: {
+        finalPrice() {
+            return this.newPayments.reduce(
+                (acc, payment) => acc + parseFloat(payment.amount),
+                0
+            );
         },
     },
 };
