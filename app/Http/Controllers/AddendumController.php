@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Addendum;
 use App\Http\Requests\StoreAddendumRequest;
 use App\Http\Requests\UpdateAddendumRequest;
+use Illuminate\Http\Request;
+
 /**
  * Controlador para la gestión de addendums.
  *
@@ -42,9 +44,9 @@ class AddendumController extends Controller
      * @param  \App\Http\Requests\StoreAddendumRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAddendumRequest $request)
+    public function store(Request $request)
     {
-        //
+        return $request;
     }
 
     /**

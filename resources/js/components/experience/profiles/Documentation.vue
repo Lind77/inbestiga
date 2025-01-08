@@ -18,6 +18,7 @@
                     :quotation="quotation"
                     @updateCustomer="updateCustomer"
                 />
+                <Adendums @openAdendumsModal="openAdendumsModal" />
                 <AcademicInfo
                     :academicType="typeQuiz"
                     :newQuestions="questions"
@@ -42,6 +43,7 @@
                     v-for="delivery in deliveries"
                 >
                     <div class="card-header">
+                        <p>Entrega</p>
                         {{ formatDate(delivery.date) }}
                     </div>
                     <div class="card-body">
@@ -53,6 +55,7 @@
                     v-for="payment in payments"
                 >
                     <div class="card-header">
+                        <p>Pago</p>
                         {{ formatDate(payment.date) }}
                     </div>
                     <div class="card-body">S./ {{ payment.amount }}</div>
@@ -83,6 +86,7 @@
     </div>
     <ComunicationsModal :comunications="customer.comunications" />
     <customerModal :action="action" :customer="customerSelected" />
+    <AdendumsModal :contract="contract" :payments="payments" />
 </template>
 <script>
 import moment from "moment";
@@ -100,6 +104,8 @@ import Documentary from "./Documentary.vue";
 import File from "./File.vue";
 import AcademicInfo from "./AcademicInfo.vue";
 import Post from "./Post.vue";
+import Adendums from "./Adendums.vue";
+import AdendumsModal from "./AdendumsModal.vue";
 import { userStore } from "../../../stores/UserStore";
 
 export default {
@@ -123,6 +129,8 @@ export default {
         GeneralInformation,
         Customers,
         FormPost,
+        Adendums,
+        AdendumsModal,
     },
     data() {
         return {
@@ -233,6 +241,9 @@ export default {
         };
     },
     methods: {
+        openAdendumsModal() {
+            $("#adendumsModal").modal("show");
+        },
         showVoucherImage(voucher) {
             var imageUrl = voucher.images[0].url;
 
