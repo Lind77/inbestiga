@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 /**
  * Modelo que representa un Anexo (Addendum).
  * 
@@ -31,8 +32,8 @@ class Addendum extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['addendumable_id','addendumable_type', 'date','object','clausele'];
-    
+    protected $fillable = ['addendumable_id', 'addendumable_type', 'date', 'object', 'clausule', 'status', 'amount', 'user_id'];
+
     /**
      * Relación polimórfica inversa uno a muchos.
      * 
@@ -40,7 +41,39 @@ class Addendum extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function addendumable(){
+    public function addendumable()
+    {
         return $this->morphTo();
-    }   
+    }
+    /**
+     * Relación uno a muchos Project_Delivery.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function deliveries()
+    {
+        return $this->hasMany("App\Models\Delivery");
+    }
+    /**
+     * Relacion morfeable uno a muchos (O-C-PAYMENT).
+     * 
+     * Un contrato puede tener múltiples pagos asociados.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function payments()
+    {
+        return $this->morphMany('App\Models\Payment', 'paymentable');
+    }
+    /**
+     * Relación uno a uno user-contract inversa.
+     * 
+     * Un contrato pertenece a un usuario específico que lo creó.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Addendum;
 use App\Http\Requests\StoreAddendumRequest;
 use App\Http\Requests\UpdateAddendumRequest;
+use App\Models\Contract;
+use Illuminate\Http\Request;
+
 /**
  * Controlador para la gestión de addendums.
  *
@@ -42,9 +45,20 @@ class AddendumController extends Controller
      * @param  \App\Http\Requests\StoreAddendumRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAddendumRequest $request)
+    public function store(Request $request)
     {
-        //
+        $contract = Contract::find($request->contract_id);
+
+        $contract->addendums()->create([
+            "date" => date('Y-m-d'),
+            "object" => $request->object,
+            "clausule" => $request->clausule,
+            "status" => 0,
+            "amount" => $request->amount,
+            "user_id" => $request->user_id
+        ]);
+
+        return $contract;
     }
 
     /**

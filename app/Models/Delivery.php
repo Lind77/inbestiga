@@ -38,7 +38,7 @@ class Delivery extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['deliverable_id', 'deliverable_type', 'date', 'academic_date', 'advance', 'progress', 'type', 'status', 'project_id','complexity','user_id','description'];
+    protected $fillable = ['deliverable_id', 'deliverable_type', 'date', 'academic_date', 'advance', 'progress', 'type', 'status', 'project_id','complexity','user_id','description','addendum_id'];
     /**
      * Relacion inversa uno amuchos Project-Delivery.
      * 
@@ -49,6 +49,17 @@ class Delivery extends Model
     public function project()
     {
         return $this->belongsTo('App\Models\Project');
+    }
+    /**
+     * Relacion inversa uno amuchos Project-Delivery.
+     * 
+     * Una entrega pertenece a un proyecto.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function addendum()
+    {
+        return $this->belongsTo('App\Models\Addendum');
     }
     /* //relacion muchos amuchos morfeable_qualityindicators_(project,delivery,assigned_task,assigned_activity)
     public function quality_indicators()

@@ -305,4 +305,8 @@ class User extends Authenticatable
     public function contracts(){
         return $this->hasMany('App\Models\Contract');
     }
+    //relación uno a uno user-addendum
+    public function addendums(){
+        return $this->hasMany('App\Models\Addendum');
+    }
 }
