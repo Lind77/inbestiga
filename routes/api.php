@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AcademicProductController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AddendumController;
 use App\Http\Controllers\AichatController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
@@ -1461,3 +1462,5 @@ Route::post('/form-sales-posts', [CustomerController::class, 'registerPostsales'
 Route::get('/export-post-sales', [CustomerController::class, 'export']);
 
 Route::get('/acad-users', [UserController::class, 'acadUsers']);
+
+Route::post('/addendums', [AddendumController::class, 'store']);
