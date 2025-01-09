@@ -1468,3 +1468,5 @@ Route::post('/addendums', [AddendumController::class, 'store']);
 Route::delete('/addendums/{id}', [AddendumController::class, 'destroy']);
 
 Route::get('/showAddendum/{id}', [AddendumController::class, 'addendumPDF']);
+
+Route::put('/update-addendum-status/{id}', [AddendumController::class, 'updateStatus']);

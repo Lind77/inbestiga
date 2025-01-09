@@ -24,8 +24,8 @@
                 <tbody>
                     <tr v-for="addendum in addendums">
                         <td>{{ addendum.date }}</td>
-                        <td>{{ addendum.user_id }}</td>
-                        <td>{{ addendum.status }}</td>
+                        <td>{{ addendum.user.name }}</td>
+                        <td>{{ addendumStatuses[addendum.status] }}</td>
                         <td>
                             <a
                                 :href="`${appUrl}api/showAddendum/${addendum.id}`"
@@ -52,6 +52,11 @@ export default {
     data() {
         return {
             appUrl: import.meta.env.VITE_AXIOS_URL,
+            addendumStatuses: {
+                0: "Por confirmar",
+                1: "Aceptado",
+                2: "Rechazado",
+            },
         };
     },
     props: {
