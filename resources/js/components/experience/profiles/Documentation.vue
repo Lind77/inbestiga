@@ -20,6 +20,7 @@
                 />
                 <Adendums
                     @openAdendumsModal="openAdendumsModal"
+                    @getQuotation="getQuotation"
                     :addendums="addendums"
                 />
                 <AcademicInfo
