@@ -32,7 +32,7 @@ class Addendum extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['addendumable_id', 'addendumable_type', 'date', 'object', 'clausule', 'status', 'amount', 'user_id'];
+    protected $fillable = ['addendumable_id', 'addendumable_type', 'date', 'object', 'clausule', 'status', 'amount', 'user_id','amount_text','cent_text'];
 
     /**
      * Relación polimórfica inversa uno a muchos.
