@@ -61,7 +61,9 @@ class AddendumController extends Controller
             "clausule" => $request->clausule,
             "status" => 0,
             "amount" => $request->amount,
-            "user_id" => $request->user_id
+            "user_id" => $request->user_id,
+            "amount_text" => $request->amount_text,
+            "cent_text" => $request->cent_text
         ]);
 
         foreach ($payments as $payment) {

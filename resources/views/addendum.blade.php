@@ -153,11 +153,11 @@
         <main>
             <div class="container">
                 <h1>Adenda de Contrato de locación de servicios</h1>
-                <p>Conste por el presente documento, <span>LA ADENDA AL CONTRATO DE LOCACIÓN DE SERVICIOS</span>, celebrado por los mencionados en el contrato principal, que se genera por lo que a continuación se expone. </p>
+                <p>Conste por el presente documento, <span>LA ADENDA AL CONTRATO DE LOCACIÓN DE SERVICIOS</span>, celebrado por los mencionados en el contrato principal, que se genera por lo que a continuación se expone. </p>
                 <span>PRIMERO: OBJETO DE LA ADENDA AL CONTRATO. </span>
-                <p>LAS PARTES del contrato especifiquen los plazos de entrega y pagos.</p>
+                <p>{{$addendum->object}}</p>
                 <span>SEGUNDO: COSTO Y FORMA DEL PAGO.  </span>
-                <p>Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un monto total de {{ 'S/.'.number_format($addendum->amount) }} (TRES MIL TRESCIENTOS SOLES), monto que será abonado en las siguientes fechas:</p>
+                <p>Como contraprestación al servicio prestado por EL LOCADOR, EL CLIENTE se compromete al abono de un monto total de {{ 'S/.'.number_format($addendum->amount) }} ({{strtoupper($addendum->amount_text)}} SOLES), monto que será abonado en las siguientes fechas:</p>
                 <table class="date-table">
                     <thead>
                         <tr>
@@ -175,7 +175,7 @@
                     </tbody>
                 </table>
                 <span>TERCERO: ENTREGAS Y FORMA DE ENTREGAS.  </span>
-                <p>Las entregas que EL LOCADOR otorgará a favor de EL CLIENTE serán cargadas al correo y/o grupo de WhatsApp de EL CLIENTE en los siguientes términos:</p>
+                <p>Las entregas que EL LOCADOR otorgará a favor de EL CLIENTE serán cargadas al correo y/o grupo de WhatsApp de EL CLIENTE en los siguientes términos:</p>
                 <table class="delivery-table" style="margin-top: -10px;">
                     <thead>
                         <tr>
@@ -187,14 +187,26 @@
                     <tbody>
                         @foreach ($addendum->deliveries as $delivery)
                         <tr>
-                            <td>{{$delivery->date ? date('d/m/Y',strtotime($delivery->date)) : 'Bajo coordinación con gerencia o tesista'}}</td>
+                            <td>
+                                @if($delivery->date)
+                                    {{ date('d/m/Y', strtotime($delivery->date)) }}
+                                    @if($fee->status == 1)
+                                    Cancelado
+                                    @else
+                                    Pendiente
+                                    @endif
+                                @else
+                                    Bajo coordinación con gerencia o tesista
+                                @endif
+                            </td>
                             <td>{{$delivery->advance}}</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+                <p>{{$addendum->clausule}}</p>
                 <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
-                <p>Las partes declaran haber leído la adenda del contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($addendum->date))}}. </p>
+                <p>Las partes declaran haber leído la adenda del contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($addendum->date))}}. </p>
                 <div class="signatures">
                     <div class="col-signature">
                         <img src="https://inbestiga.com/inbestiga/public/img/contract/firmaBere.jpg" width="200">
