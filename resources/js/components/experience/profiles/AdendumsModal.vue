@@ -55,6 +55,7 @@
                                         <td>Fecha</td>
                                         <td>Monto</td>
                                         <td>Porcentaje</td>
+                                        <td>Estado</td>
                                         <td>Opciones</td>
                                     </tr>
                                 </thead>
@@ -236,6 +237,7 @@ export default {
         },
         contract(value) {
             this.finalPrice = value.amount;
+            this.deliveries = value.projects[0].deliveries;
         },
     },
     computed: {

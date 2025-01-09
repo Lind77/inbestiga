@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateAddendumRequest;
 use App\Models\Contract;
 use App\Models\Delivery;
 use Illuminate\Http\Request;
+use PDF;
 
 /**
  * Controlador para la gestión de addendums.
@@ -68,7 +69,7 @@ class AddendumController extends Controller
                 "date" => $payment['date'],
                 "amount" => $payment['amount'],
                 "percentage" =>  $payment['percentage'],
-                "status" => 2,
+                "status" => $payment['status'] ? 1 : 0,
             ]);
         }
 
@@ -84,7 +85,7 @@ class AddendumController extends Controller
             ]);
         }
 
-        return $contract;
+        return response()->json($addendum);
     }
 
     /**
@@ -127,8 +128,27 @@ class AddendumController extends Controller
      * @param  \App\Models\Addendum  $addendum
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Addendum $addendum)
+    public function destroy($id)
     {
-        //
+        $addendum = Addendum::with('deliveries', 'payments')->find($id);
+
+        $addendum->deliveries()->delete();
+
+        $addendum->payments()->delete();
+
+        $addendum->delete();
+
+        return response()->json([
+            "msg" => "success",
+        ]);
+    }
+
+    public function addendumPDF($id)
+    {
+        $addendum = Addendum::with(['payments', 'deliveries', 'addendumable', 'addendumable.quotation', 'addendumable.quotation.customers'])->find($id);
+
+        $pdf = PDF::loadView('addendum', compact('addendum'));
+
+        return $pdf->stream('addendum.pdf');
     }
 }
