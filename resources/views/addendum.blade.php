@@ -175,7 +175,7 @@
                     </tbody>
                 </table>
                 <span>TERCERO: ENTREGAS Y FORMA DE ENTREGAS.  </span>
-                <p>Las entregas que EL LOCADOR otorgará a favor de EL CLIENTE serán cargadas al correo y/o grupo de WhatsApp de EL CLIENTE en los siguientes términos:</p>
+                <p>Las entregas que EL LOCADOR otorgará a favor de EL CLIENTE serán cargadas al Aula Virtual de EL CLIENTE en los siguientes términos:</p>
                 <table class="delivery-table" style="margin-top: -10px;">
                     <thead>
                         <tr>
@@ -206,7 +206,7 @@
                 </table>
                 <p>{{$addendum->clausule}}</p>
                 <p style="visibility: hidden">{{setlocale(LC_TIME, "spanish");}}</p>
-                <p>Las partes declaran haber leído la adenda del contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($addendum->date))}}. </p>
+                <p style="margin-top: -50px;">Las partes declaran haber leído la adenda del contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($addendum->date))}}. </p>
                 <div class="signatures">
                     <div class="col-signature">
                         <img src="https://inbestiga.com/inbestiga/public/img/contract/firmaBere.jpg" width="200">

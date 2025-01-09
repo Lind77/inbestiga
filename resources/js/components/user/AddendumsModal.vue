@@ -26,7 +26,10 @@
                                 <td class="text-white">{{ addendum.date }}</td>
                                 <td class="text-white">
                                     {{ addendumStatuses[addendum.status] }}
-                                    <div class="d-flex">
+                                    <div
+                                        class="d-flex"
+                                        v-if="addendum.status == 0"
+                                    >
                                         <button
                                             class="btn btn-sm btn-icon btn-success"
                                             @click="
@@ -80,19 +83,21 @@ export default {
     },
     methods: {
         updateStatus(newStatus, addendumId) {
-            const fd = new FormData();
+            if (confirm("Estás seguro de proceder con esta acción?")) {
+                const fd = new FormData();
 
-            fd.append("status", newStatus);
-            fd.append("_method", "PUT");
+                fd.append("status", newStatus);
+                fd.append("_method", "PUT");
 
-            axios
-                .post("/api/update-addendum-status/" + addendumId, fd)
-                .then((result) => {
-                    this.$emit("getProjectInfo");
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                axios
+                    .post("/api/update-addendum-status/" + addendumId, fd)
+                    .then((result) => {
+                        this.$emit("getProjectInfo");
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }
         },
     },
 };
