@@ -137,6 +137,7 @@
 import Payment from "../../sales/makedocs/Payment.vue";
 import Delivery from "../../sales/makedocs/Delivery.vue";
 import { userStore } from "../../../stores/UserStore";
+import conversor from "conversor-numero-a-letras-es-ar";
 
 export default {
     setup() {
@@ -166,8 +167,18 @@ export default {
     components: { Payment, Delivery },
     methods: {
         saveAdendum() {
+            let conversorClass = conversor.conversorNumerosALetras;
+            let myConverter = new conversorClass();
+
             const fd = new FormData();
 
+            fd.append(
+                "amount_text",
+                myConverter.convertToText(parseInt(this.finalPrice))
+            );
+            /*  var decimal = this.finalPrice.toString().split(".")[1] * 10;
+            console.log(decimal); */
+            fd.append("cent_text", "cero");
             fd.append("contract_id", this.contract.id);
             fd.append("project_id", this.project_id);
             fd.append("object", this.adendum.object);
