@@ -1464,3 +1464,7 @@ Route::get('/export-post-sales', [CustomerController::class, 'export']);
 Route::get('/acad-users', [UserController::class, 'acadUsers']);
 
 Route::post('/addendums', [AddendumController::class, 'store']);
+
+Route::delete('/addendums/{id}', [AddendumController::class, 'destroy']);
+
+Route::get('/showAddendum/{id}', [AddendumController::class, 'addendumPDF']);
