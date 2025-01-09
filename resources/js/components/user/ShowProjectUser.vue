@@ -247,7 +247,7 @@
     </div>
     <Postmodal :project="project" @getProjectInfo="getProjectInfo" />
     <AcademicModal :project="project" />
-    <AddendumsModal :addendums="addendums" />
+    <AddendumsModal :addendums="addendums" @getProjectInfo="getProjectInfo" />
 </template>
 <script>
 import moment from "moment";
