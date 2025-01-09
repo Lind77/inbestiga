@@ -7,7 +7,7 @@
                     class="btn btn-sm btn-success text-white"
                     @click="openAdendumsModal"
                 >
-                    Agregar Adenda
+                    Agregar Adendas
                 </button>
             </div>
         </div>
