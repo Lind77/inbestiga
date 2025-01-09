@@ -153,4 +153,12 @@ class AddendumController extends Controller
 
         return $pdf->stream('addendum.pdf');
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $addendum = Addendum::find($id);
+        $addendum->status = $request->status;
+        $addendum->save();
+        return response()->json($addendum);
+    }
 }
