@@ -65,7 +65,7 @@
                                 >
                                     <span class="custom-option-body">
                                         <span class="custom-option-title">
-                                            Art. Científico
+                                            Tesis Curso
                                         </span>
                                     </span>
                                     <input

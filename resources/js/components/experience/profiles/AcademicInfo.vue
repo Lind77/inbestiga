@@ -73,7 +73,7 @@
                             <span class="custom-option-body">
                                 <i class="bx bx-briefcase-alt"></i>
                                 <span class="custom-option-title">
-                                    Art. Científico
+                                    Tesis Curso
                                 </span>
                             </span>
                             <input
