@@ -140,7 +140,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::with(['deliveries', 'user', 'projectable', 'files', 'projectable.properties' => function ($query) {
+        $project = Project::with(['deliveries', 'team', 'user', 'projectable', 'files', 'projectable.properties' => function ($query) {
             $query->orderBy('id', 'desc')->get();
         }, 'projectable.quotation', 'projectable.addendums', 'projectable.post_form', 'projectable.quotation.details', 'projectable.quotation.customers', 'posts' => function ($query) {
             $query->orderBy('created_at', 'desc')->get();
@@ -621,6 +621,18 @@ class ProjectController extends Controller
         $project = Project::find($projectId);
         $project->update([
             'user_id' => $userId
+        ]);
+
+        return response()->json([
+            'msg' => 'success'
+        ]);
+    }
+
+    public function assignTeam(Request $request)
+    {
+        $project = Project::find($request->get('project_id'));
+        $project->update([
+            'team_id' => $request->get('team_id')
         ]);
 
         return response()->json([
