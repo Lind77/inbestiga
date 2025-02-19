@@ -525,7 +525,7 @@ Route::get('/removeQualityActivity/{id}', [ProgressController::class, 'removeQua
 /**
  * Rutas para manejar equipos.
  */
-Route::get('/getAllTeams', [TeamController::class, 'index']);
+Route::get('/teams', [TeamController::class, 'index']);
 /**
  * Obtiene todos los equipos disponibles.
  */
@@ -1470,3 +1470,5 @@ Route::delete('/addendums/{id}', [AddendumController::class, 'destroy']);
 Route::get('/showAddendum/{id}', [AddendumController::class, 'addendumPDF']);
 
 Route::put('/update-addendum-status/{id}', [AddendumController::class, 'updateStatus']);
+
+Route::post('/assign-team', [ProjectController::class, 'assignTeam']);
