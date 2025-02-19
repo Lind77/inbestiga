@@ -23,6 +23,11 @@
                     @getQuotation="getQuotation"
                     :addendums="addendums"
                 />
+                <SelectTeams
+                    :teams="teams"
+                    :projectId="project.id"
+                    :teamSelected="project.team_id"
+                />
                 <AcademicInfo
                     :academicType="typeQuiz"
                     :newQuestions="questions"
@@ -115,6 +120,7 @@ import AcademicInfo from "./AcademicInfo.vue";
 import Post from "./Post.vue";
 import Adendums from "./Adendums.vue";
 import AdendumsModal from "./AdendumsModal.vue";
+import SelectTeams from "./SelectTeams.vue";
 import { userStore } from "../../../stores/UserStore";
 
 export default {
@@ -140,6 +146,7 @@ export default {
         FormPost,
         Adendums,
         AdendumsModal,
+        SelectTeams,
     },
     data() {
         return {
@@ -248,9 +255,20 @@ export default {
             payments: [],
             externalVouchers: [],
             addendums: [],
+            teams: [],
         };
     },
     methods: {
+        getTeams() {
+            axios
+                .get("/api/teams")
+                .then((result) => {
+                    this.teams = result.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         openAdendumsModal() {
             $("#adendumsModal").modal("show");
         },
@@ -447,6 +465,7 @@ export default {
     mounted() {
         this.getQuotation();
         this.getForms();
+        this.getTeams();
     },
 };
 </script>

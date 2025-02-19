@@ -73,8 +73,8 @@ export default {
         },
         toCalendly() {
             try {
-                this.project.user.calendly_user
-                    ? window.open(this.project.user.calendly_user)
+                this.project.team.appointment_link
+                    ? window.open(this.project.team.appointment_link)
                     : this.$swal("Este proyecto no ha sido asignado aun");
             } catch (e) {
                 this.$swal("Este proyecto no ha sido asignado aun");
