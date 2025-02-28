@@ -8,6 +8,13 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class CustomersExport implements FromCollection, WithHeadings
 {
+
+    protected $date;
+
+    public function __construct($date)
+    {
+        $this->date = $date;
+    }
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -29,7 +36,7 @@ class CustomersExport implements FromCollection, WithHeadings
         ])
             ->whereNotNull('password')
             ->whereHas('quotations.contract', function ($q) {
-                $q->where('registration_date', 'like', '%' . date('Y-m') . '%');
+                $q->where('registration_date', 'like', '%' . date($this->date) . '%');
             })
             ->orderBy('updated_at', 'desc')
             ->get()
