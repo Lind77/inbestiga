@@ -746,8 +746,19 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function export()
+    public function export($month)
     {
-        return Excel::download(new CustomersExport, 'customers.xlsx');
+        return Excel::download(new CustomersExport($month), 'customers.xlsx');
+    }
+
+    public function postSalesMonth($month)
+    {
+        $customers = Customer::with(['quotations' => function ($query) {
+            $query->orderBy('id', 'desc')->get();
+        }, 'quotations.contract', 'quotations.contract.post_form', 'quotations.contract.post_form.comunication_channel', 'quotations.contract.post_form.study_place', 'quotations.contract.post_form.marketing_source', 'quotations.contract.post_form.hire_factor', 'quotations.contract.post_form.contract_mode', 'quotations.contract.post_form.academic_situation', 'quotations.contract.post_form.professional_status', 'quotations.contract.post_form.participation', 'province'])->where('password', '!=', null)->whereHas('quotations.contract', function ($q) use ($month) {
+            $q->where('registration_date', 'like', '%' . $month . '%');
+        })->orderBy('updated_at', 'desc')->get();
+
+        return response()->json($customers);
     }
 }

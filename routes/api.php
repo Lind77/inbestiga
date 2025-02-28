@@ -1455,11 +1455,16 @@ Route::get('/selects-info', [CustomerController::class, 'selectsInfo']);
  */
 Route::post('/form-sales-posts', [CustomerController::class, 'registerPostsales']);
 /**
+ * Almacena la información del form de postventas por mes.
+ * 
+ */
+Route::get('/post-sales-month/{month}', [CustomerController::class, 'postSalesMonth']);
+/**
  * Exporta la informacion de postventas en un archivo XLSX.
  * 
  */
 
-Route::get('/export-post-sales', [CustomerController::class, 'export']);
+Route::get('/export-post-sales/{month}', [CustomerController::class, 'export']);
 
 Route::get('/acad-users', [UserController::class, 'acadUsers']);
 
