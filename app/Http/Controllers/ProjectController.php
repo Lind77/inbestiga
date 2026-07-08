@@ -108,7 +108,7 @@ class ProjectController extends Controller
             'level' => $request->get('level')
         ]);
 
-        //Traer actividades de Inbestiga por default
+        //Traer actividades de Avantage por default
         $fixedActivitiesEnterprise = FixedActivity::where('type', 0)->get();
 
         foreach ($fixedActivitiesEnterprise as $enterpriseActivity) {
@@ -365,7 +365,7 @@ class ProjectController extends Controller
         broadcast(new NewProject($project));
         /*           
 
-        //Traer actividades de Inbestiga por default
+        //Traer actividades de Avantage por default
        /*  
 
        $details = $lastQuotation->details; */

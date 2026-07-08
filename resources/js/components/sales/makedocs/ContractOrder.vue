@@ -359,7 +359,7 @@
                                 />
                             </p>
                             <p
-                                title="Si usted marca esta opción, Inbestiga ofrecerá beneficios."
+                                title="Si usted marca esta opción, Avantage ofrecerá beneficios."
                             >
                                 5to art.(Considerar Entregas)
                                 <input

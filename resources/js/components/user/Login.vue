@@ -2,7 +2,7 @@
     <div class="bg-login-user">
         <div class="container glass">
             <img
-                src="https://inbestiga.com/inbestiga/public/img/ib_newlogo.png"
+                src="https://avantage.com/avantage/public/img/ib_newlogo.png"
                 alt="Logo"
                 class="w-25"
             />
@@ -105,7 +105,7 @@ label {
 }
 
 .bg-login-user {
-    background-image: url("/inbestiga/public/img/loginUser.jpg");
+    background-image: url("/avantage/public/img/loginUser.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

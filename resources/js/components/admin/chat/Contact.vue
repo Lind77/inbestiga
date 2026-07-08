@@ -8,7 +8,7 @@
             <template v-if="message.emisor.images[0]">
                 <img
                     :src="
-                        'https://inbestiga.com/inbestiga/public/files/' +
+                        'https://avantage.com/avantage/public/files/' +
                         message.emisor.images[0].url
                     "
                     class="rounded-circle ms-2"

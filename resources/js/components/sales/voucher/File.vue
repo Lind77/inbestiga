@@ -2,7 +2,7 @@
     <div class="voucher">
         <div class="row voucher-header">
             <img
-                src="https://inbestiga.com/inbestiga/public/img/voucher/header_boleta.png"
+                src="https://avantage.com/avantage/public/img/voucher/header_boleta.png"
                 alt=""
                 srcset=""
             />
@@ -83,7 +83,7 @@
         </div>
         <footer class="footer">
             <img
-                src="https://inbestiga.com/inbestiga/public/img/voucher/footer_boleta.png"
+                src="https://avantage.com/avantage/public/img/voucher/footer_boleta.png"
                 class="w-100"
             />
         </footer>

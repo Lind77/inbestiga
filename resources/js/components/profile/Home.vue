@@ -2,11 +2,11 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card mb-4">
             <div class="user-profile-header-banner">
-                <img src="https://inbestiga.com/myprofile.jpg" alt="Banner image" class="rounded-top w-100">
+                <img src="https://avantage.com/myprofile.jpg" alt="Banner image" class="rounded-top w-100">
             </div>
             <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                 <div class="flex-shrink-0 mt-n5 mx-sm-0 mx-auto">
-                    <img :src="'/inbestiga/public/files/' + user.images[0].url" alt="user image"
+                    <img :src="'/avantage/public/files/' + user.images[0].url" alt="user image"
                         style="width: 180px; height: 180px !important; object-fit:cover;"
                         class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img mb-5 cursor-pointer"
                         @click="updatePhoto" v-if="user.images && user.images[0]">

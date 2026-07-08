@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-2">
                         <img
-                            src="https://inbestiga.com/inbestiga/public/files/1709671609.png"
+                            src="https://avantage.com/avantage/public/files/1709671609.png"
                             class="w-100 rounded"
                         />
                     </div>

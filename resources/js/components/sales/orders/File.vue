@@ -8,7 +8,7 @@
                 <div class="col-4">
                     <p class="header-text">Prol. Cuzco 921 Huancayo.</p>
                     <p class="header-text">Elías Aguirre N° 180 - 3er Piso - Miraflores - Lima</p>
-                    <p class="header-text">www.inbestiga.com</p>
+                    <p class="header-text">www.avantage.com</p>
                     <p class="header-text">991 045 555</p>
                 </div>
                 <div class="col-4 d-flex justify-align-center align-items-center">
@@ -180,7 +180,7 @@
                 </p>
             </footer>
         </section>
-        <!-- <img src="https://inbestiga.com/pdf-sys/watermark_order.png" class="watermark"> -->
+        <!-- <img src="https://avantage.com/pdf-sys/watermark_order.png" class="watermark"> -->
     </div>
 </template>
 <script>

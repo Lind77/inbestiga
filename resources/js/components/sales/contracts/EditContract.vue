@@ -56,7 +56,7 @@
                                             </g>
                                         </svg>
                                     </span>
-                                    <span class="app-brand-text demo text-body fw-bolder">Inbestiga</span>
+                                    <span class="app-brand-text demo text-body fw-bolder">Avantage</span>
                                 </div>
                                 <p class="mb-1">Prolongación Cuzco 921 – Huancayo.</p>
                                 <p class="mb-1">Calle Elías Aguirre 180 Piso 03 – Miraflores.</p>
@@ -268,7 +268,7 @@
                         </button>
 
                         <a v-if="idContract != 0 && typeDocument == 2"
-                            :href="`https://sistema.inbestiga.com/public/api/generateContract/${customer.id}`"
+                            :href="`https://sistema.avantage.com/public/api/generateContract/${customer.id}`"
                             target="_blank" class="btn btn-primary d-grid w-100 mb-3">Contrato</a>
                     </div>
                 </div>

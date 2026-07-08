@@ -49,7 +49,7 @@ export default {
       const options = {
         method: 'GET',
         url: 'https://auth.calendly.com/oauth/authorize',
-        params: { client_id: 'riuyagami', response_type: 'code', redirect_uri: 'http://localhost/inbestiga/public/sales/calendars' }
+        params: { client_id: 'riuyagami', response_type: 'code', redirect_uri: 'http://localhost/avantage/public/sales/calendars' }
       };
 
       try {

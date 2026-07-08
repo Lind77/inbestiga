@@ -15,7 +15,7 @@
                 <tr v-for="project in projects">
                     <td>
                         <img
-                            src="https://inbestiga.com/inbestiga/public/files/1709671609.png"
+                            src="https://avantage.com/avantage/public/files/1709671609.png"
                             class="rounded"
                             width="50"
                             @click="toProject(project.id)"

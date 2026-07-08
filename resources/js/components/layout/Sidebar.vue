@@ -10,7 +10,7 @@
             <a href="#" class="app-brand-link">
                 <span
                     class="app-brand-text demo menu-text fw-bolder ms-2 text-white"
-                    >Inbestiga
+                    >Avantage
                 </span>
             </a>
             <a
@@ -141,7 +141,7 @@
       <router-link :to="{ name: 'home-collabs' }" class="menu-item">
         <div class="menu-link">
           <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Form Layouts">Inbestigadores</div>
+          <div data-i18n="Form Layouts">Avantagedores</div>
         </div>
       </router-link>
       <router-link :to="{ name: 'home-teams' }" class="menu-item">

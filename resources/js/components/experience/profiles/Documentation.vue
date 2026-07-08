@@ -4,7 +4,7 @@
             <div class="card mb-2 p-2">
                 <div class="user-profile-header-banner">
                     <img
-                        src="https://inbestiga.com/ficha_proyecto.jpg"
+                        src="https://avantage.com/ficha_proyecto.jpg"
                         alt="Banner image"
                         class="rounded w-100"
                     />
@@ -276,7 +276,7 @@ export default {
             var imageUrl = voucher.images[0].url;
 
             window.open(
-                "https://inbestiga.com/inbestiga/public/files/" + imageUrl
+                "https://avantage.com/avantage/public/files/" + imageUrl
             );
         },
         updateCustomer(customer) {

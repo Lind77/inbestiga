@@ -55,7 +55,7 @@ export default {
             var imageUrl = voucher.images[0].url;
 
             window.open(
-                "https://inbestiga.com/inbestiga/public/files/" + imageUrl
+                "https://avantage.com/avantage/public/files/" + imageUrl
             );
         },
     },

@@ -2,7 +2,7 @@
     <div class="col">
         <div class="card mb-3 bg-success">
             <div class="card-header">
-                <img src="https://inbestiga.com/wp-content/uploads/2023/10/cropped-logo-Inbestiga.png" class="rounded"
+                <img src="https://avantage.com/wp-content/uploads/2023/10/cropped-logo-Avantage.png" class="rounded"
                     width="30">
                 <i class="bx bx-info-circle text-danger" title="No se ha rellenado la ficha"
                     v-if="project.projectable && project.projectable.properties.length == 0"></i>

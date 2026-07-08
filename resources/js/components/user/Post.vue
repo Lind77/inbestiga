@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex align-items-center">
         <img
-            src="https://inbestiga.com/inbestiga/public/img/circle-card.png"
+            src="https://avantage.com/avantage/public/img/circle-card.png"
             alt="Avatar"
             class="rounded-circle"
         />
@@ -34,7 +34,7 @@ export default {
             return moment(date).format("DD/MM/YYYY HH:mm:ss a");
         },
         downloadFile(url) {
-            window.open("https://inbestiga.com/inbestiga/public/files/" + url);
+            window.open("https://avantage.com/avantage/public/files/" + url);
         },
     },
 };

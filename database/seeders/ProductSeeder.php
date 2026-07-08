@@ -16,8 +16,8 @@ class ProductSeeder extends Seeder
     public function run()
     {
         DB::table('products')->insert([
-            'title' => 'Inbestiga',
-            'description' => 'Inbestiga is the best product ever created.',
+            'title' => 'Avantage',
+            'description' => 'Avantage is the best product ever created.',
             'term' => '0',
             'amount' => 0,
             'type' => 1

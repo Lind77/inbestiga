@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="main d-flex justify-content-center flex-column mt-5">
             <img
-                src="https://inbestiga.com/inbestiga/public/img/ib_newlogo.png"
+                src="https://avantage.com/avantage/public/img/ib_newlogo.png"
                 class="main-logo mb-5 mx-auto"
             />
             <h2 class="main-text text-white text-center mt-5">
@@ -33,10 +33,10 @@
             </div>
 
             <p class="sub-text text-white text-center mx-auto">
-                En Inbestiga, sabemos que tu tesis es el siguiente gran paso
+                En Avantage, sabemos que tu tesis es el siguiente gran paso
                 hacia tu éxito profesional. Te acompañamos con asesores expertos
                 y herramientas diseñadas para que avances con confianza hacia
-                tus metas. ¡Bienvenido a tu viaje con Inbestiga!
+                tus metas. ¡Bienvenido a tu viaje con Avantage!
             </p>
 
             <!-- <h2 class="sub-text text-white text-center mt-5 mb-5">

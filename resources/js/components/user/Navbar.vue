@@ -24,7 +24,7 @@
                         <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-md me-4">
                                 <img
-                                    src="https://inbestiga.com/inbestiga/public/files/1709671609.png"
+                                    src="https://avantage.com/avantage/public/files/1709671609.png"
                                     alt="Avatar"
                                     class="rounded-circle"
                                 />

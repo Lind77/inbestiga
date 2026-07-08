@@ -84,7 +84,7 @@ export default {
                 admin: "Administración",
                 sales: "Ventas",
                 acad: "Académico",
-                experience: "Experiencia del Inbestigador",
+                experience: "Experiencia del Avantagedor",
             },
             userSelected: {},
         };

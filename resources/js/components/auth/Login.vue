@@ -56,12 +56,12 @@
                                         </g>
                                     </svg>
                                 </span>
-                                <span class="app-brand-text demo text-body fw-bolder">Inbestiga 2024 v.1</span>
+                                <span class="app-brand-text demo text-body fw-bolder">Avantage 2024 v.1</span>
                             </a>
                         </div>
                         <!-- /Logo -->
                         <h4 class="mb-2">
-                            Welcome to Inbestiga!
+                            Welcome to Avantage!
                             <img src="https://jairpl.com/mario/pngegg.png" width="50px" alt="star" />
                         </h4>
 

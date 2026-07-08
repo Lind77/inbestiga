@@ -3,7 +3,7 @@
         <aside class="col-2 vh-100 px-4 pt-3 position-fixed" v-if="hidden">
             <div class="d-flex align-items-center">
                 <img
-                    src="https://inbestiga.com/inbestiga/public/img/ib_newlogo.png"
+                    src="https://avantage.com/avantage/public/img/ib_newlogo.png"
                     class="main-logo mb-3 w-100"
                 />
             </div>
@@ -30,7 +30,7 @@
             <div class="d-flex w-100 flex-column justify-content-center">
                 <div class="d-flex justify-content-center">
                     <img
-                        src="https://inbestiga.com/inbestiga/public/img/logo_nobg.png"
+                        src="https://avantage.com/avantage/public/img/logo_nobg.png"
                         class="sidebar-little-logo"
                     />
                 </div>

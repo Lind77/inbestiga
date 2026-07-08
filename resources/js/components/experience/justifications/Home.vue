@@ -35,7 +35,7 @@ export default {
     methods: {
         toFile(file) {
             window.open(
-                "https://inbestiga.com/inbestiga/public/files/" + file.url
+                "https://avantage.com/avantage/public/files/" + file.url
             );
         },
         getJustifications() {

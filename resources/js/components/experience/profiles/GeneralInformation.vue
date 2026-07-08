@@ -37,7 +37,7 @@
                             <td>
                                 {{
                                     quotation.contract.third_article_place == 0
-                                        ? "Inbestiga"
+                                        ? "Avantage"
                                         : "Usuario"
                                 }}
                             </td>
@@ -50,7 +50,7 @@
                             <td>
                                 {{
                                     quotation.contract.third_article == 0
-                                        ? "Inbestiga"
+                                        ? "Avantage"
                                         : "Usuario"
                                 }}
                             </td>
@@ -62,7 +62,7 @@
                             <td>
                                 {{
                                     quotation.contract.ppts == 0
-                                        ? "Inbestiga"
+                                        ? "Avantage"
                                         : "Usuario"
                                 }}
                             </td>
