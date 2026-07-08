@@ -20,7 +20,7 @@
                                         <div class="flex-shrink-0 me-3">
                                             <div class="avatar avatar-md me-4">
                                                 <img
-                                                    src="https://inbestiga.com/inbestiga/public/files/1709671609.png"
+                                                    src="https://avantage.com/avantage/public/files/1709671609.png"
                                                     alt="Avatar"
                                                     class="rounded-circle"
                                                 />
@@ -223,7 +223,7 @@ export default {
 .bg-user {
     width: 100%;
     height: 120vh;
-    background-image: url("https://inbestiga.com/inbestiga/public/img/cuadros.png"),
+    background-image: url("https://avantage.com/avantage/public/img/cuadros.png"),
         linear-gradient(
             67deg,
             rgba(38, 20, 38, 1) 19%,

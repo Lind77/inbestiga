@@ -51,7 +51,7 @@ export default {
             var fileUrl = file.files[0].url;
 
             window.open(
-                "https://inbestiga.com/inbestiga/public/files/" + fileUrl
+                "https://avantage.com/avantage/public/files/" + fileUrl
             );
         },
         formatDate(date) {

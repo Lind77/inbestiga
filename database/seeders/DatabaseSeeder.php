@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
 
         $user3 = \App\Models\User::factory()->create([
         'name' => 'Eduardo',
-        'email' => 'edu@inbestiga.com',
+        'email' => 'edu@avantage.com',
         'password' => '$2a$12$S.H8l6XSNTc/tSAzJUcZz.T1Fvn7p.b8.b9SyQO5A1gfR5T8ZsKqK' //hola
         ])->assignRole('AdminAcad');
 
@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory()->create([
         'name' => 'Anto',
-        'email' => 'anto@inbestiga.com',
+        'email' => 'anto@avantage.com',
         'password' => '$2a$12$S.H8l6XSNTc/tSAzJUcZz.T1Fvn7p.b8.b9SyQO5A1gfR5T8ZsKqK'
         ])->assignRole('Acad');
         

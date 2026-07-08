@@ -353,7 +353,7 @@ export default {
                 if (newStatus == 11) {
                     this.$emit('updateStatusSpace', this.quotation.id, 11)
                     $('#funnelModal').modal('hide')
-                    this.$swal('Felicidades!, ha conseguido un nuevo proyecto para Inbestiga!!')
+                    this.$swal('Felicidades!, ha conseguido un nuevo proyecto para Avantage!!')
                 } else {
                     this.$emit('updateStatusSpace', this.quotation.id, newStatus)
                 }

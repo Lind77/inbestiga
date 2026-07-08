@@ -50,7 +50,7 @@
                     </div>
                     <!--  <Card
                         :text="video.text"
-                        :imageUrl="'https://inbestiga.com/inbestiga/public/img/video-layers/2.png'"
+                        :imageUrl="'https://avantage.com/avantage/public/img/video-layers/2.png'"
                         
                     /> -->
                     <!--  <div class="card glass p-4 my-2 cursor-pointer">
@@ -98,105 +98,105 @@ export default {
             videoList: [
                 {
                     id: 1,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/2.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/2.png",
                     srcVideo: "https://player.vimeo.com/video/1015724185",
                     text: "¿Qué beneficios tengo al usar el aula virtual?",
                     type: 1,
                 },
                 {
                     id: 2,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/3.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/3.png",
                     srcVideo: "https://player.vimeo.com/video/1015724224",
                     text: "¿Qué sucede si mi asesor universitario rechaza el tema propuesto?",
                     type: 1,
                 },
                 {
                     id: 3,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/4.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/4.png",
                     srcVideo: "https://player.vimeo.com/video/1015723450",
                     text: "¿Hasta cuándo me ayudarán con las observaciones?",
                     type: 1,
                 },
                 {
                     id: 4,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/5.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/5.png",
                     srcVideo: "https://player.vimeo.com/video/1015724151",
                     text: "¿Qué recursos me brindan para ayudarme en la defensa de mi tesis?",
                     type: 1,
                 },
                 {
                     id: 5,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/6.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/6.png",
                     srcVideo: "https://player.vimeo.com/video/1015723836",
                     text: "¿Cuándo se agenda la primera reunión y por qué es importante?",
                     type: 2,
                 },
                 {
                     id: 6,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/7.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/7.png",
                     srcVideo: "https://player.vimeo.com/video/1015724016",
                     text: "¿Cómo puedo conocer el progreso de mi proyecto y recibir los documentos?",
                     type: 2,
                 },
                 {
                     id: 7,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/8.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/8.png",
                     srcVideo: "https://player.vimeo.com/video/1015724063",
                     text: "¿Cuánto tiempo tardan el levantar una observación?",
                     type: 2,
                 },
                 {
                     id: 8,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/9.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/9.png",
                     srcVideo: "https://player.vimeo.com/video/1015724105",
                     text: "¿Qué debo hacer después de que mis jurados aprueben mi tesis?",
                     type: 2,
                 },
                 {
                     id: 9,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/10.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/10.png",
                     srcVideo: "https://player.vimeo.com/video/1015723802",
                     text: "¿Puedo elegir si mis reuniones serán presenciales o virtuales?",
                     type: 3,
                 },
                 {
                     id: 10,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/11.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/11.png",
                     srcVideo: "https://player.vimeo.com/video/1015723761",
                     text: "¿Cómo puedo resolver mis dudas sobre mi proyecto?",
                     type: 3,
                 },
                 {
                     id: 11,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/12.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/12.png",
                     srcVideo: "https://player.vimeo.com/video/1015723725",
                     text: "¿Es posible realizar mi pago personalmente en la oficina?",
                     type: 4,
                 },
                 {
                     id: 12,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/13.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/13.png",
                     srcVideo: "https://player.vimeo.com/video/1015723641",
                     text: "¿Es posible revisar mi proyecto antes de realizar el pago?",
                     type: 4,
                 },
                 {
                     id: 13,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/14.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/14.png",
                     srcVideo: "https://player.vimeo.com/video/1015723685",
                     text: "¿Hasta cuándo es el acompañamiento una vez realizado el último pago?",
                     type: 4,
                 },
                 {
                     id: 14,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/15.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/15.png",
                     srcVideo: "https://player.vimeo.com/video/1015723541",
                     text: "¿Cuál es mi compromiso como usuario durante el proceso?",
                     type: 5,
                 },
                 {
                     id: 15,
-                    imgUrl: "https://inbestiga.com/inbestiga/public/img/video-layers/16.png",
+                    imgUrl: "https://avantage.com/avantage/public/img/video-layers/16.png",
                     srcVideo: "https://player.vimeo.com/video/1015723597",
                     text: "¿Qué actitud debo tener si surgen obstáculos?",
                     type: 5,

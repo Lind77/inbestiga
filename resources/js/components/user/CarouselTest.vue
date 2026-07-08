@@ -82,79 +82,79 @@ export default {
             cards: [
                 {
                     imageUrl:
-                        "https://inbestiga.com/inbestiga/public/img/1.png",
+                        "https://avantage.com/avantage/public/img/1.png",
                     text: "Bienvenida",
                     link: "https://www.youtube.com/embed/P3H5DwGXUh8",
                 },
                 {
                     imageUrl:
-                        "https://inbestiga.com/inbestiga/public/img/2.png",
+                        "https://avantage.com/avantage/public/img/2.png",
                     text: "Conoce el Aula virtual",
                     link: "https://www.youtube.com/embed/6Me92Ga7SfI",
                 },
                 {
                     imageUrl:
-                        "https://inbestiga.com/inbestiga/public/img/3.png",
+                        "https://avantage.com/avantage/public/img/3.png",
                     text: "Lee con atención tu contrato",
                     link: "https://www.youtube.com/embed/_kmmTqjIOtQ",
                 },
                 {
                     imageUrl:
-                        "https://inbestiga.com/inbestiga/public/img/4.png",
+                        "https://avantage.com/avantage/public/img/4.png",
                     text: "Horario de atención",
                     link: "https://www.youtube.com/embed/fff_oGT3wvg",
                 },
                 {
                     imageUrl:
-                        "https://inbestiga.com/inbestiga/public/img/5.png",
+                        "https://avantage.com/avantage/public/img/5.png",
                     text: "Acerca de las reuniones",
                     link: "https://www.youtube.com/embed/O1h-PK20vcM",
                 },
                 {
                     imageUrl:
-                        "https://inbestiga.com/inbestiga/public/img/6.png",
+                        "https://avantage.com/avantage/public/img/6.png",
                     text: "Acerca de los archivos requeridos",
                     link: "https://www.youtube.com/embed/dOHOa2XGJ4M",
                 },
                 {
                     imageUrl:
-                        "https://inbestiga.com/inbestiga/public/img/7.png",
+                        "https://avantage.com/avantage/public/img/7.png",
                     text: "Descargar archivos",
                     link: "https://www.youtube.com/embed/TF_TKaFo8NM",
                 },
                 {
                     imageUrl:
-                        "https://inbestiga.com/inbestiga/public/img/8.png",
+                        "https://avantage.com/avantage/public/img/8.png",
                     text: "⁠Validación de pagos para descargas",
                     link: "https://www.youtube.com/embed/zPGjQkIJ_M0",
                 },
                 {
                     imageUrl:
-                        "https://inbestiga.com/inbestiga/public/img/9.png",
+                        "https://avantage.com/avantage/public/img/9.png",
                     text: "⁠Plazo de levantamiento de observaciones",
                     link: "https://www.youtube.com/embed/upDmBlrd1is",
                 },
                 {
                     imageUrl:
-                        "https://inbestiga.com/inbestiga/public/img/10.png",
+                        "https://avantage.com/avantage/public/img/10.png",
                     text: "Si necesitas tus observaciones en menos tiempo",
                     link: "https://www.youtube.com/embed/758Y_RGou7Y",
                 },
                 {
                     imageUrl:
-                        "https://inbestiga.com/inbestiga/public/img/11.png",
+                        "https://avantage.com/avantage/public/img/11.png",
                     text: "Observaciones de revisores universitarios",
                     link: "https://www.youtube.com/embed/42eepglyqGI",
                 },
                 {
                     imageUrl:
-                        "https://inbestiga.com/inbestiga/public/img/12.png",
+                        "https://avantage.com/avantage/public/img/12.png",
                     text: "Informe de levantamiento de observaciones",
                     link: "https://www.youtube.com/embed/uN6UrUNGwk0",
                 },
                 {
                     imageUrl:
-                        "https://inbestiga.com/inbestiga/public/img/13.png",
+                        "https://avantage.com/avantage/public/img/13.png",
                     text: "Sugerencia antes de reunirte con tu asesor",
                     link: "https://www.youtube.com/embed/DR9ZJ53uqO8",
                 },

@@ -23,7 +23,7 @@
                         </p>
                         <ul>
                             <li style="text-align: justify">
-                                INBESTIGA SOCIEDAD ANÓNIMA CERRADA, empresa identificada
+                                AVANTAGE SOCIEDAD ANÓNIMA CERRADA, empresa identificada
                                 con RUC No. 20609545535, con domicilio para estos
                                 efectos en Calle Mártir José Olaya 169º Oficina 505,
                                 distrito de Miraflores y provincia de Lima; a quien en
@@ -299,7 +299,7 @@
                             <div class="col-6">
                                 
                                     <div class="d-flex flex-column align-items-center">
-                                        <img src="https://inbestiga.com/inbestiga/public/img/contract/firmaBere.jpg" width="200">
+                                        <img src="https://avantage.com/avantage/public/img/contract/firmaBere.jpg" width="200">
                                         <p class="mb-0">__________________________</p>
                                         <p class="mb-0">EL LOCADOR</p>
                                         <p class="mb-0">Representante Legal</p>
@@ -330,11 +330,11 @@
     </tfoot>
     </table>
     <div class="header"> 
-        <img src="https://inbestiga.com/inbestiga/public/img/contract/contractHeader.png" class="w-100" />
+        <img src="https://avantage.com/avantage/public/img/contract/contractHeader.png" class="w-100" />
     </div>
     <div class="footer">
         <img
-                    src="https://inbestiga.com/inbestiga/public/img/contract/contractFooter.png"
+                    src="https://avantage.com/avantage/public/img/contract/contractFooter.png"
                     class="w-100"
                 />
     </div>

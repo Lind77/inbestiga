@@ -13,7 +13,7 @@
     </div>
     <div class="col-4 d-flex justify-content-center">
         <img
-            src="https://inbestiga.com/inbestiga/public/img/contract_ipad.png"
+            src="https://avantage.com/avantage/public/img/contract_ipad.png"
         />
     </div>
 </template>

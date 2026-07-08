@@ -69,7 +69,7 @@ export default {
 }
 
 .card:hover .background-overlay {
-    background-image: url("https://inbestiga.com/inbestiga/public/img/user/project.png");
+    background-image: url("https://avantage.com/avantage/public/img/user/project.png");
     background-size: cover;
     background-position: center;
     filter: brightness(30%); /* Elimina el filtro en hover si lo deseas */

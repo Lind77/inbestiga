@@ -35,7 +35,7 @@ class SendEmail extends Command
         Mail::raw('Estimado usuario se le recuerda porfavor completar los datos necesario, para empezar el proceso de Investigación', function ($message) use ($customers) {
             foreach ($customers as $customer) {
                 $message->to($customer->email)
-                    ->subject('Notificación Inbestiga Tesis');
+                    ->subject('Notificación Avantage Tesis');
             }
         });
 

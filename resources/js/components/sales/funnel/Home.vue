@@ -482,7 +482,7 @@ export default {
                 .post("/api/update-quotation-status", fd)
                 .then((res) => {
                     this.$swal(
-                        "Felicidades!, ha conseguido un nuevo proyecto para Inbestiga!!"
+                        "Felicidades!, ha conseguido un nuevo proyecto para Avantage!!"
                     );
                 })
                 .catch((err) => {
@@ -613,7 +613,7 @@ export default {
                 .then((res) => {
                     console.log(res);
                     this.$swal(
-                        "Felicidades!, ha conseguido un nuevo cliente para Inbestiga!!"
+                        "Felicidades!, ha conseguido un nuevo cliente para Avantage!!"
                     );
                 })
                 .catch((err) => {

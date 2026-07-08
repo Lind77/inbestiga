@@ -1,9 +1,9 @@
 <template>
     <div class="content">
         <div class="card-body">
-            <img src="https://inbestiga.com/pdf-sys/logo-blanco.png" class="logo">
+            <img src="https://avantage.com/pdf-sys/logo-blanco.png" class="logo">
             <div class="middle">
-                <img src="https://inbestiga.com/pdf-sys/e-card.png" class="resource w-75">
+                <img src="https://avantage.com/pdf-sys/e-card.png" class="resource w-75">
                 <p class="code w-50">B{{this.month}}{{ this.year }} - 000{{ this.$route.params.id }}</p>
             </div>
             <div class="name">{{ user? user.name : '' }}</div>
@@ -12,7 +12,7 @@
                     <p>Atención al Cliente</p>
                     <p>998 332 767</p>
                 </div>
-                <p class="web">WWW.INBESTIGA.COM</p>
+                <p class="web">WWW.AVANTAGE.COM</p>
             </div>
         </div>
     </div>

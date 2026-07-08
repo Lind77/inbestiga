@@ -56,7 +56,7 @@
                                             </g>
                                         </svg>
                                     </span>
-                                    <span class="app-brand-text demo text-body fw-bolder">Inbestiga</span>
+                                    <span class="app-brand-text demo text-body fw-bolder">Avantage</span>
                                 </div>
                                 <p class="mb-1">Prolongación Cuzco 921 – Huancayo.</p>
                                 <p class="mb-1">Calle Elías Aguirre 180 Piso 03 – Miraflores.</p>

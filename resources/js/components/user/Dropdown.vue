@@ -7,7 +7,7 @@
         </li>
         <li>
             <a class="dropdown-item cursor-pointer" @click="toExperienceUser">
-                <span class="align-middle">Mi viaje con Inbestiga</span>
+                <span class="align-middle">Mi viaje con Avantage</span>
             </a>
         </li>
         <li>

@@ -356,7 +356,7 @@ export default {
         downloadExcel() {
             window
                 .open(
-                    "/inbestiga/public/api/export-post-sales/" +
+                    "/avantage/public/api/export-post-sales/" +
                         this.monthWithoutFormat
                 )
                 .focus();

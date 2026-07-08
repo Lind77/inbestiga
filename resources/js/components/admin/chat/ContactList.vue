@@ -24,7 +24,7 @@
                             <div class="avatar">
                                 <img
                                     :src="
-                                        'https://inbestiga.com/inbestiga/public/files/' +
+                                        'https://avantage.com/avantage/public/files/' +
                                         message.emisor.images[0].url
                                     "
                                     class="w-px-50 h-px-50 rounded-circle"
@@ -79,7 +79,7 @@
                             <div class="avatar">
                                 <img
                                     :src="
-                                        '/../inbestiga/public/files/' +
+                                        '/../avantage/public/files/' +
                                         contact.images[0].url
                                     "
                                     class="w-px-40 h-px-40 rounded-circle"

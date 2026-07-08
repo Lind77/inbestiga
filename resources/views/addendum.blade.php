@@ -140,11 +140,11 @@
     <body>
         <!-- Define header and footer blocks before your content -->
         <header>
-            <img src="https://inbestiga.com/inbestiga/public/img/contract/contractHeader.png" alt="">
+            <img src="https://avantage.com/avantage/public/img/contract/contractHeader.png" alt="">
         </header>
 
         <footer>
-            <img src="https://inbestiga.com/inbestiga/public/img/contract/contractFooter.png" alt="">
+            <img src="https://avantage.com/avantage/public/img/contract/contractFooter.png" alt="">
         </footer>
 
             <img src="" alt="">
@@ -209,7 +209,7 @@
                 <p style="margin-top: -50px;">Las partes declaran haber leído la adenda del contrato, por lo que conocen y aceptan todas las cláusulas en su integridad, ambos firman el {{strftime('%d de %B de %Y',strtotime($addendum->date))}}. </p>
                 <div class="signatures">
                     <div class="col-signature">
-                        <img src="https://inbestiga.com/inbestiga/public/img/contract/firmaBere.jpg" width="200">
+                        <img src="https://avantage.com/avantage/public/img/contract/firmaBere.jpg" width="200">
                         <div class="locator">
                             <p>__________________________</p>
                             <p>EL LOCADOR</p>

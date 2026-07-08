@@ -53,7 +53,7 @@ export default {
                 });
         },
         downloadFile(url) {
-            window.open("https://inbestiga.com/inbestiga/public/files/" + url);
+            window.open("https://avantage.com/avantage/public/files/" + url);
         },
     },
 };

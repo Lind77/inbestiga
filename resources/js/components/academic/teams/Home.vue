@@ -6,7 +6,7 @@
             @keyup.enter="insertTeam" />
         <div class="row">
             <div class="col-lg-4">
-                <input type="text" placeholder="Buscar inbestigador..." class="form-control">
+                <input type="text" placeholder="Buscar avantagedor..." class="form-control">
                 <button class="btn btn-info btn-sm my-1 w-50" draggable="true" @dragover.prevent @drop.stop.prevent
                     @dragstart="drag" :id="`${user.id}`" v-for="user in  acadUsers ">{{ user.name
                     }}</button>

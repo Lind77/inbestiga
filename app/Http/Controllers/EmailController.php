@@ -24,7 +24,7 @@ class EmailController extends Controller
     public function sendWelcomeEmail(Request $request)
     {
         $body = $request->get('content');
-        $subject = 'Desde el Sistema de INBESTIGA!';
+        $subject = 'Desde el Sistema de AVANTAGE!';
 
         Mail::to($request->get('email'))->send(new WelcomeMail($subject, $body));
 

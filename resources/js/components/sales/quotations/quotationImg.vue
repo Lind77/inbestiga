@@ -4,12 +4,12 @@
             <nav class="navbar navbar-dark bg-purple">
                 <div class="row w-100 px-4 py-1">
                     <div class="col-6 d-flex align-items-center justify-content-center">
-                        <img src="https://inbestiga.com/pdf-sys/logo.png" alt="" class="main-logo">
+                        <img src="https://avantage.com/pdf-sys/logo.png" alt="" class="main-logo">
                     </div>
                     <div class="col-6">
                         <p class="header-text">Prol. Cuzco 921 Huancayo.</p>
                         <p class="header-text">Elías Aguirre N° 180 - 3er Piso - Miraflores - Lima</p>
-                        <p class="header-text">www.inbestiga.com</p>
+                        <p class="header-text">www.avantage.com</p>
                         <p class="header-text">991 045 555</p>
                     </div>
                 </div>
@@ -134,7 +134,7 @@
             <section class="last">
                 <div class="row mt-3">
                     <div class="col-6 ps-5 d-flex justify-content-center align-items-center">
-                        <img src="https://inbestiga.com/pdf-sys/pig.png" class="w-25">
+                        <img src="https://avantage.com/pdf-sys/pig.png" class="w-25">
                         <p class="ps-3 pig-text">Recuerda que puedes hacer el pago en <span>CUOTAS</span>!</p>
                     </div>
                     <div class="col-6"></div>
@@ -143,7 +143,7 @@
                     <p>Gracias por brindarnos tu confianza. Contáctanos si tienes alguna duda acerca de esta cotización.</p>
                 </footer>
             </section>
-            <img src="https://inbestiga.com/pdf-sys/watermark.png" class="watermark">
+            <img src="https://avantage.com/pdf-sys/watermark.png" class="watermark">
         </div>
     </div>
 </template>

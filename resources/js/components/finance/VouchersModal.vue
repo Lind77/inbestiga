@@ -63,7 +63,7 @@ export default {
 
             if (imageUrl) {
                 window.open(
-                    "https://inbestiga.com/inbestiga/public/files/" + imageUrl
+                    "https://avantage.com/avantage/public/files/" + imageUrl
                 );
             } else {
                 this.$swal("Este voucher no contiene imagen");

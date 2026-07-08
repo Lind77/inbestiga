@@ -50,7 +50,7 @@ export default {
             return moment(date).format("DD/MM/YYYY HH:mm:ss a");
         },
         downloadFile(url) {
-            window.open("https://inbestiga.com/inbestiga/public/files/" + url);
+            window.open("https://avantage.com/avantage/public/files/" + url);
         },
         enableDownload(post) {
             axios

@@ -76,7 +76,7 @@ export default {
             if (voucher.images[0]) {
                 var imageUrl = voucher.images[0].url;
                 window.open(
-                    "https://inbestiga.com/inbestiga/public/files/" + imageUrl
+                    "https://avantage.com/avantage/public/files/" + imageUrl
                 );
             } else {
                 this.$swal("Este voucher no contiene imagen");
