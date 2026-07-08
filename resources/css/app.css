@@ -1,17 +1,17 @@
 :root {
-  --bg-dark: #0b0e14;
-  --bg-sidebar: #0f121b;
-  --bg-card: #161924;
-  --bg-card-hover: #1e2230;
+  --bg-dark: #1B1B1B;
+  --bg-sidebar: #1B1B1B;
+  --bg-card: #222222;
+  --bg-card-hover: #2a2a2a;
   
-  --text-main: #f0f2f5;
-  --text-muted: #9ba0b4;
+  --text-main: #FFFFFF;
+  --text-muted: #BFC2C7;
   
-  --accent-purple: #7451f8;
-  --accent-purple-glow: rgba(116, 81, 248, 0.4);
-  --accent-gradient: linear-gradient(135deg, #7451f8 0%, #4f34cc 100%);
+  --accent-blue: #1D5EFF;
+  --accent-blue-glow: rgba(29, 94, 255, 0.4);
+  --accent-gradient: linear-gradient(135deg, #1D5EFF 0%, #1545cc 100%);
   
-  --border-color: #262936;
+  --border-color: #555B5C;
   
   --card-radius: 16px;
 }
@@ -19,7 +19,7 @@
 body {
   background-color: var(--bg-dark) !important;
   color: var(--text-main) !important;
-  font-family: 'Public Sans', sans-serif !important;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 /* Card Overrides */
@@ -43,7 +43,7 @@ body {
 }
 .menu-vertical .menu-item.active > .menu-link {
   background: var(--accent-gradient) !important;
-  box-shadow: 0 4px 15px var(--accent-purple-glow) !important;
+  box-shadow: 0 4px 15px var(--accent-blue-glow) !important;
   border-radius: 10px;
   color: #fff !important;
   margin: 0 1rem;
@@ -68,14 +68,14 @@ body {
 .btn-primary {
   background: var(--accent-gradient) !important;
   border: none !important;
-  box-shadow: 0 4px 10px var(--accent-purple-glow) !important;
+  box-shadow: 0 4px 10px var(--accent-blue-glow) !important;
   border-radius: 8px !important;
   color: #fff !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px var(--accent-purple-glow) !important;
+  box-shadow: 0 6px 15px var(--accent-blue-glow) !important;
 }
 
 /* Inputs and Forms */
@@ -86,16 +86,22 @@ body {
   border-radius: 8px !important;
 }
 .form-control:focus, .form-select:focus {
-  border-color: var(--accent-purple) !important;
-  box-shadow: 0 0 0 0.25rem var(--accent-purple-glow) !important;
+  border-color: var(--accent-blue) !important;
+  box-shadow: 0 0 0 0.25rem var(--accent-blue-glow) !important;
 }
 .form-label {
   color: var(--text-muted) !important;
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, .title {
   color: var(--text-main) !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 700 !important;
+}
+.subtitle, .menu-header-text {
+  font-family: 'Exo 2', sans-serif !important;
+  font-weight: 600 !important;
 }
 .text-muted {
   color: var(--text-muted) !important;
