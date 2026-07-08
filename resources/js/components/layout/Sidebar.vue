@@ -2,9 +2,8 @@
     <aside
         v-if="store.authUser"
         id="layout-menu"
-        class="layout-menu menu-vertical menu text-white"
+        class="layout-menu menu-vertical menu bg-menu-theme"
         :class="{ 'hide-aside': !hidden }"
-        v-bind:class="bgColor"
     >
         <div class="app-brand demo">
             <a href="#" class="app-brand-link">
@@ -257,9 +256,5 @@ aside {
     color: #a2a3cb !important;
 }
 
-.active .menu-link {
-    background-color: #696cff;
-    color: #fff !important;
-    border-radius: 5px;
-}
+/* Removed to use global CSS */
 </style>

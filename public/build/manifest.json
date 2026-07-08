@@ -3,24 +3,24 @@
     "file": "assets/tone-alert.1a21ca07.mp3",
     "src": "public/sound/tone-alert.mp3"
   },
-  "resources/css/app.css": {
-    "file": "assets/app.7c3c19f8.js",
-    "src": "resources/css/app.css",
-    "isEntry": true
-  },
   "resources/js/app.js": {
-    "file": "assets/app.7abd3086.js",
+    "file": "assets/app.34dd80b8.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app.e6591790.css"
+      "assets/app.cf0a86d0.css"
     ],
     "assets": [
       "assets/tone-alert.1a21ca07.mp3"
     ]
   },
+  "resources/css/app.css": {
+    "file": "assets/app.4ebdf57b.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
   "resources/js/app.css": {
-    "file": "assets/app.e6591790.css",
+    "file": "assets/app.cf0a86d0.css",
     "src": "resources/js/app.css"
   }
 }

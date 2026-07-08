@@ -497,17 +497,7 @@ export default {
     display: none;
 }
 
-.dark-mode {
-    background-color: #2a2b40 !important;
-}
-
-.bg-dark {
-    background-color: #2b2c40 !important;
-}
-
-.navbar-border-dark {
-    box-shadow: 0 0 0.375rem 0.25rem rgba(0, 0, 0, 0.15) !important;
-}
+/* Removed to use global CSS */
 
 /* nav {
   position: fixed;

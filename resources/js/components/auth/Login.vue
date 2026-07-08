@@ -1,122 +1,66 @@
 <template>
-    <div class="container-xxl">
-        <div class="authentication-wrapper authentication-basic container-p-y">
-            <div class="authentication-inner">
-                <!-- Register -->
-                <div class="card">
-                    <div class="card-body">
-                        <!-- Logo -->
-                        <div class="app-brand justify-content-center">
-                            <a href="#" class="app-brand-link gap-2">
-                                <span class="app-brand-logo demo">
-                                    <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <defs>
-                                            <path
-                                                d="M13.7918663,0.358365126 L3.39788168,7.44174259 C0.566865006,9.69408886 -0.379795268,12.4788597 0.557900856,15.7960551 C0.68998853,16.2305145 1.09562888,17.7872135 3.12357076,19.2293357 C3.8146334,19.7207684 5.32369333,20.3834223 7.65075054,21.2172976 L7.59773219,21.2525164 L2.63468769,24.5493413 C0.445452254,26.3002124 0.0884951797,28.5083815 1.56381646,31.1738486 C2.83770406,32.8170431 5.20850219,33.2640127 7.09180128,32.5391577 C8.347334,32.0559211 11.4559176,30.0011079 16.4175519,26.3747182 C18.0338572,24.4997857 18.6973423,22.4544883 18.4080071,20.2388261 C17.963753,17.5346866 16.1776345,15.5799961 13.0496516,14.3747546 L10.9194936,13.4715819 L18.6192054,7.984237 L13.7918663,0.358365126 Z"
-                                                id="path-1"></path>
-                                            <path
-                                                d="M5.47320593,6.00457225 C4.05321814,8.216144 4.36334763,10.0722806 6.40359441,11.5729822 C8.61520715,12.571656 10.0999176,13.2171421 10.8577257,13.5094407 L15.5088241,14.433041 L18.6192054,7.984237 C15.5364148,3.11535317 13.9273018,0.573395879 13.7918663,0.358365126 C13.5790555,0.511491653 10.8061687,2.3935607 5.47320593,6.00457225 Z"
-                                                id="path-3"></path>
-                                            <path
-                                                d="M7.50063644,21.2294429 L12.3234468,23.3159332 C14.1688022,24.7579751 14.397098,26.4880487 13.008334,28.506154 C11.6195701,30.5242593 10.3099883,31.790241 9.07958868,32.3040991 C5.78142938,33.4346997 4.13234973,34 4.13234973,34 C4.13234973,34 2.75489982,33.0538207 2.37032616e-14,31.1614621 C-0.55822714,27.8186216 -0.55822714,26.0572515 -4.05231404e-15,25.8773518 C0.83734071,25.6075023 2.77988457,22.8248993 3.3049379,22.52991 C3.65497346,22.3332504 5.05353963,21.8997614 7.50063644,21.2294429 Z"
-                                                id="path-4"></path>
-                                            <path
-                                                d="M20.6,7.13333333 L25.6,13.8 C26.2627417,14.6836556 26.0836556,15.9372583 25.2,16.6 C24.8538077,16.8596443 24.4327404,17 24,17 L14,17 C12.8954305,17 12,16.1045695 12,15 C12,14.5672596 12.1403557,14.1461923 12.4,13.8 L17.4,7.13333333 C18.0627417,6.24967773 19.3163444,6.07059163 20.2,6.73333333 C20.3516113,6.84704183 20.4862915,6.981722 20.6,7.13333333 Z"
-                                                id="path-5"></path>
-                                        </defs>
-                                        <g id="g-app-brand" stroke="none" stroke-width="1" fill="none"
-                                            fill-rule="evenodd">
-                                            <g id="Brand-Logo" transform="translate(-27.000000, -15.000000)">
-                                                <g id="Icon" transform="translate(27.000000, 15.000000)">
-                                                    <g id="Mask" transform="translate(0.000000, 8.000000)">
-                                                        <mask id="mask-2" fill="white">
-                                                            <use xlink:href="#path-1"></use>
-                                                        </mask>
-                                                        <use fill="#696cff" xlink:href="#path-1"></use>
-                                                        <g id="Path-3" mask="url(#mask-2)">
-                                                            <use fill="#696cff" xlink:href="#path-3"></use>
-                                                            <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-3">
-                                                            </use>
-                                                        </g>
-                                                        <g id="Path-4" mask="url(#mask-2)">
-                                                            <use fill="#696cff" xlink:href="#path-4"></use>
-                                                            <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-4">
-                                                            </use>
-                                                        </g>
-                                                    </g>
-                                                    <g id="Triangle"
-                                                        transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) ">
-                                                        <use fill="#696cff" xlink:href="#path-5"></use>
-                                                        <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-5">
-                                                        </use>
-                                                    </g>
-                                                </g>
-                                            </g>
-                                        </g>
-                                    </svg>
-                                </span>
-                                <span class="app-brand-text demo text-body fw-bolder">Avantage 2024 v.1</span>
-                            </a>
-                        </div>
-                        <!-- /Logo -->
-                        <h4 class="mb-2">
-                            Welcome to Avantage!
-                            <img src="https://jairpl.com/mario/pngegg.png" width="50px" alt="star" />
-                        </h4>
-
-                        <!--  <p class="text-danger" v-text="errors.email"></p> -->
-
-                        <form id="formAuthentication" class="mb-3" v-on:submit.prevent>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Ingresa tu email</label>
-                                <input type="text" class="form-control" id="email" name="email-username"
-                                    placeholder="Ingresa tu email" v-model="email" autofocus />
-                            </div>
-                            <div class="mb-3 form-password-toggle">
-                                <div class="d-flex justify-content-between">
-                                    <label class="form-label" for="password">Password</label>
-                                    <!-- <a href="auth-forgot-password-basic.html">
-                      <small>Forgot Password?</small>
-                    </a> -->
-                                </div>
-                                <div class="input-group input-group-merge">
-                                    <input type="password" id="password" class="form-control" name="password"
-                                        v-model="password"
-                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                        aria-describedby="password" />
-                                </div>
-                            </div>
-                            <!-- <div class="mb-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="remember-me" />
-                    <label class="form-check-label" for="remember-me"> Remember Me </label>
-                  </div>
-                </div> -->
-                            <div class="mb-3">
-                                <button class="btn btn-primary d-grid w-100" type="submit" @click="login">
-                                    Ingresar
-                                </button>
-                            </div>
-                        </form>
-                        <!-- 
-              <p class="text-center">
-                <span>New on our platform?</span>
-                <a href="auth-register-basic.html">
-                  <span>Create an account</span>
-                </a>
-              </p> -->
+    <div class="login-wrapper">
+        <div class="login-container">
+            <!-- Left Side: Image Panel -->
+            <div class="image-panel">
+                <div class="brand-logo">
+                    <svg width="32" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <path d="M13.7918663,0.358365126 L3.39788168,7.44174259 C0.566865006,9.69408886 -0.379795268,12.4788597 0.557900856,15.7960551 C0.68998853,16.2305145 1.09562888,17.7872135 3.12357076,19.2293357 C3.8146334,19.7207684 5.32369333,20.3834223 7.65075054,21.2172976 L7.59773219,21.2525164 L2.63468769,24.5493413 C0.445452254,26.3002124 0.0884951797,28.5083815 1.56381646,31.1738486 C2.83770406,32.8170431 5.20850219,33.2640127 7.09180128,32.5391577 C8.347334,32.0559211 11.4559176,30.0011079 16.4175519,26.3747182 C18.0338572,24.4997857 18.6973423,22.4544883 18.4080071,20.2388261 C17.963753,17.5346866 16.1776345,15.5799961 13.0496516,14.3747546 L10.9194936,13.4715819 L18.6192054,7.984237 L13.7918663,0.358365126 Z" id="path-1"></path>
+                        </defs>
+                        <use fill="#BFC2C7" xlink:href="#path-1"></use>
+                    </svg>
+                    <span class="ms-2 fw-bold fs-4 logo-text">AVANTAGE <span class="fw-normal" style="font-size: 0.6em; letter-spacing: 2px;">GROUP</span></span>
+                </div>
+                <div class="image-overlay">
+                    <div class="overlay-text">
+                        <h2 class="font-montserrat">Impulsamos el<br>conocimiento.<br>Creamos el futuro.</h2>
+                        <p class="font-poppins text-muted-brand mt-3">Desarrollamos soluciones inteligentes a través de la investigación, la tecnología y el marketing digital.</p>
                     </div>
                 </div>
-                <!-- /Register -->
+            </div>
+
+            <!-- Right Side: Form Panel -->
+            <div class="form-panel">
+                <div class="form-content">
+                    <h1 class="title font-montserrat">Iniciar Sesión</h1>
+                    <p class="subtitle font-exo text-muted-brand">Accede a tu panel de control Avantage.</p>
+
+                    <form @submit.prevent="login">
+                        
+                        <div class="input-group-custom mb-3 mt-4">
+                            <label for="email" class="custom-label font-poppins">
+                                Email
+                            </label>
+                            <input type="email" id="email" class="custom-input font-poppins" v-model="email" placeholder="ejemplo@avantage.com" required autofocus />
+                        </div>
+
+                        <div class="input-group-custom mb-5">
+                            <label for="password" class="custom-label font-poppins">
+                                Contraseña
+                            </label>
+                            <input type="password" id="password" class="custom-input font-poppins" v-model="password" placeholder="••••••••" required />
+                        </div>
+
+                        <button type="submit" class="custom-btn font-montserrat">
+                            Ingresar
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="form-footer font-poppins text-muted-brand">
+                    <small>RESEARCH • TECHNOLOGY • INNOVATION • GROWTH</small>
+                </div>
             </div>
         </div>
     </div>
 </template>
+
 <script>
 import { userStore } from "../../stores/UserStore.js";
 import { showLoader } from "../../utils/Loader.js";
 import { closeLoader } from "../../utils/CloseLoader.js";
+
 export default {
     data() {
         return {
@@ -144,7 +88,6 @@ export default {
                     localStorage.setItem("token", res.data.token);
                     this.store.setUser(res.data.user);
                     this.$router.push({ path: "/home" });
-                    //this.$router.push({ path: `${res.data.area.name}/home` })
                     closeLoader();
                 })
                 .catch((err) => {
@@ -156,8 +99,192 @@ export default {
                     if (err.response) {
                         this.errors = err.response.data.errors;
                     }
+                    closeLoader();
                 });
         },
     },
 };
 </script>
+
+<style scoped>
+/* Reset global dark mode for this page */
+.login-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #1B1B1B; /* Brand black */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.login-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background: #1B1B1B;
+    overflow: hidden;
+}
+
+/* Typography utilities */
+.font-montserrat { font-family: 'Montserrat', sans-serif; }
+.font-exo { font-family: 'Exo 2', sans-serif; }
+.font-poppins { font-family: 'Poppins', sans-serif; }
+.text-muted-brand { color: #BFC2C7; } /* Silver */
+
+/* Left Panel */
+.image-panel {
+    flex: 1.5;
+    background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop'); /* Science/Tech background */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(90deg, rgba(27,27,27,0.9) 0%, rgba(27,27,27,0.4) 100%);
+    display: flex;
+    align-items: center;
+    padding: 6rem;
+}
+
+.overlay-text {
+    max-width: 500px;
+}
+
+.overlay-text h2 {
+    color: #FFFFFF;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.overlay-text p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.brand-logo {
+    position: absolute;
+    top: 3rem;
+    left: 3rem;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+}
+
+.logo-text {
+    color: #FFFFFF;
+    letter-spacing: 1px;
+}
+
+/* Right Panel */
+.form-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem;
+    background-color: #1B1B1B;
+    border-left: 1px solid #555B5C; /* Dark gray border */
+    position: relative;
+}
+
+.form-content {
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+/* Form Styles */
+.custom-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #FFFFFF;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.custom-input {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    border: 1px solid #555B5C;
+    border-radius: 4px;
+    background-color: #222222;
+    font-size: 0.95rem;
+    color: #FFFFFF;
+    transition: all 0.3s ease;
+}
+
+.custom-input::placeholder {
+    color: #555B5C;
+}
+
+.custom-input:focus {
+    outline: none;
+    border-color: #1D5EFF;
+    background-color: #1B1B1B;
+    box-shadow: 0 0 0 3px rgba(29, 94, 255, 0.2);
+}
+
+.custom-btn {
+    width: 100%;
+    padding: 1.2rem;
+    background-color: #1D5EFF; /* Brand blue */
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.custom-btn:hover {
+    background-color: #1545cc;
+    box-shadow: 0 4px 15px rgba(29, 94, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Footer Links */
+.form-footer {
+    position: absolute;
+    bottom: 2rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+}
+
+@media (max-width: 992px) {
+    .image-panel {
+        display: none;
+    }
+    .form-panel {
+        padding: 2rem;
+        border-left: none;
+    }
+}
+</style>

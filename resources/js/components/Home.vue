@@ -189,11 +189,5 @@ export default {
 };
 </script>
 <style scoped>
-.dark-mode {
-    background-color: #232333 !important;
-}
-
-.bg-card-dark {
-    background-color: #232333 !important;
-}
+/* Removed to use global CSS */
 </style>
