@@ -44,9 +44,6 @@
 		<style>
 			body{
 				overflow-x: hidden;
-			},
-			.dark-mode {
-				background-color: #222236;
 			}
 		</style>
 		@vite('resources/css/app.css')

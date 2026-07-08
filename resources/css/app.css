@@ -1,0 +1,111 @@
+:root {
+  --bg-dark: #0b0e14;
+  --bg-sidebar: #0f121b;
+  --bg-card: #161924;
+  --bg-card-hover: #1e2230;
+  
+  --text-main: #f0f2f5;
+  --text-muted: #9ba0b4;
+  
+  --accent-purple: #7451f8;
+  --accent-purple-glow: rgba(116, 81, 248, 0.4);
+  --accent-gradient: linear-gradient(135deg, #7451f8 0%, #4f34cc 100%);
+  
+  --border-color: #262936;
+  
+  --card-radius: 16px;
+}
+
+body {
+  background-color: var(--bg-dark) !important;
+  color: var(--text-main) !important;
+  font-family: 'Public Sans', sans-serif !important;
+}
+
+/* Card Overrides */
+.card {
+  background-color: var(--bg-card) !important;
+  border-radius: var(--card-radius) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: none !important;
+  color: var(--text-main) !important;
+  transition: all 0.3s ease;
+}
+.card-header, .card-footer {
+  background-color: transparent !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Sidebar & Navbar Overrides */
+.bg-menu-theme {
+  background-color: var(--bg-sidebar) !important;
+  border-right: 1px solid var(--border-color) !important;
+}
+.menu-vertical .menu-item.active > .menu-link {
+  background: var(--accent-gradient) !important;
+  box-shadow: 0 4px 15px var(--accent-purple-glow) !important;
+  border-radius: 10px;
+  color: #fff !important;
+  margin: 0 1rem;
+}
+.menu-vertical .menu-link {
+  color: var(--text-muted) !important;
+  transition: all 0.2s;
+  border-radius: 10px;
+  margin: 0 1rem;
+}
+.menu-vertical .menu-link:hover {
+  background-color: var(--bg-card) !important;
+  color: var(--text-main) !important;
+}
+.layout-navbar {
+  background-color: var(--bg-dark) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  box-shadow: none !important;
+}
+
+/* Button Overrides */
+.btn-primary {
+  background: var(--accent-gradient) !important;
+  border: none !important;
+  box-shadow: 0 4px 10px var(--accent-purple-glow) !important;
+  border-radius: 8px !important;
+  color: #fff !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px var(--accent-purple-glow) !important;
+}
+
+/* Inputs and Forms */
+.form-control, .form-select {
+  background-color: var(--bg-dark) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-main) !important;
+  border-radius: 8px !important;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--accent-purple) !important;
+  box-shadow: 0 0 0 0.25rem var(--accent-purple-glow) !important;
+}
+.form-label {
+  color: var(--text-muted) !important;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-main) !important;
+}
+.text-muted {
+  color: var(--text-muted) !important;
+}
+.text-body {
+  color: var(--text-main) !important;
+}
+
+/* Badges */
+.badge.bg-danger {
+  background: linear-gradient(135deg, #ff4d4f, #d9363e) !important;
+  border-radius: 12px;
+}
