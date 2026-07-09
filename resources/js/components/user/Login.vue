@@ -105,7 +105,7 @@ label {
 }
 
 .bg-login-user {
-    background-image: url("/avantage/public/img/loginUser.jpg");
+    background-image: url("/img/loginUser.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

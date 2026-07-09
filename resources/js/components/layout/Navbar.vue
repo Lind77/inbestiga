@@ -163,16 +163,10 @@
                 <!-- User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                     <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                        <div class="avatar avatar-online" v-if="store.authUser && store.authUser.images">
-                            <div class="flex-shrink-0 me-3" v-if="store.authUser.images[0]">
-                                <div class="avatar avatar-online">
-                                    <img :src="'/avantage/public/files/' +
-                                        store.authUser.images[0].url
-                                        " class="w-px-40 h-px-40 rounded-circle" style="object-fit: cover" />
-                                </div>
-                            </div>
-                            <span v-else class="avatar-initial rounded-circle bg-primary">{{ store.authUser.name[0]
-                                }}</span>
+                        <div class="avatar avatar-online" v-if="store.authUser">
+                            <img :src="store.authUser.images && store.authUser.images[0] ? '/files/' + store.authUser.images[0].url : '/img/avatars/1.png'"
+                                @error="$event.target.src = '/img/avatars/1.png'"
+                                class="w-px-40 h-px-40 rounded-circle" style="object-fit: cover" />
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
@@ -267,7 +261,7 @@ export default {
             numberMessages: 0,
             firstmessages: [],
             users: [],
-            theme: "light",
+            theme: localStorage.getItem("theme") || "dark",
         };
     },
     methods: {
@@ -276,15 +270,13 @@ export default {
         },
         darkMode() {
             if (this.theme == "light") {
-                $("#toggleIcon").removeClass("bx-moon");
-                $("#toggleIcon").addClass("bx-sun");
+                $("#toggleIcon").removeClass("bx-moon").addClass("bx-sun");
                 this.theme = "dark";
-                this.$emit("theme", this.theme);
+                this.$emit("theme", "dark");
             } else {
-                $("#toggleIcon").addClass("bx-moon");
-                $("#toggleIcon").removeClass("bx-sun");
+                $("#toggleIcon").removeClass("bx-sun").addClass("bx-moon");
                 this.theme = "light";
-                this.$emit("theme", this.theme);
+                this.$emit("theme", "light");
             }
         },
         getUsers() {
@@ -423,6 +415,12 @@ export default {
         },
     },
     mounted() {
+        var savedTheme = localStorage.getItem("theme") || "dark";
+        if (savedTheme == "dark") {
+            $("#toggleIcon").removeClass("bx-moon").addClass("bx-sun");
+        } else {
+            $("#toggleIcon").removeClass("bx-sun").addClass("bx-moon");
+        }
         //this.getAllMessages();
         this.getUsers();
         //this.getNoSeenNotifications();
