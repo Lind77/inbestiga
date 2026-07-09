@@ -420,3 +420,12 @@ h1, h2, h3, h4, h5, h6, .title {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
 }
+
+/* Hide / transparentize container background box in home dashboard */
+.container-xxl.bg-darker,
+.bg-darker {
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}

@@ -2,16 +2,9 @@
     <div class="modal fade" id="customerModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5
-                        class="modal-title"
-                        v-if="action == 1"
-                        id="exampleModalLabel1"
-                    >
-                        Insertar Prospecto
-                    </h5>
-                    <h5 class="modal-title" v-else id="exampleModalLabel1">
-                        Actualizar Cliente {{ customer.name || customer.cell }}
+                <div class="modal-header border-bottom pb-3">
+                    <h5 class="modal-title" id="exampleModalLabel1">
+                        {{ action == 1 ? 'Insertar Prospecto' : 'Actualizar Cliente ' + (localCustomer.name || '') }}
                     </h5>
                     <button
                         type="button"
@@ -20,241 +13,163 @@
                         aria-label="Close"
                     ></button>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
+                <div class="modal-body py-4">
+                    <div class="row g-4">
+                        <!-- Column 1: Personal Information -->
                         <div class="col-12 col-lg-4">
-                            <div class="col">
-                                <label for="nameBasic" class="form-label"
-                                    >Nombre</label
-                                >
+                            <h6 class="fw-bold mb-3 text-primary"><i class="bx bx-user me-1"></i> Datos Personales</h6>
+                            <div class="mb-3">
+                                <label class="form-label">Nombre Completo</label>
                                 <input
                                     type="text"
-                                    v-if="action == 2"
-                                    v-model="customer.name"
+                                    v-model="localCustomer.name"
                                     class="form-control"
-                                />
-                                <input
-                                    type="text"
-                                    v-else
-                                    v-model="name"
-                                    class="form-control"
+                                    placeholder="Nombre del cliente"
                                 />
                             </div>
 
-                            <div class="row g-2">
-                                <div class="col mb-0">
-                                    <label for="nameBasic" class="form-label"
-                                        >Celular</label
-                                    >
-                                    <input
-                                        type="text"
-                                        v-if="action == 2"
-                                        v-model="customer.cell"
-                                        class="form-control"
-                                    />
-                                    <input
-                                        type="text"
-                                        v-else
-                                        v-model="cell"
-                                        class="form-control"
-                                    />
-                                </div>
-                            </div>
-                            <div class="row g-2">
-                                <div class="col mb-0" v-if="action == 2">
-                                    <label for="nameBasic" class="form-label"
-                                        >Email</label
-                                    >
-                                    <input
-                                        type="email"
-                                        v-if="action == 2"
-                                        v-model="customer.email"
-                                        class="form-control"
-                                    />
-                                    <input
-                                        type="text"
-                                        v-else
-                                        v-model="email"
-                                        class="form-control"
-                                    />
-                                </div>
+                            <div class="mb-3">
+                                <label class="form-label">Número de Celular</label>
+                                <input
+                                    type="text"
+                                    v-model="localCustomer.cell"
+                                    class="form-control"
+                                    placeholder="Ej. 987654321"
+                                />
                             </div>
 
-                            <div class="row g-2">
-                                <div class="col mb-0" v-if="action == 2">
-                                    <label for="dobBasic" class="form-label"
-                                        >DNI</label
-                                    >
-                                    <input
-                                        type="text"
-                                        v-if="action == 2"
-                                        v-model="customer.dni"
-                                        class="form-control"
-                                    />
-                                    <input
-                                        type="text"
-                                        v-else
-                                        v-model="dni"
-                                        class="form-control"
-                                    />
-                                </div>
+                            <div class="mb-3">
+                                <label class="form-label">Correo Electrónico</label>
+                                <input
+                                    type="email"
+                                    v-model="localCustomer.email"
+                                    class="form-control"
+                                    placeholder="correo@ejemplo.com"
+                                />
                             </div>
-                            <div class="row g-2">
-                                <div class="row g-2" v-if="action == 2">
-                                    <div class="col mb-0">
-                                        <label class="form-label">Género</label>
-                                        <select
-                                            class="form-select"
-                                            v-model="customer.gender"
-                                        >
-                                            <option value="1" default>
-                                                Masculino
-                                            </option>
-                                            <option value="2">Femenino</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row g-2">
-                                <div class="col mb-0" v-if="action == 2">
-                                    <label for="dobBasic" class="form-label"
-                                        >Dirección</label
-                                    >
-                                    <input
-                                        type="text"
-                                        v-if="action == 2"
-                                        v-model="customer.address"
-                                        class="form-control"
-                                    />
-                                    <input
-                                        type="text"
-                                        v-else
-                                        v-model="address"
-                                        class="form-control"
-                                    />
-                                </div>
-                            </div>
-                            <div class="row g-2">
-                                <div class="col mb-0" v-if="action == 2">
-                                    <label for="dobBasic" class="form-label"
-                                        >Fecha de nacimiento</label
-                                    >
-                                    <input
-                                        type="date"
-                                        v-if="action == 2"
-                                        v-model="customer.birth_date"
-                                        class="form-control"
-                                    />
-                                    <input
-                                        type="date"
-                                        v-else
-                                        v-model="birth_date"
-                                        class="form-control"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="row g-2 mt-0">
-                                <div class="col mb-0 mt-0">
-                                    <label for="dobBasic" class="form-label"
-                                        >Universidad</label
-                                    >
-                                    <input
-                                        type="text"
-                                        v-if="action == 2"
-                                        v-model="customer.university"
-                                        class="form-control"
-                                    />
-                                    <input
-                                        type="text"
-                                        v-else
-                                        v-model="university"
-                                        class="form-control"
-                                    />
-                                </div>
-                            </div>
-                            <div class="row g-2">
-                                <div class="col mb-0">
-                                    <label for="emailBasic" class="form-label"
-                                        >Carrera o mención</label
-                                    >
-                                    <input
-                                        type="text"
-                                        v-if="action == 2"
-                                        v-model="customer.career"
-                                        class="form-control"
-                                    />
-                                    <input
-                                        type="text"
-                                        v-else
-                                        v-model="career"
-                                        class="form-control"
-                                    />
-                                </div>
-                            </div>
-                            <div class="row g-2" v-if="action == 2">
-                                <div class="col mb-0">
-                                    <label class="form-label">Situación</label>
-                                    <select
-                                        class="form-select"
-                                        v-model="customer.type"
-                                    >
-                                        <option value="1" default>
-                                            Tesis sin avance
-                                        </option>
-                                        <option value="2">
-                                            Tesis con avance
-                                        </option>
-                                        <option value="3">
-                                            Artículo Científico
-                                        </option>
-                                        <option value="4">
-                                            Otra Modalidad de Titulación
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <label for="emailBasic" class="form-label"
-                                >Departamento</label
-                            >
-                            <select
-                                class="form-control"
-                                @change="selectProvinces"
-                                v-model="departmentSelectedId"
-                            >
-                                <option
-                                    :value="department.id"
-                                    v-for="department in departments"
-                                >
-                                    {{ department.name }}
-                                </option>
-                            </select>
 
-                            <label for="emailBasic" class="form-label"
-                                >Provincia</label
-                            >
-                            <select
-                                class="form-control"
-                                v-model="provinceSelectedId"
-                            >
-                                <option
-                                    :value="province.id"
-                                    v-for="province in provinces"
+                            <div class="mb-3">
+                                <label class="form-label">DNI</label>
+                                <input
+                                    type="text"
+                                    v-model="localCustomer.dni"
+                                    class="form-control"
+                                    placeholder="Documento de Identidad"
+                                />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Género</label>
+                                <select
+                                    class="form-select"
+                                    v-model="localCustomer.gender"
                                 >
-                                    {{ province.name }}
-                                </option>
-                            </select>
+                                    <option value="1">Masculino</option>
+                                    <option value="2">Femenino</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Dirección</label>
+                                <input
+                                    type="text"
+                                    v-model="localCustomer.address"
+                                    class="form-control"
+                                    placeholder="Dirección residencial"
+                                />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Fecha de Nacimiento</label>
+                                <input
+                                    type="date"
+                                    v-model="localCustomer.birth_date"
+                                    class="form-control"
+                                />
+                            </div>
+                        </div>
+
+                        <!-- Column 2: Academic & Origin -->
+                        <div class="col-12 col-lg-4">
+                            <h6 class="fw-bold mb-3 text-primary"><i class="bx bx-book-open me-1"></i> Datos Académicos</h6>
+                            <div class="mb-3">
+                                <label class="form-label">Universidad</label>
+                                <input
+                                    type="text"
+                                    v-model="localCustomer.university"
+                                    class="form-control"
+                                    placeholder="Universidad de procedencia"
+                                />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Carrera o Mención</label>
+                                <input
+                                    type="text"
+                                    v-model="localCustomer.career"
+                                    class="form-control"
+                                    placeholder="Mención académica"
+                                />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Situación / Tipo de Tesis</label>
+                                <select
+                                    class="form-select"
+                                    v-model="localCustomer.type"
+                                >
+                                    <option value="1">Tesis sin avance</option>
+                                    <option value="2">Tesis con avance</option>
+                                    <option value="3">Artículo Científico</option>
+                                    <option value="4">Otra Modalidad de Titulación</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Column 3: Location -->
+                        <div class="col-12 col-lg-4">
+                            <h6 class="fw-bold mb-3 text-primary"><i class="bx bx-map me-1"></i> Ubicación</h6>
+                            <div class="mb-3">
+                                <label class="form-label">Departamento</label>
+                                <select
+                                    class="form-select"
+                                    @change="selectProvinces"
+                                    v-model="departmentSelectedId"
+                                >
+                                    <option value="0" disabled>Selecciona Departamento</option>
+                                    <option
+                                        :value="department.id"
+                                        v-for="department in departments"
+                                        :key="department.id"
+                                    >
+                                        {{ department.name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Provincia</label>
+                                <select
+                                    class="form-select"
+                                    v-model="provinceSelectedId"
+                                >
+                                    <option value="0" disabled>Selecciona Provincia</option>
+                                    <option
+                                        :value="province.id"
+                                        v-for="province in provinces"
+                                        :key="province.id"
+                                    >
+                                        {{ province.name }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
-                    <div v-show="origin == 1" class="row g-2">
-                        <div class="col mb-0">
-                            <label for="emailBasic" class="form-label"
-                                >Canal</label
-                            >
+                    <!-- Channel / Referral Blocks -->
+                    <div class="row mt-3">
+                        <div v-show="origin == 1" class="col-12 col-md-6 mb-3">
+                            <label class="form-label">Canal de Contacto</label>
                             <select class="form-select" v-model="channel">
                                 <option value="1">Messenger</option>
                                 <option value="2">Whatsapp</option>
@@ -263,28 +178,24 @@
                                 <option value="5">Campo</option>
                             </select>
                         </div>
-                    </div>
-                    <div v-show="origin == 2" class="row g-2">
-                        <div class="col mb-0">
-                            <label for="emailBasic" class="form-label"
-                                >Referido por</label
-                            >
+                        <div v-show="origin == 2" class="col-12 col-md-6 mb-3">
+                            <label class="form-label">Referido por</label>
                             <select class="form-select" v-model="referedFrom">
-                                <option :value="user.id" v-for="user in users">
+                                <option :value="user.id" v-for="user in users" :key="user.id">
                                     {{ user.name }}
                                 </option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer border-top pt-3">
                     <button
                         type="button"
                         id="close-insert-customer"
                         class="btn btn-outline-secondary"
                         data-bs-dismiss="modal"
                     >
-                        Cerrar
+                        Cancelar
                     </button>
                     <button
                         type="button"
@@ -292,7 +203,7 @@
                         @click="insertCustomer"
                         class="btn btn-primary"
                     >
-                        Registrar
+                        <i class="bx bx-check me-1"></i> Registrar
                     </button>
                     <button
                         type="button"
@@ -300,13 +211,14 @@
                         @click="updateCustomer"
                         class="btn btn-primary"
                     >
-                        Actualizar
+                        <i class="bx bx-save me-1"></i> Guardar Cambios
                     </button>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
 <script>
 import { userStore } from "../../../stores/UserStore";
 
@@ -318,136 +230,125 @@ export default {
     props: {
         action: Number,
         customer: Object,
+        allUsers: Array,
     },
     data() {
         return {
-            name: "",
-            cell: "",
-            university: "",
-            career: "",
-            email: "",
-            dni: "",
-            address: "",
-            first_management: null,
-            last_management: null,
-            next_management: null,
-            comment: "",
-            product_tentative: "",
-            type: 0,
-            origin: 0,
+            localCustomer: {
+                id: null,
+                name: "",
+                cell: "",
+                email: "",
+                dni: "",
+                gender: "1",
+                address: "",
+                birth_date: "",
+                university: "",
+                career: "",
+                type: "1",
+                attitude: "",
+                province_id: 0,
+                channel: 0,
+                referedFrom: 0
+            },
             users: [],
-            referedFrom: 0,
+            origin: 0,
             channel: 0,
-            status: 1,
-            attitude: "",
+            referedFrom: 0,
             departments: [],
             departmentSelectedId: 0,
             provinces: [],
             provinceSelectedId: 0,
-            birth_date: null,
         };
     },
     methods: {
+        resetLocalCustomer() {
+            this.localCustomer = {
+                id: null,
+                name: "",
+                cell: "",
+                email: "",
+                dni: "",
+                gender: "1",
+                address: "",
+                birth_date: "",
+                university: "",
+                career: "",
+                type: "1",
+                attitude: "",
+                province_id: 0,
+                channel: 0,
+                referedFrom: 0
+            };
+            this.departmentSelectedId = 0;
+            this.provinceSelectedId = 0;
+            this.provinces = [];
+        },
         selectProvinces() {
-            console.log(this.departmentSelectedId);
-
-            var provinces = this.departments.find(
+            var selectedDept = this.departments.find(
                 (d) => d.id == this.departmentSelectedId
-            ).provinces;
-            console.log(provinces);
-
-            this.provinces = provinces;
+            );
+            this.provinces = selectedDept ? selectedDept.provinces : [];
+            this.provinceSelectedId = 0;
         },
         updateCustomer() {
             const fd = new FormData();
             fd.append("_method", "put");
-            fd.append("id", this.customer.id);
-            fd.append("name", this.customer.name);
-            fd.append("cell", this.customer.cell);
-            fd.append("university", this.customer.university);
-            fd.append("career", this.customer.career);
-            fd.append("email", this.customer.email);
-            fd.append("dni", this.customer.dni);
-            fd.append("address", this.customer.address);
-            fd.append("attitude", this.customer.attitude);
-            fd.append("birth_date", this.customer.birth_date);
+            fd.append("id", this.localCustomer.id);
+            fd.append("name", this.localCustomer.name || "");
+            fd.append("cell", this.localCustomer.cell || "");
+            fd.append("university", this.localCustomer.university || "");
+            fd.append("career", this.localCustomer.career || "");
+            fd.append("email", this.localCustomer.email || "");
+            fd.append("dni", this.localCustomer.dni || "");
+            fd.append("address", this.localCustomer.address || "");
+            fd.append("attitude", this.localCustomer.attitude || "");
+            fd.append("birth_date", this.localCustomer.birth_date || "");
             fd.append("province_id", this.provinceSelectedId);
-            fd.append("gender", this.customer.gender);
-            fd.append("type", this.customer.type);
+            fd.append("gender", this.localCustomer.gender || "1");
+            fd.append("type", this.localCustomer.type || "1");
+
             axios
-                .post(`/api/customers/${this.customer.id}`, fd)
+                .post(`/api/customers/${this.localCustomer.id}`, fd)
                 .then((res) => {
-                    console.log(res);
                     this.$emit("getAllCustomers");
                     $("#customerModal").modal("hide");
                 })
                 .catch((err) => {
-                    console.log(err.response.data);
+                    console.error(err);
                 });
-        },
-        verifyExistence() {
-            const fd = new FormData();
-
-            fd.append("name", this.name);
-            fd.append("cell", this.cell);
-            axios
-                .post("/api/customers/verify", fd)
-                .then((res) => {
-                    if (res.data) {
-                        this.insertCustomer();
-                    }
-
-                    var coincidences = [];
-                    res.data.coincidences.forEach((coincidence) => {
-                        coincidences.push(
-                            `${coincidence.name}(${coincidence.cell})<br>`
-                        );
-                    });
-                    if (res.data.msg) {
-                        $("#customerModal").modal("hide");
-
-                        //$('#customerModal').modal('hide')
-                        //this.$swal('Se ha encontrado un usuario con el mismo nombre')
-                    } else {
-                        this.insertCustomer();
-                    }
-                })
-                .catch((err) => {});
         },
         insertCustomer() {
             const fd = new FormData();
-            fd.append("name", this.name);
-            fd.append("cell", this.cell);
-            fd.append("university", this.university);
-            fd.append("career", this.career);
-            fd.append("email", this.email);
+            fd.append("name", this.localCustomer.name || "");
+            fd.append("cell", this.localCustomer.cell || "");
+            fd.append("university", this.localCustomer.university || "");
+            fd.append("career", this.localCustomer.career || "");
+            fd.append("email", this.localCustomer.email || "");
             fd.append("origin", this.origin);
-            fd.append("status", 9);
-            fd.append("dni", this.dni);
-            fd.append("attitude", this.attitude);
-            fd.append("address", this.address);
+            fd.append("status", 1); // Default status
+            fd.append("dni", this.localCustomer.dni || "");
+            fd.append("attitude", this.localCustomer.attitude || "");
+            fd.append("address", this.localCustomer.address || "");
             fd.append("referedFrom", this.referedFrom);
             fd.append("channel", this.channel);
             fd.append("user_id", 12);
             fd.append("userregister_id", this.store.authUser.id);
-            fd.append("birth_date", this.birth_date);
+            fd.append("birth_date", this.localCustomer.birth_date || "");
             fd.append("province_id", this.provinceSelectedId);
-            fd.append("type", this.type);
+            fd.append("type", this.localCustomer.type || "1");
 
             axios
                 .post("/api/customers", fd)
                 .then((res) => {
-                    console.log(res);
                     this.$emit("getAllCustomers");
                     $("#customerModal").modal("hide");
+                    this.resetLocalCustomer();
                 })
                 .catch((err) => {
-                    $("#customerModal").modal("hide");
-
-                    if (err.response.status == 422) {
+                    if (err.response && err.response.status == 422) {
                         this.$swal.fire(err.response.data.message);
-                    } else if (err.response.status == 400) {
-                        console.log(err.response.data);
+                    } else if (err.response && err.response.status == 400) {
                         this.$swal
                             .fire({
                                 icon: "error",
@@ -461,16 +362,11 @@ export default {
                                 confirmButtonText: "Registrar",
                             })
                             .then((result) => {
-                                /* Read more about isConfirmed, isDenied below */
                                 if (result.isConfirmed) {
                                     this.insertCustomer();
-                                } else if (result.isDenied) {
-                                    this.$swal.close();
                                 }
                             });
                     }
-
-                    this.$swal.fire(err.response.data.message);
                 });
         },
         getAllUsers() {
@@ -497,30 +393,37 @@ export default {
     mounted() {
         this.getAllUsers();
         this.getDataAddress();
-    },
-    created() {
-        console.log("action", this.action);
-        if (this.action == 2) {
-            console.log(this.customer);
+        if (this.allUsers && this.allUsers.length > 0) {
+            this.users = this.allUsers;
         }
     },
     watch: {
         customer(val) {
-            console.log("customer", val);
-            if (val && val.province_id) {
-                this.departmentSelectedId = val.province.department_id;
-                this.provinces = val.province.department.provinces;
-                this.provinceSelectedId = val.province_id;
+            if (val && Object.keys(val).length > 0) {
+                this.localCustomer = JSON.parse(JSON.stringify(val));
+                if (val.province_id) {
+                    this.departmentSelectedId = val.province.department_id;
+                    this.provinces = val.province.department.provinces;
+                    this.provinceSelectedId = val.province_id;
+                } else {
+                    this.departmentSelectedId = 0;
+                    this.provinceSelectedId = 0;
+                    this.provinces = [];
+                }
+            } else {
+                this.resetLocalCustomer();
             }
         },
-        departmentSelectedId(val) {
-            if (this.action == 1) {
-                var provincesFiltered = this.provinces.filter(
-                    (province) => province.department_id == val
-                );
-                this.provinces = provincesFiltered;
+        action(val) {
+            if (val == 1) {
+                this.resetLocalCustomer();
             }
         },
+        allUsers(val) {
+            if (val && val.length > 0) {
+                this.users = val;
+            }
+        }
     },
 };
 </script>

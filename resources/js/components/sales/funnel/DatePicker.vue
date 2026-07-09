@@ -1,10 +1,35 @@
 <template>
-    <div class="row mb-3">
-        <input type="text" class="form-control w-50" placeholder="Buscar por nombre ..." @keyup="cleanLeads"
-            v-on:keyup.enter="searchByName" v-model="search">
-        <input type="date" @change="filterDate" class="form-control w-25 ms-2">
+    <div class="card-body pb-3 px-0">
+        <div class="row g-3">
+            <!-- Search bar -->
+            <div class="col-12 col-md-7">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bx bx-search"></i></span>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Buscar por nombre de cliente..."
+                        @keyup="cleanLeads"
+                        v-on:keyup.enter="searchByName"
+                        v-model="search"
+                    />
+                </div>
+            </div>
+            <!-- Date Filter -->
+            <div class="col-12 col-md-5">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bx bx-calendar"></i></span>
+                    <input
+                        type="date"
+                        @change="filterDate"
+                        class="form-control"
+                    />
+                </div>
+            </div>
+        </div>
     </div>
 </template>
+
 <script>
 import axios from 'axios';
 

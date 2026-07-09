@@ -8,114 +8,131 @@
         :id="`${entitie.id}`"
     >
         <div
-            :class="`card p-2 cursor-pointer bg-${bgByStatus[entitieStatus]} text-white`"
+            :class="`card p-3 cursor-pointer bg-${bgByStatus[entitieStatus]} text-white mb-2`"
             :id="`card${entitie.id}`"
         >
-            <div class="d-flex">
-                <div class="me-2">
+            <div class="d-flex align-items-start">
+                <!-- Icon badge indicator -->
+                <div class="me-3">
                     <span
-                        :class="`badge bg-label-${bgByStatus[entitieStatus]} p-3`"
-                        ><i
-                            :class="`bx bx-${iconByStatus[entitieStatus]} text-${bgByStatus[entitieStatus]}`"
-                        ></i
-                    ></span>
+                        :class="`badge-icon bg-label-${bgByStatus[entitieStatus]}`"
+                    >
+                        <i :class="`bx bx-${iconByStatus[entitieStatus]} text-${bgByStatus[entitieStatus]}`"></i>
+                    </span>
                 </div>
-                <div class="d-flex flex-column ps-2">
+                
+                <!-- Information and Actions -->
+                <div class="d-flex flex-column flex-grow-1">
+                    <!-- Case 1: Standard Customer Entity (Status = 1) -->
                     <template v-if="entitie && status == 1">
-                        <h6 class="mb-0 py-2 text-white">{{ entitie.name }}</h6>
-                        <div class="d-flex">
+                        <h6 class="mb-1 fw-bold text-white text-wrap" style="font-size: 0.95rem; line-height: 1.3;">
+                            {{ entitie.name }}
+                        </h6>
+                        <small class="text-muted-light mb-2">{{ entitie.cell }}</small>
+                        <div class="d-flex gap-2 mt-1">
                             <button
-                                class="btn btn-icon btn-primary"
+                                class="btn btn-icon btn-sm btn-primary rounded-circle shadow-sm"
                                 @click="showModalUpdateData(entitie)"
+                                title="Editar Datos"
                             >
-                                <i class="bx bx-edit"></i>
+                                <i class="bx bx-edit" style="font-size: 0.85rem;"></i>
                             </button>
                             <button
-                                class="btn btn-icon btn-danger ms-1"
+                                class="btn btn-icon btn-sm btn-danger rounded-circle shadow-sm"
                                 v-if="entitieStatus == 1"
                                 @click="noConnect(entitie)"
+                                title="No Atendido / Sin Contacto"
                             >
-                                <i class="bx bx-user-x"></i>
+                                <i class="bx bx-user-x" style="font-size: 0.85rem;"></i>
                             </button>
                             <button
-                                class="btn btn-icon btn-success ms-1"
+                                class="btn btn-icon btn-sm btn-success rounded-circle shadow-sm"
                                 @click="toQuotation(entitie)"
+                                title="Generar Cotización"
                             >
-                                <i class="bx bx-file"></i>
+                                <i class="bx bx-file" style="font-size: 0.85rem;"></i>
                             </button>
                         </div>
                     </template>
+
+                    <!-- Case 2: Customer list in Quotations (Status = 2) -->
                     <template v-if="entitie.customers">
                         <h6
-                            class="mb-0 py-2 text-white"
+                            class="mb-1 fw-bold text-white text-wrap"
                             v-for="customer in entitie.customers"
+                            :key="customer.id"
                             :title="customer.name"
+                            style="font-size: 0.95rem; line-height: 1.3;"
                         >
-                            {{
-                                customer.name.length > 20
-                                    ? customer.name.substring(0, 20) + "..."
-                                    : customer.name
-                            }}
+                            {{ customer.name }}
                         </h6>
-                        <div class="d-flex">
+                        <small class="text-muted-light mb-2">Cotización #{{ entitie.id }}</small>
+                        <div class="d-flex gap-2 mt-1">
                             <button
-                                class="btn btn-icon btn-primary"
+                                class="btn btn-icon btn-sm btn-primary rounded-circle shadow-sm"
                                 @click="editQuotation(entitie)"
+                                title="Editar Cotización"
                             >
-                                <i class="bx bx-edit"></i>
+                                <i class="bx bx-edit" style="font-size: 0.85rem;"></i>
                             </button>
                             <button
-                                class="btn btn-icon btn-danger ms-1"
+                                class="btn btn-icon btn-sm btn-danger rounded-circle shadow-sm"
                                 @click="deleteQuotation(entitie)"
+                                title="Eliminar Cotización"
                             >
-                                <i class="bx bx-trash"></i>
+                                <i class="bx bx-trash" style="font-size: 0.85rem;"></i>
                             </button>
                             <button
-                                class="btn btn-icon btn-success ms-1"
+                                class="btn btn-icon btn-sm btn-success rounded-circle shadow-sm"
                                 @click="toOrder(entitie)"
+                                title="Pasar a Orden de Trabajo"
                             >
-                                <i class="bx bx-file"></i>
+                                <i class="bx bx-file" style="font-size: 0.85rem;"></i>
                             </button>
                         </div>
                     </template>
+
+                    <!-- Case 3: Customer list in Contracts (Status = 3) -->
                     <template v-if="entitie.quotation">
                         <h6
-                            class="mb-0 py-2 text-white"
+                            class="mb-1 fw-bold text-white text-wrap"
                             v-for="customer in entitie.quotation.customers"
+                            :key="customer.id"
                             :title="customer.name"
+                            style="font-size: 0.95rem; line-height: 1.3;"
                         >
-                            {{
-                                customer.name.length > 20
-                                    ? customer.name.substring(0, 20) + "..."
-                                    : customer.name
-                            }}
+                            {{ customer.name }}
                         </h6>
-                        <div class="d-flex">
+                        <small class="text-muted-light mb-2">Contrato / Orden #{{ entitie.id }}</small>
+                        <div class="d-flex gap-2 mt-1">
                             <button
-                                class="btn btn-icon btn-info"
+                                class="btn btn-icon btn-sm btn-info rounded-circle shadow-sm"
                                 @click="toOrder(entitie.quotation)"
+                                title="Ver Orden"
                             >
-                                <i class="bx bx-edit"></i>
+                                <i class="bx bx-edit" style="font-size: 0.85rem;"></i>
                             </button>
                             <button
-                                class="btn btn-icon btn-danger ms-1"
+                                class="btn btn-icon btn-sm btn-danger rounded-circle shadow-sm"
                                 @click="deleteContract(entitie)"
+                                title="Eliminar Contrato"
                             >
-                                <i class="bx bx-trash"></i>
+                                <i class="bx bx-trash" style="font-size: 0.85rem;"></i>
                             </button>
                             <button
                                 v-if="status == 3"
-                                class="btn btn-icon btn-success ms-1"
+                                class="btn btn-icon btn-sm btn-success rounded-circle shadow-sm"
                                 @click="assendContract(entitie.quotation)"
+                                title="Ascender a Cliente Fijo"
                             >
-                                <i class="bx bx-user-check"></i>
+                                <i class="bx bx-user-check" style="font-size: 0.85rem;"></i>
                             </button>
                         </div>
                     </template>
-                    <!-- <p class="mb-0">S/.{{ formatCant(entitie.amount) }}</p> -->
                 </div>
             </div>
         </div>
+        <!-- Droppable spacing indicator -->
         <div
             class="space py-1"
             :id="'space' + entitie.id"
@@ -125,6 +142,7 @@
         ></div>
     </div>
 </template>
+
 <script>
 export default {
     props: {
@@ -175,11 +193,7 @@ export default {
                 });
             }
         },
-        /* noConnect(customer) {
-            this.entitieStatus = 0;
-        }, */
         showModalUpdateData(customer) {
-            console.log("cardentitie", customer);
             this.$emit("showModalUpdateData", customer);
         },
         editQuotation(quotation) {
@@ -215,14 +229,16 @@ export default {
             }
         },
         changeColor(index) {
-            console.log(index);
             var spaceSelected = document.getElementById("space" + index);
-            spaceSelected.classList.add("space-show");
+            if (spaceSelected) {
+                spaceSelected.classList.add("space-show");
+            }
         },
         removeColor(index) {
-            document
-                .getElementById("space" + index)
-                .classList.remove("space-show");
+            var spaceSelected = document.getElementById("space" + index);
+            if (spaceSelected) {
+                spaceSelected.classList.remove("space-show");
+            }
         },
         drag(e) {
             if (this.quotation) {
@@ -234,15 +250,11 @@ export default {
             }
         },
         toOrder(quotation) {
-            console.log(quotation);
             $("#funnelModal").modal("hide");
             this.$router.push({
                 name: "contract-orders",
                 params: { quotationId: quotation.id },
             });
-
-            /* $('#funnelModal').modal('hide')
-            this.$router.push({ name: 'edit-quotation', params: { idQuotation: quotationId } }) */
         },
         toQuotation(customer) {
             this.$router.push({
@@ -253,21 +265,90 @@ export default {
     },
 };
 </script>
+
 <style scoped>
+.cardSpace {
+    transition: transform 0.2s ease;
+}
+
+.cardSpace .card {
+    background: rgba(24, 24, 35, 0.55) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-left: 4px solid #1D5EFF !important; /* fallback default */
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border-radius: 8px !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+}
+
+.cardSpace .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25) !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+/* Status Left Border Colors */
+.cardSpace .card.bg-warning {
+    border-left: 4px solid #ff9f43 !important;
+}
+.cardSpace .card.bg-info {
+    border-left: 4px solid #00cfe8 !important;
+}
+.cardSpace .card.bg-success {
+    border-left: 4px solid #13b584 !important;
+}
+.cardSpace .card.bg-primary {
+    border-left: 4px solid #1D5EFF !important;
+}
+.cardSpace .card.bg-danger {
+    border-left: 4px solid #ea5455 !important;
+}
+
+/* Badge Icon styles */
+.badge-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    transition: background-color 0.2s;
+}
+.cardSpace .card:hover .badge-icon {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+.badge-icon i {
+    font-size: 1.15rem;
+}
+
+.text-muted-light {
+    color: rgba(255, 255, 255, 0.5) !important;
+    font-size: 0.78rem;
+}
+
 .space {
-    height: 10px;
-    border-radius: 5px;
+    height: 8px;
+    border-radius: 4px;
+    background-color: transparent;
+    transition: background-color 0.2s;
 }
 
 .space-show {
-    background-color: #696cff;
+    background-color: rgba(29, 94, 255, 0.4) !important;
 }
 
 .bg-hover {
-    background-color: #696cff;
+    background-color: rgba(29, 94, 255, 0.2) !important;
 }
 
-.pt-10 {
-    margin-top: 100px;
+.btn-icon {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 </style>
