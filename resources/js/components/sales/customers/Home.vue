@@ -1,26 +1,18 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="d-flex align-items-center justify-content-between">
-            <h4 class="fw-bold py-3 mb-4">Base de datos</h4>
-            <div class="">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h4 class="fw-bold mb-0">Base de Datos de Clientes</h4>
+            <div>
                 <button
                     @click="openCustomerModal(1)"
                     class="btn btn-primary"
-                    tabindex="0"
-                    aria-controls="DataTables_Table_0"
                     type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasEcommerceCustomerAdd"
                 >
-                    <span
-                        ><i class="bx bx-plus me-0 me-sm-1"></i
-                        ><span class="d-none d-sm-inline-block"
-                            >Nuevo prospecto</span
-                        ></span
-                    >
+                    <i class="bx bx-plus me-1"></i>
+                    <span>Nuevo prospecto</span>
                 </button>
-                <button class="btn btn-success ms-1" @click="filterOwn">
-                    Filtro
+                <button class="btn btn-outline-primary ms-2" @click="filterOwn">
+                    <i class="bx bx-filter-alt me-1"></i>Mis Leads
                 </button>
             </div>
         </div>
@@ -28,113 +20,137 @@
         <div class="row">
             <div class="col-xl-12 col-lg-12">
                 <div class="card pt-2">
-                    <div class="row ms-2">
-                        <input
-                            type="text"
-                            name=""
-                            id=""
-                            placeholder="Buscar..."
-                            class="form-control w-50 py-2"
-                            @keyup.enter="searchCustomer"
-                            @keyup="cleanSearch"
-                            v-model="search"
-                        />
-                        <input
-                            type="date"
-                            @change="searchCustomersByDate"
-                            class="form-control w-25 ms-2"
-                            v-model="searchDate"
-                        />
+                    <!-- Filters Grid -->
+                    <div class="card-body pb-3">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-8">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bx bx-search"></i></span>
+                                    <input
+                                        type="text"
+                                        placeholder="Buscar por nombre o teléfono..."
+                                        class="form-control"
+                                        @keyup.enter="searchCustomer"
+                                        @keyup="cleanSearch"
+                                        v-model="search"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bx bx-calendar"></i></span>
+                                    <input
+                                        type="date"
+                                        @change="searchCustomersByDate"
+                                        class="form-control"
+                                        v-model="searchDate"
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Responsive Table -->
                     <div class="table-responsive text-nowrap">
-                        <table class="table">
+                        <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Nombre</th>
-                                    <th>Dueño</th>
-                                    <!--  <th>Celular</th> -->
+                                    <th>Nombre / Teléfono</th>
+                                    <th>Asignado A</th>
                                     <th>Fecha de Registro</th>
-                                    <!-- <th>Universidad</th>
-                  <th>Carrera</th> -->
-                                    <!-- <th>Estado</th> -->
-                                    <th>Opciones</th>
+                                    <th class="text-center">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
-                                <tr v-for="customer in customers">
+                                <tr v-for="customer in customers" :key="customer.id">
                                     <td>
-                                        <strong
-                                            class="cursor-pointer placeholder-glow"
-                                            >{{ customer.name }}</strong
-                                        ><i
-                                            @click="openOwnerModal(customer.id)"
-                                            v-show="customer.user_id == null"
-                                            class="bx bxs-user-x text-danger"
-                                        ></i>
-                                        <br />
-                                        <small>{{ customer.cell }}</small>
+                                        <div class="d-flex align-items-center">
+                                            <strong
+                                                class="cursor-pointer text-primary text-hover-underline me-2"
+                                                @click="redirectFunnel(customer)"
+                                                title="Ver detalles"
+                                            >
+                                                {{ customer.name }}
+                                            </strong>
+                                            <i
+                                                @click="openOwnerModal(customer.id)"
+                                                v-show="customer.user_id == null"
+                                                class="bx bxs-user-x text-danger cursor-pointer"
+                                                title="Sin dueño - Asignar"
+                                            ></i>
+                                        </div>
+                                        <small class="text-muted">{{ customer.cell || 'Sin celular' }}</small>
                                     </td>
                                     <td>
-                                        {{
-                                            customer.user
-                                                ? customer.user.name
-                                                : "Sin asignar"
-                                        }}
+                                        <span :class="customer.user ? 'text-white' : 'text-warning small'">
+                                            {{ customer.user ? customer.user.name : 'Sin asignar' }}
+                                        </span>
                                     </td>
-                                    <!-- <td>{{ customer.cell }}</td> -->
                                     <td>
                                         {{ formatDate(customer.created_at) }}
                                     </td>
-                                    <!-- <td>{{ customer.university ? customer.university.substring(0, 20) + '...' : '-' }}</td>
-                  <td>{{ customer.career ? customer.career.substring(0, 20) + '...' : '-' }}</td> -->
-                                    <!-- <td>{{ status[customer.status] }}</td> -->
                                     <td>
-                                        <!-- <router-link class="btn btn-success btn-sm" :to="{name:'home-quotation', params:{ idUser: customer.id }}">Generar Cotización</router-link> -->
-                                        <button
-                                            v-if="customer.status == 0"
-                                            @click="
-                                                reactivateCustomer(customer.id)
-                                            "
-                                            class="btn btn-success btn-sm me-1"
-                                        >
-                                            <i class="bx bx-recycle"></i>
-                                        </button>
-                                        <button
-                                            @click="
-                                                openCustomerModal(2, customer)
-                                            "
-                                            class="btn btn-success btn-sm ms-2"
-                                        >
-                                            <i class="bx bx-edit"></i>
-                                        </button>
-                                        <button
-                                            @click="makeDocs(customer.id)"
-                                            class="btn btn-success btn-sm ms-2"
-                                        >
-                                            <i class="bx bx-file"></i>
-                                        </button>
+                                        <div class="d-flex justify-content-center gap-1">
+                                            <button
+                                                v-if="customer.status == 0"
+                                                @click="reactivateCustomer(customer.id)"
+                                                class="btn btn-warning btn-sm"
+                                                title="Reactivar"
+                                            >
+                                                <i class="bx bx-recycle"></i>
+                                            </button>
+                                            <button
+                                                @click="openCustomerModal(2, customer)"
+                                                class="btn btn-primary btn-sm"
+                                                title="Editar"
+                                            >
+                                                <i class="bx bx-edit"></i>
+                                            </button>
+                                            <button
+                                                @click="makeDocs(customer.id)"
+                                                class="btn btn-info btn-sm"
+                                                title="Generar Fichas/Documentos"
+                                            >
+                                                <i class="bx bx-file"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr v-if="customers.length === 0">
+                                    <td colspan="4" class="text-center py-4 text-muted">
+                                        No se encontraron prospectos o clientes.
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Pagination Card Footer -->
+                    <div class="card-footer d-flex align-items-center justify-content-between py-3">
+                        <div class="text-muted small">
+                            Base de datos • Mostrando {{ customers.length }} registros
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button
+                                class="btn btn-outline-primary btn-sm"
+                                @click="prevPage"
+                                :disabled="prevPageUrl == null"
+                            >
+                                <i class="bx bx-chevron-left me-1"></i> Anterior
+                            </button>
+                            <button
+                                class="btn btn-outline-primary btn-sm"
+                                @click="nextPage"
+                                :disabled="nextPageUrl == null"
+                            >
+                                Siguiente <i class="bx bx-chevron-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <button
-            class="btn btn-primary btn-icon"
-            @click="prevPage"
-            v-if="prevPageUrl != null"
-        >
-            <i class="bx bx-chevron-left"></i>
-        </button>
-        <button
-            class="btn btn-primary btn-icon"
-            v-if="nextPageUrl != null"
-            @click="nextPage"
-        >
-            <i class="bx bx-chevron-right"></i>
-        </button>
+
         <customerModal
             :customer="customer_selected"
             :action="action"
@@ -148,6 +164,7 @@
         />
     </div>
 </template>
+
 <script>
 import moment from "moment";
 import customerModal from "./customerModal.vue";
@@ -193,28 +210,32 @@ export default {
     },
     methods: {
         nextPage() {
-            axios
-                .get(this.nextPageUrl)
-                .then((result) => {
-                    this.nextPageUrl = result.data.next_page_url;
-                    this.prevPageUrl = result.data.prev_page_url;
-                    this.customers = result.data.data;
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+            if (this.nextPageUrl) {
+                axios
+                    .get(this.nextPageUrl)
+                    .then((result) => {
+                        this.nextPageUrl = result.data.next_page_url;
+                        this.prevPageUrl = result.data.prev_page_url;
+                        this.customers = result.data.data;
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    });
+            }
         },
         prevPage() {
-            axios
-                .get(this.prevPageUrl)
-                .then((result) => {
-                    this.nextPageUrl = result.data.next_page_url;
-                    this.prevPageUrl = result.data.prev_page_url;
-                    this.customers = result.data.data;
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+            if (this.prevPageUrl) {
+                axios
+                    .get(this.prevPageUrl)
+                    .then((result) => {
+                        this.nextPageUrl = result.data.next_page_url;
+                        this.prevPageUrl = result.data.prev_page_url;
+                        this.customers = result.data.data;
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    });
+            }
         },
         openOwnerModal(customerId) {
             this.customerId = customerId;
@@ -251,28 +272,42 @@ export default {
             var customerSelected = this.customers.find(
                 (customer) => customer.id == customerId
             );
-            customerSelected.user_id = seller;
+            if (customerSelected) {
+                customerSelected.user_id = seller;
+                this.getAllCustomers();
+            }
         },
         openAsignOwner(id) {
             this.customerId = id;
             $("#ownerModal").modal("show");
         },
         searchCustomersByDate() {
+            if (this.searchDate == "") {
+                this.getAllCustomers();
+                return;
+            }
             axios
                 .get("/api/customers/search-by-date/" + this.searchDate)
                 .then((res) => {
-                    console.log(res);
                     this.customers = res.data;
+                    this.nextPageUrl = null;
+                    this.prevPageUrl = null;
                 })
                 .catch((err) => {
                     console.error(err.response);
                 });
         },
         searchCustomer() {
+            if (this.search == "") {
+                this.getAllCustomers();
+                return;
+            }
             axios
                 .get("/api/customers/search/" + this.search)
                 .then((res) => {
                     this.customers = res.data.customers;
+                    this.nextPageUrl = null;
+                    this.prevPageUrl = null;
                 })
                 .catch((err) => {
                     console.error(err.response);
@@ -287,7 +322,7 @@ export default {
         },
         openCustomerModal(action, customer) {
             this.action = action;
-            this.customer_selected = customer;
+            this.customer_selected = customer || {};
             $("#customerModal").modal("show");
         },
         reactivateCustomer(id) {
@@ -302,7 +337,6 @@ export default {
                     axios
                         .get("/api/reactivateCustomer/" + id)
                         .then((res) => {
-                            this.customers = res.data;
                             this.getAllCustomers();
                         })
                         .catch((err) => {
@@ -320,16 +354,35 @@ export default {
                 this.nextPageUrl = res.data.next_page_url;
             });
         },
+        getAllUsers() {
+            axios
+                .get("/api/users")
+                .then((res) => {
+                    this.allUsers = res.data;
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        },
         filterOwn() {
             axios
                 .get("/api/customers-filter/" + this.store.authUser.id)
                 .then((res) => {
                     this.customers = res.data;
+                    this.nextPageUrl = null;
+                    this.prevPageUrl = null;
                 });
         },
     },
     mounted() {
         this.getAllCustomers();
+        this.getAllUsers();
     },
 };
 </script>
+
+<style scoped>
+.text-hover-underline:hover {
+    text-decoration: underline !important;
+}
+</style>

@@ -11,7 +11,7 @@
       <div class="second-container"></div>
       <div class="third-container"></div>
     </div> -->
-        <div class="d-flex justify-content-between w-100">
+        <div class="arrow-container justify-content-between w-100 mb-2">
             <i
                 class="bx bx-chevron-left text-white arrow cursor-pointer"
                 @click="moveFunnelLeft"
@@ -690,16 +690,41 @@ export default {
 <style scoped>
 .container-override {
     z-index: 2;
-    width: 100vw;
-    padding: 2px;
-    display: inline-flex;
-    align-items: center;
-    transition: 1s;
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1.25rem;
+    padding: 10px 0;
+    overflow-x: auto;
+}
+
+@media (min-width: 992px) {
+    .container-override {
+        overflow-x: visible;
+    }
+}
+
+.arrow-container {
+    display: flex;
+}
+
+@media (min-width: 992px) {
+    .arrow-container {
+        display: none !important;
+    }
 }
 
 .arrow {
-    color: #696cff !important;
-    font-size: 50px;
+    color: var(--accent-blue) !important;
+    font-size: 32px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    padding: 4px;
+    transition: background-color 0.2s;
+}
+
+.arrow:hover {
+    background: rgba(255, 255, 255, 0.12);
 }
 
 .moveFunnelLeft {
@@ -710,23 +735,5 @@ export default {
 .moveFunnelRigth {
     transform: translate(0%, 0);
     transition: 1s;
-}
-
-.first-container {
-    background-color: red;
-    width: 30vw;
-    height: 30px;
-}
-
-.second-container {
-    background-color: blue;
-    width: 30vw;
-    height: 30px;
-}
-
-.third-container {
-    background-color: gray;
-    width: 30vw;
-    height: 30px;
 }
 </style>
