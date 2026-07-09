@@ -55,7 +55,6 @@ export default {
     },
     methods: {
         theme(theme) {
-            /*  var theme = localStorage.getItem('theme') */
             if (theme == "light") {
                 $("nav").removeClass("navbar-border-dark");
                 $("nav").removeClass("bg-dark");
@@ -67,14 +66,13 @@ export default {
                 $(".card").filter(".bg-success").removeClass("bg-dark");
                 $(".layout-container").removeClass("dark-mode");
                 $(".layout-page").removeClass("dark-mode");
-                /* $('.content-wrapper').removeClass('dark-mode') */
                 $("aside").removeClass("navbar-border-dark");
                 $("aside").addClass("bg-primary");
                 $(".menu-link").removeClass("text-dark");
-                /* localStorage.setItem('theme', 'dark'); */
+                localStorage.setItem("theme", "light");
                 this.bg = "bg-primary";
-            } else if (theme == "dark") {
-                /* localStorage.setItem('theme', 'light'); */
+            } else {
+                localStorage.setItem("theme", "dark");
                 $("nav").addClass("bg-dark");
                 $("nav").addClass("navbar-border-dark");
                 $("#layout-menu").removeClass("bg-primary");
@@ -86,7 +84,6 @@ export default {
                 $(".card").filter(".bg-success").removeClass("bg-dark");
                 $(".layout-container").addClass("dark-mode");
                 $(".layout-page").addClass("dark-mode");
-                /* $('.content-wrapper').addClass('dark-mode') */
                 $("aside").addClass("navbar-border-dark");
                 $(".menu-link").addClass("text-dark");
                 this.bg = "bg-dark";
@@ -126,7 +123,10 @@ export default {
     },
     mounted() {
         var theme = localStorage.getItem("theme");
-
+        if (!theme) {
+            theme = "dark";
+            localStorage.setItem("theme", "dark");
+        }
         this.theme(theme);
 
         this.getNotifications();
