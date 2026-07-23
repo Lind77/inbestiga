@@ -1,10 +1,11 @@
 <template>
     <transition name="fade">
         <aside class="col-2 vh-100 px-4 pt-3 position-fixed" v-if="hidden">
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center justify-content-center mb-3">
                 <img
-                    src="https://avantage.com/avantage/public/img/ib_newlogo.png"
-                    class="main-logo mb-3 w-100"
+                    src="/img/logo_ag.png"
+                    class="main-logo"
+                    style="max-height: 50px; object-fit: contain;"
                 />
             </div>
 

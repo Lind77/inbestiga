@@ -82,7 +82,7 @@
                                 contract.quotation.details[0].level
                             }}.
                         </p>
-                        <p>
+                        <div class="mb-3">
                             <span>SEGUNDO: OBLIGACIONES DEL LOCADOR.</span><br>
                         EL LOCADOR se compromete a cumplir con lo siguiente:
                         <ul>
@@ -112,8 +112,8 @@
                                 No utilizar el producto académico para fines que no sean los estipulados en EL CONTRATO.
                             </li>
                         </ul>
-                        </p>
-                        <p>
+                        </div>
+                        <div class="mb-3">
                             <span>TERCERO: OBLIGACIONES DEL ASESORADO.</span><br>
                             EL ASESORADO se compromete a cumplir con lo siguiente:
                             <ul>
@@ -142,7 +142,7 @@
                                     Abonar los pagos establecidos de manera puntual y únicamente mediante los medios de pago oficiales descritos en la cláusula cuarta.
                                 </li>
                             </ul>
-                        </p>
+                        </div>
                         <p v-if="contract && contract.amount">
                             <span>CUARTO: COSTO Y FORMA DEL PAGO.</span><br>
                         Como contraprestación al servicio prestado por EL LOCADOR, EL ASESORADO se compromete al abono de un monto total de

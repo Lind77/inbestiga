@@ -1,6 +1,6 @@
 <template>
     <div
-        class="cardSpace"
+        class="cardSpace mb-2.5"
         draggable="true"
         @dragover.prevent
         @drop.stop.prevent
@@ -8,130 +8,46 @@
         :id="`${entitie.id}`"
     >
         <div
-            :class="`card p-3 cursor-pointer bg-${bgByStatus[entitieStatus]} text-white mb-2`"
+            class="card card-deal-item p-3 cursor-pointer"
             :id="`card${entitie.id}`"
+            @click="$emit('openOverlay', entitie)"
         >
-            <div class="d-flex align-items-start">
-                <!-- Icon badge indicator -->
-                <div class="me-3">
-                    <span
-                        :class="`badge-icon bg-label-${bgByStatus[entitieStatus]}`"
-                    >
-                        <i :class="`bx bx-${iconByStatus[entitieStatus]} text-${bgByStatus[entitieStatus]}`"></i>
+            <!-- Card Header: Title & Company/Subtitle -->
+            <div class="mb-2">
+                <h6 class="fw-bold text-title-custom mb-1 text-truncate" style="font-size: 0.95rem;">
+                    {{ entitieTitle }}
+                </h6>
+                <small class="text-muted-custom font-size-xs d-block text-truncate">
+                    {{ entitieSubtitle }}
+                </small>
+            </div>
+
+            <!-- Card Footer Row: Money Badge, Icons & User Avatar (Matches Image!) -->
+            <div class="d-flex align-items-center justify-content-between pt-2 border-top-subtle">
+                <div class="d-flex align-items-center gap-2">
+                    <!-- Money Badge -->
+                    <span class="badge bg-label-primary font-bold px-2 py-1 fs-8">
+                        <i class="bx bx-dollar me-0.5"></i> S/ {{ formatMoney(entitieAmount) }}
+                    </span>
+
+                    <!-- Quick Icon Badges -->
+                    <span class="badge bg-label-secondary px-1.5 py-1 text-muted-custom" title="Documentos">
+                        <i class="bx bx-notepad fs-7"></i>
+                    </span>
+                    <span v-if="status === 1" class="badge bg-label-warning px-1.5 py-1 text-warning" title="Lead Activo">
+                        <i class="bx bx-error-circle fs-7"></i>
                     </span>
                 </div>
-                
-                <!-- Information and Actions -->
-                <div class="d-flex flex-column flex-grow-1">
-                    <!-- Case 1: Standard Customer Entity (Status = 1) -->
-                    <template v-if="entitie && status == 1">
-                        <h6 class="mb-1 fw-bold text-white text-wrap" style="font-size: 0.95rem; line-height: 1.3;">
-                            {{ entitie.name }}
-                        </h6>
-                        <small class="text-muted-light mb-2">{{ entitie.cell }}</small>
-                        <div class="d-flex gap-2 mt-1">
-                            <button
-                                class="btn btn-icon btn-sm btn-primary rounded-circle shadow-sm"
-                                @click="showModalUpdateData(entitie)"
-                                title="Editar Datos"
-                            >
-                                <i class="bx bx-edit" style="font-size: 0.85rem;"></i>
-                            </button>
-                            <button
-                                class="btn btn-icon btn-sm btn-danger rounded-circle shadow-sm"
-                                v-if="entitieStatus == 1"
-                                @click="noConnect(entitie)"
-                                title="No Atendido / Sin Contacto"
-                            >
-                                <i class="bx bx-user-x" style="font-size: 0.85rem;"></i>
-                            </button>
-                            <button
-                                class="btn btn-icon btn-sm btn-success rounded-circle shadow-sm"
-                                @click="toQuotation(entitie)"
-                                title="Generar Cotización"
-                            >
-                                <i class="bx bx-file" style="font-size: 0.85rem;"></i>
-                            </button>
-                        </div>
-                    </template>
 
-                    <!-- Case 2: Customer list in Quotations (Status = 2) -->
-                    <template v-if="entitie.customers">
-                        <h6
-                            class="mb-1 fw-bold text-white text-wrap"
-                            v-for="customer in entitie.customers"
-                            :key="customer.id"
-                            :title="customer.name"
-                            style="font-size: 0.95rem; line-height: 1.3;"
-                        >
-                            {{ customer.name }}
-                        </h6>
-                        <small class="text-muted-light mb-2">Cotización #{{ entitie.id }}</small>
-                        <div class="d-flex gap-2 mt-1">
-                            <button
-                                class="btn btn-icon btn-sm btn-primary rounded-circle shadow-sm"
-                                @click="editQuotation(entitie)"
-                                title="Editar Cotización"
-                            >
-                                <i class="bx bx-edit" style="font-size: 0.85rem;"></i>
-                            </button>
-                            <button
-                                class="btn btn-icon btn-sm btn-danger rounded-circle shadow-sm"
-                                @click="deleteQuotation(entitie)"
-                                title="Eliminar Cotización"
-                            >
-                                <i class="bx bx-trash" style="font-size: 0.85rem;"></i>
-                            </button>
-                            <button
-                                class="btn btn-icon btn-sm btn-success rounded-circle shadow-sm"
-                                @click="toOrder(entitie)"
-                                title="Pasar a Orden de Trabajo"
-                            >
-                                <i class="bx bx-file" style="font-size: 0.85rem;"></i>
-                            </button>
-                        </div>
-                    </template>
-
-                    <!-- Case 3: Customer list in Contracts (Status = 3) -->
-                    <template v-if="entitie.quotation">
-                        <h6
-                            class="mb-1 fw-bold text-white text-wrap"
-                            v-for="customer in entitie.quotation.customers"
-                            :key="customer.id"
-                            :title="customer.name"
-                            style="font-size: 0.95rem; line-height: 1.3;"
-                        >
-                            {{ customer.name }}
-                        </h6>
-                        <small class="text-muted-light mb-2">Contrato / Orden #{{ entitie.id }}</small>
-                        <div class="d-flex gap-2 mt-1">
-                            <button
-                                class="btn btn-icon btn-sm btn-info rounded-circle shadow-sm"
-                                @click="toOrder(entitie.quotation)"
-                                title="Ver Orden"
-                            >
-                                <i class="bx bx-edit" style="font-size: 0.85rem;"></i>
-                            </button>
-                            <button
-                                class="btn btn-icon btn-sm btn-danger rounded-circle shadow-sm"
-                                @click="deleteContract(entitie)"
-                                title="Eliminar Contrato"
-                            >
-                                <i class="bx bx-trash" style="font-size: 0.85rem;"></i>
-                            </button>
-                            <button
-                                v-if="status == 3"
-                                class="btn btn-icon btn-sm btn-success rounded-circle shadow-sm"
-                                @click="assendContract(entitie.quotation)"
-                                title="Ascender a Cliente Fijo"
-                            >
-                                <i class="bx bx-user-check" style="font-size: 0.85rem;"></i>
-                            </button>
-                        </div>
-                    </template>
+                <!-- User Avatar / Initial -->
+                <div class="avatar avatar-xs" :title="ownerName">
+                    <span class="avatar-initial rounded-circle bg-label-primary font-bold fs-9">
+                        {{ ownerInitials }}
+                    </span>
                 </div>
             </div>
         </div>
+
         <!-- Droppable spacing indicator -->
         <div
             class="space py-1"
@@ -149,34 +65,56 @@ export default {
         entitie: Object,
         status: Number,
     },
-    data() {
-        return {
-            bgByStatus: {
-                0: "danger",
-                1: "warning",
-                2: "info",
-                3: "primary",
-                4: "success",
-            },
-            iconByStatus: {
-                0: "user",
-                1: "user",
-                2: "file",
-                3: "pen",
-                4: "money",
-            },
-            entitieStatus: this.status,
-        };
+    computed: {
+        entitieTitle() {
+            if (!this.entitie) return 'Oportunidad';
+            if (this.entitie.name) return this.entitie.name;
+            if (this.entitie.customers && this.entitie.customers.length > 0) {
+                return this.entitie.customers[0].name;
+            }
+            if (this.entitie.quotation && this.entitie.quotation.customers && this.entitie.quotation.customers.length > 0) {
+                return this.entitie.quotation.customers[0].name;
+            }
+            return `Cotización #${this.entitie.id}`;
+        },
+        entitieSubtitle() {
+            if (!this.entitie) return 'Inbestiga LLC';
+            if (this.entitie.cell) return `Tel: ${this.entitie.cell}`;
+            if (this.entitie.university) return this.entitie.university;
+            if (this.entitie.customers && this.entitie.customers[0]) {
+                return this.entitie.customers[0].university || `Cotización #${this.entitie.id}`;
+            }
+            if (this.entitie.quotation) return `Contrato / Orden #${this.entitie.id}`;
+            return 'Inbestiga LLC';
+        },
+        entitieAmount() {
+            if (!this.entitie) return 250;
+            if (this.entitie.amount) return parseFloat(this.entitie.amount);
+            if (this.entitie.quotation && this.entitie.quotation.amount) {
+                return parseFloat(this.entitie.quotation.amount);
+            }
+            return 250;
+        },
+        ownerName() {
+            if (!this.entitie) return 'Asesor';
+            if (this.entitie.user) return this.entitie.user.name;
+            if (this.entitie.customers && this.entitie.customers[0] && this.entitie.customers[0].user) {
+                return this.entitie.customers[0].user.name;
+            }
+            return 'Ventas';
+        },
+        ownerInitials() {
+            const name = this.ownerName;
+            if (!name) return 'AG';
+            const parts = name.split(' ');
+            if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+            return name.substring(0, 2).toUpperCase();
+        }
     },
     methods: {
-        assendContract(quotation) {
-            if (
-                confirm(
-                    "¿Tienes la seguridad de convertir a este lead en cliente?"
-                )
-            ) {
-                this.$emit("updateInBd", quotation.id, 11);
-            }
+        formatMoney(val) {
+            if (!val || isNaN(val)) return '250';
+            return parseFloat(val).toLocaleString('es-PE', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
         },
         dropSpace(e) {
             var customerId = e.dataTransfer.getData("customerId");
@@ -193,41 +131,6 @@ export default {
                 });
             }
         },
-        showModalUpdateData(customer) {
-            this.$emit("showModalUpdateData", customer);
-        },
-        editQuotation(quotation) {
-            this.$router.push({
-                name: "home-docs",
-                params: { customerId: quotation.customer_id },
-            });
-        },
-        deleteQuotation(quotation) {
-            if (confirm("Tienes la seguridad de eliminar esta cotización?")) {
-                axios
-                    .delete("/api/quotations/" + quotation.id)
-                    .then((result) => {
-                        this.$swal("Cotización eliminada correctamente");
-                        this.$parent.getCustomers();
-                    })
-                    .catch((err) => {
-                        this.$swal("Hubo un error");
-                    });
-            }
-        },
-        deleteContract(contract) {
-            if (confirm("Tienes la seguridad de eliminar este contrato?")) {
-                axios
-                    .delete("/api/contracts/" + contract.id)
-                    .then((result) => {
-                        this.$swal("Contrato eliminado correctamente");
-                        this.$parent.getCustomers();
-                    })
-                    .catch((err) => {
-                        this.$swal("Hubo un error");
-                    });
-            }
-        },
         changeColor(index) {
             var spaceSelected = document.getElementById("space" + index);
             if (spaceSelected) {
@@ -241,27 +144,14 @@ export default {
             }
         },
         drag(e) {
-            if (this.quotation) {
+            if (this.entitie.quotation) {
                 e.dataTransfer.setData("quotationId", this.entitie.id);
                 e.dataTransfer.setData("type", 2);
             } else {
                 e.dataTransfer.setData("customerId", this.entitie.id);
                 e.dataTransfer.setData("type", 1);
             }
-        },
-        toOrder(quotation) {
-            $("#funnelModal").modal("hide");
-            this.$router.push({
-                name: "contract-orders",
-                params: { quotationId: quotation.id },
-            });
-        },
-        toQuotation(customer) {
-            this.$router.push({
-                name: "home-docs",
-                params: { customerId: customer.id },
-            });
-        },
+        }
     },
 };
 </script>
@@ -271,84 +161,84 @@ export default {
     transition: transform 0.2s ease;
 }
 
-.cardSpace .card {
-    background: rgba(24, 24, 35, 0.55) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-left: 4px solid #1D5EFF !important; /* fallback default */
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-    border-radius: 8px !important;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+.card-deal-item {
+    border-radius: 12px !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-.cardSpace .card:hover {
+/* Light Mode Card Styling */
+:deep(body.light-mode) .card-deal-item,
+body.light-mode .card-deal-item {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+:deep(body.light-mode) .card-deal-item:hover,
+body.light-mode .card-deal-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
+    border-color: #CBD5E1 !important;
+}
+
+:deep(body.light-mode) .text-title-custom,
+body.light-mode .text-title-custom {
+    color: #0F172A !important;
+}
+
+:deep(body.light-mode) .text-muted-custom,
+body.light-mode .text-muted-custom {
+    color: #64748B !important;
+}
+
+:deep(body.light-mode) .border-top-subtle,
+body.light-mode .border-top-subtle {
+    border-top: 1px solid #F1F5F9 !important;
+}
+
+/* Dark Mode Card Styling */
+body.dark-mode .card-deal-item,
+.card-deal-item {
+    background: #222222 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+body.dark-mode .card-deal-item:hover,
+.card-deal-item:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25) !important;
     border-color: rgba(255, 255, 255, 0.18) !important;
 }
 
-/* Status Left Border Colors */
-.cardSpace .card.bg-warning {
-    border-left: 4px solid #ff9f43 !important;
-}
-.cardSpace .card.bg-info {
-    border-left: 4px solid #00cfe8 !important;
-}
-.cardSpace .card.bg-success {
-    border-left: 4px solid #13b584 !important;
-}
-.cardSpace .card.bg-primary {
-    border-left: 4px solid #1D5EFF !important;
-}
-.cardSpace .card.bg-danger {
-    border-left: 4px solid #ea5455 !important;
+body.dark-mode .text-title-custom,
+.text-title-custom {
+    color: #FFFFFF !important;
 }
 
-/* Badge Icon styles */
-.badge-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    transition: background-color 0.2s;
-}
-.cardSpace .card:hover .badge-icon {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-}
-.badge-icon i {
-    font-size: 1.15rem;
+body.dark-mode .text-muted-custom,
+.text-muted-custom {
+    color: #94A3B8 !important;
 }
 
-.text-muted-light {
-    color: rgba(255, 255, 255, 0.5) !important;
-    font-size: 0.78rem;
+body.dark-mode .border-top-subtle,
+.border-top-subtle {
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
+
+.fs-7 { font-size: 0.78rem; }
+.fs-8 { font-size: 0.72rem; }
+.fs-9 { font-size: 0.65rem; }
+.font-size-xs { font-size: 0.78rem; }
 
 .space {
-    height: 8px;
-    border-radius: 4px;
+    height: 6px;
+    border-radius: 3px;
     background-color: transparent;
     transition: background-color 0.2s;
 }
 
 .space-show {
     background-color: rgba(29, 94, 255, 0.4) !important;
-}
-
-.bg-hover {
-    background-color: rgba(29, 94, 255, 0.2) !important;
-}
-
-.btn-icon {
-    width: 28px;
-    height: 28px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
 }
 </style>

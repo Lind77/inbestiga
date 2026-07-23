@@ -26,6 +26,17 @@
                     <h1 class="title font-montserrat">Iniciar Sesión</h1>
                     <p class="subtitle font-exo text-muted-brand">Accede a tu panel de control Avantage.</p>
 
+                    <transition name="fade">
+                        <div v-if="errorMessage" class="login-alert font-poppins mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="alert-icon me-2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                            <span>{{ errorMessage }}</span>
+                        </div>
+                    </transition>
+
                     <form @submit.prevent="login">
                         
                         <div class="input-group-custom mb-3 mt-4">
@@ -68,6 +79,7 @@ export default {
             password: "",
             device_name: "browser",
             errors: {},
+            errorMessage: "",
         };
     },
     setup() {
@@ -76,6 +88,7 @@ export default {
     },
     methods: {
         login() {
+            this.errorMessage = "";
             showLoader();
             const fd = new FormData();
             fd.append("email", this.email);
@@ -91,15 +104,21 @@ export default {
                     closeLoader();
                 })
                 .catch((err) => {
-                    this.$swal({
-                        icon: "error",
-                        title: "Credenciales incorrectas",
-                    });
-                    console.error(err);
-                    if (err.response) {
-                        this.errors = err.response.data.errors;
-                    }
                     closeLoader();
+                    console.error(err);
+                    if (err.response && err.response.data) {
+                        this.errors = err.response.data.errors || {};
+                        if (err.response.data.message && err.response.data.message !== "Unauthenticated." && err.response.data.message !== "The given data was invalid.") {
+                            this.errorMessage = err.response.data.message;
+                        } else if (err.response.data.errors) {
+                            const firstKey = Object.keys(err.response.data.errors)[0];
+                            this.errorMessage = err.response.data.errors[firstKey][0];
+                        } else {
+                            this.errorMessage = "Credenciales incorrectas. Verifica tu correo y contraseña.";
+                        }
+                    } else {
+                        this.errorMessage = "Credenciales incorrectas. Verifica tu correo y contraseña.";
+                    }
                 });
         },
     },
@@ -210,7 +229,34 @@ export default {
 
 .subtitle {
     font-size: 1rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Alert Styling */
+.login-alert {
+    display: flex;
+    align-items: center;
+    padding: 0.85rem 1.1rem;
+    background-color: rgba(234, 84, 85, 0.12);
+    border: 1px solid rgba(234, 84, 85, 0.35);
+    border-radius: 6px;
+    color: #FF6B6B;
+    font-size: 0.88rem;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(234, 84, 85, 0.12);
+}
+
+.alert-icon {
+    flex-shrink: 0;
+    color: #FF6B6B;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to {
+    opacity: 0;
+    transform: translateY(-6px);
 }
 
 /* Form Styles */
@@ -244,6 +290,22 @@ export default {
     border-color: #1D5EFF;
     background-color: #1B1B1B;
     box-shadow: 0 0 0 3px rgba(29, 94, 255, 0.2);
+}
+
+.custom-input:-webkit-autofill,
+.custom-input:-webkit-autofill:hover,
+.custom-input:-webkit-autofill:focus,
+.custom-input:-webkit-autofill:active,
+.custom-input:autofill,
+.custom-input:autofill:hover,
+.custom-input:autofill:focus,
+.custom-input:autofill:active {
+    -webkit-text-fill-color: #FFFFFF !important;
+    color: #FFFFFF !important;
+    caret-color: #FFFFFF !important;
+    -webkit-box-shadow: 0 0 0 1000px #222222 inset !important;
+    box-shadow: 0 0 0 1000px #222222 inset !important;
+    transition: background-color 50000s ease-in-out 0s !important;
 }
 
 .custom-btn {

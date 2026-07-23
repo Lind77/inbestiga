@@ -93,7 +93,6 @@
                         <th class="text-white fw-bolder py-3 ps-1">TOTAL</th>
                     </tr>
                 </thead>
-                <div style="height: 10px"></div>
                 <tbody v-if="quotation">
                     <tr v-for="detail in quotation.details" class="text-dark">
                         <th class="table-item fw-normal ps-2">

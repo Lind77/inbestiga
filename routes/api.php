@@ -22,6 +22,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\FixedActivityController;
 use App\Http\Controllers\FixedTaskController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\FunnelStageController;
 use App\Http\Controllers\JustificationController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\NewProductController;
@@ -233,6 +234,10 @@ Route::post('/updateDniCustomer', [CustomerController::class, 'updateDniCustomer
  * @return \Illuminate\Http\Response
  */
 Route::get('/leads/{id}', [CustomerController::class, 'getAllLeads']);
+Route::get('/funnel-stages', [FunnelStageController::class, 'index']);
+Route::post('/funnel-stages', [FunnelStageController::class, 'store']);
+Route::put('/funnel-stages/{id}', [FunnelStageController::class, 'update']);
+Route::delete('/funnel-stages/{id}', [FunnelStageController::class, 'destroy']);
 
 /**
  * Asignar un propietario a un lead.

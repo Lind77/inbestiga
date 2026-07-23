@@ -102,7 +102,7 @@
                       <i @click="deleteCustomer(customer.id)" class='text-danger bx bx-trash'></i>
                     </h5>
 
-                    <p class="card-text">
+                    <div class="card-text">
                     <table>
                       <tbody>
                         <tr>
@@ -122,7 +122,7 @@
                         </tr>
                       </tbody>
                     </table>
-                    </p>
+                    </div>
                   </div>
                 </div>
 
