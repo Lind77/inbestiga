@@ -4,23 +4,23 @@
     "src": "public/sound/tone-alert.mp3"
   },
   "resources/js/app.js": {
-    "file": "assets/app.4f9bde7f.js",
+    "file": "assets/app.f66413bf.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app.fa5d4677.css"
+      "assets/app.89f2ebba.css"
     ],
     "assets": [
       "assets/tone-alert.1a21ca07.mp3"
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app.154fbc8a.css",
+    "file": "assets/app.599332e6.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.css": {
-    "file": "assets/app.fa5d4677.css",
+    "file": "assets/app.89f2ebba.css",
     "src": "resources/js/app.css"
   }
 }

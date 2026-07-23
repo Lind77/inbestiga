@@ -1,68 +1,97 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <DatePicker
-            class="ms-1"
-            @filterDate="filterDate"
-            @distributeEntities="distributeEntities"
-            @getAllQuotations="getAllQuotations"
-        />
-        <!-- <div class="container-override">
-      <div class="first-container"></div>
-      <div class="second-container"></div>
-      <div class="third-container"></div>
-    </div> -->
-        <div class="arrow-container justify-content-between w-100 mb-2">
-            <i
-                class="bx bx-chevron-left text-white arrow cursor-pointer"
-                @click="moveFunnelLeft"
-            ></i>
-            <i
-                class="bx bx-chevron-right text-white arrow cursor-pointer"
-                @click="moveFunnelRigth"
-            ></i>
+        <!-- Header bar: Navigation Tabs + Filters + New Column Button -->
+        <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs-wrapper d-inline-flex align-items-center p-1 rounded-3">
+                <button
+                    class="tab-btn d-flex align-items-center gap-2 px-3 py-1.5 rounded-2"
+                    :class="{ active: activeTab === 'funnel' }"
+                    @click="activeTab = 'funnel'"
+                >
+                    <i class="bx bx-layout fs-5"></i>
+                    <span class="fw-bold">Tablero Funnel</span>
+                </button>
+                <button
+                    class="tab-btn d-flex align-items-center gap-2 px-3 py-1.5 rounded-2"
+                    :class="{ active: activeTab === 'analytics' }"
+                    @click="activeTab = 'analytics'"
+                >
+                    <i class="bx bx-bar-chart-alt-2 fs-5"></i>
+                    <span class="fw-bold">Analíticas & Gráficas</span>
+                </button>
+            </div>
+
+            <!-- Date & Search Filters -->
+            <DatePicker
+                class="ms-1 flex-grow-1"
+                @filterDate="filterDate"
+                @distributeEntities="distributeEntities"
+                @getAllQuotations="getAllQuotations"
+            />
+
+            <!-- New Column Button (visible when on Funnel tab) -->
+           
         </div>
-        <div class="container-override" id="funnelContainer">
-            <DraggableArea
-                @updateStatusSpace="updateStatusSpace"
-                @transformQuotation="transformQuotation"
-                :entities="customers"
-                :title="'Usuarios'"
-                :status="1"
-                @callModal="callModal"
-                @showModalUpdateData="showModalUpdateData"
+
+        <!-- TAB 1: Kanban Funnel Board -->
+        <div v-show="activeTab === 'funnel'">
+            <div class="arrow-container justify-content-between w-100 mb-2">
+                <i
+                    class="bx bx-chevron-left text-white arrow cursor-pointer"
+                    @click="moveFunnelLeft"
+                ></i>
+                <i
+                    class="bx bx-chevron-right text-white arrow cursor-pointer"
+                    @click="moveFunnelRigth"
+                ></i>
+            </div>
+
+            <div class="container-override" id="funnelContainer">
+                <template v-for="stage in stages" :key="stage.id">
+                    <DraggableArea
+                        @updateStatusSpace="updateStatusSpace"
+                        @transformQuotation="transformQuotation"
+                        :entities="getEntitiesForStage(stage)"
+                        :title="stage.name"
+                        :status="stage.id"
+                        :stage="stage"
+                        @callModal="callModal"
+                        @showModalUpdateData="showModalUpdateData"
+                        @showModalQuotationFunnel="showModalQuotationFunnel"
+                        @getAllCustomers="getAllCustomers"
+                        @updateInBd="updateInBd"
+                        @editStage="editStage"
+                        @deleteStage="deleteStage"
+                        @openOverlay="openOverlay"
+                    />
+                </template>
+
+                <!-- Card to Add New Column -->
+                <div class="kanban-column-wrapper add-column-card-wrapper cursor-pointer" @click="showCreateStageModal">
+                    <div class="kanban-column add-column-card p-3 rounded-3 d-flex flex-column align-items-center justify-content-center text-center">
+                        <i class="bx bx-plus-circle fs-1 text-primary mb-2"></i>
+                        <h6 class="fw-bold mb-1 text-title-custom">Agregar Columna</h6>
+                        <small class="text-muted-custom">Crea un nuevo estado en el funnel</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: Real Analytics & Funnel Diagram Dashboard -->
+        <div v-show="activeTab === 'analytics'">
+            <FunnelDiagram
+                :customers="customers"
+                :quotations="quotations"
+                :contracts="contracts"
+                :owners="owners"
+                :totalCustomersCount="totalCustomersCount"
+                :totalQuotationsCount="totalQuotationsCount"
+                :totalContractsCount="totalContractsCount"
+                :totalQuotationsAmount="totalQuotationsAmount"
+                :totalContractsAmount="totalContractsAmount"
+                @filterDate="filterDate"
             />
-            <DraggableArea
-                @updateStatusSpace="updateStatusSpace"
-                @transformQuotation="transformQuotation"
-                :entities="quotations"
-                :title="'Cotizaciones'"
-                :status="2"
-                @callModal="callModal"
-                @showModalQuotationFunnel="showModalQuotationFunnel"
-                @getAllCustomers="getAllCustomers"
-            />
-            <DraggableArea
-                @updateStatusSpace="updateStatusSpace"
-                @transformQuotation="transformQuotation"
-                :entities="contracts"
-                :title="'Contratos'"
-                :status="3"
-                @callModal="callModal"
-                @showModalQuotationFunnel="showModalQuotationFunnel"
-                @getAllCustomers="getAllCustomers"
-                @updateInBd="updateInBd"
-            />
-            <!-- <DraggableArea
-                @updateStatusSpace="updateStatusSpace"
-                @transformQuotation="transformQuotation"
-                :entities="contracts"
-                :title="'Vouchers'"
-                :status="4"
-                @callModal="callModal"
-                @showModalQuotationFunnel="showModalQuotationFunnel"
-                @getAllCustomers="getAllCustomers"
-                @updateInBd="updateInBd"
-            /> -->
         </div>
         <!-- <button
             type="button"
@@ -121,6 +150,12 @@
             @callModalComunication="callModalComunication"
         />
         <customerModal :customer="customer_selected" :action="2" />
+        <DealOverlay
+            :isOpen="isOverlayOpen"
+            :deal="selectedDeal"
+            :status="selectedDealStatus"
+            @close="closeOverlay"
+        />
     </div>
 </template>
 <script>
@@ -132,6 +167,8 @@ import DraggableArea from "./DraggableArea.vue";
 import UpdateCom from "../prelead/UpdateCom.vue";
 import FunnelModal from "./FunnelModal.vue";
 import customerModal from "../customers/customerModal.vue";
+import FunnelDiagram from "./FunnelDiagram.vue";
+import DealOverlay from "./DealOverlay.vue";
 
 export default {
     setup() {
@@ -148,9 +185,17 @@ export default {
         UpdateCom,
         FunnelModal,
         customerModal,
+        FunnelDiagram,
+        DealOverlay,
     },
     data() {
         return {
+            activeTab: 'funnel',
+            selectedDeal: null,
+            selectedDealStatus: 1,
+            isOverlayOpen: false,
+            stages: [],
+            customEntities: {},
             customers: [],
             leads: [],
             quotations: [],
@@ -178,9 +223,118 @@ export default {
             initialPage: 0,
             contracts: [],
             newLeadName: "",
+            totalCustomersCount: null,
+            totalQuotationsCount: null,
+            totalContractsCount: null,
+            totalQuotationsAmount: null,
+            totalContractsAmount: null,
         };
     },
     methods: {
+        openOverlay(deal, status) {
+            this.selectedDeal = deal;
+            this.selectedDealStatus = status || 1;
+            this.isOverlayOpen = true;
+        },
+        closeOverlay() {
+            this.isOverlayOpen = false;
+        },
+        getStages() {
+            axios.get('/api/funnel-stages')
+                .then(res => {
+                    this.stages = res.data;
+                })
+                .catch(err => console.error(err));
+        },
+        getEntitiesForStage(stage) {
+            const name = (stage.name || '').toLowerCase();
+            if (stage.id == 1 || stage.order == 1 || name.includes('usuario')) {
+                return this.customers;
+            }
+            if (stage.id == 2 || stage.order == 2 || name.includes('cotizaci')) {
+                return this.quotations;
+            }
+            if (stage.id == 3 || stage.order == 3 || name.includes('contrato')) {
+                return this.contracts;
+            }
+            return this.customEntities[stage.id] || [];
+        },
+        showCreateStageModal() {
+            this.$swal({
+                title: 'Nueva Columna del Funnel',
+                input: 'text',
+                inputLabel: 'Título de la columna',
+                inputPlaceholder: 'Ej: En Seguimiento, Negociación, etc.',
+                showCancelButton: true,
+                confirmButtonText: 'Crear Columna',
+                cancelButtonText: 'Cancelar',
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Debes ingresar un título para la columna';
+                    }
+                }
+            }).then(result => {
+                if (result.isConfirmed) {
+                    axios.post('/api/funnel-stages', { name: result.value })
+                        .then(res => {
+                            this.$swal('Éxito', 'Columna creada correctamente', 'success');
+                            this.getStages();
+                        })
+                        .catch(err => {
+                            this.$swal('Error', 'No se pudo crear la columna', 'error');
+                        });
+                }
+            });
+        },
+        editStage(stage) {
+            this.$swal({
+                title: 'Editar Columna',
+                input: 'text',
+                inputValue: stage.name,
+                inputLabel: 'Título de la columna',
+                showCancelButton: true,
+                confirmButtonText: 'Guardar Cambios',
+                cancelButtonText: 'Cancelar',
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Debes ingresar un título';
+                    }
+                }
+            }).then(result => {
+                if (result.isConfirmed) {
+                    axios.put(`/api/funnel-stages/${stage.id}`, { name: result.value })
+                        .then(res => {
+                            this.$swal('Éxito', 'Columna actualizada', 'success');
+                            this.getStages();
+                        })
+                        .catch(err => {
+                            this.$swal('Error', 'No se pudo actualizar', 'error');
+                        });
+                }
+            });
+        },
+        deleteStage(stage) {
+            this.$swal({
+                title: `¿Eliminar columna "${stage.name}"?`,
+                text: 'Esta acción eliminará la columna del funnel.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then(result => {
+                if (result.isConfirmed) {
+                    axios.delete(`/api/funnel-stages/${stage.id}`)
+                        .then(res => {
+                            this.$swal('Eliminada', 'La columna fue eliminada', 'success');
+                            this.getStages();
+                        })
+                        .catch(err => {
+                            const msg = err.response?.data?.msg || 'Error al eliminar';
+                            this.$swal('Error', msg, 'error');
+                        });
+                }
+            });
+        },
         showToast() {
             $("#liveToast").toast("show");
         },
@@ -524,16 +678,33 @@ export default {
         },
         getAllCustomers() {
             this.$swal({
-                title: "Cargando ...",
+                title: "Cargando Funnel...",
+                html: `
+                    <div class="d-flex flex-column align-items-center py-2">
+                        <div class="spinner-border text-primary my-2" style="width: 2.2rem; height: 2.2rem;" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <small style="color: #64748B; font-size: 0.85rem;">Obteniendo información del sistema</small>
+                    </div>
+                `,
                 allowOutsideClick: false,
                 showConfirmButton: false,
+                customClass: {
+                    popup: 'custom-funnel-swal-popup',
+                    title: 'custom-funnel-swal-title'
+                }
             });
             axios
                 .get("/api/leads/" + this.store.authUser.id)
                 .then((res) => {
-                    this.customers = res.data.customers;
-                    this.quotations = res.data.quotations;
-                    this.contracts = res.data.contracts;
+                    this.customers = res.data.customers || [];
+                    this.quotations = res.data.quotations || [];
+                    this.contracts = res.data.contracts || [];
+                    this.totalCustomersCount = res.data.totalCustomersCount;
+                    this.totalQuotationsCount = res.data.totalQuotationsCount;
+                    this.totalContractsCount = res.data.totalContractsCount;
+                    this.totalQuotationsAmount = res.data.totalQuotationsAmount;
+                    this.totalContractsAmount = res.data.totalContractsAmount;
                     this.$swal.close();
                 })
                 .catch((err) => {
@@ -669,6 +840,7 @@ export default {
         },
     },
     mounted() {
+        this.getStages();
         this.getAllCustomers();
         //this.getAllQuotations()
         this.getAllOwners();
@@ -696,6 +868,35 @@ export default {
     gap: 1.25rem;
     padding: 10px 0;
     overflow-x: auto;
+}
+
+.add-column-card-wrapper {
+    min-width: 260px;
+}
+
+.add-column-card {
+    min-height: 250px;
+    border: 2px dashed rgba(29, 94, 255, 0.4) !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+    transition: all 0.25s ease;
+}
+
+.add-column-card:hover {
+    border-color: #1D5EFF !important;
+    background: rgba(29, 94, 255, 0.08) !important;
+    transform: translateY(-2px);
+}
+
+:deep(body.light-mode) .add-column-card,
+body.light-mode .add-column-card {
+    border-color: #CBD5E1 !important;
+    background: #FFFFFF !important;
+}
+
+:deep(body.light-mode) .add-column-card:hover,
+body.light-mode .add-column-card:hover {
+    border-color: #1D5EFF !important;
+    background: #F8FAFC !important;
 }
 
 @media (min-width: 992px) {
@@ -727,13 +928,87 @@ export default {
     background: rgba(255, 255, 255, 0.12);
 }
 
-.moveFunnelLeft {
-    transform: translate(-19.8%, 0);
-    transition: 1s;
+.btn-add-column {
+    background: linear-gradient(135deg, #1D5EFF 0%, #1545cc 100%) !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-size: 0.85rem !important;
+    height: 42px;
+    letter-spacing: 0.5px;
+    transition: all 0.25s ease !important;
 }
 
-.moveFunnelRigth {
-    transform: translate(0%, 0);
-    transition: 1s;
+.btn-add-column:hover {
+    background: linear-gradient(135deg, #1545cc 0%, #0d3299 100%) !important;
+    box-shadow: 0 4px 14px rgba(29, 94, 255, 0.4) !important;
+}
+
+/* Navigation Tabs Styling */
+.nav-tabs-wrapper {
+    height: 42px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:deep(body.light-mode) .nav-tabs-wrapper,
+body.light-mode .nav-tabs-wrapper {
+    background-color: #E2E8F0 !important;
+    border: 1px solid #CBD5E1 !important;
+}
+
+.tab-btn {
+    border: none;
+    background: transparent;
+    color: #64748B !important;
+    font-size: 0.88rem;
+    height: 34px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.tab-btn i {
+    color: #64748B !important;
+}
+
+.tab-btn:hover {
+    color: #1D5EFF !important;
+}
+
+.tab-btn:hover i {
+    color: #1D5EFF !important;
+}
+
+.tab-btn.active {
+    background: #1D5EFF !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 2px 8px rgba(29, 94, 255, 0.3) !important;
+}
+
+.tab-btn.active span,
+.tab-btn.active i {
+    color: #FFFFFF !important;
+}
+
+body.dark-mode .tab-btn {
+    color: #94A3B8 !important;
+}
+
+body.dark-mode .tab-btn i {
+    color: #94A3B8 !important;
+}
+
+body.dark-mode .tab-btn:hover {
+    color: #FFFFFF !important;
+}
+
+body.dark-mode .tab-btn.active {
+    background: #1D5EFF !important;
+    color: #FFFFFF !important;
+}
+
+body.dark-mode .tab-btn.active span,
+body.dark-mode .tab-btn.active i {
+    color: #FFFFFF !important;
 }
 </style>

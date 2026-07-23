@@ -344,26 +344,57 @@ class CustomerController extends Controller
      */
     public function getAllLeads($id)
     {
-        $customers = Customer::with(['province', 'province.department', 'province.department.provinces'])->where('user_id', $id)->orderBy('updated_at', 'desc')->take(10)->get();
+        $user = User::find($id);
+        $isAdmin = false;
+        if ($user && $user->roles && count($user->roles) > 0) {
+            $roleName = $user->roles[0]->name;
+            if (in_array($roleName, ['Admin', 'AdminAcad', 'Experience'])) {
+                $isAdmin = true;
+            }
+        }
 
-        $quotations = Quotation::with('customers')->whereHas('customers', function ($query) use ($id) {
-            $query->where('user_id', $id);
-        })
-            ->orderBy('updated_at', 'desc')->take(10)->get();
+        if ($isAdmin) {
+            $customers = Customer::with(['province', 'province.department', 'user'])->orderBy('updated_at', 'desc')->get();
 
+            $quotations = Quotation::with(['customers', 'customers.user'])->orderBy('updated_at', 'desc')->get();
 
-        $contracts = Contract::with(['quotation', 'quotation.customers'])
-            ->whereHas('quotation.customers', function ($query) use ($id) {
+            $contracts = Contract::with(['quotation', 'quotation.customers', 'quotation.customers.user'])
+                ->orderBy('updated_at', 'desc')
+                ->get();
+        } else {
+            $customers = Customer::with(['province', 'province.department', 'user'])->where('user_id', $id)->orderBy('updated_at', 'desc')->get();
+
+            $quotations = Quotation::with(['customers', 'customers.user'])->whereHas('customers', function ($query) use ($id) {
                 $query->where('user_id', $id);
             })
-            ->orderBy('updated_at', 'desc')
-            ->take(10)
-            ->get();
+                ->orderBy('updated_at', 'desc')->get();
+
+            $contracts = Contract::with(['quotation', 'quotation.customers', 'quotation.customers.user'])
+                ->whereHas('quotation.customers', function ($query) use ($id) {
+                    $query->where('user_id', $id);
+                })
+                ->orderBy('updated_at', 'desc')
+                ->get();
+        }
+
+        $totalCustomersCount = count($customers);
+        $totalQuotationsCount = count($quotations);
+        $totalContractsCount = count($contracts);
+
+        $totalQuotationsAmount = $quotations->sum('amount');
+        $totalContractsAmount = $contracts->reduce(function ($acc, $contract) {
+            return $acc + ($contract->quotation ? floatval($contract->quotation->amount) : floatval($contract->amount ?? 0));
+        }, 0);
 
         return response()->json([
             'customers' => $customers,
             'quotations' => $quotations,
-            'contracts' => $contracts
+            'contracts' => $contracts,
+            'totalCustomersCount' => $totalCustomersCount,
+            'totalQuotationsCount' => $totalQuotationsCount,
+            'totalContractsCount' => $totalContractsCount,
+            'totalQuotationsAmount' => $totalQuotationsAmount,
+            'totalContractsAmount' => $totalContractsAmount
         ]);
     }
     /**

@@ -67,6 +67,9 @@ import MyProjects from '../components/academic/projects/MyProjects.vue'
 import AcadProfile from '../components/academic/projects/Profile.vue'
 import ShowProject from '../components/academic/projects/ShowProject.vue'
 
+// Tablero de Proyectos (vista tipo tabla)
+import ProjectsBoard from '../components/projects/Home.vue'
+
 // Área Acádemica
 import HomeProduct from '../components/sales/products/Home.vue'
 
@@ -443,6 +446,11 @@ export const routes = [
                 path: 'myprojects',
                 component: MyProjects,
                 name: 'myprojects'
+            },
+            {
+                path: 'projects-board',
+                component: ProjectsBoard,
+                name: 'projects-board'
             },
             {
                 path: 'sandbox',
