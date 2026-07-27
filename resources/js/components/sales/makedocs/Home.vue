@@ -1,7 +1,50 @@
 <template>
     <div class="container-xxl flex-grow-1 container-p-y">
+        <!-- Header / Document Type Switcher Bar -->
+        <div class="card mb-4 border-0 shadow-sm">
+            <div class="card-body py-3 px-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div class="d-flex align-items-center">
+                    <div class="avatar avatar-md me-3 bg-label-primary rounded p-2 d-flex align-items-center justify-content-center">
+                        <i class="bx fs-3" :class="documentType == 1 ? 'bx-file' : (documentType == 2 ? 'bx-cart' : 'bx-task')"></i>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0 text-dark">{{ titleByType[documentType] || 'Gestor de Documentos' }}</h4>
+                        <small class="text-muted">Cree y gestione cotizaciones, órdenes y contratos por paquete</small>
+                    </div>
+                </div>
+                <div class="btn-group shadow-sm" role="group" aria-label="Tipo de documento">
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary"
+                        :class="{ 'active fw-bold': documentType == 1 }"
+                        @click="documentType = 1"
+                    >
+                        <i class="bx bx-file me-1"></i> Cotización
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary"
+                        :class="{ 'active fw-bold': documentType == 2 }"
+                        @click="documentType = 2"
+                    >
+                        <i class="bx bx-cart me-1"></i> Orden
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary"
+                        :class="{ 'active fw-bold': documentType == 3 }"
+                        @click="documentType = 3"
+                    >
+                        <i class="bx bx-task me-1"></i> Contrato
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div class="row invoice-add">
+            <!-- Left Column: Customer & Details -->
             <div class="col-lg-9 col-12 mb-lg-0 mb-4">
+                <!-- Customer Selection Card -->
                 <CustomersCard
                     :customers="customers"
                     :quotationId="$route.params.quotationId"
@@ -9,484 +52,263 @@
                     @deleteCustomer="deleteCustomer"
                 />
 
-                <div class="card invoice-preview-card mt-2">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <span class="h5 mt-2 demo text-body fw-bold"
-                                    >Detalles</span
-                                >
-
-                                <button
-                                    type="button"
-                                    class="btn btn-primary btn-icon ms-2"
-                                    data-repeater-create=""
-                                    @click="addDetail"
-                                >
-                                    <i class="bx bx-plus"></i>
-                                </button>
-                            </div>
+                <!-- Details Section (Package Details) -->
+                <div class="card invoice-preview-card mt-3 border shadow-none bg-body">
+                    <div class="card-header bg-transparent border-bottom py-3 px-4 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <i class="bx bx-package text-primary me-2 fs-4"></i>
+                            <h5 class="fw-bold mb-0 text-dark">Detalles del Paquete</h5>
+                            <span class="badge bg-label-primary rounded-pill ms-3">
+                                {{ details.length }} {{ details.length === 1 ? 'ítem' : 'ítems' }}
+                            </span>
                         </div>
-                        <div class="mb-3" data-repeater-list="group-a">
-                            <template v-for="(detail, index) in details">
+                        <button
+                            type="button"
+                            class="btn btn-primary btn-sm px-3 shadow-sm d-flex align-items-center"
+                            @click="addDetail"
+                        >
+                            <i class="bx bx-plus me-1"></i> Agregar Producto
+                        </button>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <div v-if="details.length === 0" class="text-center py-5 border border-dashed rounded-3 bg-light">
+                            <i class="bx bx-package fs-1 text-muted mb-2"></i>
+                            <h6 class="fw-bold text-secondary mb-1">No hay productos agregados al paquete</h6>
+                            <p class="text-muted small mb-3">Haga clic en el botón "Agregar Producto" para añadir detalles a esta venta.</p>
+                            <button type="button" class="btn btn-outline-primary btn-sm px-3" @click="addDetail">
+                                <i class="bx bx-plus me-1"></i> Agregar primer producto
+                            </button>
+                        </div>
+                        <div class="repeater-list" v-else>
+                            <template v-for="(detail, index) in details" :key="index">
                                 <Detail
                                     :detail="detail"
                                     :newProducts="newProducts"
                                     :index="index"
                                     @removeSuggestedCart="removeSuggestedCart"
-                                    @calcPayments="calcPayments"
                                 />
                             </template>
                         </div>
                     </div>
                 </div>
-                <div class="card invoice-preview-card mt-2">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex justify-content-between">
-                                    <div class="">
-                                        <span
-                                            class="h5 mt-2 demo text-body fw-bold"
-                                            >Pagos({{ cantPayments }})</span
-                                        >
-                                        <button
-                                            type="button"
-                                            class="btn btn-primary btn-icon ms-2"
-                                            @click="minusPayment"
-                                        >
-                                            <i class="bx bx-minus"></i>
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn btn-primary btn-icon ms-2"
-                                            @click="addPayment"
-                                        >
-                                            <i class="bx bx-plus"></i>
-                                        </button>
-                                    </div>
 
-                                    <button
-                                        type="button"
-                                        class="btn btn-primary btn-sm ms-2"
-                                        @click="calcPayments"
-                                    >
-                                        Calcular
-                                    </button>
-                                </div>
-
-                                <div class="row w-100">
-                                    <table class="table" v-if="payments.length">
-                                        <thead>
-                                            <tr>
-                                                <td>Fecha</td>
-                                                <td>Monto</td>
-                                                <td>Porcentaje</td>
-                                                <td>Opciones</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <template
-                                                v-for="(
-                                                    payment, index
-                                                ) in payments"
-                                            >
-                                                <Payment
-                                                    :payment="payment"
-                                                    :index="index"
-                                                    @deletePayment="
-                                                        deletePayment
-                                                    "
-                                                    :finalPrice="finalPrice"
-                                                />
-                                            </template>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                <!-- Deliveries Section (Contract Only) -->
+                <div class="card invoice-preview-card mt-3 border shadow-none bg-body" v-if="documentType == 3">
+                    <div class="card-header bg-transparent border-bottom py-3 px-4 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <i class="bx bx-time-five text-primary me-2 fs-4"></i>
+                            <h5 class="fw-bold mb-0 text-dark">Entregas del Proyecto</h5>
                         </div>
+                        <button
+                            type="button"
+                            class="btn btn-primary btn-sm px-3 shadow-sm d-flex align-items-center"
+                            @click="addDelivery"
+                        >
+                            <i class="bx bx-plus me-1"></i> Agregar Entrega
+                        </button>
                     </div>
-                </div>
-                <div
-                    class="card invoice-preview-card mt-2"
-                    v-if="documentType == 3"
-                >
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex justify-content-between">
-                                    <div class="">
-                                        <span
-                                            class="h5 mt-2 demo text-body fw-bold"
-                                            >Entregas</span
-                                        >
-                                        <button
-                                            type="button"
-                                            class="btn btn-primary btn-icon ms-2"
-                                            @click="addDelivery"
-                                        >
-                                            <i class="bx bx-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="row w-100">
-                                    <table
-                                        class="table"
-                                        v-if="deliveries.length"
-                                    >
-                                        <thead>
-                                            <tr>
-                                                <td>Fecha</td>
-                                                <td>Avance</td>
-                                                <td>Opciones</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <template
-                                                v-for="(
-                                                    delivery, index
-                                                ) in deliveries"
-                                            >
-                                                <Delivery
-                                                    :delivery="delivery"
-                                                    :index="index"
-                                                    @deleteDelivery="
-                                                        deleteDelivery
-                                                    "
-                                                />
-                                            </template>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                    <div class="card-body p-4">
+                        <div v-if="deliveries.length === 0" class="text-center py-4 border border-dashed rounded-3 bg-light">
+                            <p class="text-muted small mb-0">No hay entregas programadas. Haga clic en "Agregar Entrega".</p>
+                        </div>
+                        <div class="table-responsive" v-else>
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Fecha Estimada</th>
+                                        <th>Avance / Entregable</th>
+                                        <th class="text-end">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="(delivery, index) in deliveries" :key="index">
+                                        <Delivery
+                                            :delivery="delivery"
+                                            :index="index"
+                                            @deleteDelivery="deleteDelivery"
+                                        />
+                                    </template>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Invoice Actions -->
+
+            <!-- Right Column: Document Actions & Summary -->
             <div class="col-lg-3 col-12 invoice-actions">
-                <div
-                    class="card bg-success text-white mb-3"
-                    v-if="documentType == 1"
-                >
-                    <div class="row mb-2 p-2">
-                        <div class="w-100">
-                            <p>Necesidades</p>
-                            {{ customer.needs }}
-                        </div>
+                <!-- Customer Needs Note (Quotation Mode) -->
+                <div class="card bg-primary text-white mb-3 shadow-sm" v-if="documentType == 1 && customer && customer.needs">
+                    <div class="card-body p-3">
+                        <h6 class="fw-bold text-white mb-2 d-flex align-items-center">
+                            <i class="bx bx-notepad me-1"></i> Necesidades del Cliente
+                        </h6>
+                        <p class="mb-0 small text-white-50">{{ customer.needs }}</p>
                     </div>
                 </div>
-                <div class="card mb-3" v-if="documentType == 1">
-                    <div class="row mb-2 p-2">
-                        <div class="w-100">
-                            <label class="form-label"
-                                >Fecha<span class="text-danger">*</span>:</label
-                            >
-                            <input
-                                type="date"
-                                class="form-control date-picker flatpickr-input"
-                                v-model="quotation.date"
-                            />
-                            <label class="form-label"
-                                >Fecha de validez<span class="text-danger"
-                                    >*</span
-                                >:</label
-                            >
-                            <input
-                                type="date"
-                                class="form-control date-picker flatpickr-input"
-                                v-model="quotation.expiration_date"
-                            />
-                            <label for="salesperson" class="form-label"
-                                >Tiempo de Ejecución<span class="text-danger"
-                                    >*</span
-                                >:</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="quotation.term"
-                            />
-                            <label for="salesperson" class="form-label"
-                                >Cupón de descuento:</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="coupon"
-                                @keyup.enter="autoDiscount"
-                            />
-                            <div class="d-flex justify-content-between">
-                                <span class="w-px-100">Descuento:</span>
-                                <span class="fw-semibold"
-                                    >S./ {{ quotation.discount }}</span
-                                >
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span class="w-px-100">TOTAL:</span>
-                                <span class="fw-semibold"
-                                    >S./ {{ finalPrice }}</span
-                                >
-                            </div>
-                            <button
-                                @click="createQuotation"
-                                class="btn btn-primary d-grid w-100 my-3"
-                            >
-                                <span
-                                    class="d-flex align-items-center justify-content-center text-nowrap"
-                                    ><i class="bx bx-paper-plane bx-xs me-1"></i
-                                    >Generar</span
-                                >
-                            </button>
-                            <router-link
-                                v-if="quotationIdGenerated != 0"
-                                :to="{
-                                    name: 'quotation-file',
-                                    params: { id: quotationIdGenerated },
-                                }"
-                                target="_blank"
-                                class="btn btn-primary d-grid w-100 mb-3"
-                                disabled
-                            >
-                                <span
-                                    class="d-flex align-items-center justify-content-center text-nowrap"
-                                >
-                                    <i class="bx bx-file bx-xs me-1"></i
-                                    >Cotización
-                                </span>
-                            </router-link>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mb-3" v-else-if="documentType == 2">
-                    <div class="row mb-2 p-2">
-                        <div class="w-100">
-                            <label for="salesperson" class="form-label"
-                                >Entrega Final<span class="text-danger">*</span
-                                >:</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="order.final_delivery"
-                            />
-                            <label for="salesperson" class="form-label"
-                                >Observaciones<span class="text-danger">*</span
-                                >:</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="order.observations"
-                            />
-                            <label for="salesperson" class="form-label"
-                                >Cupón de descuento:</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="coupon"
-                                @keyup.enter="autoDiscount"
-                            />
-                            <div
-                                class="d-flex justify-content-between"
-                                v-if="documentType != 1"
-                            >
-                                <span class="w-px-100">Descuento:</span>
-                                <span class="fw-semibold"
-                                    >S./ {{ discount }}</span
-                                >
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span class="w-px-100">TOTAL:</span>
-                                <span class="fw-semibold"
-                                    >S./ {{ finalPrice }}</span
-                                >
-                            </div>
-                            <button
-                                @click="createOrder"
-                                class="btn btn-primary d-grid w-100 my-3"
-                            >
-                                <span
-                                    class="d-flex align-items-center justify-content-center text-nowrap"
-                                    ><i class="bx bx-paper-plane bx-xs me-1"></i
-                                    >Generar</span
-                                >
-                            </button>
-                            <router-link
-                                v-if="orderId != 0"
-                                target="_blank"
-                                :to="{
-                                    name: 'order-file',
-                                    params: { id: orderId },
-                                }"
-                                class="btn btn-primary d-grid w-100 mb-3"
-                                >Orden</router-link
-                            >
-                        </div>
-                    </div>
-                </div>
-                <div class="card mb-3" v-else-if="documentType == 3">
-                    <div class="row mb-2 p-2">
-                        <div class="w-100">
-                            <p>
-                                3er art.(Instrumentos)
-                                <input
-                                    type="checkbox"
-                                    class="form-check-input"
-                                    v-model="thirdArticle"
-                                />
-                            </p>
-                            <p>
-                                3er art.(Lugar)
-                                <input
-                                    type="checkbox"
-                                    class="form-check-input"
-                                    v-model="thirdArticlePlace"
-                                />
-                            </p>
-                            <p>
-                                5to art.(Considerar Entrega)
-                                <input
-                                    type="checkbox"
-                                    class="form-check-input"
-                                    v-model="fifthArticle"
-                                />
-                            </p>
-                            <p>
-                                Fragmentado
-                                <input
-                                    type="checkbox"
-                                    class="form-check-input"
-                                    v-model="fragmented"
-                                />
-                            </p>
-                            <!-- <label for="salesperson" class="form-label">Tiempo de Ejecucion<span
-                                    class="text-danger">*</span>:</label>
-                            <input type="text" class="form-control" v-model="quotation.term"> -->
 
-                            <label for="salesperson" class="form-label"
-                                >Fecha de contrato<span class="text-danger"
-                                    >*</span
-                                >:</label
-                            >
-                            <input
-                                type="date"
-                                class="form-control"
-                                v-model="contract.date"
-                            />
+                <!-- Document Form & Summary Card -->
+                <div class="card border shadow-sm">
+                    <div class="card-header bg-transparent border-bottom py-3 px-3">
+                        <h6 class="fw-bold mb-0 text-dark d-flex align-items-center">
+                            <i class="bx bx-slider-alt me-2 text-primary"></i> Configuración del Documento
+                        </h6>
+                    </div>
 
-                            <label for="salesperson" class="form-label"
-                                >Cupón de descuento:</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="coupon"
-                                @keyup.enter="autoDiscount"
-                            />
-                            <div
-                                class="d-flex justify-content-between"
-                                v-if="documentType != 1"
-                            >
-                                <span class="w-px-100">Descuento:</span>
-                                <span class="fw-semibold"
-                                    >S./ {{ discount }}</span
-                                >
+                    <div class="card-body p-3">
+                        <!-- Quotations Fields -->
+                        <div v-if="documentType == 1">
+                            <div class="mb-3">
+                                <label class="form-label fw-medium mb-1">Fecha Emisión <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" v-model="quotation.date" />
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <span class="w-px-100">TOTAL:</span>
-                                <span class="fw-semibold"
-                                    >S./ {{ finalPrice }}</span
-                                >
+                            <div class="mb-3">
+                                <label class="form-label fw-medium mb-1">Fecha de Validez <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" v-model="quotation.expiration_date" />
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-medium mb-1">Tiempo de Ejecución <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Ej. 15 días hábiles" v-model="quotation.term" />
+                            </div>
+                        </div>
+
+                        <!-- Orders Fields -->
+                        <div v-else-if="documentType == 2">
+                            <div class="mb-3">
+                                <label class="form-label fw-medium mb-1">Entrega Final <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Ej. Fecha límite de entrega" v-model="order.final_delivery" />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-medium mb-1">Observaciones</label>
+                                <textarea class="form-control" rows="2" placeholder="Observaciones adicionales..." v-model="order.observations"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Contracts Fields -->
+                        <div v-else-if="documentType == 3">
+                            <div class="mb-3">
+                                <label class="form-label fw-medium mb-1">Fecha de Contrato <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" v-model="contract.date" />
+                            </div>
+                            <div class="card bg-light p-2 mb-3 border">
+                                <div class="form-check mb-2">
+                                    <input type="checkbox" class="form-check-input" id="chk3rd" v-model="thirdArticle" />
+                                    <label class="form-check-label small" for="chk3rd">3er art. (Instrumentos)</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input type="checkbox" class="form-check-input" id="chk3rdPlace" v-model="thirdArticlePlace" />
+                                    <label class="form-check-label small" for="chk3rdPlace">3er art. (Lugar)</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input type="checkbox" class="form-check-input" id="chk5th" v-model="fifthArticle" />
+                                    <label class="form-check-label small" for="chk5th">5to art. (Considerar Entrega)</label>
+                                </div>
+                                <div class="form-check mb-0">
+                                    <input type="checkbox" class="form-check-input" id="chkFrag" v-model="fragmented" />
+                                    <label class="form-check-label small" for="chkFrag">Fragmentado</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Coupon Input -->
+                        <div class="mb-3">
+                            <label class="form-label fw-medium mb-1">Cupón de Descuento</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bx bx-tag"></i></span>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Código de cupón"
+                                    v-model="coupon"
+                                    @keyup.enter="autoDiscount"
+                                />
+                                <button class="btn btn-outline-secondary btn-sm" type="button" @click="autoDiscount">Aplicar</button>
+                            </div>
+                        </div>
+
+                        <hr class="my-3" />
+
+                        <!-- Price Breakdown -->
+                        <div class="bg-light rounded-3 p-3 mb-3 border">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted small">Subtotal Paquetes:</span>
+                                <span class="fw-medium">S/ {{ totalProductsWithoutDiscount }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 text-danger" v-if="discount > 0 || quotation.discount > 0">
+                                <span class="small">Descuento aplicado:</span>
+                                <span class="fw-bold">- S/ {{ (documentType == 1 ? quotation.discount : discount) }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                                <span class="fw-bold text-dark">TOTAL FINAL:</span>
+                                <span class="fw-bold fs-5 text-primary">S/ {{ finalPrice }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Main Action Buttons -->
+                        <div class="d-grid gap-2">
+                            <!-- Quotation Button -->
                             <button
                                 v-if="documentType == 1"
                                 @click="createQuotation"
-                                class="btn btn-primary d-grid w-100 my-3"
+                                class="btn btn-primary shadow-sm"
                             >
-                                <span
-                                    class="d-flex align-items-center justify-content-center text-nowrap"
-                                    ><i class="bx bx-paper-plane bx-xs me-1"></i
-                                    >Generar</span
-                                >
+                                <i class="bx bx-paper-plane me-1"></i> Generar Cotización
                             </button>
+
+                            <!-- Order Button -->
                             <button
                                 v-if="documentType == 2"
                                 @click="createOrder"
-                                class="btn btn-primary d-grid w-100 my-3"
+                                class="btn btn-primary shadow-sm"
                             >
-                                <span
-                                    class="d-flex align-items-center justify-content-center text-nowrap"
-                                    ><i class="bx bx-paper-plane bx-xs me-1"></i
-                                    >Generar</span
-                                >
+                                <i class="bx bx-paper-plane me-1"></i> Generar Orden
                             </button>
 
+                            <!-- Contract Button -->
                             <button
-                                v-else-if="documentType == 3"
+                                v-if="documentType == 3"
                                 @click="createContract"
-                                class="btn btn-primary d-grid w-100 my-3"
+                                class="btn btn-primary shadow-sm"
                             >
-                                <span
-                                    class="d-flex align-items-center justify-content-center text-nowrap"
-                                    ><i
-                                        class="bx bx-paper-plane bx-xs me-1"
-                                    ></i>
-                                    {{
-                                        contractExistent
-                                            ? "Actualizar"
-                                            : "Generar"
-                                    }}</span
-                                >
+                                <i class="bx bx-paper-plane me-1"></i> {{ contractExistent.length > 0 ? "Actualizar Contrato" : "Generar Contrato" }}
                             </button>
+
+                            <!-- Generated Document Links -->
                             <router-link
                                 v-if="quotationIdGenerated != 0"
-                                :to="{
-                                    name: 'quotation-file',
-                                    params: { id: quotationIdGenerated },
-                                }"
+                                :to="{ name: 'quotation-img', params: { id: quotationIdGenerated } }"
                                 target="_blank"
-                                class="btn btn-primary d-grid w-100 mb-3"
-                                disabled
+                                class="btn btn-outline-primary"
                             >
-                                <span
-                                    class="d-flex align-items-center justify-content-center text-nowrap"
-                                >
-                                    <i class="bx bx-file bx-xs me-1"></i
-                                    >Cotización
-                                </span>
+                                <i class="bx bx-image me-1"></i> Ver Cotización
                             </router-link>
+
+                            <router-link
+                                v-if="orderId != 0 && documentType == 2"
+                                :to="{ name: 'order-file', params: { id: orderId } }"
+                                target="_blank"
+                                class="btn btn-outline-info"
+                            >
+                                <i class="bx bx-cart me-1"></i> Ver Orden
+                            </router-link>
+
                             <a
                                 v-if="contractId != 0 && documentType == 3"
                                 :href="`${appUrl}api/generateContract/${contractId}`"
                                 target="_blank"
-                                class="btn btn-primary d-grid w-100 mb-3"
-                                >Contrato</a
+                                class="btn btn-outline-success"
                             >
+                                <i class="bx bx-task me-1"></i> Ver Contrato PDF
+                            </a>
                         </div>
                     </div>
                 </div>
-                <!-- <div class="card mb-4">
-                    <div class="card-body">
-                        <button @click="createQuotation" class="btn btn-primary d-grid w-100 mb-3">
-                            <span class="d-flex align-items-center justify-content-center text-nowrap"><i
-                                    class="bx bx-paper-plane bx-xs me-1"></i>Generar</span>
-                        </button>
-                        <router-link v-if="quotationIdGenerated != 0"
-                            :to="{ name: 'quotation-file', params: { id: quotationIdGenerated } }" target="_blank"
-                            class="btn btn-primary d-grid w-100 mb-3" disabled>
-                            <span class="d-flex align-items-center justify-content-center text-nowrap">
-                                <i class="bx bx-file bx-xs me-1"></i>Cotización
-                            </span>
-                        </router-link>
-                    </div>
-                </div> -->
             </div>
-            <!-- /Invoice Actions -->
         </div>
     </div>
+
+    <!-- Edit Customer Modal -->
     <customerModal :action="action" :customer="customerSelected" />
 </template>
 
@@ -496,7 +318,6 @@ import conversor from "conversor-numero-a-letras-es-ar";
 import CustomersCard from "./CustomersCard.vue";
 import Customer from "./Customer.vue";
 import Detail from "./Detail.vue";
-import Payment from "./Payment.vue";
 import Delivery from "./Delivery.vue";
 import customerModal from "../customers/customerModal.vue";
 import { userStore } from "../../../stores/UserStore";
@@ -512,7 +333,6 @@ export default {
     components: {
         Customer,
         Detail,
-        Payment,
         Delivery,
         customerModal,
         CustomersCard,
@@ -551,8 +371,7 @@ export default {
                 date: "",
             },
             quotationIdGenerated: 0,
-            payments: [],
-            cantPayments: 0,
+            payments: [], // Arreglo vacío para compatibilidad con API
             quotationExistent: {},
             coupon: "",
             discount: 0,
@@ -582,19 +401,20 @@ export default {
                 .fire({
                     title: "¿Deseas eliminar esta cotización?",
                     showDenyButton: true,
-                    confirmButtonText: "Si",
+                    confirmButtonText: "Sí",
                     denyButtonText: "No",
                 })
                 .then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
                         axios
                             .delete("/api/quotations/" + quotationId)
-                            .then((result) => {
+                            .then(() => {
                                 this.getCustomer();
                                 this.documentType = 1;
                             })
-                            .catch((err) => {});
+                            .catch((err) => {
+                                console.error(err);
+                            });
                     }
                 });
         },
@@ -604,40 +424,22 @@ export default {
             $("#customerModal").modal("show");
         },
         pickContract(contract) {
-            this.payments = contract.payments;
-            console.log(contract);
-            this.deliveries = contract.projects[0].deliveries;
+            if (contract.projects && contract.projects[0]) {
+                this.deliveries = contract.projects[0].deliveries || [];
+            }
             this.thirdArticle = this.numberToBoolean(contract.third_article);
             this.fifthArticle = this.numberToBoolean(contract.fifth_article);
-            this.thirdArticlePlace = this.numberToBoolean(
-                contract.third_article_place
-            );
+            this.thirdArticlePlace = this.numberToBoolean(contract.third_article_place);
             this.contract.date = contract.date;
         },
         pickQuotation(quotation) {
             this.quotation = quotation;
             this.quotationIdGenerated = quotation.id;
-            this.details = quotation.details;
+            this.details = quotation.details || [];
         },
         pickOrder(order) {
             this.order = order;
             this.orderId = order.id;
-            this.payments = order.payments;
-        },
-        minusPayment() {
-            if (this.finalPrice == 0.0) {
-                this.$swal("Aun no hay un precio final, añadir detalles");
-            } else {
-                if (this.cantPayments > 0) {
-                    this.cantPayments--;
-                }
-            }
-        },
-        addPayment() {
-            this.cantPayments++;
-        },
-        deletePayment(index) {
-            this.payments.splice(index, 1);
         },
         addDelivery() {
             var delivery = {
@@ -649,14 +451,6 @@ export default {
         deleteDelivery(index) {
             this.deliveries.splice(index, 1);
         },
-        changeDocumentType() {
-            console.log(this.documentType);
-            if (this.documentType <= 2) {
-                this.documentType = this.documentType + 1;
-            } else {
-                this.documentType = 1;
-            }
-        },
         getCustomer() {
             this.contractExistent = [];
             this.quotationExistent = [];
@@ -665,7 +459,7 @@ export default {
                 .get("/api/getCustomer/" + this.$route.params.customerId)
                 .then((res) => {
                     this.customer = res.data;
-                    if (this.customer.quotations[0]) {
+                    if (this.customer.quotations && this.customer.quotations[0]) {
                         this.quotationsExistent = this.customer.quotations;
                         this.quotationExistent = this.customer.quotations[0];
 
@@ -677,8 +471,8 @@ export default {
                             }
                         });
 
-                        this.customers = this.customer.quotations[0].customers;
-                        this.details = this.quotationExistent.details;
+                        this.customers = this.customer.quotations[0].customers || [];
+                        this.details = this.quotationExistent.details || [];
                     } else {
                         this.customers.push(this.customer);
                     }
@@ -712,7 +506,9 @@ export default {
             var customerSelected = this.customers.findIndex(
                 (customer) => customer.id == customerId
             );
-            this.customers.splice(customerSelected, 1);
+            if (customerSelected !== -1) {
+                this.customers.splice(customerSelected, 1);
+            }
         },
         dateFormatted(date) {
             return moment(date).fromNow();
@@ -722,7 +518,7 @@ export default {
                 type: 1,
                 level: "",
                 title: "",
-                mode: "",
+                mode: "2", // Paquete siempre por defecto
                 price: 0,
                 extra_price: 0,
                 product: { name: "" },
@@ -750,34 +546,43 @@ export default {
             fd.append("customer_id", this.customer.id);
             fd.append("date", this.quotation.date);
             fd.append("expiration_date", this.quotation.expiration_date);
-            fd.append("amount", this.totalProducts.toFixed(2));
+            fd.append("amount", this.totalProductsWithoutDiscount);
             fd.append("discount", this.quotation.discount);
             fd.append("term", this.quotation.term);
             fd.append("products", JSON.stringify(this.details));
             fd.append("emisor_id", this.store.authUser.id);
             fd.append("coupon", this.coupon);
-            fd.append("payments", JSON.stringify(this.payments));
+            fd.append("payments", JSON.stringify([]));
 
             axios
                 .post("/api/quotations", fd)
                 .then((res) => {
-                    this.$swal("Cotización generada");
+                    this.$swal("Cotización generada exitosamente");
                     this.quotationIdGenerated = res.data.id;
                     this.quotationExistent.id = res.data.id;
+
+                    // Abrir automáticamente una nueva pestaña con la cotización en formato quotation-img
+                    const routeData = this.$router.resolve({
+                        name: 'quotation-img',
+                        params: { id: res.data.id }
+                    });
+                    window.open(routeData.href, '_blank');
                 })
                 .catch((err) => {
-                    this.$swal(err.response.data.message);
-                    console.log(err.response);
+                    if (err.response && err.response.data) {
+                        this.$swal(err.response.data.message);
+                    }
+                    console.error(err);
                 });
         },
-        createOrder(quotationId) {
+        createOrder() {
             const fd = new FormData();
 
-            fd.append("quotation_id", this.quotationExistent.id);
+            fd.append("quotation_id", this.quotationExistent.id || 0);
             fd.append("final_delivery", this.order.final_delivery);
             fd.append("observations", this.order.observations);
             fd.append("suggested", 1);
-            fd.append("payments", JSON.stringify(this.payments));
+            fd.append("payments", JSON.stringify([]));
             fd.append("discount", this.discount);
             fd.append("customers", JSON.stringify(this.customers));
             fd.append("customer_id", this.customer.id);
@@ -787,36 +592,35 @@ export default {
             axios
                 .post("/api/orders", fd)
                 .then((res) => {
-                    console.log(res.data);
                     this.orderId = res.data;
                     this.$swal("Orden registrada correctamente");
                 })
                 .catch((err) => {
-                    this.$swal(err.response.data.message);
+                    if (err.response && err.response.data) {
+                        this.$swal(err.response.data.message);
+                    }
                 });
         },
         createContract() {
             var thirdArticleValue = this.booleanToNumber(this.thirdArticle);
             var fifthArticleValue = this.booleanToNumber(this.fifthArticle);
-            var thirdArticlePlaceValue = this.booleanToNumber(
-                this.thirdArticlePlace
-            );
+            var thirdArticlePlaceValue = this.booleanToNumber(this.thirdArticlePlace);
 
             let conversorClass = conversor.conversorNumerosALetras;
             let myConverter = new conversorClass();
 
             const fd = new FormData();
 
-            fd.append("quotation_id", this.quotationExistent.id);
+            fd.append("quotation_id", this.quotationExistent.id || 0);
             fd.append("amount", this.finalPrice);
             fd.append(
                 "amount_text",
                 myConverter.convertToText(parseInt(this.finalPrice))
             );
-            var decimal = this.finalPrice.toString().split(".")[1] * 10;
+            var decimal = Math.round((this.finalPrice % 1) * 100);
             fd.append("cent_text", myConverter.convertToText(decimal));
             fd.append("date", this.contract.date);
-            fd.append("payments", JSON.stringify(this.payments));
+            fd.append("payments", JSON.stringify([]));
             fd.append("deliveries", JSON.stringify(this.deliveries));
             fd.append("customers", JSON.stringify(this.customers));
             fd.append("user_id", this.store.authUser.id);
@@ -825,59 +629,39 @@ export default {
             fd.append("third_article", thirdArticleValue);
             fd.append("fifth_article", fifthArticleValue);
             fd.append("third_article_place", thirdArticlePlaceValue);
+
             axios
                 .post("/api/contracts", fd)
                 .then((res) => {
                     this.contractId = res.data;
                     this.$swal("Contrato generado correctamente");
-                    //this.getCustomer()
                 })
                 .catch((err) => {
-                    this.$swal(err.response.data.message);
-                    console.log(err);
+                    if (err.response && err.response.data) {
+                        this.$swal(err.response.data.message);
+                    }
+                    console.error(err);
                 });
         },
-        calcPayments() {
-            if (this.finalPrice == 0.0) {
-                this.$swal("Aun no hay un precio final, añadir detalles");
-            } else {
-                this.payments = [];
-                for (var i = 0; i < this.cantPayments; i++) {
-                    var payment = {
-                        date: null,
-                        amount: (this.finalPrice / this.cantPayments).toFixed(
-                            1
-                        ),
-                        percentage: (100 / this.cantPayments).toFixed(1),
-                    };
-
-                    this.payments.push({ ...payment });
-                }
-            }
-        },
         autoDiscount() {
+            if (!this.coupon || !this.coupon.trim()) return;
+
             axios
                 .get("/api/promotions/" + this.coupon)
                 .then((result) => {
-                    console.log(result);
-                    if (Object.keys(result.data).length == 0) {
-                        this.$swal("Código Incorrecto");
+                    if (!result.data || Object.keys(result.data).length == 0) {
+                        this.$swal("Código de cupón incorrecto");
                     } else if (result.data.percent == 0) {
-                        this.$swal(
-                            "Se ha desbloqueado el descuento por cantidad"
-                        );
+                        this.$swal("Se ha aplicado el descuento por monto fijo");
                         this.discount = result.data.quantity;
                         this.quotation.discount = result.data.quantity;
-                        this.calcPayments();
                     } else {
-                        this.$swal(
-                            "Se ha desbloqueado el descuento por porcentaje"
-                        );
+                        this.$swal("Se ha aplicado el descuento por porcentaje (" + result.data.percent + "%)");
                         this.discount = (
-                            (this.totalProducts * result.data.percent) /
+                            (this.totalProductsWithoutDiscount * result.data.percent) /
                             100
                         ).toFixed(2);
-                        this.calcPayments();
+                        this.quotation.discount = this.discount;
                     }
                 })
                 .catch((err) => {
@@ -886,22 +670,20 @@ export default {
         },
     },
     computed: {
-        finalPrice(oldValue, newValue) {
-            return parseFloat(this.totalProducts).toFixed(1);
-        },
-        totalProducts() {
-            var total = 0;
+        totalProductsWithoutDiscount() {
+            let total = 0;
             this.details.forEach((product) => {
-                if (product.type == 1) {
-                    if (product.extra_price == null) {
-                        product.extra_price = 0;
-                    }
-                    total +=
-                        parseFloat(product.price) +
-                        parseFloat(product.extra_price);
-                }
+                const basePrice = parseFloat(product.price) || 0;
+                const extraPrice = parseFloat(product.extra_price) || 0;
+                total += basePrice + extraPrice;
             });
-            return total.toFixed(2) - this.discount;
+            return total.toFixed(2);
+        },
+        finalPrice() {
+            const rawTotal = parseFloat(this.totalProductsWithoutDiscount) || 0;
+            const currentDiscount = parseFloat(this.documentType == 1 ? this.quotation.discount : this.discount) || 0;
+            const net = Math.max(0, rawTotal - currentDiscount);
+            return net.toFixed(2);
         },
     },
     mounted() {
@@ -915,5 +697,58 @@ export default {
 .list-group {
     position: absolute;
     z-index: 9999 !important;
+}
+
+.form-label,
+label {
+    color: #1e293b !important;
+    font-weight: 600 !important;
+}
+
+.text-dark {
+    color: #0f172a !important;
+}
+
+.form-control,
+.form-select {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+}
+
+.input-group-text {
+    background-color: #f1f5f9 !important;
+    color: #334155 !important;
+    border-color: #cbd5e1 !important;
+    font-weight: 600;
+}
+
+/* Dark Mode Overrides */
+body.dark-mode .form-label,
+body.dark-mode label,
+[data-bs-theme="dark"] .form-label,
+[data-bs-theme="dark"] label {
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .text-dark,
+[data-bs-theme="dark"] .text-dark {
+    color: #ffffff !important;
+}
+
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+    background-color: #1b1b29 !important;
+    color: #ffffff !important;
+    border-color: #3a3b54 !important;
+}
+
+body.dark-mode .input-group-text,
+[data-bs-theme="dark"] .input-group-text {
+    background-color: #2b2c40 !important;
+    color: #a1a5b7 !important;
+    border-color: #3a3b54 !important;
 }
 </style>
