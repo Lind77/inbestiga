@@ -145,3 +145,39 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.form-label,
+label {
+    color: #1e293b !important;
+    font-weight: 600 !important;
+}
+
+.list-group-item {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #e2e8f0 !important;
+}
+
+.list-group-item:hover,
+.list-group-item.active {
+    background-color: #e0e7ff !important;
+    color: #4338ca !important;
+    font-weight: 600;
+}
+
+/* Dark Mode Overrides */
+body.dark-mode .form-label,
+body.dark-mode label,
+[data-bs-theme="dark"] .form-label,
+[data-bs-theme="dark"] label {
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .list-group-item,
+[data-bs-theme="dark"] .list-group-item {
+    background-color: #1b1b29 !important;
+    color: #ffffff !important;
+    border-color: #3a3b54 !important;
+}
+</style>

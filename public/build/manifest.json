@@ -4,11 +4,11 @@
     "src": "public/sound/tone-alert.mp3"
   },
   "resources/js/app.js": {
-    "file": "assets/app.f66413bf.js",
+    "file": "assets/app.19a4abb7.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app.89f2ebba.css"
+      "assets/app.c5d083c0.css"
     ],
     "assets": [
       "assets/tone-alert.1a21ca07.mp3"
@@ -20,7 +20,7 @@
     "isEntry": true
   },
   "resources/js/app.css": {
-    "file": "assets/app.89f2ebba.css",
+    "file": "assets/app.c5d083c0.css",
     "src": "resources/js/app.css"
   }
 }

@@ -8,8 +8,8 @@
                     class="btn btn-primary"
                     type="button"
                 >
-                    <i class="bx bx-plus me-1"></i>
-                    <span>Nuevo prospecto</span>
+                    <i class="bx bx-plus me-1" style="color: #fff;"></i>
+                    <span style="color: #fff !important;">Nuevo prospecto</span>
                 </button>
                 <button class="btn btn-outline-primary ms-2" @click="filterOwn">
                     <i class="bx bx-filter-alt me-1"></i>Mis Leads
